@@ -1,0 +1,175 @@
+{
+ "checkpoints": [
+  {
+   "angle_rejection_rate": 0.024,
+   "effect_size": 0.0,
+   "latent": 17.87823945569867,
+   "mode": "none",
+   "n": 500,
+   "observed_standardized": 38.52492315810362,
+   "population": 0.0,
+   "population_standardized": 0.0,
+   "rank": "all"
+  },
+  {
+   "angle_rejection_rate": 0.024,
+   "effect_size": 0.0,
+   "latent": 17.87823945569867,
+   "mode": "none",
+   "n": 500,
+   "observed_standardized": 38.52492315810362,
+   "population": 0.0,
+   "population_standardized": 0.0,
+   "rank": "<=3"
+  },
+  {
+   "angle_rejection_rate": 0.034,
+   "effect_size": 0.25,
+   "latent": 21.607397090395644,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 58.256248243376504,
+   "population": 41.44246453560022,
+   "population_standardized": 48.19584658418822,
+   "rank": "all"
+  },
+  {
+   "angle_rejection_rate": 0.034,
+   "effect_size": 0.25,
+   "latent": 21.607397090395644,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 58.256248243376504,
+   "population": 41.44246453560022,
+   "population_standardized": 48.19584658418822,
+   "rank": "<=3"
+  },
+  {
+   "angle_rejection_rate": 0.058,
+   "effect_size": 0.5,
+   "latent": 24.777344885649633,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 71.52609314089774,
+   "population": 60.00000000000001,
+   "population_standardized": 66.57966680196525,
+   "rank": "all"
+  },
+  {
+   "angle_rejection_rate": 0.058,
+   "effect_size": 0.5,
+   "latent": 24.777344885649633,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 71.52609314089774,
+   "population": 60.00000000000001,
+   "population_standardized": 66.57966680196525,
+   "rank": "<=3"
+  },
+  {
+   "angle_rejection_rate": 0.09,
+   "effect_size": 0.75,
+   "latent": 28.54292348756899,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 81.75733589010513,
+   "population": 75.68794231010318,
+   "population_standardized": 79.89832034508404,
+   "rank": "all"
+  },
+  {
+   "angle_rejection_rate": 0.09,
+   "effect_size": 0.75,
+   "latent": 28.54292348756899,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 81.75733589010513,
+   "population": 75.68794231010318,
+   "population_standardized": 79.89832034508404,
+   "rank": "<=3"
+  },
+  {
+   "angle_rejection_rate": 0.3,
+   "effect_size": 1.0,
+   "latent": 66.29592732551879,
+   "mode": "orientation",
+   "n": 500,
+   "observed_standardized": 89.84173250011506,
+   "population": 90.0,
+   "population_standardized": 89.86865248282193,
+   "rank": "all"
+  },
+  {
+   "angle_rejection_rate": 0.0823045267489712,
+   "effect_size": 1.0,
+   "latent": 32.137603256193074,
+   "mode": "orientation",
+   "n": 243,
+   "observed_standardized": 89.83426272123266,
+   "population": 90.0,
+   "population_standardized": 89.7966223346757,
+   "rank": "<=3"
+  },
+  {
+   "angle_rejection_rate": 0.5058365758754864,
+   "effect_size": 1.0,
+   "latent": 75.96114611481298,
+   "mode": "orientation",
+   "n": 257,
+   "observed_standardized": 89.84920227899745,
+   "population": 90.0,
+   "population_standardized": 89.98586842265725,
+   "rank": ">3"
+  }
+ ],
+ "flip_tail": {
+  "anchor_quantiles": {
+   "latent": {
+    "q50": 17.87823945569867,
+    "q90": 102.64801005594651,
+    "q95": 135.56850242233625,
+    "q99": 164.29188544248336
+   },
+   "observed": {
+    "q50": 38.52492315810362,
+    "q90": 112.43363406995837,
+    "q95": 137.14174090829172,
+    "q99": 147.1056755870936
+   }
+  },
+  "separability": [
+   {
+    "effect_size": 0.25,
+    "latent_folded": 0.078,
+    "latent_signed": 0.04,
+    "n": 500,
+    "observed_folded": 0.09,
+    "observed_signed": 0.0
+   },
+   {
+    "effect_size": 0.5,
+    "latent_folded": 0.1,
+    "latent_signed": 0.074,
+    "n": 500,
+    "observed_folded": 0.266,
+    "observed_signed": 0.0
+   },
+   {
+    "effect_size": 0.75,
+    "latent_folded": 0.082,
+    "latent_signed": 0.068,
+    "n": 500,
+    "observed_folded": 0.964,
+    "observed_signed": 0.0
+   },
+   {
+    "effect_size": 1.0,
+    "latent_folded": 0.496,
+    "latent_signed": 0.02,
+    "n": 500,
+    "observed_folded": 0.996,
+    "observed_signed": 0.0
+   }
+  ]
+ }
+}

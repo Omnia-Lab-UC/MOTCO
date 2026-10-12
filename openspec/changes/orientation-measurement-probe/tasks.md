@@ -35,11 +35,11 @@
 
 ## 6. Run on `ing`
 
-- [ ] 6.1 Time one unit per design on `ing` (all arms) and record the projected core-hours. Verify the projection is written down before launch.
-- [ ] 6.2 Launch the sharded SLURM array for both designs (BLAS pinned to one thread; avoid memory-pressured nodes). Verify completion: 2 × 5 × 100 units, each with every arm present and no failures, or failures recorded and explained.
-- [ ] 6.3 Merge and render into `results/orientation-measurement-probe-<date>/` with `PROVENANCE.txt` (command, code revision, software versions, host, unit timings). Verify the merged output's unit count and that the decision file exists.
+- [x] 6.1 Time one unit per design on `ing` (all arms) and record the projected core-hours. Verify the projection is written down before launch.
+- [x] 6.2 Launch the sharded SLURM array for both designs (BLAS pinned to one thread; avoid memory-pressured nodes). Verify completion: 2 × 5 × 100 units, each with every arm present and no failures, or failures recorded and explained.
+- [x] 6.3 Merge and render into `results/orientation-measurement-probe-<date>/` with `PROVENANCE.txt` (command, code revision, software versions, host, unit timings). Verify the merged output's unit count and that the decision file exists.
 
 ## 7. Findings and docs
 
-- [ ] 7.1 Write `docs/reports/orientation-measurement-probe-<date>.md`: §1 motivating evidence (task 4.1 output), the per-arm rates, the checkpoint table per arm, the advancement decision, and the recommendation for the follow-up study's arms. Verify every number cites a committed file or the evidence script.
-- [ ] 7.2 Update `docs/roadmap.md` (probe result, follow-up study entry, superseded ρ sweep) and the `CLAUDE.md` architecture notes (new diagnostic integration methods, orientation estimator). Verify `openspec validate orientation-measurement-probe --strict` passes and the pre-commit gate is green.
+- [x] 7.1 Write `docs/reports/orientation-measurement-probe-<date>.md`: §1 motivating evidence (task 4.1 output), the per-arm rates, the checkpoint table per arm, the advancement decision, and the recommendation for the follow-up study's arms. Verify every number cites a committed file or the evidence script.
+- [x] 7.2 Update `docs/roadmap.md` (probe result, follow-up study entry, superseded ρ sweep) and the `CLAUDE.md` architecture notes (new diagnostic integration methods, orientation estimator). Verify `openspec validate orientation-measurement-probe --strict` passes and the pre-commit gate is green.

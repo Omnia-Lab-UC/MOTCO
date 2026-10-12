@@ -1,0 +1,14 @@
+# Orientation measurement probe — provenance
+code_revision: 49134c3f19b0b5194c408572567230f51293a7e6 (branch feat/orientation-measurement-probe)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, AMD EPYC 7662; motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (set by scripts/orientation_probe_array.sbatch)
+settings: defaults (100 replicates x 199 permutations, base seed 900, alpha 0.05, designs phase6 + phase5 at n = 1200)
+pre-launch timing (task 6.1): jobs 912580 / 912581, two anchor units per design, all arms: phase6 33.0 / 32.9 s per unit, phase5 96.9 / 97.3 s per unit
+projection (written before launch): 500 x 33 s + 500 x 97 s = 18.1 core-hours; budget 22 core-hours (+20%); 50 shards x ~26 min
+launch: sbatch -p 512x1024 --exclude=n3,n4 --array=0-49 --export=ALL,PROBE_OUT=/home1/tgonza/MOTCO/results/orientation-measurement-probe-2026-10-12,N_SHARDS=50 scripts/orientation_probe_array.sbatch (scripts/orientation_measurement_probe.py --out-dir $PROBE_OUT --shard i/50, default settings)
+job_id: 912606
+outcome: all 50 array tasks COMPLETED with exit 0:0 and empty stderr (progress lines only); 1,000/1,000 units, 10,000/10,000 arm records, 0 failed records; settings hash 9125edd9ddfc7b385423c9eff4c657cb03115de2bab22dd6a2c446ce99a0e222
+wall: 2026-10-12T19:06:28Z -> 2026-10-12T20:14:35Z (1 h 08 m); tasks on n11 (46) and n1 (4). The n1 tasks finished at 19:35Z; the n11 tasks made almost no progress for their first ~28 min (one sampled task: 5 min 26 s CPU in 31 min wall), then ran at the expected per-unit pace. Cause not identified; consistent with an I/O stall on n11.
+unit_timings: phase6 500 units, median 47.8 s (min 39.3, mean 47.2, max 51.0), 6.56 core-hours; phase5 500 units, median 156.9 s (min 113.2, mean 155.9, max 199.0), 21.65 core-hours; total 28.22 recorded core-hours, 28 % above the 22 core-hour budget (phase5 units ran ~60 % slower than in the timing jobs, under 46-way co-location on n11)
+merge: python scripts/orientation_measurement_probe.py --merge --out-dir results/orientation-measurement-probe-2026-10-12 (cluster); merged.jsonl sha256 5175c6a96b3b4f6463c2fe64465e1d7eed5cb611afe6e6ddc1a4d7da138944ad, verified identical after rsync to the workstation; merged.jsonl and records/shard_*.jsonl remain gitignored
+evidence: evidence/phase6_checkpoint_evidence.{md,json} from python scripts/orientation_checkpoint_evidence.py --merged results/phase6-small-n-2026-10-09/merged.jsonl --column baseline (input sha256 6a91a47e4b0fba012a2289a02e21808375492d088543d9a863c16e48af72ed2e, matching that run's PROVENANCE)
