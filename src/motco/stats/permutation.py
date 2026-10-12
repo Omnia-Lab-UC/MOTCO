@@ -29,6 +29,7 @@ class _RRPPWorker:
         ls_means: Union[pd.DataFrame, np.ndarray],
         contrast: list[list[int]],
         return_eigengaps: bool = False,
+        orientation_estimator: str = "pc1",
     ) -> None:
         self.y_hat = y_hat
         self.y_res = y_res
@@ -36,6 +37,7 @@ class _RRPPWorker:
         self.ls_means = ls_means
         self.contrast = contrast
         self.return_eigengaps = return_eigengaps
+        self.orientation_estimator = orientation_estimator
 
     def __call__(self, n_iters: int, seed: int):
         rng = np.random.default_rng(seed)
@@ -49,11 +51,22 @@ class _RRPPWorker:
             y_random = self.y_hat + self.y_res[idx, :]
             if self.return_eigengaps:
                 d, a, s, spectra = estimate_difference(
-                    y_random, self.model_full, self.ls_means, self.contrast, return_spectra=True
+                    y_random,
+                    self.model_full,
+                    self.ls_means,
+                    self.contrast,
+                    return_spectra=True,
+                    orientation_estimator=self.orientation_estimator,
                 )
                 out_g.append(pooled_relative_eigengap(spectra))
             else:
-                d, a, s = estimate_difference(y_random, self.model_full, self.ls_means, self.contrast)
+                d, a, s = estimate_difference(
+                    y_random,
+                    self.model_full,
+                    self.ls_means,
+                    self.contrast,
+                    orientation_estimator=self.orientation_estimator,
+                )
             out_d.append(d)
             out_a.append(a)
             out_s.append(s)
@@ -73,6 +86,7 @@ def RRPP(
     progress: bool = True,
     seed: Optional[int] = None,
     return_eigengaps: bool = False,
+    orientation_estimator: str = "pc1",
 ) -> tuple:
     """
     Residual Randomization in a Permutation Procedure to evaluate
@@ -106,6 +120,10 @@ def RRPP(
         consumes no randomness, so the permutation draws and the three returned
         null distributions are identical with the flag on or off. Off by default:
         the returned tuple is then exactly the historical three-element one.
+    orientation_estimator: str
+        Orientation estimator for every permuted ``angle`` (``"pc1"``, the
+        default, or ``"net_displacement"``); see
+        :func:`motco.stats.trajectory.estimate_difference`.
 
     Returns
     -------
@@ -177,11 +195,18 @@ def RRPP(
             y_random = y_hat_np + y_res_np[idx, :]
             if return_eigengaps:
                 d, a, s, spectra = estimate_difference(
-                    y_random, model_full, LS_means, contrast, return_spectra=True
+                    y_random,
+                    model_full,
+                    LS_means,
+                    contrast,
+                    return_spectra=True,
+                    orientation_estimator=orientation_estimator,
                 )
                 eigengaps.append(pooled_relative_eigengap(spectra))
             else:
-                d, a, s = estimate_difference(y_random, model_full, LS_means, contrast)
+                d, a, s = estimate_difference(
+                    y_random, model_full, LS_means, contrast, orientation_estimator=orientation_estimator
+                )
             deltas.append(d)
             angles.append(a)
             shapes.append(s)
@@ -201,7 +226,13 @@ def RRPP(
     seeds = [int(s.generate_state(1)[0]) for s in ss.spawn(n_workers)]
 
     worker = _RRPPWorker(
-        y_hat_np, y_res_np, model_full, LS_means, contrast, return_eigengaps=return_eigengaps
+        y_hat_np,
+        y_res_np,
+        model_full,
+        LS_means,
+        contrast,
+        return_eigengaps=return_eigengaps,
+        orientation_estimator=orientation_estimator,
     )
     with multiprocessing.Pool(processes=n_workers) as pool:
         parts = pool.starmap(worker, zip(counts, seeds))

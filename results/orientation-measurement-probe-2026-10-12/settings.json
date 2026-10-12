@@ -1,0 +1,87 @@
+{
+ "hash": "9125edd9ddfc7b385423c9eff4c657cb03115de2bab22dd6a2c446ce99a0e222",
+ "settings": {
+  "alpha": 0.05,
+  "base_seed": 900,
+  "cells": [
+   [
+    "anchor",
+    "none",
+    0.0
+   ],
+   [
+    "orientation_0.5",
+    "orientation",
+    0.5
+   ],
+   [
+    "orientation_1.0",
+    "orientation",
+    1.0
+   ],
+   [
+    "magnitude_1.0",
+    "magnitude",
+    1.0
+   ],
+   [
+    "shape_1.0",
+    "shape",
+    1.0
+   ]
+  ],
+  "designs": {
+   "phase5": {
+    "generator": {
+     "baseline_continuity": 0.0,
+     "group_ratio": 0.5,
+     "magnitude_kind": "joint",
+     "n_samples": 1200,
+     "n_stages": 4,
+     "p_dmp": 0.1,
+     "surgery_censoring": "error"
+    },
+    "layers": null
+   },
+   "phase6": {
+    "generator": {
+     "baseline_continuity": 0.0,
+     "group_stage_sizes": [
+      [
+       11,
+       10,
+       28
+      ],
+      [
+       9,
+       10,
+       12
+      ]
+     ],
+     "magnitude_kind": "joint",
+     "n_stages": 3,
+     "p_dmp": 0.1,
+     "surgery_censoring": "error"
+    },
+    "layers": [
+     "methylation",
+     "expression"
+    ]
+   }
+  },
+  "estimators": [
+   "pc1",
+   "net_displacement"
+  ],
+  "permutations": 199,
+  "probe_version": 1,
+  "replicates": 100,
+  "spaces": [
+   "pls_cv",
+   "pls_forced",
+   "pls_within_group",
+   "pca",
+   "concat"
+  ]
+ }
+}
