@@ -1,6 +1,6 @@
 """Diagnostic ``pca`` / ``pls_within_group`` integration and the orientation-estimator parameter.
 
-See ``openspec/changes/orientation-measurement-probe/`` (the
+See ``openspec/changes/archive/2026-10-12-orientation-measurement-probe/`` (the
 ``simulation-evaluation-harness`` delta). Default-path byte identity is pinned
 separately by ``tests/test_orientation_probe_byte_identity.py``.
 """

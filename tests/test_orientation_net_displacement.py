@@ -1,6 +1,6 @@
 """Contract for the opt-in net-displacement orientation estimator.
 
-See ``openspec/changes/orientation-measurement-probe/`` (the
+See ``openspec/changes/archive/2026-10-12-orientation-measurement-probe/`` (the
 ``trajectory-orientation-invariance`` delta). The PC1 estimator stays the
 default; these tests pin the alternative and its plumbing through RRPP and the
 realized-geometry checkpoints.

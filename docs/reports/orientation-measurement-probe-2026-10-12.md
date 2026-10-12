@@ -1,6 +1,6 @@
 # Orientation measurement probe — 2026-10-12
 
-> Exploratory, matched-seed probe (`openspec/changes/orientation-measurement-probe/`). It ranks measurement
+> Exploratory, matched-seed probe (`openspec/changes/archive/2026-10-12-orientation-measurement-probe/`). It ranks measurement
 > arms for a paper-grade follow-up. It certifies none of them and changes no production default. Every rate
 > below is read from `results/orientation-measurement-probe-2026-10-12/` (`rate_table.csv`,
 > `checkpoint_table.csv`, `advancement_decision.json`, `summary.md`). The motivating evidence in §1 is read from

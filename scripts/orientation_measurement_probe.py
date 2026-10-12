@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Orientation measurement probe: latent space × orientation estimator on matched data (no R).
 
-The probe behind ``openspec/changes/orientation-measurement-probe/``. At the
+The probe behind ``openspec/changes/archive/2026-10-12-orientation-measurement-probe/``. At the
 Phase 6 SEA-AD design, orientation/``angle`` power is 0.300 at the strongest
 construction, and the loss sits in the measurement: the stage-supervised PLS
 space collapses a rotation the observed space preserves, and the signed PC1

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reproduce the orientation measurement probe's motivating evidence from a study ``merged.jsonl``.
 
-The orientation measurement probe (``openspec/changes/orientation-measurement-probe/``)
+The orientation measurement probe (``openspec/changes/archive/2026-10-12-orientation-measurement-probe/``)
 is motivated by two observations on the Phase 6 small-n records:
 
 - **Checkpoint table.** The orientation surgery's rotation is realized exactly
