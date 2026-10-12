@@ -165,9 +165,15 @@ even odds at a 10 % joint size change and is near certain at 25 %. The pilot (10
 at the same points, agreeing within pooled SE.
 
 **Orientation, with its recorded geometry.** The anchor's pooled relative eigengap has median 0.111 and terciles
-0.082 / 0.144 (`report/design_point_operating.csv`, baseline rows). This is the geometry of three stage means:
-a triangle in a 2-D subspace whose PC1 is poorly determined. The `angle` null is correspondingly wide and
-variable: per-replicate q95 median 84° and IQR 115° at the anchor. At the orientation cells:
+0.082 / 0.144 (`report/design_point_operating.csv`, baseline rows). Three stage means always span at most a
+2-D subspace. The small eigengap, a near-isotropic triangle whose PC1 is poorly determined, comes from the
+generator's isotropic endpoint ρ = 0: each stage draws its differential sites independently, so the stage means
+do not trend. It is not a property of three stages. A real cohort whose stages trend would have a larger
+eigengap. The Phase 5 continuity sweep found that this does not translate into orientation power under the
+current construction: the orientation surgery realizes a smaller latent contrast on a trending baseline
+([design-point report](phase5-design-point-pilot-2026-09-08.md), "Continuity does not help"). The `angle` null is
+correspondingly wide and variable: per-replicate q95 median 84° and IQR 115° at the anchor. At the orientation
+cells:
 
 | e | median eigengap (terciles) | `angle` null q95 median (IQR) | orientation/`angle` power |
 |---|---|---|---|
@@ -298,8 +304,11 @@ evidence of an orientation difference.
   Gaussian and will have thousands of filtered features. The operating characteristics transfer as statements
   about the design (n, cell sizes, three stages, two blocks, stage-supervised PLS), not about RNA/ATAC
   distributions. The case-study repo must report its feature filtering beside any result.
-- **Orientation power is eigengap- and rank-conditional.** With three stages the stage-mean configuration is a
-  triangle, and its eigengap is small (anchor median 0.111). In the low eigengap tercile, `angle` power is at
+- **Orientation power is eigengap- and rank-conditional.** At ρ = 0 the three stage means form a
+  near-isotropic triangle, and its eigengap is small (anchor median 0.111). This is the generator's
+  independent-baseline assumption, copied from Phase 5, not a consequence of three stages. The operating
+  characteristics here are not measured at other baseline geometries, and Phase 5 found the orientation
+  construction's realized contrast is not ρ-invariant. In the low eigengap tercile, `angle` power is at
   most 0.114 even at the construction maximum. At the construction maximum, power depends on whether CV retains more than three
   components, which a six-donor change in the cohort moves from 51 % to 8 % of replicates. The Phase 5 exit
   condition stands: the cohort's own recorded eigengap, not n, is what carries an orientation statement.
