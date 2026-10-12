@@ -25,6 +25,14 @@ CONFIG_SPECTRUM_VERSION = 1
 #: 2 = full orthogonal alignment at every ambient dimension.
 SHAPE_STATISTIC_VERSION = 2
 
+#: Orientation estimators :func:`estimate_difference` can measure ``angle`` with.
+#: ``"pc1"`` (the default) is the signed leading principal axis of the stage
+#: configuration; ``"net_displacement"`` is the unit first-to-last stage vector.
+ORIENTATION_ESTIMATORS: tuple[str, ...] = ("pc1", "net_displacement")
+
+#: Net displacements shorter than this have no defined direction.
+_NET_DISPLACEMENT_TOLERANCE = 1e-15
+
 
 def estimate_betas(
     X: Union[pd.DataFrame, np.ndarray], Y: Union[pd.DataFrame, np.ndarray]
@@ -349,6 +357,7 @@ def estimate_difference(
     contrast: list[list[int]],
     *,
     return_spectra: bool = False,
+    orientation_estimator: str = "pc1",
 ) -> tuple:
     """
     Estimate parameters angle, delta, and shape given an outcome
@@ -371,6 +380,12 @@ def estimate_difference(
         configuration spectra (:func:`configuration_spectra`) computed from the
         LS-mean vectors this call already fits. Off by default: the returned
         tuple is then exactly the historical three-element one.
+    orientation_estimator: str
+        How each group's orientation is estimated for ``angles``: ``"pc1"``
+        (default; :func:`_estimate_orientation`) or ``"net_displacement"``
+        (:func:`_estimate_net_displacement`). Only ``angles`` depends on it. A
+        net displacement of zero length has no direction, and its pairwise
+        angles are ``NaN``.
 
     Returns
     -------
@@ -427,7 +442,15 @@ def estimate_difference(
         raise ValueError("Y contains NaN or Inf values.")
     if not np.all(np.isfinite(_X)):
         raise ValueError("model_matrix contains NaN or Inf values.")
+    if orientation_estimator not in ORIENTATION_ESTIMATORS:
+        raise ValueError(
+            f"Unknown orientation_estimator {orientation_estimator!r}; "
+            f"expected one of {list(ORIENTATION_ESTIMATORS)}."
+        )
     # --- End validation ---
+    estimate_orientation = (
+        _estimate_net_displacement if orientation_estimator == "net_displacement" else _estimate_orientation
+    )
     n_groups = len(contrast)
     betas = estimate_betas(model_matrix, Y)
     # Compute LS-mean vectors; keep as DataFrame to minimize behavioral drift
@@ -439,7 +462,7 @@ def estimate_difference(
     angles = np.zeros((n_groups, n_groups))
     deltas = np.zeros((n_groups, n_groups))
     for i in range(n_groups):
-        y = _estimate_orientation(obs_vect, contrast[i])
+        y = estimate_orientation(obs_vect, contrast[i])
         d = _estimate_size(obs_vect, contrast[i])
         des.append(d)
         ys.append(y)
@@ -601,6 +624,41 @@ def _estimate_orientation(
     if c1 < 0:
         orientation = -orientation
     return orientation
+
+
+def _estimate_net_displacement(
+    obs_vect: pd.DataFrame | np.ndarray,
+    levels: list[int],
+) -> np.ndarray:
+    """
+    Estimate the orientation of a trajectory as its unit net displacement.
+
+    Parameters
+    ----------
+    obs_vect: pd.DataFrame
+        Matrix of observed mean vectors.
+    levels: list[int]
+        List of indices indicating the levels to consider, in stage order.
+
+    Returns
+    -------
+    orientation: np.ndarray
+        Unit vector from the first stage's mean to the last stage's mean, or a
+        vector of ``NaN`` when that displacement has zero length.
+
+    Notes
+    -----
+    For two stages this equals the signed PC1 of :func:`_estimate_orientation`.
+    Unlike PC1 it stays well defined when the stage configuration is
+    near-isotropic, where PC1 can swap with PC2 or flip sign; it ignores the
+    interior stages.
+    """
+    X = np.asarray(obs_vect, dtype=float)[levels, :]
+    displacement = X[-1, :] - X[0, :]
+    length = float(np.linalg.norm(displacement))
+    if not np.isfinite(length) or length <= _NET_DISPLACEMENT_TOLERANCE:
+        return np.full(displacement.shape, np.nan)
+    return displacement / length
 
 
 def _estimate_shape(

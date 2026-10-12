@@ -21,6 +21,16 @@ visualization artifact. The integration methods are:
 column-binds the omic blocks, leaving the data in rescaled *feature* space, not
 a constructed latent space. The viz down-projection (``viz.plot_trajectory_from_*``)
 is display-only and distinct from this measurement space.
+
+Two further **diagnostic** methods exist for measurement-design comparison
+(the orientation measurement probe) and are not production latent spaces:
+
+- ``pca``: label-free principal-component scores of the ``concat`` matrix, at
+  a required ``integration_params["n_components"]``.
+- ``pls_within_group``: a stage-supervised PLS fitted separately within each
+  group (``components_per_group``, default ``n_stages - 1``), whose stacked
+  weight vectors are orthonormalized into one basis spanning both groups'
+  stage subspaces. The basis is fitted once per evaluation, never inside RRPP.
 """
 
 from __future__ import annotations
@@ -49,7 +59,26 @@ from motco.stats.pls import _modal_int_with_parsimony, fit_plsda_model, plsda_do
 from motco.stats.snf import SNF, get_affinity_matrix, get_spectral
 from motco.stats.trajectory import estimate_difference
 
-IntegrationMethod = Literal["concat", "snf", "pls"]
+IntegrationMethod = Literal["concat", "snf", "pls", "pca", "pls_within_group"]
+
+#: Integration methods the harness accepts.
+INTEGRATION_METHODS: frozenset[str] = frozenset({"concat", "snf", "pls", "pca", "pls_within_group"})
+
+#: Probe-only latent spaces: labelled ``integration_role="diagnostic"``, never
+#: production, and excluded from attribution and the forced-rank override.
+DIAGNOSTIC_INTEGRATION_METHODS: frozenset[str] = frozenset({"pca", "pls_within_group"})
+
+#: Methods whose latent matrix is measured as its own realized-geometry
+#: checkpoint, keyed to that checkpoint's name.
+_LATENT_CHECKPOINTS: dict[str, str] = {
+    "pls": "pls_latent",
+    "pca": "pca_latent",
+    "pls_within_group": "pls_within_group_latent",
+}
+
+#: Orientation estimators an evaluation may select. ``None`` (the default)
+#: means PC1, and an explicit ``"pc1"`` is normalized to ``None``.
+EVALUATION_ORIENTATION_ESTIMATORS: tuple[str, ...] = ("pc1", "net_displacement")
 
 
 class SimulationEvaluationError(ValueError):
@@ -88,6 +117,29 @@ class SimulationEvaluationParams:
     group_col: str = "group"
     stage_col: str = "stage"
     attribution: AttributionDiagnosticSettings = field(default_factory=AttributionDiagnosticSettings)
+    # Orientation estimator for the observed ``angle``, every RRPP draw and every
+    # realized-geometry checkpoint. ``None`` is PC1; it is omitted from hash
+    # payloads while ``None`` (``grid._SIGNATURE_OMIT_WHEN_NONE``), so default
+    # cell ids and signatures are unchanged.
+    orientation_estimator: str | None = None
+
+    def __post_init__(self) -> None:
+        estimator = self.orientation_estimator
+        if estimator is None:
+            return
+        if estimator not in EVALUATION_ORIENTATION_ESTIMATORS:
+            raise SimulationEvaluationError(
+                f"Unknown orientation_estimator {estimator!r}; allowed: "
+                f"{list(EVALUATION_ORIENTATION_ESTIMATORS)}."
+            )
+        if estimator == "pc1":
+            object.__setattr__(self, "orientation_estimator", None)
+
+    @property
+    def resolved_orientation_estimator(self) -> str:
+        """The estimator name the statistics are computed with."""
+
+        return self.orientation_estimator or "pc1"
 
 
 #: Version of the JSON-safe integration metadata contract persisted per replicate.
@@ -175,8 +227,17 @@ class SimulationEvaluationResult:
 def evaluate_semisynthetic_trajectory(
     dataset: SemiSyntheticTrajectoryDataset,
     params: SimulationEvaluationParams | None = None,
+    *,
+    latent: LatentIntegrationResult | None = None,
 ) -> SimulationEvaluationResult:
-    """Evaluate one semi-synthetic trajectory dataset through MOTCO routines."""
+    """Evaluate one semi-synthetic trajectory dataset through MOTCO routines.
+
+    ``latent`` optionally supplies an integration already built for this
+    dataset with the same ``integration_method`` and ``integration_params``
+    (from :func:`integrate_semisynthetic_dataset`), so evaluations that differ
+    only in measurement settings — the orientation estimator, say — share one
+    space fit. Omitted (the default), the integration is built here.
+    """
 
     params = params or SimulationEvaluationParams()
     _validate_evaluation_params(params)
@@ -184,12 +245,18 @@ def evaluate_semisynthetic_trajectory(
 
     preprocessor = fit_omics_preprocessor(dataset, _measured_layers(params.integration_params))
     observed_blocks = preprocessor.transform_dataset(dataset)
-    latent = integrate_semisynthetic_dataset(
-        dataset,
-        params,
-        preprocessor=preprocessor,
-        observed_blocks=observed_blocks,
-    )
+    if latent is None:
+        latent = integrate_semisynthetic_dataset(
+            dataset,
+            params,
+            preprocessor=preprocessor,
+            observed_blocks=observed_blocks,
+        )
+    elif latent.metadata.get("integration_method") != params.integration_method:
+        raise SimulationEvaluationError(
+            f"Supplied latent integration was built with {latent.metadata.get('integration_method')!r}, "
+            f"not integration_method={params.integration_method!r}."
+        )
     design = build_simulation_trajectory_design(
         dataset.metadata,
         group_col=params.group_col,
@@ -202,6 +269,7 @@ def evaluate_semisynthetic_trajectory(
         LS_means=design.ls_means,
         contrast=design.contrast,
         return_spectra=True,
+        orientation_estimator=params.resolved_orientation_estimator,
     )
     config_spectrum = _config_spectrum_block(observed_spectra, design.group_levels)
     shape_available = len(design.stage_levels) >= 3
@@ -227,6 +295,7 @@ def evaluate_semisynthetic_trajectory(
             progress=params.progress,
             seed=params.seed,
             return_eigengaps=True,
+            orientation_estimator=params.resolved_orientation_estimator,
         )
         null_values = _extract_null_distributions(
             dist_delta,
@@ -249,7 +318,7 @@ def evaluate_semisynthetic_trajectory(
             null_distributions = null_values
 
     runtime_seconds = perf_counter() - start
-    runtime_metadata = {
+    runtime_metadata: dict[str, Any] = {
         "runtime_seconds": runtime_seconds,
         "permutations": params.permutations,
         "n_jobs": params.n_jobs,
@@ -257,13 +326,18 @@ def evaluate_semisynthetic_trajectory(
         "progress": params.progress,
         "shape_available": shape_available,
     }
+    if params.orientation_estimator is not None:
+        runtime_metadata["orientation_estimator"] = params.orientation_estimator
+    latent_checkpoint = _LATENT_CHECKPOINTS.get(params.integration_method)
     realized_geometry = calculate_realized_geometry(
         dataset,
         preprocessor=preprocessor,
         observed_blocks=observed_blocks,
-        latent_matrix=latent.matrix if params.integration_method == "pls" else None,
+        latent_matrix=latent.matrix if latent_checkpoint is not None else None,
         group_col=params.group_col,
         stage_col=params.stage_col,
+        latent_checkpoint=latent_checkpoint or "pls_latent",
+        orientation_estimator=params.resolved_orientation_estimator,
     ).to_dict()
     # The fitted estimator and standardized joint matrix live only inside this
     # call: attribution consumes them here, and only the compact JSON-safe
@@ -378,6 +452,16 @@ def integrate_semisynthetic_dataset(
             observed_blocks=observed_blocks,
             preprocessor=preprocessor,
         )
+    if method == "pca":
+        return _pca_integration(dataset, params.integration_params, observed_blocks)
+    if method == "pls_within_group":
+        return _pls_within_group_integration(
+            dataset,
+            params.integration_params,
+            group_col=params.group_col,
+            stage_col=params.stage_col,
+            observed_blocks=observed_blocks,
+        )
     raise SimulationEvaluationError(f"Unsupported integration_method: {method!r}.")
 
 
@@ -419,8 +503,16 @@ def build_simulation_trajectory_design(
 
 
 def _validate_evaluation_params(params: SimulationEvaluationParams) -> None:
-    if params.integration_method not in {"concat", "snf", "pls"}:
+    if params.integration_method not in INTEGRATION_METHODS:
         raise SimulationEvaluationError(f"Unsupported integration_method: {params.integration_method!r}.")
+    if (
+        params.integration_method in DIAGNOSTIC_INTEGRATION_METHODS
+        and params.integration_params.get("forced_components") is not None
+    ):
+        raise SimulationEvaluationError(
+            "integration_params['forced_components'] is specific to integration_method='pls'; "
+            f"got it with the diagnostic method {params.integration_method!r}."
+        )
     if params.permutations < 0:
         raise SimulationEvaluationError("permutations must be greater than or equal to 0.")
     if params.n_jobs == 0:
@@ -459,8 +551,8 @@ def _validate_attribution_settings(
     if integration_method != "pls":
         raise SimulationEvaluationError(
             "Orientation attribution diagnostics require integration_method='pls'; "
-            f"got {integration_method!r}. Attribution conditions on the fitted PLS estimator, "
-            "so 'concat' and 'snf' evaluations cannot supply one."
+            f"got {integration_method!r}. Attribution conditions on the fitted production PLS "
+            "estimator, which no other integration method supplies."
         )
     if settings.bootstrap_replicates < 0:
         raise SimulationEvaluationError("attribution.bootstrap_replicates must be greater than or equal to 0.")
@@ -738,6 +830,181 @@ def _pls_integration(
             methylation_units=preprocessor.methylation_units,
         ),
     )
+
+
+def _pca_integration(
+    dataset: SemiSyntheticTrajectoryDataset,
+    integration_params: Mapping[str, Any],
+    observed_blocks: Mapping[OmicsLayer, pd.DataFrame],
+) -> LatentIntegrationResult:
+    """Diagnostic label-free PCA of exactly the matrix ``concat`` produces.
+
+    The blocks are already pooled-standardized, so no further scaling is
+    applied: the scores are a plain SVD of the column-centered matrix. The rank
+    is a required ``integration_params["n_components"]`` — there is no rank
+    rule, so the space type is not confounded with one.
+    """
+
+    layers = _measured_layers(integration_params)
+    layer_feature_counts = {layer: int(getattr(dataset, layer).shape[1]) for layer in layers}
+    X = concatenate_blocks(observed_blocks)
+    n_samples, n_features = X.shape
+    n_components = _required_rank_param(
+        integration_params, "n_components", method="pca", maximum=min(n_samples, n_features)
+    )
+    values = X.to_numpy(dtype=float)
+    centered = values - values.mean(axis=0, keepdims=True)
+    U, singular_values, _ = np.linalg.svd(centered, full_matrices=False)
+    scores = U[:, :n_components] * singular_values[:n_components]
+    latent = pd.DataFrame(
+        scores,
+        index=dataset.metadata["sample_id"].astype(str).tolist(),
+        columns=[f"pca_{i}" for i in range(n_components)],
+    )
+    return LatentIntegrationResult(
+        matrix=latent,
+        metadata={
+            "integration_method": "pca",
+            "integration_role": "diagnostic",
+            "integration_metadata_version": INTEGRATION_METADATA_VERSION,
+            "integration_params": {"n_components": n_components, **_layers_metadata(integration_params)},
+            "retained_dimensionality": n_components,
+            "shape": tuple(latent.shape),
+            "n_samples": int(latent.shape[0]),
+            "n_features": int(latent.shape[1]),
+            "layer_feature_counts": layer_feature_counts,
+        },
+    )
+
+
+#: Relative tolerance below which a pivoted-QR diagonal counts as rank-deficient.
+_BASIS_RANK_TOLERANCE = 1e-10
+
+
+def _pls_within_group_integration(
+    dataset: SemiSyntheticTrajectoryDataset,
+    integration_params: Mapping[str, Any],
+    *,
+    group_col: str,
+    stage_col: str,
+    observed_blocks: Mapping[OmicsLayer, pd.DataFrame],
+) -> LatentIntegrationResult:
+    """Diagnostic per-group stage-supervised PLS, merged into one basis.
+
+    Fitted once from the observed data and labels; RRPP never refits it.
+    """
+
+    layers = _measured_layers(integration_params)
+    layer_feature_counts = {layer: int(getattr(dataset, layer).shape[1]) for layer in layers}
+    X = concatenate_blocks(observed_blocks)
+    groups = dataset.metadata[group_col].astype(str).to_numpy()
+    stages = dataset.metadata[stage_col].astype(str).to_numpy()
+    n_stages = len(pd.unique(stages))
+    raw = integration_params.get("components_per_group")
+    components_per_group = _required_rank_param(
+        {"components_per_group": n_stages - 1 if raw is None else raw},
+        "components_per_group",
+        method="pls_within_group",
+        maximum=int(X.shape[1]),
+    )
+    basis = within_group_pls_basis(
+        X.to_numpy(dtype=float), groups, stages, components_per_group=components_per_group
+    )
+    values = X.to_numpy(dtype=float)
+    scores = (values - values.mean(axis=0, keepdims=True)) @ basis
+    rank = int(basis.shape[1])
+    latent = pd.DataFrame(
+        scores,
+        index=dataset.metadata["sample_id"].astype(str).tolist(),
+        columns=[f"plswg_{i}" for i in range(rank)],
+    )
+    return LatentIntegrationResult(
+        matrix=latent,
+        metadata={
+            "integration_method": "pls_within_group",
+            "integration_role": "diagnostic",
+            "integration_metadata_version": INTEGRATION_METADATA_VERSION,
+            "integration_params": {
+                "stage_col": stage_col,
+                "components_per_group": components_per_group,
+                **_layers_metadata(integration_params),
+            },
+            "components_per_group": components_per_group,
+            "basis_rank": rank,
+            "retained_dimensionality": rank,
+            "shape": tuple(latent.shape),
+            "n_samples": int(latent.shape[0]),
+            "n_features": int(latent.shape[1]),
+            "layer_feature_counts": layer_feature_counts,
+        },
+    )
+
+
+def within_group_pls_basis(
+    X: np.ndarray,
+    groups: Sequence[str] | np.ndarray,
+    stages: Sequence[str] | np.ndarray,
+    *,
+    components_per_group: int,
+) -> np.ndarray:
+    """Orthonormal basis spanning every group's stage-supervised PLS subspace.
+
+    For each group (sorted), a PLS-DA on stage is fitted with ``scale=False`` to
+    that group's rows of ``X`` — per-group rescaling would give the groups
+    different metrics. The groups' ``x_rotations_`` are stacked column-wise and
+    orthonormalized by pivoted QR; columns whose diagonal falls below a relative
+    tolerance are dropped, so the returned ``p x r`` basis has rank ``r <=
+    n_groups * components_per_group``.
+    """
+
+    from scipy.linalg import qr
+
+    values = np.asarray(X, dtype=float)
+    group_labels = np.asarray(groups).astype(str)
+    stage_labels = np.asarray(stages).astype(str)
+    rotations = []
+    for group in _sort_levels(pd.unique(group_labels).tolist()):
+        mask = group_labels == group
+        counts = pd.Series(stage_labels[mask]).value_counts()
+        all_stages = _sort_levels(pd.unique(stage_labels).tolist())
+        short = [stage for stage in all_stages if int(counts.get(stage, 0)) < 2]
+        if short:
+            raise SimulationEvaluationError(
+                f"pls_within_group integration requires at least two samples per stage in every group; "
+                f"group {group!r} has fewer than two in stage(s) {short}."
+            )
+        if components_per_group > int(mask.sum()):
+            raise SimulationEvaluationError(
+                f"pls_within_group integration: components_per_group={components_per_group} exceeds "
+                f"group {group!r}'s {int(mask.sum())} samples."
+            )
+        model = fit_plsda_model(values[mask], stage_labels[mask], n_components=components_per_group, scale=False)
+        rotations.append(np.asarray(model.x_rotations_, dtype=float))
+    stacked = np.hstack(rotations)
+    Q, R, _ = qr(stacked, mode="economic", pivoting=True)
+    diagonal = np.abs(np.diag(R))
+    keep = diagonal > _BASIS_RANK_TOLERANCE * (diagonal[0] if diagonal.size else 0.0)
+    return np.asarray(Q[:, keep])
+
+
+def _required_rank_param(params: Mapping[str, Any], key: str, *, method: str, maximum: int) -> int:
+    """Resolve a required integer rank in ``[1, maximum]``, rejecting rather than clamping."""
+
+    raw = params.get(key)
+    if raw is None:
+        raise SimulationEvaluationError(f"{method} integration requires integration_params[{key!r}].")
+    try:
+        value = int(raw)
+        exact = value == raw and not isinstance(raw, bool)
+    except (TypeError, ValueError) as exc:
+        raise SimulationEvaluationError(f"{method} integration: {key} must be an integer, got {raw!r}.") from exc
+    if not exact:
+        raise SimulationEvaluationError(f"{method} integration: {key} must be an integer, got {raw!r}.")
+    if value < 1 or value > maximum:
+        raise SimulationEvaluationError(
+            f"{method} integration: {key}={value} is outside the feasible range [1, {maximum}] for this sample."
+        )
+    return value
 
 
 def _feature_order_signature(columns: pd.Index) -> str:

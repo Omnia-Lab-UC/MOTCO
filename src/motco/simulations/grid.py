@@ -857,7 +857,7 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: A field added after studies were committed would otherwise change every
 #: committed cell id and signature even when unused; listing it here keeps an
 #: absent value byte-identical to the field never having existed.
-_SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset({"group_stage_sizes"})
+_SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset({"group_stage_sizes", "orientation_estimator"})
 
 
 def _to_jsonable(value: Any) -> Any:

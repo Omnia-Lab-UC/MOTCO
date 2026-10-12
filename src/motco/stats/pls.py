@@ -274,6 +274,8 @@ def fit_plsda_model(
     X: Union[np.ndarray, "pd.DataFrame"],
     y: Union["pd.Series", np.ndarray],
     n_components: int,
+    *,
+    scale: bool = True,
 ) -> PLSRegression:
     """Fit a PLS-DA model on the full dataset and return the fitted estimator.
 
@@ -290,6 +292,10 @@ def fit_plsda_model(
         internally to match the behaviour of ``plsda_doubleCV``.
     n_components:
         Number of latent variables.
+    scale:
+        Whether ``PLSRegression`` rescales each feature to unit variance before
+        fitting (the default). Pass ``False`` to fit in the metric ``X`` is
+        already in.
 
     Returns
     -------
@@ -300,7 +306,7 @@ def fit_plsda_model(
     X_arr = np.asarray(X, dtype=float)
     encoder = OneHotEncoder(sparse_output=False)
     y_enc = encoder.fit_transform(np.asarray(y).reshape(-1, 1))
-    return PLSRegression(n_components=n_components, scale=True, max_iter=1000).fit(X_arr, y_enc)
+    return PLSRegression(n_components=n_components, scale=scale, max_iter=1000).fit(X_arr, y_enc)
 
 
 def fit_plsda_transform(
