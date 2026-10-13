@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -14,9 +14,12 @@ import pandas as pd
 from motco.simulations.grid import (
     SimulationReplicateResult,
     SimulationSummaryResult,
+    _record_trajectory_mode,
 )
 from motco.simulations.study.config import (
+    ANCHOR_DECISION_RULE_VERSION,
     AcceptanceTargets,
+    AnchorDecisionRule,
     DesignPointDecisionRule,
     PowerMonotonicityTarget,
     RankDecisionRule,
@@ -978,6 +981,283 @@ def write_rank_decision(decision: RankDecision, out_dir: Path) -> dict[str, Path
     return {"rank_decision": json_path, "rank_decision_csv": csv_path}
 
 
+#: Classification of one (design point, statistic) anchor rate.
+ANCHOR_CLASSIFICATIONS: tuple[str, ...] = ("holds", "exceeds", "unavailable")
+
+
+@dataclass(frozen=True)
+class AnchorStatistic:
+    """One statistic's anchor rejection rate against the Type I bound."""
+
+    statistic: str
+    rate: float | None
+    monte_carlo_se: float | None
+    n_available: int
+    bound: float | None
+    classification: str
+
+
+@dataclass(frozen=True)
+class ControlRate:
+    """A non-anchor negative control at a design point, reported descriptively."""
+
+    phase: str
+    trajectory_mode: str
+    effect_size: float | None
+    rates: dict[str, RateEstimate]
+
+
+@dataclass(frozen=True)
+class AnchorPoint:
+    """One design point's anchor standing and its other negative controls.
+
+    ``verdict`` is ``size_holds`` when every named statistic holds, ``excess``
+    when any exceeds, and ``unavailable`` when none exceeds but some statistic
+    has no available replicate (a missing anchor is never read as either).
+    """
+
+    design_point: dict[str, Any]
+    is_baseline: bool
+    statistics: tuple[AnchorStatistic, ...]
+    verdict: str
+    other_controls: tuple[ControlRate, ...]
+
+
+@dataclass(frozen=True)
+class AnchorDecision:
+    """Outcome of the anchor Type I rule over every design point.
+
+    ``verdict`` summarizes the points: ``size_holds`` when every point holds,
+    ``excess`` when any point exceeds, ``unavailable`` otherwise, and
+    ``no_anchor`` when the records carry no zero-effect anchor. Advisory only.
+    """
+
+    rule: dict[str, Any]
+    alpha: float
+    verdict: str
+    rationale: str
+    points: tuple[AnchorPoint, ...]
+
+    def to_frame(self) -> pd.DataFrame:
+        axes: list[str] = []
+        for point in self.points:
+            for axis in point.design_point:
+                if axis not in axes:
+                    axes.append(axis)
+        rows: list[dict[str, Any]] = []
+        for point in self.points:
+            coords = {axis: point.design_point.get(axis) for axis in axes}
+            for entry in point.statistics:
+                rows.append(
+                    {
+                        **coords,
+                        "is_baseline": point.is_baseline,
+                        "role": "anchor",
+                        "phase": None,
+                        "trajectory_mode": "none",
+                        "effect_size": 0.0,
+                        "statistic": entry.statistic,
+                        "rate": entry.rate,
+                        "monte_carlo_se": entry.monte_carlo_se,
+                        "n_available": entry.n_available,
+                        "bound": entry.bound,
+                        "classification": entry.classification,
+                        "point_verdict": point.verdict,
+                    }
+                )
+            for control in point.other_controls:
+                for statistic, estimate in control.rates.items():
+                    rows.append(
+                        {
+                            **coords,
+                            "is_baseline": point.is_baseline,
+                            "role": "control",
+                            "phase": control.phase,
+                            "trajectory_mode": control.trajectory_mode,
+                            "effect_size": control.effect_size,
+                            "statistic": statistic,
+                            "rate": estimate.rate,
+                            "monte_carlo_se": estimate.monte_carlo_se,
+                            "n_available": estimate.n_available,
+                            "bound": None,
+                            "classification": None,
+                            "point_verdict": point.verdict,
+                        }
+                    )
+        return pd.DataFrame(rows)
+
+
+def anchor_bound(alpha: float, se_multiplier: float, n_available: int) -> float:
+    """``alpha + se_multiplier · sqrt(alpha(1 − alpha)/n_available)``."""
+
+    return alpha + se_multiplier * math.sqrt(alpha * (1.0 - alpha) / n_available)
+
+
+def evaluate_anchor_decision(
+    records: Sequence[SimulationReplicateResult],
+    rule: AnchorDecisionRule,
+    *,
+    alpha: float = 0.05,
+) -> AnchorDecision:
+    """Evaluate the predeclared anchor Type I rule at every design point.
+
+    The anchor at a point is its zero-effect cell (mode ``none`` at effect 0) in
+    the ``power_primary``/``power_design`` phases; a study without a design grid
+    has one point, ``{}``, served by the primary anchor. ``alpha`` is the level
+    a p-value is rejected at; the bound uses ``rule.alpha`` and the anchor's
+    *available* replicate count, so a failed replicate widens the bound rather
+    than silently tightening the test. Every other cell at the point — and the
+    ``type_i_baseline`` cells, which evaluate in the baseline column — is listed
+    under ``other_controls`` with its rates and no classification.
+    """
+
+    if not (0 < alpha < 1):
+        raise ValueError("alpha must be between 0 and 1.")
+    rule_payload = {
+        "version": ANCHOR_DECISION_RULE_VERSION,
+        "name": rule.name,
+        "alpha": rule.alpha,
+        "se_multiplier": rule.se_multiplier,
+        "statistics": list(rule.statistics),
+        "bound": "alpha + se_multiplier * sqrt(alpha * (1 - alpha) / R), R = available anchor replicates",
+    }
+
+    def key_of(point: Mapping[str, Any]) -> str:
+        return json.dumps(point, sort_keys=True, default=str)
+
+    points: dict[str, dict[str, Any]] = {}
+    groups: dict[str, dict[tuple[str, str, float | None], list[SimulationReplicateResult]]] = {}
+    baseline_key: str | None = None
+    unplaced: list[SimulationReplicateResult] = []
+    for record in records:
+        if record.status != "completed":
+            continue
+        point = record_design_point(record)
+        if point is None:
+            if record.phase == "power_primary":
+                point = {}
+            else:
+                if record.phase == "type_i_baseline":
+                    unplaced.append(record)
+                continue
+        key = key_of(point)
+        points.setdefault(key, point)
+        if record.phase == "power_primary":
+            baseline_key = key
+        meta = record.cell_metadata
+        effect = meta.get("effect_size")
+        group_key = (record.phase, _record_trajectory_mode(record), None if effect is None else float(effect))
+        groups.setdefault(key, {}).setdefault(group_key, []).append(record)
+    if baseline_key is not None:
+        for record in unplaced:
+            effect = record.cell_metadata.get("effect_size")
+            group_key = (record.phase, _record_trajectory_mode(record), None if effect is None else float(effect))
+            groups[baseline_key].setdefault(group_key, []).append(record)
+
+    entries: list[AnchorPoint] = []
+    for key in sorted(points, key=lambda k: (k != baseline_key, k)):
+        anchors: list[SimulationReplicateResult] = []
+        controls: list[ControlRate] = []
+        for (phase, mode, effect), group in sorted(groups[key].items(), key=lambda item: _group_order(item[0])):
+            if phase in ("power_primary", "power_design") and mode == "none" and effect == 0.0:
+                anchors.extend(group)
+                continue
+            controls.append(
+                ControlRate(
+                    phase=phase,
+                    trajectory_mode=mode,
+                    effect_size=effect,
+                    rates={statistic: _rate_estimate(group, statistic, alpha) for statistic in rule.statistics},
+                )
+            )
+        if not anchors:
+            continue
+        statistics: list[AnchorStatistic] = []
+        for statistic in rule.statistics:
+            estimate = _rate_estimate(anchors, statistic, alpha)
+            if estimate.rate is None:
+                statistics.append(AnchorStatistic(statistic, None, None, 0, None, "unavailable"))
+                continue
+            bound = anchor_bound(rule.alpha, rule.se_multiplier, estimate.n_available)
+            statistics.append(
+                AnchorStatistic(
+                    statistic=statistic,
+                    rate=estimate.rate,
+                    monte_carlo_se=estimate.monte_carlo_se,
+                    n_available=estimate.n_available,
+                    bound=bound,
+                    classification="holds" if estimate.rate <= bound else "exceeds",
+                )
+            )
+        classes = {entry.classification for entry in statistics}
+        verdict = "excess" if "exceeds" in classes else ("unavailable" if "unavailable" in classes else "size_holds")
+        entries.append(
+            AnchorPoint(
+                design_point=dict(points[key]),
+                is_baseline=key == baseline_key,
+                statistics=tuple(statistics),
+                verdict=verdict,
+                other_controls=tuple(controls),
+            )
+        )
+
+    if not entries:
+        return AnchorDecision(
+            rule=rule_payload,
+            alpha=alpha,
+            verdict="no_anchor",
+            rationale="No zero-effect anchor records are present; the rule has nothing to evaluate.",
+            points=(),
+        )
+    verdicts = [entry.verdict for entry in entries]
+    if "excess" in verdicts:
+        verdict = "excess"
+        exceeding = [
+            f"{entry.design_point} ({', '.join(_exceeding_statistics(entry))})"
+            for entry in entries
+            if entry.verdict == "excess"
+        ]
+        rationale = (
+            f"Anchor rate above the bound at {len(exceeding)} of {len(entries)} point(s): "
+            f"{'; '.join(exceeding)}."
+        )
+    elif "unavailable" in verdicts:
+        verdict = "unavailable"
+        rationale = "No point exceeds the bound, but some anchor statistic has no available replicate."
+    else:
+        verdict = "size_holds"
+        rationale = f"Every named statistic holds the bound at all {len(entries)} point(s)."
+    return AnchorDecision(rule=rule_payload, alpha=alpha, verdict=verdict, rationale=rationale, points=tuple(entries))
+
+
+def _group_order(group: tuple[str, str, float | None]) -> tuple[str, str, float]:
+    phase, mode, effect = group
+    return (phase, mode, math.inf if effect is None else effect)
+
+
+def _exceeding_statistics(point: AnchorPoint) -> list[str]:
+    return [entry.statistic for entry in point.statistics if entry.classification == "exceeds"]
+
+
+def write_anchor_decision(decision: AnchorDecision, out_dir: Path) -> dict[str, Path]:
+    """Write the anchor decision as JSON (verdicts + every point) and CSV (one row per rate)."""
+
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "anchor_decision.json"
+    csv_path = out_dir / "anchor_decision.csv"
+    payload = {
+        "verdict": decision.verdict,
+        "rationale": decision.rationale,
+        "alpha": decision.alpha,
+        "rule": decision.rule,
+        "points": [asdict(point) for point in decision.points],
+    }
+    json_path.write_text(json.dumps(payload, indent=2, default=_json_default) + "\n", encoding="utf-8")
+    decision.to_frame().to_csv(csv_path, index=False)
+    return {"anchor_decision": json_path, "anchor_decision_csv": csv_path}
+
+
 def _finite_p_values(records: Sequence[SimulationReplicateResult], statistic: str) -> list[float]:
     return [
         float(p)
@@ -1008,6 +1288,11 @@ def _json_default(value: Any) -> Any:
 
 
 __all__ = [
+    "ANCHOR_CLASSIFICATIONS",
+    "AnchorDecision",
+    "AnchorPoint",
+    "AnchorStatistic",
+    "ControlRate",
     "DESIGN_POINT_STATUSES",
     "RANK_CRITERIA",
     "DesignPointColumn",
@@ -1017,9 +1302,12 @@ __all__ = [
     "RankDecision",
     "RateEstimate",
     "TargetEvaluation",
+    "anchor_bound",
+    "evaluate_anchor_decision",
     "evaluate_design_point_decision",
     "evaluate_rank_decision",
     "evaluate_targets",
+    "write_anchor_decision",
     "write_design_point_decision",
     "write_rank_decision",
     "write_target_report",

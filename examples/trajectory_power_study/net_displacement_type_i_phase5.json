@@ -1,0 +1,149 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 1200,
+    "n_stages": 4,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "integration_params": {
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3
+  },
+  "trajectory_modes": [
+    "translation"
+  ],
+  "effect_sizes": [
+    0.0,
+    1.0
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": null
+      },
+      {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": 6,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      {
+        "evaluation.integration_method": "pca",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": 6,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      {
+        "evaluation.integration_method": "concat",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      }
+    ]
+  },
+  "n_replicates": 500,
+  "base_seed": 600,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "phase5-primary",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "specificity": [
+      {
+        "trajectory_mode": "translation",
+        "statistic": "delta",
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      },
+      {
+        "trajectory_mode": "translation",
+        "statistic": "angle",
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      },
+      {
+        "trajectory_mode": "translation",
+        "statistic": "shape",
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "net-displacement-type-i-phase5",
+    "phase": 5,
+    "intent": "Paper-grade Type I re-measurement of the net-displacement orientation estimator at the Phase 5 design (n = 1200, four stages, group_ratio 0.5, all three blocks, joint magnitude construction): the zero-effect anchor and the translation negative control at 500 replicates x 999 permutations across five measurement columns on matched datasets, evaluated by the predeclared anchor Type I rule before any power comparison (roadmap item 3; orientation measurement probe section 7).",
+    "derives_from": "examples/trajectory_power_study/phase5_power_study.json",
+    "motivating_evidence": "docs/reports/orientation-measurement-probe-2026-10-12.md (net-displacement anchor angle 0.08-0.10 in every space at the Phase 5 design)",
+    "parent_results": "results/phase5-2026-09-10",
+    "notes": [
+      "Null-only profile (change net-displacement-type-i-study, design D4): trajectory_modes [translation] with effect_sizes [0.0, 1.0] and the shared zero-effect anchor give, per design column, one anchor (none at 0) and one translation cell at e = 1.0, both negative controls for angle and shape. The engine also emits its two type_i_baseline cells (none at 0, translation at the top effect); they carry their own control:<cell_id> seed families, so they are independent datasets measured in the baseline column, reported descriptively under other_controls.",
+      "Design grid, explicit form, five measurement columns on matched datasets: pls_cv x pc1 (baseline), pls_cv x net_displacement (the lead arm), pls forced to rank 2(K - 1) x net_displacement, pca at rank 2(K - 1) x net_displacement, concat x net_displacement. The fixed-basis pls_within_group arm is excluded (the probe identified why its anchor inflates; proposal, 'Assumption to confirm at review').",
+      "Seeds: every power cell is in the parent study's matched-seed family with its base seed, and evaluation.seed is the constant 3, which is also the RRPP seed. The baseline column's anchor and translation cells therefore evaluate the parent study's datasets with the parent's permutation draws: their records must reproduce the parent's p-values exactly (cell ids and signatures differ, because the stamped design point and, at Phase 5, magnitude_kind enter them). The other four columns re-measure the same datasets with the same RRPP seed in their own latent space.",
+      "acceptance.anchor_decision is the predeclared, advisory rule: per column and statistic, anchor rate <= 0.05 + 2 * sqrt(0.05 * 0.95 / R), R the available anchor replicates (0.0695 at R = 500). scripts/net_displacement_follow_up.py reads both profiles' anchor_decision.json. The Phase 4 gate and attribution are off; acceptance.power is empty. No report_contract: do not pass --n-jobs.",
+      "surgery_censoring stays at its default ('error'); translation at e = 1.0 is under headroom at both designs (as in the parent profiles), so no cell is censored or rejected at enumeration.",
+      "generator (other than magnitude_kind), evaluation, base_seed 600 and the matched-seed family phase5-primary are copied verbatim from phase5_power_study.json. magnitude_kind is 'joint' (the production construction and the probe's Phase 5 design); at zero effect and under translation the generator ignores it, so the anchor and translation datasets equal the Phase 5 paper-grade records at every replicate index. Rank 2(K - 1) = 6 for the forced-PLS and PCA columns, as in the probe.",
+      "Cells and cost: 2 Type I baselines + 5 columns x (1 anchor + 1 translation) = 12 cells, 6,000 work units. Planning figure: about 61.5 s per pls_cv unit at 999 permutations (Phase 5 study, EPYC 7662), so the four pls_cv x {anchor, translation} x {pc1, net_displacement} cells plus the two Type I baselines are about 3,000 x 62 s = 52 core-hours before the forced, pca and concat columns; the exact budget is written to PROVENANCE.txt from a timing job before launch. Go/no-go (design Risks): if the projection exceeds 150 core-hours, drop the pca and concat points (10 cells) and say so in the report."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "n_shards": 50,
+      "array": "0-49",
+      "cpus_per_task": 1,
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "out_dir": "results/net-displacement-type-i-<date>/phase5",
+      "error_policy": "record",
+      "nodes": "check sinfo -N -o '%N %T %C %e' first and exclude nodes under memory pressure",
+      "budget": "~100-130 core-hours planning figure; >150 projected -> drop pca and concat"
+    }
+  }
+}
