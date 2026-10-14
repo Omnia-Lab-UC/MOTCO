@@ -1,0 +1,22 @@
+# Net-displacement power comparison, Phase 5 profile — provenance
+config: examples/trajectory_power_study/net_displacement_power_phase5.json
+config_sha256: 245433ecad4676d6dd29bb2ded011fe10fbda81ffdd321bc1d87e19740835249 (verified identical on the workstation and the cluster before the timing job)
+code_revision: db5ab691e97b9c21e6a8876f740bfb24fc699e67 (branch feat/net-displacement-power-comparison); clean tree on the cluster (only the untracked logs/ directory)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, AMD EPYC 7662 compute nodes; venv python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3, uv 0.12.10
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; evaluation.n_jobs = 1
+error_policy: record (from the sbatch template)
+
+## Timing job (task 5.1), before launch
+timing_job: logs/ndp_timing.py on the cluster (not committed): per design column, run_simulation_replicate on the column's zero-effect anchor (replicates 0, 1) and orientation e = 1.0 (replicate 0); single-CPU jobs 920291 (pls_cv x pc1), 920292 (pls_cv x net_displacement), submitted 2026-10-14T16:07Z with --exclude=n4,n11 (n4: ~7 GB free memory; n11: NFS stalls in the Type I timing job); both ran on n1
+unit_seconds (anchor r0 / anchor r1 / orientation e = 1.0 r0): pls_cv x pc1 63.4/58.6/66.4 s; pls_cv x net_displacement 63.1/58.2/65.9 s (mean 62.61 s)
+projected_budget: 18,000 pls_cv units x 62.61 s = 313.0 core-hours; 375.7 with a 20% margin; 470 if node contention slows units 1.5x as in the Type I run
+go_no_go: GO: 375.7 core-hours with the 20% margin is under the predeclared 450 limit, so e = 0.75 stays and the identity entry is unchanged
+shared_statistics_precheck: delta and shape p-values are identical between the two columns in all three timing units; angle differs, as designed
+reproduction_precheck: the baseline column's timing units reproduce the parent records exactly: anchor r0 (0.202/0.865/0.750), anchor r1 (0.056/0.216/0.025) and orientation e = 1.0 r0 (0.001/0.001/0.001) (delta/angle/shape) equal results/phase5-2026-09-10/merged.jsonl in generator seed and p-values (logs/ndp_timing/precheck.py)
+
+## Launch
+date_utc: 2026-10-14T16:25:04Z (submit)
+shard layout: N_SHARDS=100, --array=0-99, --n-shards 100; units mapped to shards by the stable (cell_id, replicate_index) hash
+launch: sbatch -p 512x1024 --exclude=n4,n11 --job-name=motco-ndp-p5 --cpus-per-task=1 --mem=4G --time=12:00:00 --array=0-99 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO/examples/trajectory_power_study/net_displacement_power_phase5.json,STUDY_OUT=/home1/tgonza/MOTCO/results/net-displacement-power-2026-10-14/phase5,N_SHARDS=100 scripts/motco_study_array.sbatch
+job_id: 920304
+units: 36 cells x 500 replicates = 18,000 (2 Type I baselines + 2 design columns x (1 shared zero-effect anchor + 4 modes x 4 effects)); 999 permutations per unit; no attribution
