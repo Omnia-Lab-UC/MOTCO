@@ -256,19 +256,32 @@ class Phase4GateConfig:
 
 @dataclass(frozen=True)
 class DesignGrid:
-    """Crossed design grid: every combination of the declared axis values.
+    """Design grid: crossed axis values, or an explicit list of design points.
 
     Unlike ``StudyConfig.axes`` (one factor at a time off the baseline), the
-    design grid crosses its axes into *design points* and enumerates the full
-    power grid — one zero-effect anchor plus every (mode × nonzero effect) — at
-    each point. Every axis MUST list the baseline value so the primary power
-    cells are one of the points; that column is served by the primary grid and
-    never re-emitted.
+    design grid enumerates the full power grid — one zero-effect anchor plus
+    every (mode × nonzero effect) — at each *design point*. In the crossed form
+    (``axes``) every combination of the declared values is a point, and every
+    axis MUST list the baseline value. In the explicit form (``points``) the
+    points are listed directly, every point names the same axes, and the
+    baseline point MUST be one of them; ``axes`` is then derived from the
+    points (axes in the first point's order, values in order of first
+    appearance) so every reader of ``axes`` works unchanged. Either way the
+    baseline column is served by the primary grid and never re-emitted.
     """
 
     axes: Mapping[str, tuple[Any, ...]] = field(default_factory=dict)
+    points: tuple[Mapping[str, Any], ...] = ()
 
     def __post_init__(self) -> None:
+        if self.points:
+            derived = _axes_from_points(self.points)
+            if self.axes and _to_jsonable(dict(self.axes)) != _to_jsonable(derived):
+                raise StudyConfigError(
+                    "design_grid declares both 'axes' and 'points'; use exactly one form."
+                )
+            object.__setattr__(self, "axes", derived)
+            return
         for axis, values in self.axes.items():
             _validate_axis_namespace(axis, label="design_grid.axes")
             if not values:
@@ -277,6 +290,54 @@ class DesignGrid:
     @property
     def enabled(self) -> bool:
         return bool(self.axes)
+
+    @property
+    def explicit(self) -> bool:
+        return bool(self.points)
+
+
+def _axes_from_points(points: Sequence[Mapping[str, Any]]) -> dict[str, tuple[Any, ...]]:
+    """Validate explicit design points and derive the per-axis value lists."""
+
+    first = points[0]
+    if not isinstance(first, Mapping) or not first:
+        raise StudyConfigError("design_grid.points[0] must be a non-empty mapping of axis to value.")
+    for axis in first:
+        _validate_axis_namespace(axis, label="design_grid.points")
+    expected = set(first)
+    for index, point in enumerate(points):
+        if not isinstance(point, Mapping):
+            raise StudyConfigError(f"design_grid.points[{index}] must be a mapping of axis to value.")
+        missing = sorted(expected - set(point))
+        extra = sorted(set(point) - expected)
+        if missing or extra:
+            detail = "; ".join(
+                part
+                for part in (
+                    f"missing axis(es) {missing}" if missing else "",
+                    f"unexpected axis(es) {extra}" if extra else "",
+                )
+                if part
+            )
+            raise StudyConfigError(
+                f"design_grid.points[{index}] {_to_jsonable(dict(point))} must name exactly the axes of "
+                f"design_grid.points[0]: {detail}."
+            )
+        for other_index in range(index):
+            other = points[other_index]
+            if all(_same_axis_value(point[axis], other[axis]) for axis in first):
+                raise StudyConfigError(
+                    f"design_grid.points[{index}] {_to_jsonable(dict(point))} duplicates "
+                    f"design_grid.points[{other_index}]."
+                )
+    axes: dict[str, tuple[Any, ...]] = {}
+    for axis in first:
+        values: list[Any] = []
+        for point in points:
+            if not any(_same_axis_value(point[axis], seen) for seen in values):
+                values.append(point[axis])
+        axes[axis] = tuple(values)
+    return axes
 
 
 @dataclass(frozen=True)
@@ -401,6 +462,45 @@ class RankDecisionRule:
                 raise StudyConfigError(f"acceptance.rank_decision.{name} must be non-negative.")
 
 
+#: Version of the anchor Type I decision rule; written to ``anchor_decision.json``.
+ANCHOR_DECISION_RULE_VERSION = 1
+
+
+@dataclass(frozen=True)
+class AnchorDecisionRule:
+    """Predeclared, advisory Type I rule over every design point's zero-effect anchor.
+
+    For each design point (the baseline column included) and each named
+    statistic, the anchor's rejection rate over its ``R`` available replicates
+    is compared with ``alpha + se_multiplier · sqrt(alpha(1 − alpha)/R)``: at or
+    below it the statistic *holds*, above it *exceeds*. A point's verdict is
+    ``size_holds`` when every named statistic holds. It never feeds the Phase 4
+    gate or the acceptance targets.
+    """
+
+    alpha: float = 0.05
+    se_multiplier: float = 2.0
+    statistics: tuple[str, ...] = ("delta", "angle", "shape")
+    name: str = "anchor_decision"
+    kind: str = field(default="anchor_decision", init=False)
+
+    def __post_init__(self) -> None:
+        if not (0 < self.alpha < 1):
+            raise StudyConfigError("acceptance.anchor_decision.alpha must be between 0 and 1.")
+        if not (self.se_multiplier > 0):
+            raise StudyConfigError("acceptance.anchor_decision.se_multiplier must be positive.")
+        if not self.statistics:
+            raise StudyConfigError("acceptance.anchor_decision.statistics must name at least one statistic.")
+        unknown = sorted(set(self.statistics) - _STATISTICS)
+        if unknown:
+            raise StudyConfigError(
+                f"acceptance.anchor_decision.statistics has unknown statistic(s): {unknown}; "
+                f"expected a subset of {sorted(_STATISTICS)}."
+            )
+        if len(set(self.statistics)) != len(self.statistics):
+            raise StudyConfigError("acceptance.anchor_decision.statistics lists a statistic twice.")
+
+
 @dataclass(frozen=True)
 class ReportContract:
     """Declared reporting and execution rules the findings report must honor.
@@ -457,6 +557,7 @@ class AcceptanceTargets:
     gate: Phase4GateConfig = field(default_factory=Phase4GateConfig)
     design_point: DesignPointDecisionRule | None = None
     rank_decision: RankDecisionRule | None = None
+    anchor_decision: AnchorDecisionRule | None = None
 
 
 @dataclass(frozen=True)
@@ -529,12 +630,20 @@ class StudyConfig:
                     f"design_grid.axes[{axis!r}] is also declared under axes; an axis is either "
                     "crossed in the design grid or varied one factor at a time, not both."
                 )
+            if grid.explicit:
+                continue
             baseline = self.axis_baseline_value(axis)
             if not any(_same_axis_value(value, baseline) for value in values):
                 raise StudyConfigError(
                     f"design_grid.axes[{axis!r}] must include the baseline value {baseline!r} so the "
                     "primary power cells are one of the design points."
                 )
+        if grid.explicit and not any(self.is_baseline_design_point(point) for point in grid.points):
+            raise StudyConfigError(
+                "design_grid.points must include the baseline point "
+                f"{_to_jsonable(self.baseline_design_point())} so the primary power cells are one of "
+                "the design points."
+            )
         rule = self.acceptance.design_point
         if rule is None:
             return
@@ -592,6 +701,8 @@ class StudyConfig:
     def design_points(self) -> list[dict[str, Any]]:
         """Every design point as ``{axis: value}``, baseline included, in declared order."""
 
+        if self.design_grid.explicit:
+            return [dict(point) for point in self.design_grid.points]
         axes = list(self.design_grid.axes.items())
         if not axes:
             return []
@@ -775,7 +886,12 @@ def _normalize_group_stage_sizes(value: Any) -> Any:
 
 
 #: Axis values that need the same normalization as their baseline field.
-_AXIS_VALUE_NORMALIZERS = {"generator.group_stage_sizes": _normalize_group_stage_sizes}
+_AXIS_VALUE_NORMALIZERS = {
+    "generator.group_stage_sizes": _normalize_group_stage_sizes,
+    # The evaluator normalizes an explicit ``"pc1"`` to ``None``; do the same
+    # here so ``"pc1"`` and ``null`` are one axis value.
+    "evaluation.orientation_estimator": lambda value: None if value == "pc1" else value,
+}
 
 
 def _normalize_axis_values(axis: str, values: Sequence[Any]) -> tuple[Any, ...]:
@@ -796,9 +912,25 @@ def _build_axes(raw: Mapping[str, Any]) -> Mapping[str, tuple[Any, ...]]:
 def _build_design_grid(raw: Mapping[str, Any]) -> DesignGrid:
     if not raw:
         return DesignGrid()
-    unknown = sorted(set(raw) - {"axes"})
+    unknown = sorted(set(raw) - {"axes", "points"})
     if unknown:
         raise StudyConfigError(f"design_grid has unknown field(s): {unknown}.")
+    if "points" in raw:
+        if "axes" in raw:
+            raise StudyConfigError("design_grid declares both 'axes' and 'points'; use exactly one form.")
+        raw_points = raw["points"]
+        if isinstance(raw_points, Mapping | str | bytes) or not isinstance(raw_points, Sequence):
+            raise StudyConfigError("design_grid.points must be a sequence of mappings.")
+        if not raw_points:
+            raise StudyConfigError("design_grid.points must list at least one point.")
+        points: list[dict[str, Any]] = []
+        for index, point in enumerate(raw_points):
+            if not isinstance(point, Mapping):
+                raise StudyConfigError(f"design_grid.points[{index}] must be a mapping of axis to value.")
+            for axis in point:
+                _validate_axis_namespace(axis, label=f"design_grid.points[{index}]")
+            points.append({axis: _normalize_axis_values(axis, [value])[0] for axis, value in point.items()})
+        return DesignGrid(points=tuple(points))
     axes: dict[str, tuple[Any, ...]] = {}
     for axis, values in (raw.get("axes") or {}).items():
         _validate_axis_namespace(axis, label="design_grid.axes")
@@ -880,8 +1012,30 @@ def _build_rank_decision_rule(raw: Mapping[str, Any] | None) -> RankDecisionRule
     )
 
 
+def _build_anchor_decision_rule(raw: Mapping[str, Any] | None) -> AnchorDecisionRule | None:
+    if raw is None:
+        return None
+    if not isinstance(raw, Mapping):
+        raise StudyConfigError("acceptance.anchor_decision must be a mapping.")
+    unknown = sorted(set(raw) - {"alpha", "se_multiplier", "statistics", "name", "kind"})
+    if unknown:
+        raise StudyConfigError(f"acceptance.anchor_decision has unknown field(s): {unknown}.")
+    statistics = raw.get("statistics", ("delta", "angle", "shape"))
+    if isinstance(statistics, str) or not isinstance(statistics, Sequence):
+        raise StudyConfigError("acceptance.anchor_decision.statistics must be a sequence of statistics.")
+    return AnchorDecisionRule(
+        alpha=float(raw.get("alpha", 0.05)),
+        se_multiplier=float(raw.get("se_multiplier", 2.0)),
+        statistics=tuple(str(statistic) for statistic in statistics),
+        name=str(raw.get("name", "anchor_decision")),
+    )
+
+
 def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
-    unknown = sorted(set(raw) - {"type_i", "power", "specificity", "gate", "design_point", "rank_decision"})
+    unknown = sorted(
+        set(raw)
+        - {"type_i", "power", "specificity", "gate", "design_point", "rank_decision", "anchor_decision"}
+    )
     if unknown:
         raise StudyConfigError(f"acceptance has unknown block(s): {unknown}.")
     type_i = tuple(_build_type_i_target(entry) for entry in raw.get("type_i", []) or [])
@@ -890,6 +1044,7 @@ def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
     gate = _build_gate(raw.get("gate") or {})
     design_point = _build_design_point_rule(raw.get("design_point"))
     rank_decision = _build_rank_decision_rule(raw.get("rank_decision"))
+    anchor_decision = _build_anchor_decision_rule(raw.get("anchor_decision"))
     return AcceptanceTargets(
         type_i=type_i,
         power=power,
@@ -897,6 +1052,7 @@ def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
         gate=gate,
         design_point=design_point,
         rank_decision=rank_decision,
+        anchor_decision=anchor_decision,
     )
 
 
@@ -1098,6 +1254,15 @@ def _split_axis_or_raise(axis: str) -> tuple[str, tuple[str, ...]]:
 
 
 def _config_to_dict(config: StudyConfig) -> dict[str, Any]:
+    payload = _config_to_dict_base(config)
+    # Written only when declared, so a dumped config without the rule is
+    # unchanged.
+    if config.acceptance.anchor_decision is not None:
+        payload["acceptance"]["anchor_decision"] = _dataclass_dict(config.acceptance.anchor_decision)
+    return payload
+
+
+def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
     return {
         # An unset size table is omitted, as in the parameter signature, so a
         # dumped config that never used it is unchanged.
@@ -1110,9 +1275,12 @@ def _config_to_dict(config: StudyConfig) -> dict[str, Any]:
         "trajectory_modes": list(config.trajectory_modes),
         "effect_sizes": list(config.effect_sizes),
         "axes": {axis: list(values) for axis, values in config.axes.items()},
-        "design_grid": {
-            "axes": {axis: list(values) for axis, values in config.design_grid.axes.items()}
-        },
+        # The explicit form round-trips as the listed points; ``axes`` is derived.
+        "design_grid": (
+            {"points": [_to_jsonable(dict(point)) for point in config.design_grid.points]}
+            if config.design_grid.explicit
+            else {"axes": {axis: list(values) for axis, values in config.design_grid.axes.items()}}
+        ),
         "n_replicates": config.n_replicates,
         "base_seed": config.base_seed,
         "alpha": config.alpha,
@@ -1158,7 +1326,9 @@ def _to_jsonable(value: Any) -> Any:
 
 
 __all__ = [
+    "ANCHOR_DECISION_RULE_VERSION",
     "AcceptanceTargets",
+    "AnchorDecisionRule",
     "AttributionSelector",
     "DesignGrid",
     "DesignPointDecisionRule",

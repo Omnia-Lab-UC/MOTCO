@@ -1,0 +1,29 @@
+# Net-displacement Type I study, Phase 6 profile — provenance
+config: examples/trajectory_power_study/net_displacement_type_i_phase6.json
+config_sha256: 559ca569ca6028e16efb9c8f6f9bff41ef2dd0f1a333a2e9cdbf305fce83effa (verified identical on the workstation and the cluster before submit)
+code_revision: 9089729fb071eb291ac0de0300a94ceb0b473839 (branch feat/net-displacement-type-i-study); clean tree on the cluster (only the untracked logs/ directory)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, AMD EPYC 7662 compute nodes; venv python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3, uv 0.12.10
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; evaluation.n_jobs = 1
+error_policy: record (from the sbatch template)
+
+## Timing job (task 7.1), before launch
+timing_job: logs/nd_timing.py on the cluster (not committed): per design column, run_simulation_replicate on the column's anchor (replicates 0, 1) and translation cell (replicate 0); 10 single-CPU jobs (one per column per design), BLAS pinned. The first submission (917260-917266) hung on n11 in D state (nfs_wait_bit_killable, stuck importing from the NFS-mounted /home1, ~40 MB RSS, no progress for 10 min) and was cancelled; resubmitted as 917276-917282 with --exclude=n4,n11 (n4: 2.8 GB free memory). Successful timing jobs ran on n1 and n2.
+unit_seconds (anchor r0 / anchor r1 / translation r0): pls_cv x pc1 12.1/11.9/11.9 s; pls_cv x net_displacement 12.1/11.9/11.9 s; pls forced 4 0.9/0.8/0.8 s; pca 4 1.0/1.0/1.0 s; concat 54.7/54.5/54.6 s
+projected_budget: pls_cv 3,000 units x 12.0 s = 10.0 h; pls forced (rank 4) 1,000 x 0.85 s = 0.2 h; pca (rank 4) 1,000 x 1.0 s = 0.3 h; concat 1,000 x 54.6 s = 15.2 h; total 25.7 core-hours, 31 with a 20% contention margin (pls_cv x 3 = pc1 column, net_displacement column, and the two Type I baseline cells measured in the baseline space)
+reproduction_precheck: the baseline column's timing units (anchor r0, r1; translation r0) reproduced the parent study's recorded p-values exactly (delta, angle, shape), confirming that the shared matched-seed family and the shared evaluation.seed (= RRPP seed, 3) make the baseline column a re-computation of the parent records
+
+## Launch
+date_utc: 2026-10-13T20:13:26Z (submit)
+shard layout: N_SHARDS=50, --array=0-49, --n-shards 50; units mapped to shards by the stable (cell_id, replicate_index) hash
+launch: sbatch -p 512x1024 --exclude=n4,n11 --job-name=motco-nd-p6 --cpus-per-task=1 --mem=2G --time=8:00:00 --array=0-49 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO/examples/trajectory_power_study/net_displacement_type_i_phase6.json,STUDY_OUT=/home1/tgonza/MOTCO/results/net-displacement-type-i-2026-10-13/phase6,N_SHARDS=50 scripts/motco_study_array.sbatch
+job_id: 917290
+units: 12 cells x 500 replicates = 6,000 (2 Type I baselines + 5 design columns x (1 shared zero-effect anchor + 1 translation at e = 1.0)); 999 permutations per unit; no attribution
+
+## Outcome
+outcome: all 50 array tasks COMPLETED with exit 0:0 and empty stderr; 6,000/6,000 units present exactly once; all 12 enumerated cell ids present with exactly 500 replicates; every record's parameter_signature equals the enumerated cell's; 0 failed records; 0 censored surgeries; n_jobs 1 in every record
+wall: 2026-10-13T20:13:26Z -> 2026-10-13T21:20:21Z (1 h 07 m; sacct reports cluster-local times, UTC-3); tasks landed on n1 (40) and n2 (10); no stalls
+unit_timings: 6,000 units, median 17.5 s (min 0.41, mean 21.1, max 80.9), 35.2 recorded core-hours (projection 25.7, 31 with margin: node contention slowed units about 1.5x against the timing job); per-column medians: pls_cv x pc1 18.8 s, pls_cv x net_displacement 18.4 s, type_i_baseline 17.5 s, pls forced 4 0.7 s, pca 4 0.7 s, concat 74.9 s
+merge: python scripts/motco_study.py merge --out-dir results/net-displacement-type-i-2026-10-13/phase6 (cluster; 6,000 records); merged.jsonl sha256 fef167574d2e293c44dda1ce75f2eaec0434eb86fc69f959562fa143c708a362, verified byte-identical after rsync to the workstation; merged.jsonl and shard_*.jsonl remain gitignored
+report: python scripts/motco_study.py report --config examples/trajectory_power_study/net_displacement_type_i_phase6.json --out-dir results/net-displacement-type-i-2026-10-13/phase6 (cluster, at 9089729); report/ rsynced to the workstation. Anchor Type I decision: SIZE_HOLDS at all 5 points
+reproduction: the baseline column (power_primary anchor and translation at e = 1.0, 1,000 records) reproduces results/phase6-small-n-2026-10-09/merged.jsonl exactly: generator seeds, p-values and observed statistics equal in 1,000/1,000 records. The two type_i_baseline cells have the parent's cell ids and reproduce its 1,000 records' p-values exactly
+follow_up: python scripts/net_displacement_follow_up.py --phase6 results/net-displacement-type-i-2026-10-13/phase6/report/anchor_decision.json --phase5 results/net-displacement-type-i-2026-10-13/phase5/report/anchor_decision.json --out results/net-displacement-type-i-2026-10-13/follow_up_decision.json (cluster) -> paper_grade_power_comparison

@@ -2,6 +2,7 @@
 
 from motco.simulations.study.config import (
     AcceptanceTargets,
+    AnchorDecisionRule,
     AttributionSelector,
     DesignGrid,
     DesignPointDecisionRule,
@@ -78,12 +79,15 @@ from motco.simulations.study.summary import (
     summarize_study,
 )
 from motco.simulations.study.targets import (
+    AnchorDecision,
     DesignPointDecision,
     RankDecision,
     TargetEvaluation,
+    evaluate_anchor_decision,
     evaluate_design_point_decision,
     evaluate_rank_decision,
     evaluate_targets,
+    write_anchor_decision,
     write_design_point_decision,
     write_rank_decision,
     write_target_report,
@@ -91,6 +95,8 @@ from motco.simulations.study.targets import (
 
 __all__ = [
     "AcceptanceTargets",
+    "AnchorDecision",
+    "AnchorDecisionRule",
     "AttributionSelector",
     "CombinedRuleSummary",
     "DesignGrid",
@@ -130,6 +136,7 @@ __all__ = [
     "dump_study_config",
     "enumerate_study",
     "enumerate_units",
+    "evaluate_anchor_decision",
     "evaluate_design_point_decision",
     "evaluate_phase4_gate",
     "evaluate_rank_decision",
@@ -158,6 +165,7 @@ __all__ = [
     "summarize_realized_geometry",
     "summarize_study",
     "type_i_inflation_bound",
+    "write_anchor_decision",
     "write_design_point_decision",
     "write_driver_report",
     "write_phase4_report",

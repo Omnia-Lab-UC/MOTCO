@@ -82,6 +82,8 @@ def enumerate_study(config: StudyConfig) -> SimulationGrid:
             "n_points": len(config.design_points()),
             "baseline_point": _to_jsonable(config.baseline_design_point()),
         }
+        if config.design_grid.explicit:
+            grid_metadata["design_grid"]["points"] = _to_jsonable(config.design_points())
     return SimulationGrid(cells=tuple(cells), metadata=grid_metadata)
 
 

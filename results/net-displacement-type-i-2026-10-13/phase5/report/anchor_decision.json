@@ -1,0 +1,363 @@
+{
+  "verdict": "size_holds",
+  "rationale": "Every named statistic holds the bound at all 5 point(s).",
+  "alpha": 0.05,
+  "rule": {
+    "version": 1,
+    "name": "anchor_decision",
+    "alpha": 0.05,
+    "se_multiplier": 2.0,
+    "statistics": [
+      "delta",
+      "angle",
+      "shape"
+    ],
+    "bound": "alpha + se_multiplier * sqrt(alpha * (1 - alpha) / R), R = available anchor replicates"
+  },
+  "points": [
+    {
+      "design_point": {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": null
+      },
+      "is_baseline": true,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.046,
+          "monte_carlo_se": 0.00936845771725528,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.03,
+              "monte_carlo_se": 0.00762889244910426,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "type_i_baseline",
+          "trajectory_mode": "none",
+          "effect_size": null,
+          "rates": {
+            "delta": {
+              "rate": 0.032,
+              "monte_carlo_se": 0.007870959280799261,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "type_i_baseline",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.036,
+              "monte_carlo_se": 0.008331146379700696,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.07,
+              "monte_carlo_se": 0.011410521460476731,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_method": "concat",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.008,
+          "monte_carlo_se": 0.003983967871356395,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.006,
+          "monte_carlo_se": 0.0034536936748935914,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.012,
+              "monte_carlo_se": 0.004869496893930624,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.064,
+              "monte_carlo_se": 0.010945684080951725,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.0,
+              "monte_carlo_se": 0.0,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_method": "pca",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": 6,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.008,
+          "monte_carlo_se": 0.003983967871356395,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.052,
+          "monte_carlo_se": 0.00992935043192655,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.006,
+          "monte_carlo_se": 0.0034536936748935914,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.012,
+              "monte_carlo_se": 0.004869496893930624,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.064,
+              "monte_carlo_se": 0.010945684080951725,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.0,
+              "monte_carlo_se": 0.0,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": 6,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.016,
+          "monte_carlo_se": 0.005611416933360059,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.0,
+          "monte_carlo_se": 0.0,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.006,
+              "monte_carlo_se": 0.0034536936748935914,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.064,
+              "monte_carlo_se": 0.010945684080951725,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.004,
+              "monte_carlo_se": 0.002822764602300376,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_method": "pls",
+        "evaluation.integration_params.forced_components": null,
+        "evaluation.integration_params.n_components": null,
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.04,
+              "monte_carlo_se": 0.008763560920082658,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.03,
+              "monte_carlo_se": 0.00762889244910426,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

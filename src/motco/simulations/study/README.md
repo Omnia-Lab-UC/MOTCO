@@ -110,11 +110,11 @@ schema lives in `config.py` (`StudyConfig`). Required top-level keys:
 | `trajectory_modes` | Modes enumerated in the power grid. `none` is always added.            |
 | `effect_sizes`     | Non-negative effect-size sweep (per mode).                             |
 | `axes`             | Optional OFAT axes. Keys must be namespaced `generator.*` or `evaluation.*`, or the one nested form `evaluation.integration_params.<key>` (see below). |
-| `design_grid`      | Optional **crossed** axes (`{"axes": {...}}`); every combination is a design point with its own anchored power grid. Each axis must list its baseline value. |
+| `design_grid`      | Optional design points, each with its own anchored power grid. **Crossed** form `{"axes": {...}}`: every combination of the values is a point, and each axis must list its baseline value. **Explicit** form `{"points": [{axis: value, ...}, ...]}`: the points are listed directly (for non-rectangular columns such as a forced-rank PLS, a PCA and a concat column in one study); every point names the same axes and the baseline point must be listed. |
 | `n_replicates`     | Replicates per cell.                                                   |
 | `base_seed`        | Deterministic seed root for replicates.                                |
 | `alpha`            | Significance level for rejection rates.                                |
-| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity`, optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis). |
+| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity`, optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor). |
 | `report_contract`  | Optional declared reporting/execution rules: `driver_component` (`observed` \| `pls_captured` \| `residual`; which attribution component `driver_report.csv` and the attribution figure present), `cross_replicate_driver_agreement` (only `descriptive` is legal — cross-replicate Jaccard/sign agreement is never a stability claim), `n_jobs_override` (`forbid` \| `warn`, default `warn`; `forbid` makes the shard runner refuse a differing `--n-jobs`). When declared, `report` also writes `report_contract.json` and `driver_report.csv`; when absent, every output is byte-identical to a pre-contract run. The Phase 5 profile declares `observed` / `descriptive` / `forbid`. |
 | `metadata`         | Free-form provenance (name, intent, notes).                            |
 
@@ -126,6 +126,15 @@ Validation enforces:
 - `design_grid.axes` keys use the same namespaces, are not also OFAT axes, and
   each lists the baseline value; `acceptance.design_point.prefer` names only
   design-grid axes.
+- `design_grid.points` (the explicit form) is not declared together with
+  `axes`; every point names exactly the first point's axes; no two points are
+  equal after value normalization (`"pc1"` and `null` are the same
+  `evaluation.orientation_estimator`); one point equals the baseline. Errors
+  name the offending point (`design_grid.points[i]`) or axis. `axes` is derived
+  from the points, so every axis-based rule above applies unchanged.
+- `acceptance.anchor_decision` has `0 < alpha < 1`, a positive
+  `se_multiplier`, and a non-empty, duplicate-free `statistics` ⊆
+  {`delta`, `angle`, `shape`}.
 - `acceptance.rank_decision.axis` is a declared design-grid axis whose values
   include `null`; its target and protected modes are in `trajectory_modes`; both
   SE multipliers are non-negative.
@@ -390,6 +399,8 @@ results/
     ├── rank_ladder.png            only when the design grid declares the retained-rank axis
     ├── rank_decision.json         only when acceptance.rank_decision is declared
     ├── rank_decision.csv          (same condition)
+    ├── anchor_decision.json       only when acceptance.anchor_decision is declared
+    ├── anchor_decision.csv        (same condition)
     ├── driver_report.csv          only when the config declares a report_contract: the declared
     │                              attribution component per (mode, effect, transition) — precision/recall
     │                              vs truth, selected count, within-replicate bootstrap stability,
@@ -552,6 +563,46 @@ The committed Phase 5 latent-rank ladder,
 `examples/trajectory_power_study/phase5_latent_rank_ladder.json`, holds the
 chosen design point fixed (ρ = 0, n = 1200, `p_dmp = 0.1`) and varies only the
 rank over {`null`, 3, 4, 6, 9, 12} for all four modes.
+
+### Measurement columns and the anchor Type I rule
+
+`evaluation.orientation_estimator` and `evaluation.integration_method` are
+ordinary evaluation axes, OFAT or design-grid. Columns that differ only in
+evaluation axes share generator parameters, the matched-seed family and the RRPP
+seed (`evaluation.seed`), so they measure the same datasets with the same
+permutation draws in different spaces; a `null` estimator column writes records
+identical to a config without the axis. `concat` and `pca` columns record no
+PLS component selection: `design_point_operating.csv` reports their rates,
+eigengap and `angle` null width and leaves `component_selection` and the
+selected-rank fields empty, and the rank ladder ignores them. Mixed columns that
+are not a rectangle use the explicit `design_grid.points` form.
+
+`acceptance.anchor_decision` (`alpha`, `se_multiplier`, `statistics`, `name`)
+writes `anchor_decision.json` / `.csv`. Per design point — the baseline column
+included — and per named statistic, the zero-effect anchor's rate over its `R`
+available replicates is compared with `alpha + se_multiplier·sqrt(alpha(1 − alpha)/R)`
+(0.0695 at R = 500, α = 0.05, k = 2): `holds` at or below, `exceeds` above,
+`unavailable` without replicates. A point is `size_holds` when every statistic
+holds, `excess` when any exceeds, `unavailable` otherwise. Every other cell at
+the point (and the `type_i_baseline` cells, under the baseline point) is listed
+under `other_controls` with its rates and no classification. Advisory: it never
+feeds the Phase 4 gate or the acceptance targets, and a config without it
+writes nothing new.
+
+The committed **net-displacement Type I profiles**,
+`examples/trajectory_power_study/net_displacement_type_i_phase6.json` and
+`net_displacement_type_i_phase5.json`, are null-only (the shared anchor and the
+translation control at e = 1.0) across five explicit columns — `pls_cv × pc1`
+(baseline), `pls_cv × net_displacement` (the lead arm), PLS forced to rank
+2(K − 1), PCA at rank 2(K − 1) and `concat`, each × net displacement — at
+500 × 999, 12 cells / 6,000 units per design. Each sits in its parent study's
+seed family with the same evaluation parameters, so its baseline column
+reproduces the parent's records exactly. After both are reported,
+`scripts/net_displacement_follow_up.py --phase6 … --phase5 … --out follow_up_decision.json`
+reads the two `anchor_decision.json` files and selects the next change:
+`paper_grade_power_comparison` when the lead arm is `size_holds` at both
+designs, `diagnose_anchor_excess` otherwise, with a per-design localization
+(`every_column` / `some_columns` / `none` of the net-displacement columns).
 
 ### Angle-pivotality diagnostic
 
