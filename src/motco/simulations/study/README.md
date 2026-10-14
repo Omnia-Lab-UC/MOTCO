@@ -114,7 +114,7 @@ schema lives in `config.py` (`StudyConfig`). Required top-level keys:
 | `n_replicates`     | Replicates per cell.                                                   |
 | `base_seed`        | Deterministic seed root for replicates.                                |
 | `alpha`            | Significance level for rejection rates.                                |
-| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity`, optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor). |
+| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity` (each `type_i`/`specificity` entry takes an optional `bound`: `two_sided` \| `upper`, see *Acceptance target bound form* below), optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor). |
 | `report_contract`  | Optional declared reporting/execution rules: `driver_component` (`observed` \| `pls_captured` \| `residual`; which attribution component `driver_report.csv` and the attribution figure present), `cross_replicate_driver_agreement` (only `descriptive` is legal — cross-replicate Jaccard/sign agreement is never a stability claim), `n_jobs_override` (`forbid` \| `warn`, default `warn`; `forbid` makes the shard runner refuse a differing `--n-jobs`). When declared, `report` also writes `report_contract.json` and `driver_report.csv`; when absent, every output is byte-identical to a pre-contract run. The Phase 5 profile declares `observed` / `descriptive` / `forbid`. |
 | `metadata`         | Free-form provenance (name, intent, notes).                            |
 
@@ -145,6 +145,42 @@ Validation enforces:
   rejected unknown fields.
 - `report_contract`, when present, names a known `driver_component`, uses
   `cross_replicate_driver_agreement: descriptive`, and a known `n_jobs_override`.
+- `acceptance.type_i[i].bound` and `acceptance.specificity[i].bound`, when
+  present, are `two_sided` or `upper`; any other value fails to load with an
+  error naming the entry and the value.
+
+### Acceptance target bound form
+
+Each Type I control (`acceptance.type_i`) and specificity
+(`acceptance.specificity`) target judges its rejection rate in one of two forms.
+`k` is the target's `se_tolerance` and `R` is the cell's available replicates.
+
+| `bound` | Met when | SE |
+|---|---|---|
+| `two_sided` (default) | `\|rate − α\| ≤ k · SE_emp` | empirical, `√(rate(1 − rate)/R)` |
+| `upper` | `rate ≤ α + k · √(α(1 − α)/R)` | α-based |
+
+`upper` is the Phase 4 gate's control and Type I inflation bound
+(`phase4.type_i_inflation_bound`, called directly), so an acceptance report
+that uses it agrees with the gate. Under `two_sided` a *conservative* control is
+flagged as a failure. A rate of 0 has an empirical SE of 0, so its tolerance
+collapses to 0 and anything other than exactly α fails. Under `upper`, a
+control that rejects less often than α is met.
+
+Only an `upper` target adds observations: `bound_kind: "upper"`, `alpha_se`
+(the α-based SE), `bound` (the upper limit), and a **signed** `deviation`
+(`rate − α`, negative is conservative). Its rationale reads
+`rate = 0.0240 <= alpha + 2.00·SE_alpha (0.0695)`. A `two_sided` target writes
+exactly the observations and rationale it wrote before the key existed, with
+`deviation = |rate − α|`. A report whose targets are all `two_sided` therefore
+gains no `obs_bound_kind` / `obs_alpha_se` column and regenerates
+byte-identically. In a mixed report those two columns are blank on the
+two-sided rows, and `obs_bound_kind` marks the rows where `obs_deviation` is
+signed. `dump_study_config` writes the resolved `bound` on every target.
+
+No committed config sets `upper`. Flipping the default would change the
+regenerated `acceptance_report.*` of every committed `results/` tree, so it would
+require re-issuing every committed report.
 
 ### Nested evaluation axes
 
