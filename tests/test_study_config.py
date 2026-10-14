@@ -237,3 +237,74 @@ def test_every_committed_example_config_loads() -> None:
     assert names, "no committed example configs found"
     for name in names:
         load_study_config(config_dir / name)
+
+
+# --- acceptance target bound form ------------------------------------------------
+
+
+def _bound_payload(type_i: dict, specificity: dict) -> dict:
+    return {
+        "generator": {"seed": 2, "trajectory_mode": "magnitude", "n_samples": 60},
+        "evaluation": {"integration_method": "concat", "permutations": 0, "seed": 3},
+        "trajectory_modes": ["magnitude", "translation"],
+        "effect_sizes": [0.1, 0.5],
+        "n_replicates": 2,
+        "base_seed": 1,
+        "alpha": 0.05,
+        "acceptance": {
+            "type_i": [type_i],
+            "specificity": [specificity],
+        },
+    }
+
+
+def test_target_bound_defaults_to_two_sided_and_loads_upper(tmp_path: Path) -> None:
+    path = tmp_path / "study.json"
+    payload = _bound_payload(
+        {"alpha": 0.05},
+        {"trajectory_mode": "translation", "statistic": "angle", "alpha": 0.05, "bound": "upper"},
+    )
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    config = load_study_config(path)
+    assert config.acceptance.type_i[0].bound == "two_sided"
+    assert config.acceptance.specificity[0].bound == "upper"
+
+
+@pytest.mark.parametrize("bound", ["two_sided", "upper"])
+def test_target_bound_round_trips_through_dump(tmp_path: Path, bound: str) -> None:
+    config = _baseline_config(
+        acceptance=AcceptanceTargets(
+            type_i=(TypeIControlTarget(alpha=0.05, bound=bound),),
+            specificity=(SpecificityTarget(trajectory_mode="translation", statistic="angle", alpha=0.05, bound=bound),),
+        )
+    )
+    path = tmp_path / "dump.json"
+    dump_study_config(config, path)
+    dumped = json.loads(path.read_text(encoding="utf-8"))
+    assert dumped["acceptance"]["type_i"][0]["bound"] == bound
+    assert dumped["acceptance"]["specificity"][0]["bound"] == bound
+    reloaded = load_study_config(path)
+    assert reloaded.acceptance.type_i == config.acceptance.type_i
+    assert reloaded.acceptance.specificity == config.acceptance.specificity
+
+
+@pytest.mark.parametrize(
+    ("type_i", "specificity", "match"),
+    [
+        (
+            {"alpha": 0.05, "bound": "one_sided"},
+            {"trajectory_mode": "translation", "statistic": "angle", "alpha": 0.05},
+            r"acceptance\.type_i\[0\]\.bound .*'one_sided'",
+        ),
+        (
+            {"alpha": 0.05},
+            {"trajectory_mode": "translation", "statistic": "angle", "alpha": 0.05, "bound": "lower"},
+            r"acceptance\.specificity\[0\]\.bound .*'lower'",
+        ),
+    ],
+)
+def test_unknown_target_bound_is_rejected(tmp_path: Path, type_i: dict, specificity: dict, match: str) -> None:
+    path = tmp_path / "study.json"
+    path.write_text(json.dumps(_bound_payload(type_i, specificity)), encoding="utf-8")
+    with pytest.raises(StudyConfigError, match=match):
+        load_study_config(path)

@@ -26,6 +26,7 @@ from motco.simulations.study.config import (
     SpecificityTarget,
     TypeIControlTarget,
 )
+from motco.simulations.study.phase4 import type_i_inflation_bound
 from motco.simulations.study.spectrum import record_design_point
 
 
@@ -92,7 +93,11 @@ def _evaluate_type_i(
     summaries: Sequence[SimulationSummaryResult],
     cell_meta: dict[str, dict],
 ) -> list[TargetEvaluation]:
-    """Type I target: per null cell × statistic, |rate - alpha| ≤ k · SE."""
+    """Type I target: per null cell × statistic, |rate - alpha| ≤ k · SE.
+
+    Under ``bound="upper"`` the rule is the gate's one-sided control bound
+    instead (see :func:`_judge_upper`).
+    """
 
     out: list[TargetEvaluation] = []
     for summary in summaries:
@@ -121,15 +126,20 @@ def _evaluate_type_i(
                 )
             )
             continue
-        bound = target.se_tolerance * summary.monte_carlo_se
-        deviation = abs(summary.rejection_rate - target.alpha)
-        met = deviation <= bound
-        rationale = (
-            f"|rate - alpha| = {deviation:.4f} {'<=' if met else '>'} "
-            f"{target.se_tolerance:.2f}·SE ({bound:.4f})"
-        )
-        observations["deviation"] = deviation
-        observations["bound"] = bound
+        if target.bound == "upper":
+            met, rationale = _judge_upper(
+                target, summary.rejection_rate, summary.available_replicates, observations
+            )
+        else:
+            bound = target.se_tolerance * summary.monte_carlo_se
+            deviation = abs(summary.rejection_rate - target.alpha)
+            met = deviation <= bound
+            rationale = (
+                f"|rate - alpha| = {deviation:.4f} {'<=' if met else '>'} "
+                f"{target.se_tolerance:.2f}·SE ({bound:.4f})"
+            )
+            observations["deviation"] = deviation
+            observations["bound"] = bound
         out.append(
             TargetEvaluation(
                 target_name=f"{target.name}[{summary.cell_id},{summary.statistic}]",
@@ -140,6 +150,33 @@ def _evaluate_type_i(
             )
         )
     return out
+
+
+def _judge_upper(
+    target: TypeIControlTarget | SpecificityTarget,
+    rate: float,
+    n_available: int,
+    observations: dict[str, Any],
+) -> tuple[bool, str]:
+    """One-sided control rule shared with the Phase 4 gate.
+
+    Met when ``rate <= alpha + k · sqrt(alpha(1 − alpha)/R)``, R the available
+    replicates. Records the bound kind, the alpha-based SE and the *signed*
+    deviation (negative is conservative) on ``observations``.
+    """
+
+    alpha_se = math.sqrt(target.alpha * (1.0 - target.alpha) / n_available)
+    bound = type_i_inflation_bound(target.alpha, target.se_tolerance, n_available)
+    met = rate <= bound
+    observations["bound_kind"] = "upper"
+    observations["alpha_se"] = alpha_se
+    observations["deviation"] = rate - target.alpha
+    observations["bound"] = bound
+    rationale = (
+        f"rate = {rate:.4f} {'<=' if met else '>'} "
+        f"alpha + {target.se_tolerance:.2f}·SE_alpha ({bound:.4f})"
+    )
+    return met, rationale
 
 
 def _evaluate_power(
@@ -204,7 +241,8 @@ def _evaluate_specificity(
 ) -> TargetEvaluation:
     """Specificity target: off-diagonal rate ≈ alpha within k · SE.
 
-    Uses the largest effect-size cell for the given (mode, statistic) pair.
+    Under ``bound="upper"`` the rule is the gate's one-sided control bound
+    instead (see :func:`_judge_upper`). Uses the largest effect-size cell for the given (mode, statistic) pair.
     """
 
     candidates: list[tuple[float, SimulationSummaryResult]] = []
@@ -251,6 +289,17 @@ def _evaluate_specificity(
             target_kind=target.kind,
             met=None,
             rationale="No available replicates at top effect size",
+            observations=observations,
+        )
+    if target.bound == "upper":
+        met, rationale = _judge_upper(
+            target, summary.rejection_rate, summary.available_replicates, observations
+        )
+        return TargetEvaluation(
+            target_name=target.name,
+            target_kind=target.kind,
+            met=met,
+            rationale=rationale,
             observations=observations,
         )
     bound = target.se_tolerance * summary.monte_carlo_se
