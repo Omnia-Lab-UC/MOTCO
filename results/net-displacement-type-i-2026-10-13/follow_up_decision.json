@@ -1,0 +1,154 @@
+{
+  "rule_version": 1,
+  "lead_column": {
+    "evaluation.integration_method": "pls",
+    "evaluation.integration_params.forced_components": null,
+    "evaluation.integration_params.n_components": null,
+    "evaluation.orientation_estimator": "net_displacement"
+  },
+  "verdict": "paper_grade_power_comparison",
+  "rationale": "The lead arm (pls_cv x net_displacement) holds size on every named statistic at both designs: compare it against pls_cv x pc1 at paper grade.",
+  "designs": {
+    "phase6": {
+      "lead_verdict": "size_holds",
+      "lead_statistics": {
+        "delta": {
+          "rate": 0.026,
+          "monte_carlo_se": 0.007116740827092132,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        "angle": {
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        "shape": {
+          "rate": 0.02,
+          "monte_carlo_se": 0.006260990336999411,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      },
+      "localization": "none",
+      "net_displacement_columns": [
+        {
+          "design_point": {
+            "evaluation.integration_method": "concat",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pca",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": 4,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pls",
+            "evaluation.integration_params.forced_components": 4,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pls",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        }
+      ]
+    },
+    "phase5": {
+      "lead_verdict": "size_holds",
+      "lead_statistics": {
+        "delta": {
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        "angle": {
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        "shape": {
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      },
+      "localization": "none",
+      "net_displacement_columns": [
+        {
+          "design_point": {
+            "evaluation.integration_method": "concat",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pca",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": 6,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pls",
+            "evaluation.integration_params.forced_components": 6,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        },
+        {
+          "design_point": {
+            "evaluation.integration_method": "pls",
+            "evaluation.integration_params.forced_components": null,
+            "evaluation.integration_params.n_components": null,
+            "evaluation.orientation_estimator": "net_displacement"
+          },
+          "verdict": "size_holds"
+        }
+      ]
+    }
+  },
+  "advisory": true,
+  "inputs": {
+    "phase6": {
+      "path": "results/net-displacement-type-i-2026-10-13/phase6/report/anchor_decision.json",
+      "sha256": "a0af9d20cf2aeea195b6dd727164e2409f7f208d6dc399cd78d608186a7d6884"
+    },
+    "phase5": {
+      "path": "results/net-displacement-type-i-2026-10-13/phase5/report/anchor_decision.json",
+      "sha256": "89e8e44933c69149e66f2a1b815d09ab28270b6329b90bbea27825312f71de47"
+    }
+  }
+}
