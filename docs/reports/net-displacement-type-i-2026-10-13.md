@@ -1,7 +1,7 @@
 # Net-displacement Type I study — 2026-10-13
 
 > Paper-grade, null-only re-measurement of the net-displacement orientation estimator
-> (`openspec/changes/net-displacement-type-i-study/`). It settles the Type I question that the
+> (`openspec/changes/archive/2026-10-13-net-displacement-type-i-study/`). It settles the Type I question that the
 > [orientation measurement probe](orientation-measurement-probe-2026-10-12.md) left open. It runs no power cell, makes no
 > power claim, and changes no production default. Every rate below is read from
 > `results/net-displacement-type-i-2026-10-13/{phase6,phase5}/report/` (`anchor_decision.csv`/`.json`,
