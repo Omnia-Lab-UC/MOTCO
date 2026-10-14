@@ -504,6 +504,71 @@ class AnchorDecisionRule:
             raise StudyConfigError("acceptance.anchor_decision.statistics lists a statistic twice.")
 
 
+#: Version of the column decision rule; written to ``column_decision.json``.
+COLUMN_DECISION_RULE_VERSION = 1
+
+#: Target criterion kinds of the column decision rule.
+COLUMN_DECISION_CRITERIA: tuple[str, ...] = ("gain", "no_loss")
+
+
+@dataclass(frozen=True)
+class ColumnDecisionRule:
+    """Predeclared, advisory rule judging one candidate design column against the baseline.
+
+    ``candidate`` names design-axis coordinates (a subset of the design axes)
+    that resolve to exactly one non-baseline design point. At the largest
+    enumerated effect of each named mode, the candidate column qualifies when
+    (a) its ``target`` rate beats the baseline's by more than
+    ``gain_se_multiplier`` pooled MC SEs (``criterion="gain"``) or falls below
+    it by at most ``loss_se_multiplier`` pooled SEs (``criterion="no_loss"``),
+    (b) its zero-effect anchor is within ``type_i_bound`` on every statistic,
+    (c) every mandatory ``controls`` pair is within the same one-sided bound,
+    and (d) no ``protected`` pair falls below the baseline by more than
+    ``loss_se_multiplier`` pooled SEs. It never feeds the Phase 4 gate or the
+    acceptance targets.
+    """
+
+    candidate: Mapping[str, Any]
+    target: StatisticPair
+    criterion: str
+    controls: tuple[StatisticPair, ...]
+    protected: tuple[StatisticPair, ...] = ()
+    type_i_bound: TypeIBound = field(default_factory=TypeIBound)
+    gain_se_multiplier: float = 2.0
+    loss_se_multiplier: float = 2.0
+    name: str = "column_decision"
+    kind: str = field(default="column_decision", init=False)
+
+    def __post_init__(self) -> None:
+        if not self.candidate:
+            raise StudyConfigError("acceptance.column_decision.candidate must name at least one design axis.")
+        for axis in self.candidate:
+            _validate_axis_namespace(axis, label="acceptance.column_decision.candidate")
+        if self.criterion not in COLUMN_DECISION_CRITERIA:
+            raise StudyConfigError(
+                f"acceptance.column_decision.criterion {self.criterion!r} is unknown; "
+                f"expected one of {list(COLUMN_DECISION_CRITERIA)}."
+            )
+        if not self.controls:
+            raise StudyConfigError("acceptance.column_decision.controls must name at least one pair.")
+        for role, pairs in (("controls", self.controls), ("protected", self.protected)):
+            if self.target in pairs:
+                raise StudyConfigError(
+                    f"acceptance.column_decision.target {self.target.label} cannot also be in {role}."
+                )
+            if len(set(pairs)) != len(pairs):
+                raise StudyConfigError(f"acceptance.column_decision.{role} lists a pair twice.")
+        for name in ("gain_se_multiplier", "loss_se_multiplier"):
+            if float(getattr(self, name)) < 0:
+                raise StudyConfigError(f"acceptance.column_decision.{name} must be non-negative.")
+
+    @property
+    def pairs(self) -> tuple[StatisticPair, ...]:
+        """Target, controls and protected pairs, in that order."""
+
+        return (self.target, *self.controls, *self.protected)
+
+
 @dataclass(frozen=True)
 class ReportContract:
     """Declared reporting and execution rules the findings report must honor.
@@ -561,6 +626,7 @@ class AcceptanceTargets:
     design_point: DesignPointDecisionRule | None = None
     rank_decision: RankDecisionRule | None = None
     anchor_decision: AnchorDecisionRule | None = None
+    column_decision: ColumnDecisionRule | None = None
 
 
 @dataclass(frozen=True)
@@ -599,6 +665,7 @@ class StudyConfig:
             _validate_axis_namespace(axis)
         self._validate_design_grid()
         self._validate_rank_decision()
+        self._validate_column_decision()
         if not (0 < self.alpha < 1):
             raise StudyConfigError("alpha must be between 0 and 1.")
         if self.attribution.enabled:
@@ -683,6 +750,51 @@ class StudyConfig:
                     f"acceptance.rank_decision names mode {pair.trajectory_mode!r} ({pair.label}), "
                     "which is absent from trajectory_modes."
                 )
+
+    def _validate_column_decision(self) -> None:
+        rule = self.acceptance.column_decision
+        if rule is None:
+            return
+        grid = self.design_grid
+        if not grid.enabled:
+            raise StudyConfigError("acceptance.column_decision requires a non-empty design_grid.")
+        candidate = _to_jsonable(dict(rule.candidate))
+        unknown = [axis for axis in rule.candidate if axis not in grid.axes]
+        if unknown:
+            raise StudyConfigError(
+                f"acceptance.column_decision.candidate {candidate} names axis(es) absent from "
+                f"design_grid.axes: {unknown}."
+            )
+        for pair in rule.pairs:
+            if pair.trajectory_mode not in self.trajectory_modes:
+                raise StudyConfigError(
+                    f"acceptance.column_decision names mode {pair.trajectory_mode!r} ({pair.label}), "
+                    "which is absent from trajectory_modes."
+                )
+        matches = self.matching_design_points(rule.candidate)
+        if not matches:
+            raise StudyConfigError(
+                f"acceptance.column_decision.candidate {candidate} matches no design point."
+            )
+        if len(matches) > 1:
+            raise StudyConfigError(
+                f"acceptance.column_decision.candidate {candidate} matches {len(matches)} design points "
+                f"{_to_jsonable(matches)}; name enough axes to select exactly one."
+            )
+        if self.is_baseline_design_point(matches[0]):
+            raise StudyConfigError(
+                f"acceptance.column_decision.candidate {candidate} matches the baseline point; the "
+                "candidate must be a non-baseline design point."
+            )
+
+    def matching_design_points(self, coordinates: Mapping[str, Any]) -> list[dict[str, Any]]:
+        """Design points whose value on every axis named in ``coordinates`` equals it."""
+
+        return [
+            point
+            for point in self.design_points()
+            if all(axis in point and _same_axis_value(point[axis], value) for axis, value in coordinates.items())
+        ]
 
     def axis_baseline_value(self, axis: str) -> Any:
         """Baseline value of a namespaced ``generator.``/``evaluation.`` axis.
@@ -1034,10 +1146,67 @@ def _build_anchor_decision_rule(raw: Mapping[str, Any] | None) -> AnchorDecision
     )
 
 
+def _build_pair_list(raw: Any, *, label: str) -> tuple[StatisticPair, ...]:
+    if isinstance(raw, Mapping | str | bytes) or not isinstance(raw, Sequence):
+        raise StudyConfigError(f"{label} must be a sequence of pairs.")
+    return tuple(_build_statistic_pair(entry, label=f"{label}[]") for entry in raw)
+
+
+def _build_column_decision_rule(raw: Any) -> ColumnDecisionRule | None:
+    if raw is None:
+        return None
+    if not isinstance(raw, Mapping):
+        raise StudyConfigError("acceptance.column_decision must be a mapping.")
+    required = {"candidate", "target", "criterion", "controls"}
+    missing = sorted(required - set(raw))
+    if missing:
+        raise StudyConfigError(f"acceptance.column_decision is missing required field(s): {missing}.")
+    known = required | {"protected", "type_i_bound", "gain_se_multiplier", "loss_se_multiplier", "name", "kind"}
+    unknown = sorted(set(raw) - known)
+    if unknown:
+        raise StudyConfigError(f"acceptance.column_decision has unknown field(s): {unknown}.")
+    candidate_raw = raw["candidate"]
+    if not isinstance(candidate_raw, Mapping):
+        raise StudyConfigError("acceptance.column_decision.candidate must be a mapping of axis to value.")
+    for axis in candidate_raw:
+        _validate_axis_namespace(axis, label="acceptance.column_decision.candidate")
+    bound_raw = raw.get("type_i_bound") or {}
+    if not isinstance(bound_raw, Mapping):
+        raise StudyConfigError("acceptance.column_decision.type_i_bound must be a mapping.")
+    unknown_bound = sorted(set(bound_raw) - {"alpha", "se_tolerance"})
+    if unknown_bound:
+        raise StudyConfigError(
+            f"acceptance.column_decision.type_i_bound has unknown field(s): {unknown_bound}."
+        )
+    return ColumnDecisionRule(
+        candidate={axis: _normalize_axis_values(axis, [value])[0] for axis, value in candidate_raw.items()},
+        target=_build_statistic_pair(raw["target"], label="acceptance.column_decision.target"),
+        criterion=str(raw["criterion"]),
+        controls=_build_pair_list(raw["controls"], label="acceptance.column_decision.controls"),
+        protected=_build_pair_list(raw.get("protected", []), label="acceptance.column_decision.protected"),
+        type_i_bound=TypeIBound(
+            alpha=float(bound_raw.get("alpha", 0.05)),
+            se_tolerance=float(bound_raw.get("se_tolerance", 2.0)),
+        ),
+        gain_se_multiplier=float(raw.get("gain_se_multiplier", 2.0)),
+        loss_se_multiplier=float(raw.get("loss_se_multiplier", 2.0)),
+        name=str(raw.get("name", "column_decision")),
+    )
+
+
 def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
     unknown = sorted(
         set(raw)
-        - {"type_i", "power", "specificity", "gate", "design_point", "rank_decision", "anchor_decision"}
+        - {
+            "type_i",
+            "power",
+            "specificity",
+            "gate",
+            "design_point",
+            "rank_decision",
+            "anchor_decision",
+            "column_decision",
+        }
     )
     if unknown:
         raise StudyConfigError(f"acceptance has unknown block(s): {unknown}.")
@@ -1053,6 +1222,7 @@ def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
     design_point = _build_design_point_rule(raw.get("design_point"))
     rank_decision = _build_rank_decision_rule(raw.get("rank_decision"))
     anchor_decision = _build_anchor_decision_rule(raw.get("anchor_decision"))
+    column_decision = _build_column_decision_rule(raw.get("column_decision"))
     return AcceptanceTargets(
         type_i=type_i,
         power=power,
@@ -1061,6 +1231,7 @@ def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
         design_point=design_point,
         rank_decision=rank_decision,
         anchor_decision=anchor_decision,
+        column_decision=column_decision,
     )
 
 
@@ -1280,6 +1451,8 @@ def _config_to_dict(config: StudyConfig) -> dict[str, Any]:
     # unchanged.
     if config.acceptance.anchor_decision is not None:
         payload["acceptance"]["anchor_decision"] = _dataclass_dict(config.acceptance.anchor_decision)
+    if config.acceptance.column_decision is not None:
+        payload["acceptance"]["column_decision"] = _dataclass_dict(config.acceptance.column_decision)
     return payload
 
 
@@ -1348,9 +1521,12 @@ def _to_jsonable(value: Any) -> Any:
 
 __all__ = [
     "ANCHOR_DECISION_RULE_VERSION",
+    "COLUMN_DECISION_CRITERIA",
+    "COLUMN_DECISION_RULE_VERSION",
     "AcceptanceTargets",
     "AnchorDecisionRule",
     "AttributionSelector",
+    "ColumnDecisionRule",
     "DesignGrid",
     "DesignPointDecisionRule",
     "GateRule",

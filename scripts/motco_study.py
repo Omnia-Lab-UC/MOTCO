@@ -44,10 +44,12 @@ from motco.simulations.study.summary import (
 )
 from motco.simulations.study.targets import (
     evaluate_anchor_decision,
+    evaluate_column_decision,
     evaluate_design_point_decision,
     evaluate_rank_decision,
     evaluate_targets,
     write_anchor_decision,
+    write_column_decision,
     write_design_point_decision,
     write_rank_decision,
     write_target_report,
@@ -112,6 +114,11 @@ def _cmd_report(args: argparse.Namespace) -> int:
         anchor_decision = evaluate_anchor_decision(records, config.acceptance.anchor_decision, alpha=config.alpha)
         design_paths.update(write_anchor_decision(anchor_decision, report_dir))
         print(f"Anchor Type I decision: {anchor_decision.verdict.upper()} — {anchor_decision.rationale}")
+    # Written only when the config declares the column decision rule.
+    if config.acceptance.column_decision is not None:
+        column_decision = evaluate_column_decision(records, config.acceptance.column_decision, alpha=config.alpha)
+        design_paths.update(write_column_decision(column_decision, report_dir))
+        print(f"Column decision: {column_decision.verdict.upper()} — {column_decision.rationale}")
 
     contract = config.report_contract
     phase4_paths: dict[str, Path] = {}

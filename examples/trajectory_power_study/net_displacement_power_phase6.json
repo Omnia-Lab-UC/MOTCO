@@ -1,0 +1,203 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_stage_sizes": [
+      [
+        11,
+        10,
+        28
+      ],
+      [
+        9,
+        10,
+        12
+      ]
+    ],
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3
+  },
+  "trajectory_modes": [
+    "magnitude",
+    "orientation",
+    "shape",
+    "translation"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "evaluation.integration_method": "pls",
+        "evaluation.orientation_estimator": null
+      },
+      {
+        "evaluation.integration_method": "pls",
+        "evaluation.orientation_estimator": "net_displacement"
+      }
+    ]
+  },
+  "n_replicates": 500,
+  "base_seed": 800,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "phase6-small-n",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      }
+    ],
+    "specificity": [
+      {
+        "trajectory_mode": "translation",
+        "statistic": "delta",
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      },
+      {
+        "trajectory_mode": "translation",
+        "statistic": "angle",
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      },
+      {
+        "trajectory_mode": "translation",
+        "statistic": "shape",
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      },
+      {
+        "trajectory_mode": "magnitude",
+        "statistic": "angle",
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      },
+      {
+        "trajectory_mode": "magnitude",
+        "statistic": "shape",
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper"
+      }
+    ],
+    "gate": {
+      "enabled": false
+    },
+    "column_decision": {
+      "candidate": {
+        "evaluation.integration_method": "pls",
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "target": {
+        "trajectory_mode": "orientation",
+        "statistic": "angle"
+      },
+      "criterion": "gain",
+      "controls": [
+        {
+          "trajectory_mode": "translation",
+          "statistic": "angle"
+        },
+        {
+          "trajectory_mode": "magnitude",
+          "statistic": "angle"
+        },
+        {
+          "trajectory_mode": "shape",
+          "statistic": "angle"
+        }
+      ],
+      "protected": [
+        {
+          "trajectory_mode": "magnitude",
+          "statistic": "delta"
+        },
+        {
+          "trajectory_mode": "shape",
+          "statistic": "shape"
+        }
+      ],
+      "type_i_bound": {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      },
+      "gain_se_multiplier": 2.0,
+      "loss_se_multiplier": 2.0
+    }
+  },
+  "metadata": {
+    "name": "net-displacement-power-phase6",
+    "phase": 6,
+    "intent": "Paper-grade power comparison of the net-displacement orientation estimator against PC1 at the Phase 6 SEA-AD MTG design (three stages; donor table F 11/10/28, M 9/10/12; methylation + expression; joint magnitude): pls_cv x net_displacement vs pls_cv x pc1 on matched datasets over magnitude, orientation, shape and translation at 500 replicates x 999 permutations, judged by the predeclared column decision rule with a gain criterion on orientation/angle (roadmap Next changes item 2).",
+    "derives_from": "examples/trajectory_power_study/phase6_small_n_study.json",
+    "motivating_evidence": "docs/reports/orientation-measurement-probe-2026-10-12.md (pls_cv orientation/angle 0.29 -> 0.67 under net_displacement at 100 x 199); docs/reports/net-displacement-type-i-2026-10-13.md (lead-arm anchor angle 0.050, translation angle 0.068 against 0.0695)",
+    "parent_results": [
+      "results/phase6-small-n-2026-10-09",
+      "results/phase6-small-n-magnitude-2026-10-09"
+    ],
+    "notes": [
+      "Design grid, explicit form, two measurement columns on matched datasets over evaluation.integration_method x evaluation.orientation_estimator: pls_cv x pc1 (baseline, served by the primary power grid) and pls_cv x net_displacement (the candidate). No concat, pca, forced-rank or pls_within_group column (change net-displacement-power-comparison, proposal and design D3): the concat ceiling is cited from the orientation measurement probe and the Type I study.",
+      "The two columns share everything but angle: the estimator enters estimate_difference only through the orientation statistic and evaluation.seed = 3 is also the RRPP seed, so delta and shape p-values and observed statistics are identical record for record between the columns. scripts/net_displacement_power_checks.py verifies this and the baseline column's reproduction of the parent records.",
+      "acceptance.column_decision is the predeclared, advisory rule (design D1/D2): candidate pls_cv x net_displacement against the baseline column at each mode's top effect; target orientation/angle; anchor and the mandatory controls translation/angle, magnitude/angle and shape/angle held to 0.05 + 2 * sqrt(0.05 * 0.95 / R) (0.0695 at R = 500); protected magnitude/delta and shape/shape (identical between the two pls_cv columns, so they pass with loss 0 by construction). scripts/net_displacement_power_follow_up.py reads both profiles' column_decision.json.",
+      "Every Type I and specificity acceptance target uses bound 'upper'. The Phase 4 gate and attribution are off and acceptance.power is empty: the column rule is the predeclared decision here. No report_contract: do not pass --n-jobs.",
+      "surgery_censoring stays at its default ('error'); every pool-limited cell is under headroom at e = 1.0 (the parent profiles enumerate the same cells), so enumeration rejects nothing.",
+      "Cells: 2 Type I baselines + 2 columns x (1 anchor + 4 modes x 4 effects) = 36 cells, 18,000 work units.",
+      "generator, evaluation, base_seed 800 and the matched-seed family phase6-small-n are copied verbatim from phase6_small_n_study.json (shared with phase6_small_n_magnitude.json), so the baseline column re-evaluates the parents' datasets with the parents' permutation draws: orientation/shape/translation at 0.25-1.0 and the anchor reproduce results/phase6-small-n-2026-10-09, magnitude at 0.25, 0.5 and 1.0 reproduces results/phase6-small-n-magnitude-2026-10-09.",
+      "Magnitude at e = 0.75 is a new cell: the parent magnitude axis (0.02-1.0) has no 0.75. One effect_sizes list serves all four modes (design D3); magnitude/delta is estimator-independent and already measured, and the comparison reads only the magnitude/angle leak.",
+      "criterion 'gain' (design D1): Phase 6 is where the gain is claimed, so the candidate must beat the baseline's orientation/angle rate at e = 1.0 by more than 2 pooled MC SEs.",
+      "Planning figure: about 18.5 s per pls_cv unit at 999 permutations (Type I run, under contention) -> about 95 core-hours; the exact budget is written to PROVENANCE.txt from a timing job before launch. Runs regardless of the Phase 5 go/no-go."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "nodes": "check sinfo -N -o '%N %T %C %e' first and exclude nodes under memory pressure or NFS stalls",
+      "n_shards": 50,
+      "array": "0-49",
+      "out_dir": "results/net-displacement-power-<date>/phase6",
+      "budget": "~95 core-hours planning figure; timing job sets the budget"
+    }
+  }
+}

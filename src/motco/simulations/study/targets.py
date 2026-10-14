@@ -18,12 +18,15 @@ from motco.simulations.grid import (
 )
 from motco.simulations.study.config import (
     ANCHOR_DECISION_RULE_VERSION,
+    COLUMN_DECISION_RULE_VERSION,
     AcceptanceTargets,
     AnchorDecisionRule,
+    ColumnDecisionRule,
     DesignPointDecisionRule,
     PowerMonotonicityTarget,
     RankDecisionRule,
     SpecificityTarget,
+    StatisticPair,
     TypeIControlTarget,
 )
 from motco.simulations.study.phase4 import type_i_inflation_bound
@@ -1307,6 +1310,535 @@ def write_anchor_decision(decision: AnchorDecision, out_dir: Path) -> dict[str, 
     return {"anchor_decision": json_path, "anchor_decision_csv": csv_path}
 
 
+# ── Column decision ───────────────────────────────────────────────────────────
+
+#: Names of the four column-decision criteria, in the order they are reported.
+COLUMN_CRITERIA: tuple[str, ...] = ("target", "anchor", "controls", "protected")
+
+
+@dataclass(frozen=True)
+class DecisionColumn:
+    """One design column's measures and, for the candidate, its criteria.
+
+    ``role`` is ``"baseline"``, ``"candidate"`` or ``"other"``; only the
+    candidate carries ``criteria`` and ``qualifies`` (``None`` when a criterion
+    cannot be evaluated). Rates are at each named mode's largest enumerated
+    effect (``top_effects``) and, for ``anchor``, at the zero-effect anchor.
+    """
+
+    design_point: dict[str, Any]
+    role: str
+    top_effects: dict[str, float | None]
+    target: RateEstimate
+    anchor: dict[str, RateEstimate]
+    controls: dict[str, RateEstimate]
+    protected: dict[str, RateEstimate]
+    criteria: tuple[RankCriterion, ...]
+    qualifies: bool | None
+
+
+@dataclass(frozen=True)
+class ColumnDecision:
+    """Outcome of the column decision rule.
+
+    ``verdict`` is ``candidate_qualifies`` when every criterion passes,
+    ``candidate_fails`` when any fails (``failing`` maps criterion → pairs or
+    statistics), ``unavailable`` when none fails but one cannot be evaluated,
+    ``no_candidate`` when no record carries the candidate's coordinates, and
+    ``no_design_grid`` when no design-point record is present. Advisory only:
+    it feeds neither the Phase 4 gate nor the acceptance targets.
+    """
+
+    rule: dict[str, Any]
+    alpha: float
+    verdict: str
+    rationale: str
+    failing: dict[str, list[str]]
+    columns: tuple[DecisionColumn, ...]
+
+    def column(self, role: str) -> DecisionColumn | None:
+        return next((column for column in self.columns if column.role == role), None)
+
+    def to_frame(self) -> pd.DataFrame:
+        axes: list[str] = []
+        for column in self.columns:
+            for axis in column.design_point:
+                if axis not in axes:
+                    axes.append(axis)
+        rows = []
+        for column in self.columns:
+            row: dict[str, Any] = {axis: _to_csv_value(column.design_point.get(axis)) for axis in axes}
+            row["role"] = column.role
+            row["target_top_effect"] = column.top_effects.get(self.rule["target"]["trajectory_mode"])
+            row["target_rate"] = column.target.rate
+            row["target_se"] = column.target.monte_carlo_se
+            row["target_available"] = column.target.n_available
+            for statistic, estimate in column.anchor.items():
+                row[f"anchor_{statistic}_rate"] = estimate.rate
+                row[f"anchor_{statistic}_available"] = estimate.n_available
+            for prefix, rates in (("control", column.controls), ("protected", column.protected)):
+                for label, estimate in rates.items():
+                    key = label.replace("/", "_")
+                    row[f"{prefix}_{key}_rate"] = estimate.rate
+                    row[f"{prefix}_{key}_se"] = estimate.monte_carlo_se
+                    row[f"{prefix}_{key}_available"] = estimate.n_available
+            # Criterion columns are namespaced so they never shadow a measure column.
+            for criterion in column.criteria:
+                prefix = f"criterion_{criterion.name}"
+                row[f"{prefix}_passed"] = criterion.passed
+                row[f"{prefix}_failing"] = ", ".join(criterion.failing) or None
+                for key, value in criterion.observations.items():
+                    if isinstance(value, bool | int | float) or value is None:
+                        row[f"{prefix}_{key}"] = value
+            row["qualifies"] = column.qualifies
+            rows.append(row)
+        return pd.DataFrame(rows)
+
+
+def evaluate_column_decision(
+    records: Sequence[SimulationReplicateResult],
+    rule: ColumnDecisionRule,
+    *,
+    alpha: float = 0.05,
+    statistics: Sequence[str] = ("delta", "angle", "shape"),
+) -> ColumnDecision:
+    """Evaluate the predeclared column decision rule: candidate vs baseline column.
+
+    Completed records are grouped by their stamped design point (the baseline
+    column is the one served by ``power_primary``; ``type_i_baseline`` cells
+    carry no point and are not read). The candidate is the column whose
+    coordinates equal ``rule.candidate`` on every named axis. In each column,
+    at the largest enumerated effect of each named mode:
+
+    - **target**: under ``gain``, ``rate_c − rate_b > gain_se_multiplier ·
+      sqrt(SE_c² + SE_b²)``; under ``no_loss``, ``rate_b − rate_c ≤
+      loss_se_multiplier · sqrt(SE_c² + SE_b²)``;
+    - **anchor**: every statistic's zero-effect rate is at most
+      ``type_i_inflation_bound(alpha_b, k, R)`` with ``R`` the available anchor
+      replicates;
+    - **controls**: every mandatory control pair's rate is at most the same
+      bound with that pair's available replicates;
+    - **protected**: ``rate_b − rate_c ≤ loss_se_multiplier · pooled SE`` for
+      every protected pair.
+
+    Every threshold is read from ``rule``; columns other than the baseline and
+    the candidate are measured and reported without a verdict.
+    """
+
+    if not (0 < alpha < 1):
+        raise ValueError("alpha must be between 0 and 1.")
+
+    def pair_payload(pairs: Sequence[StatisticPair]) -> list[dict[str, str]]:
+        return [{"trajectory_mode": pair.trajectory_mode, "statistic": pair.statistic} for pair in pairs]
+
+    rule_payload = {
+        "version": COLUMN_DECISION_RULE_VERSION,
+        "name": rule.name,
+        "candidate": _jsonable_point(rule.candidate),
+        "target": pair_payload([rule.target])[0],
+        "criterion": rule.criterion,
+        "controls": pair_payload(rule.controls),
+        "protected": pair_payload(rule.protected),
+        "type_i_bound": {"alpha": rule.type_i_bound.alpha, "se_tolerance": rule.type_i_bound.se_tolerance},
+        "gain_se_multiplier": rule.gain_se_multiplier,
+        "loss_se_multiplier": rule.loss_se_multiplier,
+        "bound": "alpha + se_tolerance * sqrt(alpha * (1 - alpha) / R), R = available replicates of the pair",
+    }
+
+    def key_of(point: Mapping[str, Any]) -> str:
+        return json.dumps(_jsonable_point(point), sort_keys=True, default=str)
+
+    points: dict[str, dict[str, Any]] = {}
+    groups: dict[str, list[SimulationReplicateResult]] = {}
+    baseline_key: str | None = None
+    saw_design = False
+    for record in records:
+        if record.status != "completed":
+            continue
+        point = record_design_point(record)
+        if point is None:
+            continue
+        saw_design = saw_design or record.phase == "power_design"
+        key = key_of(point)
+        points.setdefault(key, point)
+        groups.setdefault(key, []).append(record)
+        if record.phase == "power_primary":
+            baseline_key = key
+
+    if not saw_design:
+        return ColumnDecision(
+            rule=rule_payload,
+            alpha=alpha,
+            verdict="no_design_grid",
+            rationale="No design-point records are present; the rule has nothing to evaluate.",
+            failing={},
+            columns=(),
+        )
+
+    candidate_keys = [
+        key
+        for key, point in points.items()
+        if key != baseline_key
+        and all(axis in point and _same_point_value(point[axis], value) for axis, value in rule.candidate.items())
+    ]
+    measures = {
+        key: _measure_decision_column(group, rule, alpha=alpha, statistics=statistics)
+        for key, group in groups.items()
+    }
+    empty = _measure_decision_column([], rule, alpha=alpha, statistics=statistics)
+    baseline_measure = measures.get(baseline_key, empty) if baseline_key is not None else empty
+    candidate_key = candidate_keys[0] if len(candidate_keys) == 1 else None
+
+    columns: list[DecisionColumn] = []
+    if baseline_key is not None:
+        columns.append(_decision_column(points[baseline_key], "baseline", baseline_measure))
+    if candidate_key is None:
+        columns.extend(
+            _decision_column(points[key], "other", measures[key])
+            for key in sorted(points)
+            if key != baseline_key
+        )
+        detail = (
+            "no record carries them"
+            if not candidate_keys
+            else f"{len(candidate_keys)} design columns carry them"
+        )
+        return ColumnDecision(
+            rule=rule_payload,
+            alpha=alpha,
+            verdict="no_candidate",
+            rationale=f"Candidate coordinates {rule_payload['candidate']}: {detail}; nothing to judge.",
+            failing={},
+            columns=tuple(columns),
+        )
+
+    candidate_measure = measures[candidate_key]
+    criteria = (
+        _column_target_criterion(candidate_measure, baseline_measure, rule),
+        _column_anchor_criterion(candidate_measure, rule, statistics=statistics),
+        _column_controls_criterion(candidate_measure, rule),
+        _column_protected_criterion(candidate_measure, baseline_measure, rule),
+    )
+    failing = {criterion.name: list(criterion.failing) for criterion in criteria if criterion.passed is False}
+    unavailable = [criterion.name for criterion in criteria if criterion.passed is None]
+    if failing:
+        verdict = "candidate_fails"
+        qualifies: bool | None = False
+        rationale = "Candidate fails " + "; ".join(
+            f"{name} ({', '.join(pairs)})" for name, pairs in failing.items()
+        ) + f" against the baseline column on {rule.target.label} ({rule.criterion})."
+    elif unavailable:
+        verdict = "unavailable"
+        qualifies = None
+        rationale = f"No criterion fails, but {unavailable} cannot be evaluated from the available records."
+    else:
+        verdict = "candidate_qualifies"
+        qualifies = True
+        rationale = (
+            f"Candidate clears target ({rule.target.label}, {rule.criterion}), anchor, every mandatory "
+            "control and every protected pair against the baseline column. Advisory."
+        )
+    columns.append(
+        DecisionColumn(
+            design_point=dict(points[candidate_key]),
+            role="candidate",
+            top_effects=dict(candidate_measure.top_effects),
+            target=candidate_measure.target,
+            anchor=dict(candidate_measure.anchor),
+            controls=dict(candidate_measure.controls),
+            protected=dict(candidate_measure.protected),
+            criteria=criteria,
+            qualifies=qualifies,
+        )
+    )
+    columns.extend(
+        _decision_column(points[key], "other", measures[key])
+        for key in sorted(points)
+        if key not in (baseline_key, candidate_key)
+    )
+    return ColumnDecision(
+        rule=rule_payload,
+        alpha=alpha,
+        verdict=verdict,
+        rationale=rationale,
+        failing=failing,
+        columns=tuple(columns),
+    )
+
+
+@dataclass(frozen=True)
+class _ColumnMeasure:
+    top_effects: dict[str, float | None]
+    target: RateEstimate
+    anchor: dict[str, RateEstimate]
+    controls: dict[str, RateEstimate]
+    protected: dict[str, RateEstimate]
+
+
+def _measure_decision_column(
+    group: Sequence[SimulationReplicateResult],
+    rule: ColumnDecisionRule,
+    *,
+    alpha: float,
+    statistics: Sequence[str],
+) -> _ColumnMeasure:
+    anchors = [
+        r
+        for r in group
+        if r.cell_metadata.get("effect_size") is not None and float(r.cell_metadata["effect_size"]) == 0.0
+    ]
+    top_effects: dict[str, float | None] = {}
+
+    def measure(pair: StatisticPair) -> RateEstimate:
+        pair_records, top = _top_effect_records(group, pair.trajectory_mode)
+        top_effects[pair.trajectory_mode] = top
+        return _rate_estimate(pair_records, pair.statistic, alpha)
+
+    return _ColumnMeasure(
+        top_effects=top_effects,
+        target=measure(rule.target),
+        anchor={statistic: _rate_estimate(anchors, statistic, alpha) for statistic in statistics},
+        controls={pair.label: measure(pair) for pair in rule.controls},
+        protected={pair.label: measure(pair) for pair in rule.protected},
+    )
+
+
+def _decision_column(point: Mapping[str, Any], role: str, measure: _ColumnMeasure) -> DecisionColumn:
+    return DecisionColumn(
+        design_point=dict(point),
+        role=role,
+        top_effects=dict(measure.top_effects),
+        target=measure.target,
+        anchor=dict(measure.anchor),
+        controls=dict(measure.controls),
+        protected=dict(measure.protected),
+        criteria=(),
+        qualifies=None,
+    )
+
+
+def _column_target_criterion(
+    candidate: _ColumnMeasure, baseline: _ColumnMeasure, rule: ColumnDecisionRule
+) -> RankCriterion:
+    gain = rule.criterion == "gain"
+    multiplier = rule.gain_se_multiplier if gain else rule.loss_se_multiplier
+    observations: dict[str, Any] = {
+        "target": rule.target.label,
+        "criterion": rule.criterion,
+        "rate": candidate.target.rate,
+        "se": candidate.target.monte_carlo_se,
+        "n": candidate.target.n_available,
+        "baseline_rate": baseline.target.rate,
+        "baseline_se": baseline.target.monte_carlo_se,
+        "baseline_n": baseline.target.n_available,
+        "se_multiplier": multiplier,
+    }
+    if candidate.target.rate is None or baseline.target.rate is None:
+        return RankCriterion(
+            name="target",
+            passed=None,
+            detail=f"{rule.target.label} rate unavailable in the candidate or the baseline column.",
+            failing=(),
+            observations=observations,
+        )
+    pooled = _pooled_se(candidate.target, baseline.target)
+    threshold = multiplier * pooled
+    if gain:
+        difference = candidate.target.rate - baseline.target.rate
+        passed = difference > threshold
+        detail = (
+            f"{rule.target.label}: candidate − baseline = {difference:+.3f} "
+            f"{'>' if passed else '<='} {multiplier:g}·pooled SE ({threshold:.3f})"
+        )
+    else:
+        difference = baseline.target.rate - candidate.target.rate
+        passed = difference <= threshold
+        detail = (
+            f"{rule.target.label}: baseline − candidate = {difference:+.3f} "
+            f"{'<=' if passed else '>'} {multiplier:g}·pooled SE ({threshold:.3f})"
+        )
+    observations.update({"difference": difference, "pooled_se": pooled, "threshold": threshold})
+    return RankCriterion(
+        name="target",
+        passed=passed,
+        detail=detail,
+        failing=() if passed else (rule.target.label,),
+        observations=observations,
+    )
+
+
+def _column_anchor_criterion(
+    candidate: _ColumnMeasure, rule: ColumnDecisionRule, *, statistics: Sequence[str]
+) -> RankCriterion:
+    bound_alpha = rule.type_i_bound.alpha
+    tolerance = rule.type_i_bound.se_tolerance
+    observations: dict[str, Any] = {"alpha": bound_alpha, "se_tolerance": tolerance}
+    failing: list[str] = []
+    unavailable: list[str] = []
+    for statistic in statistics:
+        estimate = candidate.anchor.get(statistic)
+        if estimate is None or estimate.rate is None:
+            unavailable.append(statistic)
+            observations[f"{statistic}_rate"] = None
+            observations[f"{statistic}_bound"] = None
+            continue
+        bound = type_i_inflation_bound(bound_alpha, tolerance, estimate.n_available)
+        observations[f"{statistic}_rate"] = estimate.rate
+        observations[f"{statistic}_bound"] = bound
+        observations[f"{statistic}_n"] = estimate.n_available
+        if estimate.rate > bound:
+            failing.append(statistic)
+    return _bounded_criterion("anchor", failing, unavailable, observations, tolerance)
+
+
+def _column_controls_criterion(candidate: _ColumnMeasure, rule: ColumnDecisionRule) -> RankCriterion:
+    bound_alpha = rule.type_i_bound.alpha
+    tolerance = rule.type_i_bound.se_tolerance
+    observations: dict[str, Any] = {"alpha": bound_alpha, "se_tolerance": tolerance}
+    failing: list[str] = []
+    unavailable: list[str] = []
+    for pair in rule.controls:
+        estimate = candidate.controls.get(pair.label)
+        key = pair.label.replace("/", "_")
+        if estimate is None or estimate.rate is None:
+            unavailable.append(pair.label)
+            observations[f"{key}_rate"] = None
+            observations[f"{key}_bound"] = None
+            continue
+        bound = type_i_inflation_bound(bound_alpha, tolerance, estimate.n_available)
+        observations[f"{key}_rate"] = estimate.rate
+        observations[f"{key}_bound"] = bound
+        observations[f"{key}_n"] = estimate.n_available
+        observations[f"{key}_effect"] = candidate.top_effects.get(pair.trajectory_mode)
+        if estimate.rate > bound:
+            failing.append(pair.label)
+    return _bounded_criterion("controls", failing, unavailable, observations, tolerance)
+
+
+def _bounded_criterion(
+    name: str, failing: list[str], unavailable: list[str], observations: dict[str, Any], tolerance: float
+) -> RankCriterion:
+    if failing:
+        return RankCriterion(
+            name=name,
+            passed=False,
+            detail=f"{name.capitalize()} above the bound on {failing}: rate exceeds alpha + {tolerance:g}·SE.",
+            failing=tuple(failing),
+            observations=observations,
+        )
+    if unavailable:
+        return RankCriterion(
+            name=name,
+            passed=None,
+            detail=f"{name.capitalize()} rate unavailable for {unavailable}.",
+            failing=(),
+            observations=observations,
+        )
+    return RankCriterion(
+        name=name,
+        passed=True,
+        detail=f"Every {name} rate is within the one-sided Type I bound.",
+        failing=(),
+        observations=observations,
+    )
+
+
+def _column_protected_criterion(
+    candidate: _ColumnMeasure, baseline: _ColumnMeasure, rule: ColumnDecisionRule
+) -> RankCriterion:
+    observations: dict[str, Any] = {"se_multiplier": rule.loss_se_multiplier}
+    failing: list[str] = []
+    unavailable: list[str] = []
+    for pair in rule.protected:
+        estimate = candidate.protected.get(pair.label)
+        reference = baseline.protected.get(pair.label)
+        key = pair.label.replace("/", "_")
+        if estimate is None or reference is None or estimate.rate is None or reference.rate is None:
+            unavailable.append(pair.label)
+            observations[f"{key}_loss"] = None
+            observations[f"{key}_threshold"] = None
+            continue
+        loss = reference.rate - estimate.rate
+        threshold = rule.loss_se_multiplier * _pooled_se(estimate, reference)
+        observations[f"{key}_rate"] = estimate.rate
+        observations[f"{key}_baseline_rate"] = reference.rate
+        observations[f"{key}_loss"] = loss
+        observations[f"{key}_threshold"] = threshold
+        if loss > threshold:
+            failing.append(pair.label)
+    if failing:
+        return RankCriterion(
+            name="protected",
+            passed=False,
+            detail=(
+                f"Protected loss on {failing}: baseline − candidate exceeds "
+                f"{rule.loss_se_multiplier:g}·pooled SE."
+            ),
+            failing=tuple(failing),
+            observations=observations,
+        )
+    if unavailable:
+        return RankCriterion(
+            name="protected",
+            passed=None,
+            detail=f"Protected rate unavailable for {unavailable}.",
+            failing=(),
+            observations=observations,
+        )
+    return RankCriterion(
+        name="protected",
+        passed=True,
+        detail="No protected rate falls below the baseline by more than the allowed loss.",
+        failing=(),
+        observations=observations,
+    )
+
+
+def write_column_decision(decision: ColumnDecision, out_dir: Path) -> dict[str, Path]:
+    """Write the column decision as JSON (verdict + columns) and CSV (one row per column)."""
+
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "column_decision.json"
+    csv_path = out_dir / "column_decision.csv"
+    payload = {
+        "verdict": decision.verdict,
+        "rationale": decision.rationale,
+        "failing": decision.failing,
+        "alpha": decision.alpha,
+        "advisory": True,
+        "rule": decision.rule,
+        "pairing": (
+            "Columns share the primary matched-seed family and generator parameters: at every "
+            "replicate index they evaluate the same generated dataset under different measurement, "
+            "so differences are measurement differences, not sampling differences."
+        ),
+        "columns": [
+            {**asdict(column), "design_point": _jsonable_point(column.design_point)} for column in decision.columns
+        ],
+    }
+    json_path.write_text(json.dumps(payload, indent=2, default=_json_default) + "\n", encoding="utf-8")
+    decision.to_frame().to_csv(csv_path, index=False)
+    return {"column_decision": json_path, "column_decision_csv": csv_path}
+
+
+def _jsonable_point(point: Mapping[str, Any]) -> dict[str, Any]:
+    def convert(value: Any) -> Any:
+        if isinstance(value, list | tuple):
+            return [convert(item) for item in value]
+        return value
+
+    return {str(axis): convert(value) for axis, value in point.items()}
+
+
+def _same_point_value(left: Any, right: Any) -> bool:
+    return _jsonable_point({"v": left}) == _jsonable_point({"v": right})
+
+
+def _to_csv_value(value: Any) -> Any:
+    return json.dumps(_jsonable_point({"v": value})["v"]) if isinstance(value, list | tuple) else value
+
+
 def _finite_p_values(records: Sequence[SimulationReplicateResult], statistic: str) -> list[float]:
     return [
         float(p)
@@ -1341,11 +1873,14 @@ __all__ = [
     "AnchorDecision",
     "AnchorPoint",
     "AnchorStatistic",
+    "COLUMN_CRITERIA",
+    "ColumnDecision",
     "ControlRate",
     "DESIGN_POINT_STATUSES",
     "RANK_CRITERIA",
     "DesignPointColumn",
     "DesignPointDecision",
+    "DecisionColumn",
     "RankColumn",
     "RankCriterion",
     "RankDecision",
@@ -1353,10 +1888,12 @@ __all__ = [
     "TargetEvaluation",
     "anchor_bound",
     "evaluate_anchor_decision",
+    "evaluate_column_decision",
     "evaluate_design_point_decision",
     "evaluate_rank_decision",
     "evaluate_targets",
     "write_anchor_decision",
+    "write_column_decision",
     "write_design_point_decision",
     "write_rank_decision",
     "write_target_report",
