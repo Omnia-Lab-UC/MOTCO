@@ -6,7 +6,10 @@ without invoking the real InterSIM + RRPP pipeline.
 
 from __future__ import annotations
 
+import dataclasses
+import hashlib
 import json
+import shutil
 import sys
 from pathlib import Path
 from unittest.mock import patch
@@ -25,6 +28,7 @@ from motco.simulations import (
 from motco.simulations.study import (
     AcceptanceTargets,
     PowerMonotonicityTarget,
+    SpecificityTarget,
     StudyConfig,
     TypeIControlTarget,
     dump_study_config,
@@ -363,6 +367,64 @@ def test_end_to_end_rank_ladder(tmp_path: Path) -> None:
     assert [c.rank for c in decision.columns] == [None, 3]
     out = write_rank_decision(decision, tmp_path / "report")
     assert out["rank_decision"].exists() and out["rank_decision_csv"].exists()
+
+
+# --- acceptance target bound form: default-form byte identity --------------------
+
+# sha256 of the smoke study's acceptance_report.* captured on the code *before*
+# the ``bound`` key existed (Type I + specificity targets, no ``bound`` key).
+_PRE_BOUND_ACCEPTANCE_SHA256 = {
+    "acceptance_report.csv": "a86151a9d876a20056ba361f8bfad7369f50ff20be94b3083421e2f1b12a2bd2",
+    "acceptance_report.json": "8c61de31aba5a8a642eb250428dcf890aeef71005d79b2299147e23edba0028d",
+}
+
+
+def test_default_bound_form_regenerates_acceptance_report_byte_identically(tmp_path: Path) -> None:
+    """A keyless config and an explicit ``two_sided`` config report the pre-change bytes."""
+
+    config = _smoke_config()
+    config = dataclasses.replace(
+        config,
+        acceptance=dataclasses.replace(
+            config.acceptance,
+            specificity=(SpecificityTarget(trajectory_mode="magnitude", statistic="angle", alpha=0.05),),
+        ),
+    )
+    run_dir = tmp_path / "run"
+    dump_study_config(config, run_dir / "smoke.json")
+    grid = enumerate_study(config)
+    for shard_index in range(3):
+        run_shard(grid, shard_index=shard_index, n_shards=3, out_dir=run_dir, evaluator=_mock_evaluator)
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    try:
+        import motco_study  # type: ignore[import-not-found]
+    finally:
+        sys.path.pop(0)
+    assert motco_study.main(["merge", "--out-dir", str(run_dir)]) == 0
+
+    explicit = json.loads((run_dir / "smoke.json").read_text(encoding="utf-8"))
+    targets = explicit["acceptance"]["type_i"] + explicit["acceptance"]["specificity"]
+    assert targets and all(t["bound"] == "two_sided" for t in targets)
+    keyless = json.loads(json.dumps(explicit))
+    for entry in keyless["acceptance"]["type_i"] + keyless["acceptance"]["specificity"]:
+        del entry["bound"]
+
+    reports: dict[str, dict[str, bytes]] = {}
+    for label, payload in (("keyless", keyless), ("explicit", explicit)):
+        out_dir = tmp_path / label
+        out_dir.mkdir()
+        shutil.copy(run_dir / "merged.jsonl", out_dir / "merged.jsonl")
+        config_path = out_dir / "config.json"
+        config_path.write_text(json.dumps(payload), encoding="utf-8")
+        assert motco_study.main(["report", "--config", str(config_path), "--out-dir", str(out_dir)]) == 0
+        reports[label] = {
+            name: (out_dir / "report" / name).read_bytes() for name in _PRE_BOUND_ACCEPTANCE_SHA256
+        }
+
+    assert reports["keyless"] == reports["explicit"]
+    for name, digest in _PRE_BOUND_ACCEPTANCE_SHA256.items():
+        assert hashlib.sha256(reports["keyless"][name]).hexdigest() == digest, name
 
 
 # --- report contract: CLI wiring and runner refusal -----------------------------

@@ -20,6 +20,7 @@ from motco.simulations.semisynthetic import (
 _TRAJECTORY_MODES = {"none", "translation", "magnitude", "orientation", "shape"}
 _AXIS_NAMESPACES = {"generator", "evaluation"}
 _TARGET_KINDS = {"type_i_control", "power_monotonicity", "specificity"}
+_TARGET_BOUNDS = {"two_sided", "upper"}
 _GATE_ROLES = {"mandatory_power", "mandatory_control", "descriptive"}
 _STATISTICS = {"delta", "angle", "shape"}
 _ATTRIBUTION_COMPONENTS = ("observed", "pls_captured", "residual")
@@ -54,6 +55,7 @@ class TypeIControlTarget:
     alpha: float
     se_tolerance: float = 2.0
     name: str = "type_i_control"
+    bound: str = "two_sided"
     kind: str = field(default="type_i_control", init=False)
 
 
@@ -77,6 +79,7 @@ class SpecificityTarget:
     alpha: float
     se_tolerance: float = 2.0
     name: str = "specificity"
+    bound: str = "two_sided"
     kind: str = field(default="specificity", init=False)
 
 
@@ -1038,9 +1041,14 @@ def _build_acceptance(raw: Mapping[str, Any]) -> AcceptanceTargets:
     )
     if unknown:
         raise StudyConfigError(f"acceptance has unknown block(s): {unknown}.")
-    type_i = tuple(_build_type_i_target(entry) for entry in raw.get("type_i", []) or [])
+    type_i = tuple(
+        _build_type_i_target(entry, index) for index, entry in enumerate(raw.get("type_i", []) or [])
+    )
     power = tuple(_build_power_target(entry) for entry in raw.get("power", []) or [])
-    specificity = tuple(_build_specificity_target(entry) for entry in raw.get("specificity", []) or [])
+    specificity = tuple(
+        _build_specificity_target(entry, index)
+        for index, entry in enumerate(raw.get("specificity", []) or [])
+    )
     gate = _build_gate(raw.get("gate") or {})
     design_point = _build_design_point_rule(raw.get("design_point"))
     rank_decision = _build_rank_decision_rule(raw.get("rank_decision"))
@@ -1180,13 +1188,25 @@ def _build_report_contract(raw: Any) -> ReportContract | None:
     )
 
 
-def _build_type_i_target(raw: Mapping[str, Any]) -> TypeIControlTarget:
+def _parse_target_bound(raw: Mapping[str, Any], label: str) -> str:
+    """Read a control target's bound form, rejecting anything but the two forms."""
+
+    bound = raw.get("bound", "two_sided")
+    if not isinstance(bound, str) or bound not in _TARGET_BOUNDS:
+        raise StudyConfigError(
+            f"{label}.bound must be one of {sorted(_TARGET_BOUNDS)}; got {bound!r}."
+        )
+    return str(bound)
+
+
+def _build_type_i_target(raw: Mapping[str, Any], index: int = 0) -> TypeIControlTarget:
     if "alpha" not in raw:
         raise StudyConfigError("acceptance.type_i entries require 'alpha'.")
     return TypeIControlTarget(
         alpha=float(raw["alpha"]),
         se_tolerance=float(raw.get("se_tolerance", 2.0)),
         name=str(raw.get("name", "type_i_control")),
+        bound=_parse_target_bound(raw, f"acceptance.type_i[{index}]"),
     )
 
 
@@ -1206,7 +1226,7 @@ def _build_power_target(raw: Mapping[str, Any]) -> PowerMonotonicityTarget:
     )
 
 
-def _build_specificity_target(raw: Mapping[str, Any]) -> SpecificityTarget:
+def _build_specificity_target(raw: Mapping[str, Any], index: int = 0) -> SpecificityTarget:
     required = {"trajectory_mode", "statistic", "alpha"}
     missing = sorted(required - set(raw))
     if missing:
@@ -1220,6 +1240,7 @@ def _build_specificity_target(raw: Mapping[str, Any]) -> SpecificityTarget:
         alpha=float(raw["alpha"]),
         se_tolerance=float(raw.get("se_tolerance", 2.0)),
         name=str(raw.get("name", f"specificity[{mode},{raw['statistic']}]")),
+        bound=_parse_target_bound(raw, f"acceptance.specificity[{index}]"),
     )
 
 
