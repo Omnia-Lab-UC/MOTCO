@@ -84,6 +84,8 @@ guard (parameter signature) skips already-completed replicates.
 | `acceptance.gate` | Phase 4 gate parameters (see below); omit for pre-Phase-4 configs |
 | `acceptance.design_point` | Advisory design-point rule over a `design_grid` (see the design-point pilot) |
 | `acceptance.rank_decision` | Advisory retained-rank rule over the rank axis (see the latent-rank ladder) |
+| `acceptance.anchor_decision` | Advisory Type I rule over every design point's zero-effect anchor (see the net-displacement studies) |
+| `acceptance.column_decision` | Advisory candidate-vs-baseline column rule: target gain/no-loss, anchor, mandatory controls, protected pairs (see the net-displacement studies) |
 | `attribution`     | Which cells get orientation-attribution diagnostics        |
 | `matched_seeds`   | Opt-in matched generator seeds across primary cells        |
 | `generator.surgery_censoring` | Pool-limited-surgery policy; leave at the `"error"` default (see below) |
@@ -770,3 +772,54 @@ sbatch -p 512x1024 --cpus-per-task=1 --mem=2G --time=6:00:00 --array=0-99 \
 python scripts/motco_study.py merge  --out-dir $RUN
 python scripts/motco_study.py report --config $CFG --out-dir $RUN
 ```
+
+## Net-displacement estimator studies
+
+Two pairs of committed profiles compare the opt-in `net_displacement`
+orientation estimator with PC1 at the Phase 6 and Phase 5 designs. Each profile
+is an explicit `design_grid.points` grid over `evaluation.integration_method` ×
+`evaluation.orientation_estimator` in its parent study's seed family, so the
+baseline column re-computes the parent's records exactly and every column
+measures the same datasets with the same permutation draws.
+
+- **Type I** (`net_displacement_type_i_phase6.json`,
+  `net_displacement_type_i_phase5.json`): null-only, anchor + translation at
+  e = 1.0, five columns, 500 × 999, judged by `acceptance.anchor_decision`;
+  `scripts/net_displacement_follow_up.py` picks the next change. Run 2026-10-13:
+  size holds in every column at both designs; verdict
+  `paper_grade_power_comparison`
+  ([report](../../docs/reports/net-displacement-type-i-2026-10-13.md)).
+- **Power** (`net_displacement_power_phase6.json`,
+  `net_displacement_power_phase5.json`): `pls_cv × pc1` against
+  `pls_cv × net_displacement`, four modes at e ∈ {0.25, 0.5, 0.75, 1.0},
+  500 × 999, 18,000 units per design, judged by `acceptance.column_decision`
+  (`gain` at Phase 6, `no_loss` at Phase 5);
+  `scripts/net_displacement_power_follow_up.py` combines the two verdicts and
+  `scripts/net_displacement_power_checks.py` verifies the shared statistics and
+  the parent reproduction. Run 2026-10-14: the candidate qualifies at both
+  designs (orientation/`angle` at e = 1.0: 0.300 → 0.648 at Phase 6,
+  0.840 → 0.924 at Phase 5; shape → `angle` leak 0.138 → 0.054 and
+  0.796 → 0.022); verdict `adopt_net_displacement`
+  ([report](../../docs/reports/net-displacement-power-2026-10-14.md)).
+
+```bash
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+RUN=results/net-displacement-power-$(date -u +%F)
+for d in phase6 phase5; do
+  CFG=examples/trajectory_power_study/net_displacement_power_$d.json
+  sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=12:00:00 --array=0-99 \
+      --export=ALL,STUDY_CONFIG=$(pwd)/$CFG,STUDY_OUT=$(pwd)/$RUN/$d,N_SHARDS=100 \
+      scripts/motco_study_array.sbatch
+done
+# After completion:
+for d in phase6 phase5; do
+  python scripts/motco_study.py merge  --out-dir $RUN/$d
+  python scripts/motco_study.py report \
+      --config examples/trajectory_power_study/net_displacement_power_$d.json --out-dir $RUN/$d
+done
+# Then the follow-up and checks; see the study README, "The column decision rule".
+```
+
+Do not pass `--n-jobs`; parallelize across shards. Planning cost on `ing`:
+about 13 s per unit at Phase 6 (64 core-hours) and 62 s at Phase 5
+(319 core-hours).

@@ -1,0 +1,38 @@
+# Net-displacement power comparison, Phase 6 profile — provenance
+config: examples/trajectory_power_study/net_displacement_power_phase6.json
+config_sha256: 6f5dc3b2dad3cbf3c80d0612c23ebbb993a5e231b8be84ece9626b0f24ad991a (verified identical on the workstation and the cluster before the timing job)
+code_revision: db5ab691e97b9c21e6a8876f740bfb24fc699e67 (branch feat/net-displacement-power-comparison); clean tree on the cluster (only the untracked logs/ directory)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, AMD EPYC 7662 compute nodes; venv python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3, uv 0.12.10
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; evaluation.n_jobs = 1
+error_policy: record (from the sbatch template)
+
+## Timing job (task 5.1), before launch
+timing_job: logs/ndp_timing.py on the cluster (not committed): per design column, run_simulation_replicate on the column's zero-effect anchor (replicates 0, 1) and orientation e = 1.0 (replicate 0); single-CPU jobs 920289 (pls_cv x pc1), 920290 (pls_cv x net_displacement), submitted 2026-10-14T16:07Z with --exclude=n4,n11 (n4: ~7 GB free memory; n11: NFS stalls in the Type I timing job); both ran on n1
+unit_seconds (anchor r0 / anchor r1 / orientation e = 1.0 r0): pls_cv x pc1 14.9/14.7/15.2 s; pls_cv x net_displacement 14.9/14.7/14.9 s (mean 14.90 s)
+projected_budget: 18,000 pls_cv units x 14.90 s = 74.5 core-hours; 89.4 with a 20% margin; 112 if node contention slows units 1.5x as in the Type I run
+go_no_go: not applicable (Phase 6 runs regardless; design Risks)
+shared_statistics_precheck: delta and shape p-values are identical between the two columns in all three timing units; angle differs, as designed
+reproduction_precheck: the baseline column's timing units reproduce the parent records exactly: anchor r0 (0.406/0.298/0.276), anchor r1 (0.479/0.761/0.868) and orientation e = 1.0 r0 (0.018/0.438/0.169) (delta/angle/shape) equal results/phase6-small-n-2026-10-09/merged.jsonl in generator seed and p-values (logs/ndp_timing/precheck.py)
+
+## Launch
+date_utc: 2026-10-14T16:25:04Z (submit)
+shard layout: N_SHARDS=50, --array=0-49, --n-shards 50; units mapped to shards by the stable (cell_id, replicate_index) hash
+launch: sbatch -p 512x1024 --exclude=n4,n11 --job-name=motco-ndp-p6 --cpus-per-task=1 --mem=2G --time=8:00:00 --array=0-49 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO/examples/trajectory_power_study/net_displacement_power_phase6.json,STUDY_OUT=/home1/tgonza/MOTCO/results/net-displacement-power-2026-10-14/phase6,N_SHARDS=50 scripts/motco_study_array.sbatch
+job_id: 920303
+units: 36 cells x 500 replicates = 18,000 (2 Type I baselines + 2 design columns x (1 shared zero-effect anchor + 4 modes x 4 effects)); 999 permutations per unit; no attribution
+
+## Completion (task 5.2)
+array_state: 50/50 tasks COMPLETED (job 920303); nodes n1 (12), n2 (28), n3 (10)
+wall_clock: 2026-10-14T16:25:04Z start to 2026-10-14T18:18:10Z last task end (1 h 53 min); fastest task 57 min
+merge: scripts/motco_study.py merge --out-dir results/net-displacement-power-2026-10-14/phase6, 50 shards to merged.jsonl, 18,000 records (merged 2026-10-14)
+verification (logs/verify_run.py): 18,000/18,000 units; 36/36 cells present; 0 duplicates; 0 missing; 0 signature mismatches; 0 failed; 0 censored; n_jobs = [1]
+unit_seconds: median 13.40 s (min 7.82, mean 12.89, max 17.94); per column median: type_i_baseline 13.3, pls_cv x pc1 13.5, pls_cv x net_displacement 13.3
+core_hours: 64.4 recorded unit time; 73.5 allocated (sacct ElapsedRaw sum); under the 74.5 projection
+
+## Report, checks and decision (task 5.3)
+report: python scripts/motco_study.py report --config examples/trajectory_power_study/net_displacement_power_phase6.json --out-dir results/net-displacement-power-2026-10-14/phase6 (cluster, at db5ab69); report/ rsynced to the workstation. Column decision (gain): candidate_qualifies
+merged_sha256: f71cbaf10f6e04572a3bc000c2d0c3f335591b2f0b8729c304be41d309728f3c, verified identical after rsync to the workstation; merged.jsonl and shard_*.jsonl remain gitignored
+checks: python scripts/net_displacement_power_checks.py --merged results/net-displacement-power-2026-10-14/phase6/merged.jsonl --parent results/phase6-small-n-2026-10-09/merged.jsonl --parent results/phase6-small-n-magnitude-2026-10-09/merged.jsonl --out results/net-displacement-power-2026-10-14/phase6/consistency_checks.json (cluster, at 1ccded5, checks_version 2); exit 0. The first pass at checks_version 1 failed (a) on observed rounding only; see ../phase5/PROVENANCE.txt checks_history
+shared_statistics (a): identical; 8,500 pairs, 0 p-value mismatches, 0 observed mismatches beyond 1e-9 relative; observed bit-identical in 11,668 of 17,000 comparisons, max relative difference 9.0e-11
+parent_reproduction (b): reproduced; 8,000 of 8,500 baseline records have a parent record. results/phase6-small-n-2026-10-09: 6,500 compared, 0 seed / 0 p-value mismatches, observed bit-identical 5,285, max relative difference 3.1e-08. results/phase6-small-n-magnitude-2026-10-09: 2,000 compared, 0 seed / 0 p-value mismatches, observed bit-identical 1,167, max relative difference 3.1e-08. Uncovered: magnitude at 0.75 (new cell, as the design states)
+comparison: python scripts/net_displacement_power_follow_up.py --phase6 results/net-displacement-power-2026-10-14/phase6/report/column_decision.json --phase5 results/net-displacement-power-2026-10-14/phase5/report/column_decision.json --out results/net-displacement-power-2026-10-14/comparison_decision.json (cluster); verdict adopt_net_displacement (phase6 candidate_qualifies under gain; phase5 candidate_qualifies under no_loss)

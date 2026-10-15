@@ -1,0 +1,3 @@
+cell_id,phase,trajectory_mode,varied_axis,varied_value,completed_replicates,delta_rate,delta_se,delta_available,angle_rate,angle_se,angle_available,shape_rate,shape_se,shape_available,combined_rate,combined_se,combined_available
+type_i_baseline-36ead8565098,type_i_baseline,none,,,500,0.032,0.007870959280799261,500,0.044,0.009172131704244111,500,0.05,0.009746794344808964,500,0.1,0.01341640786499874,500
+type_i_baseline-34269dbb2cc2,type_i_baseline,translation,,,500,0.036,0.008331146379700696,500,0.056,0.010282412168358162,500,0.07,0.011410521460476731,500,0.118,0.014427473791346842,500

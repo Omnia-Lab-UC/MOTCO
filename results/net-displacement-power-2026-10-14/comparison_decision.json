@@ -1,0 +1,55 @@
+{
+  "rule_version": 1,
+  "candidate": {
+    "evaluation.integration_method": "pls",
+    "evaluation.orientation_estimator": "net_displacement"
+  },
+  "verdict": "adopt_net_displacement",
+  "rationale": "The candidate (pls_cv x net_displacement) qualifies against pls_cv x pc1 at both designs: target, anchor, every mandatory control and every protected pair. Follow-up: Flip SimulationEvaluationParams.orientation_estimator's production default to 'net_displacement' in a separate change that re-pins the committed signatures, as default-joint-magnitude-construction did.",
+  "follow_up_change": "Flip SimulationEvaluationParams.orientation_estimator's production default to 'net_displacement' in a separate change that re-pins the committed signatures, as default-joint-magnitude-construction did.",
+  "designs": {
+    "phase6": {
+      "verdict": "candidate_qualifies",
+      "criterion": "gain",
+      "failing": {},
+      "unavailable": [],
+      "target": {
+        "target": "orientation/angle",
+        "rate": 0.648,
+        "se": 0.02135865164283551,
+        "baseline_rate": 0.3,
+        "baseline_se": 0.020493901531919195,
+        "difference": 0.34800000000000003,
+        "pooled_se": 0.029600540535605086,
+        "threshold": 0.05920108107121017
+      }
+    },
+    "phase5": {
+      "verdict": "candidate_qualifies",
+      "criterion": "no_loss",
+      "failing": {},
+      "unavailable": [],
+      "target": {
+        "target": "orientation/angle",
+        "rate": 0.924,
+        "se": 0.01185107590052481,
+        "baseline_rate": 0.84,
+        "baseline_se": 0.01639512122553536,
+        "difference": -0.08400000000000007,
+        "pooled_se": 0.020229878892371055,
+        "threshold": 0.04045975778474211
+      }
+    }
+  },
+  "advisory": true,
+  "inputs": {
+    "phase6": {
+      "path": "results/net-displacement-power-2026-10-14/phase6/report/column_decision.json",
+      "sha256": "c980fafbdadbf31bdc75604b2bbbe8999ac74081b3850c81e68444da0a15a353"
+    },
+    "phase5": {
+      "path": "results/net-displacement-power-2026-10-14/phase5/report/column_decision.json",
+      "sha256": "bdc3135e1fca42c19ba19535d5313e5119a8adc1ca132c50a8e84a9672ca5905"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "checks_version": 2,
+  "merged": "results/net-displacement-power-2026-10-14/phase5/merged.jsonl",
+  "records": 18000,
+  "completed_records": 18000,
+  "shared_statistics": {
+    "status": "identical",
+    "statistics": [
+      "delta",
+      "shape"
+    ],
+    "observed_relative_tolerance": 1e-09,
+    "baseline": {
+      "evaluation.integration_method": "pls",
+      "evaluation.orientation_estimator": null
+    },
+    "columns": [
+      {
+        "design_point": {
+          "evaluation.integration_method": "pls",
+          "evaluation.orientation_estimator": "net_displacement"
+        },
+        "pairs_compared": 8500,
+        "unpaired_records": 0,
+        "comparisons": 17000,
+        "p_value_mismatches": 0,
+        "observed_statistic_mismatches": 0,
+        "observed_statistics_bit_identical": 9221,
+        "observed_statistics_max_relative_difference": 5.40367817176731e-10,
+        "examples": []
+      }
+    ]
+  },
+  "parent_reproduction": {
+    "status": "reproduced",
+    "statistics": [
+      "delta",
+      "angle",
+      "shape"
+    ],
+    "baseline_records": 8500,
+    "baseline_records_with_parent": 7500,
+    "baseline_cells_with_uncovered_records": [
+      {
+        "trajectory_mode": "magnitude",
+        "effect_size": 0.5
+      },
+      {
+        "trajectory_mode": "magnitude",
+        "effect_size": 0.75
+      }
+    ],
+    "parents": [
+      {
+        "parent": "results/phase5-2026-09-10/merged.jsonl",
+        "parent_records": 8500,
+        "records_compared": 6500,
+        "records_excluded_magnitude_construction": 2000,
+        "cells_compared": [
+          {
+            "trajectory_mode": "none",
+            "effect_size": 0.0
+          },
+          {
+            "trajectory_mode": "orientation",
+            "effect_size": 0.25
+          },
+          {
+            "trajectory_mode": "orientation",
+            "effect_size": 0.5
+          },
+          {
+            "trajectory_mode": "orientation",
+            "effect_size": 0.75
+          },
+          {
+            "trajectory_mode": "orientation",
+            "effect_size": 1.0
+          },
+          {
+            "trajectory_mode": "shape",
+            "effect_size": 0.25
+          },
+          {
+            "trajectory_mode": "shape",
+            "effect_size": 0.5
+          },
+          {
+            "trajectory_mode": "shape",
+            "effect_size": 0.75
+          },
+          {
+            "trajectory_mode": "shape",
+            "effect_size": 1.0
+          },
+          {
+            "trajectory_mode": "translation",
+            "effect_size": 0.25
+          },
+          {
+            "trajectory_mode": "translation",
+            "effect_size": 0.5
+          },
+          {
+            "trajectory_mode": "translation",
+            "effect_size": 0.75
+          },
+          {
+            "trajectory_mode": "translation",
+            "effect_size": 1.0
+          }
+        ],
+        "generator_seed_mismatches": 0,
+        "p_value_mismatches": 0,
+        "observed_statistics_bit_identical": 2981,
+        "observed_statistics_max_relative_difference": 4.72299792409395e-10,
+        "examples": []
+      },
+      {
+        "parent": "results/phase5-magnitude-2026-10-08/merged.jsonl",
+        "parent_records": 3500,
+        "records_compared": 1500,
+        "records_excluded_magnitude_construction": 0,
+        "cells_compared": [
+          {
+            "trajectory_mode": "magnitude",
+            "effect_size": 0.25
+          },
+          {
+            "trajectory_mode": "magnitude",
+            "effect_size": 1.0
+          },
+          {
+            "trajectory_mode": "none",
+            "effect_size": 0.0
+          }
+        ],
+        "generator_seed_mismatches": 0,
+        "p_value_mismatches": 0,
+        "observed_statistics_bit_identical": 897,
+        "observed_statistics_max_relative_difference": 5.049781918188961e-11,
+        "examples": []
+      }
+    ]
+  }
+}
