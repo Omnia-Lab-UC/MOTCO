@@ -4,6 +4,10 @@ Run from the repo root on the revision named in the fixture's
 ``capture_revision`` to regenerate ``tests/data/phase6_prechange_fixture.json``:
 
     uv run python tests/phase6_fixture_capture.py > tests/data/phase6_prechange_fixture.json
+
+The fixture records PC1-orientation evaluations: every entry in ``EVALUATIONS``
+pins ``orientation_estimator="pc1"``, so the net-displacement harness default
+does not change what the byte-identity test compares.
 """
 
 from __future__ import annotations
@@ -32,14 +36,17 @@ DATASET_PARAMS = {
 }
 
 EVALUATIONS = {
-    "concat": SimulationEvaluationParams(integration_method="concat", permutations=9, seed=5),
-    "snf": SimulationEvaluationParams(integration_method="snf", permutations=9, seed=5),
+    "concat": SimulationEvaluationParams(
+        integration_method="concat", permutations=9, seed=5, orientation_estimator="pc1"
+    ),
+    "snf": SimulationEvaluationParams(integration_method="snf", permutations=9, seed=5, orientation_estimator="pc1"),
     "pls": SimulationEvaluationParams(
         integration_method="pls",
         integration_params={"n_repeats": 2},
         permutations=9,
         seed=5,
         attribution=AttributionDiagnosticSettings(enabled=True, bootstrap_replicates=3, top_k=5),
+        orientation_estimator="pc1",
     ),
 }
 

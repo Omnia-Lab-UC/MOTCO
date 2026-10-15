@@ -26,7 +26,10 @@ from motco.simulations.study.enumerate import DESIGN_PHASE, DESIGN_POINT_KEY
 
 METHOD = "evaluation.integration_method"
 EST = "evaluation.orientation_estimator"
+# Loaded (normalized) baseline point: the PC1 estimator is held as ``None``.
 BASE = {METHOD: "pls", EST: None}
+# Config spelling of the same point: PC1 is ``"pc1"``; ``null`` names the default.
+RAW_BASE = {METHOD: "pls", EST: "pc1"}
 ND = {METHOD: "pls", EST: "net_displacement"}
 CONCAT = {METHOD: "concat", EST: "net_displacement"}
 MODES = ("magnitude", "orientation", "shape", "translation")
@@ -58,10 +61,10 @@ def _raw(rule: dict | None, *, points: list[dict] | None = None, modes=MODES) ->
     acceptance = {} if rule is None else {"column_decision": rule}
     return {
         "generator": {"seed": 2, "trajectory_mode": "magnitude", "n_samples": 60, "p_dmp": 0.1},
-        "evaluation": {"integration_method": "pls", "permutations": 0, "seed": 3},
+        "evaluation": {"integration_method": "pls", "permutations": 0, "seed": 3, "orientation_estimator": "pc1"},
         "trajectory_modes": list(modes),
         "effect_sizes": [0.0, 1.0],
-        "design_grid": {"points": points if points is not None else [BASE, ND]},
+        "design_grid": {"points": points if points is not None else [RAW_BASE, ND]},
         "acceptance": acceptance,
     }
 
@@ -105,12 +108,13 @@ def test_protected_is_optional(tmp_path: Path) -> None:
 
 
 def test_full_coordinates_resolve_after_normalization(tmp_path: Path) -> None:
-    # "pc1" is the same axis value as null, so this names the baseline and is rejected...
+    # "pc1" names the PC1 baseline column, so this is rejected...
     with pytest.raises(StudyConfigError, match="matches the baseline point"):
         _load(tmp_path, _raw(_rule_raw(candidate={METHOD: "pls", EST: "pc1"})))
-    # ...while the full net-displacement coordinates resolve to the one candidate.
-    config = _load(tmp_path, _raw(_rule_raw(candidate={METHOD: "pls", EST: "net_displacement"})))
-    assert config.matching_design_points(config.acceptance.column_decision.candidate) == [ND]
+    # ...while the full net-displacement coordinates resolve to the one candidate,
+    for estimator in ("net_displacement", None):  # null names the default, net displacement
+        config = _load(tmp_path, _raw(_rule_raw(candidate={METHOD: "pls", EST: estimator})))
+        assert config.matching_design_points(config.acceptance.column_decision.candidate) == [ND]
 
 
 @pytest.mark.parametrize(
@@ -131,7 +135,7 @@ def test_full_coordinates_resolve_after_normalization(tmp_path: Path) -> None:
         ({"gain_se_multiplier": -1.0}, "gain_se_multiplier must be non-negative"),
         ({"candidate": {"evaluation.integration_params.forced_components": 4}}, "absent from design_grid.axes"),
         ({"candidate": {EST: "pc2"}}, "matches no design point"),
-        ({"candidate": {EST: None}}, "matches the baseline point"),
+        ({"candidate": {EST: "pc1"}}, "matches the baseline point"),
     ],
 )
 def test_rule_rejections(tmp_path: Path, overrides: dict, message: str) -> None:
@@ -153,7 +157,7 @@ def test_mode_absent_from_trajectory_modes_is_rejected(tmp_path: Path) -> None:
 
 def test_candidate_matching_several_points_is_rejected(tmp_path: Path) -> None:
     with pytest.raises(StudyConfigError, match="matches 2 design points"):
-        _load(tmp_path, _raw(_rule_raw(), points=[BASE, ND, CONCAT]))
+        _load(tmp_path, _raw(_rule_raw(), points=[RAW_BASE, ND, CONCAT]))
 
 
 def test_rule_requires_a_design_grid(tmp_path: Path) -> None:

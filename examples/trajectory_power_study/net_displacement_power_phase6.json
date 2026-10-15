@@ -22,6 +22,7 @@
   },
   "evaluation": {
     "integration_method": "pls",
+    "orientation_estimator": "pc1",
     "integration_params": {
       "layers": [
         "methylation",
@@ -55,7 +56,7 @@
     "points": [
       {
         "evaluation.integration_method": "pls",
-        "evaluation.orientation_estimator": null
+        "evaluation.orientation_estimator": "pc1"
       },
       {
         "evaluation.integration_method": "pls",

@@ -225,6 +225,7 @@ def run_rank_cell(
                     permutations=permutations,
                     n_jobs=1,
                     seed=base_seed + rep,
+                    orientation_estimator="pc1",  # committed probe measured PC1 angle
                 ),
             )
         except Exception as exc:  # infeasible rank for this sample, or a failed fit

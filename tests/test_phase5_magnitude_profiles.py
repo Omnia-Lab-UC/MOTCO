@@ -233,11 +233,14 @@ def test_phase5_artefacts_are_untouched() -> None:
     assert diff.stdout.strip() == "", diff.stdout
 
     # The Phase 5 config may differ only by the historical ``magnitude_kind: "all"``
-    # pin (``default-joint-magnitude-construction``), which
-    # ``tests/test_magnitude_default_pins.py`` proves is signature-neutral.
+    # pin (``default-joint-magnitude-construction``) and ``orientation_estimator:
+    # "pc1"`` pin (``default-net-displacement-orientation``), which
+    # ``tests/test_magnitude_default_pins.py`` and
+    # ``tests/test_orientation_default_pins.py`` prove are signature-neutral.
     def unpinned(text: str) -> dict:
         raw = json.loads(text)
         assert raw["generator"].pop("magnitude_kind", "all") == "all"
+        assert raw["evaluation"].pop("orientation_estimator", "pc1") == "pc1"
         return raw
 
     assert unpinned((root / PHASE5).read_text(encoding="utf-8")) == unpinned(committed.stdout)

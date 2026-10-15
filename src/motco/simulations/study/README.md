@@ -128,8 +128,9 @@ Validation enforces:
   design-grid axes.
 - `design_grid.points` (the explicit form) is not declared together with
   `axes`; every point names exactly the first point's axes; no two points are
-  equal after value normalization (`"pc1"` and `null` are the same
-  `evaluation.orientation_estimator`); one point equals the baseline. Errors
+  equal after value normalization (for `evaluation.orientation_estimator`,
+  `null` is the evaluator's default and so equals `"net_displacement"`, while
+  `"pc1"` names PC1 and is its own value); one point equals the baseline. Errors
   name the offending point (`design_grid.points[i]`) or axis. `axes` is derived
   from the points, so every axis-based rule above applies unchanged.
 - `acceptance.anchor_decision` has `0 < alpha < 1`, a positive
@@ -613,8 +614,16 @@ rank over {`null`, 3, 4, 6, 9, 12} for all four modes.
 ordinary evaluation axes, OFAT or design-grid. Columns that differ only in
 evaluation axes share generator parameters, the matched-seed family and the RRPP
 seed (`evaluation.seed`), so they measure the same datasets with the same
-permutation draws in different spaces; a `null` estimator column writes records
-identical to a config without the axis. `concat` and `pca` columns record no
+permutation draws in different spaces. For `evaluation.orientation_estimator`,
+`null` names the evaluator's default (`"net_displacement"`), as it does for the
+nested `evaluation.integration_params.<key>` form, and `"pc1"` names PC1. The
+baseline column's estimator is the baseline evaluation's: a config that names
+`"pc1"` in its `evaluation` block has a `"pc1"` baseline column; one that omits
+the key has a `null`/`"net_displacement"` baseline column. A `"pc1"` column
+writes records identical to a config from before the estimator existed (no
+`orientation_estimator` entry in `runtime_metadata`, and the selection is left
+out of signatures and cell ids); a net-displacement column records its
+estimator. `concat` and `pca` columns record no
 PLS component selection: `design_point_operating.csv` reports their rates,
 eigengap and `angle` null width and leaves `component_selection` and the
 selected-rank fields empty, and the rank ladder ignores them. Mixed columns that
@@ -652,7 +661,8 @@ designs, `diagnose_anchor_excess` otherwise, with a per-design localization
 `acceptance.column_decision` compares one **candidate** design point against
 the baseline column on matched datasets and writes `column_decision.json` /
 `.csv`. Fields: `candidate` (a mapping of design axes to values; partial
-coordinates are allowed, `"pc1"` ≡ `null`), `target` (`{trajectory_mode,
+coordinates are allowed; an estimator coordinate is spelled as in the points,
+so `"pc1"` names PC1 and `null` the default), `target` (`{trajectory_mode,
 statistic}`), `criterion`, `controls`, optional `protected`, `type_i_bound`
 (`{alpha, se_tolerance}`), `gain_se_multiplier`, `loss_se_multiplier`, `name`.
 The candidate qualifies when all four criteria pass:

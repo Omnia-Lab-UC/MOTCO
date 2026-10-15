@@ -330,8 +330,8 @@ def _axes_from_points(points: Sequence[Mapping[str, Any]]) -> dict[str, tuple[An
             other = points[other_index]
             if all(_same_axis_value(point[axis], other[axis]) for axis in first):
                 raise StudyConfigError(
-                    f"design_grid.points[{index}] {_to_jsonable(dict(point))} duplicates "
-                    f"design_grid.points[{other_index}]."
+                    f"design_grid.points[{index}] {_display_point(point)} duplicates "
+                    f"design_grid.points[{other_index}].{_estimator_hint(point)}"
                 )
     axes: dict[str, tuple[Any, ...]] = {}
     for axis in first:
@@ -705,14 +705,15 @@ class StudyConfig:
             baseline = self.axis_baseline_value(axis)
             if not any(_same_axis_value(value, baseline) for value in values):
                 raise StudyConfigError(
-                    f"design_grid.axes[{axis!r}] must include the baseline value {baseline!r} so the "
-                    "primary power cells are one of the design points."
+                    f"design_grid.axes[{axis!r}] must include the baseline value "
+                    f"{_display_axis_value(axis, baseline)!r} so the primary power cells are one of the "
+                    "design points."
                 )
         if grid.explicit and not any(self.is_baseline_design_point(point) for point in grid.points):
             raise StudyConfigError(
                 "design_grid.points must include the baseline point "
-                f"{_to_jsonable(self.baseline_design_point())} so the primary power cells are one of "
-                "the design points."
+                f"{_display_point(self.baseline_design_point())} so the primary power cells are one of "
+                f"the design points.{_estimator_hint(self.baseline_design_point())}"
             )
         rule = self.acceptance.design_point
         if rule is None:
@@ -971,6 +972,8 @@ def _build_evaluation(raw: Mapping[str, Any]) -> SimulationEvaluationParams:
         value = raw[f.name]
         if f.name == "attribution" and value is not None and not isinstance(value, AttributionDiagnosticSettings):
             value = _build_attribution_settings(value)
+        if f.name == "orientation_estimator":
+            value = _normalize_orientation_estimator(value)
         kwargs[f.name] = value
     return SimulationEvaluationParams(**kwargs)
 
@@ -1000,13 +1003,57 @@ def _normalize_group_stage_sizes(value: Any) -> Any:
     return tuple(rows)
 
 
+_ORIENTATION_ESTIMATOR_DEFAULT = next(
+    f.default for f in dataclasses.fields(SimulationEvaluationParams) if f.name == "orientation_estimator"
+)
+
+
+def _normalize_orientation_estimator(value: Any) -> Any:
+    """Config spelling of ``evaluation.orientation_estimator`` → evaluator value.
+
+    ``null`` names the evaluator's default, as it does for the nested
+    ``evaluation.integration_params.<key>`` form; the default is read from the
+    dataclass so a later default change needs no edit here. ``"pc1"`` names PC1,
+    whose evaluator value is the hash-omitted ``None``. ``null`` and ``"pc1"``
+    are therefore distinct axis values.
+    """
+
+    if value is None:
+        return _ORIENTATION_ESTIMATOR_DEFAULT
+    return None if value == "pc1" else value
+
+
 #: Axis values that need the same normalization as their baseline field.
 _AXIS_VALUE_NORMALIZERS = {
     "generator.group_stage_sizes": _normalize_group_stage_sizes,
-    # The evaluator normalizes an explicit ``"pc1"`` to ``None``; do the same
-    # here so ``"pc1"`` and ``null`` are one axis value.
-    "evaluation.orientation_estimator": lambda value: None if value == "pc1" else value,
+    "evaluation.orientation_estimator": _normalize_orientation_estimator,
 }
+
+
+def _display_axis_value(axis: str, value: Any) -> Any:
+    """A normalized axis value in config spelling, for error messages.
+
+    The PC1 estimator is held as ``None`` after normalization; show it as
+    ``"pc1"`` so a message never reads as ``null`` (the evaluator's default).
+    """
+
+    if axis == "evaluation.orientation_estimator" and value is None:
+        return "pc1"
+    return _to_jsonable(value)
+
+
+def _display_point(point: Mapping[str, Any]) -> dict[str, Any]:
+    return {axis: _display_axis_value(axis, value) for axis, value in point.items()}
+
+
+def _estimator_hint(point: Mapping[str, Any]) -> str:
+    if "evaluation.orientation_estimator" not in point:
+        return ""
+    return (
+        " For evaluation.orientation_estimator, null names the evaluator's default "
+        f"({_ORIENTATION_ESTIMATOR_DEFAULT!r}) and 'pc1' names PC1; the baseline is the baseline "
+        "evaluation's estimator."
+    )
 
 
 def _normalize_axis_values(axis: str, values: Sequence[Any]) -> tuple[Any, ...]:
@@ -1465,15 +1512,24 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
             for key, value in _dataclass_dict(config.generator).items()
             if not (key == "group_stage_sizes" and value is None)
         },
-        "evaluation": _dataclass_dict(config.evaluation),
+        # PC1 is written ``"pc1"``: a config ``null`` names the evaluator's default.
+        "evaluation": {
+            key: _display_axis_value(f"evaluation.{key}", value)
+            for key, value in _dataclass_dict(config.evaluation).items()
+        },
         "trajectory_modes": list(config.trajectory_modes),
         "effect_sizes": list(config.effect_sizes),
-        "axes": {axis: list(values) for axis, values in config.axes.items()},
+        "axes": {axis: [_display_axis_value(axis, v) for v in values] for axis, values in config.axes.items()},
         # The explicit form round-trips as the listed points; ``axes`` is derived.
         "design_grid": (
-            {"points": [_to_jsonable(dict(point)) for point in config.design_grid.points]}
+            {"points": [_display_point(point) for point in config.design_grid.points]}
             if config.design_grid.explicit
-            else {"axes": {axis: list(values) for axis, values in config.design_grid.axes.items()}}
+            else {
+                "axes": {
+                    axis: [_display_axis_value(axis, v) for v in values]
+                    for axis, values in config.design_grid.axes.items()
+                }
+            }
         ),
         "n_replicates": config.n_replicates,
         "base_seed": config.base_seed,

@@ -33,6 +33,7 @@ EST = "evaluation.orientation_estimator"
 RHO = "generator.baseline_continuity"
 N = "generator.n_samples"
 
+# Loaded (normalized) points: the PC1 estimator is held as ``None``.
 BASELINE = {METHOD: "pls", FORCED: None, NCOMP: None, EST: None}
 FIVE_POINTS = [
     BASELINE,
@@ -41,12 +42,15 @@ FIVE_POINTS = [
     {METHOD: "pca", FORCED: None, NCOMP: 4, EST: "net_displacement"},
     {METHOD: "concat", FORCED: None, NCOMP: None, EST: "net_displacement"},
 ]
+# Config spelling: PC1 is ``"pc1"``; a ``null`` estimator names the evaluator's default.
+RAW_BASELINE = {**BASELINE, EST: "pc1"}
+RAW_FIVE_POINTS = [RAW_BASELINE, *FIVE_POINTS[1:]]
 
 
 def _raw(design_grid: dict, **overrides) -> dict:
     raw: dict = {
         "generator": {"seed": 2, "trajectory_mode": "magnitude", "n_samples": 60, "p_dmp": 0.1},
-        "evaluation": {"integration_method": "pls", "permutations": 0, "seed": 3},
+        "evaluation": {"integration_method": "pls", "permutations": 0, "seed": 3, "orientation_estimator": "pc1"},
         "trajectory_modes": ["translation"],
         "effect_sizes": [0.0, 1.0],
         "n_replicates": 2,
@@ -68,7 +72,7 @@ def _load(tmp_path: Path, raw: dict) -> StudyConfig:
 
 
 def test_explicit_points_load_in_listed_order(tmp_path: Path) -> None:
-    config = _load(tmp_path, _raw({"points": FIVE_POINTS}))
+    config = _load(tmp_path, _raw({"points": RAW_FIVE_POINTS}))
     assert config.design_grid.explicit
     assert config.design_points() == FIVE_POINTS
     assert config.baseline_design_point() == BASELINE
@@ -80,11 +84,12 @@ def test_explicit_points_load_in_listed_order(tmp_path: Path) -> None:
 
 
 def test_explicit_points_round_trip_through_dump(tmp_path: Path) -> None:
-    config = _load(tmp_path, _raw({"points": FIVE_POINTS}))
+    config = _load(tmp_path, _raw({"points": RAW_FIVE_POINTS}))
     dumped = tmp_path / "dumped.json"
     dump_study_config(config, dumped)
     payload = json.loads(dumped.read_text(encoding="utf-8"))
-    assert payload["design_grid"] == {"points": FIVE_POINTS}
+    assert payload["design_grid"] == {"points": RAW_FIVE_POINTS}
+    assert payload["evaluation"]["orientation_estimator"] == "pc1"
     reloaded = load_study_config(dumped)
     assert reloaded.design_points() == FIVE_POINTS
     assert [cell.cell_id for cell in enumerate_study(reloaded).cells] == [
@@ -93,12 +98,12 @@ def test_explicit_points_round_trip_through_dump(tmp_path: Path) -> None:
 
 
 def test_crossed_form_still_dumps_axes(tmp_path: Path) -> None:
-    config = _load(tmp_path, _raw({"axes": {EST: [None, "net_displacement"]}}))
+    config = _load(tmp_path, _raw({"axes": {EST: ["pc1", "net_displacement"]}}))
     assert not config.design_grid.explicit
     dumped = tmp_path / "dumped.json"
     dump_study_config(config, dumped)
     assert json.loads(dumped.read_text(encoding="utf-8"))["design_grid"] == {
-        "axes": {EST: [None, "net_displacement"]}
+        "axes": {EST: ["pc1", "net_displacement"]}
     }
 
 
@@ -106,7 +111,7 @@ def test_crossed_form_still_dumps_axes(tmp_path: Path) -> None:
 
 
 def test_both_forms_are_rejected(tmp_path: Path) -> None:
-    raw = _raw({"axes": {EST: [None, "net_displacement"]}, "points": FIVE_POINTS})
+    raw = _raw({"axes": {EST: ["pc1", "net_displacement"]}, "points": RAW_FIVE_POINTS})
     with pytest.raises(StudyConfigError, match="both 'axes' and 'points'"):
         _load(tmp_path, raw)
 
@@ -114,24 +119,69 @@ def test_both_forms_are_rejected(tmp_path: Path) -> None:
 def test_point_with_a_differing_axis_set_is_rejected(tmp_path: Path) -> None:
     short = {METHOD: "concat", FORCED: None, EST: "net_displacement"}
     with pytest.raises(StudyConfigError, match=r"points\[2\].*missing axis.*n_components"):
-        _load(tmp_path, _raw({"points": [BASELINE, FIVE_POINTS[1], short]}))
+        _load(tmp_path, _raw({"points": [RAW_BASELINE, FIVE_POINTS[1], short]}))
     extra = {**FIVE_POINTS[1], RHO: 0.5}
     with pytest.raises(StudyConfigError, match=r"points\[1\].*unexpected axis.*baseline_continuity"):
-        _load(tmp_path, _raw({"points": [BASELINE, extra]}))
+        _load(tmp_path, _raw({"points": [RAW_BASELINE, extra]}))
 
 
 def test_duplicate_points_are_rejected(tmp_path: Path) -> None:
     with pytest.raises(StudyConfigError, match=r"points\[2\].*duplicates design_grid.points\[1\]"):
-        _load(tmp_path, _raw({"points": [BASELINE, FIVE_POINTS[1], FIVE_POINTS[1]]}))
+        _load(tmp_path, _raw({"points": [RAW_BASELINE, FIVE_POINTS[1], FIVE_POINTS[1]]}))
 
 
-def test_pc1_and_null_estimator_are_the_same_point(tmp_path: Path) -> None:
-    pc1 = {**BASELINE, EST: "pc1"}
-    with pytest.raises(StudyConfigError, match=r"points\[1\].*duplicates design_grid.points\[0\]"):
-        _load(tmp_path, _raw({"points": [BASELINE, pc1]}))
-    # Alone, "pc1" normalizes to null and is the baseline point.
-    config = _load(tmp_path, _raw({"points": [pc1, FIVE_POINTS[1]]}))
-    assert config.design_points()[0][EST] is None
+def test_null_and_net_displacement_estimator_are_the_same_point(tmp_path: Path) -> None:
+    default = {**BASELINE, EST: None}
+    with pytest.raises(StudyConfigError, match=r"points\[2\].*duplicates design_grid.points\[1\].*null names"):
+        _load(tmp_path, _raw({"points": [RAW_BASELINE, FIVE_POINTS[1], default]}))
+    # Alone, null normalizes to the evaluator's default, net displacement.
+    config = _load(tmp_path, _raw({"points": [RAW_BASELINE, default]}))
+    assert config.design_points()[1][EST] == "net_displacement"
+
+
+def test_null_and_pc1_estimator_are_distinct_points(tmp_path: Path) -> None:
+    config = _load(tmp_path, _raw({"points": [RAW_BASELINE, {**BASELINE, EST: None}]}))
+    assert [point[EST] for point in config.design_points()] == [None, "net_displacement"]
+    assert config.baseline_design_point()[EST] is None
+
+
+def test_null_point_is_the_baseline_when_the_baseline_evaluation_omits_the_estimator(tmp_path: Path) -> None:
+    raw = _raw({"points": [{EST: None}, {EST: "pc1"}]})
+    del raw["evaluation"]["orientation_estimator"]
+    config = _load(tmp_path, raw)
+    assert config.evaluation.orientation_estimator == "net_displacement"
+    assert config.baseline_design_point() == {EST: "net_displacement"}
+    cells = enumerate_study(config).cells
+    primary = [cell for cell in cells if cell.phase != DESIGN_PHASE]
+    design = [cell for cell in cells if cell.phase == DESIGN_PHASE]
+    assert primary and design
+    assert all(cell.evaluation_params.orientation_estimator == "net_displacement" for cell in primary)
+    assert {json.dumps(cell.metadata[DESIGN_POINT_KEY]) for cell in design} == {json.dumps({EST: None})}
+    assert all(cell.evaluation_params.orientation_estimator is None for cell in design)
+
+
+def test_pc1_baseline_with_a_net_displacement_point_enumerates_as_the_committed_profiles(
+    tmp_path: Path,
+) -> None:
+    config = _load(tmp_path, _raw({"points": [{EST: "pc1"}, {EST: "net_displacement"}]}))
+    assert config.evaluation.orientation_estimator is None
+    assert config.baseline_design_point() == {EST: None}
+    cells = enumerate_study(config).cells
+    primary = [cell for cell in cells if cell.phase != DESIGN_PHASE]
+    design = [cell for cell in cells if cell.phase == DESIGN_PHASE]
+    assert primary and design
+    assert all(cell.evaluation_params.orientation_estimator is None for cell in primary)
+    assert all(cell.evaluation_params.orientation_estimator == "net_displacement" for cell in design)
+    # The PC1 primary column evaluates as a config without the axis; a config
+    # that omits the estimator evaluates (and hashes) with the default instead.
+    plain = _raw({})
+    del plain["design_grid"]
+    plain_cells = enumerate_study(_load(tmp_path, plain)).cells
+    assert [c.evaluation_params for c in primary] == [c.evaluation_params for c in plain_cells]
+    del plain["evaluation"]["orientation_estimator"]
+    unnamed_cells = enumerate_study(_load(tmp_path, plain)).cells
+    assert all(c.evaluation_params.orientation_estimator == "net_displacement" for c in unnamed_cells)
+    assert {c.cell_id for c in unnamed_cells}.isdisjoint({c.cell_id for c in plain_cells})
 
 
 def test_missing_baseline_point_is_rejected(tmp_path: Path) -> None:
@@ -140,7 +190,7 @@ def test_missing_baseline_point_is_rejected(tmp_path: Path) -> None:
 
 
 def test_explicit_axis_also_declared_ofat_is_rejected(tmp_path: Path) -> None:
-    raw = _raw({"points": FIVE_POINTS}, axes={EST: [None, "net_displacement"]})
+    raw = _raw({"points": RAW_FIVE_POINTS}, axes={EST: ["pc1", "net_displacement"]})
     with pytest.raises(StudyConfigError, match="also declared under axes"):
         _load(tmp_path, raw)
 
@@ -154,7 +204,7 @@ def test_unknown_namespace_in_a_point_is_rejected(tmp_path: Path) -> None:
 
 
 def test_explicit_points_enumerate_their_own_anchored_grids(tmp_path: Path) -> None:
-    config = _load(tmp_path, _raw({"points": FIVE_POINTS}))
+    config = _load(tmp_path, _raw({"points": RAW_FIVE_POINTS}))
     design = [cell for cell in enumerate_study(config).cells if cell.phase == DESIGN_PHASE]
     by_point: dict[str, list] = {}
     for cell in design:

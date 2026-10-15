@@ -47,6 +47,7 @@ def run_phase2_characterization(
         integration_method="pls",
         integration_params=dict(config.integration_params),
         permutations=0,
+        orientation_estimator="pc1",  # historical results measured PC1 angle
     )
     for mode, shape_kind in PHASE2_CONSTRUCTIONS:
         for effect_size in config.effect_sizes:
