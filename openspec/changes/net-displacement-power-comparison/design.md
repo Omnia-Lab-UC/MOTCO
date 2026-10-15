@@ -148,10 +148,16 @@ Both are computed from `merged.jsonl` by a small script committed under `scripts
 one-liner in the report's reproduction section), as the Type I report did for parent reproduction:
 
 1. **Shared statistics are identical.** For every (cell coordinates, replicate) pair across the two columns,
-   `delta` and `shape` p-values and observed statistics are equal. Any difference is a bug in the estimator
-   plumbing, not a finding.
+   `delta` and `shape` p-values are equal and the observed statistics agree to a 1e-9 relative tolerance
+   (the columns run in separate processes, so BLAS rounding differs in the last digits; the run showed
+   differences near 1e-14, reported as a bit-identical count and the largest relative difference). Any
+   larger difference is a bug in the estimator plumbing, not a finding.
 2. **Baseline reproduces the parents.** Baseline-column records equal the parent runs' records in generator
    seed and p-values wherever a parent cell with the same mode and effect exists (Context lists which).
+   Pairs whose magnitude construction differs (`truth_metadata.transform.magnitude_kind`, recorded only by
+   magnitude cells) are excluded and counted: `results/phase5-2026-09-10/` generated its magnitude cells
+   under `magnitude_kind: all`, so its magnitude datasets are not the baseline column's despite equal
+   seeds.
 
 The report's main table is `angle` rate by mode × effect × estimator per design; the control table is the
 rule's `column_decision.csv`; covariates come from `design_point_operating.csv` (eigengap, `angle` null q95

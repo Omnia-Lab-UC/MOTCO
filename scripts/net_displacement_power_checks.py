@@ -6,8 +6,10 @@ net-displacement-power-comparison, design D5), both from merged JSONL:
 
 (a) **Shared statistics are identical.** The orientation estimator enters only
     the ``angle`` statistic, so for every (mode, effect, replicate) the
-    ``delta`` and ``shape`` p-values and observed statistics of every
-    non-baseline design column must equal the baseline column's. Any
+    ``delta`` and ``shape`` p-values of every non-baseline design column must
+    equal the baseline column's, and the observed statistics must agree to
+    within ``OBSERVED_RELATIVE_TOLERANCE`` (the columns run in separate
+    processes, so BLAS may round differently in the last digits). Any larger
     difference is an estimator-plumbing bug, not a finding.
 (b) **Baseline reproduces the parents.** The baseline column (``power_primary``)
     shares the parent studies' generator seeds, evaluation parameters and RRPP
@@ -15,9 +17,13 @@ net-displacement-power-comparison, design D5), both from merged JSONL:
     effect and replicate exists, the generator seed and every p-value must be
     equal. Observed statistics are reported as a bit-identical count and the
     largest relative difference (floating point across code revisions, never
-    enough to change a p-value).
+    enough to change a p-value). A pair is compared only when both records
+    share the magnitude construction (``truth_metadata.transform.magnitude_kind``,
+    recorded only by magnitude cells): a parent run under a different
+    ``magnitude_kind`` generated different magnitude datasets from the same
+    seeds, so those pairs are counted as excluded, not as mismatches.
 
-Both report counts, not just booleans. Exit status is 0 when there is no seed
+Both checks report counts, not just booleans. Exit status is 0 when there is no seed
 or p-value mismatch and no shared-statistic mismatch, 1 otherwise.
 
 Example:
@@ -43,7 +49,10 @@ from motco.simulations.grid import SimulationReplicateResult, read_replicate_res
 from motco.simulations.study.spectrum import record_design_point
 
 #: Version of these checks; written to the output.
-CHECKS_VERSION = 1
+CHECKS_VERSION = 2
+
+#: Largest relative difference in a shared observed statistic still treated as rounding (check a).
+OBSERVED_RELATIVE_TOLERANCE = 1e-9
 
 STATISTICS = ("delta", "angle", "shape")
 SHARED_STATISTICS = ("delta", "shape")
@@ -87,6 +96,10 @@ def _relative_difference(left: Any, right: Any) -> float | None:
     return 0.0 if scale == 0 else abs(left - right) / scale
 
 
+def _magnitude_construction(record: SimulationReplicateResult) -> Any:
+    return ((record.truth_metadata or {}).get("transform") or {}).get("magnitude_kind")
+
+
 def _completed(records: Iterable[SimulationReplicateResult]) -> list[SimulationReplicateResult]:
     return [record for record in records if record.status == "completed"]
 
@@ -117,6 +130,8 @@ def check_shared_statistics(
         compared = 0
         p_mismatch = 0
         stat_mismatch = 0
+        bit_identical = 0
+        max_relative: float = 0.0
         examples: list[dict[str, Any]] = []
         unpaired = sorted(set(column) ^ set(baseline), key=str)
         for key in sorted(set(column) & set(baseline), key=str):
@@ -124,7 +139,14 @@ def check_shared_statistics(
             compared += 1
             for statistic in statistics:
                 p_equal = _same(mine.p_values.get(statistic), ref.p_values.get(statistic))
-                s_equal = _same(mine.pair_statistics.get(statistic), ref.pair_statistics.get(statistic))
+                left, right = mine.pair_statistics.get(statistic), ref.pair_statistics.get(statistic)
+                s_equal = _same(left, right)
+                bit_identical += s_equal
+                if not s_equal:
+                    relative = _relative_difference(left, right)
+                    if relative is not None:
+                        max_relative = max(max_relative, relative)
+                    s_equal = relative is not None and relative <= OBSERVED_RELATIVE_TOLERANCE
                 p_mismatch += not p_equal
                 stat_mismatch += not s_equal
                 if not (p_equal and s_equal) and len(examples) < MAX_EXAMPLES:
@@ -149,12 +171,15 @@ def check_shared_statistics(
                 "comparisons": compared * len(statistics),
                 "p_value_mismatches": p_mismatch,
                 "observed_statistic_mismatches": stat_mismatch,
+                "observed_statistics_bit_identical": bit_identical,
+                "observed_statistics_max_relative_difference": max_relative,
                 "examples": examples,
             }
         )
     return {
         "status": "identical" if total_mismatches == 0 else "mismatch",
         "statistics": list(statistics),
+        "observed_relative_tolerance": OBSERVED_RELATIVE_TOLERANCE,
         "baseline": json.loads(baseline_label),
         "columns": results,
     }
@@ -174,7 +199,9 @@ def check_parent_reproduction(
     any_mismatch = False
     for name, parent_records in parents.items():
         index = {_key(r): r for r in _completed(parent_records) if r.phase == "power_primary"}
-        shared = sorted(set(baseline) & set(index), key=str)
+        paired = sorted(set(baseline) & set(index), key=str)
+        shared = [k for k in paired if _magnitude_construction(baseline[k]) == _magnitude_construction(index[k])]
+        excluded = len(paired) - len(shared)
         covered.update(shared)
         seed_mismatch = 0
         p_mismatch = 0
@@ -215,6 +242,7 @@ def check_parent_reproduction(
                 "parent": name,
                 "parent_records": len(index),
                 "records_compared": len(shared),
+                "records_excluded_magnitude_construction": excluded,
                 "cells_compared": [{"trajectory_mode": m, "effect_size": e} for m, e in sorted(cells)],
                 "generator_seed_mismatches": seed_mismatch,
                 "p_value_mismatches": p_mismatch,
@@ -290,7 +318,9 @@ def main(argv: list[str] | None = None) -> int:
         print(
             f"    {column['design_point']}: {column['pairs_compared']} pairs, "
             f"{column['p_value_mismatches']} p-value / {column['observed_statistic_mismatches']} observed "
-            f"mismatches, {column['unpaired_records']} unpaired"
+            f"mismatches (tolerance {shared['observed_relative_tolerance']:.0e}), observed bit-identical "
+            f"{column['observed_statistics_bit_identical']}, max relative difference "
+            f"{column['observed_statistics_max_relative_difference']:.3g}, {column['unpaired_records']} unpaired"
         )
     parent = payload["parent_reproduction"]
     if parent is not None:
@@ -300,7 +330,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         for entry in parent["parents"]:
             print(
-                f"    {entry['parent']}: {entry['records_compared']} compared, "
+                f"    {entry['parent']}: {entry['records_compared']} compared "
+                f"({entry['records_excluded_magnitude_construction']} excluded, other magnitude construction), "
                 f"{entry['generator_seed_mismatches']} seed / {entry['p_value_mismatches']} p-value mismatches, "
                 f"observed bit-identical {entry['observed_statistics_bit_identical']}, "
                 f"max relative difference {entry['observed_statistics_max_relative_difference']:.3g}"

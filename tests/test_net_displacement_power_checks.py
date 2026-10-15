@@ -25,8 +25,11 @@ BASE = {"evaluation.integration_method": "pls", "evaluation.orientation_estimato
 ND = {"evaluation.integration_method": "pls", "evaluation.orientation_estimator": "net_displacement"}
 
 
-def _record(point, phase, mode, effect, index, *, angle=0.3, delta=0.04, shape=0.5, seed=None, stat=1.0):
+def _record(
+    point, phase, mode, effect, index, *, angle=0.3, delta=0.04, shape=0.5, seed=None, stat=1.0, magnitude_kind=None
+):
     meta = {"trajectory_mode": mode, "effect_size": effect}
+    transform = {} if magnitude_kind is None else {"magnitude_kind": magnitude_kind}
     if point is not None:
         meta[DESIGN_POINT_KEY] = dict(point)
     return SimulationReplicateResult(
@@ -40,6 +43,7 @@ def _record(point, phase, mode, effect, index, *, angle=0.3, delta=0.04, shape=0
         status="completed",
         p_values={"delta": delta, "angle": angle, "shape": shape},
         pair_statistics={"delta": stat, "angle": 2.0 * stat, "shape": 0.1 * stat},
+        truth_metadata={"magnitude_kind": magnitude_kind or "joint", "transform": transform},
         cell_metadata=meta,
     )
 
@@ -74,6 +78,19 @@ def test_shared_statistics_mismatch_is_counted() -> None:
     assert len(column["examples"]) == 2
 
 
+def test_shared_observed_rounding_is_within_tolerance() -> None:
+    records = _run()
+    records[3].pair_statistics["delta"] *= 1 + 1e-14  # a candidate record, BLAS rounding
+    result = checks.check_shared_statistics(records)
+    assert result["status"] == "identical"
+    (column,) = result["columns"]
+    assert column["observed_statistic_mismatches"] == 0
+    assert column["observed_statistics_bit_identical"] == column["comparisons"] - 1
+    assert column["observed_statistics_max_relative_difference"] == pytest.approx(1e-14, rel=1e-2)
+    records[3].pair_statistics["delta"] *= 1 + 1e-6
+    assert checks.check_shared_statistics(records)["status"] == "mismatch"
+
+
 def test_angle_differences_are_not_shared_statistics() -> None:
     # The candidate's angle p-values (0.01) differ from the baseline's (0.3) by design.
     assert checks.check_shared_statistics(_run())["status"] == "identical"
@@ -104,6 +121,30 @@ def test_parent_seed_and_p_value_mismatches_fail() -> None:
     (entry,) = result["parents"]
     assert entry["generator_seed_mismatches"] == 1 and entry["p_value_mismatches"] == 1
     assert [example["replicate_index"] for example in entry["examples"]] == [1, 2]
+
+
+def test_parent_with_other_magnitude_construction_is_excluded() -> None:
+    records = []
+    for index in range(4):
+        records.append(_record(BASE, "power_primary", "magnitude", 1.0, index, magnitude_kind="joint"))
+        records.append(_record(BASE, "power_primary", "orientation", 1.0, index))
+    # The historical parent: same seeds, but methylation-only magnitude datasets and so other p-values.
+    historical = [
+        _record(None, "power_primary", "magnitude", 1.0, i, magnitude_kind="all", delta=0.5) for i in range(4)
+    ]
+    historical += [_record(None, "power_primary", "orientation", 1.0, i) for i in range(4)]
+    joint = [_record(None, "power_primary", "magnitude", 1.0, i, magnitude_kind="joint") for i in range(4)]
+    result = checks.check_parent_reproduction(records, {"historical": historical, "joint": joint})
+    assert result["status"] == "reproduced"
+    assert result["baseline_records_with_parent"] == 8
+    first, second = result["parents"]
+    assert first["records_compared"] == 4 and first["records_excluded_magnitude_construction"] == 4
+    assert first["cells_compared"] == [{"trajectory_mode": "orientation", "effect_size": 1.0}]
+    assert second["records_compared"] == 4 and second["records_excluded_magnitude_construction"] == 0
+    only_historical = checks.check_parent_reproduction(records, {"historical": historical})
+    assert only_historical["baseline_cells_with_uncovered_records"] == [
+        {"trajectory_mode": "magnitude", "effect_size": 1.0}
+    ]
 
 
 def test_parent_design_columns_are_not_read() -> None:
