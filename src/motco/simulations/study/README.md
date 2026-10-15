@@ -114,7 +114,7 @@ schema lives in `config.py` (`StudyConfig`). Required top-level keys:
 | `n_replicates`     | Replicates per cell.                                                   |
 | `base_seed`        | Deterministic seed root for replicates.                                |
 | `alpha`            | Significance level for rejection rates.                                |
-| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity` (each `type_i`/`specificity` entry takes an optional `bound`: `two_sided` \| `upper`, see *Acceptance target bound form* below), optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor). |
+| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity` (each `type_i`/`specificity` entry takes an optional `bound`: `two_sided` \| `upper`, see *Acceptance target bound form* below), optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor), optional `column_decision` (advisory candidate-vs-baseline column rule, see *The column decision rule* below). |
 | `report_contract`  | Optional declared reporting/execution rules: `driver_component` (`observed` \| `pls_captured` \| `residual`; which attribution component `driver_report.csv` and the attribution figure present), `cross_replicate_driver_agreement` (only `descriptive` is legal — cross-replicate Jaccard/sign agreement is never a stability claim), `n_jobs_override` (`forbid` \| `warn`, default `warn`; `forbid` makes the shard runner refuse a differing `--n-jobs`). When declared, `report` also writes `report_contract.json` and `driver_report.csv`; when absent, every output is byte-identical to a pre-contract run. The Phase 5 profile declares `observed` / `descriptive` / `forbid`. |
 | `metadata`         | Free-form provenance (name, intent, notes).                            |
 
@@ -135,6 +135,11 @@ Validation enforces:
 - `acceptance.anchor_decision` has `0 < alpha < 1`, a positive
   `se_multiplier`, and a non-empty, duplicate-free `statistics` ⊆
   {`delta`, `angle`, `shape`}.
+- `acceptance.column_decision` requires a design grid; its `candidate` names
+  only design-grid axes and matches exactly one design point, which is not the
+  baseline; `criterion` is `gain` or `no_loss`; `controls` is non-empty; no pair
+  is listed twice or is both the target and a control/protected pair; every
+  named mode is in `trajectory_modes`; SE multipliers are non-negative.
 - `acceptance.rank_decision.axis` is a declared design-grid axis whose values
   include `null`; its target and protected modes are in `trajectory_modes`; both
   SE multipliers are non-negative.
@@ -437,6 +442,8 @@ results/
     ├── rank_decision.csv          (same condition)
     ├── anchor_decision.json       only when acceptance.anchor_decision is declared
     ├── anchor_decision.csv        (same condition)
+    ├── column_decision.json       only when acceptance.column_decision is declared
+    ├── column_decision.csv        (same condition)
     ├── driver_report.csv          only when the config declares a report_contract: the declared
     │                              attribution component per (mode, effect, transition) — precision/recall
     │                              vs truth, selected count, within-replicate bootstrap stability,
@@ -639,6 +646,66 @@ reads the two `anchor_decision.json` files and selects the next change:
 `paper_grade_power_comparison` when the lead arm is `size_holds` at both
 designs, `diagnose_anchor_excess` otherwise, with a per-design localization
 (`every_column` / `some_columns` / `none` of the net-displacement columns).
+
+### The column decision rule
+
+`acceptance.column_decision` compares one **candidate** design point against
+the baseline column on matched datasets and writes `column_decision.json` /
+`.csv`. Fields: `candidate` (a mapping of design axes to values; partial
+coordinates are allowed, `"pc1"` ≡ `null`), `target` (`{trajectory_mode,
+statistic}`), `criterion`, `controls`, optional `protected`, `type_i_bound`
+(`{alpha, se_tolerance}`), `gain_se_multiplier`, `loss_se_multiplier`, `name`.
+The candidate qualifies when all four criteria pass:
+
+- **target** at the mode's top effect: `gain` requires candidate − baseline >
+  `gain_se_multiplier` × pooled SE; `no_loss` requires baseline − candidate ≤
+  `loss_se_multiplier` × pooled SE;
+- **anchor**: every statistic's zero-effect rate ≤ α + k·√(α(1 − α)/R), with R
+  the available replicates;
+- **controls**: each named pair at its mode's top effect ≤ the same one-sided
+  bound (an absolute bound, so a candidate cannot inherit a baseline leak);
+- **protected**: no named pair falls below the baseline by more than
+  `loss_se_multiplier` × pooled SE.
+
+Verdicts are `candidate_qualifies`, `candidate_fails` (with the failing
+criteria and pairs) or `unavailable`. The baseline is measured and shown but not
+judged. Advisory: the rule never feeds the gate or the acceptance targets, and a
+config without it writes nothing new.
+
+The committed **net-displacement power comparison profiles**,
+`examples/trajectory_power_study/net_displacement_power_phase6.json` and
+`net_displacement_power_phase5.json`, are two explicit columns —
+`pls_cv × pc1` (baseline) and `pls_cv × net_displacement` (candidate) — over
+the four modes at e ∈ {0.25, 0.5, 0.75, 1.0}, 500 × 999, 36 cells / 18,000
+units per design, in the parent studies' seed families (Phase 5 at
+`magnitude_kind: joint`). The rule's target is orientation/`angle` (`gain` at
+Phase 6, `no_loss` at Phase 5), controls translation/magnitude/shape × `angle`,
+protected magnitude/`delta` and shape/`shape`. After both are reported:
+
+```bash
+B=results/net-displacement-power-<date>
+python scripts/net_displacement_power_follow_up.py \
+    --phase6 $B/phase6/report/column_decision.json \
+    --phase5 $B/phase5/report/column_decision.json \
+    --out $B/comparison_decision.json
+python scripts/net_displacement_power_checks.py --merged $B/phase6/merged.jsonl \
+    --parent results/phase6-small-n-2026-10-09/merged.jsonl \
+    --parent results/phase6-small-n-magnitude-2026-10-09/merged.jsonl \
+    --out $B/phase6/consistency_checks.json
+python scripts/net_displacement_power_checks.py --merged $B/phase5/merged.jsonl \
+    --parent results/phase5-2026-09-10/merged.jsonl \
+    --parent results/phase5-magnitude-2026-10-08/merged.jsonl \
+    --out $B/phase5/consistency_checks.json
+```
+
+The follow-up selects `adopt_net_displacement` when the candidate qualifies at
+both designs, `keep_pc1` otherwise. The checks script verifies (a) that `delta`
+and `shape` p-values are identical between the two columns (observed statistics
+to a 1e-9 relative tolerance) and (b) that the baseline column reproduces the
+parent records' seeds and p-values, pairing parent records only within one
+magnitude construction; it exits 1 on any mismatch. The 2026-10-14 run selected
+`adopt_net_displacement`
+([report](../../../../docs/reports/net-displacement-power-2026-10-14.md)).
 
 ### Angle-pivotality diagnostic
 
