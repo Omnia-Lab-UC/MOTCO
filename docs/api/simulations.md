@@ -168,6 +168,17 @@ records it as `integration_params.layers`. When the key is absent, all three blo
 the evaluation result is byte-identical to the harness before the key existed (no `layers` metadata
 entry is added).
 
+**Orientation estimator.** `orientation_estimator` selects how each group's orientation is measured
+for the observed `angle`, every RRPP draw and every realized-geometry checkpoint `angle`. The default
+is `"net_displacement"` (the unit vector from the first to the last stage mean), adopted after the
+[net-displacement power comparison](../reports/net-displacement-power-2026-10-14.md); it is part of the
+cell id and parameter signature and is recorded in `runtime_metadata["orientation_estimator"]`. Pass
+`orientation_estimator="pc1"` to opt out to the principal-axis estimator: `"pc1"` normalizes to
+`None`, which is left out of every hash payload and record, so a PC1 evaluation is byte-identical to
+the harness before the selection existed. Every committed study config and historical diagnostic pins
+`"pc1"`. Only `angle` depends on the selection. The stats primitives (`estimate_difference`, `RRPP`)
+keep `"pc1"` as their default.
+
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
 ```text

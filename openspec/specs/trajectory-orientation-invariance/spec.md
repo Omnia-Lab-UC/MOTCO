@@ -121,7 +121,7 @@ Regression tests that compare two-stage `angle` outputs against committed refere
 
 ### Requirement: Net-displacement orientation estimator is an opt-in alternative
 
-MOTCO SHALL offer a second orientation estimator, selected by an explicit option on trajectory estimation and on RRPP. The estimator returns the unit vector of each group's net displacement, from its first stage's LS mean to its last stage's LS mean, in stage order. The pairwise `angle` SHALL be the angle between the two groups' net-displacement unit vectors, in degrees in [0, 180]. The PC1 estimator SHALL remain the default. When the option is absent or names the PC1 estimator, every output SHALL be identical to the output produced before the option existed. Only `angle` depends on the option: `delta` and `shape` SHALL be identical under both estimators. When either group's net displacement has zero length within numerical tolerance, `angle` SHALL be reported as unavailable, as it is for the PC1 estimator, and never as a non-finite value.
+MOTCO SHALL offer a second orientation estimator, selected by an explicit option on trajectory estimation and on RRPP. The estimator returns the unit vector of each group's net displacement, from its first stage's LS mean to its last stage's LS mean, in stage order. The pairwise `angle` SHALL be the angle between the two groups' net-displacement unit vectors, in degrees in [0, 180]. On trajectory estimation and on RRPP, the library primitives, the PC1 estimator SHALL remain the default. When the option is absent or names the PC1 estimator, every output SHALL be identical to the output produced before the option existed. The simulation evaluation harness selects its own default estimator for the pipeline it measures, specified by the simulation-evaluation-harness capability; that default is the net-displacement estimator, and a caller of the primitives that wants the harness's measurement MUST select the net-displacement estimator explicitly. Only `angle` depends on the option: `delta` and `shape` SHALL be identical under both estimators. When either group's net displacement has zero length within numerical tolerance, `angle` SHALL be reported as unavailable, as it is for the PC1 estimator, and never as a non-finite value.
 
 #### Scenario: Default estimation is unchanged
 
@@ -157,3 +157,9 @@ MOTCO SHALL offer a second orientation estimator, selected by an explicit option
 
 - **WHEN** RRPP runs with the net-displacement estimator selected
 - **THEN** the observed `angle` and every permuted `angle` are computed with the net-displacement estimator
+
+#### Scenario: Harness default differs from the primitive default
+
+- **WHEN** the simulation evaluation harness evaluates a dataset without selecting an estimator, and the primitives estimate the same LS means without selecting one
+- **THEN** the harness's `angle` is the net-displacement angle and the primitives' `angle` is the PC1 angle
+

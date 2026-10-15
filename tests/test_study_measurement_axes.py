@@ -63,7 +63,11 @@ def _comparable(record) -> dict:
 
 def test_estimator_axis_changes_only_angle_and_leaves_the_baseline_column_unchanged() -> None:
     evaluation = SimulationEvaluationParams(
-        integration_method="pca", integration_params={"n_components": 3}, permutations=19, seed=3
+        integration_method="pca",
+        integration_params={"n_components": 3},
+        permutations=19,
+        seed=3,
+        orientation_estimator="pc1",
     )
     with_axis = _config(evaluation, DesignGrid(axes={EST: (None, "net_displacement")}))
     without_axis = _config(evaluation)
@@ -91,6 +95,24 @@ def test_estimator_axis_changes_only_angle_and_leaves_the_baseline_column_unchan
         assert nd.pair_statistics["angle"] != pytest.approx(baseline.pair_statistics["angle"])
 
 
+def test_a_config_that_omits_the_estimator_evaluates_and_records_net_displacement() -> None:
+    common = {"integration_method": "pca", "integration_params": {"n_components": 3}, "permutations": 19, "seed": 3}
+    default_cell = _anchor(_config(SimulationEvaluationParams(**common)))
+    named_cell = _anchor(_config(SimulationEvaluationParams(**common, orientation_estimator="net_displacement")))
+    pc1_cell = _anchor(_config(SimulationEvaluationParams(**common, orientation_estimator="pc1")))
+    assert default_cell.evaluation_params.orientation_estimator == "net_displacement"
+    assert default_cell.cell_id == named_cell.cell_id
+    assert default_cell.cell_id != pc1_cell.cell_id
+
+    default = run_simulation_replicate(default_cell, 0)
+    named = run_simulation_replicate(named_cell, 0)
+    pc1 = run_simulation_replicate(pc1_cell, 0)
+    assert default.runtime_metadata["orientation_estimator"] == "net_displacement"
+    assert _comparable(default) == _comparable(named)
+    assert "orientation_estimator" not in pc1.runtime_metadata
+    assert default.pair_statistics["angle"] != pytest.approx(pc1.pair_statistics["angle"])
+
+
 PLS_PARAMS = {"cv1_splits": 3, "cv2_splits": 3, "n_repeats": 2, "max_components": 6, "random_state": 1}
 POINTS = (
     {METHOD: "pls", FORCED: None, NCOMP: None, EST: None},
@@ -102,7 +124,11 @@ POINTS = (
 
 def test_integration_method_axis_evaluates_concat_pca_and_a_forced_pls_point() -> None:
     evaluation = SimulationEvaluationParams(
-        integration_method="pls", integration_params=PLS_PARAMS, permutations=9, seed=3
+        integration_method="pls",
+        integration_params=PLS_PARAMS,
+        permutations=9,
+        seed=3,
+        orientation_estimator="pc1",
     )
     config = _config(evaluation, DesignGrid(points=POINTS))
     records = {}

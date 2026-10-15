@@ -460,7 +460,11 @@ def test_null_summary_does_not_enter_the_parameter_signature(tmp_path) -> None:
     ``magnitude_kind`` defaulted to ``joint`` (``default-joint-magnitude-construction``):
     ``baseline_generator()`` names no kind, so it resolves to the new default.
     Committed configs pin ``"all"`` and keep their signatures
-    (``tests/test_magnitude_default_pins.py``).
+    (``tests/test_magnitude_default_pins.py``). It moved again when
+    ``orientation_estimator`` defaulted to ``net_displacement``
+    (``default-net-displacement-orientation``): ``baseline_evaluation()`` names no
+    estimator, so the default is hashed. Committed configs pin ``"pc1"``
+    (``tests/test_orientation_default_pins.py``).
     """
 
     cell = make_simulation_cell(
@@ -470,12 +474,22 @@ def test_null_summary_does_not_enter_the_parameter_signature(tmp_path) -> None:
         n_replicates=2,
         cell_id="pinned",
     )
-    assert parameter_signature(cell) == "655d20b127fc03f6682a90d6db5820973b219e5254d144df6d10db86ca6b282c"
-    # Pinning the former default restores the pre-flip digest exactly.
+    assert parameter_signature(cell) == "55e695c3321689aac97cd6de84c63c43f5e9afbb01d6cb96a0a413269287bae2"
+    # Pinning the former orientation default restores the pre-flip digest exactly.
+    pc1_evaluation = replace(baseline_evaluation(), orientation_estimator="pc1")
+    pinned_pc1 = make_simulation_cell(
+        phase="type_i_baseline",
+        generator_params=baseline_generator(),
+        evaluation_params=pc1_evaluation,
+        n_replicates=2,
+        cell_id="pinned",
+    )
+    assert parameter_signature(pinned_pc1) == "655d20b127fc03f6682a90d6db5820973b219e5254d144df6d10db86ca6b282c"
+    # Pinning both former defaults restores the pre-magnitude-flip digest exactly.
     pinned_all = make_simulation_cell(
         phase="type_i_baseline",
         generator_params=replace(baseline_generator(), magnitude_kind="all"),
-        evaluation_params=baseline_evaluation(),
+        evaluation_params=pc1_evaluation,
         n_replicates=2,
         cell_id="pinned",
     )

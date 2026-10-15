@@ -12,6 +12,7 @@
   },
   "evaluation": {
     "integration_method": "pls",
+    "orientation_estimator": "pc1",
     "integration_params": {
       "cv1_splits": 2,
       "cv2_splits": 2,

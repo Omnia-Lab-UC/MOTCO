@@ -158,6 +158,7 @@ def evaluate_mode_specificity(
         n_jobs=n_jobs,
         integration_method=integration_method,  # type: ignore[arg-type]
         integration_params=int_params,
+        orientation_estimator="pc1",  # historical diagnostic: PC1 angle
     )
     rejections = {stat: 0 for stat in STATISTICS}
     available = {stat: 0 for stat in STATISTICS}
@@ -183,6 +184,7 @@ def evaluate_mode_specificity(
                 seed=base_seed + rep,
                 integration_method=integration_method,  # type: ignore[arg-type]
                 integration_params=int_params,
+                orientation_estimator="pc1",  # historical diagnostic: PC1 angle
             ),
         )
         for stat in STATISTICS:
@@ -316,6 +318,7 @@ def evaluate_shape_null(
                 n_jobs=n_jobs,
                 seed=base_seed + rep,
                 include_null_distributions=True,
+                orientation_estimator="pc1",  # historical diagnostic: PC1 angle
             ),
         )
         obs = result.pair_statistics.get("shape")

@@ -284,25 +284,6 @@ The result metadata SHALL record the method, the retained dimensionality, and, f
 - **WHEN** attribution is enabled with `pca` or `pls_within_group`
 - **THEN** the harness raises a clear validation error
 
-### Requirement: Harness accepts an orientation estimator selection
-
-The evaluation parameters SHALL accept an orientation estimator selection, either the PC1 estimator (default) or the net-displacement estimator. The selection SHALL be used for the observed `angle`, for every RRPP permutation, and for every realized-geometry checkpoint `angle`. When the selection holds its default, it SHALL be omitted from the persisted record, the parameter signature and the cell identity. Evaluation results, signatures and cell ids SHALL then be identical to those produced before the selection existed. An unknown estimator SHALL be rejected with a clear validation error.
-
-#### Scenario: Default estimator is invisible
-
-- **WHEN** the evaluation parameters omit the estimator or name the PC1 estimator
-- **THEN** the evaluation result, its parameter signature and its cell id equal those produced before the selection existed
-
-#### Scenario: Net-displacement estimator is recorded
-
-- **WHEN** the evaluation parameters select the net-displacement estimator
-- **THEN** the observed `angle`, the RRPP null and the realized-geometry `angle` values use it, and the record states the selected estimator
-
-#### Scenario: Unknown estimator is rejected
-
-- **WHEN** the evaluation parameters name an unknown estimator
-- **THEN** the harness raises a clear validation error listing the allowed estimators
-
 ### Requirement: Harness records the latent checkpoint for the diagnostic latent spaces
 
 Realized-geometry diagnostics SHALL include the latent checkpoint (the trajectory geometry measured on the evaluated latent matrix) for `pls`, `pca`, and `pls_within_group`. For `pls`, the checkpoint's scope name and values SHALL be unchanged. `snf` and `concat` evaluations SHALL be unchanged. `concat`'s geometry is already reported by the observed standardized checkpoint, and adding a checkpoint to `snf` would change existing records.
@@ -316,3 +297,27 @@ Realized-geometry diagnostics SHALL include the latent checkpoint (the trajector
 
 - **WHEN** an evaluation uses `pls`
 - **THEN** the latent checkpoint's scope name and values equal those produced before this requirement existed
+
+### Requirement: Harness measures orientation with net displacement by default
+
+The evaluation parameters SHALL accept an orientation estimator selection, either the net-displacement estimator (the default) or the PC1 estimator. The selection SHALL be used for the observed `angle`, for every RRPP permutation, and for every realized-geometry checkpoint `angle`. When the PC1 estimator is selected, the selection SHALL be omitted from the persisted record, the parameter signature and the cell identity, so that PC1 evaluation results, signatures and cell ids are identical to those produced before the selection existed. When the selection holds its default, or names the net-displacement estimator explicitly, the persisted record SHALL state the estimator and the parameter signature and cell identity SHALL include it. An unknown estimator SHALL be rejected with a clear validation error.
+
+#### Scenario: Net displacement is the default
+
+- **WHEN** the evaluation parameters omit the estimator
+- **THEN** the observed `angle`, the RRPP null and the realized-geometry `angle` values use the net-displacement estimator, and the record states `net_displacement` as the selected estimator
+
+#### Scenario: PC1 estimator is invisible
+
+- **WHEN** the evaluation parameters name the PC1 estimator
+- **THEN** the evaluation result, its persisted record, its parameter signature and its cell id equal those produced before the selection existed
+
+#### Scenario: Net-displacement estimator is recorded
+
+- **WHEN** the evaluation parameters select the net-displacement estimator, by default or by name
+- **THEN** the observed `angle`, the RRPP null and the realized-geometry `angle` values use it, and the record states the selected estimator
+
+#### Scenario: Unknown estimator is rejected
+
+- **WHEN** the evaluation parameters name an unknown estimator
+- **THEN** the harness raises a clear validation error listing the allowed estimators

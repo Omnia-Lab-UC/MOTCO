@@ -92,6 +92,7 @@ guard (parameter signature) skips already-completed replicates.
 | `generator.group_stage_sizes` | Exact group × stage sample sizes, `[[A per stage], [B per stage]]`; replaces `n_samples`/`stage_sample_prop`/`group_ratio` (which must then be omitted). Absent = proportional sizing, byte-identical to before (see the Phase 6 small-n study) |
 | `evaluation.integration_params.layers` | Omic blocks to measure, e.g. `["methylation", "expression"]`; absent = all three, byte-identical to before. Usable as a design-grid axis (`null` = all three) whose columns share data |
 | `generator.magnitude_kind` | Magnitude construction (`joint` default, `all`, `extremes`); every committed config names it, and a new config must choose it deliberately (see below) |
+| `evaluation.orientation_estimator` | Orientation estimator for `angle` (`net_displacement` default, `pc1`); every committed config pins `"pc1"`, and a new config must choose it deliberately (see below). In a design grid `null` names the default and `"pc1"` names PC1 |
 | `report_contract` | Declared reporting/execution rules (`driver_component`, `cross_replicate_driver_agreement: descriptive`, `n_jobs_override: forbid`/`warn`); adds `report_contract.json` + `driver_report.csv` and, under `forbid`, makes the runner refuse `--n-jobs` (see the Phase 5 paper-grade study) |
 
 Unknown top-level keys are rejected by name, so a misspelled block cannot be
@@ -166,6 +167,40 @@ files are frozen outputs and were not rewritten. The pin is the only edit.
 reproduces only the historical methylation-only construction. The same test
 requires every committed config here to name the key, so a config that omits it
 fails.
+
+### `evaluation.orientation_estimator` — why every committed config pins `"pc1"`
+
+`orientation_estimator` defaults to `"net_displacement"`: each group's orientation
+is the unit vector from its first to its last stage mean. It became the harness
+default after the
+[net-displacement power comparison](../../docs/reports/net-displacement-power-2026-10-14.md)
+selected it (orientation/`angle` power 0.300 → 0.648 at Phase 6 and 0.840 → 0.924
+at Phase 5, anchor size held, shape → `angle` leak removed). Every config in this
+directory was run under PC1, the former default, so each now carries an explicit
+`"orientation_estimator": "pc1"` in its `evaluation` block, and the four
+net-displacement profiles name their baseline column `"pc1"` rather than `null`
+(a `null` there would now name the new default and silently swap which column is
+the primary one).
+
+**The pin is behavior-neutral.** `"pc1"` normalizes to `None`, which is left out
+of every hash payload, so every cell id, parameter signature, matched seed and
+shard assignment is unchanged, records are byte-identical, and committed results
+stay resumable. `tests/test_orientation_default_pins.py` checks all 19 configs
+against `tests/data/orientation_default_identity.json`, a fixture captured on the
+pre-flip code with the configs unedited, and asserts that each baseline
+evaluation resolves to PC1.
+
+**Committed provenance hashes.** As with the `magnitude_kind` pin, these files'
+bytes changed, so their sha256 no longer matches the `config_sha256` in committed
+`PROVENANCE.txt` files. Those hashes refer to each config as it stood at the run
+revision its `PROVENANCE.txt` names; the provenance files are frozen and were not
+rewritten.
+
+**A new config must not copy the pin.** Choose `orientation_estimator`
+deliberately: `"net_displacement"` (or omitting the key) is the estimator the
+paper describes; `"pc1"` reproduces only the historical measurement. The same
+test requires every committed config here to name the key and forbids a `null`
+estimator in a committed design grid.
 
 ## Phase 4 pilot
 
@@ -775,8 +810,8 @@ python scripts/motco_study.py report --config $CFG --out-dir $RUN
 
 ## Net-displacement estimator studies
 
-Two pairs of committed profiles compare the opt-in `net_displacement`
-orientation estimator with PC1 at the Phase 6 and Phase 5 designs. Each profile
+Two pairs of committed profiles compare the `net_displacement` orientation
+estimator (opt-in when they ran, the harness default since 2026-10-15) with PC1 at the Phase 6 and Phase 5 designs. Each profile
 is an explicit `design_grid.points` grid over `evaluation.integration_method` ×
 `evaluation.orientation_estimator` in its parent study's seed family, so the
 baseline column re-computes the parent's records exactly and every column

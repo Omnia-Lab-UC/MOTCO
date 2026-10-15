@@ -856,7 +856,9 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: Dataclass fields left out of every hash payload while they hold ``None``.
 #: A field added after studies were committed would otherwise change every
 #: committed cell id and signature even when unused; listing it here keeps an
-#: absent value byte-identical to the field never having existed.
+#: absent value byte-identical to the field never having existed. For
+#: ``orientation_estimator``, ``None`` is PC1, so the omission preserves the PC1
+#: identity (the harness default, net displacement, is hashed).
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset({"group_stage_sizes", "orientation_estimator"})
 
 

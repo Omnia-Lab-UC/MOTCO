@@ -118,10 +118,12 @@ class SimulationEvaluationParams:
     stage_col: str = "stage"
     attribution: AttributionDiagnosticSettings = field(default_factory=AttributionDiagnosticSettings)
     # Orientation estimator for the observed ``angle``, every RRPP draw and every
-    # realized-geometry checkpoint. ``None`` is PC1; it is omitted from hash
-    # payloads while ``None`` (``grid._SIGNATURE_OMIT_WHEN_NONE``), so default
-    # cell ids and signatures are unchanged.
-    orientation_estimator: str | None = None
+    # realized-geometry checkpoint. The default is net displacement; it is hashed
+    # into cell ids and signatures and recorded in ``runtime_metadata``. ``None``
+    # is the hash-omitted spelling of PC1 (``grid._SIGNATURE_OMIT_WHEN_NONE``) and
+    # an explicit ``"pc1"`` normalizes to it, so PC1 cell ids, signatures and
+    # records equal those produced before the field existed.
+    orientation_estimator: str | None = "net_displacement"
 
     def __post_init__(self) -> None:
         estimator = self.orientation_estimator

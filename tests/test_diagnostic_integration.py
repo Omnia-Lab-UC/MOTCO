@@ -49,17 +49,61 @@ def _concat_matrix(dataset):
 # ── Orientation estimator parameter ──────────────────────────────────────────
 
 
-def test_default_estimator_is_invisible() -> None:
+def test_pc1_estimator_is_invisible() -> None:
     generator = SemiSyntheticTrajectoryParams(seed=1)
-    default = SimulationEvaluationParams(integration_method="pls")
+    omitted = SimulationEvaluationParams(integration_method="pls", orientation_estimator=None)
     explicit = SimulationEvaluationParams(integration_method="pls", orientation_estimator="pc1")
     assert explicit.orientation_estimator is None
-    assert explicit == default
-    assert "orientation_estimator" not in _to_jsonable(default)
-    left = make_simulation_cell(phase="p", generator_params=generator, evaluation_params=default)
+    assert explicit == omitted
+    assert explicit.resolved_orientation_estimator == "pc1"
+    assert "orientation_estimator" not in _to_jsonable(explicit)
+    left = make_simulation_cell(phase="p", generator_params=generator, evaluation_params=omitted)
     right = make_simulation_cell(phase="p", generator_params=generator, evaluation_params=explicit)
     assert left.cell_id == right.cell_id
     assert parameter_signature(left) == parameter_signature(right)
+
+
+def test_default_estimator_is_net_displacement_and_hashed() -> None:
+    generator = SemiSyntheticTrajectoryParams(seed=1)
+    default = SimulationEvaluationParams(integration_method="pls")
+    named = SimulationEvaluationParams(integration_method="pls", orientation_estimator="net_displacement")
+    pc1 = SimulationEvaluationParams(integration_method="pls", orientation_estimator="pc1")
+    assert default.orientation_estimator == "net_displacement"
+    assert default == named
+    assert _to_jsonable(default)["orientation_estimator"] == "net_displacement"
+    cells = {
+        name: make_simulation_cell(phase="p", generator_params=generator, evaluation_params=params)
+        for name, params in (("default", default), ("named", named), ("pc1", pc1))
+    }
+    assert cells["default"].cell_id == cells["named"].cell_id
+    assert parameter_signature(cells["default"]) == parameter_signature(cells["named"])
+    assert cells["default"].cell_id != cells["pc1"].cell_id
+    assert parameter_signature(cells["default"]) != parameter_signature(cells["pc1"])
+
+
+def test_default_evaluation_records_and_uses_net_displacement(dataset) -> None:
+    default = evaluate_semisynthetic_trajectory(
+        dataset, SimulationEvaluationParams(integration_method="concat", permutations=9, seed=3)
+    )
+    named = evaluate_semisynthetic_trajectory(
+        dataset,
+        SimulationEvaluationParams(
+            integration_method="concat", permutations=9, seed=3, orientation_estimator="net_displacement"
+        ),
+    )
+    pc1 = evaluate_semisynthetic_trajectory(
+        dataset,
+        SimulationEvaluationParams(integration_method="concat", permutations=9, seed=3, orientation_estimator="pc1"),
+    )
+    assert default.runtime_metadata["orientation_estimator"] == "net_displacement"
+    assert default.pair_statistics["angle"] == named.pair_statistics["angle"]
+    assert default.p_values == named.p_values
+    assert "orientation_estimator" not in pc1.runtime_metadata
+    # PC1 is the pre-flip measurement: the primitives' (unchanged) PC1 angle.
+    design = build_simulation_trajectory_design(dataset.metadata)
+    _, angles, _ = estimate_difference(_concat_matrix(dataset), design.model_full, design.ls_means, design.contrast)
+    assert pc1.pair_statistics["angle"] == pytest.approx(float(angles[0, 1]))
+    assert default.pair_statistics["angle"] != pytest.approx(pc1.pair_statistics["angle"])
 
 
 def test_net_displacement_estimator_is_recorded_and_used(dataset) -> None:
@@ -77,15 +121,15 @@ def test_net_displacement_estimator_is_recorded_and_used(dataset) -> None:
         orientation_estimator="net_displacement",
     )
     assert result.pair_statistics["angle"] == pytest.approx(float(angles[0, 1]))
-    default = evaluate_semisynthetic_trajectory(dataset, replace(params, orientation_estimator=None))
-    assert "orientation_estimator" not in default.runtime_metadata
-    assert result.pair_statistics["delta"] == default.pair_statistics["delta"]
-    assert result.pair_statistics["angle"] != pytest.approx(default.pair_statistics["angle"])
+    pc1 = evaluate_semisynthetic_trajectory(dataset, replace(params, orientation_estimator=None))
+    assert "orientation_estimator" not in pc1.runtime_metadata
+    assert result.pair_statistics["delta"] == pc1.pair_statistics["delta"]
+    assert result.pair_statistics["angle"] != pytest.approx(pc1.pair_statistics["angle"])
     observed = result.realized_geometry["checkpoints"]["observed_standardized"]["joint"]["angle"]
     assert observed != pytest.approx(
-        default.realized_geometry["checkpoints"]["observed_standardized"]["joint"]["angle"]
+        pc1.realized_geometry["checkpoints"]["observed_standardized"]["joint"]["angle"]
     )
-    # The cell identity carries a non-default estimator.
+    # The cell identity carries the net-displacement estimator; PC1's omits it.
     generator = SemiSyntheticTrajectoryParams(seed=1)
     assert (
         make_simulation_cell(phase="p", generator_params=generator, evaluation_params=params).cell_id

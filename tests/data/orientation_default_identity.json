@@ -1,0 +1,4093 @@
+{
+ "capture_revision": "30e068c430f9e0960e1780597e11eba98d54e5ad",
+ "configs": {
+  "angle_pivotality_diagnostic.json": {
+   "power_primary-236135215c0e": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "70bcc77a2cee13d880a5a29e17fa8e9da99bc4c33ff3d84bfce1bac95adf9af5"
+   },
+   "power_primary-5703d2bb35d1": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "8ba3bece665de1150dff0bf87f9793d6625f172438c458ef4f868152b01b1b9c"
+   },
+   "power_primary-6d8b2f3594f7": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "6f3760e9791656e3b526932e37e42a272dc2aadefa1df77ff4b7b2d2fec8caf4"
+   },
+   "type_i_baseline-09945978acf7": {
+    "seeds": [
+     411030490,
+     775064453,
+     1372165698
+    ],
+    "signature": "6b7207d4c30be19384c8783110fbb991bb28582d3d3611f9daca787b20177d28"
+   },
+   "type_i_baseline-cdaaae675356": {
+    "seeds": [
+     1466890014,
+     1854509451,
+     1880745778
+    ],
+    "signature": "c64dc257bcdb65c6f7ab9bdab66351e70b4e1d8e2082debda6c0e51a3f46427e"
+   }
+  },
+  "net_displacement_power_phase5.json": {
+   "power_design-26e3180f553e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "78ae7e57cd6c206116a58c44bf2e686d514c9503ac61a9f7b6738543593f3d4e"
+   },
+   "power_design-47c2d010fa1d": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "f99e4779dff56fac1e6c0f6b38dae961a5bacfcfb2336da3e9d4530d55a0ec2b"
+   },
+   "power_design-5042672c7320": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "1f8f77ca5d0e52c24fb537e31d3a5fa29d21d1c159f27c0940ac4239a17d8000"
+   },
+   "power_design-678d6c6b888c": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "83a954a3761888c4760653deed6488fe0e8e7ca9b4ba68a534cdbbf079f6846e"
+   },
+   "power_design-681503506436": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "2863aa470159d70a7d75c656712d451f1e632738179166d990abeb020709a826"
+   },
+   "power_design-76a7959f48f2": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "1eed57ea4a219ec7822644766e5b8af4b2bc13ce4db23e6d9d41e1b85353c7e4"
+   },
+   "power_design-84611543dd48": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "7cd4eb0858c10a6e3f1ea3f4d79c2e8ed020afd26486f8b22032d276990468eb"
+   },
+   "power_design-8b503019258b": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "af4efd33635ad313a4aa51c814eafe7e2a364023d40b160df9737b647ee4d3eb"
+   },
+   "power_design-94015e6b9064": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "a1f006119851664e7b4afbd95aeef7dfb12018a854c035fe0ab1801e79341c37"
+   },
+   "power_design-a73116cdef84": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "94e5aaa60cc4ef6b380f23ecf7ae7e5c9203b51139dc0cb186751fc57ed7118c"
+   },
+   "power_design-a96a6cde8d27": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "de41776e11f0142c1d5134cd351cad0095691a1683e72ac8ac71c8e22ff84395"
+   },
+   "power_design-abd53ff0c2ed": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "ae4f96b70c493b9ba1ac5355bc704524347bd80232b9eea55dd26ff7e68dd21f"
+   },
+   "power_design-b0ddcfa9268b": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "54e7c8dd695dd33776e5ae7781ebda7660b2d823d8d0ec0388fd092a2de06ec1"
+   },
+   "power_design-cf32ab78ba15": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "ea75c8fee87bc3264bff1f87fb8e06cf6da2e891bebe6cebf78c37720ad436bb"
+   },
+   "power_design-e22906740fa8": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "54bd2a188caa08a36db0afaa179ea7bed4a24cd499ea3630dcaf64b7a8ab1b6e"
+   },
+   "power_design-ea838ccaf494": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "fafe0da81071c51c14bc5ad1d04cded604e95e043ccc9228c406d62287cf4f83"
+   },
+   "power_design-ffd0bd200b3a": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "87e049c21cb7cbb89d9feb654144c39c98fe22b62310d597d9b13f6a755405eb"
+   },
+   "power_primary-0ea9681d805d": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "1cea8710d4f1468e1e1204d520bced4755c0cfa08557bedea902d88cecb53704"
+   },
+   "power_primary-1905d476c66d": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "81de8175effd7e7bd5d2a5d78a35934657767376e0723b9964bfe83a18b31709"
+   },
+   "power_primary-2a222f91f895": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "35fca890e218ecfe8d7da48c199fea8fc5432b1ca0eed9ea3c98cee73db9002f"
+   },
+   "power_primary-2ce7d218601f": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "46f4e1c4744c5886f9b41781d654d7ab3fee863dd4fefdc047b6290fb3b23a85"
+   },
+   "power_primary-30702da239cb": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "484ce16e959d1bd4651fada3baaed251712243d60d4585d2958e544f29d05da2"
+   },
+   "power_primary-79ff05c57437": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "c6216429795bf1692dc1e8c444e20de3aabe29a88ce480c7b60b5fc0bacdc717"
+   },
+   "power_primary-97bcebb9df18": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "f67b93efb76528bbacd405b15942a4470b19c008b79465e512fa4d99a757b377"
+   },
+   "power_primary-982e735ab973": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "6a8202fe7721b88d17b85a527536382733a20bffd2c7a18bad8ad408b121b333"
+   },
+   "power_primary-a1041e30dc5e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "daa4d5fcdfaf06b3b3993f71a18e7e2b6e02efda932134615c468537c3790f2d"
+   },
+   "power_primary-a2865ac0476a": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "77850d602dc518f5f3e3b4e71cada4ebb1fe370006154466f821cb5088195304"
+   },
+   "power_primary-ac10c0a04e7e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "078592e2c156cef72706d056d394f4376806e7e4c3a0a16fee12a79ef9cbb487"
+   },
+   "power_primary-b9ae45b7ff04": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "cdf9b02222f4e058da4bfebd0897e563e534bf91626241a288ab3e8b820c7ba8"
+   },
+   "power_primary-bd3b090ca775": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "b23ea545e2b3995b0756309645f0ad0d3c14c6d349877c12051bca7afbc42046"
+   },
+   "power_primary-bf1bf439f3f0": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "71fff091f5ec542cb467f537d0db8e726bf7683a46dfa9516f2d221a38f8d97b"
+   },
+   "power_primary-cbe724e2eaf5": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "bc0441556805eb8599787761082690310723e895df0d425c8cfeb7226a4d2c87"
+   },
+   "power_primary-f8d70c449602": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "08b6d948d13ec09bfca5ad7fd57ede208484cafc83b21331c7b8faf9eab27792"
+   },
+   "power_primary-ff8f352b34ad": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "9c8b133485c2841191d8a8a01a53bf63a6fe638887dab188d4f6e6270bc84204"
+   },
+   "type_i_baseline-34269dbb2cc2": {
+    "seeds": [
+     638957468,
+     1572223468,
+     829936984
+    ],
+    "signature": "5623dc504aa232a7c09615136422f461adcb5c8a8293d3044fec0e172ad89da6"
+   },
+   "type_i_baseline-36ead8565098": {
+    "seeds": [
+     2023407766,
+     1548337593,
+     1650363780
+    ],
+    "signature": "281722d3a22c846f51f301bb3bea6b6a8d26fdc62c167173192257bb26a977dd"
+   }
+  },
+  "net_displacement_power_phase6.json": {
+   "power_design-0a538cab30bb": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "71e2d99deddc7d6125e31573ad7404750a132d44c51ae980144e5d03beb297b7"
+   },
+   "power_design-1b69b538457a": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "a7c776de6669fbe6589b0454b265a87ef2621d897c63c9eef9da52ff6c215584"
+   },
+   "power_design-1e977ffd001c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "9d99a288ff10002f9a0c4ae3e09a9010039f4a8f5a21d8b273a939aaa578ab6c"
+   },
+   "power_design-259a6da2fcd1": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "21e80eb0575d0d55a935f6125ac130110b4805bbef12bc2491676fc89d5f8e94"
+   },
+   "power_design-35edf5c8993f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "1382b03271f4376adcadfb7e1da9980b16fd3f3a2c1b800aa3594160809eb81d"
+   },
+   "power_design-3ec2dcb36b0b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "f5587c5d08df225d047dc433fe110ed6c31bdb652e6e12aeebe2c9d230b9a20d"
+   },
+   "power_design-55b671323c61": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "71217439b10a618d22586c4ee43b89be6d1a3d9149a10db84cf2c2ad611ee2fe"
+   },
+   "power_design-6a9a564abedc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "3a099b68c2040aa4d1f451f4ea787b643331934abb52fd97b2d34ed08c094295"
+   },
+   "power_design-9fc6efb7ed17": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "dbc7747100bd7e850058e7e2e87a424d060008f06e8df07b528bb6cc622f6cd3"
+   },
+   "power_design-a8d36f684e96": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "8068c386ad9986931ff421e22c89b1e999e01aab61471c0b695e6571908a0ebf"
+   },
+   "power_design-c45ac792afd4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "cea82ea64e802b1ea26a77280639ef7c39f3fcd04597e455d1da5210ca4dfeef"
+   },
+   "power_design-c7119c2b3f61": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7e6938652d9b26ac169792930c72f20e9845db9c9dbd116a098537706bd59bb4"
+   },
+   "power_design-dd3c7a7dcb20": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "729a0a6a2c6c4f85e94aade86fa57f506f61ecd8b678967bf4334aa392fd1c27"
+   },
+   "power_design-e8d268c9289c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "456e8c7955aff5bf5469c74583c41f6d45c611441aa6a33dc03b220993584356"
+   },
+   "power_design-ee79f3df841d": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "1f3379d4cf69ab33117f95c07fc3fa3cda2ba9c65fdf4bbeff4d630753caac4f"
+   },
+   "power_design-f491d58328a0": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "786c0032932ab0a34977a728101e9a35df861912d079a79e2d513747c9c9225b"
+   },
+   "power_design-f9933faf6d42": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "07c37efcd0b7a5f490e951e9c30c4f8a0a18f2adebb6e957c19fd3d84847ecfe"
+   },
+   "power_primary-097ac08af87c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "f6f2d6bad5a525c43a65532c242515707712d520c598db10151df9106bf14803"
+   },
+   "power_primary-15baf577cdca": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "8e2ec3af2b1fdfd17e308b7054b3c121838aeff80f9cced91d0652b6f2a8e412"
+   },
+   "power_primary-4ef7ef55638b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "fdba919970c1e83288d1f36a9e9083c9500857211afc6531f516b002eafb0818"
+   },
+   "power_primary-5b5e9ca37516": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7a1895c800ec991b44f38e9746f1ff00aa2226a378ddbadfa5f83d9024fc03b3"
+   },
+   "power_primary-5b8815787fd9": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e7ae5ac5ba45caab0b0336d79642bb10b157f6d3f33459a9ef5f3d0c762c57c0"
+   },
+   "power_primary-70b8ad4bc4f1": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "fae980a62d2f0859789829907f5097cd83b046b04a65c1e844b42398a73f29e1"
+   },
+   "power_primary-7124c3318e86": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "638e18042295ef9b15ee51f88d96d6715536383a717f65175888bbb23e157fe4"
+   },
+   "power_primary-7253dfcac150": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "aef7922fc6ba82f39b430df9b18fd50c3a475a0a3b9e10f5be57d201481e016a"
+   },
+   "power_primary-885bf367c401": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "334891ac6c5dea5bcaab9a575f76b46550bd1af95cae9fef9b7adfd8129f95b4"
+   },
+   "power_primary-92162eff26e8": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "80b79f32d2ab96658455802fff476e2fc54bbccc92562adcdffd503d9da0adc6"
+   },
+   "power_primary-a4e34a8ebd39": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "76d7f5223b32fbc74689eced3025241f56d7de50ff362f3cb2f5929d206ec75f"
+   },
+   "power_primary-bcbd5db7e737": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7862c066c9f0e15fe76a063004410c3e2305b8e180bad0bbc41df65d8243d90c"
+   },
+   "power_primary-d8101119320b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "4fd2c3bd024260c6bd5025e2b3204a18fc122cfbb99b776c0dd6ebaa785d8b33"
+   },
+   "power_primary-dc35fca68654": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "797575f7a7ccfe4c7ff839b0bdf87b00d307371762fc1c671b758afbe17e1206"
+   },
+   "power_primary-dfd16768eb30": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6c716fe2b07473ede0abf3856e92a56f15fad978f0b9f24727c645f2f73f7129"
+   },
+   "power_primary-e3d54e57b146": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "aced1be459ebb4dc993065c64c132f90051c5becb93a4d715640c0e4fa52891c"
+   },
+   "power_primary-fba9e5775c18": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "58ee95621c59a70b418d1d85457ff6abdea20bef303c145a6158404adc547d0a"
+   },
+   "type_i_baseline-74c0457435ca": {
+    "seeds": [
+     2045670206,
+     195870535,
+     1193555282
+    ],
+    "signature": "dbc66061f620e498d2bef4a584e7c8f8cc3e875b45964ed712450e83b8c61f62"
+   },
+   "type_i_baseline-ca766c21680e": {
+    "seeds": [
+     1721681989,
+     1909924365,
+     239196010
+    ],
+    "signature": "de7da6ea613b3eb914b9acc0341b558076843a5efdd7b02e22e79270e30a43c2"
+   }
+  },
+  "net_displacement_type_i_phase5.json": {
+   "power_design-0a3e8c03dbb6": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "b180cb182f9bc4f0882f5d7af265e3fb7481f88eb4c4eceb2594e82f06b3523b"
+   },
+   "power_design-0a67c5048f6e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "7425eb451d7a3838ac47066c9a23acb7e54fb09f2286704c32ef251e59ab3251"
+   },
+   "power_design-19599b0890cb": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "81482578a10a8e86efed09b1a14498e7955c436fbf8993f2a1453d9b201deebf"
+   },
+   "power_design-21d24802a730": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "9477e2175ab15fac2f89bd966e5996f5650b2c063f5f73b00a9233acdf6386a6"
+   },
+   "power_design-329e8e59ccbe": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "23109f9c3dc717cd8536a327ec381daff4219ccff28046228b143b17e265c15c"
+   },
+   "power_design-ab648b3299f3": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "0c4cc02e5b4b9a5bbd219bff7b21257ebc4810c9e14325a682497798a0e02fa6"
+   },
+   "power_design-f15717e86f49": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "1dacc4292b555e3f40d87f644cb8b35bf6a82f714281b811234ef67bbf29ff41"
+   },
+   "power_design-fc5d6450b67b": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "bed8f46c12058c0ce0e0892b33a5837dcd9c7706dbb33a745ec4538aef10c1f1"
+   },
+   "power_primary-1e12c8e73afd": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "87597e1e63b9a14bc999ccc1ae6a1cf7f1236b6e03e0745f45d8321d2bdc1497"
+   },
+   "power_primary-392a5bb51172": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "b5d46974c45d38780919fa5bdfd9a448603744c306bc378391cb7aa3e3bcce62"
+   },
+   "type_i_baseline-34269dbb2cc2": {
+    "seeds": [
+     638957468,
+     1572223468,
+     829936984
+    ],
+    "signature": "5623dc504aa232a7c09615136422f461adcb5c8a8293d3044fec0e172ad89da6"
+   },
+   "type_i_baseline-36ead8565098": {
+    "seeds": [
+     2023407766,
+     1548337593,
+     1650363780
+    ],
+    "signature": "281722d3a22c846f51f301bb3bea6b6a8d26fdc62c167173192257bb26a977dd"
+   }
+  },
+  "net_displacement_type_i_phase6.json": {
+   "power_design-0f3ef5e84f28": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "92016d27d1efb243f5d5543b60493741317875607822eb737dcc80bb9231e666"
+   },
+   "power_design-346c42f25fa7": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2aa2b5c02191f5b4dddb81ddd97aefa71d31099dadc6cad520bf8fb4767750bd"
+   },
+   "power_design-367411ea20a6": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e7d22b55c46de0b98a60e766a98c15d1b1d50bcef73d63e5756a2eb496f60a7b"
+   },
+   "power_design-6b3e070320c3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "89bcaca192e4888e9dc8f95afeefd9d524750e5e45426b8f153e48a250482614"
+   },
+   "power_design-701ecf1dba2a": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "569b5d7c927e6e7f01b1dc3a7fadb5461671500cca068a9f83b2e48e430532d6"
+   },
+   "power_design-ac3decda4eb4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "355919d5f37b8d0d28c07cbfc87b7f146bb0da8baa11daa27e02a6384483be2d"
+   },
+   "power_design-bd88df43d8b8": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "af872e7fea5a9ec5ed6716a87c8723450cc8fc2278aadd247ecfc153fe906265"
+   },
+   "power_design-f600008ede40": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "bb4ffee375831a58ee653d7c0220de6f4132d1c6373d9f63ba42bcd41c041756"
+   },
+   "power_primary-04eafba35dfc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6ac6a09c2649f7a07f4fcdfe763caeb0ea64701d30b08c4c7da9be6e37949e57"
+   },
+   "power_primary-d5848e05cfee": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "a7a493e10e6dc9f6cd1bb8937be6cf828e2b515ac33882546ad8d87d137665e3"
+   },
+   "type_i_baseline-74c0457435ca": {
+    "seeds": [
+     2045670206,
+     195870535,
+     1193555282
+    ],
+    "signature": "dbc66061f620e498d2bef4a584e7c8f8cc3e875b45964ed712450e83b8c61f62"
+   },
+   "type_i_baseline-ca766c21680e": {
+    "seeds": [
+     1721681989,
+     1909924365,
+     239196010
+    ],
+    "signature": "de7da6ea613b3eb914b9acc0341b558076843a5efdd7b02e22e79270e30a43c2"
+   }
+  },
+  "orientation_signfix_rerun_100x199.json": {
+   "power_primary-007d18b194d4": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "409144a884dfaa1a6094422ecc8f046e0260693f4fbe33b2e7b680ef70ae3973"
+   },
+   "power_primary-34ac5697212d": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "a504147c5458dbe032064e28fe3fc725407301a5ec4b78f4abae04bf32da5626"
+   },
+   "power_primary-3b91acecafc1": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7ff31079d43bb33898593f20842ff6d58e5fb96440379ec66035a281d8925176"
+   },
+   "power_primary-42ab6e49a89e": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "a302a417b3d9c800b49cfdb6b474678bced700c62fbc1a6f636bffc3b8e14c21"
+   },
+   "power_primary-52a209fec7d0": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "644556e481a03906ceb91868eae38a0e6f720632cad83e8fa0f7abc81b73dd04"
+   },
+   "power_primary-568dcc69b29e": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "e20825d5a734730eb9cf8173053d96771e313c7085c662c2ede0bc6f4c48f390"
+   },
+   "power_primary-689cc9ac7254": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "d8b5aeb84c03cf2327180b30b6b0ca528ef9ca925ad1dd075eea4a9fcd541280"
+   },
+   "power_primary-6d8b2f3594f7": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "6f3760e9791656e3b526932e37e42a272dc2aadefa1df77ff4b7b2d2fec8caf4"
+   },
+   "power_primary-73363f759474": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7935206122e28321238725a4e93fa8d96dc3b564fcb63b7d151438ea20c8de07"
+   },
+   "power_primary-9df3624d908a": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "81d8c5d1d1942f1e0ee2b239c8e710721b147ce92367c464c53f4583d5cfab35"
+   },
+   "power_primary-a5f29dcddd94": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7403b2ee0833bc38b14f2275b162025314dd3dc27dcfafc16f039598eb8520f3"
+   },
+   "power_primary-afcd3bb4ac67": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "2fffb75a9d160e376ba84e6df66956bc070d6babbd19fbb5dc6ac6d4135f994f"
+   },
+   "power_primary-f8746fd8330f": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "b4af4416f43b2be911cb8c48208ef30ef9e9761fcf9f71b81905c87d8c4348b8"
+   },
+   "type_i_baseline-09945978acf7": {
+    "seeds": [
+     411030490,
+     775064453,
+     1372165698
+    ],
+    "signature": "6b7207d4c30be19384c8783110fbb991bb28582d3d3611f9daca787b20177d28"
+   },
+   "type_i_baseline-cdaaae675356": {
+    "seeds": [
+     1466890014,
+     1854509451,
+     1880745778
+    ],
+    "signature": "c64dc257bcdb65c6f7ab9bdab66351e70b4e1d8e2082debda6c0e51a3f46427e"
+   }
+  },
+  "phase4_pilot_100x199.json": {
+   "power_primary-007d18b194d4": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "409144a884dfaa1a6094422ecc8f046e0260693f4fbe33b2e7b680ef70ae3973"
+   },
+   "power_primary-05cb2a7646bb": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "8242943a6fd626d25b8ea532f7dd87477f156b1c6140e121049b4d4fdd706d65"
+   },
+   "power_primary-30a6e1a6cfee": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "10fa929965d1783f5bdaf80765250f776f4ae2e2676554431d2131bb28177188"
+   },
+   "power_primary-34ac5697212d": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "a504147c5458dbe032064e28fe3fc725407301a5ec4b78f4abae04bf32da5626"
+   },
+   "power_primary-39e88d8f9bbc": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "9ad14e05f0a2880a4fc23c2461cb8e8b53d5299964b4178d4babb1e4cd8db96b"
+   },
+   "power_primary-3b91acecafc1": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7ff31079d43bb33898593f20842ff6d58e5fb96440379ec66035a281d8925176"
+   },
+   "power_primary-42ab6e49a89e": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "a302a417b3d9c800b49cfdb6b474678bced700c62fbc1a6f636bffc3b8e14c21"
+   },
+   "power_primary-568dcc69b29e": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "e20825d5a734730eb9cf8173053d96771e313c7085c662c2ede0bc6f4c48f390"
+   },
+   "power_primary-5703d2bb35d1": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "8ba3bece665de1150dff0bf87f9793d6625f172438c458ef4f868152b01b1b9c"
+   },
+   "power_primary-689cc9ac7254": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "d8b5aeb84c03cf2327180b30b6b0ca528ef9ca925ad1dd075eea4a9fcd541280"
+   },
+   "power_primary-6d8b2f3594f7": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "6f3760e9791656e3b526932e37e42a272dc2aadefa1df77ff4b7b2d2fec8caf4"
+   },
+   "power_primary-73363f759474": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7935206122e28321238725a4e93fa8d96dc3b564fcb63b7d151438ea20c8de07"
+   },
+   "power_primary-851d880a51ae": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "2980fa6897fbb70b7c7bc94fd30ba21211967f105a5df73ba2e5a8b99371077f"
+   },
+   "power_primary-9df3624d908a": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "81d8c5d1d1942f1e0ee2b239c8e710721b147ce92367c464c53f4583d5cfab35"
+   },
+   "power_primary-a5f29dcddd94": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "7403b2ee0833bc38b14f2275b162025314dd3dc27dcfafc16f039598eb8520f3"
+   },
+   "power_primary-afcd3bb4ac67": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "2fffb75a9d160e376ba84e6df66956bc070d6babbd19fbb5dc6ac6d4135f994f"
+   },
+   "power_primary-f8746fd8330f": {
+    "seeds": [
+     1388635482,
+     379912724,
+     42635870
+    ],
+    "signature": "b4af4416f43b2be911cb8c48208ef30ef9e9761fcf9f71b81905c87d8c4348b8"
+   },
+   "type_i_baseline-09945978acf7": {
+    "seeds": [
+     411030490,
+     775064453,
+     1372165698
+    ],
+    "signature": "6b7207d4c30be19384c8783110fbb991bb28582d3d3611f9daca787b20177d28"
+   },
+   "type_i_baseline-cdaaae675356": {
+    "seeds": [
+     1466890014,
+     1854509451,
+     1880745778
+    ],
+    "signature": "c64dc257bcdb65c6f7ab9bdab66351e70b4e1d8e2082debda6c0e51a3f46427e"
+   }
+  },
+  "phase4_smoke.json": {
+   "power_primary-506ffd62547a": {
+    "seeds": [
+     1388635482,
+     379912724
+    ],
+    "signature": "e3965b56478bb73228f009e2b37b02e1c0ea8bd028b54c75c914e9874ebabaf5"
+   },
+   "power_primary-5a03c75391f3": {
+    "seeds": [
+     1388635482,
+     379912724
+    ],
+    "signature": "4c58255c14b5cb1639547b7278987120c3f3a8cadc992eaedf4fddc4b6121199"
+   },
+   "power_primary-aaeb68d1df57": {
+    "seeds": [
+     1388635482,
+     379912724
+    ],
+    "signature": "b3d12c07b68cce22b7823a5b1bac0d665aff2608f4fdea70b994de23fb1fb8d4"
+   },
+   "power_primary-d3a90f9745db": {
+    "seeds": [
+     1388635482,
+     379912724
+    ],
+    "signature": "e015d4a7f8698914e978f32d9a1dcd746fd868d864169eae584dd6a85a7e1843"
+   },
+   "power_primary-dba5ced4706f": {
+    "seeds": [
+     1388635482,
+     379912724
+    ],
+    "signature": "5de5d66f9b4f6f467ad39b481fc3e79b9a9d661c80ff45038736b40a9afdb2db"
+   },
+   "type_i_baseline-3834aa6d5f86": {
+    "seeds": [
+     838157319,
+     803645715
+    ],
+    "signature": "1fcef7b1165d3c178578ec9026bb617fc14976db8bc125015857fc318d96dc52"
+   },
+   "type_i_baseline-f9bd1451498e": {
+    "seeds": [
+     1956984299,
+     1940285463
+    ],
+    "signature": "b9460a95e55f381faf3bb502c91f1fc801cb5bcd312401e1f6414d309af1fa10"
+   }
+  },
+  "phase5_design_point_pilot.json": {
+   "power_design-014b6b44b9ba": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "39bd181959523fe529dc510da76c39ddf8235d29346f5a4f747e2780b112a8cd"
+   },
+   "power_design-053b8f40c922": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "a093ecec22b1e0f275251d76d78c8a20ee089d2b8074efef1e80a96848d68a56"
+   },
+   "power_design-06cfda5ac171": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "4ae88275d9a50fd6ab1ec7a72a027e2e9fbce66b7a6a6debfddaf84d8be0cce1"
+   },
+   "power_design-078248429891": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "71484af68a2c404828a9232195257bf7286b93c04569faf3e18a06bbcf3c9fe0"
+   },
+   "power_design-0d4641cd04c4": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "25e0cf769492eb542b3b4dac4d3ecb15f08c2d69b85c0f2c4e94c0ca67bc5b0f"
+   },
+   "power_design-0f701276217d": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "55c4557f27fa419333efbe49ea4ae0b94e292f3416c750bb32506b6be050938f"
+   },
+   "power_design-109c147a9915": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "9e8afc2adec81b96cca646ef8771eb214a07771515456813411ca921179b65db"
+   },
+   "power_design-10ce682b054f": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "396e6d833eee3e6a6e0102e8b9162b8e8eda59b6c1bba6d89c5218a8492000c3"
+   },
+   "power_design-13e5537dcaa2": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "d8f70471607b16fb6ce426feb5548a010222b74393d92282f20b5cf485e20ba6"
+   },
+   "power_design-1b532f0f6197": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "2dd9f7cb4274f145a17133f5fad02278e90ae343d6632c4b054f1de5fdd364bd"
+   },
+   "power_design-1dca0cb6497e": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "a20e81410b78093b716b923d97ef219318b39a7a1fe768577552e6e0e117475e"
+   },
+   "power_design-2a8b28b589d4": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "777f109ae53cc042147d64549af1588f100e2a38993558d1780801102c5e733c"
+   },
+   "power_design-347a1e12c828": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "14509357a78107a591c89bac05dacfd9263e0911f0225e3197096dfecdf89ad3"
+   },
+   "power_design-392a6cc97a97": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "dbd10c76d15f6e6f328f43b83b3243740366ab6329be3e750acf59798f9e3d51"
+   },
+   "power_design-3d4c17f208c5": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "5af05694350f4aea3af829da19b886fa0fcd52e5c5cea793b57838595a273029"
+   },
+   "power_design-465a8da8e88d": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "c81016221964f739d9c61ff719f9cb3a1633112ccbbca0cd644776847ed5658f"
+   },
+   "power_design-4b3cbbf30208": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "c4c1c61532bf09b98635057710c0c309c6bd44250c3002ac9919b1d1d548ecbc"
+   },
+   "power_design-4f59277368a0": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "74caad46843ceb12af3b61307ac14bab2b3f5e0953dabf9794f0f5e32e2b7a50"
+   },
+   "power_design-4f7b5af56591": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "bf20d6d705a061599aae02a4faa49d9f16f5e7c92078198598978e16f0fde205"
+   },
+   "power_design-5604f353771e": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "9118223f39805c7076adf47adeaa9479aecbc5575f8ba7f0153157c8d12e95a6"
+   },
+   "power_design-57054ea4aecd": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "25592060e8f9ae7e909e3c39de360223545e3a45004dfdfb17c0d886c1011e09"
+   },
+   "power_design-572ab3d05d21": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "5e2475d4579da7135686b9b7e2f2d7240581b5bc7f3a002ec20c6cbf4a9db334"
+   },
+   "power_design-623e54066414": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "5de869e6c773d982133e8f6e3e66da7777f4a1cb9818c9c3226f2caa69866204"
+   },
+   "power_design-71c973a2caad": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "2178570f3b5171e0989f0ef61b909aca87a9505810eb14db34ea53a61373ce67"
+   },
+   "power_design-7298473bd609": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "a118012286b79c146d2bf655a5b595b76c6d90e0127ce2a88b21c5c608d1895c"
+   },
+   "power_design-75ac5ccd76f5": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "a1b201c5631bafdf7b265a318c833cbb1710fcdc78c399f7c9413e3bca5d8223"
+   },
+   "power_design-789e27f6f133": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "342ad81c68976558645164c36204c18c5fe4729d8d4433d96aa966ccd6a98bb7"
+   },
+   "power_design-7918d022f6d8": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "eac047d5152e67a7d3b3bfe6c83043505eaf48c1c10ce4046862c196553facb3"
+   },
+   "power_design-7ac1657a5a15": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "da42aacc7b2c7cd22ba705c418f7410b807f0855978cd7f3fa498308d1c4a4ad"
+   },
+   "power_design-8488caa4bcea": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "54d77fad8e0284ba682b41e7674d85d7b3b0ebf0019722740b0daf56628ead3f"
+   },
+   "power_design-8da0153bcd85": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "a6be9af2c5922da608762551eb80289635dd24627a04bc70d6a208535a2d9a83"
+   },
+   "power_design-9128b3adef71": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "b7e6c5ab342c086a16cf2e315150b92f3ad6cf12bf0e1a7114a3e4130f46daa2"
+   },
+   "power_design-9b1249d3f158": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "54eab7350c5c300778401d7e553bef497ff1324def68ce53dedfe6b7f80085c9"
+   },
+   "power_design-9b869bb58e46": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "57ca1c8bd58bae5e496fcfd9f727860244f9cb95ce70cecb48db3f26476a3517"
+   },
+   "power_design-9c1632a3dd59": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "ad5565f811a72edea8b81ffa16997ce1a38f84dfd0c7420b30327fddc18ebef9"
+   },
+   "power_design-9d879d530c71": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "5eed41e257a31f4c702007d35893ddf4edbef38e85c5510b986d89b33c033063"
+   },
+   "power_design-a81c429a7548": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "cc6a05c1f2957a8eef271bf6c2659d9348eaff3c4416d941ce4225ef91556f09"
+   },
+   "power_design-a8dd0ea80df7": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "27197e50ea0a998ec6e45ddb7edb4a3d7e88f0137f6c33cd1cab28edf44987d7"
+   },
+   "power_design-aa2c838851fb": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "0297e6818f4e503a0ecb5fbe729c635dbe37da1426b91f49a4ba3d1141a6b57c"
+   },
+   "power_design-b93ef89ed303": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "07cae1046039bd0f9362087f790d8670eca4e1027cc3608ecca6fe4fb9480745"
+   },
+   "power_design-ba15f253978f": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "7efb34e5b55fd8259fae5b3b125c587d8269f11311f8f0b3b284c667e099ce5b"
+   },
+   "power_design-bfbf2c888a8e": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "0fc397b4ec01f9bfd77a0e05e1f42bff81dbba0da18862c7ec92836acacae42a"
+   },
+   "power_design-c2b181f4ad7f": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "62ce471210a1d2ddf8e41abaa9f34e3b8c041866396ceb95cc8a55896305b6f0"
+   },
+   "power_design-c8d7915cc27d": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "7d6a48ff5925f8d6c702ed104c07db94eb9b340c08c87da7324207e7a0a694c8"
+   },
+   "power_design-c9a8b38dbdc0": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "5b9f305b0b57b9a3458aca270402fdeec4caa4789eb5b4c3d29c41efd4bb94d0"
+   },
+   "power_design-cf2c33aec45c": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "d30f9ce6f5da2789c4399e0c81ea5a03d6dea220e490971733383c4d8788718e"
+   },
+   "power_design-d2eb079b5c4c": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "cb6d3a2beb19df4f4fdf499ac713d94c6dec8846535b7f52bcb1308d7c17ec5c"
+   },
+   "power_design-d800f31b7fc7": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "6366699a4deeba91e8efa94466fb4044c0f0142a5f52f5670793f764dadbb83a"
+   },
+   "power_design-d99fa7b97a66": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "3455076d285a5a6de35f1fa95129761912fb2648a09e397b307ce44a7e7c0e6f"
+   },
+   "power_design-dc3b69d1fb37": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "37dc24e30f7ab19b7b02cae287f0d3824633df9c94525ed05ea9d800c7f888ff"
+   },
+   "power_design-e07cabc32866": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "e9c12b3ad5ff12cd67f0d858bbc44ac84f10fcb25ce05963ec6aa9bfb3dd1692"
+   },
+   "power_design-e0c37c274f30": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "39959f869931ce8ad344700d2081c2ec6ea8b7d0b0491b666b0bf709414d10f8"
+   },
+   "power_design-e42ce2b3da33": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "51fe40aa144f53d87a4e109363de1a20fa39ed46083532048d6aa2a9b98c2d38"
+   },
+   "power_design-eee2cc91077e": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "2a0253e08cb257c81f6c02530258931ffacbdb9b4e20246bf8b55d65298600eb"
+   },
+   "power_design-f165b82a6ce8": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "b4efdc71e6c3cd882e7140367b0922bef89794476caa1cf69cf057818d8d352b"
+   },
+   "power_design-fd7010f1ef00": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "c8a8969ba05b929ac30d50453f7996ffb41fe8418cb5d1566121d520c1accd0b"
+   },
+   "power_primary-06025b3dafa9": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "d582e4667c7925be618bce3ccf8cc4d2ce2a949dd3daec574026314de661ce39"
+   },
+   "power_primary-1c7a9e8b2769": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "baf1b782b209e520e8b7321479f0b654bd6ec866b7448fd5f2ae229b9949a372"
+   },
+   "power_primary-30c78a391682": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "60a14a986e99ecd983663df400f3e83447018fdb27882fc615a72599716c5c37"
+   },
+   "power_primary-618b6dd2e026": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "06aad8bf4c46acb5ceb8e66b37c685cff1f6c8c1dabd38cdd487fdb80bc95e72"
+   },
+   "power_primary-9d001993ad65": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "2677b9a258365193710a58b7a0a5500dc4fe39d208a1f9f71e08462df635f896"
+   },
+   "power_primary-a3685697a699": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "2db734acfc5747c970415bf56697d523be74a165fd54f1dcd6a89262b92cff52"
+   },
+   "power_primary-d47b281e5c9b": {
+    "seeds": [
+     402528878,
+     736126170,
+     848675819
+    ],
+    "signature": "061131698ebcf20a863ac8ec219acc3e9d89b4e5f312a831ea76522962c7944b"
+   },
+   "type_i_baseline-1123545949f1": {
+    "seeds": [
+     1864178322,
+     404912556,
+     987174732
+    ],
+    "signature": "83783321b39689500acf57a7aa7359512f00e5d44941918c3a78ae1c4ccde7d3"
+   },
+   "type_i_baseline-d9df4c3b0570": {
+    "seeds": [
+     2096756513,
+     257735747,
+     434339380
+    ],
+    "signature": "ac169556afb2d408af1da389ef2d026d026e98e23347a6b17cfd5ae3f9054760"
+   }
+  },
+  "phase5_latent_rank_ladder.json": {
+   "power_design-037664364c71": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "5f02e7b80dbf4799e331d8627bb49f808ea1e0073724d415e01b1c315ada5a25"
+   },
+   "power_design-13a1dcab3781": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "d00db3360fd38be412262b13d2432757261762de648809f147c3e1584809993f"
+   },
+   "power_design-15c62bec7509": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "345620d9435ab70897337b316d1472a53b95f08dcd279df9fc5dbb1f7cbbb538"
+   },
+   "power_design-18cf4e61c373": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "00de467c049ebfc1059c377aa45d05be49facde37cdd43ffe930766082ab51cc"
+   },
+   "power_design-1c7c6cfddda7": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "eb87b3e739d5575301ef17840b421c55d7fb370af50ffe59bfeecd798dd2be37"
+   },
+   "power_design-26bc8ff36ec4": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "e2f83fd2c3c6377c9982e64322e58a881c04f7ee9a15e718129faa5a033ad4c3"
+   },
+   "power_design-27de258daa30": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "8c375e99bfee15de9bba098b584555b5920548c383fd46d8e6740e2dee4f1754"
+   },
+   "power_design-2ae227e5507f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "b9618f48b894806cf41530842f3f549d5b53048e575c10f0de96ee113efaa334"
+   },
+   "power_design-32b384ac48ed": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "b3c536afd53b6c7d9106993f632c9fbf951b34fefa8ba87041ad8286e4df182f"
+   },
+   "power_design-34f9491adbba": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "50c25bebdcaef917af4cedec92cf15501dd2c8bd23e223a43caf0eda709eaa80"
+   },
+   "power_design-3d83eaaa56ef": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "a95aeab731b7389aea220a4769eff27c7a19c5e7530cb164ee235786dee6c1a3"
+   },
+   "power_design-3f4a091669bf": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "ac2ba100cd2d5a2f1dbed866aba35080132947626895189224ee624968d1b905"
+   },
+   "power_design-42a3d3f3d400": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "09ac4dc42d4213f17ca32fcb32d5fe1fa98544b0782a4444ad76cfb896e97ea6"
+   },
+   "power_design-42bc5060594f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "e7947b7ccdd3a4117747d4a8dd99b24be0fd094f9372d5cfb1222912de84555b"
+   },
+   "power_design-456e9597089a": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "3070f27fcb0f283704ef0bc0acc7cdd7f59cc5c20b830922e178d5c2f54427be"
+   },
+   "power_design-49be91385b20": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "98fa9398708b54152dbfb54f226adfcd551524394ccbf79039a1dde51de34a4e"
+   },
+   "power_design-4b53c5dfec45": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "831acce5565f217993b5524eb3a1c1071a7e252359d915d82c5b7e36930ca5e6"
+   },
+   "power_design-4c970b036eb6": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "bc48b3aec5083b6f1858c8d46056506603af1331f2dd1eee75900c25dc35582d"
+   },
+   "power_design-512362b8e6aa": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "7ee433453cada7e9d91842c654790462e66d5f012a72b813e0e126affc843456"
+   },
+   "power_design-582611b23700": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "dccac75a43006245776e076d0877b686498b508030979bec8ed6159101bbafdd"
+   },
+   "power_design-5b1afa09d6e1": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "5a1a675068fe1b3dbfb2d2c7d2403f2ee8abf9f2879bfa5c12febebb0bc3e4e5"
+   },
+   "power_design-5dd41dfc5f1f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "a03f5b09fe20e50dd3a2eaeec7976f3a65b362a084cce7bb42deaa92a9007c4a"
+   },
+   "power_design-5f1b7bd7fa37": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "108e37472d3b4ceea37af2f1262ad9ad6bc787fc0c8a673fa15e9e3134d30487"
+   },
+   "power_design-6936169acc4b": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "d85e6743afbd271e5764389941d8e77d90b488de5f35411cd0755af20300641a"
+   },
+   "power_design-72c920490a25": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "f80343947faebaa980d0f027c51beeb97d8820682b90bb5a0611abd0641f2114"
+   },
+   "power_design-785e7d377283": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "31cc0060dfed4ae6ca7f794ae21bd9f38b9ed14d60668b10ce9ccbbe10cf9387"
+   },
+   "power_design-7c20e3ab5743": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "1e92881d887136f737f589bc7b07dcd59780e10f3f069bac8d6db3275e5a7ba6"
+   },
+   "power_design-7dcda14056bd": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "d791ffbc47568a48e96753be5dd4ab809db14f2831df8b430e3702085ef135d5"
+   },
+   "power_design-7ea649f81742": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "6e849b4e8f80433d61d6c65e96e448a8d5a89312208354588a16e1a35470fc80"
+   },
+   "power_design-7f470acada32": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "219731bc1279c8e767158b537e7bde2b78b52c0ee1c24ef094a174f07f2ba5e5"
+   },
+   "power_design-80efd7a1b07b": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "093de08bc931084171a3715795657a76a525c8f271e8996bf2c636b0e9576eb2"
+   },
+   "power_design-817a1c1ca05a": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "5de6ced0b34c94d33c9e652420cf2449b7f5331273d1de837f7ae20b5453e16e"
+   },
+   "power_design-8c20ed7a3260": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "298b07de69105558f49d64d4ba318507fd82ea0b80ae2e40e5c0fc8ffe449e33"
+   },
+   "power_design-906be506c8a9": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "0a8bca5dbd25cd39f3c77ab5500226ba17794049d6512f29dbd4431e392f75fc"
+   },
+   "power_design-910171413334": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "4eb5bbee9155ffbc93261952523096e771f044722560fb05b7e0fe50343f8934"
+   },
+   "power_design-9650d9f73d7a": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "8875157e51212692f6623f1c95d9f70d81e84fc35730d58e1e35994ce78739bf"
+   },
+   "power_design-96aa7435fdd0": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "fa1a5dc8c30a9b4e7885d1c7de23461eadc4a010a0e7ea1d3455770c42cb8d07"
+   },
+   "power_design-a16272e0385a": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "43ebc076735ff5e1db322e3d4904edac9b9609ecb1710ef2335c59de8f4ae526"
+   },
+   "power_design-a1c033dcbf82": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "16c2fb7d6a8b82e7d6337af3415d398f81204b5be93e38371f2127c512886c7b"
+   },
+   "power_design-a48e18be7507": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "cb4b19aec00c298e50bd61d13a72f0061b4a324c7e2ff9c9c5338b1d0930e65f"
+   },
+   "power_design-aa090817234f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "71e42ca7617065bb8f5ec9116f8d135fc46feab81efe34707965434d3ced31dc"
+   },
+   "power_design-ad3ab4e34ee6": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "d2904f7a4b02d9f50fa5981e8c17fdd73d0272ff4e198a3e82584febebe83958"
+   },
+   "power_design-ae9999769870": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "aafed1f80b56b2cb0af668e749398700d693bd4937d488e2ccf9be4d785e3739"
+   },
+   "power_design-aec17dc3cae7": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "63e526a9b30f21c8bc44b7b412c29f4170085ec8c664023cc44ac3765779f2f4"
+   },
+   "power_design-b5dadb2c360f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "11d7a92f200eea7d33495fa31978f12bdd89a57051b16017033acd2b3982a4b4"
+   },
+   "power_design-bce28a241315": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "89a5752452c4fbce4964fe34cda7543de9accf31be8432cc882ab74b56c8fb0d"
+   },
+   "power_design-bfbc0b17359a": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "7322115418222b250e1a788a23e7688d6edda1ae40e7200538e52fa2eaf2b468"
+   },
+   "power_design-c204fb29ffb0": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "8b5abc656f56d5a550c93bb7f0e3f2e99e71ba3a6246eef9240caa6b0f7ececc"
+   },
+   "power_design-c43d8cfde0e3": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "373fb8692ffe6ddd7094bbc1954a3c900b912037411ae64237f375dd2ad6f521"
+   },
+   "power_design-cbbcefaa8202": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "5557392b43f0afbeb4022de4780059ef4d4e420026a770fdba2885df3585a2a3"
+   },
+   "power_design-ce2ff6cdd2e1": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "e1f5447a1a817e104412c9f9dbc556a7177772fc98836e8a2d9f991676fe1a6f"
+   },
+   "power_design-d0e67f574e10": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "fe4898e01a33d0d6fcfd28654743b5625c177edea7cc0bd02643712f5726ec9c"
+   },
+   "power_design-d23641d4daca": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "47243d89f2b57fde75eb62e3ac3ef95ff3e0035953f300b0923d23f3c29f2b12"
+   },
+   "power_design-d9a8cd333a53": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "6e0151ac509ff9dc96a1dc835c18f4ffadfb4058e54f66e7b847f45f2930802d"
+   },
+   "power_design-da3c14e14e07": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "1b704ebc0407799523b0cc96904ad628aeacd8994c610cf395aee96350d8e361"
+   },
+   "power_design-db6e0b816292": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "caee0185d288479fd62b7ff4afcaa6852797d4c4784864c4e930798d25f531bd"
+   },
+   "power_design-e3598fe6056c": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "d36321b1058b5bf0508a585c2a4c4490e0110757c2a1e7754624580e91dc4067"
+   },
+   "power_design-e635738bfdb8": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "1b3233167af2824730c3926b4fdd854a1d0856dbdabd55ef13da95a0b4b3daec"
+   },
+   "power_design-e9500d3fb5e1": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "a989b6f91e9b5d35bc0429d8a3f5e5fab31a6fd3798c94d4dc52d76a0afae7a6"
+   },
+   "power_design-ebb363601e49": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "7d147949d7f3f47eb739bdc9789f55fb5cbd973ec7cca94aa957875857902934"
+   },
+   "power_design-ee9b0a7f0cfb": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "07562fe96638f2f2de69cc9cf7b6032a5f96effdb8fd296284b55b84ba2bb6e8"
+   },
+   "power_design-f48ce1d99e6e": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "9e8f40ef7a9d20c9caee0228f00ca3752e770a6d00770de530796ff9bb501897"
+   },
+   "power_design-f6e58cf4c18d": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "e9201c936e196d02ea03f0ea8f8c0da5f73d1829ac814d39bf3d188a348479c0"
+   },
+   "power_design-fe4faab1372f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "f3bd8e4b78fd9b34a681ec04b676aa55db7fe74e8019a65e49eca14bf99a74bd"
+   },
+   "power_design-ff0d1ac8d8a2": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "be6d817823f4d5f6985865ae02f2da4109238a8aa5e4b8e56533083f582d6b45"
+   },
+   "power_primary-0ff8d6ffedfa": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "2fe6a797e56f4ccb3afab95554ed364385d3846a3b627212b93a405b9fe9857d"
+   },
+   "power_primary-24a8e346c7e6": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "70c1d4dfb65bb858e223de53d966b283af80d884eb0ef77183a4ed58616ea9ee"
+   },
+   "power_primary-41c6cde5d41f": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "c5efd2e8af024416ee4a6af44a553ca2fcc539120b556820369ce20ce590dd75"
+   },
+   "power_primary-4f660197b632": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "7199a754e0309c6505b158886d32f9b81cd347d960bc5f3826027b4a638d5dd4"
+   },
+   "power_primary-55dc620ae48b": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "9ff662378224dc48ff16d401a056f3801ebee5adcb60f666fed6155da90b26a5"
+   },
+   "power_primary-6e6b59236130": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "7c73697b1d5e280478a7f9ad570623da02f7ce24a2272385a31cf27066b6758d"
+   },
+   "power_primary-7eb60810c5e0": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "a81f8edef085b129417a364d2c42a8dc55a9bcec2d57bcdf1f4e6cc5b3128b77"
+   },
+   "power_primary-84509308990e": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "67b031a1081f1d89c46d8b5738507fa9727738c21f8f8870fb847c123258353d"
+   },
+   "power_primary-9137126e9f41": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "31b3f2e8cd179e1b97733610f52fca6268df895a73721aa935d3a76d48ba3501"
+   },
+   "power_primary-c7f4c985feeb": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "a7205e79a75b2d2944bf8670aa9ed4fb217517f5f5f5ab4793f4c9b170a1c797"
+   },
+   "power_primary-cc3d56bf2fea": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "93c7d44522a3bfa011606609cd02233f430986d3ea450e9f4e2365fc623901e6"
+   },
+   "power_primary-de9b49f334e4": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "e3232fa100331e644b237937b6001b91523b2d88fde415496c89322c60389f20"
+   },
+   "power_primary-fcd427854ae4": {
+    "seeds": [
+     578823340,
+     451936662,
+     1393786273
+    ],
+    "signature": "4fdd66345af8ea7bbf6271758d581d78cd083a3f7e90d930bd2d089994404c45"
+   },
+   "type_i_baseline-08d5fad9e2b2": {
+    "seeds": [
+     39530091,
+     392413794,
+     1949977978
+    ],
+    "signature": "8425235a4d0e2b8f6b14c320cbe689ed32a60f1a6796781ecd0a1296424ae80d"
+   },
+   "type_i_baseline-253f1c4ad4c0": {
+    "seeds": [
+     108384219,
+     469187953,
+     2039409614
+    ],
+    "signature": "4bf34998bba6370dc1dc1c4e2f0a9e297c9f7df34dbb9a1d84c76bcfc6dd3dde"
+   }
+  },
+  "phase5_magnitude_pilot.json": {
+   "power_primary-00d5fcda35a0": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "863f3a4ca5af1f39a203ad63f293c633e72e99f335ed127100b4449c518a46c9"
+   },
+   "power_primary-0184d5440462": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "04f04e54a4479f0349d32c7c8ec3024422d8a48cf40a072ce3b8593b8e654159"
+   },
+   "power_primary-0769031532cd": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "a9024659a81879ae4067747c32317d9cf82c7f7f77fb7965a26e21f9631e8258"
+   },
+   "power_primary-1594bba3042f": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "d896cb070dd313507cf8cdb3fcaf21e72d2fb9d1fdafd93df46d0a37be271982"
+   },
+   "power_primary-5e5367e80f05": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "a3c772191410ab001a15ecdc6c41ba69e6e30c6b13015192f14084ad98b6cf23"
+   },
+   "power_primary-6722e9f99830": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "97fc4ea029f62b4f87a59177a158bf95fb9df49a4ed9d90ae6f0dffc1e4bdf61"
+   },
+   "power_primary-94632cab8405": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "4a20f3fa3e200164dfebd22db747235cdd8fef99a234dd49ab95314bdf1ffae3"
+   },
+   "power_primary-959a17ce61fd": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "7a3a62559af6900771578450418a24c12edd7fb759c6fa88a5ce91c14617f61f"
+   },
+   "power_primary-c403e7355ad9": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "50fa7f77ce0485aad29b8c18888d7bdcee86a05a80eec80f88f5a1d9bc007504"
+   },
+   "type_i_baseline-13f017f83a05": {
+    "seeds": [
+     1063134280,
+     135605173,
+     363065216
+    ],
+    "signature": "05625c8d3ce39e5164ca79b7b6e1f87d6b0fdc308473b15d6c4f37ee62f1a39f"
+   },
+   "type_i_baseline-580af0312f4c": {
+    "seeds": [
+     81434586,
+     1593390844,
+     1069159558
+    ],
+    "signature": "d0aba356980d12a5b5b3cbaa613f2e467101b15c0bad46107f841164be92d1ed"
+   }
+  },
+  "phase5_magnitude_remeasurement.json": {
+   "power_primary-299cb406aa96": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "7c0b0df75db0027182ffdb7c6d138c4441f5f4048cc85aa24d299b550179ae13"
+   },
+   "power_primary-3538a571bada": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "34bec2143a42b4bb9adfa7dbbef38b9d1178ac9fd4b0b28653577d94a82d35e1"
+   },
+   "power_primary-3617b140aa5a": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "22dc240cb4699a79da9561f727853100c66809f7bbf69e82c5e60508f6ba6e68"
+   },
+   "power_primary-50559e32f2d8": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "c478475fc74eba1f9e42f9aecd6f3fa954351484d36b79c1376d791093ac2f1e"
+   },
+   "power_primary-8bf1d7f9bca2": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "1e1d54dce4fd0bcf078a2b5cb607495b83ea46ef7f23fa0fa1f404b501eee3d3"
+   },
+   "power_primary-b68bc66d33f4": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "9fd977dda59d0271cdc27079977a5072abf8b0e91e4d7a2881c481b17f7ea4ff"
+   },
+   "power_primary-e4cb568a74d3": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "23fb7acff6fd8a578ccde4ec51aa2b2230ecaeab76568d64c49babdb73fadcfc"
+   },
+   "type_i_baseline-34269dbb2cc2": {
+    "seeds": [
+     638957468,
+     1572223468,
+     829936984
+    ],
+    "signature": "5623dc504aa232a7c09615136422f461adcb5c8a8293d3044fec0e172ad89da6"
+   },
+   "type_i_baseline-36ead8565098": {
+    "seeds": [
+     2023407766,
+     1548337593,
+     1650363780
+    ],
+    "signature": "281722d3a22c846f51f301bb3bea6b6a8d26fdc62c167173192257bb26a977dd"
+   }
+  },
+  "phase5_power_study.json": {
+   "power_primary-06f4766977e1": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "cbf85976ac8ecd1d84afd3045fd9b0a8be642b749b193062a95a6f93b7e071d2"
+   },
+   "power_primary-09a62cdd5554": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "facdc10883a67c281565da734301a7cf91e793fcdb9814b6835341db01f783a6"
+   },
+   "power_primary-1ed275cc35f0": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "2ea23befb8036dd09309a7fe6154041f5c8980901784d2fdd8fe1f66ea1cd249"
+   },
+   "power_primary-3b941f099b80": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "186e78c7ddbc0d4b77ce502888477a6401c10c0d9ad97fca6b604dd5c2ed91dc"
+   },
+   "power_primary-3f2eccb585e5": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "2d504fbbfe077607c5c8d4cc7c3726d5d726d974334bbcc009f485552f25a902"
+   },
+   "power_primary-5e2c6d914647": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "6417c25e5da357544b85f98755c95faea2940521079358f91c207bedd38e5bf0"
+   },
+   "power_primary-6459c57fb4f3": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "cd7e28a176fdfb791bdb1e6919d96fd79382fb9c6ea7cbaa5d7b5606857abdf5"
+   },
+   "power_primary-6533cca3cff6": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "689bc6da730b15ee31b9a21e89d586ad007e05afb8fc33e9e1b7aa4742a61798"
+   },
+   "power_primary-8d1d54882ad0": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "f7d3d42372a20d0cadef30b70ee3004dd977b4ab9e5ae52335afaa6c5912e33d"
+   },
+   "power_primary-94ae5b6e309e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "3783063a06e3cbd8aa567887c32e549f71daa77acf800b69752a25d036286bdc"
+   },
+   "power_primary-a232c2e1578d": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "e7da4a67d178d35f7ef24eafaba070a564b3ed71f3a6f969004ce905fd20113a"
+   },
+   "power_primary-a3dabd0a79ce": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "b5b4df79220c61aff030ea59298949753be502de61a5a122494257720f7a70d6"
+   },
+   "power_primary-ac245a5f3d63": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "9280f1e10b74f4e63bc3f3b46cbe56c901a56f3c46587173a179cc89333b4fea"
+   },
+   "power_primary-b940c368477e": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "54bd4b3a237364738c5124f67e02c5ea89ab20d45ccc3a39bac1dce942ef223f"
+   },
+   "power_primary-c54af648857f": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "a3fcb15a76374f972f481822cfce037703d3db0390b76458592f41bf7f76cb39"
+   },
+   "power_primary-cfb3246b2bad": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "efe40757bac034a0d0151bbc26a2c5467449b8410ab0980fb634a0899e87a538"
+   },
+   "power_primary-d74045b65506": {
+    "seeds": [
+     442490140,
+     1988319376,
+     4392779
+    ],
+    "signature": "40bfad59c97678be6feb28f5317186ce183df1097544750d347f3286dabdfe28"
+   },
+   "type_i_baseline-c9b8da02420a": {
+    "seeds": [
+     1883692497,
+     573205489,
+     1191320519
+    ],
+    "signature": "b4e43df7fbe1bfe14509c4b2103f6c073389db8cb983144f3e9f0317a8573f45"
+   },
+   "type_i_baseline-d18f474778c9": {
+    "seeds": [
+     562689698,
+     206564376,
+     570027062
+    ],
+    "signature": "388574212a1c2ab91e1cafc297735acb1e8dcfe063f6043f2e2686cd65ae63f6"
+   }
+  },
+  "phase6_small_n_magnitude.json": {
+   "power_design-0473794fe188": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6f04bca8cbe82d895ef19e1d1fb36c77a6c990c2e8457c4d495191f2cb34a4e3"
+   },
+   "power_design-0db4b09ce155": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "ffebc036331167bea221f8a32507193519f0d60b29188638038af1d6b16ecb7c"
+   },
+   "power_design-130a5852f12e": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "acc988c1b0fa28fb3deffc7e5b77f471304d366cd8c9954e6ce317405e4d1e5c"
+   },
+   "power_design-1481945bfb11": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "54ed631cd0941e9b70e47b7be7c6093abd4208f1b7f95d12317770b7f6e200e9"
+   },
+   "power_design-211503001204": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "8c637362dd3547b1d4745536d9f19676d46c6c6b632cfb33333fe5462239d7da"
+   },
+   "power_design-3a4fe723dcf4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "ed6457b346a3c9613b48328816fc12a12aa33516330f0d9fd6ce0fb028e6acfe"
+   },
+   "power_design-401ee320dc18": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2f07eb2fbd9a4f399454be195e985ee3d20b0856c5147f4fc13c20bad1ef665a"
+   },
+   "power_design-52b86b929c60": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "9f2cb6ce19740d919fc1f7c5fed936b2270b87e278a8152526b1f004ddf6b141"
+   },
+   "power_design-56f821c13706": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "37b9a37d4621ac8610455210bc56f07dfcbe6e3cb8519df1fdf89bdd091462b9"
+   },
+   "power_design-5db8587d5aad": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "b64a340b1ca2468cf65b0bf486bb16aec0a4b8263ae1b65e7e6f36dcddcbf5a6"
+   },
+   "power_design-6436f4e107b1": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "11ed44e4f51c4b02ecdb1259b2747654a3e1a0393baa6c10a2eafb7ea46eb058"
+   },
+   "power_design-645e2a73aa92": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "5c92c4267a824ccdf9edd541d671f08a7661ff4af72184642b50c5d6ac3a15e9"
+   },
+   "power_design-a09212f17949": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "25e3fd5cda906a690491a609a73923e0a69bfd2c2ef8a396712c4c09f309886e"
+   },
+   "power_design-a0c24145ad8b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "54f94da04e5497d0673db919df070a4561ce310e94d3e6c0b2e3587007d5b7b7"
+   },
+   "power_design-a6efbe50841f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "68e9ca0b0961ed073cab6ae49024344e4d99a2b098b27fe79b89344a615c4f66"
+   },
+   "power_design-ad989d1e5e96": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "ea804e8239400c88e3a8b69e7b6245ebbd4a8e9d733d03e1e63ebf13f742db5c"
+   },
+   "power_design-b5b0b6da8576": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "a79bd6495e9e7e2b35ec21d7ccb5170c5f61aa447768093368a4ccb7ba6c6855"
+   },
+   "power_design-cf76e6b96be2": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "17c36fd4fe4c043463c53fbef77990a8fb8c1fe8ad909fc531fa0e5cb94b1fc4"
+   },
+   "power_design-e939205eb730": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7dcd1a42c65f2990ed31d2ff899062ede159da93bad626eed68287dea65baf17"
+   },
+   "power_design-f10f69270e6f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "3c5d6fd284e92e0e43644c9f12532c89f821ce03d1c26ba11bc13ade16ea335a"
+   },
+   "power_design-f4dcb6c124eb": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "3077de84f872f710bde6add6cb59c5771d26e608138dad0af26d2ac07817049d"
+   },
+   "power_primary-054075f42c52": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e169b1f0d02e588d37ed6ef7f167aa8e7cd5895003e3fd5777ffff8792c12b27"
+   },
+   "power_primary-1ae7f04c6075": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0a7e3f21c002267bd80e93bc17563bb17435d14a9baa8c4dc2f90612a0c8ecee"
+   },
+   "power_primary-220caa812219": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "60022538c4304e9cc3051cecc1dfb7f69b3c1c010b0c2762bde9a2c82c2ac89b"
+   },
+   "power_primary-6f04726ce01b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "522b4f9057358607e5bef62b8b2db20bce20f440c3f3ea703fc982e7d06fe08a"
+   },
+   "power_primary-9de5c3744986": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c52f9b9720493085fcb0c334f8aa89d177728ba0a2940ed98164cf648e0cba2d"
+   },
+   "power_primary-c44ce1f3a791": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d6c5cd58a60a5bc957cdc43eabcad60579b674d040179e07da27c9fb0afef350"
+   },
+   "power_primary-c73f071130c2": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2aaa41fe847dfd317339667a27a7c13cdad498acae0149321eca589b5f0fdd5b"
+   },
+   "type_i_baseline-74c0457435ca": {
+    "seeds": [
+     2045670206,
+     195870535,
+     1193555282
+    ],
+    "signature": "dbc66061f620e498d2bef4a584e7c8f8cc3e875b45964ed712450e83b8c61f62"
+   },
+   "type_i_baseline-ca766c21680e": {
+    "seeds": [
+     1721681989,
+     1909924365,
+     239196010
+    ],
+    "signature": "de7da6ea613b3eb914b9acc0341b558076843a5efdd7b02e22e79270e30a43c2"
+   }
+  },
+  "phase6_small_n_pilot.json": {
+   "power_primary-007603f83582": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "1e4a64abe5978a6a3da3f186475e1ce898cc3de5aa7ed6655fbe9f7a7e09952c"
+   },
+   "power_primary-028e97e125f3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "4779dd9a471595c789d1ffb9bbd276c3a70263a9c4f2f29b45f0ea17849a7065"
+   },
+   "power_primary-02f9716b85f0": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "836fa6c083f2da6069d2c356d4ca3c44eac79029fde87491db0ca9f0cdaee137"
+   },
+   "power_primary-07f76323a1d3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2c7bc6530078648feeb50e22188ab8a283dbfa270cc81cb44bd21ba0daca977c"
+   },
+   "power_primary-0fe226096741": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "8aeaa327d51590d94d6e143352f0531520b3b81438f45fcbcbd4b03f0480874a"
+   },
+   "power_primary-1f29c774f99f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0aea9ee093f1d326091d63365217317f0f56a246352b5e7ef51bb3684cbef8a2"
+   },
+   "power_primary-2247eb421aa3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6a1b0b1085bd77f2239f1398eff8f47db10fcb59e449153eae5bc1861234a05b"
+   },
+   "power_primary-22f4006498c5": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2fb1d1d3354e701a7d2728ee4ab125690ae832f71223d006b3fcc318dd29906a"
+   },
+   "power_primary-230d1daf8802": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "8a441bd597a99b9fa5ea1a32a44e4c15d28b1d454990506744bd99d90a91edf1"
+   },
+   "power_primary-24807357b4be": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "69ae97e62533cb95a577738d08692c473a3bfd8d99eeac151c540beb0876bd7a"
+   },
+   "power_primary-2bf85d320afa": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "f0434dc6e3b39c9a186447c6c268ff237700580f816ba716aef2b39ecdcf50af"
+   },
+   "power_primary-37d1e65920f4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "26218a34641c6f27ad67057e1fd32bfc737b9643c4082c8312000bc6361d4dc4"
+   },
+   "power_primary-3c7daff68b49": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "88116dbd6649783c3b65c4e0ac0e05d608d0ae66f392e49071506d2328d16a8e"
+   },
+   "power_primary-43ee35d2dff4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "41f806ae54b4d99316eefe32ceeeb0e5116c587c7219328226505b761c5c925a"
+   },
+   "power_primary-48ac8601d296": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "1403c7462531d4d280d0990209a2a11367815dff9107b97f9606cafaefa5f461"
+   },
+   "power_primary-49eeeaccfdf3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2705293b2639538a8e4dc8eebaafc9a0ae202cf23bebb6032f134763e8488766"
+   },
+   "power_primary-4d8fe2207fdc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d2ed140f065696a7a95ddf87490c7f245d05f6d598d545324e3ce801384353fe"
+   },
+   "power_primary-7a006a0fd82c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c1244389b953ca186eff3f610c40b71f0457f2461a412eef70aaf5a6898a1365"
+   },
+   "power_primary-7c5f1cceed10": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "12aac84d4af123d5eefd365afbab20b81e986668c26f1329c9a9b48f90d88430"
+   },
+   "power_primary-7e38ecd3edb0": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "944aa14cbaed74e620b8ba882a28985f016b345133c0c009f70930bdb0d16c8b"
+   },
+   "power_primary-81037972a04e": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e104855c6ae71a6e22f29c7c083370219d95fb27db37ed153b6155a8bf856b8f"
+   },
+   "power_primary-811bd7349db5": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "71e8afd81d70decc159a84b5fc39dbf4ef5f775126503a0efd020092900de20f"
+   },
+   "power_primary-84479854a093": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "fd8be3c319a32930df707e8c35d0a8a3d449b87d30e594e179f641bb8a50fad1"
+   },
+   "power_primary-a38f0771eb4f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "fd52e4eaac8ed0adb9bed6c144415632b25b9859867955af0467a52e3eee281f"
+   },
+   "power_primary-b251f3d2decc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "52633b351473ea27c25f01c0de60bf3db9889e96c54c35680a7306727fe5a0a8"
+   },
+   "power_primary-bbcae83c25bf": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "67435c4efb9fa6e89a955cff97404f2f962262947ffb9ea203fe748a13d49dd3"
+   },
+   "power_primary-bd15654e4b68": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "81702600f95475a4376f105beab4842a4becfe0b6981b5d9fcdd965d2eb67f26"
+   },
+   "power_primary-c9522cba1b71": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d6a7d88bb9c94640a9a58a9c8cd5ea92681f59042ef79bd7ba132d4a32497725"
+   },
+   "power_primary-d092dc6a6603": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "cda6c409bf03331898c8581e3eea72734825bda1289581e86d3e293f4001db63"
+   },
+   "power_primary-d0b2bd974817": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "226d394dd072c9beb96646ca886ea442e73215976c302984902e0ccb14e8e631"
+   },
+   "power_primary-d180f2163658": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e855e0e9c0edd5a1c33924e014f91f89bb628e892bfa89fe9d7dd748de9a7fa1"
+   },
+   "power_primary-e1cb636bde9b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "9dd25e55d846d1a167909dc5907dc3684076eebcd6890e87a5fa35db2eb60396"
+   },
+   "power_primary-e701795da9bd": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d864ed658915261f7e46c4d6dcde1e7d76fadf48f4702f760146a5000dd83f1f"
+   },
+   "type_i_baseline-1dafa7daa331": {
+    "seeds": [
+     94976678,
+     245940333,
+     1266312507
+    ],
+    "signature": "4533fd6bfdb3ce8752932859bef3bc3d169973abf41f4b3de22402c96ba61469"
+   },
+   "type_i_baseline-3d629d9bc07c": {
+    "seeds": [
+     1340155014,
+     1030736391,
+     184817209
+    ],
+    "signature": "545a6b486ab9c4838e511f0961917bee2331b49ff49394a7be735721cd8eae58"
+   }
+  },
+  "phase6_small_n_study.json": {
+   "power_design-088b6c84c2b4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c967af018a4d3af655467d668413a38ca288341e14f727d560f2ab36fb6ad0e8"
+   },
+   "power_design-0d06c593d4a5": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "f83cb9d9de70abb3e0a62d41821a9ec1e127158cf1e372007a009932b6c8ec0a"
+   },
+   "power_design-1a8906b75514": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0bf42d7fa78deabef2689c7e046891103f00cb5433172d7d4f64a035f5749430"
+   },
+   "power_design-20f263893fe6": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0a968d72d74eae0cfec0cf9b9cdd6f5a8ee593ae55d5117c04e0ac7658f31fd1"
+   },
+   "power_design-2a366438977c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c6c8ebcc6a468f6118bab8036df92a41696426598725f79629e377885cd45cd8"
+   },
+   "power_design-3714546112cf": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7fa70d958fff009b74d84023ed643b7b08dfc4ff9712cbd8c8226aeed9758fa4"
+   },
+   "power_design-373e521b860e": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0a3a130162ee46cc5dd8d3bf74fb0667d7ff5100c4d5d34a3cf7d16b61ff0bf9"
+   },
+   "power_design-3781c7499d0e": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d1e952f23c6ecc25e39c7191b7aad141b93b413ba6492c274717d91529141144"
+   },
+   "power_design-391cee844a97": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "7e9fc80916b5af7b8231192d9717b133f2860e3ade333a13731640588e5b033a"
+   },
+   "power_design-39eda992298f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "d24b1b7782628c23ad03cb081ddf016a5f4640b61ccd2a9a02d305491d205e01"
+   },
+   "power_design-41024c5d18dc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0954e88c94d513a9b2b0f8af76e7020c22e43c502cfe2db792742a040aebf4a7"
+   },
+   "power_design-444eff36a0ce": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "08c7e2a01ff6c5ced41e85d4ec94f692fdeaa317bfe23dd29eefb35a89ee7e29"
+   },
+   "power_design-4cbd98422959": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "b5ca3b9364a630cac41112f613a0a97feaaf409b70dcc8f46eecb52cf7e09f8d"
+   },
+   "power_design-5a4f27035a1f": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6bc5732a516b5473152571586fb4147b68c10d59083ebd01b4d4389fe06ad628"
+   },
+   "power_design-6fab355f418b": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0e3e39f6bcef144ccddb96c21e508c32baa44311360e674c0450738345869679"
+   },
+   "power_design-73257baf8a21": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "274a028e1d48faf34fb49371764c37c16c79d515dcf5dd8c41274e11728f3b43"
+   },
+   "power_design-895944b407af": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "02aebe7351605cc9216642529e9592c502ea32cedc07e5952e5164853674ec64"
+   },
+   "power_design-95aede9b0dbe": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "718f996cdd4e8b47944e3ecf4e4073a70037dbf4da6ccf52359ffc728902a7f9"
+   },
+   "power_design-97a10b30c1d2": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "1f7f804f8ac83fb37649650e9a0979f05d9096fc20ca03a884404d5e07f43ad3"
+   },
+   "power_design-982f82b2675d": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2e748adda0cae4e4d983f72d01ca7e62ab1b7364bd9b012083e32ad54ca7fc5f"
+   },
+   "power_design-a6686ed3813d": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "00757a8e49546480b9469c3770cf9cd425ec3ceda54187717e0604981b5b7ca2"
+   },
+   "power_design-adc9a21c773a": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "fba8c75e2b44e564d6a7a1a7e80795a589c78fc765874b09109bf53d5084ea93"
+   },
+   "power_design-ae8c069a5f50": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2626f11271a28edbf8e10ad0975b9b57b9142fd942f05295f71d8b6b9dbcdd50"
+   },
+   "power_design-b7a5a2869388": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "70389ead3b85eef22aeed98a4d94ccf988129c8340d063fd7ec5af323cbcf2c6"
+   },
+   "power_design-baac85748783": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "a181443a54e6d7277de1baeebafa2d0f42880a6e742a7c3b4edc4267f006e636"
+   },
+   "power_design-c3651e18dd66": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "00d8e589607a3a4c2570f6e983f479188e98b6a550a7c70015cb3afcfb00b0f1"
+   },
+   "power_design-c6cf18ad1af8": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "ce89a419ab6f784b9cebc3ab29a1b8689246bd204a7c82f1eadc6d092d261adb"
+   },
+   "power_design-d259ad9a396c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "5067863f4de6eff22a0ec11c9216a2c8abbb9270106dd32308dd3ef5efdaae48"
+   },
+   "power_design-d2a9eb4750f4": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2dbb1b44e475b47dc3f4ac864aad54f36ab30c05bcc20c6e1f6cb1e24c5c7c9d"
+   },
+   "power_design-d890adbeda33": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "03b03f393f5161f1c7cbb2a5c6701b3b87f5ce5db4316cee93c2eea5e0945dfc"
+   },
+   "power_design-dc1af200f380": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "94618fdfbadb3116a252799b1080de0fc21cebe2d899da8e464efbd600a47573"
+   },
+   "power_design-e0197c33eabc": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "2553323c7f39537520ed4ea08748f79b93f653261e0e4d521d2262a6589b19c2"
+   },
+   "power_design-e6e277aa982c": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "69d72b27e8dce8580d3713e1d8cae20387aea9985da9116e666f9300a43cfc42"
+   },
+   "power_design-e82acfaf07f7": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c7b79986fb860d11cf53b8a5b95a00ca48eba7ab1815c4479cf35e0b13e29b9e"
+   },
+   "power_design-ec0099de5902": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0370f545c4de132aedc1b4066298a31f58afa9a49323dd90bd26d4407b17dd9c"
+   },
+   "power_design-ef636b920946": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "573e00f21e8d63c3befdb27ca87cf54c1694c0b82a6d07b90da4ef0e66abadff"
+   },
+   "power_design-f1eb64c73e42": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "67f4863d916b004d2c7b25eb23daa0f26ada27ddeecf6a934c99c5297e6f53ca"
+   },
+   "power_design-fa8fb7600022": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "df4ea1440bb7517bbd52097a1783ab32d2f9211111453368e35428a51d6fbda3"
+   },
+   "power_design-fbad952ae5de": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "c45473d08ddca9f4fc149fa9dc3f8124a8f37670050474d0c725d4d515f13e06"
+   },
+   "power_primary-1a2e4088b485": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "48563ed4355f5181ede29e08ab615893227649bd71c1a7571309b7d26d461347"
+   },
+   "power_primary-1d6ba8dd1bf6": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "af9564495d273383c7a4c1fc46da75ba003ce4635093887380033a82e7013552"
+   },
+   "power_primary-3826507dca97": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "0091029754830373de46cbb7f83d991139ce4e5d16413d7459e261ac10b4e4b6"
+   },
+   "power_primary-42c2c5bda573": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "5c112e1f64da1bf63691cdbe0ff64ac56ae2d150686f0b797d23baac4f66ef02"
+   },
+   "power_primary-532b91e432f9": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "e5c08263c8e79e86b2cab3e297e2e51f0c3e47e6ece872644d7da1cc58421d61"
+   },
+   "power_primary-6362cb90f244": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "75cacbfaab42a413b37a7781b4bbfa5a9d111f225f5783764e6cbaf7bb7b754b"
+   },
+   "power_primary-69ed86aaf613": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "b9757f2373709c8b63ed10fba9313b5a27b2227f6ad8946ee4e051e343c0a744"
+   },
+   "power_primary-ac4360280beb": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "a8b3662246cfb7bb9069bbf2d4eb71f3d430a63de0f1c625ebed7925e0a74972"
+   },
+   "power_primary-c15d63dd7033": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "28380a2fb9f708721b7b1506fffc941eaea466fff9712d0b789c57312986c779"
+   },
+   "power_primary-d24110555d37": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "723c4ba21fc696ce0bc334f7c642bc11fa5b1e9b51221fe7c8b46187d34075a4"
+   },
+   "power_primary-d7a0a64df6b3": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "f37bce75d8feca12334c5caeac36458491b720b40fe5ef7f297443cc8e7d916b"
+   },
+   "power_primary-d91ecfba4533": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "6d9e33a9b2f2196b25e372da2be31ab492bb115d0db63a8dc8695671272b71bb"
+   },
+   "power_primary-e60446c3f904": {
+    "seeds": [
+     2068719535,
+     1615467777,
+     462499461
+    ],
+    "signature": "5129c41840ebffe6b3beb288dc46d4f2d1502cda6c9036a6ed912c8b744dea13"
+   },
+   "type_i_baseline-74c0457435ca": {
+    "seeds": [
+     2045670206,
+     195870535,
+     1193555282
+    ],
+    "signature": "dbc66061f620e498d2bef4a584e7c8f8cc3e875b45964ed712450e83b8c61f62"
+   },
+   "type_i_baseline-ca766c21680e": {
+    "seeds": [
+     1721681989,
+     1909924365,
+     239196010
+    ],
+    "signature": "de7da6ea613b3eb914b9acc0341b558076843a5efdd7b02e22e79270e30a43c2"
+   }
+  },
+  "pilot_50x199.json": {
+   "power_primary-046cb785f04d": {
+    "seeds": [
+     1364703513,
+     1338450160,
+     680503834
+    ],
+    "signature": "2aabf1c0472270f96fb02b6dae0810b8f04f566d97ef09e41e25688751c5bf58"
+   },
+   "power_primary-07bce252af26": {
+    "seeds": [
+     532344480,
+     847049979,
+     44536785
+    ],
+    "signature": "4908b161c0f24ce6d7cb98d0a5abb0dc13ecf9a36ab9026095d003c09faed60c"
+   },
+   "power_primary-3f5227f01d45": {
+    "seeds": [
+     1267635418,
+     352319890,
+     317662160
+    ],
+    "signature": "b732c8b323d3a8ef7dd41a07586f314cde3814de612eef4ddca86a72d9a352ac"
+   },
+   "power_primary-411f8209dddb": {
+    "seeds": [
+     1570542358,
+     1625244105,
+     1883088112
+    ],
+    "signature": "7097eabd24b4bf217891cccf5c4f28dace5de969249864218688530ed8d279c9"
+   },
+   "power_primary-465665ab7b7f": {
+    "seeds": [
+     1395333089,
+     1774791459,
+     97150437
+    ],
+    "signature": "5c52aec704bbf54db048874c5cb3e907681c661e59fd173c2e3a94ab836ee1ff"
+   },
+   "power_primary-5200078c8a40": {
+    "seeds": [
+     1692478142,
+     658041803,
+     1784632751
+    ],
+    "signature": "4617ec7da7d336cc7252dfb720b565934872d95d6198f467476fffdb7f57093e"
+   },
+   "power_primary-5bdfee51cb9e": {
+    "seeds": [
+     2017589795,
+     1504814419,
+     632819397
+    ],
+    "signature": "25e0f1a463722f63e498370e6127ff25197e0b710a517fe1246d7cf44e90c059"
+   },
+   "power_primary-6f33e9ffbdef": {
+    "seeds": [
+     1099932415,
+     723903231,
+     611420694
+    ],
+    "signature": "27954299821072fa2b267b1f29a09ca07bba25fd297a0e8ce8e27402d9577cdc"
+   },
+   "power_primary-761ce2411592": {
+    "seeds": [
+     1547406174,
+     647516389,
+     504218275
+    ],
+    "signature": "10e1e2c149635e1e40ad921335a01daa7ad227194cc63fa5e69f58e511f936fa"
+   },
+   "power_primary-7e4af97247fb": {
+    "seeds": [
+     305294259,
+     1954135217,
+     1585904152
+    ],
+    "signature": "a4910a15345a4379da540e34ef1cfd1688180d892e3c7e4d28aa61431b109003"
+   },
+   "power_primary-9164cfdfcb71": {
+    "seeds": [
+     1106531592,
+     1267915084,
+     1708949710
+    ],
+    "signature": "15f2f645ce1de9f1bfb41dc833ec93a80ee92c3bf3e4fba54c452f14de4d6ee6"
+   },
+   "power_primary-9aa676fdcaf2": {
+    "seeds": [
+     960907062,
+     1129588957,
+     763674836
+    ],
+    "signature": "a5013398f682b35e2db093eb550ab9b0f364aa8c5908ada5ef03dd0195996fdc"
+   },
+   "power_primary-ab42c0e0dbc7": {
+    "seeds": [
+     1476594401,
+     1822043443,
+     453167829
+    ],
+    "signature": "d3a080b2aaa654276c69bcc2687b82593441fc90803eb902e725f78c0466233c"
+   },
+   "power_primary-ae86c11e00e8": {
+    "seeds": [
+     776194447,
+     724767053,
+     1236837650
+    ],
+    "signature": "98a27d5762ec5f3f91a97a8c923638b2f5a44664ab796b9b27b51ea5b6ac6a43"
+   },
+   "power_primary-ae9763a8f043": {
+    "seeds": [
+     375504325,
+     622015049,
+     1629855163
+    ],
+    "signature": "4952711216fa1439241b3c474928cf417e16a0dc52d1984452e220f525448bf5"
+   },
+   "power_primary-b8f79c16bd16": {
+    "seeds": [
+     192591884,
+     9192883,
+     979989582
+    ],
+    "signature": "eb443eba3ed31d7a48d1283a32b5d9d943dd8d11062e98ff348546cafe6eef58"
+   },
+   "power_primary-cb657cb3efd8": {
+    "seeds": [
+     2015556110,
+     93553666,
+     1627271324
+    ],
+    "signature": "2c03e441b8209d6ea5d5bced7361ec4c5078c0448344b0b5efc19c5f816db842"
+   },
+   "power_primary-d8627c0f2a2d": {
+    "seeds": [
+     82410335,
+     1781075916,
+     1398220428
+    ],
+    "signature": "e6342f112f53abbc9e6646c0587ccbef994445e1509e12d91e696c1526db1107"
+   },
+   "power_primary-d91114979106": {
+    "seeds": [
+     911279069,
+     1253943460,
+     1790571826
+    ],
+    "signature": "172bafbf527ba76a6c4569588fe4cfea674377462cb677340684770bbe3345ae"
+   },
+   "power_primary-f50da0c6bd1b": {
+    "seeds": [
+     447152547,
+     1846928621,
+     1025713644
+    ],
+    "signature": "69ccda6eea8cff9e2e791a242badcb9f7f7f1e30240b19d6c329d900a6437366"
+   },
+   "type_i_baseline-11bc042f6d2d": {
+    "seeds": [
+     215155680,
+     688848079,
+     2138959626
+    ],
+    "signature": "6e8911d0ccba12501ead9e3d0507f545386e3591a651c9f9d3c0dd0107a43c3c"
+   },
+   "type_i_baseline-149fafed1b96": {
+    "seeds": [
+     659057332,
+     1199951026,
+     1374735706
+    ],
+    "signature": "ad38c9981840a16fd48218a273061f61f1c030a96902e640acd0b261178ecdc4"
+   }
+  },
+  "smoke.json": {
+   "power_primary-08af061fb292": {
+    "seeds": [
+     840800777,
+     1974317122,
+     187283453
+    ],
+    "signature": "e09ff097087e4a57ad50e49eeff22e36494678775c823911fbced39130edf4e0"
+   },
+   "power_primary-2432e80b9081": {
+    "seeds": [
+     1432439198,
+     2101483322,
+     1791918519
+    ],
+    "signature": "ab50a2526be4fd3bb8a844878ed210b986f50afc010f7194b6953e61c393c92b"
+   },
+   "power_primary-2fffeb6af972": {
+    "seeds": [
+     1881255538,
+     915713332,
+     2007552939
+    ],
+    "signature": "14a0a01c839f0619e1ba7270c6a157ba789c3878cbdc14f318e5ecf0b260be71"
+   },
+   "power_primary-3865720142db": {
+    "seeds": [
+     542617525,
+     702456597,
+     1677502310
+    ],
+    "signature": "3a9ee458d84c760615f6632ad020884cc6d9855d03b29d174bbb08a78976a1b4"
+   },
+   "power_primary-45d3270cea6a": {
+    "seeds": [
+     641930605,
+     973440981,
+     2078511612
+    ],
+    "signature": "9a89dda5a33310715e97c632163c9fc53a8a361fb9198b21b11969027052eadc"
+   },
+   "power_primary-64ee8c73a203": {
+    "seeds": [
+     1350550544,
+     1651884065,
+     631239740
+    ],
+    "signature": "92a4da6f9f823a7124397dc5527acc44c6af610532904e772436af2ec0919964"
+   },
+   "power_primary-6526ede28d09": {
+    "seeds": [
+     2023868975,
+     795488829,
+     1490074238
+    ],
+    "signature": "55dbd0944e2c5b2f3cc1522e5d3f57c65542ad393d545c9458c023996909dfa7"
+   },
+   "power_primary-708e0c67f030": {
+    "seeds": [
+     1605353389,
+     595245435,
+     301184488
+    ],
+    "signature": "904f612f2d25df6a77422b13d5493021e5377c21c9d6295dfb43da0cdc0d2385"
+   },
+   "power_primary-b478a34f05cf": {
+    "seeds": [
+     531733384,
+     749593594,
+     1699246133
+    ],
+    "signature": "a515ad0cb37a0239b6d18bfc250e2d42c995b9b8628f52fd4aff0b1c392eab19"
+   },
+   "power_primary-bff462b54b34": {
+    "seeds": [
+     1810360050,
+     873446376,
+     639438993
+    ],
+    "signature": "23346ce66061365241adcb4488b2b97ac6e38bddeda14bee93a5f6d73dede58f"
+   },
+   "power_primary-c6189d27b95b": {
+    "seeds": [
+     1409547584,
+     1762079142,
+     597878731
+    ],
+    "signature": "56f1d01a4cfd1e2c904d173e8bf4b493d54652fc6476190ca2b86e29a1066dbc"
+   },
+   "power_primary-c6e07c937a41": {
+    "seeds": [
+     1428127419,
+     328984961,
+     218380151
+    ],
+    "signature": "de7ea2666034a71f890548d676db5f3789a85df1f80353eef722ca2a0a40aace"
+   },
+   "power_primary-c9a19f1d8714": {
+    "seeds": [
+     1712828766,
+     865595563,
+     2023937885
+    ],
+    "signature": "aaa8f2f290778f971f28baf3df6878b1fbb9d7aba2de666164299e17c085c4ee"
+   },
+   "power_primary-caa7b1f460c9": {
+    "seeds": [
+     1328663275,
+     554312051,
+     2012003372
+    ],
+    "signature": "d5f5e7e3b2f9b9af29c99c80cedc21c9237c9d265a29aa95bd5ada4377fe3a5a"
+   },
+   "power_primary-d629a3fec199": {
+    "seeds": [
+     1972748212,
+     1740514308,
+     1934861354
+    ],
+    "signature": "6750a3462fb233a05e603ad0d58d8c6c540fb148061f1856fe996465933c6632"
+   },
+   "power_primary-f50c3f8a4c19": {
+    "seeds": [
+     229220899,
+     1961921439,
+     1090235804
+    ],
+    "signature": "93a6db06ad4e13ed2c0664276335abcab59aea5b24817b8eb9e48c4946460862"
+   },
+   "type_i_baseline-cdac5527c99c": {
+    "seeds": [
+     38884417,
+     1127000923,
+     1549405866
+    ],
+    "signature": "5e740a53eaf2b6f8fd44bee79de91853527ef4d7254c7ff86abe7ec65a60ba0f"
+   },
+   "type_i_baseline-e782f50d422b": {
+    "seeds": [
+     7281696,
+     193694098,
+     928162104
+    ],
+    "signature": "d42a57c6a0740c0b96f1565636c91ca1a6c3a598105634374f5e8acee2a88f9d"
+   }
+  },
+  "study.json": {
+   "power_primary-0afc35945c8f": {
+    "seeds": [
+     227242068,
+     1113776556,
+     2114634138
+    ],
+    "signature": "c655c9da7dfab805f57138d137a287a3f72dcde4d01f3557621eacbccf19d19a"
+   },
+   "power_primary-0ecdb15ae2e7": {
+    "seeds": [
+     778411238,
+     1331521581,
+     1090300536
+    ],
+    "signature": "c54c7e2610796cd15353d09da5cde48c06d0c16b7ce71d529ebe992d7f07ed78"
+   },
+   "power_primary-1654669e83d4": {
+    "seeds": [
+     1123200572,
+     639944243,
+     1629583796
+    ],
+    "signature": "d2943a7aab3f139ea7ade901db6a6264828d758eca568e5bf977cf82cef027da"
+   },
+   "power_primary-29ab1e8ad235": {
+    "seeds": [
+     2066800706,
+     925851692,
+     1090620831
+    ],
+    "signature": "19f0d0da84f56c111c54c76d2e2004db9f9409828ab0ad9a5e59c497cfe69e5b"
+   },
+   "power_primary-2ecf8684773f": {
+    "seeds": [
+     370342819,
+     689253511,
+     1875530302
+    ],
+    "signature": "20fefd9054c8cd86df71b89d8704182d50a8b04e5ad2d2c8be7ad702741484c4"
+   },
+   "power_primary-4cb2b2651c39": {
+    "seeds": [
+     947602449,
+     102808347,
+     913322784
+    ],
+    "signature": "12832ce57c5b3f5d203e8f4d9a6a045151fc81585c5d068f1054305afd357b43"
+   },
+   "power_primary-4d5e0b706832": {
+    "seeds": [
+     1178702837,
+     2112118494,
+     838176475
+    ],
+    "signature": "c19f3b7c8de0b3b78cd873eeaf0125b73ca17c1937c6069e60e49a886ccc6caf"
+   },
+   "power_primary-68beba979419": {
+    "seeds": [
+     223146623,
+     1242487540,
+     1711498791
+    ],
+    "signature": "3f6a255e9abd324135b306c3c779c164ae0a583ee36db340a6a499a9dd4ecded"
+   },
+   "power_primary-6d1b0cf0315a": {
+    "seeds": [
+     1796347834,
+     1975194509,
+     1250832775
+    ],
+    "signature": "8ac0bbaadec11f1540a1120c5961ad8e04b1f3858c2215c42917abc52ad9b786"
+   },
+   "power_primary-6d20ee7453d6": {
+    "seeds": [
+     2063033559,
+     1663992704,
+     1712847685
+    ],
+    "signature": "2fc078f9eea3c86e86071c85a262ecf74784602232ce4836ffbaff922f585d44"
+   },
+   "power_primary-9aad13894a32": {
+    "seeds": [
+     466828708,
+     563642591,
+     445303953
+    ],
+    "signature": "bf4bd9f5a8c98c0578ea4364b6b00e18465cc7da69c88d910c216faf17b748a5"
+   },
+   "power_primary-b17ef30b15c2": {
+    "seeds": [
+     1222064865,
+     2122200266,
+     1703055749
+    ],
+    "signature": "82b7b90d08acb3f7962a706330d1481bcede80fcbecc9d6b870ddec42340fcc2"
+   },
+   "power_primary-b6d25cd453ad": {
+    "seeds": [
+     1164025846,
+     891522975,
+     1504492798
+    ],
+    "signature": "14dd5b2fa5af7dadd299b08bcc5e55fe7593269426cd362c0a35cb9c76c35251"
+   },
+   "power_primary-c04389fd9341": {
+    "seeds": [
+     320005349,
+     154319152,
+     1074252034
+    ],
+    "signature": "bea6304c7357b54427fd71b85dcfa05633b5e578ee1c0136e43b44a86df66359"
+   },
+   "power_primary-c6ef245580dd": {
+    "seeds": [
+     1461693878,
+     86267218,
+     1024500248
+    ],
+    "signature": "13a158f893931a5928fc04ae8d5b58b065003f927a45eac8d78e8e3545086a0e"
+   },
+   "power_primary-d41605846448": {
+    "seeds": [
+     1428646591,
+     39853264,
+     1946659163
+    ],
+    "signature": "c01be3cc8104cd2f89bd5a98b1ff83ab77af5d32bf03a8162b6cdbcc81fe4ce6"
+   },
+   "power_primary-e8d65df5796a": {
+    "seeds": [
+     86457248,
+     793827830,
+     1669674678
+    ],
+    "signature": "7b6d02fd5f1e5f2a25adbda3927a450ce0b821242eb37a628c994c491236351b"
+   },
+   "power_primary-ea08d7e8d5dc": {
+    "seeds": [
+     972293942,
+     785932804,
+     1821661439
+    ],
+    "signature": "b358e130b5e0bf74e4ed95d87f69b5ca640c5db0ee40b98d7471ef0814acff28"
+   },
+   "power_primary-fc116f362586": {
+    "seeds": [
+     1546651023,
+     1448427672,
+     850539289
+    ],
+    "signature": "5db883a033320eb97a7c0630317b5e170bd5cbb8eb0e4e7956a1fda061178f70"
+   },
+   "power_primary-fc690e15e639": {
+    "seeds": [
+     1935755697,
+     1613868509,
+     1495162923
+    ],
+    "signature": "9020de6292f9ce673f83acaac9ab6c2f042ac9277f82bca9ecb5fe74889fcc9f"
+   },
+   "type_i_baseline-66cc0589eb45": {
+    "seeds": [
+     2051498181,
+     200159358,
+     1511641573
+    ],
+    "signature": "4d6594691a006175fd5b367df2e540fcf613a4797d7993db79afc2fe15999b29"
+   },
+   "type_i_baseline-f0d59b508dd3": {
+    "seeds": [
+     592547146,
+     1959799706,
+     866454670
+    ],
+    "signature": "6d67579ec186fdfbd0c25b59f888e53dfd352c61105900b3d2dd1df5eb03695f"
+   }
+  }
+ },
+ "note": "Captured before the net-displacement orientation default (default-net-displacement-orientation), on the unedited tree. Maps every committed config under examples/trajectory_power_study/ to {cell_id: {signature, seeds (replicates 0-2)}}. Checked by tests/test_orientation_default_pins.py."
+}

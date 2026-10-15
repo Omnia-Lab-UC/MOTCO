@@ -339,7 +339,10 @@ def test_null_summary_is_inert_and_absent_without_permutations() -> None:
     summary cannot silently move the statistics or p-values it summarizes.
     """
 
-    params = SimulationEvaluationParams(integration_method="concat", permutations=5, seed=2026)
+    # The literals are PC1 values: pin the estimator they were produced with.
+    params = SimulationEvaluationParams(
+        integration_method="concat", permutations=5, seed=2026, orientation_estimator="pc1"
+    )
     first = evaluate_semisynthetic_trajectory(make_dataset(), params)
     second = evaluate_semisynthetic_trajectory(make_dataset(), params)
 
@@ -443,7 +446,11 @@ def test_config_spectrum_recording_leaves_the_test_untouched() -> None:
     """
 
     params = SimulationEvaluationParams(
-        integration_method="concat", permutations=5, seed=2026, include_null_distributions=True
+        integration_method="concat",
+        permutations=5,
+        seed=2026,
+        include_null_distributions=True,
+        orientation_estimator="pc1",
     )
     result = evaluate_semisynthetic_trajectory(make_dataset(), params)
 
