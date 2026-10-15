@@ -170,7 +170,7 @@ def derive_truth_driver_features(
 
 
 def compute_attribution_diagnostics(
-    dataset: SemiSyntheticTrajectoryDataset,
+    dataset: SemiSyntheticTrajectoryDataset | None = None,
     *,
     model: Any,
     features: pd.DataFrame,
@@ -182,11 +182,76 @@ def compute_attribution_diagnostics(
     feature_order_signature: str | None,
     methylation_units: str = "mvalue",
     layers: Sequence[OmicsLayer] = OMIC_LAYERS,
+    metadata: pd.DataFrame | None = None,
+    groups: Sequence[str] | None = None,
+    stages: Sequence[str] | None = None,
+    truth: TruthDrivers | None = None,
+    original_basis: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
-    """Run frozen-model attribution and reduce it to a compact JSON-safe record."""
+    """Run frozen-model attribution and reduce it to a compact JSON-safe record.
 
+    See :func:`run_attribution_diagnostics` for the arguments; this returns only
+    the compact record.
+    """
+
+    record, _ = run_attribution_diagnostics(
+        dataset,
+        model=model,
+        features=features,
+        original_scales=original_scales,
+        settings=settings,
+        group_col=group_col,
+        stage_col=stage_col,
+        selected_components=selected_components,
+        feature_order_signature=feature_order_signature,
+        methylation_units=methylation_units,
+        layers=layers,
+        metadata=metadata,
+        groups=groups,
+        stages=stages,
+        truth=truth,
+        original_basis=original_basis,
+    )
+    return record
+
+
+def run_attribution_diagnostics(
+    dataset: SemiSyntheticTrajectoryDataset | None = None,
+    *,
+    model: Any,
+    features: pd.DataFrame,
+    original_scales: np.ndarray | None,
+    settings: Any,
+    group_col: str,
+    stage_col: str,
+    selected_components: int | None,
+    feature_order_signature: str | None,
+    methylation_units: str = "mvalue",
+    layers: Sequence[OmicsLayer] = OMIC_LAYERS,
+    metadata: pd.DataFrame | None = None,
+    groups: Sequence[str] | None = None,
+    stages: Sequence[str] | None = None,
+    truth: TruthDrivers | None = None,
+    original_basis: Mapping[str, str] | None = None,
+) -> tuple[dict[str, Any], OrientationAttributionResult]:
+    """Run frozen-model attribution; return the compact record and the full result.
+
+    With a synthetic ``dataset``, the metadata and generator-truth drivers are
+    read from it (``layers`` names its measured blocks). Without one, the caller
+    supplies row-aligned ``metadata`` and, optionally, explicit ``groups`` and
+    ``stages`` orders and a ``truth`` (an unavailable :class:`TruthDrivers` for
+    real data). ``original_basis`` overrides the per-block original-unit labels
+    (default :data:`UNIT_BASIS`).
+    """
+
+    if metadata is None:
+        if dataset is None:
+            raise AttributionDiagnosticError("Attribution needs either a dataset or row-aligned metadata.")
+        metadata = dataset.metadata
+    if truth is None and dataset is None:
+        raise AttributionDiagnosticError("Attribution without a dataset needs an explicit truth record.")
     start = perf_counter()
-    metadata = dataset.metadata.reset_index(drop=True)
+    metadata = metadata.reset_index(drop=True)
     aligned_features = features.reset_index(drop=True)
     try:
         result = analyze_orientation_attribution(
@@ -195,6 +260,8 @@ def compute_attribution_diagnostics(
             model,
             group_col=group_col,
             stage_col=stage_col,
+            groups=groups,
+            stages=stages,
             original_scales=(
                 None if original_scales is None else np.asarray(original_scales, dtype=float).tolist()
             ),
@@ -207,18 +274,20 @@ def compute_attribution_diagnostics(
         raise AttributionDiagnosticError(f"Orientation attribution failed: {exc}") from exc
     attribution_seconds = perf_counter() - start
 
-    truth = derive_truth_driver_features(
-        dataset,
-        result.feature_names,
-        list(result.config.stages),
-        layers,
-    )
+    if truth is None:
+        assert dataset is not None
+        truth = derive_truth_driver_features(
+            dataset,
+            result.feature_names,
+            list(result.config.stages),
+            layers,
+        )
     transitions = _transition_records(result)
     top_features = _top_feature_records(result, int(settings.top_k))
     recovery = _truth_recovery_records(result, truth, int(settings.top_k))
     stability = _stability_records(result)
 
-    return {
+    record = {
         "schema_version": ATTRIBUTION_SCHEMA_VERSION,
         "status": "computed",
         "settings": {
@@ -241,7 +310,7 @@ def compute_attribution_diagnostics(
         "units": {
             "standardized": "pooled_standardized_input",
             "original_available": bool(result.config.original_units_available),
-            "original_basis": dict(UNIT_BASIS),
+            "original_basis": dict(UNIT_BASIS if original_basis is None else original_basis),
             "methylation_units": methylation_units,
         },
         "truth": {
@@ -261,6 +330,7 @@ def compute_attribution_diagnostics(
             "bootstrap_replicates": int(settings.bootstrap_replicates),
         },
     }
+    return record, result
 
 
 def unavailable_record(reason: str, *, status: str = "not_requested") -> dict[str, Any]:
@@ -471,6 +541,7 @@ __all__ = [
     "TruthDrivers",
     "compute_attribution_diagnostics",
     "derive_truth_driver_features",
+    "run_attribution_diagnostics",
     "flatten_attribution_diagnostics",
     "unavailable_record",
 ]

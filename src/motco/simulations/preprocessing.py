@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Mapping, Sequence, cast
+from typing import Any, Mapping, Sequence, TypeVar, cast
 
 import numpy as np
 import pandas as pd
@@ -13,6 +13,15 @@ from motco.simulations.semisynthetic import OmicsLayer, PopulationTrajectories, 
 
 OMIC_LAYERS: tuple[OmicsLayer, ...] = ("methylation", "expression", "proteomics")
 _SCALE_TOLERANCE = 1e-10
+
+#: A block name: any string, or the synthetic path's :data:`OmicsLayer` literal.
+BlockName = TypeVar("BlockName", bound=str)
+
+#: Per-block unit transforms applied before pooled standardization.
+UNIT_TRANSFORMS: tuple[str, ...] = ("identity", "beta_to_mvalue")
+
+#: The synthetic datasets' unit contract: methylation betas are analysed as M-values.
+_SYNTHETIC_TRANSFORMS: Mapping[str, str] = {"methylation": "beta_to_mvalue"}
 
 
 def selected_layers(integration_params: Mapping[str, Any] | None) -> tuple[OmicsLayer, ...]:
@@ -78,33 +87,19 @@ class FittedOmicsPreprocessor:
     def transform_dataset(self, dataset: SemiSyntheticTrajectoryDataset) -> dict[OmicsLayer, pd.DataFrame]:
         """Transform observed blocks using the fitted feature contract."""
 
-        transformed: dict[OmicsLayer, pd.DataFrame] = {}
-        for layer in self.layers:
-            matrix = getattr(dataset, layer).astype(float)
-            scaler = self.scalers[layer]
-            _validate_features(layer, matrix.columns, scaler.feature_names)
-            values = _integration_values(layer, matrix.to_numpy(dtype=float))
-            transformed[layer] = pd.DataFrame(
-                (values - scaler.mean) / scaler.scale,
-                index=matrix.index.astype(str),
-                columns=scaler.feature_names,
-            )
-        return transformed
+        blocks = {layer: getattr(dataset, layer) for layer in self.layers}
+        transformed = transform_blocks(blocks, self.scalers, _SYNTHETIC_TRANSFORMS)
+        return {layer: frame.set_axis(frame.index.astype(str), axis=0) for layer, frame in transformed.items()}
 
     def transform_population(self, population: PopulationTrajectories) -> dict[OmicsLayer, pd.DataFrame]:
-        """Transform analytic means with the same observed-fitted scalers."""
+        """Transform analytic means with the same observed-fitted scalers.
 
-        transformed: dict[OmicsLayer, pd.DataFrame] = {}
-        for layer in self.layers:
-            matrix = population.layers[layer].astype(float)
-            scaler = self.scalers[layer]
-            _validate_features(layer, matrix.columns, scaler.feature_names)
-            transformed[layer] = pd.DataFrame(
-                (matrix.to_numpy(dtype=float) - scaler.mean) / scaler.scale,
-                index=matrix.index,
-                columns=scaler.feature_names,
-            )
-        return transformed
+        Population means are already on the integration scale (M-values for
+        methylation), so no unit transform is applied.
+        """
+
+        blocks = {layer: population.layers[layer] for layer in self.layers}
+        return transform_blocks(blocks, self.scalers, {})
 
 
 def fit_omics_preprocessor(
@@ -113,40 +108,96 @@ def fit_omics_preprocessor(
 ) -> FittedOmicsPreprocessor:
     """Fit pooled block-wise scalers on the observed dataset's ``layers``."""
 
-    scalers: dict[OmicsLayer, BlockScaler] = {}
-    for layer in layers:
-        matrix = getattr(dataset, layer).astype(float)
-        values = _integration_values(layer, matrix.to_numpy(dtype=float))
+    blocks = {layer: getattr(dataset, layer) for layer in layers}
+    return FittedOmicsPreprocessor(scalers=fit_block_scalers(blocks, _SYNTHETIC_TRANSFORMS))
+
+
+def fit_block_scalers(
+    blocks: Mapping[BlockName, pd.DataFrame],
+    transforms: Mapping[str, str],
+) -> dict[BlockName, BlockScaler]:
+    """Fit pooled per-feature location and scale for each named block.
+
+    ``transforms`` maps a block name to its unit transform (one of
+    :data:`UNIT_TRANSFORMS`); a block it does not name is ``identity``. Scalers
+    are fitted on the transformed values, and a feature whose pooled standard
+    deviation is (numerically) zero keeps unit scale, so it is centered only.
+    """
+
+    scalers: dict[BlockName, BlockScaler] = {}
+    for name, matrix in blocks.items():
+        values = apply_unit_transform(name, matrix.astype(float).to_numpy(dtype=float), transforms.get(name))
         scale = values.std(axis=0)
         scale[scale < _SCALE_TOLERANCE] = 1.0
-        scalers[layer] = BlockScaler(
+        scalers[name] = BlockScaler(
             feature_names=tuple(matrix.columns.astype(str)),
             mean=values.mean(axis=0),
             scale=scale,
         )
-    return FittedOmicsPreprocessor(scalers=scalers)
+    return scalers
 
 
-def concatenate_blocks(blocks: Mapping[OmicsLayer, pd.DataFrame]) -> pd.DataFrame:
-    """Concatenate aligned standardized blocks with collision-proof names.
+def transform_blocks(
+    blocks: Mapping[BlockName, pd.DataFrame],
+    scalers: Mapping[BlockName, BlockScaler],
+    transforms: Mapping[str, str],
+) -> dict[BlockName, pd.DataFrame]:
+    """Standardize each named block with its fitted scaler.
 
-    Blocks are taken in canonical omic order; only the layers present in
-    ``blocks`` are concatenated.
+    Every block must carry exactly the fitted feature order; rows keep the
+    block's own index.
     """
 
+    transformed: dict[BlockName, pd.DataFrame] = {}
+    for name, matrix in blocks.items():
+        scaler = scalers[name]
+        _validate_features(name, matrix.columns, scaler.feature_names)
+        values = apply_unit_transform(name, matrix.astype(float).to_numpy(dtype=float), transforms.get(name))
+        transformed[name] = pd.DataFrame(
+            (values - scaler.mean) / scaler.scale,
+            index=matrix.index,
+            columns=scaler.feature_names,
+        )
+    return transformed
+
+
+def apply_unit_transform(name: str, values: np.ndarray, transform: str | None) -> np.ndarray:
+    """Map one block's values through its declared unit transform.
+
+    ``identity`` (or ``None``) returns the values unchanged. ``beta_to_mvalue``
+    is the generator's clipped logit of methylation beta values. The value range
+    is not checked here — the synthetic path has always clipped — so callers
+    taking real betas validate the open interval ``(0, 1)`` themselves.
+    """
+
+    if transform is None or transform == "identity":
+        return values
+    if transform == "beta_to_mvalue":
+        return logit(values)
+    raise ValueError(
+        f"Block {name!r} declares unknown unit transform {transform!r}; allowed: {list(UNIT_TRANSFORMS)}."
+    )
+
+
+def concatenate_blocks(
+    blocks: Mapping[BlockName, pd.DataFrame],
+    order: Sequence[BlockName] | None = None,
+) -> pd.DataFrame:
+    """Concatenate aligned standardized blocks with collision-proof names.
+
+    Blocks are taken in ``order`` when given; otherwise in canonical omic order,
+    concatenating only the canonical layers present in ``blocks``. Every joint
+    column is named ``f"{block}__{feature}"``.
+    """
+
+    names: list[Any] = [layer for layer in OMIC_LAYERS if layer in blocks] if order is None else list(order)
     frames = []
-    for layer in OMIC_LAYERS:
-        if layer not in blocks:
-            continue
-        matrix = blocks[layer]
+    for name in names:
+        matrix = blocks[name]
         renamed = matrix.copy()
-        renamed.columns = [f"{layer}__{column}" for column in matrix.columns.astype(str)]
+        renamed.columns = [f"{name}__{column}" for column in matrix.columns.astype(str)]
         frames.append(renamed)
     return pd.concat(frames, axis=1)
-
-
-def _integration_values(layer: OmicsLayer, values: np.ndarray) -> np.ndarray:
-    return logit(values) if layer == "methylation" else values
 
 
 def _validate_features(layer: str, columns: pd.Index, expected: tuple[str, ...]) -> None:
