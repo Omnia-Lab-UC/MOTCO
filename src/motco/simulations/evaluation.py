@@ -47,6 +47,7 @@ from motco.simulations.diagnostics import calculate_realized_geometry
 from motco.simulations.generator import logit
 from motco.simulations.preprocessing import (
     OMIC_LAYERS,
+    BlockScaler,
     FittedOmicsPreprocessor,
     concatenate_blocks,
     fit_omics_preprocessor,
@@ -699,13 +700,52 @@ def _pls_integration(
     observed_blocks: Mapping[OmicsLayer, pd.DataFrame],
     preprocessor: FittedOmicsPreprocessor,
 ) -> LatentIntegrationResult:
+    """Build the PLS latent space for a semi-synthetic dataset.
+
+    Adapter over :func:`fit_pls_latent_space`: reads the dataset's blocks,
+    stage labels and sample ids, and hands them to the shared core.
+    """
+    if stage_col not in dataset.metadata.columns:
+        raise SimulationEvaluationError(
+            f"PLS integration requires stage column {stage_col!r} in dataset metadata."
+        )
+
+    X = concatenate_blocks(observed_blocks).reset_index(drop=True)
+    return fit_pls_latent_space(
+        X,
+        dataset.metadata[stage_col].reset_index(drop=True).astype(str),
+        integration_params,
+        stage_col=stage_col,
+        sample_ids=dataset.metadata["sample_id"].astype(str).tolist(),
+        layer_feature_counts={
+            layer: int(getattr(dataset, layer).shape[1]) for layer in _measured_layers(integration_params)
+        },
+        layers_metadata=_layers_metadata(integration_params),
+        original_scales=_joint_original_scales(preprocessor.scalers, preprocessor.layers, X.columns),
+        methylation_units=preprocessor.methylation_units,
+    )
+
+
+def fit_pls_latent_space(
+    X: pd.DataFrame,
+    y: pd.Series,
+    integration_params: Mapping[str, Any],
+    *,
+    stage_col: str,
+    sample_ids: Sequence[str],
+    layer_feature_counts: Mapping[str, int],
+    layers_metadata: Mapping[str, Any],
+    original_scales: np.ndarray,
+    methylation_units: str,
+) -> LatentIntegrationResult:
     """Build the PLS molecular latent space (stage-conditioned, double-CV-sized).
 
-    Standardize-and-concatenate the omic blocks, fit PLS-DA conditioned on the
-    stage label, and return the X-score matrix as the latent space. The number
-    of latent variables is selected by ``plsda_doubleCV`` (modal LV across
-    repeats, parsimony tie-break) so the molecular space is stable and
-    non-overfitted — the space in which trajectory geometry is then measured.
+    ``X`` is the pooled standardized joint feature matrix, row-aligned to ``y``
+    and ``sample_ids``. Fit PLS-DA conditioned on the stage label ``y`` and
+    return the X-score matrix as the latent space. The number of latent
+    variables is selected by ``plsda_doubleCV`` (modal LV across repeats,
+    parsimony tie-break) so the molecular space is stable and non-overfitted —
+    the space in which trajectory geometry is then measured.
 
     ``integration_params["forced_components"]`` overrides that selection for
     rank diagnostics only: cross-validation is skipped entirely and the pooled
@@ -715,19 +755,12 @@ def _pls_integration(
     ``component_selection="forced"`` so no consumer can read a forced-rank run
     as a production evaluation. Absent (the default), behavior is unchanged and
     the metadata records ``component_selection="cv"``.
+
+    This is the production measurement shared by the simulation harness and
+    the real-data entry point (:mod:`motco.analysis`); it never reads a dataset.
     """
-    if stage_col not in dataset.metadata.columns:
-        raise SimulationEvaluationError(
-            f"PLS integration requires stage column {stage_col!r} in dataset metadata."
-        )
 
-    layer_feature_counts = {
-        layer: int(getattr(dataset, layer).shape[1]) for layer in _measured_layers(integration_params)
-    }
-    X = concatenate_blocks(observed_blocks).reset_index(drop=True)
     n_samples, n_features = X.shape
-    y = dataset.metadata[stage_col].reset_index(drop=True).astype(str)
-
     stage_counts = y.value_counts()
     if len(stage_counts) < 2 or int(stage_counts.min()) < 2:
         raise SimulationEvaluationError(
@@ -800,7 +833,7 @@ def _pls_integration(
     scores = np.asarray(model.x_scores_)
     latent = pd.DataFrame(
         scores,
-        index=dataset.metadata["sample_id"].astype(str).tolist(),
+        index=list(sample_ids),
         columns=[f"pls_{i}" for i in range(scores.shape[1])],
     )
     return LatentIntegrationResult(
@@ -813,7 +846,7 @@ def _pls_integration(
                 "stage_col": stage_col,
                 "selected_lv": selected_lv,
                 **cv_params,
-                **_layers_metadata(integration_params),
+                **layers_metadata,
             },
             "component_selection": "forced" if forced_components is not None else "cv",
             "cv_mean_auroc": mean_auroc,
@@ -822,14 +855,14 @@ def _pls_integration(
             "shape": tuple(latent.shape),
             "n_samples": int(latent.shape[0]),
             "n_features": int(latent.shape[1]),
-            "layer_feature_counts": layer_feature_counts,
+            "layer_feature_counts": dict(layer_feature_counts),
             "feature_order_signature": _feature_order_signature(X.columns),
         },
         artifacts=PLSIntegrationArtifacts(
             model=model,
             features=X,
-            original_scales=_joint_original_scales(preprocessor, X.columns),
-            methylation_units=preprocessor.methylation_units,
+            original_scales=original_scales,
+            methylation_units=methylation_units,
         ),
     )
 
@@ -1020,14 +1053,19 @@ def _feature_order_signature(columns: pd.Index) -> str:
     return hashlib.sha256(encoded).hexdigest()[:16]
 
 
-def _joint_original_scales(preprocessor: FittedOmicsPreprocessor, columns: pd.Index) -> np.ndarray:
-    """Per-feature original-unit scales in canonical joint feature order.
+def _joint_original_scales(
+    scalers: Mapping[Any, BlockScaler],
+    order: Sequence[Any],
+    columns: pd.Index,
+) -> np.ndarray:
+    """Per-feature original-unit scales in joint feature order.
 
+    ``order`` is the block order the joint matrix was concatenated in.
     Methylation scales are M-value scales, matching the fitted preprocessing
     contract; the unit basis is labeled wherever these are used.
     """
 
-    scales = np.concatenate([preprocessor.scalers[layer].scale for layer in preprocessor.layers])
+    scales = np.concatenate([scalers[name].scale for name in order])
     if scales.shape[0] != len(columns):
         raise SimulationEvaluationError(
             f"Fitted scales ({scales.shape[0]}) do not align to the joint feature matrix ({len(columns)})."
