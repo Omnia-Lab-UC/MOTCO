@@ -13,6 +13,15 @@ Once a latent space is constructed, MOTCO includes statistics to estimate differ
 
 This repository contains the core statistical routines in `src/motco/stats`, simulation helpers in `src/motco/simulations`, and a command‑line interface for common analysis tasks.
 
+## Real data
+
+To analyse your own multi-omic data, use `motco analyze` (or `motco.analysis.analyze_trajectories`
+from Python). It runs the pipeline the simulation studies validated, in one step: pooled standardization,
+a stage-supervised PLS-DA latent space with the double-CV rank, `delta`/`angle`/`shape` with the
+net-displacement orientation estimator, and RRPP. It also writes a reproducible artifact (record, latent
+scores, loadings, stage means). You declare the stage order and each block's units explicitly. See
+[docs/api/analysis.md](docs/api/analysis.md).
+
 ## Quick start
 
 The bundled toy dataset at `examples/data/toy/` lets you run the full pipeline immediately without R:

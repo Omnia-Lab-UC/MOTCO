@@ -33,6 +33,7 @@ motco plsr --help
 motco snf --help
 motco simulate --help   # numpy generator (no R at runtime)
 motco de --help
+motco analyze --help    # real-data entry point (motco.analysis)
 ```
 
 ## Architecture
@@ -43,7 +44,9 @@ MOTCO is a Python package (`src/motco/`) with a CLI entry point (`motco`) and st
 
 - **`stats/snf.py`** — Similarity Network Fusion. `get_affinity_matrix` → `SNF` → optional `get_spectral(n_components=10)`. Input datasets must be sample-aligned (same rows, same order).
 
-- **`cli.py`** — Argparse CLI with four subcommands: `plsr`, `snf`, `simulate` (semi-synthetic multi-omic dataset via the numpy generator, no R), `de`. Each wraps the corresponding module and converts `ValueError` to clean `SystemExit` messages.
+- **`cli.py`** — Argparse CLI with five subcommands: `plsr`, `snf`, `simulate` (semi-synthetic multi-omic dataset via the numpy generator, no R), `de` (`--orientation-estimator {pc1,net_displacement}`, default `pc1`; the JSON gains an `orientation_estimator` key only when the flag is given, so default output is byte-identical), `analyze` (over `motco.analysis`). Each wraps the corresponding module and converts `ValueError` to clean `SystemExit` messages.
+
+- **`analysis.py`** — The **real-data entry point** (`analyze_trajectories(TrajectoryDataset, TrajectoryAnalysisParams)` → `TrajectoryAnalysisResult`; `write_analysis_outputs`; CLI `motco analyze`). Inputs: named `OmicsBlock`s (any names/count, declared unit transform `identity` | `beta_to_mvalue`, concatenated in declared order as `block__feature`), metadata with caller-named sample/group/stage columns, exactly two groups, and an **explicit `stage_order`** (load-bearing for net displacement; never sorted) — honoured by recoding group/stage to ordinal strings before `build_simulation_trajectory_design` and mapping levels back. It calls the **same cores** as the harness (`preprocessing.fit_block_scalers`/`transform_blocks`/`concatenate_blocks(order=)`, `evaluation.fit_pls_latent_space`, the record helpers), so `tests/test_analysis.py::test_matches_harness_*` requires identical latent matrices, statistics, p-values, rank, null summary and spectrum. Defaults: `orientation_estimator="net_displacement"`, harness CV knobs, `forced_components` for dimensionality sensitivity. The record carries statistics, p-values, `null_summary`, `config_spectrum`, latent metadata (selected rank, component selection), design (ordered levels, cell sizes), block units, params and software versions — no `truth_metadata`/`realized_geometry`. Attribution (optional) reuses the fitted estimator via `attribution_diagnostics.run_attribution_diagnostics` with an unavailable `TruthDrivers`. The artifact is `result.json`, `latent_scores.csv`, `pls_loadings.csv`, `stage_means.csv` (+ `attribution/`); the estimator is never pickled. No covariates, normalization, filtering or imputation (documented limitation).
 
 - **`viz.py`** — Visualization. Two-layer matplotlib API for trajectory geometry:
   - `plot_trajectories(observed_vectors, projector, ...)` — core function; takes pre-computed LS-mean vectors (output of `get_observed_vectors`) and a fitted projector, draws directed 2D paths with per-segment direction arrows.

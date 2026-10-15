@@ -282,12 +282,12 @@ Deliverables:
 
 Work:
 
-- Predefine cohorts, stages, covariates, missing-data handling, and preprocessing.
-- Fit one pooled, cross-validated PLS representation.
-- Report magnitude, orientation, and validated shape results with uncertainty.
-- For significant orientation, produce observed and PLS-reconstructed feature contrasts, bootstrap stability, and pathway/module enrichment.
-- Include sensitivity to PLS dimensionality and preprocessing choices.
-- Make the analysis reproducible from raw-input contracts to final figures.
+- Predefine cohorts, stages, covariates, missing-data handling, and preprocessing. *(Case-study repository. `motco analyze` takes the stage order and block units as explicit inputs and does no normalization, filtering, imputation or covariate adjustment.)*
+- Fit one pooled, cross-validated PLS representation. *(MOTCO: `motco analyze`, `real-data-trajectory-analysis`.)*
+- Report magnitude, orientation, and validated shape results with uncertainty. *(MOTCO: `motco analyze` statistics, RRPP p-values and null summary.)*
+- For significant orientation, produce observed and PLS-reconstructed feature contrasts, bootstrap stability, and pathway/module enrichment. *(MOTCO: `motco analyze --attribution` for contrasts and bootstrap stability; pathway/module enrichment stays in the case-study repository.)*
+- Include sensitivity to PLS dimensionality and preprocessing choices. *(Dimensionality: MOTCO, `motco analyze --forced-components`. Preprocessing choices: case-study repository.)*
+- Make the analysis reproducible from raw-input contracts to final figures. *(MOTCO writes the analysis artifact; raw inputs and figures live in the case-study repository.)*
 
 **Exit gate:** collaborators can trace each global trajectory claim to stable feature/module drivers and reproduce the result from documented inputs and configuration.
 
@@ -348,7 +348,7 @@ Candidate work:
 
 These items support every scientific phase:
 
-- Preserve fitted preprocessing, PLS model, component count, feature order, and loadings as a versioned analysis artifact.
+- Preserve fitted preprocessing, PLS model, component count, feature order, and loadings as a versioned analysis artifact. For real data, `motco.analysis.write_analysis_outputs` (`motco analyze --out-dir`) writes `result.json`, latent scores, PLS loadings and latent stage means. It records units, the feature order signature and software versions, and pickles no estimator.
 - Record seeds, configurations, parameter signatures, software versions, and failed replicates in every study.
 - Keep fast deterministic invariance tests separate from slow operating-characteristic studies.
 - Add CI coverage for core geometry invariants and study-config validation.
@@ -376,5 +376,5 @@ The paper-grade estimator comparison, formerly item 2, is done (`net-displacemen
 
 The orientation-estimator default flip, formerly item 2, is done (`default-net-displacement-orientation`, 2026-10-15): `SimulationEvaluationParams.orientation_estimator` defaults to `net_displacement`, every committed config and historical diagnostic pins `"pc1"`, and the configs' signatures and matched seeds are checked against a pre-flip fixture (`tests/test_orientation_default_pins.py`). The stats primitives (`estimate_difference`, `RRPP`) keep PC1 as their default. No compute was needed.
 
-1. **Run the Phase 6 real-data case study** in [Omnia-Lab-UC/sead_sexdiff](https://github.com/Omnia-Lab-UC/sead_sexdiff). It waited for the orientation-estimator default flip and is now unblocked: pin it to the MOTCO revision that merges `default-net-displacement-orientation`. The small-n operating study ([report](reports/phase6-small-n-2026-10-09.md)) and the revised `angle` statement (Phase 6 above, from the [power comparison report](reports/net-displacement-power-2026-10-14.md) §7) are binding. Code that calls the stats primitives directly (`estimate_difference`, `RRPP`) must pass `orientation_estimator="net_displacement"` explicitly to measure what the paper describes, because the primitives keep PC1 as their default; `motco de` has no estimator flag and measures PC1. Report the cohort's **CV-selected rank** beside any `angle` result as the covariate. Treat `angle` and `shape` non-rejections as uninformative, and treat a `delta` rejection as evidence of a difference, not specifically of size. Carry the structural-analogue limitation: InterSIM blocks, 498 measured features.
+1. **Run the Phase 6 real-data case study** in [Omnia-Lab-UC/sead_sexdiff](https://github.com/Omnia-Lab-UC/sead_sexdiff). The orientation-estimator default flip unblocked it. The `real-data-trajectory-analysis` change (MOTCO 0.7.0) removed the last MOTCO-side blocker: the case study must run its trajectory analysis through **`motco analyze`** (or `motco.analysis.analyze_trajectories`; [API](api/analysis.md)) and pin the MOTCO release that contains it. That entry point is the harness's production measurement on caller-supplied blocks. A regression test checks it against the harness on identical data. It defaults to the net-displacement estimator, requires an explicit stage order and records the selected rank, null summary and spectrum, so no estimator argument has to be passed by hand. Do not assemble the analysis from `motco plsr` + `motco de` or from the stats primitives: they are a different pipeline, and the primitives and `motco de` default to PC1. The small-n operating study ([report](reports/phase6-small-n-2026-10-09.md)) and the revised `angle` statement (Phase 6 above, from the [power comparison report](reports/net-displacement-power-2026-10-14.md) §7) are binding. Report the cohort's **CV-selected rank** beside any `angle` result as the covariate; the record carries it. Treat `angle` and `shape` non-rejections as uninformative, and treat a `delta` rejection as evidence of a difference, not specifically of size. Carry the structural-analogue limitation (InterSIM blocks, 498 measured features) and the no-covariate limitation.
 2. **Consider defaulting the null-dispersion materiality rule.** Opt-in today so the committed Phase 5 `report/` keeps regenerating byte-identically; switching the default is a reporting change needing a recorded re-issue of affected localization output.
