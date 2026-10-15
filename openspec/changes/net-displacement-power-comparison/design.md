@@ -150,7 +150,7 @@ one-liner in the report's reproduction section), as the Type I report did for pa
 1. **Shared statistics are identical.** For every (cell coordinates, replicate) pair across the two columns,
    `delta` and `shape` p-values are equal and the observed statistics agree to a 1e-9 relative tolerance
    (the columns run in separate processes, so BLAS rounding differs in the last digits; the run showed
-   differences near 1e-14, reported as a bit-identical count and the largest relative difference). Any
+   differences up to 5.4e-10, reported as a bit-identical count and the largest relative difference). Any
    larger difference is a bug in the estimator plumbing, not a finding.
 2. **Baseline reproduces the parents.** Baseline-column records equal the parent runs' records in generator
    seed and p-values wherever a parent cell with the same mode and effect exists (Context lists which).

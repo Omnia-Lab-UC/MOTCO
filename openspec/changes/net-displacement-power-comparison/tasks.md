@@ -29,8 +29,8 @@
 ## 5. Cluster run (design D6)
 
 - [x] 5.1 Timing job on `ing` for both profiles (per column: anchor replicates 0–1 and orientation e = 1.0 replicate 0; BLAS pinned; problem nodes excluded); write the projected budget to each `PROVENANCE.txt` and apply the Phase 5 go/no-go (drop e = 0.75 and re-pin its identity entry if the projection with margin exceeds 450 core-hours). Verify the timing units of the baseline column reproduce the parents' p-values exactly.
-- [ ] 5.2 Submit both profiles via `scripts/motco_study_array.sbatch` (50–100 shards, `STUDY_N_JOBS` unset, `--error-policy record`); on completion merge, verify 18,000/18,000 units per design, 0 failed, 0 censored, every signature equal to the enumerated cell's, and record wall/core-hours in `PROVENANCE.txt`.
-- [ ] 5.3 Run `scripts/motco_study.py report` for each design, then `scripts/net_displacement_power_follow_up.py` and `scripts/net_displacement_power_checks.py`; verify `column_decision.json/.csv`, `comparison_decision.json` and the checks' outputs exist and the checks report zero mismatches (or document every mismatch).
+- [x] 5.2 Submit both profiles via `scripts/motco_study_array.sbatch` (50–100 shards, `STUDY_N_JOBS` unset, `--error-policy record`); on completion merge, verify 18,000/18,000 units per design, 0 failed, 0 censored, every signature equal to the enumerated cell's, and record wall/core-hours in `PROVENANCE.txt`.
+- [x] 5.3 Run `scripts/motco_study.py report` for each design, then `scripts/net_displacement_power_follow_up.py` and `scripts/net_displacement_power_checks.py`; verify `column_decision.json/.csv`, `comparison_decision.json` and the checks' outputs exist and the checks report zero mismatches (or document every mismatch).
 
 ## 6. Findings and documentation (design D5)
 

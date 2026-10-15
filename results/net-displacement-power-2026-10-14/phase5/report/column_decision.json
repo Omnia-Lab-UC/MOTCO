@@ -1,0 +1,265 @@
+{
+  "verdict": "candidate_qualifies",
+  "rationale": "Candidate clears target (orientation/angle, no_loss), anchor, every mandatory control and every protected pair against the baseline column. Advisory.",
+  "failing": {},
+  "alpha": 0.05,
+  "advisory": true,
+  "rule": {
+    "version": 1,
+    "name": "column_decision",
+    "candidate": {
+      "evaluation.integration_method": "pls",
+      "evaluation.orientation_estimator": "net_displacement"
+    },
+    "target": {
+      "trajectory_mode": "orientation",
+      "statistic": "angle"
+    },
+    "criterion": "no_loss",
+    "controls": [
+      {
+        "trajectory_mode": "translation",
+        "statistic": "angle"
+      },
+      {
+        "trajectory_mode": "magnitude",
+        "statistic": "angle"
+      },
+      {
+        "trajectory_mode": "shape",
+        "statistic": "angle"
+      }
+    ],
+    "protected": [
+      {
+        "trajectory_mode": "magnitude",
+        "statistic": "delta"
+      },
+      {
+        "trajectory_mode": "shape",
+        "statistic": "shape"
+      }
+    ],
+    "type_i_bound": {
+      "alpha": 0.05,
+      "se_tolerance": 2.0
+    },
+    "gain_se_multiplier": 2.0,
+    "loss_se_multiplier": 2.0,
+    "bound": "alpha + se_tolerance * sqrt(alpha * (1 - alpha) / R), R = available replicates of the pair"
+  },
+  "pairing": "Columns share the primary matched-seed family and generator parameters: at every replicate index they evaluate the same generated dataset under different measurement, so differences are measurement differences, not sampling differences.",
+  "columns": [
+    {
+      "design_point": {
+        "evaluation.integration_method": "pls",
+        "evaluation.orientation_estimator": null
+      },
+      "role": "baseline",
+      "top_effects": {
+        "orientation": 1.0,
+        "translation": 1.0,
+        "magnitude": 1.0,
+        "shape": 1.0
+      },
+      "target": {
+        "rate": 0.84,
+        "monte_carlo_se": 0.01639512122553536,
+        "n_available": 500
+      },
+      "anchor": {
+        "delta": {
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500
+        },
+        "angle": {
+          "rate": 0.046,
+          "monte_carlo_se": 0.00936845771725528,
+          "n_available": 500
+        },
+        "shape": {
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500
+        }
+      },
+      "controls": {
+        "translation/angle": {
+          "rate": 0.042,
+          "monte_carlo_se": 0.008970618707759236,
+          "n_available": 500
+        },
+        "magnitude/angle": {
+          "rate": 0.024,
+          "monte_carlo_se": 0.00684455988358638,
+          "n_available": 500
+        },
+        "shape/angle": {
+          "rate": 0.796,
+          "monte_carlo_se": 0.018021320706318945,
+          "n_available": 500
+        }
+      },
+      "protected": {
+        "magnitude/delta": {
+          "rate": 1.0,
+          "monte_carlo_se": 0.0,
+          "n_available": 500
+        },
+        "shape/shape": {
+          "rate": 0.996,
+          "monte_carlo_se": 0.002822764602300377,
+          "n_available": 500
+        }
+      },
+      "criteria": [],
+      "qualifies": null
+    },
+    {
+      "design_point": {
+        "evaluation.integration_method": "pls",
+        "evaluation.orientation_estimator": "net_displacement"
+      },
+      "role": "candidate",
+      "top_effects": {
+        "orientation": 1.0,
+        "translation": 1.0,
+        "magnitude": 1.0,
+        "shape": 1.0
+      },
+      "target": {
+        "rate": 0.924,
+        "monte_carlo_se": 0.01185107590052481,
+        "n_available": 500
+      },
+      "anchor": {
+        "delta": {
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500
+        },
+        "angle": {
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500
+        },
+        "shape": {
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "n_available": 500
+        }
+      },
+      "controls": {
+        "translation/angle": {
+          "rate": 0.04,
+          "monte_carlo_se": 0.008763560920082658,
+          "n_available": 500
+        },
+        "magnitude/angle": {
+          "rate": 0.0,
+          "monte_carlo_se": 0.0,
+          "n_available": 500
+        },
+        "shape/angle": {
+          "rate": 0.022,
+          "monte_carlo_se": 0.006559878047646922,
+          "n_available": 500
+        }
+      },
+      "protected": {
+        "magnitude/delta": {
+          "rate": 1.0,
+          "monte_carlo_se": 0.0,
+          "n_available": 500
+        },
+        "shape/shape": {
+          "rate": 0.996,
+          "monte_carlo_se": 0.002822764602300377,
+          "n_available": 500
+        }
+      },
+      "criteria": [
+        {
+          "name": "target",
+          "passed": true,
+          "detail": "orientation/angle: baseline \u2212 candidate = -0.084 <= 2\u00b7pooled SE (0.040)",
+          "failing": [],
+          "observations": {
+            "target": "orientation/angle",
+            "criterion": "no_loss",
+            "rate": 0.924,
+            "se": 0.01185107590052481,
+            "n": 500,
+            "baseline_rate": 0.84,
+            "baseline_se": 0.01639512122553536,
+            "baseline_n": 500,
+            "se_multiplier": 2.0,
+            "difference": -0.08400000000000007,
+            "pooled_se": 0.020229878892371055,
+            "threshold": 0.04045975778474211
+          }
+        },
+        {
+          "name": "anchor",
+          "passed": true,
+          "detail": "Every anchor rate is within the one-sided Type I bound.",
+          "failing": [],
+          "observations": {
+            "alpha": 0.05,
+            "se_tolerance": 2.0,
+            "delta_rate": 0.036,
+            "delta_bound": 0.06949358868961793,
+            "delta_n": 500,
+            "angle_rate": 0.05,
+            "angle_bound": 0.06949358868961793,
+            "angle_n": 500,
+            "shape_rate": 0.048,
+            "shape_bound": 0.06949358868961793,
+            "shape_n": 500
+          }
+        },
+        {
+          "name": "controls",
+          "passed": true,
+          "detail": "Every controls rate is within the one-sided Type I bound.",
+          "failing": [],
+          "observations": {
+            "alpha": 0.05,
+            "se_tolerance": 2.0,
+            "translation_angle_rate": 0.04,
+            "translation_angle_bound": 0.06949358868961793,
+            "translation_angle_n": 500,
+            "translation_angle_effect": 1.0,
+            "magnitude_angle_rate": 0.0,
+            "magnitude_angle_bound": 0.06949358868961793,
+            "magnitude_angle_n": 500,
+            "magnitude_angle_effect": 1.0,
+            "shape_angle_rate": 0.022,
+            "shape_angle_bound": 0.06949358868961793,
+            "shape_angle_n": 500,
+            "shape_angle_effect": 1.0
+          }
+        },
+        {
+          "name": "protected",
+          "passed": true,
+          "detail": "No protected rate falls below the baseline by more than the allowed loss.",
+          "failing": [],
+          "observations": {
+            "se_multiplier": 2.0,
+            "magnitude_delta_rate": 1.0,
+            "magnitude_delta_baseline_rate": 1.0,
+            "magnitude_delta_loss": 0.0,
+            "magnitude_delta_threshold": 0.0,
+            "shape_shape_rate": 0.996,
+            "shape_shape_baseline_rate": 0.996,
+            "shape_shape_loss": 0.0,
+            "shape_shape_threshold": 0.007983983967919777
+          }
+        }
+      ],
+      "qualifies": true
+    }
+  ]
+}

@@ -20,3 +20,19 @@ shard layout: N_SHARDS=100, --array=0-99, --n-shards 100; units mapped to shards
 launch: sbatch -p 512x1024 --exclude=n4,n11 --job-name=motco-ndp-p5 --cpus-per-task=1 --mem=4G --time=12:00:00 --array=0-99 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO/examples/trajectory_power_study/net_displacement_power_phase5.json,STUDY_OUT=/home1/tgonza/MOTCO/results/net-displacement-power-2026-10-14/phase5,N_SHARDS=100 scripts/motco_study_array.sbatch
 job_id: 920304
 units: 36 cells x 500 replicates = 18,000 (2 Type I baselines + 2 design columns x (1 shared zero-effect anchor + 4 modes x 4 effects)); 999 permutations per unit; no attribution
+
+## Completion (task 5.2)
+array_state: 100/100 tasks COMPLETED (job 920304); nodes n1 (20), n2 (40), n3 (40)
+wall_clock: 2026-10-14T16:25:04Z start to 2026-10-14T23:03:00Z last task end (6 h 38 min; sacct reports cluster-local times, UTC-3); fastest task 2 h 19 min
+merge: scripts/motco_study.py merge --out-dir results/net-displacement-power-2026-10-14/phase5, 100 shards to merged.jsonl, 18,000 records (merged 2026-10-15); merged.jsonl sha256 9eacdf3755ef7b78265d85c9f6889686fb7b9676ad37602cce02a16533cb723b, verified identical after rsync to the workstation; merged.jsonl and shard_*.jsonl remain gitignored
+verification (logs/verify_run.py): 18,000/18,000 units; 36/36 cells present; 0 duplicates; 0 missing; 0 signature mismatches; 0 failed; 0 censored; n_jobs = [1]
+unit_seconds: median 62.14 s (min 36.48, mean 63.84, max 132.86); per column median: type_i_baseline 53.9, pls_cv x pc1 62.3, pls_cv x net_displacement 63.2
+core_hours: 319.2 recorded unit time; 330.4 allocated (sacct ElapsedRaw sum); over the 313.0 point projection, under the 375.7 projection with margin and the 450 go/no-go limit
+
+## Report, checks and decision (task 5.3)
+report: python scripts/motco_study.py report --config examples/trajectory_power_study/net_displacement_power_phase5.json --out-dir results/net-displacement-power-2026-10-14/phase5 (cluster, at db5ab69); report/ rsynced to the workstation. Column decision (no_loss): candidate_qualifies
+checks: python scripts/net_displacement_power_checks.py --merged results/net-displacement-power-2026-10-14/phase5/merged.jsonl --parent results/phase5-2026-09-10/merged.jsonl --parent results/phase5-magnitude-2026-10-08/merged.jsonl --out results/net-displacement-power-2026-10-14/phase5/consistency_checks.json (cluster, at 1ccded5, checks_version 2); exit 0
+checks_history: a first pass at checks_version 1 (db5ab69) reported two spurious failures: (a) observed delta/shape values differing between the two columns by at most 5.4e-10 relative with every p-value equal (BLAS rounding across processes), and (b) 4,000 p-value mismatches, all in the magnitude cells compared against results/phase5-2026-09-10, whose magnitude datasets were generated under magnitude_kind 'all' from the same seeds. 1ccded5 tolerates 1e-9 relative in (a) and pairs parent records only within one magnitude construction in (b); no record changed
+shared_statistics (a): identical; 8,500 pairs, 0 p-value mismatches, 0 observed mismatches beyond 1e-9 relative; observed bit-identical in 9,221 of 17,000 comparisons, max relative difference 5.4e-10
+parent_reproduction (b): reproduced; 7,500 of 8,500 baseline records have a parent record. results/phase5-2026-09-10: 6,500 compared (2,000 magnitude records excluded, other magnitude construction), 0 seed / 0 p-value mismatches, observed bit-identical 2,981, max relative difference 4.7e-10. results/phase5-magnitude-2026-10-08: 1,500 compared (anchor and magnitude at 0.25 and 1.0), 0 seed / 0 p-value mismatches, observed bit-identical 897, max relative difference 5.1e-11. Uncovered: magnitude at 0.5 and 0.75 (new cells, as the design states)
+comparison: see ../comparison_decision.json; verdict adopt_net_displacement
