@@ -142,6 +142,9 @@ def cmd_snf(args: argparse.Namespace) -> None:
 
 
 def cmd_de(args: argparse.Namespace) -> None:
+    # ``None`` means the flag was not given: PC1, and the JSON is written exactly
+    # as before the flag existed (no ``orientation_estimator`` key).
+    estimator = args.orientation_estimator or "pc1"
     Y = _read_csv(args.Y).values
     LS = _read_csv(args.ls_means).values
     with open(args.contrast, "r", encoding="utf-8") as fh:
@@ -160,9 +163,10 @@ def cmd_de(args: argparse.Namespace) -> None:
                 LS_means=LS,
                 contrast=contrast,
                 permutations=args.rrpp_permutations,
+                orientation_estimator=estimator,
             )
             # RRPP returns lists per permutation; convert recursively
-            out = {
+            out: dict[str, object] = {
                 "deltas": [[list(np.asarray(row)) for row in np.asarray(d)] for d in deltas],
                 "angles": [[list(np.asarray(row)) for row in np.asarray(a)] for a in angles],
                 "shapes": [[list(np.asarray(row)) for row in np.asarray(s)] for s in shapes],
@@ -175,7 +179,9 @@ def cmd_de(args: argparse.Namespace) -> None:
             if not args.model_matrix:
                 raise SystemExit("Provide --model-matrix CSV for estimate_difference.")
             X = _read_csv(args.model_matrix).values
-            deltas, angles, shapes = estimate_difference(Y=Y, model_matrix=X, LS_means=LS, contrast=contrast)
+            deltas, angles, shapes = estimate_difference(
+                Y=Y, model_matrix=X, LS_means=LS, contrast=contrast, orientation_estimator=estimator
+            )
             out = {
                 "deltas": np.asarray(deltas).tolist(),
                 "angles": np.asarray(angles).tolist(),
@@ -188,10 +194,115 @@ def cmd_de(args: argparse.Namespace) -> None:
     except ValueError as e:
         raise SystemExit(f"Error: {e}") from None
 
+    if args.orientation_estimator is not None:
+        out["orientation_estimator"] = estimator
     if args.out_json:
         _save_json(out, args.out_json)
     else:
         print(json.dumps(out, indent=2))
+
+
+def _parse_pairs(values: List[str] | None, flag: str) -> dict[str, str]:
+    """Parse repeated ``NAME=VALUE`` arguments, rejecting malformed or repeated names."""
+
+    pairs: dict[str, str] = {}
+    for raw in values or []:
+        name, sep, value = raw.partition("=")
+        name, value = name.strip(), value.strip()
+        if not sep or not name or not value:
+            raise SystemExit(f"Error: {flag} expects NAME=VALUE, got {raw!r}.")
+        if name in pairs:
+            raise SystemExit(f"Error: {flag} names {name!r} more than once.")
+        pairs[name] = value
+    return pairs
+
+
+def _split_labels(raw: str | None) -> list[str] | None:
+    if raw is None:
+        return None
+    return [label.strip() for label in raw.split(",") if label.strip()]
+
+
+def cmd_analyze(args: argparse.Namespace) -> None:
+    from motco.analysis import (
+        OmicsBlock,
+        TrajectoryAnalysisParams,
+        TrajectoryDataset,
+        analyze_trajectories,
+        write_analysis_outputs,
+    )
+    from motco.simulations.evaluation import AttributionDiagnosticSettings
+
+    block_paths = _parse_pairs(args.block, "--block")
+    if not block_paths:
+        raise SystemExit("Error: at least one --block NAME=PATH is required.")
+    transforms = _parse_pairs(args.transform, "--transform")
+    undeclared = sorted(set(transforms) - set(block_paths))
+    if undeclared:
+        raise SystemExit(
+            f"Error: --transform names undeclared block(s) {undeclared}; declared blocks: {list(block_paths)}."
+        )
+    stage_order = _split_labels(args.stage_order)
+    if not stage_order:
+        raise SystemExit("Error: --stage-order is required (comma-separated stage labels, first to last).")
+
+    try:
+        metadata = pd.read_csv(args.metadata)
+        if args.sample_col in metadata.columns:
+            metadata[args.sample_col] = metadata[args.sample_col].astype(str)
+        blocks = []
+        for name, path in block_paths.items():
+            values = pd.read_csv(path, index_col=0)
+            values.index = values.index.astype(str)
+            blocks.append(OmicsBlock(name, values, transforms.get(name, "identity")))  # type: ignore[arg-type]
+        dataset = TrajectoryDataset(
+            blocks=blocks,
+            metadata=metadata,
+            sample_col=args.sample_col,
+            group_col=args.group_col,
+            stage_col=args.stage_col,
+            stage_order=stage_order,
+            group_order=_split_labels(args.group_order),
+        )
+        params = TrajectoryAnalysisParams(
+            permutations=args.permutations,
+            seed=args.seed,
+            n_jobs=args.n_jobs,
+            orientation_estimator=args.orientation_estimator,
+            forced_components=args.forced_components,
+            cv1_splits=args.cv1_splits,
+            cv2_splits=args.cv2_splits,
+            n_repeats=args.n_repeats,
+            max_components=args.max_components,
+            random_state=args.cv_random_state,
+            attribution=AttributionDiagnosticSettings(
+                enabled=args.attribution,
+                bootstrap_replicates=args.bootstrap_replicates if args.attribution else 0,
+                bootstrap_seed=args.bootstrap_seed,
+                top_k=args.top_k,
+            ),
+        )
+        result = analyze_trajectories(dataset, params)
+        paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
+    except (ValueError, OSError) as e:
+        raise SystemExit(f"Error: {e}") from None
+
+    record = result.record
+    latent = record["latent"]
+    print(
+        f"Latent space: PLS-DA, {latent['selected_lv']} component(s) "
+        f"({latent['component_selection']}); orientation estimator: "
+        f"{record['measurement']['orientation_estimator']}"
+    )
+    print(f"Groups: {record['design']['group_levels']}; stages: {record['design']['stage_levels']}")
+    for statistic, value in record["statistics"].items():
+        p_value = record["p_values"].get(statistic)
+        shown = "unavailable" if value is None else f"{value:.6g}"
+        suffix = "" if p_value is None else f"  p = {p_value:.4g}"
+        print(f"  {statistic:<6} {shown}{suffix}")
+    print("Outputs:")
+    for written in paths.values():
+        print(f"  {written}")
 
 
 def cmd_simulate(args: argparse.Namespace) -> None:
@@ -276,7 +387,9 @@ def cmd_simulate(args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="motco", description="MOTCO CLI: PLSR, SNF, and group differences")
+    p = argparse.ArgumentParser(
+        prog="motco", description="MOTCO CLI: PLSR, SNF, group differences, and real-data trajectory analysis"
+    )
     p.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     p.add_argument("--verbose", action="store_true", help="Enable debug logging to stderr")
     sub = p.add_subparsers(dest="command", required=True)
@@ -357,7 +470,52 @@ def build_parser() -> argparse.ArgumentParser:
     p_de.add_argument("--rrpp-permutations", type=int, default=0, help="Number of permutations for RRPP")
     p_de.add_argument("--out-json", type=str, help="Output JSON file")
     p_de.add_argument("--out-observed", type=str, default=None, help="Save predicted LS-mean vectors as CSV")
+    p_de.add_argument("--orientation-estimator", type=str, default=None, choices=["pc1", "net_displacement"],
+                      help="Orientation estimator for angles, observed and permuted (default: pc1). "
+                           "net_displacement is the estimator the simulation harness and the published "
+                           "operating characteristics describe; when given, the JSON records it.")
     p_de.set_defaults(func=cmd_de)
+
+    # Analyze (real data)
+    p_an = sub.add_parser(
+        "analyze",
+        help="Real-data trajectory analysis with the validated pipeline (PLS latent space, RRPP)",
+        description="Measure two groups' trajectories across ordered stages on your own multi-omic data. "
+                    "Blocks are analysed in the units supplied: MOTCO does not normalize counts, filter "
+                    "features or impute values.",
+    )
+    p_an.add_argument("--block", action="append", metavar="NAME=PATH", required=True,
+                      help="Omic block CSV (samples x features, first column the sample id); repeat per block, "
+                           "in the order the joint feature matrix should follow")
+    p_an.add_argument("--transform", action="append", metavar="NAME=KIND",
+                      help="Unit transform for a declared block: identity (default) or beta_to_mvalue")
+    p_an.add_argument("--metadata", type=str, required=True, help="Sample metadata CSV")
+    p_an.add_argument("--sample-col", type=str, required=True, help="Metadata column with the sample ids")
+    p_an.add_argument("--group-col", type=str, required=True, help="Metadata column with the two groups")
+    p_an.add_argument("--stage-col", type=str, required=True, help="Metadata column with the stages")
+    p_an.add_argument("--stage-order", type=str, default=None,
+                      help="Required. Comma-separated stage labels, first to last (never inferred by sorting)")
+    p_an.add_argument("--group-order", type=str, default=None,
+                      help="Comma-separated group labels (default: sorted as strings)")
+    p_an.add_argument("--permutations", type=int, default=0, help="RRPP permutations (default: 0, no p-values)")
+    p_an.add_argument("--seed", type=int, default=None, help="RRPP seed")
+    p_an.add_argument("--n-jobs", type=int, default=1, help="Parallel jobs for CV and RRPP (-1 = all CPUs)")
+    p_an.add_argument("--forced-components", type=int, default=None,
+                      help="Fix the latent rank and skip cross-validation (dimensionality sensitivity)")
+    p_an.add_argument("--orientation-estimator", type=str, default="net_displacement",
+                      choices=["net_displacement", "pc1"], help="Orientation estimator (default: net_displacement)")
+    p_an.add_argument("--attribution", action="store_true", help="Run frozen-model orientation attribution")
+    p_an.add_argument("--bootstrap-replicates", type=int, default=0, help="Attribution bootstrap replicates")
+    p_an.add_argument("--bootstrap-seed", type=int, default=0, help="Attribution bootstrap seed")
+    p_an.add_argument("--top-k", type=int, default=20, help="Attribution top-k feature count")
+    p_an.add_argument("--cv1-splits", type=int, default=3, help="Inner CV folds (default: 3)")
+    p_an.add_argument("--cv2-splits", type=int, default=4, help="Outer CV folds (default: 4)")
+    p_an.add_argument("--n-repeats", type=int, default=5, help="Outer CV repeats (default: 5)")
+    p_an.add_argument("--max-components", type=int, default=20, help="Largest rank CV considers (default: 20)")
+    p_an.add_argument("--cv-random-state", type=int, default=1203, help="CV random state (default: 1203)")
+    p_an.add_argument("--out-dir", type=str, required=True, help="Directory for the analysis artifact")
+    p_an.add_argument("--overwrite", action="store_true", help="Replace an existing analysis in --out-dir")
+    p_an.set_defaults(func=cmd_analyze)
 
     return p
 
