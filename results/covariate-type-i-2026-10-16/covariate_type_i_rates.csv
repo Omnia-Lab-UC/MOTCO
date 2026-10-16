@@ -1,0 +1,7 @@
+arm,statistic,replicates,rejections,rate,bound,verdict
+adjusted,delta,500,20,0.04,0.06949358868961793,holds
+adjusted,angle,500,31,0.062,0.06949358868961793,holds
+adjusted,shape,500,17,0.034,0.06949358868961793,holds
+unadjusted,delta,500,49,0.098,0.06949358868961793,descriptive
+unadjusted,angle,500,48,0.096,0.06949358868961793,descriptive
+unadjusted,shape,500,182,0.364,0.06949358868961793,descriptive

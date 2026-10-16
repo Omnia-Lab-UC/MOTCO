@@ -1,0 +1,24 @@
+c3ee13a8aea6e4e0694668a69e6c04d8e79c8b75
+ M AGENTS.md
+ M docs/api/analysis.md
+ M docs/api/cli.md
+ M docs/roadmap.md
+ M src/motco/__init__.py
+ M src/motco/analysis.py
+ M src/motco/cli.py
+ M src/motco/stats/design.py
+ M tests/test_analysis.py
+ M tests/test_analysis_cli.py
+ M tests/test_design.py
+?? openspec/changes/covariate-adjusted-trajectories/
+?? results/covariate-type-i-2026-10-16/
+?? scripts/covariate_type_i_array.sbatch
+?? scripts/covariate_type_i_check.py
+?? tests/data/analysis_no_covariate_identity.json
+?? tests/test_analysis_identity.py
+?? tests/test_covariate_type_i_check.py
+5bea0ace07d142490dba3a787cd1d1acbc29177aaef6b27cd0fd46e9a4102121  scripts/covariate_type_i_check.py
+3699672b8e44008d1e02be0adf73b2bd05d4941197245bb559f4b6f9f4ca183a  src/motco/analysis.py
+408c5a9053940fc95b25ffdf38a0d436753a488b98b2443d65e3c5d7e812f678  src/motco/stats/design.py
+
+Partial local run (14 shards, 180 replicates) on the workstation, stopped; completed on ing as SLURM array 921167 (60 shards, nodes n1/n3) from worktree /home1/tgonza/MOTCO-cov at c3ee13a + this change's working tree (script and analysis.py sha256 above, verified identical on ing). Resume skips replicates recorded under any shard layout.
