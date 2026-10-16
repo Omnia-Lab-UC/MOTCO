@@ -162,3 +162,46 @@ def test_de_unknown_estimator_exits(tmp_path: Path, de_three_stage, capsys: pyte
     assert exc.value.code != 0
     err = capsys.readouterr().err
     assert "pc1" in err and "net_displacement" in err
+
+
+@pytest.fixture()
+def covariate_files(tmp_path: Path) -> dict[str, Path]:
+    metadata, blocks = make_real_like()
+    rng = np.random.default_rng(9)
+    n = metadata.shape[0]
+    metadata["age_at_death"] = 80.0 + 6.0 * rng.normal(size=n)
+    metadata["pmi"] = rng.uniform(2.0, 12.0, size=n)
+    metadata.loc[[3, 17], "pmi"] = np.nan
+    metadata["education_level"] = rng.choice(["College", "Graduate", "HighSchool"], size=n)
+    paths = {"meta": tmp_path / "meta.csv"}
+    metadata.to_csv(paths["meta"], index=False)
+    for name, frame in blocks.items():
+        paths[name] = tmp_path / f"{name}.csv"
+        frame.rename_axis("donor").to_csv(paths[name])
+    return paths
+
+
+def test_analyze_with_covariates(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case"))
+    block = json.loads((out_dir / "result.json").read_text())["covariates"]
+    assert block["columns"] == ["age_at_death", "pmi", "education_level"]
+    assert block["kinds"] == {"age_at_death": "numeric", "pmi": "numeric", "education_level": "categorical"}
+    assert block["n_dropped"] == 2 and block["missing_policy"] == "complete_case"
+    printed = capsys.readouterr().out
+    assert "Covariates: age_at_death (numeric), pmi (numeric), education_level (categorical)" in printed
+    assert "dropped samples: 2" in printed
+
+
+def test_analyze_missing_covariate_column(tmp_path: Path, analyze_files) -> None:
+    args = _analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES), "--covariate", "rin")
+    with pytest.raises(SystemExit, match="'rin'"):
+        main(args)
+
+
+def test_analyze_missing_covariate_value_errors_by_default(tmp_path: Path, covariate_files) -> None:
+    args = _analyze_args(covariate_files, tmp_path / "out", "--stage-order", ",".join(STAGES), "--covariate", "pmi")
+    with pytest.raises(SystemExit, match="'pmi' has missing values"):
+        main(args)

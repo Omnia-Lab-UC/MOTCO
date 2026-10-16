@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Sequence
 
 import numpy as np
@@ -222,3 +223,96 @@ def build_ls_means(
                 idx = (gi - 1) * Lm1 + (li - 1)
                 M[r, I_START + idx] = 1.0
     return M
+
+
+@dataclass(frozen=True)
+class CovariateDesign:
+    """Additive covariate design columns for a trajectory model.
+
+    ``matrix`` is ``n × q``: numeric covariates as supplied, categorical ones as
+    drop-first indicators. ``column_names`` are ``name`` for a numeric
+    covariate and ``name[level]`` for an indicator. ``reference_row`` holds the
+    column means (for a factor, its observed level proportions), the covariate
+    value at which LS-means are evaluated.
+    """
+
+    columns: tuple[str, ...]
+    kinds: dict[str, str]
+    levels: dict[str, list[str]]
+    reference_levels: dict[str, str]
+    column_names: tuple[str, ...]
+    matrix: np.ndarray
+    reference_row: np.ndarray
+
+
+def build_covariate_matrix(
+    frame: pd.DataFrame,
+    columns: Sequence[str],
+    categorical: Sequence[str] = (),
+) -> CovariateDesign:
+    """
+    Build additive covariate design columns from metadata.
+
+    A covariate is categorical when it is listed in ``categorical`` or its
+    dtype is not numeric (booleans count as categorical); otherwise it is
+    numeric. Categorical values are compared as strings and ordered like
+    `get_model_matrix` levels; the first level is the reference.
+
+    Raises
+    ------
+    ValueError
+        If a column is missing, has missing values, a numeric covariate holds
+        non-numeric or non-finite values or is constant, or a categorical
+        covariate has fewer than two observed levels. Each message names the
+        covariate.
+    """
+    columns = list(columns)
+    categorical_set = set(categorical)
+    kinds: dict[str, str] = {}
+    levels: dict[str, list[str]] = {}
+    reference_levels: dict[str, str] = {}
+    names: list[str] = []
+    parts: list[np.ndarray] = []
+    for column in columns:
+        if column not in frame.columns:
+            raise ValueError(f"Covariate {column!r} is not a metadata column.")
+        series = frame[column]
+        if series.isna().any():
+            raise ValueError(f"Covariate {column!r} contains missing values.")
+        is_numeric = pd.api.types.is_numeric_dtype(series) and not pd.api.types.is_bool_dtype(series)
+        if column in categorical_set or not is_numeric:
+            labels = series.astype(str).tolist()
+            ordered = _sort_levels(labels)
+            if len(ordered) < 2:
+                raise ValueError(
+                    f"Categorical covariate {column!r} has {len(ordered)} observed level; at least 2 are required."
+                )
+            kinds[column] = "categorical"
+            levels[column] = ordered
+            reference_levels[column] = ordered[0]
+            values = np.asarray(labels, dtype=object)
+            for level in ordered[1:]:
+                names.append(f"{column}[{level}]")
+                parts.append((values == level).astype(float))
+        else:
+            try:
+                values = series.to_numpy(dtype=float)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"Numeric covariate {column!r} holds non-numeric values.") from exc
+            if not np.all(np.isfinite(values)):
+                raise ValueError(f"Numeric covariate {column!r} contains non-finite values.")
+            if np.ptp(values) == 0.0:
+                raise ValueError(f"Numeric covariate {column!r} is constant across the analysed samples.")
+            kinds[column] = "numeric"
+            names.append(column)
+            parts.append(values)
+    matrix = np.column_stack(parts) if parts else np.zeros((frame.shape[0], 0), dtype=float)
+    return CovariateDesign(
+        columns=tuple(columns),
+        kinds=kinds,
+        levels=levels,
+        reference_levels=reference_levels,
+        column_names=tuple(names),
+        matrix=matrix,
+        reference_row=matrix.mean(axis=0),
+    )

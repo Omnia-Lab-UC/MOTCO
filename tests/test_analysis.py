@@ -424,3 +424,228 @@ def test_matches_harness_layer_selection(synthetic) -> None:
         SimulationEvaluationParams(integration_method="pls", integration_params={**SMALL_CV, "layers": list(layers)}),
     )
     assert np.array_equal(latent.matrix.to_numpy(), analysis.latent_scores.to_numpy())
+
+
+# ── Covariates ───────────────────────────────────────────────────────────────
+
+
+def with_covariates(seed: int = 5, **kwargs) -> tuple[pd.DataFrame, dict[str, pd.DataFrame]]:
+    metadata, blocks = make_real_like(**kwargs)
+    rng = np.random.default_rng(seed)
+    n = metadata.shape[0]
+    metadata["age"] = 75.0 + 5.0 * rng.normal(size=n)
+    metadata["pmi"] = rng.uniform(2.0, 12.0, size=n)
+    metadata["education_level"] = rng.choice(["College", "Graduate", "HighSchool"], size=n)
+    return metadata, blocks
+
+
+COVARIATES = ("age", "education_level")
+
+
+def test_covariate_naming_the_group_column_is_rejected() -> None:
+    metadata, blocks = with_covariates()
+    with pytest.raises(TrajectoryAnalysisError, match="must differ from the sample, group and stage columns"):
+        make_dataset(metadata, blocks, covariate_cols=["age", "Sex"])
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"covariate_cols": ["rin"]}, "missing covariate column.*'rin'"),
+        ({"covariate_cols": ["age", "age"]}, "declared once; repeated: \\['age'\\]"),
+        ({"covariate_cols": ["age"], "categorical_covariates": ["pmi"]}, "not declared: \\['pmi'\\]"),
+        ({"covariate_cols": ["age"], "missing_covariates": "impute"}, "Unknown missing_covariates policy 'impute'"),
+    ],
+    ids=["absent", "repeated", "categorical-undeclared", "policy"],
+)
+def test_covariate_declaration_rejections(kwargs: dict, message: str) -> None:
+    metadata, blocks = with_covariates()
+    with pytest.raises(TrajectoryAnalysisError, match=message):
+        make_dataset(metadata, blocks, **kwargs)
+
+
+def test_constant_covariate_is_rejected() -> None:
+    metadata, blocks = make_real_like()  # age is 70 for everyone
+    with pytest.raises(TrajectoryAnalysisError, match="'age' is constant"):
+        make_dataset(metadata, blocks, covariate_cols=["age"])
+
+
+def test_missing_covariate_is_an_error_by_default() -> None:
+    metadata, blocks = with_covariates()
+    metadata.loc[4, "pmi"] = np.nan
+    with pytest.raises(TrajectoryAnalysisError, match=f"'pmi' has missing values.*'{metadata.loc[4, 'donor']}'"):
+        make_dataset(metadata, blocks, covariate_cols=["age", "pmi"])
+
+
+def test_complete_case_drops_the_sample_everywhere() -> None:
+    metadata, blocks = with_covariates(n_per_cell=14)
+    metadata = metadata.iloc[4:].reset_index(drop=True)
+    blocks = {name: frame.iloc[4:] for name, frame in blocks.items()}
+    assert metadata.shape[0] == 80
+    metadata["rin"] = np.linspace(5.0, 9.0, 80)
+    dropped = [metadata.loc[10, "donor"], metadata.loc[50, "donor"]]
+    metadata.loc[[10, 50], "rin"] = np.nan
+    dataset = make_dataset(metadata, blocks, covariate_cols=["rin"], missing_covariates="complete_case")
+    assert dataset.dropped_sample_ids == tuple(dropped)
+    assert len(dataset.sample_ids) == 78
+    assert all(block.values.shape[0] == 78 for block in dataset.blocks)
+    out = analyze_trajectories(dataset, TrajectoryAnalysisParams(forced_components=2))
+    assert out.latent_scores.shape[0] == 78
+    assert not set(dropped) & set(out.latent_scores.index)
+    cells = out.record["design"]["cell_sizes"]
+    assert sum(size for stages in cells.values() for size in stages.values()) == 78
+    assert out.record["design"]["n_samples"] == 78
+    assert out.record["covariates"]["n_dropped"] == 2
+    assert out.record["covariates"]["dropped_sample_ids"] == dropped
+    assert out.record["covariates"]["missing_policy"] == "complete_case"
+
+
+def test_complete_case_that_empties_a_cell_is_rejected() -> None:
+    metadata, blocks = with_covariates()
+    metadata.loc[(metadata["Sex"] == "M") & (metadata["ADNC"] == "High"), "pmi"] = np.nan
+    with pytest.raises(TrajectoryAnalysisError, match="emptied group/stage combination.*\\('M', 'High'\\)"):
+        make_dataset(metadata, blocks, covariate_cols=["pmi"], missing_covariates="complete_case")
+
+
+def test_attribution_with_covariates_is_rejected_before_fitting(monkeypatch) -> None:
+    import motco.analysis as analysis
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("the latent space must not be fitted")
+
+    monkeypatch.setattr(analysis, "fit_pls_latent_space", forbidden)
+    metadata, blocks = with_covariates()
+    with pytest.raises(TrajectoryAnalysisError, match="Attribution is not available with covariates"):
+        analyze_trajectories(
+            make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+            TrajectoryAnalysisParams(attribution=AttributionDiagnosticSettings(enabled=True)),
+        )
+
+
+def test_collinear_covariate_is_rejected() -> None:
+    metadata, blocks = with_covariates()
+    metadata["is_m"] = (metadata["Sex"] == "M").astype(float)
+    with pytest.raises(TrajectoryAnalysisError, match="covariates \\['age', 'is_m'\\] is not of full rank"):
+        analyze_trajectories(
+            make_dataset(metadata, blocks, covariate_cols=["age", "is_m"]),
+            TrajectoryAnalysisParams(forced_components=2),
+        )
+
+
+@pytest.fixture(scope="module")
+def adjusted():
+    metadata, blocks = with_covariates()
+    return analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+        TrajectoryAnalysisParams(permutations=19, seed=3, **SMALL_CV),
+    )
+
+
+def test_latent_space_is_unchanged_by_covariates(adjusted) -> None:
+    metadata, blocks = with_covariates()
+    plain = analyze_trajectories(make_dataset(metadata, blocks), TrajectoryAnalysisParams(**SMALL_CV))
+    assert np.array_equal(plain.latent_scores.to_numpy(), adjusted.latent_scores.to_numpy())
+    pd.testing.assert_frame_equal(plain.pls_loadings, adjusted.pls_loadings)
+    assert plain.record["latent"]["selected_lv"] == adjusted.record["latent"]["selected_lv"]
+    assert "covariates" not in plain.record
+
+
+def test_covariate_record_layout(adjusted, tmp_path) -> None:
+    record = adjusted.record
+    keys = list(record)
+    assert keys.index("covariates") == keys.index("design") + 1
+    block = record["covariates"]
+    assert block["columns"] == ["age", "education_level"]
+    assert block["kinds"] == {"age": "numeric", "education_level": "categorical"}
+    assert block["levels"] == {"education_level": ["College", "Graduate", "HighSchool"]}
+    assert block["reference_levels"] == {"education_level": "College"}
+    assert block["design_columns"] == ["age", "education_level[Graduate]", "education_level[HighSchool]"]
+    assert set(block["reference_row"]) == set(block["design_columns"])
+    assert block["reference_row"]["age"] == pytest.approx(with_covariates()[0]["age"].mean())
+    assert block["lsmean_reference"] == "pooled_mean"
+    assert block["missing_policy"] == "error"
+    assert block["n_dropped"] == 0 and block["dropped_sample_ids"] == []
+    components = list(adjusted.latent_scores.columns)
+    assert list(block["coefficients"]) == block["design_columns"]
+    assert all(list(row) == components for row in block["coefficients"].values())
+    assert record["schema_version"] == 1
+    loaded = json.loads(write_analysis_outputs(adjusted, tmp_path)["result"].read_text())
+    assert loaded["covariates"]["design_columns"] == block["design_columns"]
+
+
+def test_adjusted_p_values_are_reproducible(adjusted) -> None:
+    metadata, blocks = with_covariates()
+    again = analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+        TrajectoryAnalysisParams(permutations=19, seed=3, **SMALL_CV),
+    )
+    assert again.record["p_values"] == adjusted.record["p_values"]
+    assert again.record["null_summary"] == adjusted.record["null_summary"]
+    assert set(adjusted.record["p_values"]) == {"delta", "angle", "shape"}
+
+
+def _cell_design(groups: np.ndarray, stages: np.ndarray):
+    from motco.simulations.evaluation import build_simulation_trajectory_design
+
+    return build_simulation_trajectory_design(
+        pd.DataFrame({"group": groups.astype(str), "stage": stages.astype(str)}), group_col="group", stage_col="stage"
+    )
+
+
+def _confounded_latent(seed: int = 0):
+    """Pure cell means plus ``z·v`` with ``z`` depending on group × stage."""
+
+    rng = np.random.default_rng(seed)
+    groups = np.repeat([0, 1], 30)
+    stages = np.tile(np.repeat([0, 1, 2], 10), 2)
+    cell_means = rng.normal(size=(2, 3, 4))
+    Y0 = cell_means[groups, stages]
+    z = 0.8 * groups * stages + 0.4 * stages + rng.normal(size=groups.size)
+    v = rng.normal(size=4)
+    return groups, stages, Y0, z, v
+
+
+def test_statistics_do_not_depend_on_the_reference_row() -> None:
+    from dataclasses import replace
+
+    from motco.analysis import _covariate_adjusted_design
+    from motco.stats.design import build_covariate_matrix
+    from motco.stats.trajectory import estimate_betas, estimate_difference
+
+    groups, stages, Y0, z, v = _confounded_latent()
+    Y = Y0 + np.outer(z, v) + np.random.default_rng(1).normal(scale=0.3, size=Y0.shape)
+    design = _cell_design(groups, stages)
+    covariates = build_covariate_matrix(pd.DataFrame({"z": z}), ["z"])
+    shifted = replace(covariates, reference_row=covariates.reference_row + 3.7)
+    outputs = []
+    for cov in (covariates, shifted):
+        full, _, ls = _covariate_adjusted_design(design.model_full, design.model_reduced, design.ls_means, cov)
+        stats = estimate_difference(Y, full, ls, design.contrast, orientation_estimator="net_displacement")
+        means = ls @ np.asarray(estimate_betas(full, Y))
+        outputs.append((stats, means))
+    (stats_a, means_a), (stats_b, means_b) = outputs
+    for a, b in zip(stats_a, stats_b):
+        np.testing.assert_allclose(a, b, atol=1e-9)
+    shift = means_b - means_a
+    np.testing.assert_allclose(shift, np.tile(shift[0], (shift.shape[0], 1)), atol=1e-12)
+    assert np.linalg.norm(shift[0]) > 0
+
+
+def test_adjustment_removes_a_known_covariate_effect() -> None:
+    from motco.analysis import _covariate_adjusted_design
+    from motco.stats.design import build_covariate_matrix
+    from motco.stats.trajectory import estimate_difference
+
+    groups, stages, Y0, z, v = _confounded_latent()
+    Y = Y0 + np.outer(z, v)
+    design = _cell_design(groups, stages)
+    covariates = build_covariate_matrix(pd.DataFrame({"z": z}), ["z"])
+    full, _, ls = _covariate_adjusted_design(design.model_full, design.model_reduced, design.ls_means, covariates)
+    kwargs = {"orientation_estimator": "net_displacement"}
+    truth = estimate_difference(Y0, design.model_full, design.ls_means, design.contrast, **kwargs)
+    adjusted_stats = estimate_difference(Y, full, ls, design.contrast, **kwargs)
+    unadjusted = estimate_difference(Y, design.model_full, design.ls_means, design.contrast, **kwargs)
+    for expected, got in zip(truth, adjusted_stats):
+        np.testing.assert_allclose(got, expected, atol=1e-8)
+    assert not np.allclose(unadjusted[0], truth[0], atol=1e-3)
+    assert not np.allclose(unadjusted[1], truth[1], atol=1e-3)
