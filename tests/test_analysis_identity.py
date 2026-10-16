@@ -7,13 +7,14 @@ module as a script::
     uv run python -m tests.test_analysis_identity
 
 It holds the record without ``measurement.runtime_seconds`` and ``software``
-(both vary by run or environment) and SHA-256 digests of the three CSV outputs.
-The test requires an analysis without covariates to reproduce it exactly.
+(both vary by run or environment) and the parsed contents of the three CSV
+outputs. Structure, strings and integers must match exactly; floats are compared
+at a tight relative tolerance so the fixture survives BLAS differences (the same
+rule as ``tests/test_phase6_byte_identity.py``).
 """
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,7 @@ from motco.analysis import (
     analyze_trajectories,
     write_analysis_outputs,
 )
+from tests.test_phase6_byte_identity import _assert_close
 
 FIXTURE = Path(__file__).parent / "data" / "analysis_no_covariate_identity.json"
 STAGES = ["Low", "Intermediate", "High"]
@@ -73,18 +75,16 @@ def capture_identity(out_dir: Path) -> dict[str, Any]:
     record = json.loads(paths["result"].read_text(encoding="utf-8"))
     record.pop("software")
     record["measurement"].pop("runtime_seconds")
-    digests = {
-        name: hashlib.sha256((Path(out_dir) / name).read_bytes()).hexdigest() for name in CSV_OUTPUTS
-    }
-    return {"record": record, "csv_sha256": digests}
+    tables = {name: pd.read_csv(Path(out_dir) / name).to_dict(orient="split") for name in CSV_OUTPUTS}
+    return json.loads(json.dumps({"record": record, "csv": tables}))
 
 
 def test_no_covariate_analysis_is_byte_identical_to_0_7_0(tmp_path: Path) -> None:
     expected = json.loads(FIXTURE.read_text(encoding="utf-8"))
     observed = capture_identity(tmp_path)
     assert "covariates" not in observed["record"]
-    assert observed["record"] == expected["record"]
-    assert observed["csv_sha256"] == expected["csv_sha256"]
+    _assert_close(observed["record"], expected["record"], "record")
+    _assert_close(observed["csv"], expected["csv"], "csv")
 
 
 if __name__ == "__main__":
