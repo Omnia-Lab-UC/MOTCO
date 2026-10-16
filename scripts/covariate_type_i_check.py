@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Covariate-adjustment Type I check at the Phase 6 SEA-AD design (no R).
 
-The gate behind ``openspec/changes/covariate-adjusted-trajectories/`` (design
+The gate behind ``openspec/changes/archive/2026-10-16-covariate-adjusted-trajectories/`` (design
 D10, spec ``covariate-adjustment-type-i``). The case study may report
 covariate-adjusted ``motco analyze`` results only after this check returns
 ``covariates_validated``.

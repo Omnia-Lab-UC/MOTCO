@@ -1,7 +1,7 @@
 # Covariate-adjustment Type I check — 2026-10-16
 
 > Paper-grade size check of covariate-adjusted `motco analyze` at the Phase 6 SEA-AD design
-> (`openspec/changes/covariate-adjusted-trajectories/`, spec `covariate-adjustment-type-i`). It is the gate the case
+> (`openspec/changes/archive/2026-10-16-covariate-adjusted-trajectories/`, spec `covariate-adjustment-type-i`). It is the gate the case
 > study must pass before it reports covariate-adjusted trajectory results. Every number below is read from
 > `results/covariate-type-i-2026-10-16/` (`covariate_type_i_decision.json`, `covariate_type_i_rates.csv`,
 > `covariate_type_i_pvalues.csv`, `merged.jsonl`). Rates are rejection rates at p ≤ 0.05 over 500 replicates × 999
