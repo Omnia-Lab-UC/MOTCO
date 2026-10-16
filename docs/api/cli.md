@@ -170,7 +170,10 @@ artifact layout.
 usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      METADATA --sample-col SAMPLE_COL --group-col GROUP_COL
                      --stage-col STAGE_COL [--stage-order STAGE_ORDER]
-                     [--group-order GROUP_ORDER] [--permutations PERMUTATIONS]
+                     [--group-order GROUP_ORDER] [--covariate COL]
+                     [--categorical-covariate COL]
+                     [--missing-covariates {error,complete_case}]
+                     [--permutations PERMUTATIONS]
                      [--seed SEED] [--n-jobs N_JOBS]
                      [--forced-components FORCED_COMPONENTS]
                      [--orientation-estimator {net_displacement,pc1}]
@@ -191,6 +194,13 @@ options:
                              Metadata columns: sample ids, the two groups, the stages
   --stage-order STAGE_ORDER  Required. Comma-separated stage labels, first to last
   --group-order GROUP_ORDER  Comma-separated group labels (default: sorted as strings)
+  --covariate COL            Metadata column entering the trajectory model additively; repeat per
+                             covariate, in model order (non-numeric columns are categorical)
+  --categorical-covariate COL
+                             Like --covariate, but treat the column as a factor whatever its dtype
+  --missing-covariates {error,complete_case}
+                             Missing covariate values: error (default) or complete_case (drop those
+                             samples); never imputed
   --permutations N           RRPP permutations (default: 0, no p-values)
   --seed SEED                RRPP seed
   --n-jobs N_JOBS            Parallel jobs for CV and RRPP (-1 = all CPUs)
@@ -208,7 +218,10 @@ options:
 
 Blocks are analysed in the units supplied: MOTCO does not normalize counts,
 filter features or impute values. On success the command prints the selected
-rank, the estimator, the statistics with their p-values and the written paths.
+rank, the estimator, the statistics with their p-values and the written paths;
+with covariates it also prints each covariate's kind and the number of samples
+complete-case deletion dropped. Covariates are declared in flag order across
+`--covariate` and `--categorical-covariate`.
 Input and validation errors exit non-zero with an `Error: …` message.
 
 **Example:**

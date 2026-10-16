@@ -3,7 +3,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import List, Union
+from typing import Any, List, Union
 
 import numpy as np
 import pandas as pd
@@ -223,6 +223,32 @@ def _split_labels(raw: str | None) -> list[str] | None:
     return [label.strip() for label in raw.split(",") if label.strip()]
 
 
+class _CovariateAction(argparse.Action):
+    """Collect --covariate / --categorical-covariate into one list, in flag order."""
+
+    def __call__(
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,
+        values: Any,
+        option_string: str | None = None,
+    ) -> None:
+        specs = list(getattr(namespace, self.dest) or [])
+        specs.append((str(values), self.const))
+        setattr(namespace, self.dest, specs)
+
+
+def _covariate_declarations(specs: list[tuple[str, bool]] | None) -> tuple[list[str], list[str]]:
+    covariates: list[str] = []
+    categorical: list[str] = []
+    for column, is_categorical in specs or []:
+        if column not in covariates:
+            covariates.append(column)
+        if is_categorical and column not in categorical:
+            categorical.append(column)
+    return covariates, categorical
+
+
 def cmd_analyze(args: argparse.Namespace) -> None:
     from motco.analysis import (
         OmicsBlock,
@@ -245,6 +271,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     stage_order = _split_labels(args.stage_order)
     if not stage_order:
         raise SystemExit("Error: --stage-order is required (comma-separated stage labels, first to last).")
+    covariates, categorical = _covariate_declarations(args.covariates)
 
     try:
         metadata = pd.read_csv(args.metadata)
@@ -263,6 +290,9 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             stage_col=args.stage_col,
             stage_order=stage_order,
             group_order=_split_labels(args.group_order),
+            covariate_cols=covariates,
+            categorical_covariates=categorical,
+            missing_covariates=args.missing_covariates,
         )
         params = TrajectoryAnalysisParams(
             permutations=args.permutations,
@@ -295,6 +325,10 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         f"{record['measurement']['orientation_estimator']}"
     )
     print(f"Groups: {record['design']['group_levels']}; stages: {record['design']['stage_levels']}")
+    if "covariates" in record:
+        block = record["covariates"]
+        declared = ", ".join(f"{name} ({block['kinds'][name]})" for name in block["columns"])
+        print(f"Covariates: {declared}; dropped samples: {block['n_dropped']} ({block['missing_policy']})")
     for statistic, value in record["statistics"].items():
         p_value = record["p_values"].get(statistic)
         shown = "unavailable" if value is None else f"{value:.6g}"
@@ -497,6 +531,14 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Required. Comma-separated stage labels, first to last (never inferred by sorting)")
     p_an.add_argument("--group-order", type=str, default=None,
                       help="Comma-separated group labels (default: sorted as strings)")
+    p_an.add_argument("--covariate", dest="covariates", action=_CovariateAction, const=False, metavar="COL",
+                      help="Metadata column entering the trajectory model additively; repeat per covariate, "
+                           "in model order (non-numeric columns are categorical)")
+    p_an.add_argument("--categorical-covariate", dest="covariates", action=_CovariateAction, const=True,
+                      metavar="COL", help="Like --covariate, but treat the column as a factor whatever its dtype")
+    p_an.add_argument("--missing-covariates", type=str, default="error", choices=["error", "complete_case"],
+                      help="Missing covariate values: error (default) or complete_case (drop those samples); "
+                           "never imputed")
     p_an.add_argument("--permutations", type=int, default=0, help="RRPP permutations (default: 0, no p-values)")
     p_an.add_argument("--seed", type=int, default=None, help="RRPP seed")
     p_an.add_argument("--n-jobs", type=int, default=1, help="Parallel jobs for CV and RRPP (-1 = all CPUs)")

@@ -62,10 +62,15 @@ from motco.simulations.preprocessing import (
     transform_blocks,
 )
 from motco.stats.attribution import OrientationAttributionResult, write_attribution_outputs
+from motco.stats.design import CovariateDesign, build_covariate_matrix
 from motco.stats.permutation import RRPP
 from motco.stats.trajectory import estimate_betas, estimate_difference
 
 UnitTransform = Literal["identity", "beta_to_mvalue"]
+MissingCovariatePolicy = Literal["error", "complete_case"]
+
+#: Allowed missing-covariate policies.
+MISSING_COVARIATE_POLICIES: tuple[str, ...] = ("error", "complete_case")
 
 #: Version of the JSON-safe analysis record contract.
 ANALYSIS_SCHEMA_VERSION = 1
@@ -101,6 +106,15 @@ class TrajectoryDataset:
     column must hold exactly two labels; ``stage_order`` must list every
     observed stage label exactly once (labels are compared as strings), and
     every group × stage cell must be observed.
+
+    ``covariate_cols`` names metadata columns that enter the trajectory model
+    additively, in declared order. A covariate is categorical when listed in
+    ``categorical_covariates`` or when its dtype is not numeric (booleans are
+    categorical); otherwise numeric. ``missing_covariates`` decides what a
+    missing covariate value does: ``"error"`` rejects it, ``"complete_case"``
+    drops the sample from the metadata and every block before anything else is
+    validated or fitted (``dropped_sample_ids`` lists them). Covariates are
+    never imputed.
     """
 
     blocks: Sequence[OmicsBlock]
@@ -110,15 +124,26 @@ class TrajectoryDataset:
     stage_col: str
     stage_order: Sequence[str]
     group_order: Sequence[str] | None = None
+    covariate_cols: Sequence[str] = ()
+    categorical_covariates: Sequence[str] = ()
+    missing_covariates: MissingCovariatePolicy = "error"
+    _dropped_sample_ids: tuple[str, ...] = field(default=(), init=False, repr=False, compare=False)
+    _covariate_design: CovariateDesign | None = field(default=None, init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "blocks", tuple(self.blocks))
         object.__setattr__(self, "stage_order", tuple(str(stage) for stage in self.stage_order))
         if self.group_order is not None:
             object.__setattr__(self, "group_order", tuple(str(group) for group in self.group_order))
-        sample_ids = self._validate_metadata()
-        self._validate_blocks(sample_ids)
-        self._validate_design()
+        object.__setattr__(self, "covariate_cols", tuple(self.covariate_cols))
+        object.__setattr__(self, "categorical_covariates", tuple(self.categorical_covariates))
+        self._validate_metadata()
+        self._validate_covariate_declarations()
+        cells_before = self._observed_cells()
+        self._apply_missing_covariate_policy()
+        self._validate_blocks(self.sample_ids)
+        self._build_covariate_design()
+        self._validate_design(cells_before)
 
     @property
     def sample_ids(self) -> list[str]:
@@ -136,7 +161,81 @@ class TrajectoryDataset:
     def stages(self) -> tuple[str, ...]:
         return tuple(self.stage_order)
 
-    def _validate_metadata(self) -> list[str]:
+    @property
+    def dropped_sample_ids(self) -> tuple[str, ...]:
+        """Samples removed by complete-case deletion (empty under ``"error"``)."""
+
+        return self._dropped_sample_ids
+
+    @property
+    def covariate_design(self) -> CovariateDesign | None:
+        """The covariate design columns on the retained samples, or ``None`` without covariates."""
+
+        return self._covariate_design
+
+    def _observed_cells(self) -> set[tuple[str, str]]:
+        return set(zip(self.metadata[self.group_col].astype(str), self.metadata[self.stage_col].astype(str)))
+
+    def _validate_covariate_declarations(self) -> None:
+        if self.missing_covariates not in MISSING_COVARIATE_POLICIES:
+            raise TrajectoryAnalysisError(
+                f"Unknown missing_covariates policy {self.missing_covariates!r}; allowed: "
+                f"{list(MISSING_COVARIATE_POLICIES)}."
+            )
+        covariates = list(self.covariate_cols)
+        repeated = sorted({name for name in covariates if covariates.count(name) > 1})
+        if repeated:
+            raise TrajectoryAnalysisError(f"Covariates must be declared once; repeated: {repeated}.")
+        reserved = [name for name in covariates if name in {self.sample_col, self.group_col, self.stage_col}]
+        if reserved:
+            raise TrajectoryAnalysisError(
+                f"Covariates must differ from the sample, group and stage columns; got {reserved}."
+            )
+        absent = [name for name in covariates if name not in self.metadata.columns]
+        if absent:
+            raise TrajectoryAnalysisError(f"metadata is missing covariate column(s): {absent}.")
+        undeclared = [name for name in self.categorical_covariates if name not in covariates]
+        if undeclared:
+            raise TrajectoryAnalysisError(
+                f"categorical_covariates must also be declared in covariate_cols; not declared: {undeclared}."
+            )
+
+    def _apply_missing_covariate_policy(self) -> None:
+        if not self.covariate_cols:
+            return
+        missing = self.metadata[list(self.covariate_cols)].isna()
+        if not missing.to_numpy().any():
+            return
+        sample_ids = self.metadata[self.sample_col].astype(str)
+        if self.missing_covariates == "error":
+            column = next(name for name in self.covariate_cols if missing[name].any())
+            affected = sample_ids[missing[column].to_numpy()].tolist()
+            raise TrajectoryAnalysisError(
+                f"Covariate {column!r} has missing values for {len(affected)} sample(s): {affected[:10]}. "
+                "Pass missing_covariates='complete_case' to drop them; covariates are never imputed."
+            )
+        drop = missing.any(axis=1).to_numpy()
+        keep = ~drop
+        object.__setattr__(self, "_dropped_sample_ids", tuple(sample_ids[drop].tolist()))
+        object.__setattr__(self, "metadata", self.metadata.loc[keep].reset_index(drop=True))
+        retained = []
+        for block in self.blocks:
+            values = block.values
+            if isinstance(values, pd.DataFrame) and values.shape[0] == keep.size:
+                values = values.loc[keep]
+            retained.append(OmicsBlock(block.name, values, block.transform))
+        object.__setattr__(self, "blocks", tuple(retained))
+
+    def _build_covariate_design(self) -> None:
+        if not self.covariate_cols:
+            return
+        try:
+            design = build_covariate_matrix(self.metadata, self.covariate_cols, self.categorical_covariates)
+        except ValueError as exc:
+            raise TrajectoryAnalysisError(str(exc)) from exc
+        object.__setattr__(self, "_covariate_design", design)
+
+    def _validate_metadata(self) -> None:
         if not isinstance(self.metadata, pd.DataFrame):
             raise TrajectoryAnalysisError("metadata must be a pandas DataFrame.")
         columns = {"sample_col": self.sample_col, "group_col": self.group_col, "stage_col": self.stage_col}
@@ -154,7 +253,6 @@ class TrajectoryDataset:
         duplicated = sorted({sid for sid in sample_ids if sample_ids.count(sid) > 1})
         if duplicated:
             raise TrajectoryAnalysisError(f"metadata sample ids are not unique: {duplicated[:10]}.")
-        return sample_ids
 
     def _validate_blocks(self, sample_ids: list[str]) -> None:
         if not self.blocks:
@@ -203,7 +301,13 @@ class TrajectoryDataset:
                     "interval (0, 1)."
                 )
 
-    def _validate_design(self) -> None:
+    def _validate_design(self, cells_before: set[tuple[str, str]]) -> None:
+        emptied = sorted(cells_before - self._observed_cells())
+        if emptied:
+            raise TrajectoryAnalysisError(
+                f"Complete-case deletion of {len(self._dropped_sample_ids)} sample(s) with missing covariates "
+                f"emptied group/stage combination(s): {emptied}."
+            )
         observed_stages = sorted(set(self.metadata[self.stage_col].astype(str)))
         declared = list(self.stage_order)
         if len(set(declared)) != len(declared) or set(declared) != set(observed_stages):
@@ -226,7 +330,7 @@ class TrajectoryDataset:
                     f"group_order must list both observed groups exactly once; declared {group_order}, "
                     f"observed {observed_groups}."
                 )
-        present = set(zip(self.metadata[self.group_col].astype(str), self.metadata[self.stage_col].astype(str)))
+        present = self._observed_cells()
         missing = [(group, stage) for group in self.groups for stage in declared if (group, stage) not in present]
         if missing:
             raise TrajectoryAnalysisError(f"metadata has no sample for group/stage combination(s): {missing}.")
@@ -311,9 +415,22 @@ def analyze_trajectories(
     Records the selected rank, null summary, stage-mean spectrum, cell sizes,
     block units and software versions beside the statistics. Optionally runs
     frozen-model orientation attribution on the fitted estimator.
+
+    Declared covariates (``dataset.covariate_cols``) are appended additively to
+    the full (group × stage) and reduced (group + stage) trajectory models, so
+    RRPP permutes residuals of the reduced model with covariates. Every LS-mean
+    is evaluated at the pooled covariate mean; ``delta``, ``angle`` and
+    ``shape`` do not depend on that reference. The latent space is fitted
+    without the covariates. Attribution is not available with covariates.
     """
 
     params = params or TrajectoryAnalysisParams()
+    covariates = dataset.covariate_design
+    if covariates is not None and params.attribution.enabled:
+        raise TrajectoryAnalysisError(
+            "Attribution is not available with covariates: it works from unadjusted cell means. "
+            "Disable attribution or drop the covariates."
+        )
     start = perf_counter()
     blocks = {block.name: block.values for block in dataset.blocks}
     order = [block.name for block in dataset.blocks]
@@ -367,11 +484,14 @@ def analyze_trajectories(
             f"Internal level mapping mismatch: design levels {group_levels}/{stage_levels}, "
             f"declared {groups}/{stages}."
         )
+    model_full, model_reduced, ls_means = _covariate_adjusted_design(
+        design.model_full, design.model_reduced, design.ls_means, covariates
+    )
 
     observed_deltas, observed_angles, observed_shapes, observed_spectra = estimate_difference(
         Y=latent.matrix,
-        model_matrix=design.model_full,
-        LS_means=design.ls_means,
+        model_matrix=model_full,
+        LS_means=ls_means,
         contrast=design.contrast,
         return_spectra=True,
         orientation_estimator=params.orientation_estimator,
@@ -387,9 +507,9 @@ def analyze_trajectories(
     if params.permutations > 0:
         dist_delta, dist_angle, dist_shape, dist_eigengap = RRPP(
             latent.matrix,
-            design.model_full,
-            design.model_reduced,
-            design.ls_means,
+            model_full,
+            model_reduced,
+            ls_means,
             design.contrast,
             permutations=params.permutations,
             n_jobs=params.n_jobs,
@@ -414,9 +534,10 @@ def analyze_trajectories(
     artifacts = latent.artifacts
     assert artifacts is not None  # the PLS core always returns its fitted artifacts
     pls_loadings = _loadings_frame(artifacts.model, X.columns, list(latent.matrix.columns))
+    betas = np.asarray(estimate_betas(model_full, latent.matrix.to_numpy(dtype=float)), dtype=float)
     stage_means = _stage_means_frame(
-        design.ls_means,
-        np.asarray(estimate_betas(design.model_full, latent.matrix.to_numpy(dtype=float)), dtype=float),
+        ls_means,
+        betas,
         group_levels,
         stage_levels,
         list(latent.matrix.columns),
@@ -452,6 +573,11 @@ def analyze_trajectories(
             "contrast": design.contrast,
             "n_samples": len(sample_ids),
         },
+        **(
+            {"covariates": _covariate_record(dataset, covariates, betas, list(latent.matrix.columns))}
+            if covariates is not None
+            else {}
+        ),
         "blocks": [
             {
                 "name": block.name,
@@ -563,6 +689,59 @@ def _run_attribution(
         raise TrajectoryAnalysisError(str(exc)) from exc
 
 
+def _covariate_adjusted_design(
+    model_full: np.ndarray,
+    model_reduced: np.ndarray,
+    ls_means: np.ndarray,
+    covariates: CovariateDesign | None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Append the covariate columns to both models and the reference row to every LS-mean row.
+
+    The covariate columns go last, so the group, stage and interaction
+    positions (and therefore the contrast) are unchanged. Without covariates
+    the matrices are returned as they are.
+    """
+
+    if covariates is None:
+        return model_full, model_reduced, ls_means
+    full = np.hstack([np.asarray(model_full, dtype=float), covariates.matrix])
+    rank = int(np.linalg.matrix_rank(full))
+    if rank < full.shape[1]:
+        raise TrajectoryAnalysisError(
+            f"The trajectory model with covariates {list(covariates.columns)} is not of full rank "
+            f"(rank {rank} of {full.shape[1]} columns); a covariate is collinear with the group × stage "
+            "design or with another covariate."
+        )
+    reduced = np.hstack([np.asarray(model_reduced, dtype=float), covariates.matrix])
+    reference = np.tile(covariates.reference_row, (np.asarray(ls_means).shape[0], 1))
+    return full, reduced, np.hstack([np.asarray(ls_means, dtype=float), reference])
+
+
+def _covariate_record(
+    dataset: TrajectoryDataset,
+    covariates: CovariateDesign,
+    betas: np.ndarray,
+    components: list[str],
+) -> dict[str, Any]:
+    q = len(covariates.column_names)
+    coefficients = betas[betas.shape[0] - q :, :]
+    return {
+        "columns": list(covariates.columns),
+        "kinds": dict(covariates.kinds),
+        "levels": {name: list(levels) for name, levels in covariates.levels.items()},
+        "reference_levels": dict(covariates.reference_levels),
+        "design_columns": list(covariates.column_names),
+        "reference_row": dict(zip(covariates.column_names, covariates.reference_row)),
+        "lsmean_reference": "pooled_mean",
+        "missing_policy": dataset.missing_covariates,
+        "n_dropped": len(dataset.dropped_sample_ids),
+        "dropped_sample_ids": list(dataset.dropped_sample_ids),
+        "coefficients": {
+            name: dict(zip(components, coefficients[index])) for index, name in enumerate(covariates.column_names)
+        },
+    }
+
+
 def _methylation_units(transforms: Mapping[str, str]) -> str:
     return "mvalue" if "beta_to_mvalue" in transforms.values() else "not_applicable"
 
@@ -627,6 +806,7 @@ def _json_safe(value: Any) -> Any:
 
 __all__ = [
     "ANALYSIS_SCHEMA_VERSION",
+    "MISSING_COVARIATE_POLICIES",
     "OmicsBlock",
     "TrajectoryAnalysisError",
     "TrajectoryAnalysisParams",

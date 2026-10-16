@@ -33,6 +33,9 @@ and record neither the selected rank, the null summary nor the spectrum.
   `High` < `Intermediate` < `Low` alphabetically. Group order is optional and
   defaults to the labels sorted as strings.
 
+- **Covariates (optional).** `covariate_cols` names metadata columns, in model
+  order; see [Covariates](#covariates).
+
 Violations raise `TrajectoryAnalysisError` (a `ValueError`) naming the block,
 labels or cell at fault.
 
@@ -54,7 +57,8 @@ the record then says `component_selection: "forced"`.
 | `null_summary` | per statistic: retained draws, mean, sd, 50/90/95/99 % quantiles of the permutation null |
 | `config_spectrum` | eigenspectrum of the latent stage-mean configuration, pooled and per group, plus the permutation eigengap summary |
 | `latent` | `selected_lv`, `component_selection`, CV settings, `cv_mean_auroc`, feature counts, `feature_order_signature` |
-| `design` | group and ordered stage levels, cell sizes per group × stage, contrast |
+| `design` | group and ordered stage levels, cell sizes per group × stage, contrast, analysed sample count |
+| `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
 | `measurement` | orientation estimator, selected rank, permutations, seed, runtime |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
@@ -99,13 +103,80 @@ It refuses to replace an existing `result.json` unless `overwrite=True`
 pickles are version-fragile. The scores, loadings and recorded feature order
 signature are enough to audit and re-project the fit.
 
-## Limitation: no covariates
+## Covariates
 
-The design is group × stage with interactions. Covariates such as age, PMI or
-batch are not adjusted for: the operating characteristics were measured without
-them, and adding them is a methodological change that needs its own validation.
-Handle known batch structure upstream, and report this limitation with any
-result.
+Donor covariates such as age at death, PMI or RIN enter the trajectory
+regression in the latent space, so the stage means, the RRPP reduced model and
+therefore what is permuted all account for them. Declare them on the dataset:
+
+```python
+dataset = TrajectoryDataset(
+    ...,
+    covariate_cols=["age_at_death", "pmi", "education_level"],
+    categorical_covariates=["education_level"],   # optional; non-numeric columns are categorical anyway
+    missing_covariates="complete_case",           # default "error"
+)
+```
+
+CLI: `--covariate age_at_death --covariate pmi --categorical-covariate
+education_level --missing-covariates complete_case`.
+
+- **Coding.** A numeric (non-boolean) column enters as one design column holding
+  its values. Any other column, or one listed in `categorical_covariates`
+  (for numeric-coded factors), enters as drop-first indicators `name[level]`,
+  with levels ordered as strings (numerically when every label is an integer);
+  the first level is the reference.
+- **Model.** The full model is `group × stage + covariates` and the reduced
+  model `group + stage + covariates`. Covariates are additive: no interaction
+  with group or stage. RRPP permutes the reduced model's residuals as before, so
+  every permuted dataset keeps the fitted covariate effects.
+- **LS-means.** Every group × stage mean is evaluated at the pooled mean of each
+  covariate design column (for a factor, its observed level proportions). The
+  covariate term then adds the same vector to every stage mean, and `delta`,
+  `angle` and `shape` are translation-invariant, so **the statistics do not
+  depend on the reference**. Only `stage_means.csv` does, and the record states
+  the reference row.
+- **Missing values.** `missing_covariates="error"` (the default) rejects any
+  missing covariate value, naming the column and up to ten samples.
+  `"complete_case"` drops those samples from the metadata and every block before
+  standardization, the latent fit and the design, and records the dropped ids.
+  A deletion that empties a group × stage cell is an error. Covariates are never
+  imputed; blocks must still be complete.
+- **Guards.** A covariate that is also the sample, group or stage column, a
+  constant numeric covariate, a factor with one observed level, a non-finite
+  numeric value, and a model with covariates that is not of full column rank
+  (for example a covariate collinear with group × stage) are rejected with an
+  error naming the covariate(s).
+
+**The latent space is covariate-blind, and the adjustment is still exact.**
+PLS-DA is fitted on the standardized features against stage alone, exactly as
+without covariates, so the latent scores, loadings and selected rank do not
+change. OLS commutes with a fixed linear map: regressing the scores `T = XW` on
+`[design, covariates]` gives the coefficients of regressing `X` on the same
+design, projected by `W`. The stage means are therefore adjusted exactly as in
+feature space; only the basis `W` was chosen without the covariates. If a
+covariate effect is large and aligned with stage, PLS may spend a component on
+it. A sensitivity analysis that residualizes the features on the covariates
+before the fit (outside MOTCO) addresses that case.
+
+**Attribution is not available with covariates.** Frozen-model attribution
+works from unadjusted cell means, so a request for both raises an error before
+any fitting.
+
+**Keep the covariate set parsimonious.** Small cells (the SEA-AD MTG design
+has 9–28 donors per cell) and many covariate columns can make the model
+near-singular or the null unstable. The record's `design_columns` states the
+degrees of freedom used.
+
+**Type I validation.** `scripts/covariate_type_i_check.py` measures size at the
+Phase 6 design with covariates confounded with group, stage and their
+interaction (adjusted vs unadjusted arms on a shared latent fit); see
+[the report](../reports/covariate-type-i-2026-10-16.md). Report covariate-adjusted
+results only under its `covariates_validated` decision.
+
+Without covariates the record, the artifact and every output are identical to
+MOTCO 0.7.0 (except the runtime); the `covariates` key is absent and the schema
+version is unchanged (`tests/test_analysis_identity.py`).
 
 ## Example: SEA-AD-style design
 

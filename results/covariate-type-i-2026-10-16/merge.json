@@ -1,0 +1,22 @@
+{
+ "replicates": 500,
+ "expected": 500,
+ "missing": [],
+ "mean_numeric_interaction_contrast": 3.978897915960032,
+ "decision": "covariates_validated",
+ "adjusted": {
+  "delta": 0.04,
+  "angle": 0.062,
+  "shape": 0.034
+ },
+ "unadjusted": {
+  "delta": 0.098,
+  "angle": 0.096,
+  "shape": 0.364
+ },
+ "bound": {
+  "delta": 0.06949358868961793,
+  "angle": 0.06949358868961793,
+  "shape": 0.06949358868961793
+ }
+}
