@@ -1,0 +1,208 @@
+{
+  "csv_sha256": {
+    "latent_scores.csv": "987fba8e6a1533a0d8e8df6ceb8f43a7719cebf483eea646371e4535627f34ea",
+    "pls_loadings.csv": "2d615711292de2c7aed759d3eeea4dd9f0509a58fb0b27d14781e8c03757d853",
+    "stage_means.csv": "ffc961c821605cc6a587b3482b644beb64ba54cc952495425aecb2140caa0fae"
+  },
+  "record": {
+    "attribution": {
+      "reason": "attribution was not requested",
+      "schema_version": 2,
+      "status": "not_requested"
+    },
+    "blocks": [
+      {
+        "n_features": 12,
+        "name": "rna",
+        "transform": "identity",
+        "units": "as_supplied"
+      },
+      {
+        "n_features": 8,
+        "name": "atac",
+        "transform": "identity",
+        "units": "as_supplied"
+      }
+    ],
+    "config_spectrum": {
+      "groups": {
+        "F": {
+          "n_dimensions": 2,
+          "n_points": 3,
+          "relative_eigengap": 0.9368792817156537,
+          "spectrum": [
+            0.9684396408578269,
+            0.03156035914217318
+          ],
+          "total_variance": 19.208038180313967
+        },
+        "M": {
+          "n_dimensions": 2,
+          "n_points": 3,
+          "relative_eigengap": 0.987211769389261,
+          "spectrum": [
+            0.9936058846946305,
+            0.0063941153053694725
+          ],
+          "total_variance": 50.179728478885515
+        }
+      },
+      "permutation_pooled_eigengap": {
+        "count": 99.0,
+        "mean": 0.974900476471851,
+        "q05": 0.9509836484111528,
+        "q50": 0.9751198348648005,
+        "q95": 0.9942594951363554,
+        "sd": 0.012468920757859586
+      },
+      "pooled": {
+        "n_dimensions": 2,
+        "n_points": 3,
+        "relative_eigengap": 0.9729349189304984,
+        "spectrum": [
+          0.9864674594652493,
+          0.013532540534750797
+        ],
+        "total_variance": 32.611955784427636
+      },
+      "version": 1
+    },
+    "design": {
+      "cell_sizes": {
+        "F": {
+          "High": 7,
+          "Intermediate": 7,
+          "Low": 7
+        },
+        "M": {
+          "High": 7,
+          "Intermediate": 7,
+          "Low": 7
+        }
+      },
+      "contrast": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          3,
+          4,
+          5
+        ]
+      ],
+      "group_col": "Sex",
+      "group_levels": [
+        "F",
+        "M"
+      ],
+      "n_samples": 42,
+      "sample_col": "donor",
+      "stage_col": "ADNC",
+      "stage_levels": [
+        "Low",
+        "Intermediate",
+        "High"
+      ]
+    },
+    "latent": {
+      "component_selection": "cv",
+      "cv_mean_auroc": 0.8046296296296296,
+      "cv_repeats_completed": 2,
+      "feature_order_signature": "b72202ab3bf9fcb0",
+      "integration_metadata_version": 1,
+      "integration_method": "pls",
+      "integration_params": {
+        "cv1_splits": 2,
+        "cv2_splits": 3,
+        "max_components": 5,
+        "n_repeats": 2,
+        "random_state": 1203,
+        "selected_lv": 2,
+        "stage_col": "ADNC"
+      },
+      "integration_role": "latent_space",
+      "layer_feature_counts": {
+        "atac": 8,
+        "rna": 12
+      },
+      "n_features": 2,
+      "n_samples": 42,
+      "selected_lv": 2,
+      "shape": [
+        42,
+        2
+      ]
+    },
+    "measurement": {
+      "component_selection": "cv",
+      "n_jobs": 1,
+      "orientation_estimator": "net_displacement",
+      "permutations": 99,
+      "seed": 7,
+      "selected_lv": 2,
+      "shape_available": true
+    },
+    "null_summary": {
+      "angle": {
+        "count": 99.0,
+        "mean": 3.125570328629807,
+        "q50": 2.5426178578604506,
+        "q90": 6.345245799828595,
+        "q95": 7.823805672269023,
+        "q99": 9.917362810252387,
+        "sd": 2.5878301565227892
+      },
+      "delta": {
+        "count": 99.0,
+        "mean": 0.5368129393077671,
+        "q50": 0.43071607236385034,
+        "q90": 1.0936560743672865,
+        "q95": 1.3846288996825609,
+        "q99": 1.6522045459538337,
+        "sd": 0.42430530776033815
+      },
+      "shape": {
+        "count": 99.0,
+        "mean": 0.09615974850239786,
+        "q50": 0.09389345106455341,
+        "q90": 0.16436565719749544,
+        "q95": 0.1884897154992813,
+        "q99": 0.2042526334159396,
+        "sd": 0.05019526913308443
+      }
+    },
+    "p_values": {
+      "angle": 0.06,
+      "delta": 0.01,
+      "shape": 0.45
+    },
+    "params": {
+      "attribution": {
+        "bootstrap_replicates": 0,
+        "bootstrap_seed": 0,
+        "enabled": false,
+        "top_k": 20,
+        "zero_tolerance": 1e-12
+      },
+      "cv1_splits": 2,
+      "cv2_splits": 3,
+      "forced_components": null,
+      "max_components": 5,
+      "n_jobs": 1,
+      "n_repeats": 2,
+      "orientation_estimator": "net_displacement",
+      "permutations": 99,
+      "progress": false,
+      "random_state": 1203,
+      "seed": 7
+    },
+    "schema_version": 1,
+    "statistics": {
+      "angle": 8.346893537713134,
+      "delta": 3.6882104479567435,
+      "shape": 0.10335114696785098
+    }
+  }
+}
