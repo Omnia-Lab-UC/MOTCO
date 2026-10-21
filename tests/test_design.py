@@ -4,7 +4,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from motco.stats.design import build_covariate_matrix, build_ls_means, center_matrix, get_model_matrix
+from motco.stats.design import (
+    build_conditioning_matrix,
+    build_covariate_matrix,
+    build_ls_means,
+    center_matrix,
+    get_model_matrix,
+)
 
 
 def _feature_columns(df: pd.DataFrame, group_col: str, level_col: str) -> list[str]:
@@ -218,3 +224,51 @@ def test_boolean_covariate_is_categorical() -> None:
 def test_covariate_matrix_rejections(frame: pd.DataFrame, categorical: list[str], message: str) -> None:
     with pytest.raises(ValueError, match=message):
         build_covariate_matrix(frame, ["pmi"], categorical=categorical)
+
+
+# ── Conditioning design for covariate residualization ───────────────────────
+
+
+def _conditioning_frame() -> pd.DataFrame:
+    groups = np.repeat(["0", "1"], 6)
+    stages = np.tile(["0", "1", "2"], 4)
+    return pd.DataFrame({"group": groups, "stage": stages})
+
+
+def test_stage_conditioning_is_drop_first_stage_indicators() -> None:
+    frame = _conditioning_frame()
+    design = build_conditioning_matrix(frame, "group", "stage", "stage")
+    assert design.kind == "stage"
+    assert design.column_names == ("stage[1]", "stage[2]")
+    expected = np.column_stack([(frame["stage"] == "1").astype(float), (frame["stage"] == "2").astype(float)])
+    np.testing.assert_array_equal(design.matrix, expected)
+    reduced = get_model_matrix(frame, group_col="group", level_col="stage", full=False)
+    np.testing.assert_array_equal(design.matrix, reduced[:, 2:])
+
+
+def test_group_stage_conditioning_matches_the_full_model_without_intercept() -> None:
+    frame = _conditioning_frame()
+    design = build_conditioning_matrix(frame, "group", "stage", "group_stage")
+    assert design.column_names == (
+        "group[1]",
+        "stage[1]",
+        "stage[2]",
+        "group[1]:stage[1]",
+        "group[1]:stage[2]",
+    )
+    full = get_model_matrix(frame, group_col="group", level_col="stage", full=True)
+    np.testing.assert_array_equal(design.matrix, full[:, 1:])
+
+
+def test_conditioning_orders_levels_numerically() -> None:
+    frame = pd.DataFrame({"group": ["a", "b"] * 6, "stage": [str(level) for level in (10, 2, 1) * 4]})
+    design = build_conditioning_matrix(frame, "group", "stage", "stage")
+    assert design.column_names == ("stage[2]", "stage[10]")
+
+
+def test_conditioning_rejects_unknown_kind_and_single_level() -> None:
+    frame = _conditioning_frame()
+    with pytest.raises(ValueError, match="Unknown conditioning 'group'"):
+        build_conditioning_matrix(frame, "group", "stage", "group")
+    with pytest.raises(ValueError, match="'stage' has 1 observed level"):
+        build_conditioning_matrix(frame.assign(stage="0"), "group", "stage", "stage")

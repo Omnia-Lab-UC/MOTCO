@@ -1,10 +1,32 @@
 # tests/test_pls.py
 from __future__ import annotations
 
+import json
+from pathlib import Path
+from typing import Any
+
 import numpy as np
 import pandas as pd
+import pytest
+from sklearn.model_selection import RepeatedStratifiedKFold
 
-from motco.stats.pls import calculate_vips, fit_plsda_model, fit_plsda_transform, plsda_doubleCV
+from motco.stats import pls
+from motco.stats.pls import (
+    NuisanceDesign,
+    calculate_vips,
+    fit_nuisance_coefficients,
+    fit_plsda_model,
+    fit_plsda_transform,
+    nuisance_partial_r2,
+    plsda_doubleCV,
+    residualize,
+)
+from tests.test_phase6_byte_identity import _assert_close
+
+#: ``plsda_doubleCV`` output on a fixed input and ``random_state``, captured
+#: before the keyword-only ``scale`` / ``nuisance`` arguments existed
+#: (``uv run python -m tests.test_pls``).
+DEFAULT_IDENTITY = Path(__file__).parent / "data" / "plsda_doublecv_identity.json"
 
 
 def _synthetic_data(n: int = 30, p: int = 10, seed: int = 0) -> tuple[pd.DataFrame, pd.Series]:
@@ -176,3 +198,265 @@ def test_stats_top_level_imports():
         pair_difference,
         plsda_doubleCV,
     )
+
+
+def _default_identity_payload() -> dict[str, Any]:
+    rng = np.random.default_rng(20261020)
+    labels = np.repeat(["Low", "Mid", "High"], 12)
+    shift = np.repeat([0.0, 0.8, 1.6], 12)[:, None]
+    X = pd.DataFrame(rng.standard_normal((36, 9)) + shift * np.linspace(0, 1, 9), columns=[f"f{i}" for i in range(9)])
+    result = plsda_doubleCV(
+        X, pd.Series(labels), cv1_splits=2, cv2_splits=3, n_repeats=2, max_components=4, random_state=11,
+        progress=False,
+    )
+    return json.loads(
+        json.dumps(
+            {
+                "table": result["table"].to_dict(orient="list"),
+                "x_scores": [np.asarray(model.x_scores_).tolist() for model in result["models"]],
+                "x_rotations": [np.asarray(model.x_rotations_).tolist() for model in result["models"]],
+            }
+        )
+    )
+
+
+def test_plsda_doubleCV_defaults_reproduce_stored_output():
+    expected = json.loads(DEFAULT_IDENTITY.read_text(encoding="utf-8"))
+    _assert_close(_default_identity_payload(), expected, "plsda_doubleCV")
+
+
+
+# ── Nuisance residualization ─────────────────────────────────────────────────
+
+
+def _stage_indicators(stages: np.ndarray) -> np.ndarray:
+    return np.column_stack([(stages == level).astype(float) for level in (1, 2)])
+
+
+def _nuisance_problem(seed: int = 0, n_per_stage: int = 12, p: int = 8):
+    """Features carrying a stage effect plus a covariate effect, the covariate correlated with stage."""
+
+    rng = np.random.default_rng(seed)
+    stages = np.repeat([0, 1, 2], n_per_stage)
+    z = stages + rng.normal(scale=0.8, size=stages.size)
+    stage_effect = np.array([0.0, 1.0, 2.5])[stages]
+    v = rng.normal(size=p)
+    X = np.outer(stage_effect, np.linspace(0.5, 1.5, p)) + np.outer(z, v) + rng.normal(scale=0.5, size=(stages.size, p))
+    design = NuisanceDesign(_stage_indicators(stages), z[:, None], ("stage[1]", "stage[2]"), ("z",))
+    labels = pd.Series(np.array(["Low", "Mid", "High"])[stages])
+    return pd.DataFrame(X, columns=[f"f{i}" for i in range(p)]), labels, design, stages, z
+
+
+def test_stage_collinear_covariate_keeps_the_stage_effect():
+    rng = np.random.default_rng(3)
+    stages = np.repeat([0, 1, 2], 15)
+    z = stages + rng.normal(scale=0.6, size=stages.size)
+    stage_effect = np.array([0.0, 1.0, 2.5])[stages]
+    feature = stage_effect + 2.0 * z
+    design = NuisanceDesign(_stage_indicators(stages), z[:, None], ("stage[1]", "stage[2]"), ("z",))
+    coefficients, residual_df = fit_nuisance_coefficients(feature[:, None], design)
+    assert coefficients.shape == (1, 1)
+    assert coefficients[0, 0] == pytest.approx(2.0, abs=1e-10)  # within-stage effect
+    marginal = np.polyfit(z, feature, 1)[0]
+    assert abs(marginal - 2.0) > 0.3  # the marginal slope absorbs the stage effect
+    assert residual_df == stages.size - 1 - 2 - 1
+    kept = residualize(feature[:, None], design.covariates, coefficients)[:, 0]
+    np.testing.assert_allclose(kept, stage_effect, atol=1e-10)
+
+
+def test_covariate_effect_is_removed_within_the_design():
+    X, _, design, stages, z = _nuisance_problem()
+    coefficients, _ = fit_nuisance_coefficients(X, design)
+    X_res = np.asarray(residualize(X.to_numpy(), design.covariates, coefficients))
+    base = np.column_stack([np.ones(stages.size), design.conditioning])
+    within = np.eye(stages.size) - base @ np.linalg.pinv(base)
+    z_within = within @ z
+    X_within = within @ X_res
+    correlation = z_within @ X_within / (np.linalg.norm(z_within) * np.linalg.norm(X_within, axis=0))
+    np.testing.assert_allclose(correlation, 0.0, atol=1e-10)
+    assert np.all(np.abs(np.corrcoef(z, X.to_numpy(), rowvar=False)[0, 1:]) > 0.1)
+
+
+def test_residualize_keeps_dataframe_labels():
+    X, _, design, _, _ = _nuisance_problem()
+    coefficients, _ = fit_nuisance_coefficients(X, design)
+    out = residualize(X, design.covariates, coefficients)
+    assert isinstance(out, pd.DataFrame)
+    pd.testing.assert_index_equal(out.columns, X.columns)
+    pd.testing.assert_index_equal(out.index, X.index)
+
+
+def test_rank_deficient_nuisance_design_names_the_columns():
+    stages = np.repeat([0, 1, 2], 6)
+    design = NuisanceDesign(
+        _stage_indicators(stages), stages[:, None].astype(float), ("stage[1]", "stage[2]"), ("stage_index",)
+    )
+    X = np.random.default_rng(0).normal(size=(stages.size, 3))
+    with pytest.raises(ValueError, match=r"\[intercept, stage\[1\], stage\[2\], stage_index\] is not of full rank"):
+        fit_nuisance_coefficients(X, design)
+
+
+def test_partial_r2_is_the_covariate_share_after_the_conditioning():
+    X, _, design, stages, z = _nuisance_problem()
+    r2 = nuisance_partial_r2(X, design)
+    base = np.column_stack([np.ones(stages.size), design.conditioning])
+    full = np.column_stack([base, z])
+    for j in range(X.shape[1]):
+        x = X.iloc[:, j].to_numpy()
+        rss_base = np.sum((x - base @ np.linalg.lstsq(base, x, rcond=None)[0]) ** 2)
+        rss_full = np.sum((x - full @ np.linalg.lstsq(full, x, rcond=None)[0]) ** 2)
+        assert r2[j] == pytest.approx(1.0 - rss_full / rss_base, abs=1e-12)
+    assert np.all((r2 >= 0.0) & (r2 <= 1.0))
+
+
+def test_plsda_doubleCV_default_scale_is_true():
+    X, y = _synthetic_data()
+    result = plsda_doubleCV(X, y, cv1_splits=3, cv2_splits=3, n_repeats=2, max_components=3, progress=False)
+    assert all(model.scale is True for model in result["models"])
+    assert "nuisance_min_training_df" not in result
+
+
+def test_plsda_doubleCV_scale_false_and_nuisance_refits():
+    X, y, design, _, _ = _nuisance_problem()
+    result = plsda_doubleCV(
+        X, y, cv1_splits=2, cv2_splits=3, n_repeats=2, max_components=4, progress=False, scale=False, nuisance=design
+    )
+    assert all(model.scale is False for model in result["models"])
+    coefficients, _ = fit_nuisance_coefficients(X, design)
+    X_res = np.asarray(residualize(X.to_numpy(), design.covariates, coefficients))
+    for model, lv in zip(result["models"], result["table"]["LV"]):
+        assert model.n_components == lv
+        expected = fit_plsda_model(X_res, y, n_components=int(lv), scale=False)
+        np.testing.assert_allclose(model.x_scores_, expected.x_scores_, atol=1e-10)
+    # Smallest training set: an inner training set of an outer rest set (36 → 24 → 12 rows).
+    assert result["nuisance_min_training_df"] == 12 - 1 - 2 - 1
+
+
+def _recording_residualizer(calls: list):
+    original = pls.residualize
+
+    def recording(X, covariates, coefficients):
+        out = original(X, covariates, coefficients)
+        calls.append((np.asarray(X).copy(), np.asarray(coefficients).copy(), np.asarray(out).copy()))
+        return out
+
+    return recording
+
+
+def test_nuisance_cv_never_reads_held_out_labels(monkeypatch):
+    """Permuting one outer fold's held-out conditioning rows leaves that fold's fits and matrices unchanged."""
+
+    X, y, design, _, _ = _nuisance_problem()
+    cv1_splits, cv2_splits, random_state = 2, 3, 5
+    kwargs = dict(cv1_splits=cv1_splits, cv2_splits=cv2_splits, n_repeats=1, max_components=4,
+                  random_state=random_state, progress=False, scale=False)
+
+    def run(nuisance: NuisanceDesign) -> list:
+        calls: list = []
+        monkeypatch.setattr(pls, "residualize", _recording_residualizer(calls))
+        plsda_doubleCV(X, y, nuisance=nuisance, **kwargs)
+        monkeypatch.undo()
+        return calls
+
+    baseline = run(design)
+    per_fold = 2 + 2 * cv1_splits  # rest + test, then train + validation per inner fold
+    assert len(baseline) == cv2_splits * per_fold + 1  # + the full-input refit
+    folds = list(RepeatedStratifiedKFold(n_splits=cv2_splits, n_repeats=1, random_state=random_state).split(X, y))
+    for f, (_, test) in enumerate(folds):
+        conditioning = design.conditioning.copy()
+        conditioning[test] = conditioning[np.roll(test, 1)]
+        assert not np.array_equal(conditioning, design.conditioning)
+        permuted = NuisanceDesign(conditioning, design.covariates, design.conditioning_names, design.covariate_names)
+        calls = run(permuted)
+        own = slice(f * per_fold, (f + 1) * per_fold)
+        for (x_a, coef_a, out_a), (x_b, coef_b, out_b) in zip(baseline[own], calls[own], strict=True):
+            assert np.array_equal(x_a, x_b)
+            assert np.array_equal(coef_a, coef_b)
+            assert np.array_equal(out_a, out_b)
+        # The permuted rows do train the other folds, so the comparison has teeth.
+        assert not all(np.array_equal(a[1], b[1]) for a, b in zip(baseline, calls))
+
+
+def test_fold_coefficients_differ_from_full_sample_coefficients(monkeypatch):
+    X, y, design, _, _ = _nuisance_problem()
+    calls: list = []
+    monkeypatch.setattr(pls, "residualize", _recording_residualizer(calls))
+    plsda_doubleCV(X, y, cv1_splits=2, cv2_splits=3, n_repeats=1, max_components=4, progress=False, nuisance=design)
+    full, _ = fit_nuisance_coefficients(X, design)
+    np.testing.assert_allclose(calls[-1][1], full)
+    assert all(not np.allclose(coef, full) for _, coef, _ in calls[:-1])
+
+
+def test_fold_missing_a_factor_level_names_the_fold():
+    X, y, design, _, z = _nuisance_problem()
+    rare = np.zeros(z.size)
+    rare[5] = 1.0  # one sample carries this level: some training set lacks it
+    covariates = np.column_stack([z, rare])
+    nuisance = NuisanceDesign(design.conditioning, covariates, design.conditioning_names, ("z", "batch[rare]"))
+    fit_nuisance_coefficients(X, nuisance)  # the full sample is of full rank
+    with pytest.raises(ValueError, match=r"repeat 1, outer fold \d+(, inner fold \d+)?: .*not of full rank"):
+        plsda_doubleCV(X, y, cv1_splits=2, cv2_splits=3, n_repeats=1, max_components=4, progress=False,
+                       nuisance=nuisance)
+
+
+def test_nuisance_rows_must_match_X():
+    X, y, design, _, _ = _nuisance_problem()
+    with pytest.raises(ValueError, match="nuisance design has 35"):
+        plsda_doubleCV(X, y, cv1_splits=2, cv2_splits=3, n_repeats=1, max_components=4, progress=False,
+                       nuisance=design.rows(np.arange(35)))
+
+
+def test_strata_with_the_same_partition_reproduce_the_default_folds():
+    X, y, _, _, _ = _nuisance_problem()
+    kwargs = dict(cv1_splits=2, cv2_splits=3, n_repeats=2, max_components=4, random_state=7, progress=False)
+    default = plsda_doubleCV(X, y, **kwargs)
+    relabelled = plsda_doubleCV(X, y, strata=y.map({"Low": "c", "Mid": "a", "High": "b"}).to_numpy(), **kwargs)
+    pd.testing.assert_frame_equal(default["table"], relabelled["table"])
+
+
+def _group_sorted_nuisance():
+    """Rows sorted by group within the stage-major generator order: one group × stage cell is contiguous."""
+
+    rng = np.random.default_rng(4)
+    groups = np.repeat([0, 1], 18)
+    stages = np.tile(np.repeat([0, 1, 2], 6), 2)
+    order = np.lexsort((groups, stages))
+    groups, stages = groups[order], stages[order]
+    g = groups.astype(float)
+    s1, s2 = (stages == 1).astype(float), (stages == 2).astype(float)
+    conditioning = np.column_stack([g, s1, s2, g * s1, g * s2])
+    z = stages + rng.normal(size=stages.size)
+    X = pd.DataFrame(rng.normal(size=(stages.size, 6)) + np.outer(stages + 0.5 * z, np.ones(6)))
+    names = ("group[1]", "stage[1]", "stage[2]", "group[1]:stage[1]", "group[1]:stage[2]")
+    nuisance = NuisanceDesign(conditioning, z[:, None], names, ("z",), "group_stage")
+    labels = pd.Series(np.array(["Low", "Mid", "High"])[stages])
+    return X, labels, nuisance, groups, stages
+
+
+def test_conditioning_cells_partition_the_rows():
+    _, _, nuisance, groups, stages = _group_sorted_nuisance()
+    cells = nuisance.cells()
+    assert len(set(cells)) == 6
+    for label in set(cells):
+        members = cells == label
+        assert len(set(zip(groups[members], stages[members]))) == 1
+
+
+def test_strata_on_conditioning_cells_keep_every_cell_in_training():
+    X, y, nuisance, _, _ = _group_sorted_nuisance()
+    kwargs = dict(cv1_splits=3, cv2_splits=3, n_repeats=1, max_components=4, progress=False, scale=False)
+    with pytest.raises(ValueError, match=r"repeat 1, outer fold \d+, inner fold \d+: .*not of full rank"):
+        plsda_doubleCV(X, y, nuisance=nuisance, **kwargs)  # stage-only folds empty a group × stage cell
+    result = plsda_doubleCV(X, y, nuisance=nuisance, strata=nuisance.cells(), **kwargs)
+    assert result["table"].shape[0] == 1
+
+
+def test_strata_rows_must_match_X():
+    X, y = _synthetic_data()
+    with pytest.raises(ValueError, match="strata has 29"):
+        plsda_doubleCV(X, y, cv1_splits=3, cv2_splits=3, n_repeats=1, max_components=3, progress=False,
+                       strata=y.to_numpy()[:29])
+
+if __name__ == "__main__":
+    DEFAULT_IDENTITY.write_text(json.dumps(_default_identity_payload(), indent=2) + "\n", encoding="utf-8")
+    print(f"wrote {DEFAULT_IDENTITY}")

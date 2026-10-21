@@ -1,0 +1,1660 @@
+{
+  "rule": {
+    "rate": "share of available replicates with p <= alpha",
+    "gain": "nuisance column, top effect: rate_arm - rate_baseline > gain_se_multiplier * pooled SE",
+    "protected": "nuisance column, top effect: rate_baseline - rate_arm <= loss_se_multiplier * pooled SE",
+    "no_loss": "clean column, every effect: rate_baseline - rate_arm <= loss_se_multiplier * pooled SE",
+    "controls": "both columns: rate_arm <= alpha + k * sqrt(alpha * (1 - alpha) / R)",
+    "gain_targets": [
+      [
+        "orientation",
+        "angle"
+      ]
+    ],
+    "protected_pairs": [
+      [
+        "magnitude",
+        "delta"
+      ],
+      [
+        "shape",
+        "shape"
+      ]
+    ],
+    "gain_se_multiplier": 2.0,
+    "loss_se_multiplier": 2.0,
+    "alpha": 0.05,
+    "k": 2.0
+  },
+  "top_effects": {
+    "magnitude": 0.25,
+    "orientation": 1.0,
+    "shape": 1.0
+  },
+  "arms": {
+    "stage": {
+      "verdict": "candidate_fails",
+      "failing": {
+        "protected": [
+          {
+            "column": "nuisance",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.24330357142857142,
+            "baseline_rate": 0.428,
+            "difference": -0.18469642857142857,
+            "pooled_se": 0.03000974839972665,
+            "threshold": 0.0600194967994533,
+            "passed": false
+          }
+        ],
+        "no_loss": [
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "delta",
+            "rate": 0.04241071428571429,
+            "baseline_rate": 0.076,
+            "difference": -0.03358928571428571,
+            "pooled_se": 0.015201969855872664,
+            "threshold": 0.030403939711745327,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "delta",
+            "rate": 0.12053571428571429,
+            "baseline_rate": 0.18,
+            "difference": -0.059464285714285706,
+            "pooled_se": 0.023061275899925203,
+            "threshold": 0.046122551799850406,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "delta",
+            "rate": 0.39955357142857145,
+            "baseline_rate": 0.52,
+            "difference": -0.12044642857142857,
+            "pooled_se": 0.03216697906832787,
+            "threshold": 0.06433395813665574,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.029017857142857144,
+            "baseline_rate": 0.066,
+            "difference": -0.03698214285714286,
+            "pooled_se": 0.013644795998260219,
+            "threshold": 0.027289591996520438,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.046875,
+            "baseline_rate": 0.108,
+            "difference": -0.061125,
+            "pooled_se": 0.01709968086422908,
+            "threshold": 0.03419936172845816,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.09151785714285714,
+            "baseline_rate": 0.194,
+            "difference": -0.10248214285714287,
+            "pooled_se": 0.02232293838299463,
+            "threshold": 0.04464587676598926,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.16294642857142858,
+            "baseline_rate": 0.272,
+            "difference": -0.10905357142857144,
+            "pooled_se": 0.026466674884386487,
+            "threshold": 0.05293334976877297,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.21428571428571427,
+            "baseline_rate": 0.298,
+            "difference": -0.08371428571428571,
+            "pooled_se": 0.028181766638120487,
+            "threshold": 0.056363533276240975,
+            "passed": false
+          }
+        ],
+        "controls": [
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.09151785714285714,
+            "bound": 0.07059386177619785,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.08482142857142858,
+            "bound": 0.07059386177619785,
+            "passed": false
+          }
+        ]
+      },
+      "reads": {
+        "gain": [
+          {
+            "column": "nuisance",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.921875,
+            "baseline_rate": 0.784,
+            "difference": 0.13787499999999997,
+            "pooled_se": 0.02234838342942241,
+            "threshold": 0.04469676685884482,
+            "passed": true
+          }
+        ],
+        "protected": [
+          {
+            "column": "nuisance",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.96875,
+            "baseline_rate": 0.94,
+            "difference": 0.028750000000000053,
+            "pooled_se": 0.013430362514719617,
+            "threshold": 0.026860725029439234,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.24330357142857142,
+            "baseline_rate": 0.428,
+            "difference": -0.18469642857142857,
+            "pooled_se": 0.03000974839972665,
+            "threshold": 0.0600194967994533,
+            "passed": false
+          }
+        ],
+        "no_loss": [
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "delta",
+            "rate": 0.04241071428571429,
+            "baseline_rate": 0.076,
+            "difference": -0.03358928571428571,
+            "pooled_se": 0.015201969855872664,
+            "threshold": 0.030403939711745327,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "angle",
+            "rate": 0.060267857142857144,
+            "baseline_rate": 0.068,
+            "difference": -0.007732142857142861,
+            "pooled_se": 0.01591134327929245,
+            "threshold": 0.0318226865585849,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "shape",
+            "rate": 0.049107142857142856,
+            "baseline_rate": 0.06,
+            "difference": -0.010892857142857142,
+            "pooled_se": 0.014731982895699287,
+            "threshold": 0.029463965791398573,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "delta",
+            "rate": 0.12053571428571429,
+            "baseline_rate": 0.18,
+            "difference": -0.059464285714285706,
+            "pooled_se": 0.023061275899925203,
+            "threshold": 0.046122551799850406,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "angle",
+            "rate": 0.05580357142857143,
+            "baseline_rate": 0.068,
+            "difference": -0.012196428571428573,
+            "pooled_se": 0.015632100446990295,
+            "threshold": 0.03126420089398059,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "shape",
+            "rate": 0.044642857142857144,
+            "baseline_rate": 0.056,
+            "difference": -0.011357142857142857,
+            "pooled_se": 0.014174928858553178,
+            "threshold": 0.028349857717106356,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "delta",
+            "rate": 0.39955357142857145,
+            "baseline_rate": 0.52,
+            "difference": -0.12044642857142857,
+            "pooled_se": 0.03216697906832787,
+            "threshold": 0.06433395813665574,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "angle",
+            "rate": 0.05133928571428571,
+            "baseline_rate": 0.058,
+            "difference": -0.006660714285714291,
+            "pooled_se": 0.014764325629270252,
+            "threshold": 0.029528651258540504,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "shape",
+            "rate": 0.03125,
+            "baseline_rate": 0.04,
+            "difference": -0.00875,
+            "pooled_se": 0.012015599746861816,
+            "threshold": 0.02403119949372363,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.9598214285714286,
+            "baseline_rate": 0.924,
+            "difference": 0.03582142857142856,
+            "pooled_se": 0.015050877838848281,
+            "threshold": 0.030101755677696563,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.04017857142857143,
+            "baseline_rate": 0.024,
+            "difference": 0.01617857142857143,
+            "pooled_se": 0.011529480635307664,
+            "threshold": 0.023058961270615328,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.011160714285714286,
+            "baseline_rate": 0.022,
+            "difference": -0.010839285714285713,
+            "pooled_se": 0.00822595097931949,
+            "threshold": 0.01645190195863898,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.029017857142857144,
+            "baseline_rate": 0.066,
+            "difference": -0.03698214285714286,
+            "pooled_se": 0.013644795998260219,
+            "threshold": 0.027289591996520438,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.15625,
+            "baseline_rate": 0.128,
+            "difference": 0.028249999999999997,
+            "pooled_se": 0.022748816369326935,
+            "threshold": 0.04549763273865387,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.07589285714285714,
+            "baseline_rate": 0.112,
+            "difference": -0.036107142857142865,
+            "pooled_se": 0.01885362480409171,
+            "threshold": 0.03770724960818342,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.09821428571428571,
+            "baseline_rate": 0.098,
+            "difference": 0.00021428571428570853,
+            "pooled_se": 0.01935171733542465,
+            "threshold": 0.0387034346708493,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "angle",
+            "rate": 0.2544642857142857,
+            "baseline_rate": 0.17,
+            "difference": 0.08446428571428569,
+            "pooled_se": 0.0265643513224677,
+            "threshold": 0.0531287026449354,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "shape",
+            "rate": 0.3013392857142857,
+            "baseline_rate": 0.132,
+            "difference": 0.1693392857142857,
+            "pooled_se": 0.02644038174937027,
+            "threshold": 0.05288076349874054,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.18080357142857142,
+            "baseline_rate": 0.16,
+            "difference": 0.02080357142857142,
+            "pooled_se": 0.02448286755147275,
+            "threshold": 0.0489657351029455,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "angle",
+            "rate": 0.5,
+            "baseline_rate": 0.2,
+            "difference": 0.3,
+            "pooled_se": 0.029631667423311064,
+            "threshold": 0.05926333484662213,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.5736607142857143,
+            "baseline_rate": 0.198,
+            "difference": 0.3756607142857143,
+            "pooled_se": 0.029385648342456463,
+            "threshold": 0.058771296684912926,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.3392857142857143,
+            "baseline_rate": 0.288,
+            "difference": 0.05128571428571432,
+            "pooled_se": 0.030174385067683284,
+            "threshold": 0.06034877013536657,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.9308035714285714,
+            "baseline_rate": 0.642,
+            "difference": 0.2888035714285714,
+            "pooled_se": 0.024565025717306645,
+            "threshold": 0.04913005143461329,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.6495535714285714,
+            "baseline_rate": 0.264,
+            "difference": 0.3855535714285714,
+            "pooled_se": 0.029945266785277216,
+            "threshold": 0.05989053357055443,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.046875,
+            "baseline_rate": 0.108,
+            "difference": -0.061125,
+            "pooled_se": 0.01709968086422908,
+            "threshold": 0.03419936172845816,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.05357142857142857,
+            "baseline_rate": 0.056,
+            "difference": -0.0024285714285714327,
+            "pooled_se": 0.014795305316293151,
+            "threshold": 0.029590610632586303,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.07142857142857142,
+            "baseline_rate": 0.066,
+            "difference": 0.0054285714285714215,
+            "pooled_se": 0.016472349302549087,
+            "threshold": 0.032944698605098174,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.09151785714285714,
+            "baseline_rate": 0.194,
+            "difference": -0.10248214285714287,
+            "pooled_se": 0.02232293838299463,
+            "threshold": 0.04464587676598926,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "angle",
+            "rate": 0.09375,
+            "baseline_rate": 0.092,
+            "difference": 0.0017500000000000016,
+            "pooled_se": 0.018886951839213913,
+            "threshold": 0.037773903678427825,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "shape",
+            "rate": 0.07366071428571429,
+            "baseline_rate": 0.09,
+            "difference": -0.01633928571428571,
+            "pooled_se": 0.017779478380022792,
+            "threshold": 0.035558956760045585,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.16294642857142858,
+            "baseline_rate": 0.272,
+            "difference": -0.10905357142857144,
+            "pooled_se": 0.026466674884386487,
+            "threshold": 0.05293334976877297,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "angle",
+            "rate": 0.09375,
+            "baseline_rate": 0.098,
+            "difference": -0.004250000000000004,
+            "pooled_se": 0.019142542928691206,
+            "threshold": 0.03828508585738241,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.18080357142857142,
+            "baseline_rate": 0.14,
+            "difference": 0.04080357142857141,
+            "pooled_se": 0.023904200541807655,
+            "threshold": 0.04780840108361531,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.21428571428571427,
+            "baseline_rate": 0.298,
+            "difference": -0.08371428571428571,
+            "pooled_se": 0.028181766638120487,
+            "threshold": 0.056363533276240975,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.0625,
+            "baseline_rate": 0.07,
+            "difference": -0.007500000000000007,
+            "pooled_se": 0.016155173181854606,
+            "threshold": 0.03231034636370921,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.25,
+            "baseline_rate": 0.128,
+            "difference": 0.122,
+            "pooled_se": 0.025332958487201723,
+            "threshold": 0.050665916974403445,
+            "passed": true
+          }
+        ],
+        "controls": [
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "delta",
+            "rate": 0.03125,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.06696428571428571,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "shape",
+            "rate": 0.05803571428571429,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.024553571428571428,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.09151785714285714,
+            "bound": 0.07059386177619785,
+            "passed": false
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.05357142857142857,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "delta",
+            "rate": 0.03794642857142857,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.06696428571428571,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "shape",
+            "rate": 0.05133928571428571,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.024553571428571428,
+            "bound": 0.07059386177619785,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.08482142857142858,
+            "bound": 0.07059386177619785,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.060267857142857144,
+            "bound": 0.07059386177619785,
+            "passed": true
+          }
+        ]
+      }
+    },
+    "group_stage": {
+      "verdict": "candidate_fails",
+      "failing": {
+        "gain": [
+          {
+            "column": "nuisance",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.34415584415584416,
+            "baseline_rate": 0.784,
+            "difference": -0.43984415584415587,
+            "pooled_se": 0.02876183946280264,
+            "threshold": 0.05752367892560528,
+            "passed": false
+          }
+        ],
+        "protected": [
+          {
+            "column": "nuisance",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.05411255411255411,
+            "baseline_rate": 0.428,
+            "difference": -0.3738874458874459,
+            "pooled_se": 0.024503483699667043,
+            "threshold": 0.049006967399334085,
+            "passed": false
+          }
+        ],
+        "no_loss": [
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.05627705627705628,
+            "baseline_rate": 0.098,
+            "difference": -0.041722943722943724,
+            "pooled_se": 0.017080649871417896,
+            "threshold": 0.03416129974283579,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "shape",
+            "rate": 0.07575757575757576,
+            "baseline_rate": 0.132,
+            "difference": -0.05624242424242425,
+            "pooled_se": 0.0195117119602822,
+            "threshold": 0.0390234239205644,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.11255411255411256,
+            "baseline_rate": 0.16,
+            "difference": -0.047445887445887444,
+            "pooled_se": 0.022022778659217278,
+            "threshold": 0.044045557318434556,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.10822510822510822,
+            "baseline_rate": 0.198,
+            "difference": -0.08977489177489179,
+            "pooled_se": 0.022945443396732747,
+            "threshold": 0.045890886793465493,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.18614718614718614,
+            "baseline_rate": 0.288,
+            "difference": -0.10185281385281383,
+            "pooled_se": 0.027166639653002436,
+            "threshold": 0.05433327930600487,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.3246753246753247,
+            "baseline_rate": 0.642,
+            "difference": -0.31732467532467534,
+            "pooled_se": 0.03056572374431252,
+            "threshold": 0.06113144748862504,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.17316017316017315,
+            "baseline_rate": 0.264,
+            "difference": -0.09083982683982686,
+            "pooled_se": 0.026429380853050022,
+            "threshold": 0.052858761706100044,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.05844155844155844,
+            "baseline_rate": 0.14,
+            "difference": -0.08155844155844158,
+            "pooled_se": 0.018971141371921213,
+            "threshold": 0.037942282743842426,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.045454545454545456,
+            "baseline_rate": 0.128,
+            "difference": -0.08254545454545455,
+            "pooled_se": 0.01780860326114031,
+            "threshold": 0.03561720652228062,
+            "passed": false
+          }
+        ],
+        "controls": [
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.08225108225108226,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.11038961038961038,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.10606060606060606,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.08225108225108226,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "shape",
+            "rate": 0.0735930735930736,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.1038961038961039,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.09307359307359307,
+            "bound": 0.07027943320843587,
+            "passed": false
+          }
+        ]
+      },
+      "reads": {
+        "gain": [
+          {
+            "column": "nuisance",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.34415584415584416,
+            "baseline_rate": 0.784,
+            "difference": -0.43984415584415587,
+            "pooled_se": 0.02876183946280264,
+            "threshold": 0.05752367892560528,
+            "passed": false
+          }
+        ],
+        "protected": [
+          {
+            "column": "nuisance",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.9761904761904762,
+            "baseline_rate": 0.94,
+            "difference": 0.03619047619047622,
+            "pooled_se": 0.012771402576777216,
+            "threshold": 0.02554280515355443,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.05411255411255411,
+            "baseline_rate": 0.428,
+            "difference": -0.3738874458874459,
+            "pooled_se": 0.024503483699667043,
+            "threshold": 0.049006967399334085,
+            "passed": false
+          }
+        ],
+        "no_loss": [
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "delta",
+            "rate": 0.08441558441558442,
+            "baseline_rate": 0.076,
+            "difference": 0.008415584415584418,
+            "pooled_se": 0.017542562312125462,
+            "threshold": 0.035085124624250924,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "angle",
+            "rate": 0.07575757575757576,
+            "baseline_rate": 0.068,
+            "difference": 0.007757575757575755,
+            "pooled_se": 0.016682532889852768,
+            "threshold": 0.033365065779705536,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.02,
+            "statistic": "shape",
+            "rate": 0.06926406926406926,
+            "baseline_rate": 0.06,
+            "difference": 0.009264069264069266,
+            "pooled_se": 0.015885150432736674,
+            "threshold": 0.03177030086547335,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "delta",
+            "rate": 0.24025974025974026,
+            "baseline_rate": 0.18,
+            "difference": 0.06025974025974026,
+            "pooled_se": 0.026273511320745603,
+            "threshold": 0.052547022641491206,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "angle",
+            "rate": 0.06926406926406926,
+            "baseline_rate": 0.068,
+            "difference": 0.0012640692640692591,
+            "pooled_se": 0.01631839465972907,
+            "threshold": 0.03263678931945814,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.05,
+            "statistic": "shape",
+            "rate": 0.05627705627705628,
+            "baseline_rate": 0.056,
+            "difference": 0.00027705627705627844,
+            "pooled_se": 0.014855456910844857,
+            "threshold": 0.029710913821689715,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "delta",
+            "rate": 0.5974025974025974,
+            "baseline_rate": 0.52,
+            "difference": 0.07740259740259736,
+            "pooled_se": 0.03193415621830255,
+            "threshold": 0.0638683124366051,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "angle",
+            "rate": 0.06060606060606061,
+            "baseline_rate": 0.058,
+            "difference": 0.002606060606060605,
+            "pooled_se": 0.015248066375452524,
+            "threshold": 0.03049613275090505,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.1,
+            "statistic": "shape",
+            "rate": 0.04329004329004329,
+            "baseline_rate": 0.04,
+            "difference": 0.0032900432900432874,
+            "pooled_se": 0.012901358652066118,
+            "threshold": 0.025802717304132236,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.9718614718614719,
+            "baseline_rate": 0.924,
+            "difference": 0.04786147186147183,
+            "pooled_se": 0.014129405597489464,
+            "threshold": 0.028258811194978927,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.047619047619047616,
+            "baseline_rate": 0.024,
+            "difference": 0.023619047619047616,
+            "pooled_se": 0.012042066411936362,
+            "threshold": 0.024084132823872725,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "magnitude",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.023809523809523808,
+            "baseline_rate": 0.022,
+            "difference": 0.0018095238095238095,
+            "pooled_se": 0.009661300315077238,
+            "threshold": 0.019322600630154476,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.05627705627705628,
+            "baseline_rate": 0.066,
+            "difference": -0.009722943722943723,
+            "pooled_se": 0.015435174117254662,
+            "threshold": 0.030870348234509324,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.1645021645021645,
+            "baseline_rate": 0.128,
+            "difference": 0.03650216450216451,
+            "pooled_se": 0.02281937291064789,
+            "threshold": 0.04563874582129578,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.08874458874458875,
+            "baseline_rate": 0.112,
+            "difference": -0.02325541125541125,
+            "pooled_se": 0.019337866913951337,
+            "threshold": 0.038675733827902674,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.05627705627705628,
+            "baseline_rate": 0.098,
+            "difference": -0.041722943722943724,
+            "pooled_se": 0.017080649871417896,
+            "threshold": 0.03416129974283579,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "angle",
+            "rate": 0.22077922077922077,
+            "baseline_rate": 0.17,
+            "difference": 0.05077922077922076,
+            "pooled_se": 0.02558460019642079,
+            "threshold": 0.05116920039284158,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.5,
+            "statistic": "shape",
+            "rate": 0.07575757575757576,
+            "baseline_rate": 0.132,
+            "difference": -0.05624242424242425,
+            "pooled_se": 0.0195117119602822,
+            "threshold": 0.0390234239205644,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.11255411255411256,
+            "baseline_rate": 0.16,
+            "difference": -0.047445887445887444,
+            "pooled_se": 0.022022778659217278,
+            "threshold": 0.044045557318434556,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "angle",
+            "rate": 0.2510822510822511,
+            "baseline_rate": 0.2,
+            "difference": 0.05108225108225106,
+            "pooled_se": 0.02696317651980857,
+            "threshold": 0.05392635303961714,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.10822510822510822,
+            "baseline_rate": 0.198,
+            "difference": -0.08977489177489179,
+            "pooled_se": 0.022945443396732747,
+            "threshold": 0.045890886793465493,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.18614718614718614,
+            "baseline_rate": 0.288,
+            "difference": -0.10185281385281383,
+            "pooled_se": 0.027166639653002436,
+            "threshold": 0.05433327930600487,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.3246753246753247,
+            "baseline_rate": 0.642,
+            "difference": -0.31732467532467534,
+            "pooled_se": 0.03056572374431252,
+            "threshold": 0.06113144748862504,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "orientation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.17316017316017315,
+            "baseline_rate": 0.264,
+            "difference": -0.09083982683982686,
+            "pooled_se": 0.026429380853050022,
+            "threshold": 0.052858761706100044,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "delta",
+            "rate": 0.1406926406926407,
+            "baseline_rate": 0.108,
+            "difference": 0.032692640692640704,
+            "pooled_se": 0.021315638911939334,
+            "threshold": 0.04263127782387867,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "angle",
+            "rate": 0.07142857142857142,
+            "baseline_rate": 0.056,
+            "difference": 0.015428571428571423,
+            "pooled_se": 0.015788980938430546,
+            "threshold": 0.03157796187686109,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.25,
+            "statistic": "shape",
+            "rate": 0.05411255411255411,
+            "baseline_rate": 0.066,
+            "difference": -0.011887445887445891,
+            "pooled_se": 0.015299565791872935,
+            "threshold": 0.03059913158374587,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "delta",
+            "rate": 0.22510822510822512,
+            "baseline_rate": 0.194,
+            "difference": 0.031108225108225113,
+            "pooled_se": 0.02627340630747202,
+            "threshold": 0.05254681261494404,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "angle",
+            "rate": 0.1038961038961039,
+            "baseline_rate": 0.092,
+            "difference": 0.011896103896103905,
+            "pooled_se": 0.019198719715798437,
+            "threshold": 0.038397439431596875,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.5,
+            "statistic": "shape",
+            "rate": 0.06277056277056277,
+            "baseline_rate": 0.09,
+            "difference": -0.02722943722943723,
+            "pooled_se": 0.017062783176853766,
+            "threshold": 0.03412556635370753,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "delta",
+            "rate": 0.3268398268398268,
+            "baseline_rate": 0.272,
+            "difference": 0.0548398268398268,
+            "pooled_se": 0.029533982863649527,
+            "threshold": 0.059067965727299054,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "angle",
+            "rate": 0.11688311688311688,
+            "baseline_rate": 0.098,
+            "difference": 0.018883116883116877,
+            "pooled_se": 0.020005375785683625,
+            "threshold": 0.04001075157136725,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 0.75,
+            "statistic": "shape",
+            "rate": 0.05844155844155844,
+            "baseline_rate": 0.14,
+            "difference": -0.08155844155844158,
+            "pooled_se": 0.018971141371921213,
+            "threshold": 0.037942282743842426,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.3528138528138528,
+            "baseline_rate": 0.298,
+            "difference": 0.054813852813852815,
+            "pooled_se": 0.0302097050887767,
+            "threshold": 0.0604194101775534,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.09307359307359307,
+            "baseline_rate": 0.07,
+            "difference": 0.023073593073593066,
+            "pooled_se": 0.01768919371655797,
+            "threshold": 0.03537838743311594,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "shape",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.045454545454545456,
+            "baseline_rate": 0.128,
+            "difference": -0.08254545454545455,
+            "pooled_se": 0.01780860326114031,
+            "threshold": 0.03561720652228062,
+            "passed": false
+          }
+        ],
+        "controls": [
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "delta",
+            "rate": 0.047619047619047616,
+            "bound": 0.07027943320843587,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.08225108225108226,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "nuisance",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "shape",
+            "rate": 0.06926406926406926,
+            "bound": 0.07027943320843587,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.06493506493506493,
+            "bound": 0.07027943320843587,
+            "passed": true
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.11038961038961038,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "nuisance",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.10606060606060606,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "delta",
+            "rate": 0.05194805194805195,
+            "bound": 0.07027943320843587,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "angle",
+            "rate": 0.08225108225108226,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "anchor",
+            "effect": 0.0,
+            "statistic": "shape",
+            "rate": 0.0735930735930736,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "delta",
+            "rate": 0.06277056277056277,
+            "bound": 0.07027943320843587,
+            "passed": true
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "angle",
+            "rate": 0.1038961038961039,
+            "bound": 0.07027943320843587,
+            "passed": false
+          },
+          {
+            "column": "clean",
+            "mode": "translation",
+            "effect": 1.0,
+            "statistic": "shape",
+            "rate": 0.09307359307359307,
+            "bound": 0.07027943320843587,
+            "passed": false
+          }
+        ]
+      }
+    }
+  },
+  "verdicts": {
+    "stage": "candidate_fails",
+    "group_stage": "candidate_fails"
+  },
+  "baseline_role": "measured, not judged (covariates in the trajectory model only, covariate-blind basis)",
+  "settings_hash": "55f34392dbb14a86cf5541ddbdccbe3a30850b7a0a8c092581118ae6c68bccae",
+  "construction": {
+    "generator": {
+      "baseline_continuity": 0.0,
+      "group_effect_size": 0.0,
+      "group_stage_sizes": [
+        [
+          11,
+          10,
+          28
+        ],
+        [
+          9,
+          10,
+          12
+        ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "trajectory_mode": "magnitude"
+    },
+    "layers": [
+      "methylation",
+      "expression"
+    ],
+    "covariates": {
+      "categorical": {
+        "levels": [
+          "c0",
+          "c1",
+          "c2"
+        ],
+        "logit_scale": 0.5,
+        "logits": "k * logit_scale * eta"
+      },
+      "extra_numeric": {
+        "count": 6,
+        "distribution": "iid N(0, 1), not injected"
+      },
+      "numeric": {
+        "a_g": 0.5,
+        "a_gs": 2.0,
+        "a_s": 1.0,
+        "noise_sd": 1.0
+      }
+    },
+    "declared_covariates": [
+      "z",
+      "category",
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5",
+      "x6"
+    ],
+    "columns": {
+      "clean": {
+        "s_c": 0.0,
+        "s_z": 0.0
+      },
+      "nuisance": {
+        "s_c": 2.0,
+        "s_z": 40.0
+      }
+    },
+    "effects": {
+      "magnitude": [
+        0.02,
+        0.05,
+        0.1,
+        0.25
+      ],
+      "orientation": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "shape": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ]
+    },
+    "controls": {
+      "anchor": 0.0,
+      "translation": 1.0
+    },
+    "permutations": 999,
+    "replicates": 500,
+    "base_seed": 2026,
+    "cv": {
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "max_components": 20,
+      "n_repeats": 5,
+      "random_state": 1203
+    }
+  }
+}

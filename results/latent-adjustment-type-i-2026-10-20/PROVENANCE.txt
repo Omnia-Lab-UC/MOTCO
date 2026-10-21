@@ -1,0 +1,23 @@
+979657c3d0e6c9ad4d4bff0dc595a18df854ca61
+plus the uncommitted working tree of openspec change covariate-aware-latent-construction (MOTCO 0.9.0)
+
+c1e6d85a51d0944b20bb76e67a6be8c468b56dbe633d46cebf08517ee88581a5  scripts/latent_adjustment_type_i_check.py
+d16bf448d718ced0ba914870a46414b6c70dbacc721640cfb44208c432a6ebe0  scripts/covariate_type_i_check.py
+f1fcb7c6b3ea8d802d3d2ac10d100a75e5285730e68ebc8e72c8330c93fdd3ac  src/motco/analysis.py
+b45168fad68bd22fa00a5c7ffa8a72e91a5b0cc9c54a0f8eaec86af5d419a4ca  src/motco/stats/pls.py
+91b76e611754dfa3b6c843108e1eafc8c4fe52aa511735a55b36bc3764ba9a41  src/motco/simulations/evaluation.py
+29cd217a3aabfadbcbe86167dd0b8a9f4cf01eca63c0e5f9a0683a0378483a19  src/motco/stats/design.py
+
+Run on ing (partition 512x1024) from worktree /home1/tgonza/MOTCO-latent (detached at 979657c, the 34 changed and
+untracked files rsynced from the workstation, sha256 verified identical; .venv symlinked to the clone's; submitted
+with PYTHONPATH=<worktree>/src). motco 0.9.0, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3,
+python 3.11.16.
+
+- 923434: timing job, shard 0/50 with --limit=1 (replicate 0), n1, COMPLETED.
+- 923443: array 0-49 (50 shards). Shards 0-9 and 35-49 COMPLETED on n1. Shards 10-34 landed on n11, stalled at import
+  in D state (nfs_wait_bit_killable), wrote no shard file, and were cancelled.
+- 923539: shards 10-34 resubmitted with --exclude=n2,n4,n11, COMPLETED on n3.
+Wall 2026-10-20 15:57-16:36 (first task start to last task end, excluding the cancelled n11 tasks).
+500/500 replicates, 5.14 recorded core-hours (median 26 s per replicate, three analyses).
+Merged on ing with `latent_adjustment_type_i_check.py merge`; records/ and merged.jsonl are not committed.
+Smoke profile (R = 20, 99 permutations, s_z = 40) and the calibration probes ran on the workstation the same day.

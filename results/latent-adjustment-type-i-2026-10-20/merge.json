@@ -1,0 +1,55 @@
+{
+ "replicates": 500,
+ "expected": 500,
+ "missing": [],
+ "decision": "adopt_stage",
+ "admissible": [
+  "stage"
+ ],
+ "rates": {
+  "baseline": {
+   "delta": 0.048,
+   "angle": 0.062,
+   "shape": 0.078
+  },
+  "stage": {
+   "delta": 0.03125,
+   "angle": 0.06696428571428571,
+   "shape": 0.05803571428571429
+  },
+  "group_stage": {
+   "delta": 0.047619047619047616,
+   "angle": 0.08225108225108226,
+   "shape": 0.06926406926406926
+  }
+ },
+ "bound": {
+  "delta": 0.07059386177619785,
+  "angle": 0.07059386177619785,
+  "shape": 0.07059386177619785
+ },
+ "calibration": {
+  "baseline_median_abs": 0.8298523206751056,
+  "met": true
+ },
+ "selected_rank": {
+  "baseline": {
+   "2": 265,
+   "3": 233,
+   "4": 2
+  },
+  "stage": {
+   "2": 31,
+   "3": 417
+  },
+  "group_stage": {
+   "2": 5,
+   "3": 457
+  }
+ },
+ "failures": {
+  "baseline": 0,
+  "stage": 52,
+  "group_stage": 38
+ }
+}

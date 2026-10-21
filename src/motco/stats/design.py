@@ -316,3 +316,72 @@ def build_covariate_matrix(
         matrix=matrix,
         reference_row=matrix.mean(axis=0),
     )
+
+
+#: Conditioning designs the covariate residualization may be estimated under.
+CONDITIONING_KINDS: tuple[str, ...] = ("stage", "group_stage")
+
+
+@dataclass(frozen=True)
+class ConditioningDesign:
+    """Indicator columns the covariate residualization is conditioned on.
+
+    ``matrix`` is ``n × k`` without an intercept: drop-first stage indicators
+    (``kind="stage"``), or drop-first group and stage indicators followed by
+    their products (``kind="group_stage"``), in the column order of
+    `get_model_matrix`. ``column_names`` are ``name[level]`` for an indicator
+    and ``group[level]:stage[level]`` for an interaction.
+    """
+
+    kind: str
+    column_names: tuple[str, ...]
+    matrix: np.ndarray
+
+
+def build_conditioning_matrix(
+    frame: pd.DataFrame,
+    group_col: str,
+    stage_col: str,
+    kind: str,
+) -> ConditioningDesign:
+    """
+    Build the conditioning design for covariate residualization.
+
+    Labels are compared as strings and ordered like `get_model_matrix` levels
+    (`_sort_levels`); the first level of each factor is the reference. The
+    ``stage`` design equals the stage columns of the reduced trajectory model
+    and the ``group_stage`` design equals the full model without its intercept.
+
+    Raises
+    ------
+    ValueError
+        If ``kind`` is unknown, a column is missing, or a factor it uses has
+        fewer than two observed levels.
+    """
+    if kind not in CONDITIONING_KINDS:
+        raise ValueError(f"Unknown conditioning {kind!r}; allowed: {list(CONDITIONING_KINDS)}.")
+    factors = [stage_col] if kind == "stage" else [group_col, stage_col]
+    indicators: dict[str, tuple[list[str], np.ndarray]] = {}
+    for column in factors:
+        if column not in frame.columns:
+            raise ValueError(f"Conditioning column {column!r} not found; available: {list(frame.columns)}.")
+        labels = frame[column].astype(str).to_numpy()
+        ordered = _sort_levels(labels.tolist())
+        if len(ordered) < 2:
+            raise ValueError(
+                f"Conditioning column {column!r} has {len(ordered)} observed level; at least 2 are required."
+            )
+        names = [f"{column}[{level}]" for level in ordered[1:]]
+        indicators[column] = (names, np.column_stack([(labels == level).astype(float) for level in ordered[1:]]))
+    names, parts = [], []
+    for column in factors:
+        names.extend(indicators[column][0])
+        parts.append(indicators[column][1])
+    if kind == "group_stage":
+        group_names, group_matrix = indicators[group_col]
+        stage_names, stage_matrix = indicators[stage_col]
+        for g_index, g_name in enumerate(group_names):
+            for s_index, s_name in enumerate(stage_names):
+                names.append(f"{g_name}:{s_name}")
+                parts.append((group_matrix[:, g_index] * stage_matrix[:, s_index])[:, None])
+    return ConditioningDesign(kind=kind, column_names=tuple(names), matrix=np.column_stack(parts))

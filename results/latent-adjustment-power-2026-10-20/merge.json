@@ -1,0 +1,13 @@
+{
+ "units": 14000,
+ "expected": 14000,
+ "verdicts": {
+  "stage": "candidate_fails",
+  "group_stage": "candidate_fails"
+ },
+ "failures": {
+  "baseline": 0,
+  "stage": 1456,
+  "group_stage": 1064
+ }
+}

@@ -173,6 +173,7 @@ usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      [--group-order GROUP_ORDER] [--covariate COL]
                      [--categorical-covariate COL]
                      [--missing-covariates {error,complete_case}]
+                     [--latent-adjustment {stage,group_stage}]
                      [--permutations PERMUTATIONS]
                      [--seed SEED] [--n-jobs N_JOBS]
                      [--forced-components FORCED_COMPONENTS]
@@ -201,6 +202,10 @@ options:
   --missing-covariates {error,complete_case}
                              Missing covariate values: error (default) or complete_case (drop those
                              samples); never imputed
+  --latent-adjustment {stage,group_stage}
+                             Fit the PLS basis on features residualized on the declared covariates,
+                             conditional on the stage (stage) or group x stage (group_stage)
+                             indicators; requires a covariate. Default: off (covariate-blind basis)
   --permutations N           RRPP permutations (default: 0, no p-values)
   --seed SEED                RRPP seed
   --n-jobs N_JOBS            Parallel jobs for CV and RRPP (-1 = all CPUs)
@@ -220,8 +225,12 @@ Blocks are analysed in the units supplied: MOTCO does not normalize counts,
 filter features or impute values. On success the command prints the selected
 rank, the estimator, the statistics with their p-values and the written paths;
 with covariates it also prints each covariate's kind and the number of samples
-complete-case deletion dropped. Covariates are declared in flag order across
-`--covariate` and `--categorical-covariate`.
+complete-case deletion dropped, and with `--latent-adjustment` the conditioning
+and the residual degrees of freedom of the residualization. Covariates are
+declared in flag order across `--covariate` and `--categorical-covariate`.
+`--latent-adjustment` without a covariate flag exits non-zero before any data
+are read; see [Latent adjustment](analysis.md#latent-adjustment) for what it
+changes and the mediator caveat.
 Input and validation errors exit non-zero with an `Error: …` message.
 
 **Example:**

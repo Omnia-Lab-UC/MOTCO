@@ -1,0 +1,213 @@
+{
+  "rule": "residualized-arm rate (p <= alpha) <= alpha + k * sqrt(alpha * (1 - alpha) / R) for every statistic; adopt_stage if stage is admissible, adopt_group_stage if only group_stage is, otherwise diagnose_latent_excess",
+  "alpha": 0.05,
+  "k": 2.0,
+  "replicates": {
+    "baseline": {
+      "delta": 500,
+      "angle": 500,
+      "shape": 500
+    },
+    "stage": {
+      "delta": 448,
+      "angle": 448,
+      "shape": 448
+    },
+    "group_stage": {
+      "delta": 462,
+      "angle": 462,
+      "shape": 462
+    }
+  },
+  "bound": {
+    "baseline": {
+      "delta": 0.06949358868961793,
+      "angle": 0.06949358868961793,
+      "shape": 0.06949358868961793
+    },
+    "stage": {
+      "delta": 0.07059386177619785,
+      "angle": 0.07059386177619785,
+      "shape": 0.07059386177619785
+    },
+    "group_stage": {
+      "delta": 0.07027943320843587,
+      "angle": 0.07027943320843587,
+      "shape": 0.07027943320843587
+    }
+  },
+  "rates": {
+    "baseline": {
+      "delta": 0.048,
+      "angle": 0.062,
+      "shape": 0.078
+    },
+    "stage": {
+      "delta": 0.03125,
+      "angle": 0.06696428571428571,
+      "shape": 0.05803571428571429
+    },
+    "group_stage": {
+      "delta": 0.047619047619047616,
+      "angle": 0.08225108225108226,
+      "shape": 0.06926406926406926
+    }
+  },
+  "verdicts": {
+    "stage": {
+      "delta": "holds",
+      "angle": "holds",
+      "shape": "holds"
+    },
+    "group_stage": {
+      "delta": "holds",
+      "angle": "exceeds",
+      "shape": "holds"
+    }
+  },
+  "admissible": [
+    "stage"
+  ],
+  "decision": "adopt_stage",
+  "baseline_role": "descriptive (covariates in the trajectory model only, covariate-blind basis); not part of the decision",
+  "calibration": {
+    "statistic": "Spearman correlation of the first latent component's scores with the numeric covariate z",
+    "threshold": 0.8,
+    "baseline_median_abs": 0.8298523206751056,
+    "met": true,
+    "by_arm": {
+      "baseline": {
+        "replicates": 500,
+        "median_abs": 0.8298523206751056,
+        "quantiles_abs": {
+          "min": 0.7081809657759024,
+          "q05": 0.75101031411158,
+          "q25": 0.8004160806375997,
+          "q50": 0.8298523206751056,
+          "q75": 0.8525257852789498,
+          "q95": 0.8910407876230662,
+          "max": 0.9256915142991093
+        }
+      },
+      "stage": {
+        "replicates": 448,
+        "median_abs": 0.3361697140178153,
+        "quantiles_abs": {
+          "min": 0.007501172058134084,
+          "q05": 0.17058602906704173,
+          "q25": 0.25650492264416314,
+          "q50": 0.3361697140178153,
+          "q75": 0.41111697140178155,
+          "q95": 0.48233942803563057,
+          "max": 0.6027894983591187
+        }
+      },
+      "group_stage": {
+        "replicates": 462,
+        "median_abs": 0.35468823253633386,
+        "quantiles_abs": {
+          "min": 0.04540553211439288,
+          "q05": 0.18409868729488985,
+          "q25": 0.2794245194561651,
+          "q50": 0.35468823253633386,
+          "q75": 0.42195850914205346,
+          "q95": 0.4980356305672762,
+          "max": 0.5935536802625412
+        }
+      }
+    }
+  },
+  "selected_rank": {
+    "baseline": {
+      "2": 265,
+      "3": 233,
+      "4": 2
+    },
+    "stage": {
+      "2": 31,
+      "3": 417
+    },
+    "group_stage": {
+      "2": 5,
+      "3": 457
+    }
+  },
+  "failures": {
+    "baseline": 0,
+    "stage": 52,
+    "group_stage": 38
+  },
+  "settings_hash": "6d7775af5a4ab0163cc2c21853c7564d5b01c8f13c86e569324c0de61be6d7df",
+  "construction": {
+    "generator": {
+      "baseline_continuity": 0.0,
+      "group_effect_size": 0.0,
+      "group_stage_sizes": [
+        [
+          11,
+          10,
+          28
+        ],
+        [
+          9,
+          10,
+          12
+        ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "trajectory_mode": "magnitude"
+    },
+    "layers": [
+      "methylation",
+      "expression"
+    ],
+    "covariates": {
+      "categorical": {
+        "levels": [
+          "c0",
+          "c1",
+          "c2"
+        ],
+        "logit_scale": 0.5,
+        "logits": "k * logit_scale * eta"
+      },
+      "extra_numeric": {
+        "count": 6,
+        "distribution": "iid N(0, 1), not injected"
+      },
+      "numeric": {
+        "a_g": 0.5,
+        "a_gs": 2.0,
+        "a_s": 1.0,
+        "noise_sd": 1.0
+      }
+    },
+    "declared_covariates": [
+      "z",
+      "category",
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5",
+      "x6"
+    ],
+    "injection": {
+      "feature_fraction": 0.2,
+      "s_c": 2.0,
+      "s_z": 40.0,
+      "scale": "pooled feature SD on the analysed scale"
+    },
+    "permutations": 999,
+    "base_seed": 2026,
+    "cv": {
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "max_components": 20,
+      "n_repeats": 5,
+      "random_state": 1203
+    }
+  }
+}
