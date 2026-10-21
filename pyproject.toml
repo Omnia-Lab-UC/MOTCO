@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tomszar/MOTCO"
+Homepage = "https://github.com/Omnia-Lab-UC/MOTCO"
 
 [project.scripts]
 motco = "motco.cli:main"
