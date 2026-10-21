@@ -272,6 +272,10 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     if not stage_order:
         raise SystemExit("Error: --stage-order is required (comma-separated stage labels, first to last).")
     covariates, categorical = _covariate_declarations(args.covariates)
+    if args.latent_adjustment is not None and not covariates:
+        raise SystemExit(
+            "Error: --latent-adjustment requires declared covariates (--covariate or --categorical-covariate)."
+        )
 
     try:
         metadata = pd.read_csv(args.metadata)
@@ -311,6 +315,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
                 bootstrap_seed=args.bootstrap_seed,
                 top_k=args.top_k,
             ),
+            covariate_latent_adjustment=args.latent_adjustment,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -329,6 +334,14 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         block = record["covariates"]
         declared = ", ".join(f"{name} ({block['kinds'][name]})" for name in block["columns"])
         print(f"Covariates: {declared}; dropped samples: {block['n_dropped']} ({block['missing_policy']})")
+    if "latent_adjustment" in record:
+        adjustment = record["latent_adjustment"]
+        cv_df = adjustment["cv_min_training_df"]
+        print(
+            f"Latent adjustment: basis fitted on features residualized on the covariates, conditioning "
+            f"{adjustment['conditioning']}; residual df {adjustment['residual_df']}"
+            + ("" if cv_df is None else f", smallest CV training df {cv_df}")
+        )
     for statistic, value in record["statistics"].items():
         p_value = record["p_values"].get(statistic)
         shown = "unavailable" if value is None else f"{value:.6g}"
@@ -539,6 +552,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_an.add_argument("--missing-covariates", type=str, default="error", choices=["error", "complete_case"],
                       help="Missing covariate values: error (default) or complete_case (drop those samples); "
                            "never imputed")
+    p_an.add_argument("--latent-adjustment", type=str, default=None, choices=["stage", "group_stage"],
+                      help="Fit the PLS basis on features residualized on the declared covariates, conditional "
+                           "on the stage (stage) or group x stage (group_stage) indicators; requires a covariate. "
+                           "Default: off (covariate-blind basis)")
     p_an.add_argument("--permutations", type=int, default=0, help="RRPP permutations (default: 0, no p-values)")
     p_an.add_argument("--seed", type=int, default=None, help="RRPP seed")
     p_an.add_argument("--n-jobs", type=int, default=1, help="Parallel jobs for CV and RRPP (-1 = all CPUs)")

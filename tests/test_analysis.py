@@ -649,3 +649,164 @@ def test_adjustment_removes_a_known_covariate_effect() -> None:
         np.testing.assert_allclose(got, expected, atol=1e-8)
     assert not np.allclose(unadjusted[0], truth[0], atol=1e-3)
     assert not np.allclose(unadjusted[1], truth[1], atol=1e-3)
+
+
+# ── Latent adjustment ────────────────────────────────────────────────────────
+
+
+def test_unknown_latent_adjustment_is_rejected() -> None:
+    with pytest.raises(TrajectoryAnalysisError, match="Unknown covariate_latent_adjustment 'group'"):
+        TrajectoryAnalysisParams(covariate_latent_adjustment="group")
+
+
+def test_latent_adjustment_is_omitted_from_params_while_none() -> None:
+    assert "covariate_latent_adjustment" not in TrajectoryAnalysisParams().to_dict()
+    params = TrajectoryAnalysisParams(covariate_latent_adjustment="group_stage").to_dict()
+    assert params["covariate_latent_adjustment"] == "group_stage"
+
+
+def test_latent_adjustment_without_covariates_is_rejected_before_fitting(monkeypatch) -> None:
+    import motco.analysis as analysis
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("the latent space must not be fitted")
+
+    monkeypatch.setattr(analysis, "fit_pls_latent_space", forbidden)
+    with pytest.raises(TrajectoryAnalysisError, match="requires declared covariates"):
+        analyze_trajectories(make_dataset(), TrajectoryAnalysisParams(covariate_latent_adjustment="stage"))
+
+
+@pytest.fixture(scope="module")
+def latent_adjusted():
+    metadata, blocks = with_covariates()
+    return analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+        TrajectoryAnalysisParams(permutations=19, seed=3, covariate_latent_adjustment="stage", **SMALL_CV),
+    )
+
+
+def test_latent_adjustment_changes_the_basis_only(monkeypatch) -> None:
+    import motco.analysis as analysis
+
+    designs: list[tuple] = []
+    original = analysis.RRPP
+
+    def recording(Y, model_full, model_reduced, LS_means, contrast, **kwargs):
+        designs.append((np.array(model_full), np.array(model_reduced), np.array(LS_means), contrast))
+        return original(Y, model_full, model_reduced, LS_means, contrast, **kwargs)
+
+    monkeypatch.setattr(analysis, "RRPP", recording)
+    metadata, blocks = with_covariates()
+    dataset = make_dataset(metadata, blocks, covariate_cols=COVARIATES)
+    plain = analyze_trajectories(dataset, TrajectoryAnalysisParams(permutations=9, seed=3, **SMALL_CV))
+    adjusted = analyze_trajectories(
+        dataset,
+        TrajectoryAnalysisParams(permutations=9, seed=3, covariate_latent_adjustment="stage", **SMALL_CV),
+    )
+    (full_a, reduced_a, ls_a, contrast_a), (full_b, reduced_b, ls_b, contrast_b) = designs
+    assert np.array_equal(full_a, full_b)
+    assert np.array_equal(reduced_a, reduced_b)
+    assert np.array_equal(ls_a, ls_b)
+    assert contrast_a == contrast_b
+    assert full_a.shape[1] == 6 + 3  # group × stage plus age and two education indicators
+    assert not np.allclose(plain.latent_scores.to_numpy()[:, :1], adjusted.latent_scores.to_numpy()[:, :1])
+    assert "latent_adjustment" not in plain.record["latent"]["integration_params"]
+    assert adjusted.record["latent"]["integration_params"]["latent_adjustment"] == "stage"
+
+
+def test_latent_adjustment_record_layout(latent_adjusted) -> None:
+    record = latent_adjusted.record
+    keys = list(record)
+    assert keys.index("latent_adjustment") == keys.index("covariates") + 1
+    block = record["latent_adjustment"]
+    assert list(block) == [
+        "conditioning",
+        "covariates",
+        "design_columns",
+        "n_samples",
+        "residual_df",
+        "cv_min_training_df",
+        "feature_scale",
+        "feature_r2",
+    ]
+    assert block["conditioning"] == "stage"
+    assert block["covariates"] == ["age", "education_level"]
+    assert block["design_columns"] == [
+        "stage[1]",
+        "stage[2]",
+        "age",
+        "education_level[Graduate]",
+        "education_level[HighSchool]",
+    ]
+    n, k, q = 48, 2, 3
+    assert block["n_samples"] == n
+    assert block["residual_df"] == n - 1 - k - q
+    assert isinstance(block["cv_min_training_df"], int) and 0 < block["cv_min_training_df"] < block["residual_df"]
+    assert block["feature_scale"] == "pooled_standardized"
+    assert list(block["feature_r2"]) == ["q05", "q25", "q50", "q75", "q95", "mean", "fraction_above_0.5"]
+    assert all(0.0 <= value <= 1.0 for value in block["feature_r2"].values())
+    assert record["params"]["covariate_latent_adjustment"] == "stage"
+    assert record["schema_version"] == 1
+    # The covariate block keeps its 0.8.0 meaning: covariate effects on the projected raw features.
+    coefficients = np.array([list(row.values()) for row in record["covariates"]["coefficients"].values()])
+    assert np.any(np.abs(coefficients) > 1e-6)
+
+
+def test_latent_adjustment_block_absent_without_the_setting(adjusted) -> None:
+    assert "latent_adjustment" not in adjusted.record
+    assert "latent_adjustment" not in adjusted.record["latent"]["integration_params"]
+    assert "covariate_latent_adjustment" not in adjusted.record["params"]
+
+
+def test_latent_adjustment_spec_design_on_80_samples() -> None:
+    metadata, blocks = with_covariates(n_per_cell=14)
+    metadata = metadata.iloc[4:].reset_index(drop=True)
+    blocks = {name: frame.iloc[4:] for name, frame in blocks.items()}
+    metadata["rin"] = np.random.default_rng(9).uniform(5.0, 9.0, size=80)
+    out = analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=["age", "pmi", "rin"]),
+        TrajectoryAnalysisParams(covariate_latent_adjustment="stage", **SMALL_CV),
+    )
+    block = out.record["latent_adjustment"]
+    assert block["design_columns"] == ["stage[1]", "stage[2]", "age", "pmi", "rin"]
+    assert block["residual_df"] == 74
+
+
+def test_latent_adjusted_p_values_are_reproducible(latent_adjusted) -> None:
+    metadata, blocks = with_covariates()
+    again = analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+        TrajectoryAnalysisParams(permutations=19, seed=3, covariate_latent_adjustment="stage", **SMALL_CV),
+    )
+    assert again.record["p_values"] == latent_adjusted.record["p_values"]
+    assert again.record["null_summary"] == latent_adjusted.record["null_summary"]
+    assert np.array_equal(again.latent_scores.to_numpy(), latent_adjusted.latent_scores.to_numpy())
+
+
+def test_latent_adjustment_collinear_with_stage_names_the_covariate(monkeypatch) -> None:
+    import motco.analysis as analysis
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("the latent space must not be fitted")
+
+    monkeypatch.setattr(analysis, "fit_pls_latent_space", forbidden)
+    metadata, blocks = with_covariates()
+    metadata["stage_index"] = metadata["ADNC"].map({stage: index for index, stage in enumerate(STAGES)}).astype(float)
+    with pytest.raises(
+        TrajectoryAnalysisError, match="residualization design with covariates \\['age', 'stage_index'\\].*not of full"
+    ):
+        analyze_trajectories(
+            make_dataset(metadata, blocks, covariate_cols=["age", "stage_index"]),
+            TrajectoryAnalysisParams(covariate_latent_adjustment="stage", **SMALL_CV),
+        )
+
+
+def test_latent_adjustment_fold_missing_a_level_names_the_fold() -> None:
+    metadata, blocks = with_covariates()
+    metadata["batch"] = "common"
+    metadata.loc[5, "batch"] = "rare"
+    with pytest.raises(TrajectoryAnalysisError, match="repeat 1, outer fold \\d+(, inner fold \\d+)?: .*not of full"):
+        analyze_trajectories(
+            make_dataset(metadata, blocks, covariate_cols=["age", "batch"]),
+            TrajectoryAnalysisParams(covariate_latent_adjustment="group_stage", **SMALL_CV),
+        )

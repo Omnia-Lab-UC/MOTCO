@@ -18,6 +18,12 @@ Two inputs are load-bearing and therefore explicit:
   ``beta_to_mvalue``). MOTCO does not normalize counts, filter features or
   impute values; blocks are analysed in the units supplied.
 
+Declared covariates enter the trajectory model. By default the latent space is
+built without them; ``TrajectoryAnalysisParams.covariate_latent_adjustment``
+(``"stage"`` or ``"group_stage"``) instead fits the basis on features
+residualized on the covariates conditional on that design, and measures the
+raw features in it.
+
 :func:`write_analysis_outputs` writes the result as plain JSON/CSV (record,
 latent scores, PLS loadings, latent stage means and, when requested, the
 attribution tables) — the fitted estimator is never pickled.
@@ -44,6 +50,7 @@ from motco.simulations.attribution_diagnostics import (
 from motco.simulations.evaluation import (
     EVALUATION_ORIENTATION_ESTIMATORS,
     AttributionDiagnosticSettings,
+    LatentAdjustmentSummary,
     SimulationEvaluationError,
     _config_spectrum_block,
     _empirical_p_value,
@@ -62,8 +69,14 @@ from motco.simulations.preprocessing import (
     transform_blocks,
 )
 from motco.stats.attribution import OrientationAttributionResult, write_attribution_outputs
-from motco.stats.design import CovariateDesign, build_covariate_matrix
+from motco.stats.design import (
+    CONDITIONING_KINDS,
+    CovariateDesign,
+    build_conditioning_matrix,
+    build_covariate_matrix,
+)
 from motco.stats.permutation import RRPP
+from motco.stats.pls import NuisanceDesign
 from motco.stats.trajectory import estimate_betas, estimate_difference
 
 UnitTransform = Literal["identity", "beta_to_mvalue"]
@@ -343,6 +356,12 @@ class TrajectoryAnalysisParams:
     ``forced_components`` fixes the latent rank (dimensionality sensitivity) and
     skips cross-validation; ``None`` selects it by double CV. ``seed`` seeds
     RRPP exactly as the harness does.
+
+    ``covariate_latent_adjustment`` (``None``, ``"stage"`` or
+    ``"group_stage"``) opts into covariate-aware latent construction: the
+    basis is fitted on features residualized on the declared covariates,
+    conditional on the stage or the group × stage indicators. It requires
+    declared covariates and is omitted from :meth:`to_dict` while ``None``.
     """
 
     permutations: int = 0
@@ -357,8 +376,14 @@ class TrajectoryAnalysisParams:
     random_state: int = 1203
     attribution: AttributionDiagnosticSettings = field(default_factory=AttributionDiagnosticSettings)
     progress: bool = False
+    covariate_latent_adjustment: str | None = None
 
     def __post_init__(self) -> None:
+        if self.covariate_latent_adjustment is not None and self.covariate_latent_adjustment not in CONDITIONING_KINDS:
+            raise TrajectoryAnalysisError(
+                f"Unknown covariate_latent_adjustment {self.covariate_latent_adjustment!r}; allowed: "
+                f"{list(CONDITIONING_KINDS)} or None."
+            )
         if self.orientation_estimator not in EVALUATION_ORIENTATION_ESTIMATORS:
             raise TrajectoryAnalysisError(
                 f"Unknown orientation_estimator {self.orientation_estimator!r}; allowed: "
@@ -376,7 +401,11 @@ class TrajectoryAnalysisParams:
                 raise TrajectoryAnalysisError("attribution.top_k must be at least 1.")
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        data = asdict(self)
+        if self.covariate_latent_adjustment is None:
+            # Absent means the 0.8.0 analysis: its resolved parameters stay byte-identical.
+            data.pop("covariate_latent_adjustment")
+        return data
 
 
 @dataclass(frozen=True)
@@ -421,11 +450,22 @@ def analyze_trajectories(
     RRPP permutes residuals of the reduced model with covariates. Every LS-mean
     is evaluated at the pooled covariate mean; ``delta``, ``angle`` and
     ``shape`` do not depend on that reference. The latent space is fitted
-    without the covariates. Attribution is not available with covariates.
+    without the covariates unless ``params.covariate_latent_adjustment`` is
+    set: then the pooled-standardized features are residualized on the
+    covariates conditional on the stage (``"stage"``) or group × stage
+    (``"group_stage"``) indicators before the basis is fitted (per training set
+    inside the cross-validation, at the pooled scale), the raw features are
+    projected onto that basis, and the trajectory model, LS-means and RRPP are
+    unchanged. Attribution is not available with covariates.
     """
 
     params = params or TrajectoryAnalysisParams()
     covariates = dataset.covariate_design
+    if params.covariate_latent_adjustment is not None and covariates is None:
+        raise TrajectoryAnalysisError(
+            f"Latent adjustment ({params.covariate_latent_adjustment!r}) requires declared covariates; "
+            "declare covariate_cols on the dataset or drop the setting."
+        )
     if covariates is not None and params.attribution.enabled:
         raise TrajectoryAnalysisError(
             "Attribution is not available with covariates: it works from unadjusted cell means. "
@@ -461,6 +501,7 @@ def analyze_trajectories(
     }
     if params.forced_components is not None:
         integration_params["forced_components"] = params.forced_components
+    nuisance = _latent_nuisance(working, covariates, params.covariate_latent_adjustment)
     sample_ids = dataset.sample_ids
     try:
         latent = fit_pls_latent_space(
@@ -473,6 +514,7 @@ def analyze_trajectories(
             layers_metadata={},
             original_scales=_joint_original_scales(scalers, order, X.columns),
             methylation_units=_methylation_units(transforms),
+            nuisance=nuisance,
         )
         design = build_simulation_trajectory_design(working, group_col=_GROUP, stage_col=_STAGE)
     except SimulationEvaluationError as exc:
@@ -576,6 +618,11 @@ def analyze_trajectories(
         **(
             {"covariates": _covariate_record(dataset, covariates, betas, list(latent.matrix.columns))}
             if covariates is not None
+            else {}
+        ),
+        **(
+            {"latent_adjustment": _latent_adjustment_record(dataset, artifacts.latent_adjustment)}
+            if artifacts.latent_adjustment is not None
             else {}
         ),
         "blocks": [
@@ -715,6 +762,49 @@ def _covariate_adjusted_design(
     reduced = np.hstack([np.asarray(model_reduced, dtype=float), covariates.matrix])
     reference = np.tile(covariates.reference_row, (np.asarray(ls_means).shape[0], 1))
     return full, reduced, np.hstack([np.asarray(ls_means, dtype=float), reference])
+
+
+def _latent_nuisance(
+    working: pd.DataFrame,
+    covariates: CovariateDesign | None,
+    kind: str | None,
+) -> NuisanceDesign | None:
+    """The residualization design for latent adjustment, or ``None`` when it is off.
+
+    The conditioning indicators are built on the recoded working frame, so their
+    names use the ordinal codes (``stage[1]``) that map back through the
+    declared orders. The full-sample design must have full column rank.
+    """
+
+    if kind is None or covariates is None:
+        return None
+    conditioning = build_conditioning_matrix(working, _GROUP, _STAGE, kind)
+    nuisance = NuisanceDesign(
+        conditioning.matrix, covariates.matrix, conditioning.column_names, covariates.column_names, kind
+    )
+    full = nuisance.matrix()
+    rank = int(np.linalg.matrix_rank(full))
+    if rank < full.shape[1]:
+        raise TrajectoryAnalysisError(
+            f"The latent-adjustment residualization design with covariates {list(covariates.columns)} under "
+            f"{kind!r} conditioning is not of full rank (rank {rank} of {full.shape[1]} columns: intercept, "
+            f"{', '.join(nuisance.column_names)}); a covariate is collinear with the conditioning design or "
+            "with another covariate."
+        )
+    return nuisance
+
+
+def _latent_adjustment_record(dataset: TrajectoryDataset, summary: LatentAdjustmentSummary) -> dict[str, Any]:
+    return {
+        "conditioning": summary.conditioning,
+        "covariates": list(dataset.covariate_cols),
+        "design_columns": list(summary.design_columns),
+        "n_samples": summary.n_samples,
+        "residual_df": summary.residual_df,
+        "cv_min_training_df": summary.cv_min_training_df,
+        "feature_scale": summary.feature_scale,
+        "feature_r2": dict(summary.feature_r2),
+    }
 
 
 def _covariate_record(

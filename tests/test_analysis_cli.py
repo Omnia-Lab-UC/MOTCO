@@ -205,3 +205,29 @@ def test_analyze_missing_covariate_value_errors_by_default(tmp_path: Path, covar
     args = _analyze_args(covariate_files, tmp_path / "out", "--stage-order", ",".join(STAGES), "--covariate", "pmi")
     with pytest.raises(SystemExit, match="'pmi' has missing values"):
         main(args)
+
+
+def test_analyze_with_latent_adjustment(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES),
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--latent-adjustment", "stage"))
+    record = json.loads((out_dir / "result.json").read_text())
+    block = record["latent_adjustment"]
+    assert block["conditioning"] == "stage"
+    assert block["covariates"] == ["age_at_death", "pmi", "education_level"]
+    assert block["residual_df"] == 46 - 1 - 2 - 4
+    assert record["params"]["covariate_latent_adjustment"] == "stage"
+    printed = capsys.readouterr().out
+    assert "Latent adjustment:" in printed and "conditioning stage" in printed
+    assert f"residual df {block['residual_df']}" in printed
+
+
+def test_analyze_latent_adjustment_requires_covariates(tmp_path: Path, analyze_files) -> None:
+    args = _analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                         "--latent-adjustment", "stage")
+    with pytest.raises(SystemExit, match="--latent-adjustment requires declared covariates") as exc:
+        main(args)
+    assert exc.value.code != 0
+    assert not (tmp_path / "out").exists()

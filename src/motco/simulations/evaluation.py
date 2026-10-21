@@ -56,7 +56,15 @@ from motco.simulations.preprocessing import (
 from motco.simulations.semisynthetic import OmicsLayer, SemiSyntheticTrajectoryDataset
 from motco.stats.design import _sort_levels, build_ls_means, get_model_matrix
 from motco.stats.permutation import RRPP
-from motco.stats.pls import _modal_int_with_parsimony, fit_plsda_model, plsda_doubleCV
+from motco.stats.pls import (
+    NuisanceDesign,
+    _modal_int_with_parsimony,
+    fit_nuisance_coefficients,
+    fit_plsda_model,
+    nuisance_partial_r2,
+    plsda_doubleCV,
+    residualize,
+)
 from motco.stats.snf import SNF, get_affinity_matrix, get_spectral
 from motco.stats.trajectory import estimate_difference
 
@@ -149,22 +157,81 @@ class SimulationEvaluationParams:
 INTEGRATION_METADATA_VERSION = 1
 
 
+#: Quantiles of the per-feature partial R² recorded for a latent adjustment.
+_R2_QUANTILES: tuple[tuple[str, float], ...] = (
+    ("q05", 0.05),
+    ("q25", 0.25),
+    ("q50", 0.50),
+    ("q75", 0.75),
+    ("q95", 0.95),
+)
+
+
+@dataclass(frozen=True)
+class LatentAdjustmentSummary:
+    """How the features were residualized before a covariate-aware PLS basis was fitted.
+
+    ``design_columns`` are the residualization design columns beyond the
+    intercept (conditioning, then covariates); ``residual_df`` is the
+    full-sample fit's ``n − 1 − k − q``; ``cv_min_training_df`` the smallest
+    training-set residual df seen during cross-validation (``None`` when the
+    rank was forced and no CV ran); ``feature_r2`` summarizes the per-feature
+    partial R² of the covariates given the intercept and conditioning design.
+    """
+
+    conditioning: str | None
+    design_columns: tuple[str, ...]
+    n_samples: int
+    residual_df: int
+    cv_min_training_df: int | None
+    feature_scale: str
+    feature_r2: dict[str, float]
+
+    @classmethod
+    def from_partial_r2(
+        cls,
+        r2: np.ndarray,
+        *,
+        nuisance: NuisanceDesign,
+        residual_df: int,
+        cv_min_training_df: int | None,
+        feature_scale: str = "pooled_standardized",
+    ) -> "LatentAdjustmentSummary":
+        values = np.asarray(r2, dtype=float)
+        summary = {name: float(np.quantile(values, q)) for name, q in _R2_QUANTILES}
+        summary["mean"] = float(values.mean())
+        summary["fraction_above_0.5"] = float(np.mean(values > 0.5))
+        return cls(
+            conditioning=nuisance.kind,
+            design_columns=nuisance.column_names,
+            n_samples=nuisance.n_samples,
+            residual_df=residual_df,
+            cv_min_training_df=cv_min_training_df,
+            feature_scale=feature_scale,
+            feature_r2=summary,
+        )
+
+
 @dataclass(frozen=True)
 class PLSIntegrationArtifacts:
     """Ephemeral fitted artifacts behind one PLS latent space.
 
     These objects are the analysis boundary attribution conditions on: the exact
-    standardized joint feature matrix the model was fitted to, that fitted
-    estimator, and the per-feature scales needed to express effects in original
-    units. They are deliberately **not** part of the persisted evaluation result
-    — a fitted sklearn estimator is neither JSON-safe nor version-stable — and
-    are discarded once the compact diagnostics are built.
+    standardized joint feature matrix the latent scores are the projection of
+    (the matrix the model was fitted to, unless the basis was fitted on
+    covariate-residualized features), that fitted estimator, and the per-feature
+    scales needed to express effects in original units. ``latent_adjustment``
+    describes the residualization when there was one. They are deliberately
+    **not** part of the persisted evaluation result — a fitted sklearn estimator
+    is neither JSON-safe nor version-stable — and are discarded once the compact
+    diagnostics are built.
     """
 
     model: Any
     features: pd.DataFrame
     original_scales: np.ndarray
     methylation_units: str
+    latent_adjustment: LatentAdjustmentSummary | None = None
 
 
 @dataclass(frozen=True)
@@ -737,6 +804,7 @@ def fit_pls_latent_space(
     layers_metadata: Mapping[str, Any],
     original_scales: np.ndarray,
     methylation_units: str,
+    nuisance: NuisanceDesign | None = None,
 ) -> LatentIntegrationResult:
     """Build the PLS molecular latent space (stage-conditioned, double-CV-sized).
 
@@ -756,6 +824,20 @@ def fit_pls_latent_space(
     as a production evaluation. Absent (the default), behavior is unchanged and
     the metadata records ``component_selection="cv"``.
 
+    ``nuisance`` (row-aligned to ``X``; the real-data latent adjustment)
+    fits the basis on covariate-residualized features: the covariate
+    coefficients are estimated on all samples conditional on the nuisance
+    design's conditioning columns, the cross-validation residualizes every
+    training set with its own coefficients (``plsda_doubleCV(...,
+    nuisance=)``) on folds stratified on the conditioning cells (so every
+    training set contains every cell; under stage conditioning the folds are
+    those of the unadjusted fit), and every PLS fit uses ``scale=False`` so the
+    residuals keep the pooled scale. The latent matrix is the raw ``X``
+    projected onto that basis (``model.transform(X)``), the metadata gains
+    ``integration_params["latent_adjustment"]`` (the conditioning) and the
+    artifacts carry a :class:`LatentAdjustmentSummary`. Without ``nuisance``
+    nothing changes.
+
     This is the production measurement shared by the simulation harness and
     the real-data entry point (:mod:`motco.analysis`); it never reads a dataset.
     """
@@ -769,6 +851,24 @@ def fit_pls_latent_space(
         )
     min_stage_count = int(stage_counts.min())
     max_feasible_components = min(n_features, n_samples)
+
+    X_fit = X
+    scale = True
+    cv_nuisance: dict[str, Any] = {}
+    full_residual_df = 0
+    if nuisance is not None:
+        if nuisance.n_samples != n_samples:
+            raise SimulationEvaluationError(
+                f"PLS integration: the nuisance design has {nuisance.n_samples} rows but X has {n_samples}."
+            )
+        try:
+            coefficients, full_residual_df = fit_nuisance_coefficients(X, nuisance)
+        except ValueError as exc:
+            raise SimulationEvaluationError(f"PLS integration latent adjustment failed: {exc}") from exc
+        X_fit = residualize(X, nuisance.covariates, coefficients)
+        scale = False
+        # Stratify the folds on the conditioning cells so every training set can estimate them.
+        cv_nuisance = {"scale": False, "nuisance": nuisance, "strata": nuisance.cells()}
 
     forced_components = _forced_components(integration_params, maximum=max_feasible_components)
     cv_params: dict[str, Any]
@@ -810,6 +910,7 @@ def fit_pls_latent_space(
                 random_state=random_state,
                 n_jobs=n_jobs,
                 progress=False,
+                **cv_nuisance,
             )
         except ValueError as exc:
             raise SimulationEvaluationError(f"PLS integration cross-validation failed: {exc}") from exc
@@ -828,9 +929,24 @@ def fit_pls_latent_space(
     # One final pooled fit. Its training scores are the trajectory measurement
     # matrix *and* the same fitted estimator is handed to attribution, so both
     # necessarily share one coordinate system; no second fit or second component
-    # selection ever happens.
-    model = fit_plsda_model(X, y, n_components=selected_lv)
-    scores = np.asarray(model.x_scores_)
+    # selection ever happens. With a nuisance design the basis is fitted on the
+    # residualized features and the raw features are projected onto it.
+    model = fit_plsda_model(X_fit, y, n_components=selected_lv, scale=scale)
+    adjustment: LatentAdjustmentSummary | None = None
+    adjustment_params: dict[str, Any] = {}
+    if nuisance is not None:
+        scores = np.asarray(model.transform(X.to_numpy(dtype=float)))
+        adjustment = LatentAdjustmentSummary.from_partial_r2(
+            nuisance_partial_r2(X, nuisance),
+            nuisance=nuisance,
+            residual_df=full_residual_df,
+            cv_min_training_df=(
+                None if forced_components is not None else int(cv_result["nuisance_min_training_df"])
+            ),
+        )
+        adjustment_params = {"latent_adjustment": nuisance.kind}
+    else:
+        scores = np.asarray(model.x_scores_)
     latent = pd.DataFrame(
         scores,
         index=list(sample_ids),
@@ -847,6 +963,7 @@ def fit_pls_latent_space(
                 "selected_lv": selected_lv,
                 **cv_params,
                 **layers_metadata,
+                **adjustment_params,
             },
             "component_selection": "forced" if forced_components is not None else "cv",
             "cv_mean_auroc": mean_auroc,
@@ -863,6 +980,7 @@ def fit_pls_latent_space(
             features=X,
             original_scales=original_scales,
             methylation_units=methylation_units,
+            latent_adjustment=adjustment,
         ),
     )
 
