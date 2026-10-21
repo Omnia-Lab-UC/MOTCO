@@ -1,0 +1,134 @@
+{
+ "hash": "55f34392dbb14a86cf5541ddbdccbe3a30850b7a0a8c092581118ae6c68bccae",
+ "settings": {
+  "alpha": 0.05,
+  "arms": {
+   "baseline": null,
+   "group_stage": "group_stage",
+   "stage": "stage"
+  },
+  "base_seed": 2026,
+  "check": "latent_adjustment_power",
+  "columns": {
+   "clean": {
+    "s_c": 0.0,
+    "s_z": 0.0
+   },
+   "nuisance": {
+    "s_c": 2.0,
+    "s_z": 40.0
+   }
+  },
+  "controls": {
+   "anchor": 0.0,
+   "translation": 1.0
+  },
+  "covariates": {
+   "categorical": {
+    "levels": [
+     "c0",
+     "c1",
+     "c2"
+    ],
+    "logit_scale": 0.5,
+    "logits": "k * logit_scale * eta"
+   },
+   "extra_numeric": {
+    "count": 6,
+    "distribution": "iid N(0, 1), not injected"
+   },
+   "numeric": {
+    "a_g": 0.5,
+    "a_gs": 2.0,
+    "a_s": 1.0,
+    "noise_sd": 1.0
+   }
+  },
+  "cv": {
+   "cv1_splits": 3,
+   "cv2_splits": 4,
+   "max_components": 20,
+   "n_repeats": 5,
+   "random_state": 1203
+  },
+  "effects": {
+   "magnitude": [
+    0.02,
+    0.05,
+    0.1,
+    0.25
+   ],
+   "orientation": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ],
+   "shape": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ]
+  },
+  "generator": {
+   "baseline_continuity": 0.0,
+   "group_effect_size": 0.0,
+   "group_stage_sizes": [
+    [
+     11,
+     10,
+     28
+    ],
+    [
+     9,
+     10,
+     12
+    ]
+   ],
+   "magnitude_kind": "joint",
+   "n_stages": 3,
+   "p_dmp": 0.1,
+   "trajectory_mode": "magnitude"
+  },
+  "injection": {
+   "feature_fraction": 0.2,
+   "s_c": 2.0,
+   "s_z": 40.0,
+   "scale": "pooled feature SD on the analysed scale"
+  },
+  "k": 2.0,
+  "layers": [
+   "methylation",
+   "expression"
+  ],
+  "methylation_units": "mvalue",
+  "orientation_estimator": "net_displacement",
+  "permutations": 999,
+  "replicates": 500,
+  "rule": {
+   "controls": "both columns, anchor and translation, every statistic, rate <= alpha + k*sqrt(alpha(1-alpha)/R)",
+   "gain_se_multiplier": 2.0,
+   "gain_targets": [
+    [
+     "orientation",
+     "angle"
+    ]
+   ],
+   "loss_se_multiplier": 2.0,
+   "no_loss": "clean column, every statistic at every effect of every mode",
+   "protected": [
+    [
+     "magnitude",
+     "delta"
+    ],
+    [
+     "shape",
+     "shape"
+    ]
+   ],
+   "rate": "share of available replicates with p <= alpha"
+  },
+  "script_version": 1
+ }
+}
