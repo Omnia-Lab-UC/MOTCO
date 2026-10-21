@@ -148,7 +148,7 @@ education_level --missing-covariates complete_case`.
   (for example a covariate collinear with group × stage) are rejected with an
   error naming the covariate(s).
 
-**The latent space is covariate-blind, and the adjustment is still exact.**
+**By default the latent space is covariate-blind, and the adjustment is still exact.**
 PLS-DA is fitted on the standardized features against stage alone, exactly as
 without covariates, so the latent scores, loadings and selected rank do not
 change. OLS commutes with a fixed linear map: regressing the scores `T = XW` on
@@ -156,8 +156,8 @@ change. OLS commutes with a fixed linear map: regressing the scores `T = XW` on
 design, projected by `W`. The stage means are therefore adjusted exactly as in
 feature space; only the basis `W` was chosen without the covariates. If a
 covariate effect is large and aligned with stage, PLS may spend a component on
-it. A sensitivity analysis that residualizes the features on the covariates
-before the fit (outside MOTCO) addresses that case.
+it; [latent adjustment](#latent-adjustment) chooses the basis with the
+covariates instead.
 
 **Attribution is not available with covariates.** Frozen-model attribution
 works from unadjusted cell means, so a request for both raises an error before
@@ -177,6 +177,115 @@ results only under its `covariates_validated` decision.
 Without covariates the record, the artifact and every output are identical to
 MOTCO 0.7.0 (except the runtime); the `covariates` key is absent and the schema
 version is unchanged (`tests/test_analysis_identity.py`).
+
+## Latent adjustment
+
+With covariates declared, the PLS-DA basis is still fitted on the features
+alone. A large technical axis aligned with stage (library quality, for example)
+can then take a whole component, and at a selected rank of 1 or 2 that leaves
+little room for the biology. `covariate_latent_adjustment` (CLI:
+`--latent-adjustment`) fits the basis on features residualized on the declared
+covariates instead:
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, covariate_latent_adjustment="stage")
+```
+
+```bash
+motco analyze ... --covariate age_at_death --covariate pmi --latent-adjustment stage
+```
+
+- **Conditional residualization.** Every pooled-standardized joint feature is
+  regressed on `[1, D, C]`, where `C` holds the declared covariate design columns
+  and `D` the conditioning design, and only the fitted covariate part `C γ` is
+  subtracted. Under `stage`, `D` is the drop-first stage indicators; under
+  `group_stage`, the group, stage and group × stage indicators. By
+  Frisch–Waugh–Lovell, `γ` is the covariates' within-design effect, so stage
+  signal that is merely correlated with a covariate stays in the features.
+  Residualizing on the covariates alone would remove it: label-blind
+  residualization upstream of MOTCO dropped the case study's held-out CV AUROC
+  from 0.63 to 0.41. `stage` keeps the group label out of the basis; under
+  `group_stage` the group enters only through the pooled within-cell slope.
+  Use `stage`: it is the conditioning the Type I check admitted (see below).
+- **Leak-free cross-validation.** Inside the double CV, every outer rest set and
+  inner training set estimates its own `γ` and residualizes its held-out samples
+  as `X_held_out − C_held_out γ`, so held-out labels never enter the
+  residualization. Both CV levels stratify their folds on the conditioning cells
+  (stages under `stage`, group × stage cells under `group_stage`), so every
+  training set can estimate the conditioning design. Under `stage` the folds
+  equal those of the unadjusted analysis. The final basis uses `γ` estimated on
+  all samples.
+- **The pooled scale is kept.** The residualized features are not
+  re-standardized: every PLS fit on this path uses `scale=False`. A feature whose
+  variance was mostly covariate is down-weighted, not inflated back to unit
+  variance, and when the covariate effects are weak the basis approaches the
+  unadjusted one.
+- **The raw features are measured in the new basis.** The latent scores are the
+  pooled-standardized features (not the residuals), centered at the residuals'
+  mean and projected onto the basis. The trajectory model, the LS-means, the
+  RRPP reduced model and the permutations are exactly those of the
+  covariate-adjusted analysis above. With the covariates in both RRPP models,
+  projecting the raw or the residualized features gives identical statistics,
+  p-values and null draws, because the difference `(C − C̄) γ W` lies in the
+  models' column space. So **only the choice of basis (and of CV rank)
+  changes**. Measuring the raw features keeps the `covariates` block's
+  coefficients and `stage_means.csv` on the same footing as without the
+  setting.
+- **The same covariates in both places.** The residualization covariates are
+  exactly `covariate_cols`, which also enter the trajectory model; that equality
+  is what makes the projection choice immaterial. To residualize on technical
+  variables, declare them as covariates.
+- **Guards.** The setting without covariates is an error before any fitting.
+  The full-sample residualization design must have full column rank, otherwise
+  the error names the covariates and the conditioning. Every CV training design
+  must too, otherwise the error names the repeat and fold; this happens when a
+  rare factor level drops out of a training set, and depends on
+  `random_state`. Merge rare levels upstream rather than relying on a
+  minimum-norm fit, whose held-out shift would be arbitrary. Attribution stays
+  unavailable with covariates.
+- **Record.** `result.json` gains a `latent_adjustment` block after
+  `covariates`, and `latent.integration_params.latent_adjustment` names the
+  conditioning. The block holds `conditioning`, `covariates`, `design_columns`
+  (conditioning then covariate columns, beyond the intercept), `n_samples`,
+  `residual_df` (`n − 1 − k − q`), `cv_min_training_df` (the smallest
+  training-set residual df seen in CV; `null` with `forced_components`),
+  `feature_scale` (`pooled_standardized`) and `feature_r2`. That last field
+  summarizes each feature's partial R² of the covariates given the intercept and
+  conditioning (5/25/50/75/95 % quantiles, mean, fraction above 0.5), the share
+  of variance the residualization removes. `params.covariate_latent_adjustment`
+  is recorded only when set.
+
+**Mediator limitation.** Residualizing a variable that mediates the stage
+effect removes real signal, and no simulation can tell a confounder from a
+mediator. Choosing and justifying the covariate set is the analysis's job, not
+MOTCO's: a technical variable that is itself downstream of disease stage (a
+cell-quality metric that worsens with pathology, say) is a mediator candidate.
+
+**Validation.** `scripts/latent_adjustment_type_i_check.py` measures size at
+the Phase 6 design under a covariate-aligned nuisance axis calibrated so that
+the unadjusted basis spends its first component on it (median |Spearman| ≥ 0.8).
+It runs three arms per replicate (unadjusted basis, `stage`, `group_stage`) at
+8 declared covariates, and its decision file names the admissible
+conditionings (`adopt_stage` | `adopt_group_stage` | `diagnose_latent_excess`).
+The 2026-10-20 run returned **`adopt_stage`**
+([report](../reports/latent-adjustment-type-i-2026-10-20.md)). `stage` held
+`delta` 0.031, `angle` 0.067 and `shape` 0.058 against 0.0706. `group_stage`
+exceeded the bound on `angle` (0.082) and is not admissible. About 10 % of
+replicates lost an arm to a rare factor level.
+`scripts/latent_adjustment_power_comparison.py` compares power with and without
+such an axis against the unadjusted basis. Its 2026-10-20 run
+([report](../reports/latent-adjustment-power-2026-10-20.md)) returned
+`candidate_fails` for both conditionings. `stage` raised orientation power
+(`angle` 0.92–0.93 against 0.64–0.78 at the top effect) but lost `shape` power
+when the nuisance axis was present, and small-magnitude power without it.
+`group_stage` lost most orientation and shape power. Residualizing on
+covariates confounded with the design removes signal even when they have no
+effect. Report latent-adjusted results only with `stage` conditioning, as a
+sensitivity analysis beside the covariate-adjusted analysis rather than as a
+replacement, under the conditions of both reports.
+
+Without the setting, every output is identical to MOTCO 0.8.0 except the
+runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
 
 ## Example: SEA-AD-style design
 
