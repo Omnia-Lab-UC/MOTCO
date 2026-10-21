@@ -1,7 +1,7 @@
 site_name: MOTCO
 site_description: Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences
-repo_url: https://github.com/tomszar/MOTCO
-repo_name: tomszar/MOTCO
+repo_url: https://github.com/Omnia-Lab-UC/MOTCO
+repo_name: Omnia-Lab-UC/MOTCO
 
 theme:
   name: material

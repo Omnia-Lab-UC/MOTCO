@@ -16,8 +16,8 @@ MOTCO provides three statistical modules:
 
 ## Quick links
 
-- [GitHub repository](https://github.com/tomszar/MOTCO)
-- [End-to-end example notebook](https://github.com/tomszar/MOTCO/blob/main/examples/motco_example.ipynb)
+- [GitHub repository](https://github.com/Omnia-Lab-UC/MOTCO)
+- [End-to-end example notebook](https://github.com/Omnia-Lab-UC/MOTCO/blob/main/examples/motco_example.ipynb)
 - [CLI reference](api/cli.md)
 
 ## Installation
