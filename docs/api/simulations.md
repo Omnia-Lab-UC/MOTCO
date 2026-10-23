@@ -179,6 +179,24 @@ the harness before the selection existed. Every committed study config and histo
 `"pc1"`. Only `angle` depends on the selection. The stats primitives (`estimate_difference`, `RRPP`)
 keep `"pc1"` as their default.
 
+**Rank floor.** `min_components` is the smallest rank the stage-supervised double CV may select for
+`pls` integration: the candidates are `min_components … max_components − 1`, so every outer-fold
+selection, the modal rank and the pooled fit are at or above it. The default is `2`, so `angle` and
+`shape` are measured in a space of at least two dimensions (at rank 1 two orientations are parallel or
+antiparallel by construction and `angle`'s null is a two-point distribution). The default is hashed
+into the cell id and parameter signature and recorded in `runtime_metadata["min_components"]` and in
+the latent metadata's `integration_params.min_components`. Pass `min_components=1` for the unfloored
+rule: `1` normalizes to `None`, which is left out of every hash payload and record, so a floor-1
+evaluation is byte-identical to the harness before the floor existed. Every committed study config
+pins `"min_components": 1` beside `"pc1"`, as do the historical diagnostics. `max_components` is
+clamped to `[min_components + 1, min(n_features, n_samples)]`; a sample that cannot satisfy the floor
+raises an error naming the floor and the counts. The diagnostic `forced_components` override keeps its
+own range (`[2, max]`) and ignores the floor; `pca` and `pls_within_group` have fixed ranks by
+construction. In a study config `evaluation.min_components` is a field and a design axis: `null`
+names the evaluator's default and `1` the unfloored rule, as distinct values. The floor guarantees two
+dimensions, not a second axis with signal; it was validated by `scripts/rank_floor_check.py` (the 2026-10-23 run
+returned `adopt_floor` at both calibrated strengths, [report](../reports/rank-floor-2026-10-23.md)).
+
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
 ```text

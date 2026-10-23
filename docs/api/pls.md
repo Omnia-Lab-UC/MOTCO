@@ -4,7 +4,7 @@ Partial Least Squares Discriminant Analysis with double cross-validation.
 
 ## Scale and nuisance residualization
 
-`plsda_doubleCV` takes three keyword-only arguments whose defaults reproduce its
+`plsda_doubleCV` takes four keyword-only arguments whose defaults reproduce its
 earlier behaviour exactly:
 
 - `scale` (default `True`) is passed to every `PLSRegression` fit in the inner
@@ -30,9 +30,20 @@ earlier behaviour exactly:
   every cell: the inner folds are not shuffled, and on rows sorted by group
   within stage a stage-only stratification can put a whole group × stage cell
   into one validation fold.
+- `min_components` (default `1`) is the smallest number of latent variables the
+  inner CV considers: the candidates are `min_components … max_components − 1`,
+  so every outer-fold selection, every modal `LV` in the table and every
+  refit model has at least that many components. It must satisfy
+  `1 ≤ min_components < max_components`, or the function raises a
+  `ValueError` naming both values before any fold is fitted. The default is
+  the unfloored rule; the trajectory latent space
+  (`fit_pls_latent_space`, shared by the simulation harness and
+  `motco analyze`) applies a floor of 2 by default, see
+  [Real-data analysis](analysis.md#what-is-measured-and-recorded).
 
-The real-data analysis uses both together for covariate-aware latent
-construction; see [Real-data analysis](analysis.md#latent-adjustment).
+The real-data analysis uses `scale`, `nuisance` and `strata` together for
+covariate-aware latent construction; see
+[Real-data analysis](analysis.md#latent-adjustment).
 
 ## Functions
 
