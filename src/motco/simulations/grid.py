@@ -859,7 +859,9 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: absent value byte-identical to the field never having existed. For
 #: ``orientation_estimator``, ``None`` is PC1, so the omission preserves the PC1
 #: identity (the harness default, net displacement, is hashed).
-_SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset({"group_stage_sizes", "orientation_estimator"})
+_SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
+    {"group_stage_sizes", "orientation_estimator", "min_components"}
+)
 
 
 def _to_jsonable(value: Any) -> Any:

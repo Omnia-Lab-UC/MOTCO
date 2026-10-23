@@ -70,7 +70,8 @@ def test_pls_integration_builds_latent_space_and_records_metadata() -> None:
     assert result.metadata["integration_method"] == "pls"
     assert result.metadata["integration_role"] == "latent_space"
     selected_lv = result.metadata["integration_params"]["selected_lv"]
-    assert selected_lv >= 1
+    assert selected_lv >= 2  # the harness's default rank floor
+    assert result.metadata["integration_params"]["min_components"] == 2
     assert result.matrix.shape == (32, selected_lv)
     assert list(result.matrix.columns) == [f"pls_{i}" for i in range(selected_lv)]
     assert result.metadata["integration_params"]["stage_col"] == "stage"

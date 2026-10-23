@@ -362,6 +362,14 @@ class TrajectoryAnalysisParams:
     basis is fitted on features residualized on the declared covariates,
     conditional on the stage or the group × stage indicators. It requires
     declared covariates and is omitted from :meth:`to_dict` while ``None``.
+
+    ``min_components`` is the rank floor of the cross-validated latent space
+    (default 2, so ``angle`` and ``shape`` are measured in at least two
+    dimensions). ``1`` restores the unfloored 0.9.0 rule and normalizes to
+    ``None``, which is omitted from :meth:`to_dict` and from the record's
+    ``latent`` block, so a floor-1 analysis reproduces every 0.9.0 artifact.
+    A floor below 1 is rejected before any fitting. The floor guarantees two
+    dimensions, not a second axis with signal.
     """
 
     permutations: int = 0
@@ -377,8 +385,15 @@ class TrajectoryAnalysisParams:
     attribution: AttributionDiagnosticSettings = field(default_factory=AttributionDiagnosticSettings)
     progress: bool = False
     covariate_latent_adjustment: str | None = None
+    min_components: int | None = 2
 
     def __post_init__(self) -> None:
+        floor = self.min_components
+        if floor is not None:
+            if isinstance(floor, bool) or not isinstance(floor, (int, np.integer)) or floor < 1:
+                raise TrajectoryAnalysisError(f"min_components must be an integer of at least 1, got {floor!r}.")
+            # 1 is the unfloored 0.9.0 rule: held as ``None`` so the record stays byte-identical.
+            object.__setattr__(self, "min_components", None if int(floor) == 1 else int(floor))
         if self.covariate_latent_adjustment is not None and self.covariate_latent_adjustment not in CONDITIONING_KINDS:
             raise TrajectoryAnalysisError(
                 f"Unknown covariate_latent_adjustment {self.covariate_latent_adjustment!r}; allowed: "
@@ -405,7 +420,16 @@ class TrajectoryAnalysisParams:
         if self.covariate_latent_adjustment is None:
             # Absent means the 0.8.0 analysis: its resolved parameters stay byte-identical.
             data.pop("covariate_latent_adjustment")
+        if self.min_components is None:
+            # Floor 1 means the 0.9.0 rank rule: its resolved parameters stay byte-identical.
+            data.pop("min_components")
         return data
+
+    @property
+    def resolved_min_components(self) -> int:
+        """The rank floor the cross-validation runs with (1 when omitted)."""
+
+        return self.min_components or 1
 
 
 @dataclass(frozen=True)
@@ -515,6 +539,7 @@ def analyze_trajectories(
             original_scales=_joint_original_scales(scalers, order, X.columns),
             methylation_units=_methylation_units(transforms),
             nuisance=nuisance,
+            min_components=params.resolved_min_components,
         )
         design = build_simulation_trajectory_design(working, group_col=_GROUP, stage_col=_STAGE)
     except SimulationEvaluationError as exc:

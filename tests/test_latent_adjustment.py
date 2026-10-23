@@ -53,7 +53,20 @@ def _core_input(seed: int = 20261020, n_per_cell: int = 8, n_features: int = 14)
     }
 
 
-def _fit_core(inputs: dict[str, Any], integration_params: dict[str, Any] | None = None, **kwargs: Any):
+def _fit_core(
+    inputs: dict[str, Any],
+    integration_params: dict[str, Any] | None = None,
+    *,
+    min_components: int = 1,
+    **kwargs: Any,
+):
+    """The core on the module's fixed input.
+
+    ``min_components`` defaults to 1 here (the rule the committed identity
+    fixture and the nuisance tests were captured under); the core's own default
+    is 2, exercised by the rank-floor tests below.
+    """
+
     params = {"cv1_splits": 2, "cv2_splits": 3, "n_repeats": 2, "max_components": 5, "random_state": 3}
     params.update(integration_params or {})
     X = inputs["X"]
@@ -67,6 +80,7 @@ def _fit_core(inputs: dict[str, Any], integration_params: dict[str, Any] | None 
         layers_metadata={},
         original_scales=np.ones(X.shape[1]),
         methylation_units="not_applicable",
+        min_components=min_components,
         **kwargs,
     )
 
@@ -88,6 +102,75 @@ def _core_identity_payload() -> dict[str, Any]:
 def test_core_without_nuisance_reproduces_stored_output() -> None:
     expected = json.loads(CORE_IDENTITY.read_text(encoding="utf-8"))
     _assert_close(_core_identity_payload(), expected, "fit_pls_latent_space")
+    assert expected["metadata"]["selected_lv"] == 1  # the fixture is a rank-1 selection under floor 1
+    assert "min_components" not in expected["metadata"]["integration_params"]
+
+
+# ── Rank floor in the core ──────────────────────────────────────────────────
+
+
+def _core_default_floor(inputs: dict[str, Any], integration_params: dict[str, Any] | None = None, **kwargs: Any):
+    """The core at its own default floor (no ``min_components`` passed)."""
+
+    params = {"cv1_splits": 2, "cv2_splits": 3, "n_repeats": 2, "max_components": 5, "random_state": 3}
+    params.update(integration_params or {})
+    X = inputs["X"]
+    return fit_pls_latent_space(
+        X,
+        inputs["y"],
+        params,
+        stage_col="stage",
+        sample_ids=inputs["sample_ids"],
+        layer_feature_counts={"rna": int(X.shape[1])},
+        layers_metadata={},
+        original_scales=np.ones(X.shape[1]),
+        methylation_units="not_applicable",
+        **kwargs,
+    )
+
+
+def test_default_floor_lifts_the_identity_input_to_rank_two() -> None:
+    latent = _core_default_floor(_core_input())
+    assert latent.metadata["selected_lv"] >= 2
+    assert latent.matrix.shape[1] >= 2
+    assert latent.metadata["integration_params"]["min_components"] == 2
+    assert latent.metadata["component_selection"] == "cv"
+    explicit = _fit_core(_core_input(), min_components=2)
+    assert explicit.metadata == latent.metadata
+    np.testing.assert_array_equal(explicit.matrix.to_numpy(), latent.matrix.to_numpy())
+
+
+def test_named_floor_is_honoured() -> None:
+    latent = _fit_core(_core_input(), min_components=3)
+    assert latent.metadata["selected_lv"] >= 3
+    assert latent.metadata["integration_params"]["min_components"] == 3
+
+
+def test_maximum_at_the_floor_is_raised_to_one_candidate() -> None:
+    latent = _core_default_floor(_core_input(), {"max_components": 2})
+    assert latent.metadata["integration_params"]["max_components"] == 3
+    assert latent.metadata["selected_lv"] == 2
+
+
+def test_sample_too_small_for_the_floor_is_rejected() -> None:
+    inputs = _core_input(n_features=2)
+    with pytest.raises(SimulationEvaluationError, match=r"min_components=2 needs at least 3 features.*2 feature"):
+        _core_default_floor(inputs)
+    # The unfloored rule still fits a two-feature input (candidates {1}).
+    assert _fit_core(inputs).metadata["selected_lv"] == 1
+
+
+def test_forced_components_ignore_the_floor() -> None:
+    latent = _fit_core(_core_input(), {"forced_components": 2}, min_components=3)
+    assert latent.metadata["component_selection"] == "forced"
+    assert latent.metadata["selected_lv"] == 2
+    assert "min_components" not in latent.metadata["integration_params"]
+
+
+@pytest.mark.parametrize("floor", [0, 2.5, -1, "2"])
+def test_invalid_floor_is_rejected(floor) -> None:
+    with pytest.raises(SimulationEvaluationError, match="min_components must be an integer of at least 1"):
+        _fit_core(_core_input(), min_components=floor)
 
 
 

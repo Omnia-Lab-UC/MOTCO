@@ -457,6 +457,59 @@ def test_strata_rows_must_match_X():
         plsda_doubleCV(X, y, cv1_splits=3, cv2_splits=3, n_repeats=1, max_components=3, progress=False,
                        strata=y.to_numpy()[:29])
 
+# ── Candidate floor (min_components) ─────────────────────────────────────────
+
+
+def _floor_data(n_per_class: int = 12, p: int = 9, seed: int = 20261020) -> tuple[pd.DataFrame, pd.Series]:
+    rng = np.random.default_rng(seed)
+    labels = np.repeat(["Low", "Mid", "High"], n_per_class)
+    shift = np.repeat([0.0, 0.8, 1.6], n_per_class)[:, None]
+    X = pd.DataFrame(rng.standard_normal((3 * n_per_class, p)) + shift * np.linspace(0, 1, p),
+                     columns=[f"f{i}" for i in range(p)])
+    return X, pd.Series(labels)
+
+
+def test_min_components_restricts_the_candidates_fitted(monkeypatch):
+    X, y = _floor_data()
+    requested: list[int] = []
+    original = pls._plsda_auroc
+
+    def recording(n_components, *args, **kwargs):
+        requested.append(int(n_components))
+        return original(n_components, *args, **kwargs)
+
+    monkeypatch.setattr(pls, "_plsda_auroc", recording)
+    result = plsda_doubleCV(X, y, cv1_splits=2, cv2_splits=3, n_repeats=2, max_components=5, random_state=11,
+                            progress=False, min_components=2)
+    assert set(requested) == {2, 3, 4}
+    assert (result["table"]["LV"] >= 2).all()
+    assert all(model.n_components >= 2 for model in result["models"])
+    assert all(np.asarray(model.x_scores_).shape[1] >= 2 for model in result["models"])
+
+
+@pytest.mark.parametrize("floor", [5, 0, 2.5, -1])
+def test_infeasible_min_components_is_rejected_before_any_fit(monkeypatch, floor):
+    X, y = _floor_data()
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("no fold may be fitted when the floor is rejected")
+
+    monkeypatch.setattr(pls, "_plsda_auroc", forbidden)
+    with pytest.raises(ValueError, match=rf"min_components={floor!r}.*max_components=5"):
+        plsda_doubleCV(X, y, cv1_splits=2, cv2_splits=3, n_repeats=1, max_components=5, progress=False,
+                       min_components=floor)
+
+
+def test_min_components_of_one_is_the_default_rule():
+    X, y = _floor_data()
+    kwargs = dict(cv1_splits=2, cv2_splits=3, n_repeats=2, max_components=4, random_state=11, progress=False)
+    default = plsda_doubleCV(X, y, **kwargs)
+    explicit = plsda_doubleCV(X, y, min_components=1, **kwargs)
+    pd.testing.assert_frame_equal(default["table"], explicit["table"])
+    for a, b in zip(default["models"], explicit["models"]):
+        np.testing.assert_array_equal(a.x_scores_, b.x_scores_)
+
+
 if __name__ == "__main__":
     DEFAULT_IDENTITY.write_text(json.dumps(_default_identity_payload(), indent=2) + "\n", encoding="utf-8")
     print(f"wrote {DEFAULT_IDENTITY}")

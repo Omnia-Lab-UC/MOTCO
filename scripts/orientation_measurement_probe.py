@@ -326,6 +326,7 @@ def evaluate_unit(unit: Unit, settings: Mapping[str, Any]) -> list[dict[str, Any
             permutations=int(settings["permutations"]),
             n_jobs=1,
             seed=perm_seed,
+            min_components=1,  # the 2026-10-12 probe ran the unfloored rank rule
         )
         space_start = perf_counter()
         try:

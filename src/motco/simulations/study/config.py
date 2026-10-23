@@ -974,6 +974,8 @@ def _build_evaluation(raw: Mapping[str, Any]) -> SimulationEvaluationParams:
             value = _build_attribution_settings(value)
         if f.name == "orientation_estimator":
             value = _normalize_orientation_estimator(value)
+        if f.name == "min_components":
+            value = _normalize_min_components(value)
         kwargs[f.name] = value
     return SimulationEvaluationParams(**kwargs)
 
@@ -1023,22 +1025,47 @@ def _normalize_orientation_estimator(value: Any) -> Any:
     return None if value == "pc1" else value
 
 
+_MIN_COMPONENTS_DEFAULT = next(
+    f.default for f in dataclasses.fields(SimulationEvaluationParams) if f.name == "min_components"
+)
+
+
+def _normalize_min_components(value: Any) -> Any:
+    """Config spelling of ``evaluation.min_components`` → evaluator value.
+
+    ``null`` names the evaluator's default (read from the dataclass, so a later
+    default change needs no edit here); ``1`` names the unfloored rule, whose
+    evaluator value is the hash-omitted ``None``. Anything else passes through
+    for the evaluator to validate. ``null`` and ``1`` are distinct axis values.
+    """
+
+    if value is None:
+        return _MIN_COMPONENTS_DEFAULT
+    if isinstance(value, bool):
+        return value
+    return None if value == 1 else value
+
+
 #: Axis values that need the same normalization as their baseline field.
 _AXIS_VALUE_NORMALIZERS = {
     "generator.group_stage_sizes": _normalize_group_stage_sizes,
     "evaluation.orientation_estimator": _normalize_orientation_estimator,
+    "evaluation.min_components": _normalize_min_components,
 }
 
 
 def _display_axis_value(axis: str, value: Any) -> Any:
     """A normalized axis value in config spelling, for error messages.
 
-    The PC1 estimator is held as ``None`` after normalization; show it as
-    ``"pc1"`` so a message never reads as ``null`` (the evaluator's default).
+    The PC1 estimator and the rank floor of 1 are held as ``None`` after
+    normalization; show them as ``"pc1"`` and ``1`` so a message never reads
+    as ``null`` (the evaluator's default).
     """
 
     if axis == "evaluation.orientation_estimator" and value is None:
         return "pc1"
+    if axis == "evaluation.min_components" and value is None:
+        return 1
     return _to_jsonable(value)
 
 
@@ -1047,13 +1074,20 @@ def _display_point(point: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _estimator_hint(point: Mapping[str, Any]) -> str:
-    if "evaluation.orientation_estimator" not in point:
-        return ""
-    return (
-        " For evaluation.orientation_estimator, null names the evaluator's default "
-        f"({_ORIENTATION_ESTIMATOR_DEFAULT!r}) and 'pc1' names PC1; the baseline is the baseline "
-        "evaluation's estimator."
-    )
+    hint = ""
+    if "evaluation.orientation_estimator" in point:
+        hint += (
+            " For evaluation.orientation_estimator, null names the evaluator's default "
+            f"({_ORIENTATION_ESTIMATOR_DEFAULT!r}) and 'pc1' names PC1; the baseline is the baseline "
+            "evaluation's estimator."
+        )
+    if "evaluation.min_components" in point:
+        hint += (
+            " For evaluation.min_components, null names the evaluator's default "
+            f"({_MIN_COMPONENTS_DEFAULT!r}) and 1 names the unfloored rank rule; the baseline is the "
+            "baseline evaluation's floor."
+        )
+    return hint
 
 
 def _normalize_axis_values(axis: str, values: Sequence[Any]) -> tuple[Any, ...]:
@@ -1512,7 +1546,8 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
             for key, value in _dataclass_dict(config.generator).items()
             if not (key == "group_stage_sizes" and value is None)
         },
-        # PC1 is written ``"pc1"``: a config ``null`` names the evaluator's default.
+        # PC1 is written ``"pc1"`` and the unfloored rank rule ``1``: a config
+        # ``null`` names the evaluator's default.
         "evaluation": {
             key: _display_axis_value(f"evaluation.{key}", value)
             for key, value in _dataclass_dict(config.evaluation).items()

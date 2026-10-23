@@ -255,6 +255,54 @@ def test_plsr_out_scores_correct_shape(tmp_path: Path, plsr_csv: Path) -> None:
     assert all(c.startswith("lv_") for c in scores.columns)
 
 
+@pytest.fixture()
+def plsr_wide_csv(tmp_path: Path) -> Path:
+    rng = np.random.default_rng(3)
+    n, p = 36, 8
+    labels = np.repeat(["A", "B", "C"], n // 3)
+    shift = np.repeat([0.0, 0.8, 1.6], n // 3)[:, None]
+    df = pd.DataFrame(rng.standard_normal((n, p)) + shift * np.linspace(0, 1, p), columns=[f"f{i}" for i in range(p)])
+    df["label"] = labels
+    path = tmp_path / "plsr_wide.csv"
+    df.to_csv(path, index=False)
+    return path
+
+
+def _plsr_floor_args(csv: Path, out_table: Path, *extra: str) -> list[str]:
+    return [
+        "plsr", "--data", str(csv), "--label-col", "label",
+        "--cv1-splits", "2", "--cv2-splits", "3", "--n-repeats", "2",
+        "--out-table", str(out_table), *extra,
+    ]
+
+
+def test_plsr_min_components_floors_the_table_and_the_scores(tmp_path: Path, plsr_wide_csv: Path) -> None:
+    out_table = tmp_path / "table.csv"
+    out_scores = tmp_path / "scores.csv"
+    main(_plsr_floor_args(plsr_wide_csv, out_table, "--min-components", "2", "--max-components", "6",
+                          "--out-scores", str(out_scores)))
+    table = pd.read_csv(out_table)
+    assert (table["LV"] >= 2).all()
+    assert pd.read_csv(out_scores).shape[1] >= 2
+
+
+def test_plsr_infeasible_min_components_exits(tmp_path: Path, plsr_wide_csv: Path,
+                                              capsys: pytest.CaptureFixture) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        main(_plsr_floor_args(plsr_wide_csv, tmp_path / "t.csv", "--min-components", "6", "--max-components", "6"))
+    assert exc_info.value.code != 0
+    message = str(exc_info.value)
+    assert "min_components=6" in message and "max_components=6" in message
+
+
+def test_plsr_default_min_components_is_unchanged(tmp_path: Path, plsr_wide_csv: Path) -> None:
+    without = tmp_path / "without.csv"
+    explicit = tmp_path / "explicit.csv"
+    main(_plsr_floor_args(plsr_wide_csv, without, "--max-components", "5"))
+    main(_plsr_floor_args(plsr_wide_csv, explicit, "--max-components", "5", "--min-components", "1"))
+    pd.testing.assert_frame_equal(pd.read_csv(without), pd.read_csv(explicit))
+
+
 def test_plsr_n_components_override(tmp_path: Path, plsr_csv: Path) -> None:
     out_scores = tmp_path / "scores.csv"
     main([

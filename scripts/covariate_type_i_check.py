@@ -321,6 +321,7 @@ def evaluate_replicate(
         seed=built["seeds"]["rrpp"],
         n_jobs=n_jobs,
         orientation_estimator=settings["orientation_estimator"],
+        min_components=1,  # the 2026-10-16 covariate Type I report ran the unfloored rank rule
         **settings["cv"],
     )
     arms: dict[str, Any] = {}

@@ -214,6 +214,8 @@ def analyze_arms(built: Mapping[str, Any], settings: Mapping[str, Any], *, n_job
             n_jobs=n_jobs,
             orientation_estimator=settings["orientation_estimator"],
             covariate_latent_adjustment=ARM_SETTING[arm],
+            # The 2026-10-20 latent-adjustment Type I and power reports ran the unfloored rank rule.
+            min_components=1,
             **settings["cv"],
         )
         try:

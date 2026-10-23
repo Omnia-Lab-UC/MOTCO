@@ -229,6 +229,7 @@ def plsda_doubleCV(
     scale: bool = True,
     nuisance: NuisanceDesign | None = None,
     strata: Union[np.ndarray, pd.Series, Sequence[str], None] = None,
+    min_components: int = 1,
 ) -> PLSDAResult:
     """
     Run canonical double-nested cross-validation for PLS-DA.
@@ -253,7 +254,8 @@ def plsda_doubleCV(
     n_repeats: int
         Number of repeats of the K-fold outer CV. Default: 30.
     max_components: int
-        Maximum number of LV to test (candidates are 1..max_components-1). Default: 50.
+        Maximum number of LV to test (candidates are
+        ``min_components..max_components-1``). Default: 50.
     random_state: int
         For reproducibility. Default: 1203.
     n_jobs: int
@@ -283,6 +285,15 @@ def plsda_doubleCV(
         depend only on the partition the labels define, so labels that
         partition the rows like ``y`` reproduce the default folds. Default:
         None (stratify on ``y``).
+    min_components: int
+        Keyword-only. The smallest number of latent variables the inner CV
+        considers, so the candidates are ``min_components..max_components-1``
+        and every outer-fold selection, every modal ``LV`` and every refit
+        model has at least this many components. Must satisfy
+        ``1 <= min_components < max_components``; otherwise a ``ValueError``
+        names both values before any fold is fitted. Default: 1 (the
+        unfloored rule; the trajectory latent space applies its own floor,
+        see :func:`motco.simulations.evaluation.fit_pls_latent_space`).
 
     Returns
     -------
@@ -319,6 +330,17 @@ def plsda_doubleCV(
             f"max_components={max_components} exceeds the number of features in X "
             f"({_X_arr.shape[1]}); reduce max_components."
         )
+    try:
+        floor_ok = int(min_components) == min_components and 1 <= min_components < max_components
+    except (TypeError, ValueError):
+        floor_ok = False
+    if not floor_ok:
+        raise ValueError(
+            f"min_components={min_components!r} must be an integer with "
+            f"1 <= min_components < max_components={max_components}; the candidates are "
+            "min_components..max_components-1."
+        )
+    min_components = int(min_components)
     if not np.all(np.isfinite(_X_arr)):
         raise ValueError("X contains NaN or Inf values.")
     if nuisance is not None and nuisance.n_samples != _n_x:
@@ -336,7 +358,7 @@ def plsda_doubleCV(
     )
     cv1 = StratifiedKFold(n_splits=cv1_splits)
 
-    n_lv_candidates = list(range(1, max_components))
+    n_lv_candidates = list(range(min_components, max_components))
     n_candidates = len(n_lv_candidates)
 
     rep_means: list[float] = []
@@ -407,8 +429,9 @@ def plsda_doubleCV(
             inner_aurocs[v_idx, :] = fold_aurocs
 
         mean_per_n_lv = inner_aurocs.mean(axis=0)
-        # np.argmax returns the first occurrence on ties → parsimony.
-        n_lv_star = int(np.argmax(mean_per_n_lv)) + 1
+        # np.argmax returns the first occurrence on ties → parsimony. Select
+        # by value so the floor is a property of the candidate set.
+        n_lv_star = n_lv_candidates[int(np.argmax(mean_per_n_lv))]
 
         outer_score = float(
             auroc(n_lv_star, X_rest_fit, yd_rest, X_test_fit, yd_test)  # type: ignore[arg-type]

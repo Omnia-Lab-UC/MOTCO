@@ -50,9 +50,10 @@ from motco.simulations.study.targets import evaluate_targets, write_target_repor
 def _smoke_config() -> StudyConfig:
     return StudyConfig(
         generator=SemiSyntheticTrajectoryParams(seed=2, trajectory_mode="magnitude", group_effect_size=0.1),
-        # PC1 pinned: the byte-identity checks below compare against pre-flip outputs.
+        # PC1 and the unfloored rank rule pinned: the byte-identity checks below
+        # compare against pre-flip outputs, whose cell ids hash neither default.
         evaluation=SimulationEvaluationParams(
-            integration_method="concat", permutations=0, seed=3, orientation_estimator="pc1"
+            integration_method="concat", permutations=0, seed=3, orientation_estimator="pc1", min_components=1
         ),
         trajectory_modes=("magnitude",),
         effect_sizes=(0.1, 0.5),

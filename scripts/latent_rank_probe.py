@@ -226,6 +226,7 @@ def run_rank_cell(
                     n_jobs=1,
                     seed=base_seed + rep,
                     orientation_estimator="pc1",  # committed probe measured PC1 angle
+                    min_components=1,  # committed probe ran the unfloored rank rule (2026-09-02 report)
                 ),
             )
         except Exception as exc:  # infeasible rank for this sample, or a failed fit

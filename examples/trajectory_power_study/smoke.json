@@ -13,6 +13,7 @@
   "evaluation": {
     "integration_method": "concat",
     "orientation_estimator": "pc1",
+    "min_components": 1,
     "permutations": 49,
     "n_jobs": 1,
     "seed": 3

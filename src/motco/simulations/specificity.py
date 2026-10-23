@@ -159,6 +159,7 @@ def evaluate_mode_specificity(
         integration_method=integration_method,  # type: ignore[arg-type]
         integration_params=int_params,
         orientation_estimator="pc1",  # historical diagnostic: PC1 angle
+        min_components=1,  # historical diagnostic: unfloored rank rule
     )
     rejections = {stat: 0 for stat in STATISTICS}
     available = {stat: 0 for stat in STATISTICS}
@@ -185,6 +186,7 @@ def evaluate_mode_specificity(
                 integration_method=integration_method,  # type: ignore[arg-type]
                 integration_params=int_params,
                 orientation_estimator="pc1",  # historical diagnostic: PC1 angle
+                min_components=1,  # historical diagnostic: unfloored rank rule
             ),
         )
         for stat in STATISTICS:
@@ -319,6 +321,7 @@ def evaluate_shape_null(
                 seed=base_seed + rep,
                 include_null_distributions=True,
                 orientation_estimator="pc1",  # historical diagnostic: PC1 angle
+                min_components=1,  # historical diagnostic: unfloored rank rule
             ),
         )
         obs = result.pair_statistics.get("shape")

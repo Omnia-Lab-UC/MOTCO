@@ -24,6 +24,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from motco.analysis import (
     OmicsBlock,
@@ -73,16 +74,19 @@ def _identity_dataset(*, covariates: bool = False) -> TrajectoryDataset:
     )
 
 
-def _identity_params() -> TrajectoryAnalysisParams:
-    return TrajectoryAnalysisParams(
-        permutations=99, seed=7, cv2_splits=3, cv1_splits=2, n_repeats=2, max_components=5
+def _identity_params(**overrides: Any) -> TrajectoryAnalysisParams:
+    # ``min_components=1`` names the unfloored rank rule both fixtures were captured under.
+    params: dict[str, Any] = dict(
+        permutations=99, seed=7, cv2_splits=3, cv1_splits=2, n_repeats=2, max_components=5, min_components=1
     )
+    params.update(overrides)
+    return TrajectoryAnalysisParams(**params)
 
 
-def capture_identity(out_dir: Path, *, covariates: bool = False) -> dict[str, Any]:
+def capture_identity(out_dir: Path, *, covariates: bool = False, **overrides: Any) -> dict[str, Any]:
     """Run the fixed analysis, write its artifact to ``out_dir`` and return the identity payload."""
 
-    result = analyze_trajectories(_identity_dataset(covariates=covariates), _identity_params())
+    result = analyze_trajectories(_identity_dataset(covariates=covariates), _identity_params(**overrides))
     paths = write_analysis_outputs(result, out_dir, overwrite=True)
     record = json.loads(paths["result"].read_text(encoding="utf-8"))
     record.pop("software")
@@ -95,6 +99,8 @@ def test_no_covariate_analysis_is_byte_identical_to_0_7_0(tmp_path: Path) -> Non
     expected = json.loads(FIXTURE.read_text(encoding="utf-8"))
     observed = capture_identity(tmp_path)
     assert "covariates" not in observed["record"]
+    assert "min_components" not in observed["record"]["params"]
+    assert "min_components" not in observed["record"]["latent"]["integration_params"]
     _assert_close(observed["record"], expected["record"], "record")
     _assert_close(observed["csv"], expected["csv"], "csv")
 
@@ -107,6 +113,17 @@ def test_covariate_analysis_without_latent_adjustment_is_byte_identical_to_0_8_0
     assert "covariate_latent_adjustment" not in observed["record"]["params"]
     _assert_close(observed["record"], expected["record"], "record")
     _assert_close(observed["csv"], expected["csv"], "csv")
+
+
+@pytest.mark.parametrize("covariates", [False, True], ids=["0.7.0", "0.8.0"])
+def test_default_floor_lifts_the_identity_datasets_to_rank_two(tmp_path: Path, covariates: bool) -> None:
+    """The same datasets, at the default floor, select rank >= 2 and record the floor."""
+
+    observed = capture_identity(tmp_path, covariates=covariates, min_components=2)
+    assert observed["record"]["params"]["min_components"] == 2
+    assert observed["record"]["latent"]["integration_params"]["min_components"] == 2
+    assert observed["record"]["latent"]["selected_lv"] >= 2
+    assert TrajectoryAnalysisParams().min_components == 2  # the release default
 
 
 if __name__ == "__main__":

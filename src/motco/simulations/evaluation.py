@@ -133,8 +133,21 @@ class SimulationEvaluationParams:
     # an explicit ``"pc1"`` normalizes to it, so PC1 cell ids, signatures and
     # records equal those produced before the field existed.
     orientation_estimator: str | None = "net_displacement"
+    # Rank floor of the PLS latent space: the double CV selects from the
+    # candidates ``min_components … max_components − 1``. The default is 2, so
+    # ``angle`` and ``shape`` are measured in at least two dimensions; it is
+    # hashed into cell ids and signatures and recorded in ``runtime_metadata``.
+    # ``None`` is the hash-omitted spelling of the unfloored rule (floor 1,
+    # ``grid._SIGNATURE_OMIT_WHEN_NONE``) and an explicit ``1`` normalizes to it,
+    # so floor-1 cell ids, signatures and records equal those produced before
+    # the field existed. PLS only; the other integration methods ignore it.
+    min_components: int | None = 2
 
     def __post_init__(self) -> None:
+        floor = self.min_components
+        if floor is not None:
+            floor = _validate_min_components(floor, where="SimulationEvaluationParams.min_components")
+            object.__setattr__(self, "min_components", None if floor == 1 else floor)
         estimator = self.orientation_estimator
         if estimator is None:
             return
@@ -151,6 +164,28 @@ class SimulationEvaluationParams:
         """The estimator name the statistics are computed with."""
 
         return self.orientation_estimator or "pc1"
+
+    @property
+    def resolved_min_components(self) -> int:
+        """The rank floor the PLS cross-validation runs with (1 when hash-omitted)."""
+
+        return self.min_components or 1
+
+
+def _validate_min_components(value: Any, *, where: str) -> int:
+    """An integer rank floor of at least 1, or a clear error naming ``where``."""
+
+    if isinstance(value, bool) or not isinstance(value, (int, np.integer)):
+        try:
+            exact = int(value) == value and not isinstance(value, bool)
+        except (TypeError, ValueError):
+            exact = False
+        if not exact:
+            raise SimulationEvaluationError(f"{where} must be an integer of at least 1, got {value!r}.")
+    floor = int(value)
+    if floor < 1:
+        raise SimulationEvaluationError(f"{where} must be an integer of at least 1, got {value!r}.")
+    return floor
 
 
 #: Version of the JSON-safe integration metadata contract persisted per replicate.
@@ -398,6 +433,8 @@ def evaluate_semisynthetic_trajectory(
     }
     if params.orientation_estimator is not None:
         runtime_metadata["orientation_estimator"] = params.orientation_estimator
+    if params.min_components is not None:
+        runtime_metadata["min_components"] = params.min_components
     latent_checkpoint = _LATENT_CHECKPOINTS.get(params.integration_method)
     realized_geometry = calculate_realized_geometry(
         dataset,
@@ -521,6 +558,7 @@ def integrate_semisynthetic_dataset(
             stage_col=params.stage_col,
             observed_blocks=observed_blocks,
             preprocessor=preprocessor,
+            min_components=params.resolved_min_components,
         )
     if method == "pca":
         return _pca_integration(dataset, params.integration_params, observed_blocks)
@@ -766,11 +804,13 @@ def _pls_integration(
     stage_col: str,
     observed_blocks: Mapping[OmicsLayer, pd.DataFrame],
     preprocessor: FittedOmicsPreprocessor,
+    min_components: int = 2,
 ) -> LatentIntegrationResult:
     """Build the PLS latent space for a semi-synthetic dataset.
 
     Adapter over :func:`fit_pls_latent_space`: reads the dataset's blocks,
-    stage labels and sample ids, and hands them to the shared core.
+    stage labels and sample ids, and hands them to the shared core together
+    with the evaluation's resolved rank floor.
     """
     if stage_col not in dataset.metadata.columns:
         raise SimulationEvaluationError(
@@ -790,6 +830,7 @@ def _pls_integration(
         layers_metadata=_layers_metadata(integration_params),
         original_scales=_joint_original_scales(preprocessor.scalers, preprocessor.layers, X.columns),
         methylation_units=preprocessor.methylation_units,
+        min_components=min_components,
     )
 
 
@@ -805,6 +846,7 @@ def fit_pls_latent_space(
     original_scales: np.ndarray,
     methylation_units: str,
     nuisance: NuisanceDesign | None = None,
+    min_components: int = 2,
 ) -> LatentIntegrationResult:
     """Build the PLS molecular latent space (stage-conditioned, double-CV-sized).
 
@@ -814,6 +856,18 @@ def fit_pls_latent_space(
     variables is selected by ``plsda_doubleCV`` (modal LV across repeats,
     parsimony tie-break) so the molecular space is stable and non-overfitted —
     the space in which trajectory geometry is then measured.
+
+    ``min_components`` (default 2) is the rank floor: the cross-validation
+    considers only the candidates ``min_components … max_components − 1``, so
+    every outer-fold selection, the modal rank and the pooled fit are at or
+    above it and ``angle`` / ``shape`` are measured in a space of at least two
+    dimensions. ``max_components`` is clamped to
+    ``[min_components + 1, min(n_features, n_samples)]``; a sample that cannot
+    satisfy the floor is an error naming the floor and the counts, never a
+    silently lower rank. A floor of 1 is the unfloored rule and leaves the
+    metadata unchanged; a floor above 1 is recorded in
+    ``integration_params["min_components"]``. The floor guarantees two
+    dimensions, not a second axis with signal.
 
     ``integration_params["forced_components"]`` overrides that selection for
     rank diagnostics only: cross-validation is skipped entirely and the pooled
@@ -842,6 +896,7 @@ def fit_pls_latent_space(
     the real-data entry point (:mod:`motco.analysis`); it never reads a dataset.
     """
 
+    min_components = _validate_min_components(min_components, where="PLS integration: min_components")
     n_samples, n_features = X.shape
     stage_counts = y.value_counts()
     if len(stage_counts) < 2 or int(stage_counts.min()) < 2:
@@ -882,9 +937,19 @@ def fit_pls_latent_space(
     else:
         # Cross-validation knobs (configurable; clamped to a feasible range so the
         # stratified folds stay valid on small samples). Effective values are
-        # recorded in the result metadata.
+        # recorded in the result metadata. The maximum must exceed the rank
+        # floor so at least one candidate exists; a sample too small for the
+        # floor is an error, not a lower rank.
+        if max_feasible_components < min_components + 1:
+            raise SimulationEvaluationError(
+                f"PLS integration: the rank floor min_components={min_components} needs at least "
+                f"{min_components + 1} features and samples for cross-validation; this sample has "
+                f"{n_features} feature(s) and {n_samples} sample(s)."
+            )
         max_components = _clamp_int(
-            integration_params.get("max_components", 20), minimum=2, maximum=max_feasible_components
+            integration_params.get("max_components", 20),
+            minimum=min_components + 1,
+            maximum=max_feasible_components,
         )
         cv2_splits = _clamp_int(integration_params.get("cv2_splits", 4), minimum=2, maximum=min_stage_count)
         # Samples per stage left after removing one outer test fold (conservative).
@@ -910,6 +975,7 @@ def fit_pls_latent_space(
                 random_state=random_state,
                 n_jobs=n_jobs,
                 progress=False,
+                min_components=min_components,
                 **cv_nuisance,
             )
         except ValueError as exc:
@@ -925,6 +991,9 @@ def fit_pls_latent_space(
             "max_components": max_components,
             "random_state": random_state,
         }
+        if min_components > 1:
+            # A floor of 1 is the pre-floor rule: its metadata stays byte-identical.
+            cv_params["min_components"] = min_components
 
     # One final pooled fit. Its training scores are the trajectory measurement
     # matrix *and* the same fitted estimator is handed to attribution, so both
