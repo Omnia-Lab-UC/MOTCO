@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from motco.simulations import SemiSyntheticTrajectoryParams, SimulationEvaluationParams
+from motco.simulations import SemiSyntheticTrajectoryParams, SimulationEvaluationError, SimulationEvaluationParams
 from motco.simulations.grid import derive_replicate_seed, parameter_signature
 from motco.simulations.study import (
     DesignGrid,
@@ -30,6 +30,7 @@ METHOD = "evaluation.integration_method"
 FORCED = "evaluation.integration_params.forced_components"
 NCOMP = "evaluation.integration_params.n_components"
 EST = "evaluation.orientation_estimator"
+FLOOR = "evaluation.min_components"
 RHO = "generator.baseline_continuity"
 N = "generator.n_samples"
 
@@ -182,6 +183,78 @@ def test_pc1_baseline_with_a_net_displacement_point_enumerates_as_the_committed_
     unnamed_cells = enumerate_study(_load(tmp_path, plain)).cells
     assert all(c.evaluation_params.orientation_estimator == "net_displacement" for c in unnamed_cells)
     assert {c.cell_id for c in unnamed_cells}.isdisjoint({c.cell_id for c in plain_cells})
+
+
+# ── Rank floor: field and axis ────────────────────────────────────────────────
+
+
+def test_floor_spelling_in_a_config(tmp_path: Path) -> None:
+    plain = _raw({})
+    del plain["design_grid"]
+    assert "min_components" not in plain["evaluation"]
+    assert _load(tmp_path, plain).evaluation.min_components == 2  # omitted: the evaluator's default
+    plain["evaluation"]["min_components"] = 1
+    assert _load(tmp_path, plain).evaluation.min_components is None  # the unfloored rule, hash-omitted
+    plain["evaluation"]["min_components"] = None
+    assert _load(tmp_path, plain).evaluation.min_components == 2  # null names the default
+    plain["evaluation"]["min_components"] = 3
+    assert _load(tmp_path, plain).evaluation.min_components == 3
+    plain["evaluation"]["min_components"] = 0
+    # Anything but null and 1 passes through for the evaluator to validate.
+    with pytest.raises(SimulationEvaluationError, match="min_components must be an integer of at least 1"):
+        _load(tmp_path, plain)
+
+
+def test_floor_one_config_enumerates_as_a_config_from_before_the_floor(tmp_path: Path) -> None:
+    plain = _raw({})
+    del plain["design_grid"]
+    before = enumerate_study(_load(tmp_path, plain)).cells
+    plain["evaluation"]["min_components"] = 1
+    pinned = enumerate_study(_load(tmp_path, plain)).cells
+    # ``before`` is the default (floor 2): the pinned config must hash differently from it ...
+    assert {c.cell_id for c in pinned}.isdisjoint({c.cell_id for c in before})
+    # ... and identically to the same config evaluated with the field held as None.
+    assert all(c.evaluation_params.min_components is None for c in pinned)
+    assert all("min_components" not in parameter_signature(c) for c in pinned)
+
+
+def test_null_and_one_floor_are_distinct_points(tmp_path: Path) -> None:
+    raw = _raw({"points": [{FLOOR: 1}, {FLOOR: None}]}, evaluation={**_raw({})["evaluation"], "min_components": 1})
+    config = _load(tmp_path, raw)
+    assert config.evaluation.min_components is None
+    assert [point[FLOOR] for point in config.design_points()] == [None, 2]
+    assert config.baseline_design_point()[FLOOR] is None
+    with pytest.raises(StudyConfigError, match=r"duplicates design_grid.points\[1\].*min_components.*null names"):
+        _load(tmp_path, _raw({"points": [{FLOOR: 1}, {FLOOR: 2}, {FLOOR: None}]},
+                             evaluation={**_raw({})["evaluation"], "min_components": 1}))
+
+
+def test_null_floor_point_is_the_baseline_when_the_baseline_omits_the_floor(tmp_path: Path) -> None:
+    config = _load(tmp_path, _raw({"points": [{FLOOR: None}, {FLOOR: 1}]}))
+    assert config.evaluation.min_components == 2
+    assert config.baseline_design_point() == {FLOOR: 2}
+    cells = enumerate_study(config).cells
+    primary = [cell for cell in cells if cell.phase != DESIGN_PHASE]
+    design = [cell for cell in cells if cell.phase == DESIGN_PHASE]
+    assert primary and design
+    assert all(cell.evaluation_params.min_components == 2 for cell in primary)
+    assert {json.dumps(cell.metadata[DESIGN_POINT_KEY]) for cell in design} == {json.dumps({FLOOR: None})}
+    assert all(cell.evaluation_params.min_components is None for cell in design)
+
+
+def test_floor_axis_round_trips_through_dump(tmp_path: Path) -> None:
+    raw = _raw({"points": [{FLOOR: 1}, {FLOOR: 2}]}, evaluation={**_raw({})["evaluation"], "min_components": 1})
+    config = _load(tmp_path, raw)
+    dumped = tmp_path / "dumped.json"
+    dump_study_config(config, dumped)
+    payload = json.loads(dumped.read_text(encoding="utf-8"))
+    assert payload["evaluation"]["min_components"] == 1  # never written as null, which would mean the default
+    assert payload["design_grid"] == {"points": [{FLOOR: 1}, {FLOOR: 2}]}
+    reloaded = load_study_config(dumped)
+    assert reloaded.design_points() == [{FLOOR: None}, {FLOOR: 2}]
+    assert [cell.cell_id for cell in enumerate_study(reloaded).cells] == [
+        cell.cell_id for cell in enumerate_study(config).cells
+    ]
 
 
 def test_missing_baseline_point_is_rejected(tmp_path: Path) -> None:

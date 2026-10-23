@@ -48,6 +48,7 @@ def run_phase2_characterization(
         integration_params=dict(config.integration_params),
         permutations=0,
         orientation_estimator="pc1",  # historical results measured PC1 angle
+        min_components=1,  # historical results ran the unfloored rank rule
     )
     for mode, shape_kind in PHASE2_CONSTRUCTIONS:
         for effect_size in config.effect_sizes:

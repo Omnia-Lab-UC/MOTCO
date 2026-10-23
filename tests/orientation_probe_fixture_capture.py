@@ -36,6 +36,7 @@ EVALUATIONS = {
         seed=7,
         include_null_distributions=True,
         orientation_estimator="pc1",
+        min_components=1,  # the fixture predates the rank floor
     ),
     "snf": SimulationEvaluationParams(
         integration_method="snf",
@@ -43,6 +44,7 @@ EVALUATIONS = {
         seed=7,
         include_null_distributions=True,
         orientation_estimator="pc1",
+        min_components=1,  # the fixture predates the rank floor
     ),
     "pls": SimulationEvaluationParams(
         integration_method="pls",
@@ -51,6 +53,7 @@ EVALUATIONS = {
         seed=7,
         include_null_distributions=True,
         orientation_estimator="pc1",
+        min_components=1,  # the fixture predates the rank floor
     ),
 }
 

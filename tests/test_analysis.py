@@ -157,6 +157,55 @@ def test_bad_group_order_and_estimator_are_rejected() -> None:
         TrajectoryAnalysisParams(orientation_estimator="procrustes")
 
 
+# ── Rank floor ───────────────────────────────────────────────────────────────
+
+
+@pytest.mark.parametrize("floor", [0, 2.5, -1, True])
+def test_invalid_rank_floor_is_rejected_before_fitting(monkeypatch, floor) -> None:
+    from motco import analysis
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("the latent space must not be fitted when the floor is invalid")
+
+    monkeypatch.setattr(analysis, "fit_pls_latent_space", forbidden)
+    with pytest.raises(TrajectoryAnalysisError, match="min_components must be an integer of at least 1"):
+        analyze_trajectories(make_dataset(), TrajectoryAnalysisParams(min_components=floor, **SMALL_CV))
+
+
+def test_rank_floor_spelling() -> None:
+    assert TrajectoryAnalysisParams().min_components == 2
+    assert TrajectoryAnalysisParams().resolved_min_components == 2
+    one = TrajectoryAnalysisParams(min_components=1)
+    assert one.min_components is None and one.resolved_min_components == 1
+    assert "min_components" not in one.to_dict()
+    assert TrajectoryAnalysisParams(min_components=3).to_dict()["min_components"] == 3
+
+
+def test_default_floor_is_recorded_and_selects_rank_two(result) -> None:
+    record = result.record
+    assert record["params"]["min_components"] == 2
+    assert record["latent"]["integration_params"]["min_components"] == 2
+    assert record["latent"]["selected_lv"] >= 2
+    assert result.latent_scores.shape[1] >= 2
+
+
+def test_floor_of_one_omits_the_key_from_params_and_latent() -> None:
+    out = analyze_trajectories(make_dataset(), TrajectoryAnalysisParams(min_components=1, **SMALL_CV))
+    assert "min_components" not in out.record["params"]
+    assert "min_components" not in out.record["latent"]["integration_params"]
+    assert out.record["latent"]["selected_lv"] >= 1
+
+
+def test_named_floor_is_honoured_and_forced_rank_ignores_it() -> None:
+    three = analyze_trajectories(make_dataset(), TrajectoryAnalysisParams(min_components=3, **SMALL_CV))
+    assert three.record["latent"]["selected_lv"] >= 3
+    assert three.record["latent"]["integration_params"]["min_components"] == 3
+    forced = analyze_trajectories(make_dataset(), TrajectoryAnalysisParams(forced_components=2, min_components=3))
+    assert forced.record["latent"]["selected_lv"] == 2
+    assert forced.record["latent"]["component_selection"] == "forced"
+    assert forced.record["params"]["min_components"] == 3
+
+
 # ── Measurement record ───────────────────────────────────────────────────────
 
 
@@ -373,11 +422,14 @@ def _assert_equivalent(harness_result, analysis_result) -> None:
     ]
 
 
-def _run_pair(dataset, *, estimator=None, layers=None):
+def _run_pair(dataset, *, estimator=None, layers=None, floor=None):
+    """The harness and the analysis on one dataset; ``floor=None`` leaves both at their defaults."""
+
     integration_params = dict(SMALL_CV)
     if layers is not None:
         integration_params["layers"] = list(layers)
     harness_kwargs = {} if estimator is None else {"orientation_estimator": estimator}
+    floor_kwargs = {} if floor is None else {"min_components": floor}
     harness = evaluate_semisynthetic_trajectory(
         dataset,
         SimulationEvaluationParams(
@@ -386,42 +438,59 @@ def _run_pair(dataset, *, estimator=None, layers=None):
             permutations=49,
             seed=11,
             **harness_kwargs,
+            **floor_kwargs,
         ),
     )
     analysis_kwargs = {} if estimator is None else {"orientation_estimator": estimator}
     analysis = analyze_trajectories(
         _as_trajectory_dataset(dataset, layers or ("methylation", "expression", "proteomics")),
-        TrajectoryAnalysisParams(permutations=49, seed=11, **SMALL_CV, **analysis_kwargs),
+        TrajectoryAnalysisParams(permutations=49, seed=11, **SMALL_CV, **analysis_kwargs, **floor_kwargs),
     )
     return harness, analysis
 
 
-def test_matches_harness_default_estimator(synthetic) -> None:
+FLOORS = pytest.mark.parametrize("floor", [None, 1], ids=["default_floor", "floor_1"])
+
+
+@FLOORS
+def test_matches_harness_default_estimator(synthetic, floor) -> None:
     from motco.simulations.evaluation import integrate_semisynthetic_dataset
 
-    harness, analysis = _run_pair(synthetic)
+    harness, analysis = _run_pair(synthetic, floor=floor)
     _assert_equivalent(harness, analysis)
+    floor_kwargs = {} if floor is None else {"min_components": floor}
     latent = integrate_semisynthetic_dataset(
-        synthetic, SimulationEvaluationParams(integration_method="pls", integration_params=SMALL_CV)
+        synthetic,
+        SimulationEvaluationParams(integration_method="pls", integration_params=SMALL_CV, **floor_kwargs),
     )
     assert np.array_equal(latent.matrix.to_numpy(), analysis.latent_scores.to_numpy())
     assert analysis.record["measurement"]["orientation_estimator"] == "net_displacement"
+    if floor is None:
+        assert analysis.record["latent"]["selected_lv"] >= 2
+        assert harness.runtime_metadata["min_components"] == 2
+    else:
+        assert "min_components" not in harness.runtime_metadata
 
 
-def test_matches_harness_pc1(synthetic) -> None:
-    harness, analysis = _run_pair(synthetic, estimator="pc1")
+@FLOORS
+def test_matches_harness_pc1(synthetic, floor) -> None:
+    harness, analysis = _run_pair(synthetic, estimator="pc1", floor=floor)
     _assert_equivalent(harness, analysis)
 
 
-def test_matches_harness_layer_selection(synthetic) -> None:
+@FLOORS
+def test_matches_harness_layer_selection(synthetic, floor) -> None:
     from motco.simulations.evaluation import integrate_semisynthetic_dataset
 
     layers = ("methylation", "expression")
-    harness, analysis = _run_pair(synthetic, layers=layers)
+    harness, analysis = _run_pair(synthetic, layers=layers, floor=floor)
     _assert_equivalent(harness, analysis)
+    floor_kwargs = {} if floor is None else {"min_components": floor}
     latent = integrate_semisynthetic_dataset(
         synthetic,
-        SimulationEvaluationParams(integration_method="pls", integration_params={**SMALL_CV, "layers": list(layers)}),
+        SimulationEvaluationParams(
+            integration_method="pls", integration_params={**SMALL_CV, "layers": list(layers)}, **floor_kwargs
+        ),
     )
     assert np.array_equal(latent.matrix.to_numpy(), analysis.latent_scores.to_numpy())
 

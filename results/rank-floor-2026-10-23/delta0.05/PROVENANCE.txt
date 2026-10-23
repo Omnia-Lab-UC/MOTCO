@@ -1,0 +1,25 @@
+rank-floor check, delta=0.05 (openspec change minimum-latent-rank, design D7)
+submitted: 2026-10-23T14:02:45Z on ing, partition 512x1024, array 0-99 (100 shards), job 925691
+command: scripts/rank_floor_array.sbatch with RANK_FLOOR_ARGS="--delta-methyl 0.05 --delta-expr 0.05 --delta-protein 0.05" (reps 500, perms 999, base seed 2026)
+code: local main @ 0a15d44 plus the minimum-latent-rank working tree, rsynced over this checkout (git HEAD here: 979657c, working tree modified)
+tree hash (sha256 of sha256sums of src/ scripts/ tests/ examples/ *.py *.json *.sbatch): 4bcc95fa18eaf7a4
+settings hash: 382af0e5bf1f155aa4437a7a1bf7a1362107b28bb7c388a61ec3422aab7c52a4
+python: Python 3.11.16; numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3
+
+completed: 2026-10-23 ~15:1x UTC; 100/100 tasks COMPLETED exit 0, 7000/7000 units, 0 arm failures; core-hours: 53.0 recorded (75.0 elapsed incl. SLURM overhead)
+merged: python scripts/rank_floor_check.py merge --out-dir results/rank-floor-2026-10-23/delta0.05 > merge.json (on ing); records/ and merged.jsonl are gitignored
+decision: adopt_floor
+
+sha256 of the files that define the measurement (identical on ing and the workstation; tree hash 4bcc95fa18eaf7a4):
+48f8713cbe39401e6b9c36e0edaa2b5b8eb4bbd5342545beb2d63cbe4261b6a1  scripts/rank_floor_check.py
+cc2d08531a2b9e7d9471e88da86813bf7f6d95d1e1488836a6f2e741804ec748  scripts/covariate_type_i_check.py
+e9463200f4c6e874112e5339ef716bc9b164a1318b13745598ceb4cbf64b57be  src/motco/analysis.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+837f41351ca8bb35ef91f1146c48d5fa504aaac85079c417cf26e86992939ef9  src/motco/simulations/evaluation.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+e69a37b40b47f077fdc7f8d9c2bf7df1a6444b68421cf17066551a351efcb62a  src/motco/stats/permutation.py
+
+Not committed: records/, merged.jsonl, rank_floor_pvalues.csv (1.5 MB) and rank_floor_replicates.csv (1.2 MB).
+They remain under /home1/tgonza/MOTCO/results/rank-floor-2026-10-23/delta0.05/ on ing, and `rank_floor_check.py merge` regenerates every table from records/.

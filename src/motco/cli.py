@@ -90,6 +90,7 @@ def cmd_plsr(args: argparse.Namespace) -> None:
             n_repeats=args.n_repeats,
             max_components=args.max_components,
             random_state=args.random_state,
+            min_components=args.min_components,
         )
     except ValueError as e:
         raise SystemExit(f"Error: {e}") from None
@@ -316,6 +317,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
                 top_k=args.top_k,
             ),
             covariate_latent_adjustment=args.latent_adjustment,
+            min_components=args.min_components,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -326,8 +328,8 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     latent = record["latent"]
     print(
         f"Latent space: PLS-DA, {latent['selected_lv']} component(s) "
-        f"({latent['component_selection']}); orientation estimator: "
-        f"{record['measurement']['orientation_estimator']}"
+        f"({latent['component_selection']}; rank floor {params.resolved_min_components}); "
+        f"orientation estimator: {record['measurement']['orientation_estimator']}"
     )
     print(f"Groups: {record['design']['group_levels']}; stages: {record['design']['stage_levels']}")
     if "covariates" in record:
@@ -455,6 +457,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_plsr.add_argument("--cv2-splits", type=int, default=8)
     p_plsr.add_argument("--n-repeats", type=int, default=30)
     p_plsr.add_argument("--max-components", type=int, default=50)
+    p_plsr.add_argument("--min-components", type=int, default=1,
+                        help="Smallest number of latent variables CV considers; candidates are "
+                             "MIN..MAX-1 (default: 1)")
     p_plsr.add_argument("--random-state", type=int, default=1203)
     p_plsr.add_argument("--out-table", type=str, help="Path to save the best models table (CSV)")
     p_plsr.add_argument("--out-vips", type=str, default=None, help="Path to save VIP scores per feature (CSV)")
@@ -561,6 +566,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_an.add_argument("--n-jobs", type=int, default=1, help="Parallel jobs for CV and RRPP (-1 = all CPUs)")
     p_an.add_argument("--forced-components", type=int, default=None,
                       help="Fix the latent rank and skip cross-validation (dimensionality sensitivity)")
+    p_an.add_argument("--min-components", type=int, default=2,
+                      help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
+                           "(default: 2; 1 restores the unfloored 0.9.0 rule)")
     p_an.add_argument("--orientation-estimator", type=str, default="net_displacement",
                       choices=["net_displacement", "pc1"], help="Orientation estimator (default: net_displacement)")
     p_an.add_argument("--attribution", action="store_true", help="Run frozen-model orientation attribution")

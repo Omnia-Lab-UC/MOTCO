@@ -43,11 +43,17 @@ labels or cell at fault.
 
 The latent space is fitted once on all samples, with the rank chosen by double
 cross-validation (the modal rank across outer repeats, the smaller rank winning
-ties). The defaults are the ones the operating studies ran: `cv2_splits=4`,
-`cv1_splits=3`, `n_repeats=5`, `max_components=20`, `random_state=1203`, each
-clamped to what the smallest stage can support. `forced_components` fixes the
-rank and skips cross-validation for the dimensionality sensitivity analysis;
-the record then says `component_selection: "forced"`.
+ties) from the candidate ranks at or above the **rank floor**, `min_components=2`
+by default (CLI `--min-components`), so `angle` and `shape` are measured in a
+space of at least two dimensions. `min_components=1` restores the unfloored
+0.9.0 rule and reproduces every 0.9.0 record and table byte for byte; a floor
+below 1 is rejected before anything is fitted. The CV defaults are the ones the
+operating studies ran: `cv2_splits=4`, `cv1_splits=3`, `n_repeats=5`,
+`max_components=20`, `random_state=1203`, each clamped to what the smallest
+stage can support (`max_components` to at least the floor plus one; a sample
+that cannot satisfy the floor is an error naming the counts). `forced_components`
+fixes the rank and skips cross-validation for the dimensionality sensitivity
+analysis, ignoring the floor; the record then says `component_selection: "forced"`.
 
 `record` (written as `result.json`) holds:
 
@@ -56,7 +62,7 @@ the record then says `component_selection: "forced"`.
 | `statistics`, `p_values` | `delta`, `angle`, `shape` and their RRPP p-values (`shape` is `null` with two stages) |
 | `null_summary` | per statistic: retained draws, mean, sd, 50/90/95/99 % quantiles of the permutation null |
 | `config_spectrum` | eigenspectrum of the latent stage-mean configuration, pooled and per group, plus the permutation eigengap summary |
-| `latent` | `selected_lv`, `component_selection`, CV settings, `cv_mean_auroc`, feature counts, `feature_order_signature` |
+| `latent` | `selected_lv`, `component_selection`, CV settings (`min_components` beside them when the floor is above 1), `cv_mean_auroc`, feature counts, `feature_order_signature` |
 | `design` | group and ordered stage levels, cell sizes per group × stage, contrast, analysed sample count |
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
@@ -69,11 +75,28 @@ interpretable relative to the space it was measured in. The null summary shows
 how wide the observed statistic's own null was, and the relative eigengap in the
 spectrum indicates whether a group's orientation is resolvable at all.
 
+**The floor guarantees two dimensions, not a second axis with signal.** Under
+the unfloored rule a weak stage signal makes every candidate rank tie near an
+AUROC of 0.5 and parsimony selects rank 1, where the two groups' orientations
+are parallel or antiparallel by construction, `angle` is 0° or 180°, its RRPP
+null is a two-point distribution, and collinear stage means carry no bend for
+`shape`; both SEA-AD cohorts selected rank 1. With the floor, when the stage
+signal supports one component the second is the best of the remaining
+candidates, and `angle`'s null widens accordingly. Read the record's
+`config_spectrum` relative eigengap and `null_summary.angle` together: they say
+how resolvable orientation is in each analysis. The floor was validated on a
+small-n construction calibrated to select rank 1 by `scripts/rank_floor_check.py`
+(`rank_floor_decision.json`), with the floor-1 arm reported beside it: the
+2026-10-23 run returned `adopt_floor` at both calibrated strengths
+([report](../reports/rank-floor-2026-10-23.md)), with power at the null in both
+arms, so the floor defines `angle` and `shape` without making them powerful.
+
 ## Equivalence to the simulation harness
 
 `analyze_trajectories` and `evaluate_semisynthetic_trajectory(...,
 integration_method="pls")` call the same block-scaling cores and the same
-`fit_pls_latent_space`. On identical data, stage order and settings they return
+`fit_pls_latent_space`. On identical data, stage order and settings, the rank
+floor included, they return
 the same latent matrix, statistics, p-values, selected rank, null summary and
 spectrum. `tests/test_analysis.py` checks this for the default estimator, PC1
 and a two-block layer selection.

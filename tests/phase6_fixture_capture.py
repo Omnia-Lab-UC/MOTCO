@@ -36,10 +36,13 @@ DATASET_PARAMS = {
 }
 
 EVALUATIONS = {
+    # ``min_components=1`` pins the unfloored rank rule the fixture was captured under.
     "concat": SimulationEvaluationParams(
-        integration_method="concat", permutations=9, seed=5, orientation_estimator="pc1"
+        integration_method="concat", permutations=9, seed=5, orientation_estimator="pc1", min_components=1
     ),
-    "snf": SimulationEvaluationParams(integration_method="snf", permutations=9, seed=5, orientation_estimator="pc1"),
+    "snf": SimulationEvaluationParams(
+        integration_method="snf", permutations=9, seed=5, orientation_estimator="pc1", min_components=1
+    ),
     "pls": SimulationEvaluationParams(
         integration_method="pls",
         integration_params={"n_repeats": 2},
@@ -47,6 +50,7 @@ EVALUATIONS = {
         seed=5,
         attribution=AttributionDiagnosticSettings(enabled=True, bootstrap_replicates=3, top_k=5),
         orientation_estimator="pc1",
+        min_components=1,
     ),
 }
 

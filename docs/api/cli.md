@@ -29,6 +29,7 @@ Run PLS-DA with double cross-validation. Input can be a single CSV (with `--data
 usage: motco plsr [-h] [--data DATA] [--label-col LABEL_COL] [--x X] [--y Y]
                   [--cv1-splits CV1_SPLITS] [--cv2-splits CV2_SPLITS]
                   [--n-repeats N_REPEATS] [--max-components MAX_COMPONENTS]
+                  [--min-components MIN_COMPONENTS]
                   [--random-state RANDOM_STATE] [--out-table OUT_TABLE]
                   [--out-vips OUT_VIPS]
 
@@ -42,6 +43,11 @@ options:
   --n-repeats N_REPEATS      Number of outer CV repeats
   --max-components MAX_COMPONENTS
                              Maximum latent variables to search
+  --min-components MIN_COMPONENTS
+                             Smallest number of latent variables CV considers; the
+                             candidates are MIN..MAX-1 (default: 1, the unfloored rule).
+                             A value below 1 or not below --max-components exits
+                             non-zero naming both values
   --random-state RANDOM_STATE
                              Random seed for reproducibility
   --out-table OUT_TABLE      Path to save the best models table (CSV)
@@ -177,6 +183,7 @@ usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      [--permutations PERMUTATIONS]
                      [--seed SEED] [--n-jobs N_JOBS]
                      [--forced-components FORCED_COMPONENTS]
+                     [--min-components MIN_COMPONENTS]
                      [--orientation-estimator {net_displacement,pc1}]
                      [--attribution]
                      [--bootstrap-replicates BOOTSTRAP_REPLICATES]
@@ -210,6 +217,9 @@ options:
   --seed SEED                RRPP seed
   --n-jobs N_JOBS            Parallel jobs for CV and RRPP (-1 = all CPUs)
   --forced-components K      Fix the latent rank and skip cross-validation
+  --min-components N         Rank floor of the cross-validated latent space: CV considers
+                             ranks N..MAX-1 (default: 2; 1 restores the unfloored 0.9.0 rule);
+                             a value below 1 exits non-zero
   --orientation-estimator {net_displacement,pc1}
                              Orientation estimator (default: net_displacement)
   --attribution              Run frozen-model orientation attribution
@@ -223,7 +233,8 @@ options:
 
 Blocks are analysed in the units supplied: MOTCO does not normalize counts,
 filter features or impute values. On success the command prints the selected
-rank, the estimator, the statistics with their p-values and the written paths;
+rank with its floor, the estimator, the statistics with their p-values and the
+written paths;
 with covariates it also prints each covariate's kind and the number of samples
 complete-case deletion dropped, and with `--latent-adjustment` the conditioning
 and the residual degrees of freedom of the residualization. Covariates are

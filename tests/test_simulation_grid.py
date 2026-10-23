@@ -464,7 +464,10 @@ def test_null_summary_does_not_enter_the_parameter_signature(tmp_path) -> None:
     ``orientation_estimator`` defaulted to ``net_displacement``
     (``default-net-displacement-orientation``): ``baseline_evaluation()`` names no
     estimator, so the default is hashed. Committed configs pin ``"pc1"``
-    (``tests/test_orientation_default_pins.py``).
+    (``tests/test_orientation_default_pins.py``). It moved again when the PLS
+    rank floor ``min_components`` defaulted to 2 (``minimum-latent-rank``):
+    ``baseline_evaluation()`` names no floor, so the default is hashed.
+    Committed configs pin ``1`` (``tests/test_rank_floor_default_pins.py``).
     """
 
     cell = make_simulation_cell(
@@ -474,9 +477,18 @@ def test_null_summary_does_not_enter_the_parameter_signature(tmp_path) -> None:
         n_replicates=2,
         cell_id="pinned",
     )
-    assert parameter_signature(cell) == "55e695c3321689aac97cd6de84c63c43f5e9afbb01d6cb96a0a413269287bae2"
-    # Pinning the former orientation default restores the pre-flip digest exactly.
-    pc1_evaluation = replace(baseline_evaluation(), orientation_estimator="pc1")
+    assert parameter_signature(cell) == "7cd15434da7da8430461ec10959099126f4e751e915b21aca989b89c1ee120fb"
+    # Pinning the former rank-floor default restores the pre-floor digest exactly.
+    unfloored = make_simulation_cell(
+        phase="type_i_baseline",
+        generator_params=baseline_generator(),
+        evaluation_params=replace(baseline_evaluation(), min_components=1),
+        n_replicates=2,
+        cell_id="pinned",
+    )
+    assert parameter_signature(unfloored) == "55e695c3321689aac97cd6de84c63c43f5e9afbb01d6cb96a0a413269287bae2"
+    # Pinning the former orientation default too restores the pre-orientation-flip digest exactly.
+    pc1_evaluation = replace(baseline_evaluation(), orientation_estimator="pc1", min_components=1)
     pinned_pc1 = make_simulation_cell(
         phase="type_i_baseline",
         generator_params=baseline_generator(),

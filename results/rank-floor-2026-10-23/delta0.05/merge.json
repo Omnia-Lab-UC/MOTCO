@@ -1,0 +1,61 @@
+{
+ "units": 7000,
+ "expected": 7000,
+ "missing": [],
+ "decision": "adopt_floor",
+ "verdicts": {
+  "anchor": {
+   "delta": "holds",
+   "angle": "holds",
+   "shape": "holds"
+  },
+  "translation": {
+   "delta": "holds",
+   "angle": "holds",
+   "shape": "holds"
+  }
+ },
+ "exceeding": [],
+ "controls": {
+  "anchor": {
+   "floor_1": {
+    "delta": 0.044,
+    "angle": 0.03,
+    "shape": 0.048
+   },
+   "floor_2": {
+    "delta": 0.042,
+    "angle": 0.054,
+    "shape": 0.036
+   }
+  },
+  "translation": {
+   "floor_1": {
+    "delta": 0.038,
+    "angle": 0.016,
+    "shape": 0.034
+   },
+   "floor_2": {
+    "delta": 0.036,
+    "angle": 0.046,
+    "shape": 0.026
+   }
+  }
+ },
+ "bound": {
+  "anchor": 0.06949358868961793,
+  "translation": 0.06949358868961793
+ },
+ "calibration": {
+  "rank1_fraction": 0.578,
+  "met": true
+ },
+ "one_dimensional_angle": {
+  "floor_1": 4257,
+  "floor_2": 0
+ },
+ "failures": {
+  "floor_1": 0,
+  "floor_2": 0
+ }
+}

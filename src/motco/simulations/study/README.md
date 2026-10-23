@@ -130,7 +130,9 @@ Validation enforces:
   `axes`; every point names exactly the first point's axes; no two points are
   equal after value normalization (for `evaluation.orientation_estimator`,
   `null` is the evaluator's default and so equals `"net_displacement"`, while
-  `"pc1"` names PC1 and is its own value); one point equals the baseline. Errors
+  `"pc1"` names PC1 and is its own value; for `evaluation.min_components`,
+  `null` is the evaluator's default and so equals `2`, while `1` names the
+  unfloored rank rule and is its own value); one point equals the baseline. Errors
   name the offending point (`design_grid.points[i]`) or axis. `axes` is derived
   from the points, so every axis-based rule above applies unchanged.
 - `acceptance.anchor_decision` has `0 < alpha < 1`, a positive
@@ -623,7 +625,14 @@ the key has a `null`/`"net_displacement"` baseline column. A `"pc1"` column
 writes records identical to a config from before the estimator existed (no
 `orientation_estimator` entry in `runtime_metadata`, and the selection is left
 out of signatures and cell ids); a net-displacement column records its
-estimator. `concat` and `pca` columns record no
+estimator. `evaluation.min_components` works the same way: `null` names the
+evaluator's default (`2`) and `1` the unfloored rank rule, whose evaluator value
+is the hash-omitted `None`; a `1` column writes records identical to a config
+from before the floor existed (no `min_components` entry in `runtime_metadata`
+or in the latent `integration_params`), a floor-2 column records the floor and
+selects ranks of at least 2 on the same datasets. Every committed config pins
+`"min_components": 1` beside `"pc1"` (`tests/test_rank_floor_default_pins.py`).
+`concat` and `pca` columns record no
 PLS component selection: `design_point_operating.csv` reports their rates,
 eigengap and `angle` null width and leaves `component_selection` and the
 selected-rank fields empty, and the rank ladder ignores them. Mixed columns that

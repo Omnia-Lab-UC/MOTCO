@@ -13,6 +13,7 @@ from motco.cli import main
 from motco.stats.design import build_ls_means, get_model_matrix
 from motco.stats.trajectory import estimate_difference
 from tests.test_analysis import STAGES, make_real_like
+from tests.test_phase6_byte_identity import _assert_close
 
 
 @pytest.fixture()
@@ -49,11 +50,52 @@ def test_analyze_two_blocks(tmp_path: Path, analyze_files, capsys: pytest.Captur
     assert set(record["p_values"]) == {"delta", "angle", "shape"}
     assert record["design"]["stage_levels"] == STAGES
     printed = capsys.readouterr().out
-    assert f"{record['latent']['selected_lv']} component(s) (cv)" in printed
+    assert f"{record['latent']['selected_lv']} component(s) (cv; rank floor 2)" in printed
     assert "net_displacement" in printed
+    assert record["latent"]["integration_params"]["min_components"] == 2
+    assert record["params"]["min_components"] == 2
+    assert record["latent"]["selected_lv"] >= 2
     assert str(out_dir / "result.json") in printed
     for name in ("latent_scores.csv", "pls_loadings.csv", "stage_means.csv"):
         assert (out_dir / name).exists()
+
+
+def test_analyze_min_components_one_is_the_unfloored_rule(tmp_path: Path, analyze_files,
+                                                           capsys: pytest.CaptureFixture) -> None:
+    from motco.analysis import OmicsBlock, TrajectoryAnalysisParams, TrajectoryDataset, analyze_trajectories
+
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--permutations", "19",
+                       "--seed", "1", "--min-components", "1"))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "min_components" not in record["params"]
+    assert "min_components" not in record["latent"]["integration_params"]
+    assert "rank floor 1" in capsys.readouterr().out
+    # Same inputs through the API at the unfloored rule: the same artifact.
+    metadata, blocks = make_real_like()
+    dataset = TrajectoryDataset(
+        blocks=[OmicsBlock(name, blocks[name]) for name in ("rna", "atac")],
+        metadata=metadata, sample_col="donor", group_col="Sex", stage_col="ADNC", stage_order=STAGES,
+    )
+    api = analyze_trajectories(
+        dataset,
+        TrajectoryAnalysisParams(permutations=19, seed=1, cv2_splits=3, cv1_splits=2, n_repeats=2,
+                                 max_components=5, min_components=1),
+    ).record
+    # The CLI reads the blocks back from CSV, so floats agree to round-trip precision only.
+    assert record["params"] == api["params"]
+    assert record["p_values"] == api["p_values"]
+    assert record["latent"]["selected_lv"] == api["latent"]["selected_lv"]
+    for key in ("statistics", "null_summary", "latent"):
+        _assert_close(record[key], json.loads(json.dumps(api[key])), key)
+    for name in ("latent_scores.csv", "pls_loadings.csv", "stage_means.csv"):
+        assert (out_dir / name).exists()
+
+
+def test_analyze_invalid_min_components_exits(tmp_path: Path, analyze_files) -> None:
+    with pytest.raises(SystemExit, match="min_components must be an integer of at least 1"):
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--min-components", "0"))
 
 
 def test_analyze_refuses_existing_result(tmp_path: Path, analyze_files) -> None:

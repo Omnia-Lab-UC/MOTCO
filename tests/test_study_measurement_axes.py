@@ -23,6 +23,7 @@ METHOD = "evaluation.integration_method"
 FORCED = "evaluation.integration_params.forced_components"
 NCOMP = "evaluation.integration_params.n_components"
 EST = "evaluation.orientation_estimator"
+FLOOR = "evaluation.min_components"
 
 #: Fields that legitimately differ between the same dataset evaluated under two
 #: cells: identity, the stamped design point (hashed into the signature), timing.
@@ -240,3 +241,39 @@ def test_rank_ladder_is_unchanged_by_columns_without_component_selection(tmp_pat
     reference = render_rank_ladder(pls_only, tmp_path / "pls.png")
     assert mixed is not None and reference is not None
     assert mixed.read_bytes() == reference.read_bytes()
+
+
+def test_floor_axis_leaves_the_floor_one_column_unchanged_and_records_the_floor_two_column() -> None:
+    """``[1, 2]`` on a floor-1 baseline: the baseline column equals a config without the axis."""
+
+    evaluation = SimulationEvaluationParams(
+        integration_method="pls",
+        integration_params=PLS_PARAMS,
+        permutations=9,
+        seed=3,
+        orientation_estimator="pc1",
+        min_components=1,
+    )
+    with_axis = _config(evaluation, DesignGrid(axes={FLOOR: (None, 2)}))  # None: the normalized floor 1
+    without_axis = _config(evaluation)
+
+    baseline_cell = _anchor(with_axis)
+    plain_cell = _anchor(without_axis)
+    two_cell = _anchor(with_axis, point={FLOOR: 2})
+    assert two_cell.evaluation_params.min_components == 2
+    assert baseline_cell.evaluation_params == plain_cell.evaluation_params
+    assert baseline_cell.evaluation_params.min_components is None
+
+    for index in range(2):
+        baseline = run_simulation_replicate(baseline_cell, index)
+        plain = run_simulation_replicate(plain_cell, index)
+        two = run_simulation_replicate(two_cell, index)
+
+        assert "min_components" not in baseline.runtime_metadata
+        assert "min_components" not in baseline.integration_metadata["integration_params"]
+        assert _comparable(baseline) == _comparable(plain)
+
+        assert two.runtime_metadata["min_components"] == 2
+        assert two.integration_metadata["integration_params"]["min_components"] == 2
+        assert two.integration_metadata["selected_lv"] >= 2
+        assert two.generator_seed == baseline.generator_seed
