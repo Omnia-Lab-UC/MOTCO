@@ -1,0 +1,1449 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>The angle RRPP null is strongly non-pivotal — and that is what makes the test work - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-angle-rrpp-null-is-strongly-non-pivotal-and-that-is-what-makes-the-test-work" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The angle RRPP null is strongly non-pivotal — and that is what makes the test work
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provenance-this-reads-the-same-records-that-produced-the-shortfall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance: this reads the same records that produced the shortfall
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Provenance: this reads the same records that produced the shortfall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cells
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-association" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The association
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-it-accounts-for-the-inversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. It accounts for the inversion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-no-remedy-recovers-the-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Why no remedy recovers the power
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Why no remedy recovers the power">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-replicate-studentization-is-a-no-op" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within-replicate studentization is a no-op
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-replicate-standardization-002" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-replicate standardization: +0.02
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-fixed-threshold-destroys-the-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A fixed threshold destroys the test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-the-shortfall-actually-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What the shortfall actually is
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-phase-5-consequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Phase 5 consequence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Phase 5 consequence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consequences-for-the-other-readiness-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences for the other readiness items
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducing
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="the-angle-rrpp-null-is-strongly-non-pivotal-and-that-is-what-makes-the-test-work">The <code>angle</code> RRPP null is strongly non-pivotal — and that is what makes the test work</h1>
+<p><strong>Run date:</strong> 2026-09-01
+<strong>Code revision:</strong> <code>899179586c6c04c97e3485bcf19e504309320ba8</code> (branch <code>feat/diagnose-angle-null-pivotality</code>,
+parent <code>bc0d42c</code>, the merge of the orientation sign-anchor fix)
+<strong>Configuration:</strong> <code>examples/trajectory_power_study/angle_pivotality_diagnostic.json</code>
+<strong>Records:</strong> <code>results/angle-pivotality-2026-09-01/merged.jsonl</code> (500 replicates, 0 failures, 199 permutations each)
+<strong>Tables:</strong> <code>results/angle-pivotality-2026-09-01/report/</code> — <code>pivotality_association.csv</code>,
+<code>pivotality_rejection_split.csv</code>, <code>pivotality_standardized.csv</code>
+<strong>Provenance:</strong> <code>results/angle-pivotality-2026-09-01/PROVENANCE.txt</code>
+<strong>Change:</strong> <code>openspec/changes/diagnose-angle-null-pivotality</code>
+<strong>Answers:</strong> <a href="../../phase5-readiness/">Phase 5 readiness</a> item 1 (blocking)
+<strong>Environment:</strong> Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime</p>
+<h2 id="summary">Summary</h2>
+<p>The Phase 4 hypothesis is <strong>confirmed</strong>: within a replicate, the RRPP permutation null for <code>angle</code> moves
+almost one-for-one with that replicate's own observed angle. Regressing each replicate's own 95th-percentile
+null on its observed statistic gives a slope of <strong>0.811</strong> in the orientation cell at effect 1.00 and
+<strong>0.87–0.96</strong> in every other cell measured. The statistic is not pivotal, and the effect is large.</p>
+<p>This fully accounts for the rejection inversion. Among the 100 orientation replicates at effect 1.00, the
+32 that <strong>fail</strong> to reject have a <em>larger</em> mean observed angle (60.8°) than the 68 that reject (46.5°) — but
+their own critical values differ by far more: <strong>103.6° versus 15.8°</strong>. The outcome is decided by the
+critical value, not by the observed statistic, and the pattern is confined to <code>angle</code>.</p>
+<p><strong>The proposed remedy does not follow.</strong> The readiness worklist anticipated that a confirmed association
+would mean "a pivotal statistic or a studentized test." Both are ruled out by measurement:</p>
+<ul>
+<li><strong>Within-replicate studentization is a no-op.</strong> Standardizing observed and null by the same constants is a
+  strictly monotone transform of both sides of the comparison; the permutation p-value is identical. This is
+  a theorem, not an empirical finding, and it is pinned by
+  <code>tests/test_pivotality.py::test_within_replicate_studentization_leaves_the_p_value_unchanged</code>.</li>
+<li><strong>Cross-replicate standardization gains nothing.</strong> Recalibrating each replicate as
+  <code>z = (observed − null_mean) / null_sd</code> against the pooled null-control <code>z</code> distribution moves orientation
+  <code>angle</code> power from 0.68 to <strong>0.70</strong> — two replicates, against a Monte Carlo standard error of 0.047.</li>
+<li><strong>Freezing the null is catastrophic.</strong> Replacing the per-replicate critical value with a single fixed
+  threshold calibrated on the null cell (its 95th-percentile observed angle, 153.2°) drops orientation
+  <code>angle</code> power from 0.68 to <strong>0.01</strong>.</li>
+</ul>
+<p>The per-replicate null is not a defect that costs power. It is adaptation to a latent-space noise level that
+varies enormously across replicates, and it is worth roughly 67 points of power relative to any fixed
+threshold. The tracking is the price of that adaptation.</p>
+<p><strong>Verdict: <code>angle</code> is strongly non-pivotal, the non-pivotality explains the inversion, and it is
+load-bearing rather than corrigible.</strong> The remaining shortfall is a property of the design point, not of the
+statistic or its calibration.</p>
+<h2 id="provenance-this-reads-the-same-records-that-produced-the-shortfall">Provenance: this reads the same records that produced the shortfall</h2>
+<p>The diagnostic was configured to hold every generator, integration, and evaluation parameter at the Phase 4
+pilot's values, and it does so exactly. Comparing per replicate against the sign-fix re-run
+(<code>results/orientation-signfix-2026-08-28/merged.jsonl</code>):</p>
+<ul>
+<li><strong>400 of 500 records match on all four cells they share</strong> — identical generator seeds, identical <code>delta</code>,
+  <code>angle</code>, and <code>shape</code> statistics to 1e-8 relative, identical p-values to 1e-12.</li>
+<li>Orientation <code>angle</code> power reproduces at <strong>0.68</strong>, <code>delta</code> at 0.65, <code>shape</code> at 0.99 — the sign-fix
+  operating point, replicate for replicate.</li>
+<li>The fifth cell (<code>magnitude</code> at effect 1.00, absent from the sign-fix re-run) matches <strong>Phase 4</strong> on all 100
+  generator seeds and on <code>delta</code> and <code>shape</code> in 100 of 100 replicates; <code>angle</code> differs in 15 of 100, which is
+  the sign-anchor correction and nothing else.</li>
+</ul>
+<p>So the numbers below are not a re-derivation on fresh draws. They are a decomposition of the same replicates
+that yielded 0.68.</p>
+<h3 id="cells">Cells</h3>
+<p><code>enumerate_study</code> emits five cells, not the three requested: it unconditionally adds a <code>none</code> Type I
+baseline and a <code>translation</code> negative control. Both are retained deliberately — they supply the null-control
+reference distribution the cross-replicate counterfactual calibrates against.</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th>Phase</th>
+<th>n</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>orientation</code> @ 1.00</td>
+<td><code>power_primary</code></td>
+<td>100</td>
+<td>the shortfall</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @ 1.00</td>
+<td><code>power_primary</code></td>
+<td>100</td>
+<td>comparator; its <code>delta</code> reaches power 1.00</td>
+</tr>
+<tr>
+<td><code>translation</code> @ 1.00</td>
+<td><code>power_primary</code></td>
+<td>100</td>
+<td>null control that behaved normally in Phase 4</td>
+</tr>
+<tr>
+<td><code>translation</code> @ 1.00</td>
+<td><code>type_i_baseline</code></td>
+<td>100</td>
+<td>mandated negative control</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td><code>type_i_baseline</code></td>
+<td>100</td>
+<td>mandated zero-effect baseline</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-the-association">1. The association</h2>
+<p>Slope of each replicate's own null 95th percentile on its own observed statistic. Both axes carry the same
+units within a statistic, so the slope reads directly: <em>how much of a one-unit increase in the observed
+statistic is matched by an increase in the critical value it must beat.</em></p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code> (zero effect)</td>
+<td>0.339</td>
+<td><strong>0.931</strong></td>
+<td>0.449</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>type_i_baseline</code>)</td>
+<td>0.237</td>
+<td><strong>0.925</strong></td>
+<td>0.373</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>power_primary</code>)</td>
+<td>0.152</td>
+<td><strong>0.960</strong></td>
+<td>0.348</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td><strong>0.030</strong></td>
+<td>0.874</td>
+<td>−0.000</td>
+</tr>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td>0.018</td>
+<td><strong>0.811</strong></td>
+<td><strong>0.058</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Bold marks each statistic in the cell where it carries signal, plus <code>angle</code> throughout.</p>
+<p><strong>Read the columns, not the rows.</strong> Under the zero-effect null every statistic tracks its own null to some
+degree, and that is expected: observed and permuted values are exchangeable draws from the same
+distribution, so a replicate with an unstable latent space produces both a large observed statistic and a
+large null. Tracking under the null is not evidence of a problem.</p>
+<p>What separates a usable statistic is what happens when signal is added. For <code>delta</code>, the slope in its own
+cell <strong>collapses</strong> from 0.339 to 0.030; for <code>shape</code>, from 0.449 to 0.058. The signal moves the observed
+statistic while leaving the null where it was — which is exactly what a test needs. For <code>angle</code> in its own
+cell the slope barely moves, 0.931 → 0.811. Roughly four fifths of any orientation signal that reaches the
+observed angle also reaches the bar it has to clear.</p>
+<p>Correlations, with Fisher-z 95% intervals (<code>pivotality_association.csv</code>, <code>null_target = q95</code>), confirm the
+association is not a small-sample artifact — every interval excludes zero:</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th><code>angle</code> correlation</th>
+<th>95% interval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>+0.634</td>
+<td>[+0.500, +0.738]</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>type_i_baseline</code>)</td>
+<td>+0.609</td>
+<td>[+0.469, +0.719]</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>power_primary</code>)</td>
+<td>+0.562</td>
+<td>[+0.411, +0.683]</td>
+</tr>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td>+0.526</td>
+<td>[+0.367, +0.655]</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td>+0.473</td>
+<td>[+0.305, +0.613]</td>
+</tr>
+</tbody>
+</table>
+<p>The same table reports the association against the null's <strong>mean</strong> and <strong>sd</strong>, which track more weakly
+(orientation <code>angle</code>: slopes 0.306 and 0.349, correlations +0.585 and +0.563). The upper tail moves more
+than the centre — which is why the summary retains quantiles and not just moments: the alpha-level critical
+value is not recoverable from the mean and sd of a bounded, skewed angular null.</p>
+<h2 id="2-it-accounts-for-the-inversion">2. It accounts for the inversion</h2>
+<p>From <code>pivotality_rejection_split.csv</code>, orientation at effect 1.00, α = 0.05:</p>
+<table>
+<thead>
+<tr>
+<th>Statistic</th>
+<th>n reject</th>
+<th>n fail</th>
+<th>mean observed (reject)</th>
+<th>mean observed (fail)</th>
+<th>mean critical (reject)</th>
+<th>mean critical (fail)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>angle</code></td>
+<td>68</td>
+<td>32</td>
+<td>46.5°</td>
+<td><strong>60.8°</strong></td>
+<td>15.8°</td>
+<td><strong>103.6°</strong></td>
+</tr>
+<tr>
+<td><code>delta</code></td>
+<td>65</td>
+<td>35</td>
+<td>3.069</td>
+<td>0.547</td>
+<td>1.025</td>
+<td>1.048</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td>99</td>
+<td>1</td>
+<td>0.0705</td>
+<td>0.0103</td>
+<td>0.0233</td>
+<td>0.0266</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>angle</code> row is inverted — non-rejecting replicates carry the larger observed statistic — and it is the
+only inverted row in any signal-carrying cell. For <code>delta</code> and <code>shape</code> the critical value is essentially
+constant across the split (ratios 1.02× and 1.14×) while the observed statistic separates by 5.6× and 6.9×.
+For <code>angle</code> the observed statistic separates by only 1.3× while the critical value separates by <strong>6.6×</strong>.</p>
+<p>Per-replicate <code>angle</code> critical values in this cell span <strong>5.0° to 176.6°</strong>, a 35-fold range. That dispersion,
+not the observed angle, decides the outcome.</p>
+<p>The Phase 4 report recorded this inversion pre-sign-fix as 66.7° versus 52.5°. Post-fix it is 60.8° versus
+46.5°: the inversion survived the correction, exactly as the sign-anchor report predicted, and it now has a
+mechanism.</p>
+<p>One further inverted row appears — <code>angle</code> in the <code>translation</code> Type I baseline (6.9° rejecting vs 14.0°
+non-rejecting). It rests on 4 rejections out of 100 and should be read as noise, not as a second finding.</p>
+<h2 id="3-why-no-remedy-recovers-the-power">3. Why no remedy recovers the power</h2>
+<h3 id="within-replicate-studentization-is-a-no-op">Within-replicate studentization is a no-op</h3>
+<p>Dividing the observed statistic and every null draw by the same constant is strictly monotone on both sides
+of the comparison that defines the permutation p-value. The p-value cannot change. This closes off the
+reading that a "studentized angle test" is available but unimplemented.</p>
+<h3 id="cross-replicate-standardization-002">Cross-replicate standardization: +0.02</h3>
+<p><code>pivotality_standardized.csv</code> reports, per cell and statistic, the as-specified rejection rate beside the
+rate obtained by comparing each replicate's <code>z = (observed − null_mean) / null_sd</code> against the 95th
+percentile of the pooled null-control <code>z</code> distribution:</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th>Statistic</th>
+<th>As specified</th>
+<th>Standardized</th>
+<th>Control?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td><code>angle</code></td>
+<td>0.68</td>
+<td><strong>0.70</strong></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td><code>delta</code></td>
+<td>0.65</td>
+<td>0.64</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td><code>shape</code></td>
+<td>0.99</td>
+<td>0.99</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td><code>delta</code></td>
+<td>1.00</td>
+<td>1.00</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td><code>angle</code></td>
+<td>0.00</td>
+<td>0.00</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td><code>angle</code></td>
+<td>0.05</td>
+<td>0.05</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>type_i_baseline</code>)</td>
+<td><code>angle</code></td>
+<td>0.04</td>
+<td>0.04</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>power_primary</code>)</td>
+<td><code>angle</code></td>
+<td>0.03</td>
+<td>0.06</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>The controls hold their nominal level under both rules, so the counterfactual is calibrated. It simply does
+not help: two replicates on orientation <code>angle</code>, against a Monte Carlo standard error of 0.047. The reason
+is visible in §1 — the null's <em>sd</em> tracks the observed statistic too (slope 0.349), so standardizing removes
+the nuisance and a comparable share of the signal with it.</p>
+<blockquote>
+<p><strong>The cross-replicate counterfactual is a diagnostic, not a deployable test.</strong> It borrows a reference <code>z</code>
+distribution from null-control cells, which do not exist alongside a real dataset. It is reported to
+measure how much power the tracking costs, never as a procedure to adopt.</p>
+</blockquote>
+<h3 id="a-fixed-threshold-destroys-the-test">A fixed threshold destroys the test</h3>
+<p>The null cell's observed <code>angle</code> distribution has a median of <strong>5.1°</strong> and a 95th percentile of <strong>153.2°</strong> —
+it is extraordinarily heavy-tailed. Using that 95th percentile as one fixed critical value for every
+replicate, orientation at effect 1.00 rejects <strong>1 time in 100</strong>, against 0.68 as specified. Only 1 of the 32
+non-rejecting replicates carries an observed angle above it.</p>
+<p>This is the finding that reframes the item. The per-replicate null is not a tax on power; it is worth about
+67 points of it. A replicate-specific critical value is the only thing that makes a latent angular statistic
+testable at all when latent-space stability varies this much across draws.</p>
+<h2 id="4-what-the-shortfall-actually-is">4. What the shortfall actually is</h2>
+<p>The 32 non-rejecting replicates are the high-noise draws: their latent trajectory geometry is unstable
+enough that a real effect-1.00 orientation change (cell median observed angle 41.8°, IQR [23.5°, 70.3°])
+falls inside their own permutation null. The test is behaving correctly — it is declining to call an angle
+significant when that angle is not resolvable in the space it was measured in.</p>
+<p><strong>The instability is invisible to every integration diagnostic currently persisted.</strong> Within the orientation
+cell:</p>
+<ul>
+<li>Selected PLS dimensionality is 3 in 93 of 100 replicates (2 in the remaining 7).</li>
+<li>CV mean AUROC is 1.0000 in <strong>every</strong> replicate, rejecting and non-rejecting alike.</li>
+<li>Correlation of log(null q95) with selected dimensionality is <strong>+0.139</strong>; with CV mean AUROC, <strong>−0.179</strong>.</li>
+</ul>
+<p>So the driver of the null width is not latent dimensionality and not stage-separation quality. Nothing the
+harness records today identifies which replicates will be resolvable, which means Phase 5 cannot condition
+on it and cannot report it as a covariate.</p>
+<h2 id="5-phase-5-consequence">5. Phase 5 consequence</h2>
+<blockquote>
+<p><strong><code>angle</code> proceeds as specified.</strong></p>
+</blockquote>
+<p>The statistic and its permutation test are sound. Type I level is nominal in every control cell under both
+decision rules (0.03–0.05 for <code>angle</code>), RRPP p-values remain exact under exchangeability whether or not the
+statistic is pivotal, no substitute statistic is available, and the two candidate remedies were measured and
+found to be respectively inert and destructive. There is no calibration defect to fix and nothing to
+replace.</p>
+<p>This decision deliberately does <strong>not</strong> settle the 0.80 power floor. This diagnostic measured one design
+point (n = 300, four stages, ~660 features, PLS at 3 latent dimensions) and cannot say whether the gap
+closes with more samples per group-stage cell. That question belongs to readiness item 4, and it now has a
+concrete lever: the dispersion of the per-replicate <code>angle</code> null. Power for orientation is governed by how
+tightly latent trajectory geometry is determined by the data, so the design-point study should measure how
+the spread of <code>null_summary["angle"]["q95"]</code> contracts with samples per group-stage cell, not just how the
+rejection rate moves.</p>
+<h3 id="consequences-for-the-other-readiness-items">Consequences for the other readiness items</h3>
+<ul>
+<li><strong>Item 2 (orientation → shape).</strong> Unchanged in substance, but the diagnostic removes one candidate
+  explanation: <code>shape</code> in the orientation cell is nearly pivotal (slope 0.058, critical values 0.0233 vs
+  0.0266 across the rejection split), so its 0.99 rejection rate is not a null-tracking artifact. The
+  response is real in the latent space and item 2's framing as a projection-versus-construction question
+  stands.</li>
+<li><strong>Item 3 (latent dimensionality).</strong> Cannot be settled with the diagnostics currently recorded. Selected
+  dimensionality is effectively constant and CV AUROC is saturated at 1.0, and neither correlates with the
+  null width. Re-sizing the latent space needs a direct measure of latent trajectory-geometry stability,
+  which the harness does not yet compute.</li>
+<li><strong>Item 4 (design point).</strong> Inherits the 0.80-floor question, with the null-dispersion lever above.</li>
+</ul>
+<h2 id="reproducing">Reproducing</h2>
+<pre><code class="language-bash"># ~26 minutes on 16 cores; 500 work units. Do NOT pass --n-jobs.
+for i in $(seq 0 15); do
+  uv run python scripts/run_study_shard.py \
+    --config examples/trajectory_power_study/angle_pivotality_diagnostic.json \
+    --out-dir results/angle-pivotality-2026-09-01 \
+    --shard-index &quot;$i&quot; --n-shards 16 --error-policy record &amp;
+done
+wait
+uv run python scripts/motco_study.py merge --out-dir results/angle-pivotality-2026-09-01
+uv run python scripts/angle_null_pivotality.py \
+  --merged  results/angle-pivotality-2026-09-01/merged.jsonl \
+  --out-dir results/angle-pivotality-2026-09-01/report
+</code></pre>
+<p>The shard and merged JSONL are gitignored as regenerable; the <code>report/</code> tables and <code>PROVENANCE.txt</code> are
+committed. Every number in §1, §2, and the standardized table in §3 is a cell of one of those three
+committed tables. The record-identity check in the provenance section and the fixed-threshold and
+metadata-correlation figures in §3 and §4 are derived from <code>merged.jsonl</code> directly, by this:</p>
+<pre><code class="language-python">from pathlib import Path
+import numpy as np
+from motco.simulations.grid import read_replicate_results
+
+recs = read_replicate_results(Path(&quot;results/angle-pivotality-2026-09-01/merged.jsonl&quot;))
+orient = [r for r in recs
+          if (r.cell_metadata or {}).get(&quot;trajectory_mode&quot;) == &quot;orientation&quot;
+          and r.phase == &quot;power_primary&quot;]
+null_cell = [r for r in recs
+             if r.phase == &quot;type_i_baseline&quot;
+             and (r.cell_metadata or {}).get(&quot;trajectory_mode&quot;) in (None, &quot;none&quot;)]
+
+# §3 — one fixed critical value calibrated on the null cell's observed angles
+threshold = np.quantile([r.pair_statistics[&quot;angle&quot;] for r in null_cell], 0.95)   # 153.22 deg
+obs = np.array([r.pair_statistics[&quot;angle&quot;] for r in orient])
+print(threshold, (obs &gt; threshold).mean())                                       # 0.01 vs 0.68 as specified
+
+# §4 — the null width against the persisted integration diagnostics
+q95 = np.log([r.null_summary[&quot;angle&quot;][&quot;q95&quot;] for r in orient])
+lv = [float(r.integration_metadata[&quot;selected_lv&quot;]) for r in orient]
+auroc = [float(r.integration_metadata[&quot;cv_mean_auroc&quot;]) for r in orient]
+print(np.corrcoef(q95, lv)[0, 1], np.corrcoef(q95, auroc)[0, 1])                 # +0.139, -0.179
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

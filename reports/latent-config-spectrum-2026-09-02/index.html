@@ -1,0 +1,1187 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>The recorded eigengap reproduces the audit's association — and stratifies the orientation shortfall - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-recorded-eigengap-reproduces-the-audits-association-and-stratifies-the-orientation-shortfall" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The recorded eigengap reproduces the audit's association — and stratifies the orientation shortfall
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-association-measured-from-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The association, measured from records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-it-stratifies-the-orientation-shortfall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. It stratifies the orientation shortfall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-change-is-inert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The change is inert
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-this-does-and-does-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What this does and does not change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="the-recorded-eigengap-reproduces-the-audits-association-and-stratifies-the-orientation-shortfall">The recorded eigengap reproduces the audit's association — and stratifies the orientation shortfall</h1>
+<p><strong>Run date:</strong> 2026-09-02
+<strong>Code revision:</strong> working tree of the <code>record-latent-config-spectrum</code> change, parent
+<code>84061bdec824da9c33865d52e59a13b3750fb9fb</code> (the merge of the geometry audit)
+<strong>Configuration:</strong> <code>examples/trajectory_power_study/angle_pivotality_diagnostic.json</code> — byte-identical to
+the 2026-09-01 diagnostic run (same SHA-256, <code>2dfa5cc3…</code>)
+<strong>Records:</strong> <code>results/latent-spectrum-2026-09-02/merged.jsonl</code> (500 replicates, 0 failures, 199 permutations
+each, 500 of 500 carrying the configuration-spectrum block)
+<strong>Tables:</strong> <code>results/latent-spectrum-2026-09-02/report/</code> — <code>pivotality_spectrum.csv</code>,
+<code>eigengap_stratified_power.csv</code>, <code>config_spectrum.csv</code>, plus the pre-existing pivotality and study tables
+<strong>Provenance:</strong> <code>results/latent-spectrum-2026-09-02/PROVENANCE.txt</code>
+<strong>Change:</strong> <code>openspec/changes/record-latent-config-spectrum</code>
+<strong>Answers:</strong> <a href="../../phase5-readiness/">Phase 5 readiness</a> items 1 (left-open gap), 3, and 4 (stratifying
+covariate); geometry audit plan item <strong>P1</strong>
+<strong>Environment:</strong> Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime</p>
+<h2 id="summary">Summary</h2>
+<p>The <a href="../angle-null-pivotality-2026-09-01/">pivotality report</a> established that an orientation replicate's
+outcome is decided by the width of its own <code>angle</code> permutation null, and stated that <em>"nothing the harness
+records today identifies which replicates will be resolvable"</em>. The <a href="../geometry-audit-2026-09-01/">geometry
+audit</a> (finding F1) named the missing quantity — the relative eigengap
+<code>(λ₁−λ₂)/Σλ</code> of the centered latent stage-mean configuration — by regenerating replicates from persisted
+seeds. This run <strong>persists that quantity per replicate</strong> and re-measures the association from the record
+alone.</p>
+<p>Three results, all from the same 500 records:</p>
+<ol>
+<li><strong>The audit's association reproduces.</strong> In the orientation cell, Spearman(pooled eigengap, own <code>angle</code>
+   null q95) = <strong>−0.749</strong> [−0.824, −0.648]; log–log Pearson <strong>−0.622</strong>. The audit measured −0.75 and −0.62.</li>
+<li><strong>It is specific to <code>angle</code>.</strong> In the same cell the association with the <code>delta</code> and <code>shape</code> null widths
+   is +0.093 [−0.105, +0.284] and −0.032 [−0.227, +0.166] — both intervals cover zero.</li>
+<li><strong>It stratifies the shortfall.</strong> Orientation <code>angle</code> power rises monotonically across within-cell
+   eigengap terciles: <strong>0.44 → 0.76 → 0.85</strong>. The overall 0.68 is an average over a covariate the harness
+   now records.</li>
+</ol>
+<p>And the change is inert: every rejection rate and every pivotality slope reproduces the 2026-09-01 run
+exactly.</p>
+<h2 id="1-the-association-measured-from-records">1. The association, measured from records</h2>
+<p><code>pivotality_spectrum.csv</code>, <code>null_target = q95</code>, n = 100 per cell. Spearman with a Fisher-z 95% interval:</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code> (zero effect)</td>
+<td>−0.092</td>
+<td><strong>−0.814</strong> [−0.871, −0.735]</td>
+<td>−0.108</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>type_i_baseline</code>)</td>
+<td>+0.019</td>
+<td><strong>−0.740</strong> [−0.817, −0.636]</td>
+<td>+0.163</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>power_primary</code>)</td>
+<td>+0.053</td>
+<td><strong>−0.836</strong> [−0.887, −0.765]</td>
+<td>+0.009</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td>−0.086</td>
+<td><strong>−0.701</strong> [−0.789, −0.586]</td>
+<td>−0.038</td>
+</tr>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td>+0.093</td>
+<td><strong>−0.749</strong> [−0.824, −0.648]</td>
+<td>−0.032</td>
+</tr>
+</tbody>
+</table>
+<p>Every <code>angle</code> interval excludes zero by a wide margin; no <code>delta</code> or <code>shape</code> interval does. Log–log Pearson
+tells the same story for <code>angle</code> (−0.61 to −0.71 across cells; −0.622 in the orientation cell).</p>
+<p><strong>Read this as a property of the geometry, not of the effect.</strong> The association is present in the zero-effect
+baseline and in both translation controls at essentially the same strength. That is what the audit's
+mechanism predicts: PC1's estimator variance scales like noise over the eigengap, so a near-isotropic stage
+configuration yields a wide <code>angle</code> null whether or not a group difference was constructed. The recorded
+eigengap therefore predicts <em>resolvability</em>, and it does so without seeing the group labels.</p>
+<h2 id="2-it-stratifies-the-orientation-shortfall">2. It stratifies the orientation shortfall</h2>
+<p><code>eigengap_stratified_power.csv</code>, orientation @1.00, α = 0.05, within-cell terciles of the recorded pooled
+eigengap:</p>
+<table>
+<thead>
+<tr>
+<th>Stratum</th>
+<th>eigengap range</th>
+<th>mean eigengap</th>
+<th>n</th>
+<th><code>angle</code> rejections</th>
+<th>rate</th>
+<th>MC SE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bottom</td>
+<td>0.0057 – 0.0359</td>
+<td>0.0243</td>
+<td>34</td>
+<td>15</td>
+<td><strong>0.44</strong></td>
+<td>0.085</td>
+</tr>
+<tr>
+<td>middle</td>
+<td>0.0364 – 0.0552</td>
+<td>0.0451</td>
+<td>33</td>
+<td>25</td>
+<td><strong>0.76</strong></td>
+<td>0.075</td>
+</tr>
+<tr>
+<td>top</td>
+<td>0.0556 – 0.1173</td>
+<td>0.0739</td>
+<td>33</td>
+<td>28</td>
+<td><strong>0.85</strong></td>
+<td>0.062</td>
+</tr>
+</tbody>
+</table>
+<p>A 3× separation in eigengap maps to a 0.41 separation in power (SE of the difference 0.105). The cell's
+headline 0.68 is an average over this spread: replicates whose latent stage configuration has a dominant
+axis clear the 0.80 floor; those whose configuration is near-isotropic do not, and no amount of signal in a
+direction the configuration cannot resolve will move them.</p>
+<p>The recorded distributions (<code>config_spectrum.csv</code>) show how tight the regime is. Pooled eigengaps per cell:</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th>mean</th>
+<th>median</th>
+<th>min</th>
+<th>max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>orientation</code> @1.00</td>
+<td>0.0475</td>
+<td>0.0444</td>
+<td>0.0057</td>
+<td>0.1173</td>
+</tr>
+<tr>
+<td><code>magnitude</code> @1.00</td>
+<td>0.0422</td>
+<td>0.0406</td>
+<td>0.0028</td>
+<td>0.1612</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>power_primary</code>)</td>
+<td>0.0431</td>
+<td>0.0404</td>
+<td>0.0080</td>
+<td>0.1126</td>
+</tr>
+<tr>
+<td><code>translation</code> @1.00 (<code>type_i_baseline</code>)</td>
+<td>0.0532</td>
+<td>0.0537</td>
+<td>0.0030</td>
+<td>0.1670</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>0.0450</td>
+<td>0.0409</td>
+<td>0.0022</td>
+<td>0.1248</td>
+</tr>
+</tbody>
+</table>
+<p>Every cell sits near the isotropic end (a straight trajectory would read 1.0), and the per-group entries
+agree with the pooled ones — consistent with the audit's account that the independent-indicator baseline,
+not the trajectory surgery, sets the eigengap. That is the lever readiness item 4 hands to baseline
+continuity (plan item P4), and it is now measured per replicate rather than inferred.</p>
+<h2 id="3-the-change-is-inert">3. The change is inert</h2>
+<p>The config is byte-identical to the 2026-09-01 diagnostic, so the operating point is directly comparable.
+Every published number reproduces:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>2026-09-01</th>
+<th>this run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orientation <code>angle</code> / <code>delta</code> / <code>shape</code> power</td>
+<td>0.68 / 0.65 / 0.99</td>
+<td><strong>0.68 / 0.65 / 0.99</strong></td>
+</tr>
+<tr>
+<td>magnitude <code>delta</code> / <code>angle</code> / <code>shape</code></td>
+<td>1.00 / 0.00 / 0.00</td>
+<td><strong>1.00 / 0.00 / 0.00</strong></td>
+</tr>
+<tr>
+<td>Type I <code>none</code> (delta/angle/shape, combined)</td>
+<td>—</td>
+<td>0.04 / 0.05 / 0.01, 0.09</td>
+</tr>
+<tr>
+<td><code>angle</code> null-tracking slope: <code>none</code> / <code>translation</code> (t1b, pp) / <code>magnitude</code> / <code>orientation</code></td>
+<td>0.931 / 0.925, 0.960 / 0.874 / 0.811</td>
+<td><strong>0.931 / 0.925, 0.960 / 0.874 / 0.811</strong></td>
+</tr>
+<tr>
+<td>orientation <code>delta</code> / <code>shape</code> slope</td>
+<td>0.018 / 0.058</td>
+<td><strong>0.018 / 0.058</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Reproduction to three decimals on every slope, and to the replicate on every rate. The spectrum consumes no
+randomness: it is computed from the LS-mean vectors <code>estimate_difference</code> already fits, after the
+permutation index is drawn. Unit tests pin the permutation draws and null distributions as <strong>byte-identical</strong>
+with the recording flag on and off, serially and in parallel
+(<code>tests/test_trajectory_spectrum.py</code>).</p>
+<p><strong>Cost.</strong> One SVD of a k×d matrix per configuration. On this design point (4 stages, rank-3 PLS latent
+space) recording the per-permutation eigengap adds ~12 ms to a 199-permutation RRPP — under 0.1% of a ~14 s
+replicate, which is dominated by the PLS double cross-validation.</p>
+<h2 id="4-what-this-does-and-does-not-change">4. What this does and does not change</h2>
+<ul>
+<li><strong>Nothing statistical.</strong> No statistic, p-value, permutation draw, generator behaviour, integration method,
+  or latent-space sizing changed. The eigengap is a recorded covariate and a reporting qualifier — never a
+  filter, weight, or test modification.</li>
+<li><strong>The audit's caution stands.</strong> The spectrum is only <em>observed</em>. Any group-aware sizing or supervision
+  would void the fixed-latent-space RRPP conditioning; nothing here reads the group labels.</li>
+<li><strong>Resume policy changed deliberately.</strong> <code>parameter_signature</code> now includes <code>config_spectrum_version</code>, so a
+  shard written before this change refuses resume rather than producing a merged set in which only some
+  records carry the covariate. Already-merged pre-change record sets still load (empty block) and their
+  committed reports are unaffected — verified by reporting a pre-change record set under the new code and
+  finding <code>specificity_matrix.csv</code>, <code>power_curves.csv</code>, <code>type_i_table.csv</code>, <code>acceptance_report.csv</code>, and
+  <code>acceptance_report.json</code> byte-identical to the pre-change code's output.</li>
+</ul>
+<h2 id="reproduction">Reproduction</h2>
+<pre><code class="language-bash"># 5 cells x 100 replicates = 500 work units; ~50 minutes on 16 local shards.
+for i in $(seq 0 15); do
+  uv run python scripts/run_study_shard.py \
+    --config examples/trajectory_power_study/angle_pivotality_diagnostic.json \
+    --out-dir results/latent-spectrum-2026-09-02 \
+    --shard-index &quot;$i&quot; --n-shards 16 --error-policy record &amp;
+done
+wait
+uv run python scripts/motco_study.py merge --out-dir results/latent-spectrum-2026-09-02
+uv run python scripts/motco_study.py report \
+  --config examples/trajectory_power_study/angle_pivotality_diagnostic.json \
+  --out-dir results/latent-spectrum-2026-09-02
+uv run python scripts/angle_null_pivotality.py \
+  --merged  results/latent-spectrum-2026-09-02/merged.jsonl \
+  --out-dir results/latent-spectrum-2026-09-02/report
+</code></pre>
+<p>Do <strong>not</strong> pass <code>--n-jobs</code>: it is part of the cell parameter signature. The shard and merged JSONL are
+gitignored as regenerable; <code>report/</code> and <code>PROVENANCE.txt</code> are committed.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

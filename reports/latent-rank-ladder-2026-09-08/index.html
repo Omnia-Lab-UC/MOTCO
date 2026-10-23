@@ -1,0 +1,1594 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../../phase5-readiness/">
+      
+      
+        <link rel="next" href="../phase5-design-point-pilot-2026-09-08/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Phase 5 latent-rank ladder (current) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-5-latent-rank-ladder-findings-run-2026-09-08" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phase 5 latent-rank ladder (current)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-decision-reportrank_decisionjson-rank_decisioncsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Decision (report/rank_decision.json, rank_decision.csv)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-rate-versus-rank-per-mode-design_point_operatingcsv-e-100-rows-figure-rank_ladderpng" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rate versus rank, per mode (design_point_operating.csv, e = 1.00 rows; figure rank_ladder.png)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-covariates-eigengap-and-angle-null-width-design_point_operatingcsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Covariates: eigengap and angle null width (design_point_operating.csv)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-anchors-and-type-i-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Anchors and Type I error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-re-measurement-at-the-chosen-design-point-under-cv-design_point_operatingcsv-cv-column" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Re-measurement at the chosen design point under CV (design_point_operating.csv, CV column)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-committed-rule-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Committed rule and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-decision-reportrank_decisionjson-rank_decisioncsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Decision (report/rank_decision.json, rank_decision.csv)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-rate-versus-rank-per-mode-design_point_operatingcsv-e-100-rows-figure-rank_ladderpng" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rate versus rank, per mode (design_point_operating.csv, e = 1.00 rows; figure rank_ladder.png)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-covariates-eigengap-and-angle-null-width-design_point_operatingcsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Covariates: eigengap and angle null width (design_point_operating.csv)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-anchors-and-type-i-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Anchors and Type I error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-re-measurement-at-the-chosen-design-point-under-cv-design_point_operatingcsv-cv-column" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Re-measurement at the chosen design point under CV (design_point_operating.csv, CV column)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-committed-rule-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Committed rule and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="phase-5-latent-rank-ladder-findings-run-2026-09-08">Phase 5 latent-rank ladder — findings (run 2026-09-08)</h1>
+<p><strong>Question (readiness item 3).</strong> At the Phase 5 design point, does retaining more PLS components than the
+stage-supervised double CV selects buy orientation <code>angle</code> power, and what does it cost magnitude, shape, and
+Type I error? Which group-blind rank rule does Phase 5 commit to?</p>
+<p><strong>Verdict: <code>keep_cv</code>.</strong> No fixed rank qualifies under the predeclared rule
+(<code>report/rank_decision.json</code>). Forced 3 is indistinguishable from the CV column; every rank above 3 loses
+<code>shape</code> power by 0.05–0.43 and gains no <code>angle</code> power. <strong>The committed Phase 5 rank rule is stage-supervised
+double cross-validation (<code>plsda_doubleCV</code>, modal LV across repeats, parsimony tie-break), as in production.</strong>
+At the design point it selects rank 3 = <code>n_stages − 1</code> (range 2–3 across 1,500 CV units).</p>
+<p>Every number below is read from <code>results/phase5-latent-rank-2026-09-08/report/</code> (CSV/JSON) or from
+<code>PROVENANCE.txt</code> in the same directory.</p>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Config</td>
+<td><code>examples/trajectory_power_study/phase5_latent_rank_ladder.json</code></td>
+<td><code>PROVENANCE.txt</code></td>
+</tr>
+<tr>
+<td>Config sha256</td>
+<td><code>b91339f9a8db9ee33d177e9fd9084d5c34e28d5ad2482fc47e4e25232fe31b5f</code></td>
+<td><code>PROVENANCE.txt</code></td>
+</tr>
+<tr>
+<td>Code</td>
+<td><code>a3ea2b4</code> (main) + the working tree of OpenSpec change <code>resolve-latent-rank-at-design-point</code>, tracked-file diff sha256 <code>16afc68c…6ed1</code>, synced to the cluster by rsync</td>
+<td><code>PROVENANCE.txt</code></td>
+</tr>
+<tr>
+<td>Design point</td>
+<td>ρ = 0, <code>n_samples</code> = 1200, four stages, <code>p_dmp</code> = 0.1, <code>surgery_censoring</code> = <code>error</code> (default)</td>
+<td>config</td>
+</tr>
+<tr>
+<td>Integration</td>
+<td>pooled PLS on M-value methylation; CV knobs <code>cv1_splits</code> 3, <code>cv2_splits</code> 4, <code>n_repeats</code> 5, <code>max_components</code> 20, <code>random_state</code> 1203</td>
+<td>config</td>
+</tr>
+<tr>
+<td>Rank axis</td>
+<td><code>evaluation.integration_params.forced_components</code> ∈ {<code>null</code>, 3, 4, 6, 9, 12}; <code>null</code> = CV</td>
+<td>config</td>
+</tr>
+<tr>
+<td>Modes × effects</td>
+<td>magnitude, orientation, shape, translation × {0.25, 0.50, 1.00} + one zero-effect anchor per column</td>
+<td>config</td>
+</tr>
+<tr>
+<td>Replicates × permutations</td>
+<td>100 × 199; matched seeds (family <code>phase5-latent-rank</code>), shared anchor</td>
+<td>config</td>
+</tr>
+<tr>
+<td>Units</td>
+<td>80 cells × 100 = 8,000; 8,000 present once, 0 signature mismatches, <strong>0 failures</strong>, 0 censored surgeries, 0 duplicated constructions</td>
+<td><code>PROVENANCE.txt</code>, <code>realized_surgery.csv</code></td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>SLURM <code>512x1024</code>, 100 single-CPU shards, BLAS pinned, no <code>--n-jobs</code>; wall 20 min; CV units median 57.4 s (24.1 core-h), forced units median 0.2 s (0.3 core-h)</td>
+<td><code>PROVENANCE.txt</code></td>
+</tr>
+<tr>
+<td>Versions</td>
+<td>python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3</td>
+<td><code>PROVENANCE.txt</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Same data, different measurement.</strong> The rank axis is an evaluation-namespace axis, so all six columns share
+the primary matched-seed family and identical generator parameters: at every replicate index they evaluate
+the same generated dataset at a different retained rank (<code>rank_decision.json</code>, <code>pairing</code>). Differences
+between columns are measurement differences. The rule's pooled independent SE is therefore conservative.</p>
+<h2 id="2-decision-reportrank_decisionjson-rank_decisioncsv">2. Decision (<code>report/rank_decision.json</code>, <code>rank_decision.csv</code>)</h2>
+<p>Reference = CV column; target orientation/<code>angle</code> at e = 1.00; protected magnitude/<code>delta</code> and shape/<code>shape</code>
+at e = 1.00; anchor bound <code>0.05 + 2·sqrt(0.05·0.95/100) = 0.094</code>; gain and loss multipliers 2.0.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th><code>angle</code> rate (SE)</th>
+<th>(a) gain: diff vs CV, threshold</th>
+<th>(b) anchor</th>
+<th>(c) protected: <code>shape</code> loss, threshold</th>
+<th>Qualifies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CV</td>
+<td>0.85 (0.036)</td>
+<td>reference</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.86 (0.035)</td>
+<td>+0.01 ≤ 0.100 ✗</td>
+<td>pass</td>
+<td>0.00 ≤ 0.000 ✓</td>
+<td>no</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.79 (0.041)</td>
+<td>−0.06 ≤ 0.108 ✗</td>
+<td>pass</td>
+<td><strong>0.05 &gt; 0.044</strong> ✗</td>
+<td>no</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0.80 (0.040)</td>
+<td>−0.05 ≤ 0.107 ✗</td>
+<td>pass</td>
+<td><strong>0.43 &gt; 0.099</strong> ✗</td>
+<td>no</td>
+</tr>
+<tr>
+<td>9</td>
+<td>0.81 (0.039)</td>
+<td>−0.04 ≤ 0.106 ✗</td>
+<td>pass</td>
+<td><strong>0.42 &gt; 0.099</strong> ✗</td>
+<td>no</td>
+</tr>
+<tr>
+<td>12</td>
+<td>0.81 (0.039)</td>
+<td>−0.04 ≤ 0.106 ✗</td>
+<td>pass</td>
+<td><strong>0.42 &gt; 0.099</strong> ✗</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Magnitude/<code>delta</code> loss is 0.00 at every rank (power 1.00 everywhere). The anchor criterion passes at every
+rank (§5). Verdict <code>keep_cv</code>; the rationale string in the JSON lists the failing criteria per rank.</p>
+<h2 id="3-rate-versus-rank-per-mode-design_point_operatingcsv-e-100-rows-figure-rank_ladderpng">3. Rate versus rank, per mode (<code>design_point_operating.csv</code>, e = 1.00 rows; figure <code>rank_ladder.png</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Mode / statistic</th>
+<th>CV</th>
+<th>3</th>
+<th>4</th>
+<th>6</th>
+<th>9</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orientation / <code>angle</code> (target)</td>
+<td>0.85</td>
+<td>0.86</td>
+<td>0.79</td>
+<td>0.80</td>
+<td>0.81</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td>orientation / <code>delta</code></td>
+<td>0.91</td>
+<td>0.93</td>
+<td>0.84</td>
+<td>0.53</td>
+<td>0.47</td>
+<td>0.47</td>
+</tr>
+<tr>
+<td>orientation / <code>shape</code></td>
+<td>0.99</td>
+<td>0.99</td>
+<td>0.99</td>
+<td>0.78</td>
+<td>0.60</td>
+<td>0.62</td>
+</tr>
+<tr>
+<td>magnitude / <code>delta</code> (protected)</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>magnitude / <code>angle</code></td>
+<td>0.24</td>
+<td>0.24</td>
+<td>0.23</td>
+<td>0.59</td>
+<td>0.80</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td>magnitude / <code>shape</code></td>
+<td>0.74</td>
+<td>0.77</td>
+<td>0.75</td>
+<td>0.41</td>
+<td>0.53</td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>shape / <code>shape</code> (protected)</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.95</td>
+<td>0.57</td>
+<td>0.58</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>shape / <code>angle</code></td>
+<td>0.79</td>
+<td>0.80</td>
+<td>0.68</td>
+<td>0.95</td>
+<td>0.95</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td>shape / <code>delta</code></td>
+<td>0.89</td>
+<td>0.89</td>
+<td>0.78</td>
+<td>0.53</td>
+<td>0.53</td>
+<td>0.53</td>
+</tr>
+<tr>
+<td>translation / <code>delta</code> · <code>angle</code> · <code>shape</code></td>
+<td>0.05 · 0.02 · 0.04</td>
+<td>0.06 · 0.02 · 0.04</td>
+<td>0.02 · 0.04 · 0.01</td>
+<td>0.01 · 0.03 · 0.01</td>
+<td>0.01 · 0.03 · 0.01</td>
+<td>0.01 · 0.03 · 0.01</td>
+</tr>
+</tbody>
+</table>
+<p>MC SE is ≤ 0.05 for every entry (0 where the rate is 0 or 1). <code>component_selection</code> is <code>cv</code> in the CV
+column and <code>forced</code> in every other column, with <code>median_selected_lv</code> equal to the forced rank
+(<code>min_selected_lv</code> = <code>max_selected_lv</code> = rank).</p>
+<p><strong>Does orientation <code>angle</code> power move with rank at n = 1200?</strong> No. It is 0.85–0.86 at CV and rank 3 and
+0.79–0.81 at every rank from 4 to 12; the differences are within one pooled SE. Across effects
+(<code>design_point_operating.csv</code>, orientation/<code>angle</code>): CV 0.89 / 0.89 / 0.85 at e = 0.25 / 0.50 / 1.00; rank 4
+0.75 / 0.76 / 0.79; ranks 6–12 0.86–0.87 / 0.81–0.83 / 0.80–0.81. The stage-supervised rank retains
+everything the <code>angle</code> test can use at this design point; components beyond <code>n_stages − 1</code> add nothing to
+the target.</p>
+<p><strong>What a higher rank costs.</strong> Above rank 3 the latent space admits directions the stage label does not
+organize. <code>shape</code> power falls in every mode that has it — orientation 0.99 → 0.60–0.78, shape 1.00 → 0.57,
+magnitude 0.74 → 0.41–0.53 — and <code>delta</code> falls in the orientation and shape modes (0.91 → 0.47, 0.89 →
+0.53). Only magnitude/<code>delta</code> is rank-invariant at 1.00. At the same time the <strong>off-target <code>angle</code> response
+rises</strong>: magnitude→<code>angle</code> 0.24 → 0.81 and shape→<code>angle</code> 0.79 → 0.95 by rank 9. A fixed rank above
+<code>n_stages − 1</code> therefore degrades specificity in both directions: the geometry each mode targets is
+diluted, and PC1 of the stage configuration is rotated by group-specific noise directions the extra
+components carry.</p>
+<p><strong>Forced 3 versus CV.</strong> Every forced-3 entry is within 0.03 of the CV column (the largest difference is
+orientation/<code>delta</code> 0.93 vs 0.91). CV selection noise (range 2–3) is immaterial at this design point, so
+"fixed <code>n_stages − 1</code>" would be an operationally equivalent group-blind rule; it offers no gain, and CV
+remains the rule that adapts if the stage structure changes.</p>
+<h2 id="4-covariates-eigengap-and-angle-null-width-design_point_operatingcsv">4. Covariates: eigengap and <code>angle</code> null width (<code>design_point_operating.csv</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Row</th>
+<th></th>
+<th>CV</th>
+<th>3</th>
+<th>4</th>
+<th>6</th>
+<th>9</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor (<code>none</code>, e = 0)</td>
+<td>median eigengap</td>
+<td>0.048</td>
+<td>0.048</td>
+<td>0.047</td>
+<td>0.047</td>
+<td>0.047</td>
+<td>0.047</td>
+</tr>
+<tr>
+<td></td>
+<td>median <code>angle</code> null q95 (°)</td>
+<td>5.9</td>
+<td>6.0</td>
+<td>10.8</td>
+<td>10.9</td>
+<td>11.1</td>
+<td>11.2</td>
+</tr>
+<tr>
+<td></td>
+<td>IQR <code>angle</code> null q95 (°)</td>
+<td>4.9</td>
+<td>4.9</td>
+<td>5.1</td>
+<td>5.2</td>
+<td>5.1</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>orientation e = 1.00</td>
+<td>median eigengap</td>
+<td>0.045</td>
+<td>0.045</td>
+<td>0.040</td>
+<td>0.040</td>
+<td>0.040</td>
+<td>0.040</td>
+</tr>
+<tr>
+<td></td>
+<td>median <code>angle</code> null q95 (°)</td>
+<td>11.5</td>
+<td>10.2</td>
+<td>17.0</td>
+<td>15.6</td>
+<td>16.2</td>
+<td>16.4</td>
+</tr>
+<tr>
+<td></td>
+<td>IQR <code>angle</code> null q95 (°)</td>
+<td>14.5</td>
+<td>10.8</td>
+<td>30.2</td>
+<td>22.3</td>
+<td>22.2</td>
+<td>23.7</td>
+</tr>
+</tbody>
+</table>
+<p>The recorded pooled eigengap is nearly constant across rank on identical data (0.048 → 0.047 at the anchor,
+0.045 → 0.040 under orientation), the sanity check design D8 asked for: the ladder changes the measurement
+space, not the baseline geometry, and the small drop reflects the extra near-zero eigenvalues a larger
+configuration carries. The <code>angle</code> null, by contrast, widens as soon as rank exceeds <code>n_stages − 1</code>: the
+anchor's median q95 nearly doubles (5.9° → 10.8°) and the orientation column's dispersion doubles (IQR 14.5°
+→ 30.2° at rank 4). A wider, more variable null with an unchanged eigengap is the signature of the extra
+components adding noise directions rather than signal, consistent with the pivotality finding that the
+null tracks the replicate's own latent configuration.</p>
+<h2 id="5-anchors-and-type-i-error">5. Anchors and Type I error</h2>
+<p>Per-column zero-effect anchors (<code>design_point_operating.csv</code>, <code>none</code> at e = 0, 100 replicates each):</p>
+<table>
+<thead>
+<tr>
+<th>Statistic</th>
+<th>CV</th>
+<th>3</th>
+<th>4</th>
+<th>6</th>
+<th>9</th>
+<th>12</th>
+<th>Bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delta</code></td>
+<td>0.01</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.094</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.094</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td>0.03</td>
+<td>0.03</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.094</td>
+</tr>
+</tbody>
+</table>
+<p>No rank inflates any anchor. At ranks ≥ 4 <code>delta</code> and <code>shape</code> reject 0 of 100 — a fixed rank above
+<code>n_stages − 1</code> makes those tests <em>conservative</em> under the null, which the one-sided anchor bound does not
+penalize but which is one more cost of over-retention.</p>
+<p>Independent-seed Type I controls at the baseline (<code>type_i_table.csv</code>, <code>acceptance_report.csv</code>, CV rank):
+<code>none</code> 0.06 / 0.05 / 0.07 (<code>delta</code> / <code>angle</code> / <code>shape</code>, combined 0.14); <code>translation</code> at e = 1.00
+0.08 / 0.07 / 0.09 (combined 0.17). Every <code>type_i_control</code> target is met within 2 SE
+(<code>acceptance_report.json</code>).</p>
+<h2 id="6-re-measurement-at-the-chosen-design-point-under-cv-design_point_operatingcsv-cv-column">6. Re-measurement at the chosen design point under CV (<code>design_point_operating.csv</code>, CV column)</h2>
+<p>The design-point pilot ran only orientation and translation; <code>p_dmp</code> had changed from 0.2 to 0.1. The CV
+column re-measures the other modes at the committed configuration:</p>
+<table>
+<thead>
+<tr>
+<th>Mode / statistic</th>
+<th>e = 0.25</th>
+<th>0.50</th>
+<th>1.00</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magnitude / <code>delta</code></td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>shape / <code>shape</code></td>
+<td>0.95</td>
+<td>0.97</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>orientation / <code>angle</code></td>
+<td>0.89</td>
+<td>0.89</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td>orientation / <code>shape</code> (cross-talk)</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.99</td>
+</tr>
+<tr>
+<td>translation / <code>angle</code></td>
+<td>0.02</td>
+<td>0.02</td>
+<td>0.02</td>
+</tr>
+</tbody>
+</table>
+<p>Magnitude and shape hold power ≥ 0.95 at every effect with <code>p_dmp = 0.1</code>. Orientation <code>angle</code> is flat
+across effects (0.85–0.89; differences within MC error).</p>
+<p><strong>Agreement with the design-point pilot.</strong> The pilot's ρ = 0, n = 1200 column gave orientation/<code>angle</code>
+0.88 (SE 0.032) at e = 1.00 with median selected rank 3 and median eigengap 0.049
+(<code>results/phase5-design-point-2026-09-08/report/design_point_operating.csv</code>); the ladder's CV column gives
+0.85 (SE 0.036), rank 3, eigengap 0.045. The difference (0.03) is well within the pooled SE (0.048); the two
+runs draw different matched-seed families, so this is an independent replication of the design-point
+result.</p>
+<p><strong>Orientation → shape at the design point.</strong> At CV rank the projection-associated orientation→<code>shape</code>
+response is 0.99–1.00 at every effect — it does <strong>not</strong> decay at the committed rank. It decays only as the
+rank grows (0.99 → 0.78 → 0.60 → 0.62 at ranks 4 → 6 → 9 → 12 at e = 1.00; 0.98 → 0.96 at e = 0.25), as the
+2026-09-03 probe found at the old design point, now confirmed on the corrected estimator at ρ = 0,
+n = 1200, <code>p_dmp = 0.1</code>. Since the rank is not being raised, Phase 5 keeps the item-2 predeclaration:
+orientation's <code>shape</code> response is reported as projection-associated cross-talk, not as evidence about the
+shape estimator.</p>
+<h2 id="7-committed-rule-and-limitations">7. Committed rule and limitations</h2>
+<p><strong>Committed Phase 5 rank rule (group-blind):</strong> stage-supervised double cross-validation
+(<code>plsda_doubleCV</code>, modal LV across repeats with parsimony tie-break) selects the retained PLS rank; no group
+label enters the sizing. At the Phase 5 design point this yields rank 3 = <code>n_stages − 1</code>. The rule is
+committed for the design point Phase 5 runs; a fixed rank on real data would be a preregistered choice,
+not a tuned one, and this ladder gives no reason to make it.</p>
+<p>Limitations:</p>
+<ul>
+<li>One design point (ρ = 0, n = 1200, <code>p_dmp = 0.1</code>, four stages). The rank response could differ with more
+  stages (where <code>n_stages − 1</code> is larger) or a trending baseline (ρ = 0.8 moved the CV to rank 7–8 in the
+  pilot).</li>
+<li>100 replicates: MC SE up to 0.05 per rate; the gain criterion could not detect an <code>angle</code> improvement
+  smaller than ≈ 0.10. The observed differences are negative, so this does not change the verdict.</li>
+<li>The rule's pooled SE treats paired columns as independent (conservative by design).</li>
+<li>The anchor bound is one-sided (upper); the conservative <code>delta</code>/<code>shape</code> anchors at ranks ≥ 4 are reported,
+  not penalized.</li>
+<li>The eigengap is a property of the configuration in each column's latent space; its small drop with rank is
+  a measurement-space effect, not a baseline-geometry change.</li>
+<li>The code revision in <code>PROVENANCE.txt</code> is the pre-change commit plus the change's working tree (diff
+  sha256 recorded); the merge commit of the change is the reproducible revision.</li>
+</ul>
+<h2 id="8-reproduction">8. Reproduction</h2>
+<pre><code class="language-bash"># Cluster (as executed 2026-09-08; partition/resource flags are cluster-specific).
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+RUN=results/phase5-latent-rank-2026-09-08
+sbatch -p 512x1024 --cpus-per-task=1 --mem=2G --time=6:00:00 --array=0-99 \
+    --export=ALL,STUDY_CONFIG=$(pwd)/examples/trajectory_power_study/phase5_latent_rank_ladder.json,STUDY_OUT=$(pwd)/$RUN,N_SHARDS=100 \
+    scripts/motco_study_array.sbatch          # job 878624
+python scripts/motco_study.py merge  --out-dir $RUN
+python scripts/motco_study.py report \
+    --config examples/trajectory_power_study/phase5_latent_rank_ladder.json --out-dir $RUN
+</code></pre>
+<p>Outputs under <code>report/</code>: <code>design_point_operating.csv</code> (with <code>component_selection</code>), <code>rank_ladder.png</code>,
+<code>rank_decision.json</code> / <code>.csv</code>, <code>realized_surgery.csv</code>, <code>type_i_table.csv</code>, <code>acceptance_report.{csv,json}</code>,
+<code>config_spectrum.csv</code>, <code>eigengap_stratified_power.csv</code>, <code>power_curves.{csv,png}</code>,
+<code>specificity_matrix.{csv,png}</code>, <code>type_i.png</code>, <code>design_point_power.png</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

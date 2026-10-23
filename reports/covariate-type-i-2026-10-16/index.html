@@ -1,0 +1,1057 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Covariate-adjustment Type I check — 2026-10-16 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#covariate-adjustment-type-i-check-2026-10-16" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Covariate-adjustment Type I check — 2026-10-16
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Construction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-rates-against-the-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rates against the bound
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-the-unadjusted-arm-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What the unadjusted arm shows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-scope-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Scope and limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-consequence-for-the-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Consequence for the case study
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="covariate-adjustment-type-i-check-2026-10-16">Covariate-adjustment Type I check — 2026-10-16</h1>
+<blockquote>
+<p>Paper-grade size check of covariate-adjusted <code>motco analyze</code> at the Phase 6 SEA-AD design
+(<code>openspec/changes/archive/2026-10-16-covariate-adjusted-trajectories/</code>, spec <code>covariate-adjustment-type-i</code>). It is the gate the case
+study must pass before it reports covariate-adjusted trajectory results. Every number below is read from
+<code>results/covariate-type-i-2026-10-16/</code> (<code>covariate_type_i_decision.json</code>, <code>covariate_type_i_rates.csv</code>,
+<code>covariate_type_i_pvalues.csv</code>, <code>merged.jsonl</code>). Rates are rejection rates at p ≤ 0.05 over 500 replicates × 999
+permutations (Monte Carlo SE about 0.0097 at 0.05).</p>
+</blockquote>
+<p><strong>Run:</strong> 180 replicates on the workstation, then the remaining 320 on <code>ing</code> as SLURM array 921167 (60 shards, all
+<code>COMPLETED</code>). The code is <code>c3ee13a</code> plus this change's working tree, and the script and <code>analysis.py</code> hashes in
+<code>PROVENANCE.txt</code> were verified identical on both machines. <strong>Decision:</strong> <code>covariates_validated</code>.</p>
+<p><strong>In one paragraph.</strong> On null datasets at the SEA-AD MTG design, a numeric and a categorical covariate were made to
+depend on group, stage and their interaction, and their effect was injected into the features. Without adjustment
+the analysis rejects too often: <code>shape</code> at 0.364, <code>delta</code> at 0.098 and <code>angle</code> at 0.096. With both covariates
+declared, all three statistics hold the predeclared bound 0.05 + 2·√(0.05·0.95/500) = 0.0695: <code>delta</code> 0.040,
+<code>angle</code> 0.062 and <code>shape</code> 0.034. The two arms share every latent space (asserted per replicate), so the difference
+comes entirely from the trajectory model. The case study may report covariate-adjusted results under the conditions
+in §5.</p>
+<h2 id="1-construction">1. Construction</h2>
+<ul>
+<li><strong>Data.</strong> <code>generate_semisynthetic_trajectory</code> at the <code>phase6_small_n</code> settings: three stages,
+  <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code>, <code>p_dmp = 0.1</code>, ρ = 0, joint magnitude, <code>group_effect_size = 0</code>
+  (null). Only the methylation (367 CpGs, converted to M-values) and expression (131 genes) blocks are measured;
+  both are analysed with the <code>identity</code> transform. Base seed 2026. Generator, covariate and RRPP seeds are derived
+  per replicate.</li>
+<li><strong>Covariates.</strong> With <code>g</code> the group indicator and <code>s</code> the stage index (0–2):</li>
+<li>numeric <code>z = a_g·g + a_s·s + a_gs·g·s + ε</code>, with ε ~ N(0, 1);</li>
+<li>categorical: three levels from a multinomial logit with level logits <code>k·c·η</code> (k = 0, 1, 2) on the same
+    linear predictor η.</li>
+<li>Values: <code>a_g = 0.5</code>, <code>a_s = 1</code>, <code>a_gs = 2</code> and <code>c = 0.5</code>.</li>
+<li>Across replicates, the numeric covariate's group × stage interaction contrast
+    <code>(z̄_B,2 − z̄_B,0) − (z̄_A,2 − z̄_A,0)</code> has mean 3.98 (SD 0.58). The covariates therefore bend the groups'
+    trajectories differently, not only shift them.</li>
+<li><strong>Injection.</strong> <code>X_f += s_z·sd_f·w_f·z + s_c·sd_f·Σ_k u_{k,f}·1[cat = k]</code>.</li>
+<li><code>sd_f</code> is the feature's pooled SD on the analysed scale.</li>
+<li><code>w</code> and the <code>u_k</code> are unit directions, each on a random 20 % of the 498 joint features, drawn once from the base
+    seed.</li>
+<li>Strengths: <code>s_z = 3</code> and <code>s_c = 2</code>.</li>
+<li><strong>Arms.</strong> Each replicate is analysed twice with <code>analyze_trajectories</code>, using its defaults: net displacement, CV
+  rank with the harness knobs, and the same RRPP seed.</li>
+<li><code>adjusted</code>: <code>covariate_cols = ["z", "category"]</code>, <code>category</code> categorical. The design columns are <code>z</code>,
+    <code>category[c1]</code> and <code>category[c2]</code>.</li>
+<li><code>unadjusted</code>: no covariates.</li>
+<li>The latent scores and selected rank were identical in both arms for all 500 replicates. CV selected rank 2 in
+    264 replicates and rank 3 in 236.</li>
+<li><strong>Rule.</strong> Per statistic, the adjusted rate over the R available replicates must be ≤ α + k·√(α(1 − α)/R), with
+  α = 0.05 and k = 2. <code>covariates_validated</code> requires all three statistics to hold. The unadjusted arm is reported
+  only and does not enter the decision.</li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<p>The design's first strengths (<code>a_s = 0.5</code>, <code>a_gs = 0.75</code>, <code>s_z = 0.5</code>, <code>s_c = 0.3</code>) did not confound: in the
+R = 20 smoke run, the unadjusted arm rejected at about α, which would have made the gate vacuous.</p>
+<p>Raising <code>s_z</code> alone, even to 30, did not help. The injection carries <code>z</code>'s within-cell noise along <code>w</code> in the same
+proportion as its cell-mean pattern, so the RRPP null widens together with the signal. The confounding
+signal-to-noise is <code>a_gs</code> relative to the covariate's noise SD.</p>
+<p>The calibrated values above were chosen on probe replicates and confirmed by the smoke profile (R = 20, 99
+permutations): unadjusted <code>shape</code> 0.45. The categorical logit scale keeps the factor mixed within cells, so
+complete-cell alignment cannot trip the full-rank guard. All values are recorded in the decision file.</p>
+<h2 id="2-rates-against-the-bound">2. Rates against the bound</h2>
+<p>From <code>covariate_type_i_rates.csv</code>. Rate (MC SE); R = 500 for every statistic, no failed replicate; bound 0.0695.</p>
+<table>
+<thead>
+<tr>
+<th>statistic</th>
+<th>adjusted</th>
+<th>verdict</th>
+<th>unadjusted (descriptive)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delta</code></td>
+<td>0.040 (0.0088)</td>
+<td>holds</td>
+<td>0.098 (0.0133)</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td>0.062 (0.0108)</td>
+<td>holds</td>
+<td>0.096 (0.0132)</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td>0.034 (0.0081)</td>
+<td>holds</td>
+<td>0.364 (0.0215)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stability.</strong> Split into five consecutive blocks of 100 replicates, the adjusted rates are:</p>
+<ul>
+<li><code>delta</code>: 0.07, 0.04, 0.05, 0.00, 0.04;</li>
+<li><code>angle</code>: 0.05, 0.05, 0.05, 0.11, 0.05;</li>
+<li><code>shape</code>: 0.06, 0.02, 0.03, 0.02, 0.04.</li>
+</ul>
+<p>The <code>angle</code> rate of 0.062 comes from one block at 0.11; the other four blocks sit at 0.05. At p &lt; 0.05 instead of
+p ≤ 0.05, the convention of the earlier Type I reports, the rates are 0.040, 0.060 and 0.034. The decision is the
+same.</p>
+<p><strong>Against the no-covariate anchor.</strong> The parent Phase 6 study's <code>pls_cv × net_displacement</code> anchor (no covariates,
+independent seeds; <a href="../net-displacement-type-i-2026-10-13/">net-displacement Type I report</a>) had <code>delta</code> 0.026,
+<code>angle</code> 0.050 and <code>shape</code> 0.020. The adjusted arm here is 0.01–0.015 higher on each statistic but within the bound.
+That is plausible for a model with three more columns at n = 80, where RRPP is exact only asymptotically. It is
+recorded here and not judged by the rule.</p>
+<h2 id="3-what-the-unadjusted-arm-shows">3. What the unadjusted arm shows</h2>
+<p>The construction confounds, mostly through <code>shape</code>: an interaction between the covariate and stage bends one
+group's path relative to the other's. With 36 % false <code>shape</code> rejections, an unadjusted SEA-AD <code>shape</code> result under
+comparable confounding could not be told apart from a donor-composition difference. <code>delta</code> and <code>angle</code> inflate
+about two-fold. The adjustment removes all three inflations, which is the property the gate tests.</p>
+<h2 id="4-scope-and-limits">4. Scope and limits</h2>
+<ul>
+<li>The check covers <strong>additive, linear</strong> covariate effects that are correctly specified in the model. A covariate
+  whose true effect is non-linear, or interacts with group or stage, is outside it.</li>
+<li>The latent space is covariate-blind. In this construction the covariate effect is correlated with stage, so PLS
+  may spend capacity on it; that case is measured here rather than assumed away. A covariate effect much larger
+  than the stage signal is not.</li>
+<li>This is one design: n = 80, two blocks, 498 features, three covariate design columns. More covariate columns at
+  the same n use more residual degrees of freedom; this check does not bound that cost.</li>
+<li>There is no power claim. Adjustment costs degrees of freedom and, in the presence of confounding, also removes
+  confounded signal; the operating studies' power numbers were measured without covariates.</li>
+</ul>
+<h2 id="5-consequence-for-the-case-study">5. Consequence for the case study</h2>
+<p>The decision is <code>covariates_validated</code>. The SEA-AD case study may report covariate-adjusted <code>motco analyze</code> results
+(MOTCO ≥ 0.8.0) under these conditions:</p>
+<ul>
+<li>keep the covariate set parsimonious (each factor level is a column);</li>
+<li>report the record's <code>covariates</code> block (design columns, missing policy and dropped donors) beside the results;</li>
+<li>carry the additive-linear and covariate-blind-basis limitations above;</li>
+<li>keep the earlier binding statements unchanged: the CV-selected rank is reported beside <code>angle</code>, and
+  non-rejections are uninformative.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

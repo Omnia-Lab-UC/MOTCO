@@ -1,0 +1,1205 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../simulations/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>CLI - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motco-plsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco plsr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-snf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco snf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco de
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-analyze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco analyze
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motco-plsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco plsr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-snf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco snf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco de
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motco-analyze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        motco analyze
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="cli-reference">CLI Reference</h1>
+<p>The <code>motco</code> command-line interface provides five subcommands.</p>
+<pre><code>usage: motco [-h] [--version] [--verbose] {plsr,snf,simulate,de,analyze} ...
+
+MOTCO CLI: PLSR, SNF, group differences, and real-data trajectory analysis
+
+positional arguments:
+  {plsr,snf,simulate,de,analyze}
+    plsr                Run PLS-DA with double cross-validation
+    snf                 Similarity Network Fusion
+    simulate            Generate a semi-synthetic multi-omics toy dataset (numpy generator, no R)
+    de                  Group differences on trajectories (estimate or RRPP)
+    analyze             Real-data trajectory analysis with the validated pipeline (PLS latent space, RRPP)
+</code></pre>
+<p>For real data, use <code>motco analyze</code>. It runs the measurement the simulation
+studies validated, in one step. <code>plsr</code> and <code>de</code> are lower-level building blocks.</p>
+<hr />
+<h2 id="motco-plsr"><code>motco plsr</code></h2>
+<p>Run PLS-DA with double cross-validation. Input can be a single CSV (with <code>--data</code> and <code>--label-col</code>) or separate predictor/label CSVs (<code>--x</code> / <code>--y</code>).</p>
+<pre><code>usage: motco plsr [-h] [--data DATA] [--label-col LABEL_COL] [--x X] [--y Y]
+                  [--cv1-splits CV1_SPLITS] [--cv2-splits CV2_SPLITS]
+                  [--n-repeats N_REPEATS] [--max-components MAX_COMPONENTS]
+                  [--min-components MIN_COMPONENTS]
+                  [--random-state RANDOM_STATE] [--out-table OUT_TABLE]
+                  [--out-vips OUT_VIPS]
+
+options:
+  --data DATA                CSV with predictors and label column
+  --label-col LABEL_COL      Label column name when using --data
+  --x X                      CSV with predictors (features)
+  --y Y                      CSV with labels/outcomes
+  --cv1-splits CV1_SPLITS    Inner CV folds
+  --cv2-splits CV2_SPLITS    Outer CV folds
+  --n-repeats N_REPEATS      Number of outer CV repeats
+  --max-components MAX_COMPONENTS
+                             Maximum latent variables to search
+  --min-components MIN_COMPONENTS
+                             Smallest number of latent variables CV considers; the
+                             candidates are MIN..MAX-1 (default: 1, the unfloored rule).
+                             A value below 1 or not below --max-components exits
+                             non-zero naming both values
+  --random-state RANDOM_STATE
+                             Random seed for reproducibility
+  --out-table OUT_TABLE      Path to save the best models table (CSV)
+  --out-vips OUT_VIPS        Path to save VIP scores per feature (CSV)
+</code></pre>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">motco plsr \
+  --data data.csv --label-col group \
+  --cv1-splits 5 --cv2-splits 5 --n-repeats 10 --max-components 5 \
+  --out-table results/plsr_table.csv \
+  --out-vips results/vips.csv
+</code></pre>
+<hr />
+<h2 id="motco-snf"><code>motco snf</code></h2>
+<p>Similarity Network Fusion across two or more omics CSV files. Pass <code>--input</code> once per dataset (all must have the same number of rows in the same sample order).</p>
+<pre><code>usage: motco snf [-h] [--input INPUT] [--K K] [--eps EPS] [--k K] [--t T]
+                 [--out-fused OUT_FUSED] [--out-embedding OUT_EMBEDDING]
+                 [--spectral-components SPECTRAL_COMPONENTS]
+
+options:
+  --input INPUT              Input CSV (repeat for multiple omics)
+  --K K                      K for affinity construction (default: 20)
+  --eps EPS                  Epsilon for affinity construction (default: 0.5)
+  --k K                      k for sparse kernel in SNF (default: 20)
+  --t T                      Number of SNF iterations (default: 20)
+  --out-fused OUT_FUSED      Path to save fused matrix (CSV)
+  --out-embedding OUT_EMBEDDING
+                             Path to save spectral embedding (CSV)
+  --spectral-components SPECTRAL_COMPONENTS
+                             Number of spectral embedding components (default: 10)
+</code></pre>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">motco snf \
+  --input proteomics.csv --input metabolomics.csv \
+  --K 20 --k 20 --t 20 \
+  --out-fused results/fused.csv \
+  --out-embedding results/embedding.csv \
+  --spectral-components 10
+</code></pre>
+<hr />
+<h2 id="motco-de"><code>motco de</code></h2>
+<p>Estimate group trajectory differences, optionally with RRPP permutation testing.</p>
+<p><strong>Estimate only</strong> (no p-values): provide <code>--model-matrix</code>.</p>
+<p><strong>RRPP</strong> (with p-values): provide <code>--model-full</code>, <code>--model-reduced</code>, and <code>--rrpp-permutations</code>.</p>
+<pre><code>usage: motco de [-h] --Y Y --ls-means LS_MEANS --contrast CONTRAST
+                [--model-matrix MODEL_MATRIX] [--model-full MODEL_FULL]
+                [--model-reduced MODEL_REDUCED]
+                [--rrpp-permutations RRPP_PERMUTATIONS] [--out-json OUT_JSON]
+                [--out-observed OUT_OBSERVED]
+                [--orientation-estimator {pc1,net_displacement}]
+
+options:
+  --Y Y                      Outcome matrix CSV (latent space coordinates)
+  --ls-means LS_MEANS        Least-squares means CSV
+  --contrast CONTRAST        JSON file with groups (list of index lists)
+  --model-matrix MODEL_MATRIX
+                             Model matrix CSV (with intercept) for estimate_difference
+  --model-full MODEL_FULL    Full model matrix CSV (with intercept) for RRPP
+  --model-reduced MODEL_REDUCED
+                             Reduced model matrix CSV (with intercept) for RRPP
+  --rrpp-permutations RRPP_PERMUTATIONS
+                             Number of permutations for RRPP
+  --out-json OUT_JSON        Output JSON file
+  --out-observed OUT_OBSERVED
+                             Save predicted LS-mean vectors as CSV
+  --orientation-estimator {pc1,net_displacement}
+                             Orientation estimator for angles (default: pc1)
+</code></pre>
+<p><code>--orientation-estimator</code> selects how each group's orientation is measured, for
+the observed <code>angles</code> and for every RRPP permutation. The default stays <code>pc1</code>,
+so existing invocations produce the same output. When the flag is omitted, the
+JSON is unchanged and has no <code>orientation_estimator</code> key. <code>net_displacement</code> is
+the estimator the simulation harness and the published operating
+characteristics describe. When the flag is given, with either value, the JSON
+records it as <code>"orientation_estimator"</code>. Only <code>angles</code> depend on it.</p>
+<p><strong>Example — estimate only:</strong></p>
+<pre><code class="language-bash">motco de \
+  --Y latent.csv --model-matrix model_full.csv \
+  --ls-means ls_means.csv --contrast contrast.json \
+  --out-json results/de.json \
+  --out-observed results/ls_mean_vectors.csv
+</code></pre>
+<p><strong>Example — RRPP:</strong></p>
+<pre><code class="language-bash">motco de \
+  --Y latent.csv \
+  --model-full model_full.csv --model-reduced model_reduced.csv \
+  --ls-means ls_means.csv --contrast contrast.json \
+  --rrpp-permutations 999 \
+  --out-json results/rrpp.json
+</code></pre>
+<hr />
+<h2 id="motco-analyze"><code>motco analyze</code></h2>
+<p>Real-data trajectory analysis with the validated pipeline. See
+<a href="../analysis/">Real-Data Analysis</a> for the input contract, the record and the
+artifact layout.</p>
+<pre><code>usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
+                     METADATA --sample-col SAMPLE_COL --group-col GROUP_COL
+                     --stage-col STAGE_COL [--stage-order STAGE_ORDER]
+                     [--group-order GROUP_ORDER] [--covariate COL]
+                     [--categorical-covariate COL]
+                     [--missing-covariates {error,complete_case}]
+                     [--latent-adjustment {stage,group_stage}]
+                     [--permutations PERMUTATIONS]
+                     [--seed SEED] [--n-jobs N_JOBS]
+                     [--forced-components FORCED_COMPONENTS]
+                     [--min-components MIN_COMPONENTS]
+                     [--orientation-estimator {net_displacement,pc1}]
+                     [--attribution]
+                     [--bootstrap-replicates BOOTSTRAP_REPLICATES]
+                     [--bootstrap-seed BOOTSTRAP_SEED] [--top-k TOP_K]
+                     [--cv1-splits CV1_SPLITS] [--cv2-splits CV2_SPLITS]
+                     [--n-repeats N_REPEATS] [--max-components MAX_COMPONENTS]
+                     [--cv-random-state CV_RANDOM_STATE] --out-dir OUT_DIR
+                     [--overwrite]
+
+options:
+  --block NAME=PATH          Omic block CSV (samples x features, first column the sample id);
+                             repeat per block, in joint feature order
+  --transform NAME=KIND      Unit transform for a declared block: identity (default) or beta_to_mvalue
+  --metadata METADATA        Sample metadata CSV
+  --sample-col, --group-col, --stage-col
+                             Metadata columns: sample ids, the two groups, the stages
+  --stage-order STAGE_ORDER  Required. Comma-separated stage labels, first to last
+  --group-order GROUP_ORDER  Comma-separated group labels (default: sorted as strings)
+  --covariate COL            Metadata column entering the trajectory model additively; repeat per
+                             covariate, in model order (non-numeric columns are categorical)
+  --categorical-covariate COL
+                             Like --covariate, but treat the column as a factor whatever its dtype
+  --missing-covariates {error,complete_case}
+                             Missing covariate values: error (default) or complete_case (drop those
+                             samples); never imputed
+  --latent-adjustment {stage,group_stage}
+                             Fit the PLS basis on features residualized on the declared covariates,
+                             conditional on the stage (stage) or group x stage (group_stage)
+                             indicators; requires a covariate. Default: off (covariate-blind basis)
+  --permutations N           RRPP permutations (default: 0, no p-values)
+  --seed SEED                RRPP seed
+  --n-jobs N_JOBS            Parallel jobs for CV and RRPP (-1 = all CPUs)
+  --forced-components K      Fix the latent rank and skip cross-validation
+  --min-components N         Rank floor of the cross-validated latent space: CV considers
+                             ranks N..MAX-1 (default: 2; 1 restores the unfloored 0.9.0 rule);
+                             a value below 1 exits non-zero
+  --orientation-estimator {net_displacement,pc1}
+                             Orientation estimator (default: net_displacement)
+  --attribution              Run frozen-model orientation attribution
+  --bootstrap-replicates, --bootstrap-seed, --top-k
+                             Attribution bootstrap settings
+  --cv1-splits 3, --cv2-splits 4, --n-repeats 5, --max-components 20, --cv-random-state 1203
+                             Cross-validation settings (harness defaults)
+  --out-dir OUT_DIR          Directory for the analysis artifact
+  --overwrite                Replace an existing analysis in --out-dir
+</code></pre>
+<p>Blocks are analysed in the units supplied: MOTCO does not normalize counts,
+filter features or impute values. On success the command prints the selected
+rank with its floor, the estimator, the statistics with their p-values and the
+written paths;
+with covariates it also prints each covariate's kind and the number of samples
+complete-case deletion dropped, and with <code>--latent-adjustment</code> the conditioning
+and the residual degrees of freedom of the residualization. Covariates are
+declared in flag order across <code>--covariate</code> and <code>--categorical-covariate</code>.
+<code>--latent-adjustment</code> without a covariate flag exits non-zero before any data
+are read; see <a href="../analysis/#latent-adjustment">Latent adjustment</a> for what it
+changes and the mediator caveat.
+Input and validation errors exit non-zero with an <code>Error: …</code> message.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">motco analyze \
+  --block rna=rna_logcpm.csv --block atac=atac_logcpm.csv \
+  --metadata donors.csv --sample-col donor_id --group-col Sex --stage-col ADNC \
+  --stage-order &quot;Not AD + Low,Intermediate,High&quot; \
+  --permutations 999 --seed 20261015 \
+  --out-dir results/motco_mtg_astro
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

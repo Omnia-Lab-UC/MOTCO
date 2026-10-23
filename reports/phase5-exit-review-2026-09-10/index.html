@@ -1,0 +1,1073 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Phase 5 exit review — 2026-09-10 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-5-exit-review-2026-09-10" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phase 5 exit review — 2026-09-10
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-exit-gate-criteria-are-met" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The exit-gate criteria are met
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-phase-5-establishes-and-what-it-withholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What Phase 5 establishes, and what it withholds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-resolution-of-each-deviation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Resolution of each deviation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-phase-6-is-authorised-with-one-binding-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Phase 6 is authorised, with one binding condition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-phase-7-stays-deferred-question-closed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Phase 7 stays deferred — question closed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-consequent-work-in-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Consequent work, in order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-what-this-review-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. What this review does not do
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="phase-5-exit-review-2026-09-10">Phase 5 exit review — 2026-09-10</h1>
+<p><strong>Decision: Phase 5's exit gate is CLOSED as a conditional pass.</strong> Every exit-gate criterion is met. The
+Phase 4 gate's <strong>HOLD</strong> stands as recorded and is resolved as a construction defect with a known fix, not as
+a defect in the <code>delta</code>/<code>angle</code>/<code>shape</code> estimators. The magnitude specificity claim is <strong>withheld</strong> pending
+re-measurement of the corrected construction. Phase 6 is authorised to start. Phase 7 stays deferred.</p>
+<p><strong>Inputs.</strong> <a href="../phase5-paper-grade-2026-09-10/">Paper-grade findings report</a> (run
+<code>results/phase5-2026-09-10/</code>, 19 cells × 500 replicates × 999 permutations = 9,500 units, job 880599) and
+the <a href="../magnitude-construction-diagnostic-2026-09-10/">magnitude-construction diagnostic</a> (run
+<code>results/magnitude-construction-2026-09-10/</code>). No new measurement was made for this review; it decides on
+what those two produced.</p>
+<h2 id="1-the-exit-gate-criteria-are-met">1. The exit-gate criteria are met</h2>
+<p>The roadmap's Phase 5 exit gate has three criteria. Each is satisfied independently of the Phase 4 gate's
+verdict, and the distinction matters: the Phase 4 gate asks whether the <em>statistics</em> met predeclared
+operating targets, while the exit gate asks whether <em>Phase 5 produced publishable evidence</em>.</p>
+<table>
+<thead>
+<tr>
+<th>criterion</th>
+<th>status</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conclusions are stable at paper-grade Monte Carlo precision</td>
+<td><strong>met</strong></td>
+<td>Every quantity agrees with two independent matched-seed pilot families within Monte Carlo error, including both failures (magnitude/<code>angle</code> 0.276 vs the ladder's 0.24; magnitude/<code>shape</code> 0.742 vs 0.74). The 22-fold increase in Monte Carlo work changed no conclusion.</td>
+</tr>
+<tr>
+<td>All deviations from preregistered targets are explained</td>
+<td><strong>met</strong></td>
+<td>Four deviations, each with a mechanism and a named revision — §3 below. None is a Monte Carlo sample-size question, and none was addressed by raising the replicate count (which the Phase 4 exit gate forbids).</td>
+</tr>
+<tr>
+<td>The report distinguishes statistical operating characteristics from biological construction cross-talk</td>
+<td><strong>met</strong></td>
+<td>This is precisely what the diagnostic settled: the magnitude off-target response is construction geometry (exactly size-pure within every omic block, <code>angle</code> 0.0000 at <code>population_native</code>), not estimator behaviour.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-what-phase-5-establishes-and-what-it-withholds">2. What Phase 5 establishes, and what it withholds</h2>
+<p><strong>Claimable now</strong>, at paper-grade precision:</p>
+<ul>
+<li><strong>Type I error control</strong> on all three statistics: 0.040–0.062 across both baseline cells against α = 0.05,
+  every one within 2·SE (<code>report/acceptance_report.csv</code>, 6/6 targets met), and all 21 gate inflation checks
+  met.</li>
+<li><strong>Translation invariance</strong>: a constant observed-space offset moves none of the three statistics at any
+  effect (0.028–0.056 across the whole sweep). This is the estimators' invariance contract, confirmed.</li>
+<li><strong>Power</strong> on all three diagonals against the 0.80 floor: magnitude/<code>delta</code> 1.000, orientation/<code>angle</code>
+  0.840 ± 0.016, shape/<code>shape</code> 0.996.</li>
+<li><strong>The measurement architecture</strong>: features → PLS latent space → trajectory geometry, with the
+  stage-supervised double-CV rank rule selecting rank 3 = <code>n_stages − 1</code> in all 19 cells.</li>
+<li><strong>Operational reproducibility</strong>: 9,500/9,500 units present once, 0 signature mismatches, 0 failures, 0
+  censored surgeries, and a committed <code>report/</code> that regenerates byte-identically from the merged records.</li>
+</ul>
+<p><strong>Withheld pending re-measurement:</strong></p>
+<ul>
+<li><strong>The specificity claim for <code>angle</code> and <code>shape</code> against a pure size change.</strong> The construction used to
+  test it was not a pure size change (§3), so the test was invalid rather than failed. The claim is neither
+  asserted nor abandoned; it awaits the corrected construction. The paper's specificity section cannot be
+  written until then.</li>
+</ul>
+<p><strong>Not claimable, on independent grounds:</strong></p>
+<ul>
+<li><strong>Cross-replicate driver stability</strong> — no design holds the driver set fixed, so it is descriptive only.</li>
+<li><strong>A strictly-monotone orientation power claim</strong> — see §3.</li>
+</ul>
+<h2 id="3-resolution-of-each-deviation">3. Resolution of each deviation</h2>
+<p><strong>D1 — <code>mandatory_control[magnitude,angle]</code> 0.276 &gt; 0.0695 (10.3 SE). Method revision.</strong>
+<code>magnitude_kind='all'</code> scales <code>delta_methyl</code> alone while the measurement space standardizes and concatenates
+all three omic blocks, so group B grows in one block and not the others and the pooled trajectory rotates by
+construction. Within each omic block the surgery is exactly size-pure (<code>angle</code> 0.0000 and <code>shape</code> ~1e-17 at
+<code>population_native</code>, every effect); the response appears only in the joint scope (<code>angle</code> 6.70° → 20.33°) and
+is confirmed shape-free at two stages (19.05° vs 18.91° at four). A uniform-δ construction that scales every
+omic's δ together is exactly size-pure in the joint space after per-block standardization (joint <code>angle</code>
+8.5e-07 → 2.6e-06, joint <code>shape</code> ~1e-15 — the anchor's own floor — while joint <code>delta</code> grows 14.96 → 44.80).
+<strong>The <code>angle</code> estimator is not implicated.</strong> Remedy: adopt the corrected construction, calibrate its effect
+axis, re-measure. Tracked as its own change (§5).</p>
+<p><strong>D2 — <code>mandatory_control[magnitude,shape]</code> 0.742 &gt; 0.0695 (34.4 SE). Method revision, same fix.</strong>
+Same mechanism. The paper-grade report named a diagnostic prerequisite — whether the 0.05 normalized
+materiality threshold was calibrated for the <code>shape</code> statistic's scale — and it is <strong>discharged</strong>: it was
+not. <code>localize_off_diagonal</code> normalized <code>delta</code> by path length and <code>angle</code> by 180° but passed <code>shape</code> through
+raw, so one absolute cut could never classify a statistic whose entire response range is ~1e-2. The
+recalibrated null-dispersion rule classifies magnitude/<code>shape</code> as <code>construction_present</code> at every effect
+while leaving translation <code>not_material</code> on all eight rows. The response was real all along and the
+instrument was hiding it.</p>
+<p><strong>D3 — <code>power[orientation,angle]</code> acceptance target not met (monotonicity). Claim revision.</strong>
+The 0.80 floor is cleared (0.840). The strictly-monotone form is not supported: the curve saturates from
+e = 0.25 (0.842, 0.878, 0.872, 0.840) because the <code>angle</code> null widens with the observed statistic — median
+q95 5.5° at the anchor to 11.3° at e = 1.00, with the IQR growing faster (4.9° → 13.9°). This is the
+pivotality property already established in 2026-09-01, showing its consequence at paper grade. <strong>Adopted
+claim:</strong> a <em>saturating</em> orientation response that clears the floor, stated with the eigengap stratification
+(0.754 / 0.886 / 0.880 by tercile), never as a monotone power curve. No replicate count or rank change
+addresses it — the ladder already returned <code>keep_cv</code> over five fixed ranks; a different pivot would.</p>
+<p><strong>D4 — orientation/<code>shape</code> predeclared "projection-associated". Claim revision. Refuted.</strong>
+The label does not survive. Orientation's response is present <em>within</em> each omic block (max block <code>angle</code>
+90.08° against joint 89.93°; max block <code>shape</code> 0.108 against joint 0.059), and under the recalibrated
+materiality rule <strong>no pair anywhere in the study localizes as projection-associated</strong> — the paper-grade run's
+single such classification, orientation/<code>delta</code> at e = 1.00, becomes <code>construction_present</code> once the
+population checkpoint is judged against its own null. <strong>Adopted claim:</strong> orientation → <code>shape</code> is
+construction-present cross-talk of a global per-omic feature permutation. No gate impact — both orientation
+off-diagonals are descriptive roles. The projection-associated framing must not be repeated.</p>
+<h2 id="4-phase-6-is-authorised-with-one-binding-condition">4. Phase 6 is authorised, with one binding condition</h2>
+<p>Phase 6 (real-data case study) may start. The HOLD concerns a synthetic construction; real cohorts have no
+surgery modes, so nothing about D1/D2 blocks applying the validated configuration to real data.</p>
+<p><strong>Binding condition — report orientation power against the cohort's own recorded eigengap, never the pooled
+figure.</strong> Pooled orientation/<code>angle</code> power at e = 1.00 is 0.840, but stratified by eigengap tercile it is
+0.754 / 0.886 / 0.880: the lowest tercile sits <em>below</em> the predeclared 0.80 floor. The eigengap, not n and
+not ρ, is the observable that transfers. A cohort landing in that tercile does not inherit 0.840.</p>
+<p>Two stated limitations travel with any Phase 6 orientation result:</p>
+<ul>
+<li>The claim is <strong>n-conditional</strong>: established at n = 1200 (300 per group-stage cell) at the isotropic
+  endpoint ρ = 0. Along n at fixed ρ the eigengap is constant while the <code>angle</code> null width contracts.</li>
+<li>The orientation surgery's realized latent contrast is <strong>not ρ-invariant</strong> (median observed angle 28° at
+  ρ = 0.5 vs 66° at ρ = 0), so baseline continuity is not a lever that buys power.</li>
+</ul>
+<h2 id="5-phase-7-stays-deferred-question-closed">5. Phase 7 stays deferred — question closed</h2>
+<p>SNF-native trajectory statistics remain deferred pending graph-native metrics. Nothing in the paper-grade run
+or the diagnostic bears on SNF: the study measured the PLS latent space throughout, and <code>concat</code> appeared only
+as a baseline. The deferral is therefore <strong>not</strong> an open question awaiting this review's evidence — it awaits
+a decision to define graph-native path-length and angle statistics, which is independent work. Recording it
+as closed here so it stops reading as pending.</p>
+<h2 id="6-consequent-work-in-order">6. Consequent work, in order</h2>
+<ol>
+<li><strong>Adopt the size-pure magnitude construction</strong> (its own change). Promote the uniform-δ probe from
+   diagnostic-only to a production <code>magnitude_kind</code>; it is currently unreachable from configuration and
+   refused by the loader by design. Calibrate its effect axis first — at e = 1.00 it reaches joint <code>delta</code>
+   44.80 against production's 18.14, so the two effect axes are not comparable and its power curve cannot be
+   read beside the existing one without recalibration. Then re-measure the magnitude controls and lift the
+   withheld specificity claim or report it as failed on its own terms.</li>
+<li><strong>Phase 6 real-data case study</strong>, under the §4 condition.</li>
+<li><strong>Consider making the null-dispersion materiality rule the default.</strong> It is opt-in here so the committed
+   Phase 5 <code>report/</code> keeps regenerating byte-identically. Switching the default is a reporting change that
+   should come with a recorded re-issue of any affected localization output — and note the interpretive
+   consequence: because population checkpoints carry analytically zero nulls, the rule answers "is this
+   construction exactly pure?" rather than "is the impurity large enough to matter". Severity is read from
+   the response magnitude, not the label.</li>
+</ol>
+<h2 id="7-what-this-review-does-not-do">7. What this review does not do</h2>
+<p>It adopts no construction change, re-runs no study, and edits no predeclared artefact — the config, gate
+roles, acceptance targets, and report contract stay frozen, and the committed Phase 5 <code>report/</code> is untouched.
+The conditional pass is a statement about what Phase 5 established, not a waiver of the Phase 4 gate's
+verdict, which stands as recorded in <code>results/phase5-2026-09-10/report/phase4_gate_decision.json</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

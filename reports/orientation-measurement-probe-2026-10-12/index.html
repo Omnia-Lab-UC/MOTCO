@@ -1,0 +1,1381 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Orientation measurement probe — 2026-10-12 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#orientation-measurement-probe-2026-10-12" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Orientation measurement probe — 2026-10-12
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-motivating-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Motivating evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-design-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Design and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-rejection-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rejection rates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-where-the-rotation-is-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Where the rotation is lost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-advancement-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Advancement decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Findings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-recommendation-for-the-follow-up-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Recommendation for the follow-up study
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="orientation-measurement-probe-2026-10-12">Orientation measurement probe — 2026-10-12</h1>
+<blockquote>
+<p>Exploratory, matched-seed probe (<code>openspec/changes/archive/2026-10-12-orientation-measurement-probe/</code>). It ranks measurement
+arms for a paper-grade follow-up. It certifies none of them and changes no production default. Every rate
+below is read from <code>results/orientation-measurement-probe-2026-10-12/</code> (<code>rate_table.csv</code>,
+<code>checkpoint_table.csv</code>, <code>advancement_decision.json</code>, <code>summary.md</code>). The motivating evidence in §1 is read from
+<code>evidence/phase6_checkpoint_evidence.md</code>, produced by <code>scripts/orientation_checkpoint_evidence.py</code>. Rates are
+rejection rates at p &lt; 0.05 over 100 replicates (Monte Carlo SE about 0.022 at 0.05 and 0.05 at 0.5).</p>
+</blockquote>
+<p><strong>Run:</strong> <code>results/orientation-measurement-probe-2026-10-12/</code> · <strong>Driver:</strong> <code>scripts/orientation_measurement_probe.py</code>
+at <code>49134c3</code> · <strong>Decision:</strong> no arm advances (<code>advancement_decision.json</code>, advisory).</p>
+<p><strong>In one paragraph.</strong> Two levers were crossed on the same datasets: the measurement space (five spaces) and the
+orientation estimator (PC1 or net displacement). The estimator turned out to be the larger lever. In the
+production stage-PLS space, net displacement more than doubles orientation/<code>angle</code> power at the Phase 6 SEA-AD
+design (0.29 → 0.67). At Phase 5 it removes the shape construction's leak into <code>angle</code> (0.89 → 0.02), and it costs
+no other power or specificity. That arm fails the predeclared rule on one criterion only: its Phase 6 anchor
+<code>angle</code> rate is 0.100, against a bound of 0.0936. Every net-displacement arm shows a similar anchor excess at both
+designs (0.08–0.10, against 0.01–0.05 under PC1). At 100 replicates this is suggestive, not established, and it
+is the question the follow-up must settle first. The alternative spaces do not help on their own terms:
+- <code>pls_within_group</code> without a per-permutation refit is invalid (anchor <code>angle</code> up to 0.88).
+- <code>pca</code> and <code>pls_forced</code> at rank 2(K − 1) recover the rotation, but they lose Phase 6 shape power (0.19 → 0.00–0.01) and leak <code>angle</code> into the shape or magnitude cells.</p>
+<h2 id="1-motivating-evidence">1. Motivating evidence</h2>
+<p>From <code>evidence/phase6_checkpoint_evidence.md</code> (Phase 6 small-n orientation profile, baseline column,
+<code>results/phase6-small-n-2026-10-09/merged.jsonl</code>, sha256 <code>6a91a47e…</code>):</p>
+<table>
+<thead>
+<tr>
+<th>e</th>
+<th>population (native methylation)</th>
+<th>observed std.</th>
+<th>PLS latent, rank ≤ 3</th>
+<th>PLS latent, rank &gt; 3</th>
+<th><code>angle</code> rate (≤ 3 / &gt; 3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.25</td>
+<td>41.4°</td>
+<td>58.3°</td>
+<td>21.6°</td>
+<td>—</td>
+<td>0.034 / —</td>
+</tr>
+<tr>
+<td>0.50</td>
+<td>60.0°</td>
+<td>71.5°</td>
+<td>24.8°</td>
+<td>—</td>
+<td>0.058 / —</td>
+</tr>
+<tr>
+<td>0.75</td>
+<td>75.7°</td>
+<td>81.8°</td>
+<td>28.5°</td>
+<td>—</td>
+<td>0.090 / —</td>
+</tr>
+<tr>
+<td>1.00</td>
+<td>90.0°</td>
+<td>89.8°</td>
+<td>32.1° (n = 243)</td>
+<td>76.0° (n = 257)</td>
+<td>0.082 / 0.506</td>
+</tr>
+</tbody>
+</table>
+<p>The surgery realizes arccos(1 − e) exactly in the population, and the observed standardized space keeps it. The
+stage-supervised PLS space collapses it unless CV keeps more than three components. The signed anchor <code>angle</code> has
+a heavy tail: q95 = 137.1° in the observed space and 135.6° in the latent space. On that oracle threshold the
+signed observed angle separates e = 1 from the anchor in 0.000 of replicates, and its folded counterpart in 0.996
+(0.496 in the latent space).</p>
+<h2 id="2-design-and-provenance">2. Design and provenance</h2>
+<ul>
+<li><strong>Arms:</strong> five spaces × two estimators, giving ten arms:</li>
+<li>Spaces: <code>pls_cv</code> (production stage-PLS, CV rank; with PC1 this is the <strong>reference arm</strong>); <code>pls_forced</code> (stage-PLS at rank 2(K − 1)); <code>pls_within_group</code> (K − 1 components per group, fixed basis, no refit inside RRPP); <code>pca</code> (rank 2(K − 1)); and <code>concat</code> (ceiling reference, never eligible).</li>
+<li>Estimators: <code>pc1</code> and <code>net_displacement</code>.</li>
+<li><strong>Designs:</strong></li>
+<li>Phase 6 SEA-AD: three stages, <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code>, methylation + expression measured.</li>
+<li>Phase 5: n = 1200, four stages, all three blocks measured.</li>
+<li>Both use <code>p_dmp = 0.1</code>, ρ = 0, joint magnitude and <code>surgery_censoring = error</code>.</li>
+<li><strong>Deviation:</strong> the Phase 5 design uses the joint magnitude construction, not the methylation-only <code>all</code> pinned in <code>phase5_power_study.json</code>. The reference arm's rates are recomputed here, and every comparison is against them.</li>
+<li><strong>Cells:</strong> the anchor; orientation at e = 0.5 and 1.0; magnitude and shape at e = 1.0. Each cell has 100 replicates × 199 permutations.</li>
+<li><strong>Seeds:</strong> the generator seed is matched across cells per (design, replicate). One RRPP seed per unit is shared by all ten arms, so arms differ only in measurement.</li>
+<li><strong>Run:</strong> SLURM array 912606 on <code>ing</code>, 50 shards. 1,000/1,000 units and 10,000 arm records, with 0 failures. It took 28.2 recorded core-hours, 28 % over the 22 core-hour budget written before launch (<code>PROVENANCE.txt</code>).</li>
+</ul>
+<h2 id="3-rejection-rates">3. Rejection rates</h2>
+<p>From <code>rate_table.csv</code> / <code>summary.md</code>. "orient." is orientation; "mag." is magnitude.</p>
+<p><strong>Phase 6 (n = 80, K = 3).</strong></p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>anchor <code>angle</code></th>
+<th>orient. 0.5 <code>angle</code></th>
+<th>orient. 1.0 <code>angle</code></th>
+<th>mag. <code>delta</code></th>
+<th>mag. <code>angle</code></th>
+<th>shape <code>shape</code></th>
+<th>shape <code>angle</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv__pc1</code> (ref.)</td>
+<td>0.03</td>
+<td>0.07</td>
+<td>0.29</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>0.19</td>
+<td>0.10</td>
+</tr>
+<tr>
+<td><code>pls_cv__net_displacement</code></td>
+<td><strong>0.10</strong></td>
+<td>0.08</td>
+<td><strong>0.67</strong></td>
+<td>1.00</td>
+<td>0.05</td>
+<td>0.19</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td><code>pls_forced__pc1</code></td>
+<td>0.03</td>
+<td>0.14</td>
+<td>0.40</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>0.01</td>
+<td>0.34</td>
+</tr>
+<tr>
+<td><code>pls_forced__net_displacement</code></td>
+<td>0.09</td>
+<td>0.74</td>
+<td>0.99</td>
+<td>1.00</td>
+<td>0.15</td>
+<td>0.01</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td><code>pls_within_group__pc1</code></td>
+<td>0.06</td>
+<td>0.23</td>
+<td>0.14</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>0.03</td>
+<td>0.64</td>
+</tr>
+<tr>
+<td><code>pls_within_group__net_displacement</code></td>
+<td>0.75</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.42</td>
+<td>0.03</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td><code>pca__pc1</code></td>
+<td>0.01</td>
+<td>0.03</td>
+<td>0.69</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>0.39</td>
+</tr>
+<tr>
+<td><code>pca__net_displacement</code></td>
+<td>0.10</td>
+<td>0.45</td>
+<td>0.99</td>
+<td>1.00</td>
+<td>0.08</td>
+<td>0.00</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td><code>concat__pc1</code></td>
+<td>0.01</td>
+<td>0.06</td>
+<td>0.14</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>0.46</td>
+</tr>
+<tr>
+<td><code>concat__net_displacement</code></td>
+<td>0.10</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.09</td>
+<td>0.00</td>
+<td>0.06</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase 5 (n = 1200, K = 4).</strong></p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>anchor <code>angle</code></th>
+<th>orient. 0.5 <code>angle</code></th>
+<th>orient. 1.0 <code>angle</code></th>
+<th>mag. <code>delta</code></th>
+<th>mag. <code>angle</code></th>
+<th>shape <code>shape</code></th>
+<th>shape <code>angle</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv__pc1</code> (ref.)</td>
+<td>0.04</td>
+<td>0.86</td>
+<td>0.89</td>
+<td>1.00</td>
+<td>0.01</td>
+<td>1.00</td>
+<td>0.89</td>
+</tr>
+<tr>
+<td><code>pls_cv__net_displacement</code></td>
+<td>0.08</td>
+<td>0.93</td>
+<td>0.89</td>
+<td>1.00</td>
+<td>0.00</td>
+<td>1.00</td>
+<td><strong>0.02</strong></td>
+</tr>
+<tr>
+<td><code>pls_forced__pc1</code></td>
+<td>0.05</td>
+<td>0.85</td>
+<td>0.84</td>
+<td>1.00</td>
+<td>0.03</td>
+<td>0.65</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td><code>pls_forced__net_displacement</code></td>
+<td>0.09</td>
+<td>0.99</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.32</td>
+<td>0.65</td>
+<td>0.03</td>
+</tr>
+<tr>
+<td><code>pls_within_group__pc1</code></td>
+<td>0.48</td>
+<td>0.88</td>
+<td>0.82</td>
+<td>1.00</td>
+<td>0.02</td>
+<td>1.00</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td><code>pls_within_group__net_displacement</code></td>
+<td>0.88</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.94</td>
+<td>1.00</td>
+<td>0.86</td>
+</tr>
+<tr>
+<td><code>pca__pc1</code></td>
+<td>0.02</td>
+<td>0.85</td>
+<td>0.84</td>
+<td>1.00</td>
+<td>0.02</td>
+<td>1.00</td>
+<td>0.94</td>
+</tr>
+<tr>
+<td><code>pca__net_displacement</code></td>
+<td>0.09</td>
+<td>0.96</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.20</td>
+<td>1.00</td>
+<td>0.04</td>
+</tr>
+<tr>
+<td><code>concat__pc1</code></td>
+<td>0.04</td>
+<td>0.85</td>
+<td>0.80</td>
+<td>1.00</td>
+<td>0.03</td>
+<td>1.00</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td><code>concat__net_displacement</code></td>
+<td>0.10</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.21</td>
+<td>1.00</td>
+<td>0.05</td>
+</tr>
+</tbody>
+</table>
+<p>Anchor <code>delta</code> and <code>shape</code> are at or below 0.04 in every arm at both designs.</p>
+<h2 id="4-where-the-rotation-is-lost">4. Where the rotation is lost</h2>
+<p>From <code>checkpoint_table.csv</code>: median realized <code>angle</code> at orientation e = 1.0, and the median retained rank.</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>Phase 6 latent</th>
+<th>Phase 6 rank</th>
+<th>Phase 5 latent</th>
+<th>Phase 5 rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv__pc1</code></td>
+<td>63.9°</td>
+<td>4</td>
+<td>72.0°</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>pls_cv__net_displacement</code></td>
+<td>56.7°</td>
+<td>4</td>
+<td>6.1°</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>pls_forced__pc1</code></td>
+<td>71.1°</td>
+<td>4</td>
+<td>89.5°</td>
+<td>6</td>
+</tr>
+<tr>
+<td><code>pca__pc1</code></td>
+<td>90.5°</td>
+<td>4</td>
+<td>90.2°</td>
+<td>6</td>
+</tr>
+<tr>
+<td><code>pls_within_group__pc1</code></td>
+<td>90.3°</td>
+<td>4</td>
+<td>90.2°</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>The population angle is 90.0° and the observed standardized angle is 89.7–90.3° in every arm.</p>
+<ul>
+<li><strong>Label-free and two-sided spaces keep the full rotation.</strong> <code>pca</code> and <code>pls_within_group</code> reproduce the observed angle. The CV stage-PLS space shrinks it.</li>
+<li><strong>Phase 5 under net displacement.</strong> The <code>pls_cv</code> latent angle is only 6.1°, yet the test still rejects in 0.89 of replicates, because its anchor median is 0.3°. In a rank-3 = K − 1 space shared by both groups, the two net displacements are nearly parallel, and a small, consistent rotation is still resolvable.</li>
+</ul>
+<h2 id="5-advancement-decision">5. Advancement decision</h2>
+<p><code>advancement_decision.json</code>, rule version 1. The anchor bound is 0.05 + 2·√(0.05·0.95/100) = 0.0936. The other
+criteria use 2 pooled SE against <code>pls_cv__pc1</code>.</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>failed criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv__net_displacement</code></td>
+<td>anchor (Phase 6 <code>angle</code> 0.100 &gt; 0.0936; Phase 5 0.080 passes)</td>
+</tr>
+<tr>
+<td><code>pls_forced__pc1</code></td>
+<td>gain, protected, specificity</td>
+</tr>
+<tr>
+<td><code>pls_forced__net_displacement</code></td>
+<td>protected (Phase 6 shape 0.01 vs 0.19; Phase 5 shape 0.65 vs 1.00), specificity (magnitude/<code>angle</code> 0.15 and 0.32 vs 0.01)</td>
+</tr>
+<tr>
+<td><code>pca__pc1</code></td>
+<td>protected (Phase 6 shape 0.00 vs 0.19), specificity (Phase 6 shape/<code>angle</code> 0.39 vs 0.10)</td>
+</tr>
+<tr>
+<td><code>pca__net_displacement</code></td>
+<td>anchor, protected, specificity</td>
+</tr>
+<tr>
+<td><code>pls_within_group__pc1</code></td>
+<td>anchor, gain, protected, specificity</td>
+</tr>
+<tr>
+<td><code>pls_within_group__net_displacement</code></td>
+<td>anchor, protected, specificity</td>
+</tr>
+<tr>
+<td><code>concat__*</code></td>
+<td>reference-only by rule</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advancing set: empty.</strong></p>
+<h2 id="6-findings">6. Findings</h2>
+<ol>
+<li><strong>The estimator, not the space, is the main lever.</strong></li>
+<li>In the production <code>pls_cv</code> space, net displacement raises Phase 6 orientation power from 0.29 to 0.67. That is +0.38, against a 2-SE margin of 0.13.</li>
+<li>It leaves <code>delta</code> and <code>shape</code> power unchanged at both designs.</li>
+<li>It removes the largest specificity failure the probe saw: shape → <code>angle</code> at Phase 5, from 0.89 to 0.02.</li>
+<li>This matches the mechanism in §1. The signed PC1 angle's heavy null tail comes from PC1 swapping or flipping on near-isotropic configurations, and net displacement does not have that failure mode.</li>
+<li><strong>Net displacement shows an anchor excess at both designs, in every space.</strong></li>
+<li>Anchor <code>angle</code> rates are 0.08–0.10 for every non-<code>pls_within_group</code> space, against 0.01–0.05 under PC1.</li>
+<li>The four spaces share datasets and permutation draws, so their rates are not independent. In effect, the evidence is about 9/100 per design, where 5/100 is expected.</li>
+<li>That is suggestive at 100 replicates, but not established. The <code>pls_cv</code> arm misses the bound by less than one rejection.</li>
+<li>The mechanism is not identified. One hypothesis, not tested here: the estimator uses only the first and last stages. RRPP permutes reduced-model residuals across all stages, so if the endpoint stages are noisier than the interior ones, the permutation null would be too narrow.</li>
+<li><strong>A fixed <code>pls_within_group</code> basis is not a valid test space without a refit.</strong> Anchor <code>angle</code> reaches 0.48–0.88. The basis is fitted to the observed groups' own stage directions, and so it carries their noise. The permuted data are then projected onto that fixed basis, so the null never sees the fitting step. This is the risk design D4 anticipated, and the anchor criterion caught it.</li>
+<li><strong>Rank 2(K − 1) recovers orientation but costs shape.</strong> At Phase 6, both <code>pca</code> and <code>pls_forced</code> drop shape/<code>shape</code> from 0.19 to 0.00–0.01. They also leak <code>angle</code> into the shape cell (PC1) or the magnitude cell (net displacement). Giving the space more dimensions is not the fix.</li>
+<li><strong><code>concat</code>, the ceiling reference, behaves like the label-free spaces.</strong> It reaches power 1.00 under net displacement and has the same anchor excess. The p-padding question remains open.</li>
+</ol>
+<h2 id="7-recommendation-for-the-follow-up-study">7. Recommendation for the follow-up study</h2>
+<ol>
+<li><strong>Lead candidate: <code>pls_cv__net_displacement</code>, conditional on Type I.</strong> First run an anchor-only Type I study for every net-displacement arm at both designs, at paper-grade size (500 replicates × 999 permutations). If the excess holds, diagnose it before running any power comparison. The endpoint-heteroscedasticity hypothesis in §6 is the first thing to test. If size holds, compare <code>pls_cv__net_displacement</code> against <code>pls_cv__pc1</code> at paper grade.</li>
+<li><strong>Drop fixed-basis <code>pls_within_group</code>.</strong> A refit-per-permutation variant would be valid by construction, but it multiplies cost by the permutation count. Pursue it only if net displacement fails.</li>
+<li><strong>Do not carry <code>pca</code> or <code>pls_forced</code> as replacements.</strong> Their Phase 6 shape loss is disqualifying for a three-statistic claim.</li>
+<li><strong>Keep <code>concat</code> as the ceiling.</strong> Decide p-padding in the follow-up.</li>
+<li><strong>No production change.</strong> The PC1 estimator and the CV stage-PLS space remain the defaults. The Phase 6 interpretability statement for the case study stands unchanged.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
