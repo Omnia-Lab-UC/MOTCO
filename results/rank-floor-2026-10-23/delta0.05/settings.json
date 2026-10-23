@@ -1,0 +1,87 @@
+{
+ "hash": "382af0e5bf1f155aa4437a7a1bf7a1362107b28bb7c388a61ec3422aab7c52a4",
+ "settings": {
+  "alpha": 0.05,
+  "arms": {
+   "floor_1": 1,
+   "floor_2": 2
+  },
+  "base_seed": 2026,
+  "calibration": {
+   "statistic": "fraction of unfloored (floor_1) anchor replicates whose CV selected rank 1",
+   "threshold": 0.5
+  },
+  "check": "rank_floor",
+  "controls": {
+   "anchor": 0.0,
+   "translation": 1.0
+  },
+  "cv": {
+   "cv1_splits": 3,
+   "cv2_splits": 4,
+   "max_components": 20,
+   "n_repeats": 5,
+   "random_state": 1203
+  },
+  "effects": {
+   "magnitude": [
+    0.02,
+    0.05,
+    0.1,
+    0.25
+   ],
+   "orientation": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ],
+   "shape": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ]
+  },
+  "generator": {
+   "baseline_continuity": 0.0,
+   "delta_expr": 0.05,
+   "delta_methyl": 0.05,
+   "delta_protein": 0.05,
+   "group_effect_size": 0.0,
+   "group_stage_sizes": [
+    [
+     11,
+     10,
+     28
+    ],
+    [
+     9,
+     10,
+     12
+    ]
+   ],
+   "magnitude_kind": "joint",
+   "n_stages": 3,
+   "p_dmp": 0.1,
+   "trajectory_mode": "magnitude"
+  },
+  "k": 2.0,
+  "layers": [
+   "methylation",
+   "expression"
+  ],
+  "methylation_units": "mvalue",
+  "orientation_estimator": "net_displacement",
+  "permutations": 999,
+  "replicates": 500,
+  "rule": {
+   "controls": "anchor and translation, every statistic, rate <= alpha + k*sqrt(alpha(1-alpha)/R)",
+   "decision": "adopt_floor when the judged arm holds every control statistic, else diagnose_floor_excess",
+   "judged_arm": "floor_2",
+   "power": "descriptive: both arms' rates, difference, pooled SE, rank distributions",
+   "rate": "share of available replicates with p <= alpha"
+  },
+  "script_version": 1
+ }
+}
