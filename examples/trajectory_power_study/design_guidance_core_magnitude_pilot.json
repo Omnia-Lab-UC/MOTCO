@@ -108,7 +108,7 @@
     "notes": [
       "Crossed design grid (design D1/D3): generator.n_samples {80, 200, 500, 1000} x generator.n_stages {3, 4} x evaluation.integration_params.layers {methylation + expression, null = all three blocks}: 16 columns, the baseline (n = 200, three stages, two blocks) served by the primary grid. Columns differing only in layers evaluate the same generated datasets (same data, different measurement). Block count is confounded with feature count (498 measured features vs 498 + protein); the report states it.",
       "Mode magnitude (joint construction) at e in {0.01, 0.02, 0.05, 0.1, 0.25}: at n = 80 with two blocks the Phase 6 study measured delta power 0.206 / 0.542 / 0.956 at 0.05 / 0.10 / 0.25, and it saturates sooner at larger n, so the axis reaches down to 0.01.",
-      "Cells and cost: 2 Type I baselines + 16 columns x (1 anchor + 1 mode(s) x 5 effects) = 98 cells, 9,800 work units at 100 replicates. The n = 1000 columns dominate the core profiles' compute; shard counts and the core-hour estimate come from the local smoke run recorded in the change notes.",
+      "Cells and cost: 2 Type I baselines + 16 columns x (1 anchor + 1 mode(s) x 5 effects) = 98 cells, 9,800 work units at 100 replicates; planning figure 73 core-hours on ing with a 20% contention margin in 30 single-CPU shards of about 2.4 h each (the n = 1000 columns are about 40% of it). Timing basis in metadata.submission.",
       "Design-guidance pilot (change design-guidance-grid, 2026-10-28): the replacement for the project's originally planned simulation grid (Table 1). Four profiles share one baseline (n = 200, three stages, group_ratio 0.5, p_dmp 0.1, rho 0, every per-omic delta 2.0, joint magnitude; pooled PLS on methylation + expression with the Phase 6 CV knobs), one seed root (base_seed 1028) and one matched-seed family (design-guidance), at pilot grade: 100 replicates x 199 permutations.",
       "Production measurement named, not defaulted (design-guidance spec, 'profiles name the production measurement'): orientation_estimator net_displacement, min_components 2 and magnitude_kind joint are written out so the profile states what it measures under. This is a post-floor config: it is pinned in tests/data/post_floor_config_identity.json, not in the historical pre-flip fixture, and it does not copy the historical 'pc1' / min_components 1 pins.",
       "Magnitude and geometry are split into sibling profiles (design D1) because one effect list cannot serve both: magnitude's delta rise sits at e = 0.01-0.25 while orientation and shape leave the null only from e = 0.25. The siblings share base_seed and the seed family, so at a given design column their zero-effect anchors have different cell ids but draw the same generator seed and evaluate the same datasets (design D2). The findings report reads the geometry profile's anchor and uses the magnitude profile's anchor as a reproduction check; it never pools the two as independent replicates.",
@@ -119,10 +119,15 @@
       "template": "scripts/motco_study_array.sbatch",
       "partition": "512x1024",
       "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "6:00:00",
       "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
       "error_policy": "record",
-      "n_shards": "set from the local smoke timings (openspec change notes) before submission",
-      "out_dir": "results/design-guidance-pilot-<date>/design_guidance_core_magnitude_pilot"
+      "out_dir": "results/design-guidance-pilot-<date>/core_magnitude",
+      "timing_basis": "ing smoke 2026-10-28 (2 x 19, 880 units, 0 failures) and 16 units timed at 199 permutations: 10.7 / 13.2 / 19.4 / 27.6 s per unit at n = 80 / 200 / 500 / 1000 (3 stages, 2 blocks), 14.1 / 19.7 / 29.4 / 42.9 s (4 stages, 3 blocks); the PLS double CV dominates, the 199 RRPP permutations add 2-5 s. See openspec/changes/design-guidance-grid/notes.md.",
+      "n_shards": 30,
+      "array": "0-29",
+      "budget": "~73 core-hours with a 20% margin; ~2.4 h wall per shard"
     }
   }
 }

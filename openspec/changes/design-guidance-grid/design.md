@@ -13,9 +13,11 @@ A scratch draft of the four configs loads and enumerates on `main` (`843f057`) w
 |---|---:|---:|
 | core magnitude | 98 | 9,800 |
 | core geometry | 162 | 16,200 |
-| arms magnitude | 68 | 6,800 |
-| arms geometry | 112 | 11,200 |
-| **Total** | | **44,000** |
+| arms magnitude | 80 | 8,000 |
+| arms geometry | 132 | 13,200 |
+| **Total** | | **47,200** |
+
+(The arm counts include the δ = 0.05 and 0.1 columns added at the approval gate; the draft had 68 / 112 cells and 44,000 runs in total.)
 
 Three things block or degrade the work today:
 
@@ -70,7 +72,7 @@ Alternatives considered:
 At three stages, `p_dmp` = 0.2 fails the enumeration headroom check: orientation saturates at e = 0.89 and translation at 0.52. The config would therefore be refused at load. `p_dmp` = 0.15 fits, with saturating effects of 1.39 for orientation and 1.12 for translation, even under 0.5/0.3/0.2 stage proportions.
 
 Other values:
-- **Stage effect.** Spans 0.25–1.0 below InterSIM's 2.0. The rank-floor check showed stage signal vanishing near 0.05–0.1 at n = 80.
+- **Stage effect.** Spans 0.05–1.0 below InterSIM's 2.0. The draft stopped at 0.25; the 2026-10-28 smoke showed the held-out CV stage AUROC at 1.000 at every column except δ = 0.25 (0.988), so that arm never reached the SEA-AD regime (0.64–0.70), which the rank-floor check located near δ = 0.05–0.1 at n = 80. The user chose to add 0.05 and 0.1 at the approval gate (+2 columns, +32 cells, +3,200 units).
 - **Group ratio, stage proportions, ρ.** Taken from the planned grid and the Phase 5 pilot.
 
 An SEA-AD-style group × stage table is not repeated. The Phase 6 net-displacement power profile already measured it.

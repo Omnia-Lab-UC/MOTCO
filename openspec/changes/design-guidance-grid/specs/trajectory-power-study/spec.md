@@ -30,7 +30,7 @@ The study SHALL provide two version-controlled design-guidance arm pilot configu
 #### Scenario: Arms move one setting at a time
 
 - **WHEN** each arm profile is loaded and enumerated
-- **THEN** besides the baseline column it yields one column for each of: group ratio 0.65 and 0.8; stage proportions 0.5/0.3/0.2; `p_dmp` 0.05 and 0.15; stage effect 0.25, 0.5 and 1.0; baseline continuity 0.5 and 0.8
+- **THEN** besides the baseline column it yields one column for each of: group ratio 0.65 and 0.8; stage proportions 0.5/0.3/0.2; `p_dmp` 0.05 and 0.15; stage effect 0.05, 0.1, 0.25, 0.5 and 1.0; baseline continuity 0.5 and 0.8
 - **AND** every such column differs from the baseline in that one setting only
 
 #### Scenario: The stage effect moves jointly

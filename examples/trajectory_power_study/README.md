@@ -914,11 +914,16 @@ rerun at paper grade.
 - `design_guidance_arms_magnitude_pilot.json` — explicit design points moving
   one generator setting at a time off the core baseline: `group_ratio` {0.65,
   0.8}, `stage_sample_prop` 0.5/0.3/0.2, `p_dmp` {0.05, 0.15}, the joint stage
-  effect `delta_methyl = delta_expr = delta_protein` ∈ {0.25, 0.5, 1.0},
-  `baseline_continuity` {0.5, 0.8}; the magnitude axis. 2 + 11 × 6 = 68 cells,
-  6,800 units.
+  effect `delta_methyl = delta_expr = delta_protein` ∈ {0.05, 0.1, 0.25, 0.5,
+  1.0}, `baseline_continuity` {0.5, 0.8}; the magnitude axis. 2 + 13 × 6 = 80
+  cells, 8,000 units.
 - `design_guidance_arms_geometry_pilot.json` — the same arms; the geometry
-  axis. 2 + 11 × 10 = 112 cells, 11,200 units.
+  axis. 2 + 13 × 10 = 132 cells, 13,200 units.
+
+The δ arm first stopped at 0.25; the 2026-10-28 smoke measured the held-out CV
+stage AUROC at 1.000 at every column but δ = 0.25 (0.988), so 0.05 and 0.1
+were added to reach the SEA-AD regime (0.64–0.70), which the rank-floor check
+located near δ = 0.05–0.1.
 
 The magnitude and geometry siblings of each grid are split (one effect list
 cannot serve both: magnitude's `delta` rise sits at e = 0.01–0.25 while
@@ -960,6 +965,11 @@ python scripts/design_guidance_figure.py \
     --out-dir $RUN/figures
 ```
 
-Shard counts (`N_SHARDS`) and the core-hour estimate come from the local
-smoke run recorded in the change's notes; the n = 1000 columns dominate the
-core profiles' compute.
+Shard counts and budget (each profile's `metadata.submission`; timing basis
+the 2026-10-28 `ing` smoke, 880 units at 2 × 19 with 0 failures, and 16 units
+timed at 199 permutations: 10.7 / 13.2 / 19.4 / 27.6 s per unit at
+n = 80 / 200 / 500 / 1000 with three stages and two blocks, 14.1 / 19.7 /
+29.4 / 42.9 s with four stages and three blocks): core magnitude 30 shards
+(~73 core-hours), core geometry 49 (~121), arms magnitude 17 (~41), arms
+geometry 28 (~68); about 303 core-hours in all with a 20 % margin, ~2.4 h
+wall per shard. The n = 1000 columns are about a quarter of the total.

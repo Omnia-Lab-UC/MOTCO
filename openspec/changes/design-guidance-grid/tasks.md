@@ -23,7 +23,7 @@
   - **Acceptance:** a `type_i` entry and `anchor_decision` (α 0.05, k 2, all three statistics).
   - **Metadata:** a block naming the design-guidance purpose.
 
-  Verify that each profile loads and enumerates to 98 / 162 / 68 / 112 cells. If a count differs, record the cause.
+  Verify that each profile loads and enumerates to 98 / 162 / 80 / 132 cells (the draft counted 68 / 112 for the arms; the δ = 0.05 and 0.1 columns were added at the approval gate, see design D4). If a count differs, record the cause.
 - [x] 2.2 Write the fixture capture (`tests/post_floor_fixture_capture.py`, modelled on `tests/phase6_fixture_capture.py`) and capture `tests/data/post_floor_config_identity.json`. It holds `capture_revision`, `note`, and `configs` mapping each cell id to its signature and first three matched seeds. Verify that two captures are identical.
 - [x] 2.3 Rework the coverage and floor checks in `tests/test_rank_floor_default_pins.py` and `tests/test_orientation_default_pins.py` (design D7):
   - the historical and post-floor fixtures are disjoint, and their union equals `examples/trajectory_power_study/*.json`;
@@ -33,7 +33,7 @@
 
   Verify that both modules pass. Then confirm by hand that a stray `examples/trajectory_power_study/tmp.json` absent from both fixtures fails the coverage test, and delete it.
 - [x] 2.4 Add `tests/test_post_floor_config_identity.py`, checking identity against the new fixture. Add `tests/test_design_guidance_profiles.py`, covering the spec scenarios:
-  - 16 core columns and 11 arm columns, each with one anchor and one cell per (mode, nonzero effect);
+  - 16 core columns and 13 arm columns, each with one anchor and one cell per (mode, nonzero effect);
   - mode and effect lists per profile;
   - columns differing only in `layers` draw the same generator seeds at every replicate index;
   - every arm point differs from the baseline in exactly one setting, with the three δ counting as one, and the δ points set all three equal;
@@ -80,13 +80,13 @@
 
 ## 5. Local smoke run
 
-- [ ] 5.1 Make a scratchpad copy of each profile at 2 replicates × 19 permutations (never committed). Run each through `scripts/run_study_shard.py` (one shard) → `motco_study.py merge` → `motco_study.py report` → `scripts/design_guidance_figure.py`. Verify:
+- [x] 5.1 Make a scratchpad copy of each profile at 2 replicates × 19 permutations (never committed). Run each through `scripts/run_study_shard.py` (one shard) → `motco_study.py merge` → `motco_study.py report` → `scripts/design_guidance_figure.py`. Verify:
   - every report writes `design_point_operating.csv` and `design_point_stage_signal.csv`;
   - the figure script writes its four figures and CSV;
   - every failed replicate is listed per column, especially n = 80 with four stages.
 
   Any engine failure found here is fixed in this change, with a test.
-- [ ] 5.2 Settle the anchor reading and the compute plan:
+- [x] 5.2 Settle the anchor reading and the compute plan:
   - record whether the magnitude and geometry profiles' duplicated anchors share RRPP draws (identical p-values) or only data (design D2, open question);
   - time units at each n and block count;
   - compute shard counts and a core-hour estimate.
@@ -97,7 +97,7 @@
 
 - [ ] 6.1 After the user's approval, submit the four arrays with `scripts/motco_study_array.sbatch` and the shard counts from 5.2, splitting n = 1000 into its own array if the estimate calls for it. Merge each profile. Verify:
   - every shard completed;
-  - the merged record counts equal 9,800 / 16,200 / 6,800 / 11,200 minus recorded failures;
+  - the merged record counts equal 9,800 / 16,200 / 8,000 / 13,200 minus recorded failures;
   - no `(cell_id, replicate_index)` is duplicated.
 - [ ] 6.2 Report each profile and run the figure script on the two core reports. Commit `results/design-guidance-pilot-<date>/<profile>/report/`, `PROVENANCE.txt` per profile, and `results/design-guidance-pilot-<date>/figures/`. Verify that each `PROVENANCE.txt` names the code revision, config, software versions, record and failure counts, and reproduction commands.
 

@@ -23,9 +23,9 @@ What the paper still lacks is design guidance: how power for each trajectory com
     - group ratio {0.65, 0.8};
     - unequal stage proportions (0.5/0.3/0.2);
     - `p_dmp` {0.05, 0.15};
-    - joint stage effect δ {0.25, 0.5, 1.0};
+    - joint stage effect δ {0.05, 0.1, 0.25, 0.5, 1.0} (0.05 and 0.1 added at the approval gate: the smoke showed the stage signal saturated down to 0.25);
     - baseline continuity ρ {0.5, 0.8}.
-  - All four run at pilot grade: 100 replicates × 199 permutations, about 44,000 runs in total.
+  - All four run at pilot grade: 100 replicates × 199 permutations, about 47,200 runs in total.
 - **Stage-signal table.** Study reporting writes `design_point_stage_signal.csv` beside `design_point_operating.csv`. It summarizes each column's recorded held-out CV AUROC for stage. This is the stage-separability number that compares directly with a real analysis (SEA-AD 0.64–0.70). `design_point_operating.csv` itself is unchanged.
 - **Design-guidance figure.** A script reads the two core reports and plots each mode's target-statistic power against n. It draws one panel per mode and block count, and one line per stage count. The engine's existing design-point figure would mix the block columns.
 - **Config-pin tests distinguish historical from new configs.** The rank-floor and orientation pin tests assume every committed config is historical. In future they hold only the configs in their pre-flip fixtures to the historical pins. Configs written since then must name their estimator and floor explicitly, and their identity is pinned in a fixture of their own.

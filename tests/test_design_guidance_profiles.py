@@ -43,6 +43,8 @@ EXPECTED_ARMS: tuple[tuple[str, Any], ...] = (
     ("generator.stage_sample_prop", (0.5, 0.3, 0.2)),
     ("generator.p_dmp", 0.05),
     ("generator.p_dmp", 0.15),
+    ("stage_effect", 0.05),
+    ("stage_effect", 0.1),
     ("stage_effect", 0.25),
     ("stage_effect", 0.5),
     ("stage_effect", 1.0),
@@ -134,7 +136,7 @@ def test_geometry_profiles_run_the_geometry_modes_on_the_large_effect_axis(name:
 # ── Column structure ─────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize(("name", "n_columns"), [(n, 16) for n in CORE] + [(n, 11) for n in ARMS])
+@pytest.mark.parametrize(("name", "n_columns"), [(n, 16) for n in CORE] + [(n, 13) for n in ARMS])
 def test_every_column_has_one_anchor_and_one_cell_per_mode_and_effect(name: str, n_columns: int) -> None:
     config = _load(name)
     columns = _columns(config)

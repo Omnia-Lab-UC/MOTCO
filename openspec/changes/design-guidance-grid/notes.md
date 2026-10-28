@@ -19,10 +19,43 @@ Working notes kept beside the change artifacts (tasks 1.1, 1.2, 5.1 and 5.2 ask 
 
 `uv run mkdocs build --strict` aborts with 8 warnings on this tree **and on a clean `843f057` worktree** (3 in `phase5-readiness.md`, 3 in `reports/phase5-magnitude-remeasurement-2026-10-08.md`, 2 in `reports/phase5-paper-grade-2026-09-10.md`: links to `results/*/PROVENANCE.txt`, which are not documentation files). This change adds no warning; fixing the pre-existing links means editing frozen reports and is out of scope.
 
-## 4. Local smoke run (task 5.1)
+## 4. Smoke run (task 5.1)
 
-_Pending: filled in when the smoke run completes._
+Scratchpad copies of the four profiles at 2 replicates × 19 permutations (never committed), shards 5 / 8 / 3 / 6 (core magnitude / core geometry / arms magnitude / arms geometry).
+
+**Local leg (workstation, 22 concurrent shards, BLAS pinned), stopped at the user's request because it saturated the machine:** 476 of 880 units completed, **0 failures** (31 of them at n = 80 with four stages, the smallest cells). After the stop, merge → report → figure script ran on the partial records: every report wrote `design_point_operating.csv` and `design_point_stage_signal.csv`, and `scripts/design_guidance_figure.py` wrote its four figures and CSV. Unit runtimes under that contention (19 permutations; medians): n = 80: 16 s (3 stages) / 29 s (4 stages); n = 200: 21 / 34 s; n = 500: 36 / 43 s; n = 1000: 50 / 73 s (max 97 s).
+
+**Cluster leg (`ing`, 2026-10-28):** the shard files were rsynced to `/home1/tgonza/MOTCO-design-guidance-scratch/smoke/` and resumed with the same shard counts from a clean worktree of `feat/design-guidance-grid` at `6b3bd31` (`/home1/tgonza/MOTCO-design-guidance`, reusing the main checkout's `.venv` with `PYTHONPATH` on the worktree's `src`; the main checkout there is a dirty rsync of older work and was not touched). Jobs 929135–929138 (smoke arrays) and 929139 (`time_units.py`: replicate 0 of the anchor and of orientation at e = 1.0 at 199 permutations for n ∈ {80, 200, 500, 1000} × {3 stages / 2 blocks, 4 stages / 3 blocks}). All 23 tasks `COMPLETED 0:0`, no traceback in any shard log.
+
+**Smoke result:** 880 / 880 units, **0 failures in every column** (the n = 80, four-stage column included). Each profile's report wrote `design_point_operating.csv` and `design_point_stage_signal.csv` (the arms geometry report also wrote `continuity_resolved_orientation.csv`, since that grid sweeps ρ); `scripts/design_guidance_figure.py` wrote its four figures and `design_guidance_power.csv` from the two core reports. The engine ran `n_stages` as a design axis without any fix.
+
+**Stage signal at the smoke (2 replicates per cell, read from `design_point_stage_signal.csv`):** the held-out CV stage AUROC is 1.000 at every core column (δ = 2.0) and at every arm column except the joint stage effect δ = 0.25 (mean 0.988, q33 0.939), where the selected rank also jumps (median 13.8 against 2–4 elsewhere). The SEA-AD regime (AUROC 0.64–0.70) is therefore not reached by the δ arm as specified ({0.25, 0.5, 1.0}); the rank-floor check placed that regime near δ = 0.05–0.1 at n = 80. Raised with the user at the approval gate (see §5).
 
 ## 5. Anchor reading and compute plan (task 5.2)
 
-_Pending._
+**Duplicated anchors (design D2 open question).** At every core column (32 anchor replicate pairs) and every arm column (22 pairs), the magnitude and geometry profiles' anchors draw the same generator seed **and have identical p-values**, so they share the RRPP draws as well as the data (`evaluation.seed` = 3 is the RRPP seed and the seed family is shared). Three arm pairs differ in observed statistics at the 1e-12 level only: one member ran on the workstation and the other on `ing`, so this is cross-machine floating-point noise, not a different measurement. Reading: the two anchors are one measurement; the report reads the geometry profile's and uses the magnitude profile's as a reproduction check, never pooling them. The pilot should run entirely on `ing` so the reproduction check is bit-exact.
+
+**Unit cost at 199 permutations on `ing` (EPYC, single CPU, BLAS pinned; mean of the anchor and orientation e = 1.0 units):**
+
+| n | 3 stages, 2 blocks | 4 stages, 3 blocks |
+|---:|---:|---:|
+| 80 | 10.7 s | 14.1 s |
+| 200 | 13.2 s | 19.7 s |
+| 500 | 19.4 s | 29.4 s |
+| 1000 | 27.6 s | 42.9 s |
+
+The 19-permutation smoke medians on `ing` are 7.9–37.6 s at the same columns, so the RRPP's 199 permutations add only 2–5 s per unit: the PLS double CV dominates. Unmeasured columns (3 stages / 3 blocks, 4 stages / 2 blocks, every arm) are scaled from the measured column at the same n by their smoke ratio (cluster-leg records only).
+
+**Estimate (`compute_plan.py`, 20 % contention margin, shards sized to ≈ 2.4 h each):**
+
+| Profile | Units | Core-hours | Shards | n = 1000 share |
+|---|---:|---:|---:|---:|
+| core magnitude | 9,800 | 73 | 30 | 29 h |
+| core geometry | 16,200 | 121 | 49 | 49 h |
+| arms magnitude | 8,000 | 41 | 17 | — |
+| arms geometry | 13,200 | 68 | 28 | — |
+| **total** | **47,200** | **303** | **124** | 78 h (26 %) |
+
+(The arm rows include the δ = 0.05 and 0.1 columns; their unit cost is scaled by the costliest smoked arm's ratio to the baseline, since the smoke never ran them. The draft arms — 6,800 / 11,200 units — came to 34 / 56 core-hours and 283 in total.) Below the proposal's 330 core-hour upper bound. The n = 1000 columns are about a quarter of the cost, not half, so they need no array of their own. 124 single-CPU tasks fit the `512x1024` partition (416 CPUs, ~250 idle at submission time), giving about 2.5 h wall if they all start together. Submission as in the examples README (`--mem=4G --time=6:00:00`, BLAS pinned, `STUDY_N_JOBS` unset, `--error-policy record`).
+
+**Approval gate (2026-10-28).** The user approved submitting all four profiles and chose to **add δ = 0.05 and 0.1** to the arm profiles (the smoke's stage-signal finding above): spec, design D4, proposal, tasks, both arm profiles, `tests/test_design_guidance_profiles.py` and the post-floor fixture (re-captured, two captures identical) were updated; the arm profiles now enumerate to 80 / 132 cells. The unchanged core profiles keep their fixture entries.
