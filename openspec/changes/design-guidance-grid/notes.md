@@ -58,4 +58,30 @@ The 19-permutation smoke medians on `ing` are 7.9–37.6 s at the same columns, 
 
 (The arm rows include the δ = 0.05 and 0.1 columns; their unit cost is scaled by the costliest smoked arm's ratio to the baseline, since the smoke never ran them. The draft arms — 6,800 / 11,200 units — came to 34 / 56 core-hours and 283 in total.) Below the proposal's 330 core-hour upper bound. The n = 1000 columns are about a quarter of the cost, not half, so they need no array of their own. 124 single-CPU tasks fit the `512x1024` partition (416 CPUs, ~250 idle at submission time), giving about 2.5 h wall if they all start together. Submission as in the examples README (`--mem=4G --time=6:00:00`, BLAS pinned, `STUDY_N_JOBS` unset, `--error-policy record`).
 
+## 6. Pilot submission (task 6.1)
+
+Submitted 2026-10-28 from the `ing` worktree at `7c218c6` (`scripts/motco_study_array.sbatch`, partition `512x1024`, 1 CPU, 4 GB, 6 h, BLAS pinned, `STUDY_N_JOBS` unset, `--error-policy record`), `STUDY_OUT=/home1/tgonza/MOTCO-design-guidance/results/design-guidance-pilot-2026-10-28/<profile>`:
+
+| Profile | Job | Shards | Config sha256 (prefix) |
+|---|---|---:|---|
+| core magnitude | 929160 | 30 | `c2bd261307a10bd3` |
+| core geometry | 929161 | 49 | `57942119d892ba2b` |
+| arms magnitude | 929162 | 17 | `e33e8c4eb6ec3f60` |
+| arms geometry | 929163 | 28 | `be4e50300d54edee` |
+
+All 124 tasks were running within a minute of submission.
+
+## 7. Resuming from another machine
+
+Everything needed lives on `ing` or in this branch; nothing on the workstation is required.
+
+- **Code:** branch `feat/design-guidance-grid` (pushed). On `ing` it is checked out as the worktree `/home1/tgonza/MOTCO-design-guidance` (symlinked `.venv` from the main checkout; export `PYTHONPATH=/home1/tgonza/MOTCO-design-guidance/src` so the new code is imported). Do not touch `/home1/tgonza/MOTCO` (a dirty rsync of older work).
+- **Run:** jobs 929160–929163 writing to `/home1/tgonza/MOTCO-design-guidance/results/design-guidance-pilot-2026-10-28/<profile>/`. Check with `squeue -u tgonza` and `sacct -j 929160,929161,929162,929163 -X`.
+- **Tooling** (session scripts, copied to `/home1/tgonza/MOTCO-design-guidance-scratch/`): `ing_finish_pilot.sh` (merge + report every profile, figures from the core reports, `PROVENANCE.txt` per profile via `pilot_provenance.py`, sacct wall summary), `pilot_tables.py <run dir>` (markdown tables for the dated report from the committed CSVs; needs pandas, run it locally after the rsync), `compute_plan.py` / `compute_plan.json` / `timing_199.json` (the 5.2 estimate), `smoke_analysis.py`, `write_profiles.py` (the generator of the four configs), `prechange_report_hashes.json` (the 1.2 hash list).
+- **After the jobs finish (tasks 6.1–6.2):**
+  1. `ssh ing 'bash /home1/tgonza/MOTCO-design-guidance-scratch/ing_finish_pilot.sh'` — check "ACCOUNTING PROBLEM" never prints, every array task is `COMPLETED 0:0`, record counts equal 9,800 / 16,200 / 8,000 / 13,200 minus failures, no duplicate (cell, replicate).
+  2. `rsync -a --include '*/' --include 'report/**' --include 'PROVENANCE.txt' --include 'figures/**' --exclude '*' ing:/home1/tgonza/MOTCO-design-guidance/results/design-guidance-pilot-2026-10-28/ results/design-guidance-pilot-2026-10-28/` (shard and merged JSONL stay on the cluster, gitignored); also fetch `merged.jsonl` per profile if a reading needs the records.
+  3. `python pilot_tables.py results/design-guidance-pilot-2026-10-28` → `tables.md`, then fill §1–5 and §7 of `docs/reports/design-guidance-pilot-2026-10-28.md` (§6 and §8 are written), update `docs/roadmap.md` (Next changes entry + Phase 5 sensitivity deliverables) and the `study/` paragraph of `AGENTS.md` with the result line (task 7.2), run the gate (7.3), commit `results/design-guidance-pilot-2026-10-28/` and the docs.
+- **Workstation quirk:** this session's shell lost zlib from `LD_LIBRARY_PATH`; `uv run` needed `LD_LIBRARY_PATH=/nix/store/61a1nwx3w6rqyaisj5rn1sal1981apm7-zlib-1.3.2/lib:$LD_LIBRARY_PATH`. Irrelevant elsewhere.
+
 **Approval gate (2026-10-28).** The user approved submitting all four profiles and chose to **add δ = 0.05 and 0.1** to the arm profiles (the smoke's stage-signal finding above): spec, design D4, proposal, tasks, both arm profiles, `tests/test_design_guidance_profiles.py` and the post-floor fixture (re-captured, two captures identical) were updated; the arm profiles now enumerate to 80 / 132 cells. The unchanged core profiles keep their fixture entries.
