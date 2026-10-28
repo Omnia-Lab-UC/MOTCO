@@ -597,36 +597,13 @@ def resolve_operating_by_design_point(
     if not (0 < alpha < 1):
         raise ValueError("alpha must be between 0 and 1.")
 
-    buckets: dict[
-        tuple[tuple[tuple[str, Any], ...], str, float | None], list[SimulationReplicateResult]
-    ] = {}
-    axes: list[str] = []
-    saw_design_phase = False
-    for record in records:
-        if record.status != "completed":
-            continue
-        point = record_design_point(record)
-        if point is None:
-            continue
-        saw_design_phase = saw_design_phase or record.phase == "power_design"
-        for axis in point:
-            if axis not in axes:
-                axes.append(axis)
-        meta = dict(record.cell_metadata)
-        mode = _resolve_mode(meta, record.phase)
-        effect = meta.get("effect_size")
-        key = (tuple(point.items()), mode, None if effect is None else float(effect))
-        buckets.setdefault(key, []).append(record)
-
+    buckets, axes, saw_design_phase = _design_point_buckets(records)
     columns = axes + list(_DESIGN_POINT_COLUMNS)
     if not saw_design_phase:
         return pd.DataFrame(columns=columns)
 
     rows: list[dict[str, Any]] = []
-    for (coords, mode, effect), group in sorted(
-        buckets.items(),
-        key=lambda item: (_sortable(item[0][0]), item[0][1], math.inf if item[0][2] is None else item[0][2]),
-    ):
+    for (coords, mode, effect), group in _sorted_design_buckets(buckets):
         gaps = [gap for gap in (pooled_eigengap(record) for record in group) if gap is not None]
         widths = [
             width for width in (_angle_null_width(record) for record in group) if width is not None
@@ -634,17 +611,7 @@ def resolve_operating_by_design_point(
         selected = [
             value for value in (_selected_components(record) for record in group) if value is not None
         ]
-        phases = sorted({record.phase for record in group})
-        identity = {
-            **{axis: None for axis in axes},
-            **dict(coords),
-            "phase": phases[0] if len(phases) == 1 else "+".join(phases),
-            "is_baseline": all(record.phase == "power_primary" for record in group),
-            "trajectory_mode": mode,
-            "effect_size": effect,
-            "n_cells": len({record.cell_id for record in group}),
-            "n_replicates": len(group),
-        }
+        identity = _design_identity(axes, coords, mode, effect, group)
         geometry = {
             "n_eigengap_available": len(gaps),
             "mean_eigengap": _mean(gaps),
@@ -686,6 +653,146 @@ def resolve_operating_by_design_point(
                 }
             )
     return pd.DataFrame(rows, columns=columns)
+
+
+#: Bucket key of the design-point tables: the design coordinates, the mode and
+#: the effect size.
+_DesignKey = tuple[tuple[tuple[str, Any], ...], str, float | None]
+
+
+def _design_point_buckets(
+    records: Sequence[SimulationReplicateResult],
+) -> tuple[dict[_DesignKey, list[SimulationReplicateResult]], list[str], bool]:
+    """Completed design-point records bucketed by (design point, mode, effect).
+
+    Shared by every design-point table so their rows line up: the axes are
+    listed in order of first appearance, and the third value says whether any
+    ``power_design`` record was seen — without one the study declared no design
+    grid and the tables are empty.
+    """
+
+    buckets: dict[_DesignKey, list[SimulationReplicateResult]] = {}
+    axes: list[str] = []
+    saw_design_phase = False
+    for record in records:
+        if record.status != "completed":
+            continue
+        point = record_design_point(record)
+        if point is None:
+            continue
+        saw_design_phase = saw_design_phase or record.phase == "power_design"
+        for axis in point:
+            if axis not in axes:
+                axes.append(axis)
+        meta = dict(record.cell_metadata)
+        mode = _resolve_mode(meta, record.phase)
+        effect = meta.get("effect_size")
+        key = (tuple(point.items()), mode, None if effect is None else float(effect))
+        buckets.setdefault(key, []).append(record)
+    return buckets, axes, saw_design_phase
+
+
+def _sorted_design_buckets(
+    buckets: Mapping[_DesignKey, list[SimulationReplicateResult]],
+) -> list[tuple[_DesignKey, list[SimulationReplicateResult]]]:
+    return sorted(
+        buckets.items(),
+        key=lambda item: (_sortable(item[0][0]), item[0][1], math.inf if item[0][2] is None else item[0][2]),
+    )
+
+
+def _design_identity(
+    axes: Sequence[str],
+    coords: tuple[tuple[str, Any], ...],
+    mode: str,
+    effect: float | None,
+    group: Sequence[SimulationReplicateResult],
+) -> dict[str, Any]:
+    """Identity columns shared by the design-point tables."""
+
+    phases = sorted({record.phase for record in group})
+    return {
+        **{axis: None for axis in axes},
+        **dict(coords),
+        "phase": phases[0] if len(phases) == 1 else "+".join(phases),
+        "is_baseline": all(record.phase == "power_primary" for record in group),
+        "trajectory_mode": mode,
+        "effect_size": effect,
+        "n_cells": len({record.cell_id for record in group}),
+        "n_replicates": len(group),
+    }
+
+
+def record_cv_auroc(record: SimulationReplicateResult) -> float | None:
+    """Recorded held-out stage AUROC of the PLS double CV, or ``None``.
+
+    ``None`` covers a record without the field (``concat``, ``pca``, records
+    written before it existed), a forced rank (which runs no CV and records
+    ``None``) and a non-finite value; all are reported as unavailable rather
+    than as a low AUROC.
+    """
+
+    value = (record.integration_metadata or {}).get("cv_mean_auroc")
+    if value is None:
+        return None
+    value = float(value)
+    return value if math.isfinite(value) else None
+
+
+def resolve_stage_signal_by_design_point(
+    records: Sequence[SimulationReplicateResult],
+) -> pd.DataFrame:
+    """Stage separability resolved on every design-grid coordinate.
+
+    One row per (design point, mode, effect size), bucketed exactly as
+    :func:`resolve_operating_by_design_point` so the rows line up with the
+    operating table, the baseline column and every anchor included. Each row
+    carries the number of records with a recorded held-out CV stage AUROC and
+    that AUROC's mean and terciles — the stage-signal number that compares
+    directly with a real analysis's recorded ``cv_mean_auroc``. A column whose
+    records carry no CV AUROC (a forced rank, ``concat``, ``pca``) reports zero
+    available and empty summaries.
+
+    Returns an **empty frame** unless at least one completed ``power_design``
+    record is present, so a study without a design grid reports nothing new.
+    """
+
+    buckets, axes, saw_design_phase = _design_point_buckets(records)
+    columns = axes + list(_STAGE_SIGNAL_COLUMNS)
+    if not saw_design_phase:
+        return pd.DataFrame(columns=columns)
+
+    rows: list[dict[str, Any]] = []
+    for (coords, mode, effect), group in _sorted_design_buckets(buckets):
+        aurocs = [value for value in (record_cv_auroc(record) for record in group) if value is not None]
+        row = _design_identity(axes, coords, mode, effect, group)
+        row.update(
+            {
+                "n_auroc_available": len(aurocs),
+                "mean_cv_auroc": _mean(aurocs),
+                **{
+                    f"{name}_cv_auroc": (float(np.quantile(aurocs, q)) if aurocs else None)
+                    for name, q in _CONTINUITY_QUANTILES
+                },
+            }
+        )
+        rows.append(row)
+    return pd.DataFrame(rows, columns=columns)
+
+
+_STAGE_SIGNAL_COLUMNS: tuple[str, ...] = (
+    "phase",
+    "is_baseline",
+    "trajectory_mode",
+    "effect_size",
+    "n_cells",
+    "n_replicates",
+    "n_auroc_available",
+    "mean_cv_auroc",
+    "q33_cv_auroc",
+    "median_cv_auroc",
+    "q67_cv_auroc",
+)
 
 
 def _component_selection_of(group: Sequence[SimulationReplicateResult]) -> str | None:
@@ -804,10 +911,12 @@ __all__ = [
     "pooled_eigengap",
     "record_component_selection",
     "record_continuity",
+    "record_cv_auroc",
     "record_design_point",
     "record_forced_rank",
     "resolve_operating_by_design_point",
     "resolve_orientation_by_continuity",
+    "resolve_stage_signal_by_design_point",
     "stratify_power_by_eigengap",
     "summarize_config_spectrum",
 ]

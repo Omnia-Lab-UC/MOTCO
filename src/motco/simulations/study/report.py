@@ -40,6 +40,7 @@ from motco.simulations.study.spectrum import (
     record_forced_rank,
     resolve_operating_by_design_point,
     resolve_orientation_by_continuity,
+    resolve_stage_signal_by_design_point,
     stratify_power_by_eigengap,
     summarize_config_spectrum,
 )
@@ -63,7 +64,9 @@ class ReportFrames:
     unless the record set actually spans more than one baseline continuity
     value, so a study that holds the axis fixed reports exactly what it did
     before the axis existed. ``design_point_operating`` likewise is empty — and
-    unwritten — unless the record set contains design-grid cells.
+    unwritten — unless the record set contains design-grid cells, and so is
+    ``design_point_stage_signal``, the per-column held-out CV stage AUROC that
+    sits beside it.
     """
 
     specificity_matrix: pd.DataFrame
@@ -74,6 +77,7 @@ class ReportFrames:
     realized_surgery: pd.DataFrame = field(default_factory=pd.DataFrame)
     continuity_resolved_orientation: pd.DataFrame = field(default_factory=pd.DataFrame)
     design_point_operating: pd.DataFrame = field(default_factory=pd.DataFrame)
+    design_point_stage_signal: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 @dataclass(frozen=True)
@@ -645,6 +649,7 @@ def build_report_frames(
         realized_surgery=build_realized_surgery(records),
         continuity_resolved_orientation=resolve_orientation_by_continuity(records, alpha=alpha),
         design_point_operating=resolve_operating_by_design_point(records, alpha=alpha),
+        design_point_stage_signal=resolve_stage_signal_by_design_point(records),
     )
 
 
@@ -681,6 +686,11 @@ def write_report_csvs(
     if not frames.design_point_operating.empty:
         paths["design_point_operating"] = out_dir / "design_point_operating.csv"
         frames.design_point_operating.to_csv(paths["design_point_operating"], index=False)
+    # The stage-signal table sits beside the operating table under the same
+    # condition; the operating table itself is unchanged by it.
+    if not frames.design_point_stage_signal.empty:
+        paths["design_point_stage_signal"] = out_dir / "design_point_stage_signal.csv"
+        frames.design_point_stage_signal.to_csv(paths["design_point_stage_signal"], index=False)
     return paths
 
 

@@ -71,6 +71,7 @@ from motco.simulations.study.sharding import (
 from motco.simulations.study.spectrum import (
     resolve_operating_by_design_point,
     resolve_orientation_by_continuity,
+    resolve_stage_signal_by_design_point,
     stratify_power_by_eigengap,
     summarize_config_spectrum,
 )
@@ -163,6 +164,7 @@ __all__ = [
     "render_type_i_plot",
     "resolve_operating_by_design_point",
     "resolve_orientation_by_continuity",
+    "resolve_stage_signal_by_design_point",
     "run_shard",
     "stratify_power_by_eigengap",
     "summarize_attribution",

@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 
 import matplotlib
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -23,6 +24,7 @@ from motco.simulations.study import (
     render_design_point_power,
     resolve_operating_by_design_point,
     resolve_orientation_by_continuity,
+    resolve_stage_signal_by_design_point,
     write_design_point_decision,
     write_report_csvs,
 )
@@ -53,6 +55,8 @@ def record(
     null_q95: float = 90.0,
     selected_lv: int | None = 3,
     continuity: float | None = None,
+    cv_auroc: float | None = None,
+    integration: dict | None = None,
 ) -> SimulationReplicateResult:
     meta: dict = {"trajectory_mode": mode, "effect_size": effect}
     if point is not None:
@@ -60,9 +64,12 @@ def record(
         meta["varied_axis"] = DESIGN_AXIS_MARKER if phase == DESIGN_PHASE else None
     cell = f"{phase}-{mode}-{effect}-" + "-".join(f"{k.split('.')[-1]}{v}" for k, v in (point or {}).items())
     rho = continuity if continuity is not None else (point or {}).get(RHO, 0.0)
-    integration = {"integration_method": "pls", "component_selection": "cv"}
-    if selected_lv is not None:
-        integration["selected_lv"] = selected_lv
+    if integration is None:
+        integration = {"integration_method": "pls", "component_selection": "cv"}
+        if selected_lv is not None:
+            integration["selected_lv"] = selected_lv
+        if cv_auroc is not None:
+            integration["cv_mean_auroc"] = cv_auroc
     return SimulationReplicateResult(
         cell_id=cell,
         phase=phase,
@@ -81,14 +88,28 @@ def record(
     )
 
 
-def _column(point: dict, phase: str, *, angle_power: float, n: int = 20, gap: float = 0.05, q95: float = 90.0):
-    """One design column: an anchor (never rejects) + orientation at effects 0.5 and 1.0."""
+def _column(
+    point: dict,
+    phase: str,
+    *,
+    angle_power: float,
+    n: int = 20,
+    gap: float = 0.05,
+    q95: float = 90.0,
+    auroc: float | None = None,
+):
+    """One design column: an anchor (never rejects) + orientation at effects 0.5 and 1.0.
+
+    With ``auroc`` every record carries a CV stage AUROC of ``auroc + 0.01·index``.
+    """
 
     rows = []
     n_reject = int(round(angle_power * n))
     for index in range(n):
-        rows.append(record(point=point, phase=phase, mode="none", effect=0.0, index=index, p_angle=0.5, gap=gap))
-        rows.append(record(point=point, phase=phase, mode="orientation", effect=0.5, index=index, p_angle=0.5, gap=gap))
+        signal = None if auroc is None else auroc + 0.01 * index
+        common = {"point": point, "phase": phase, "index": index, "gap": gap, "cv_auroc": signal}
+        rows.append(record(mode="none", effect=0.0, p_angle=0.5, **common))
+        rows.append(record(mode="orientation", effect=0.5, p_angle=0.5, **common))
         rows.append(
             record(
                 point=point,
@@ -99,6 +120,7 @@ def _column(point: dict, phase: str, *, angle_power: float, n: int = 20, gap: fl
                 p_angle=0.01 if index < n_reject else 0.5,
                 gap=gap,
                 null_q95=q95,
+                cv_auroc=signal,
             )
         )
     return rows
@@ -143,6 +165,77 @@ def test_design_point_table_is_empty_without_design_cells() -> None:
         for i in range(5)
     ]
     assert resolve_operating_by_design_point(plain).empty
+
+
+# ── Stage-signal table ────────────────────────────────────────────────────────
+
+
+def _auroc_records() -> list[SimulationReplicateResult]:
+    return (
+        _column({RHO: 0.0, N: 300}, "power_primary", angle_power=0.60, auroc=0.60)
+        + _column({RHO: 0.0, N: 600}, DESIGN_PHASE, angle_power=0.75, auroc=0.70)
+        + _column({RHO: 0.5, N: 300}, DESIGN_PHASE, angle_power=0.85, auroc=0.80)
+        + _column({RHO: 0.5, N: 600}, DESIGN_PHASE, angle_power=1.00, auroc=0.90)
+    )
+
+
+def test_stage_signal_table_has_a_row_per_coordinate_mode_and_effect_with_the_anchors() -> None:
+    records = _auroc_records()
+    frame = resolve_stage_signal_by_design_point(records)
+    assert list(frame.columns[:2]) == [RHO, N]
+    assert len(frame) == 4 * 3  # 4 points × (anchor, e=0.5, e=1.0); AUROC does not vary by statistic
+    # Rows line up with the operating table's (point, mode, effect) keys, in the same order.
+    keys = [RHO, N, "trajectory_mode", "effect_size"]
+    operating = resolve_operating_by_design_point(records)[keys].drop_duplicates()
+    assert frame[keys].to_records(index=False).tolist() == operating.to_records(index=False).tolist()
+
+    anchors = frame[(frame["trajectory_mode"] == "none") & (frame["effect_size"] == 0.0)]
+    assert len(anchors) == 4 and (anchors["n_auroc_available"] == 20).all()
+    baseline = frame[frame["is_baseline"]]
+    assert len(baseline) == 3 and set(baseline[N]) == {300} and set(baseline[RHO]) == {0.0}
+    assert set(frame.loc[~frame["is_baseline"], "phase"]) == {DESIGN_PHASE}
+
+    row = frame[(frame[RHO] == 0.5) & (frame[N] == 300) & (frame["effect_size"] == 1.0)].iloc[0]
+    values = [0.80 + 0.01 * index for index in range(20)]
+    assert row["n_replicates"] == 20 and row["n_cells"] == 1 and row["n_auroc_available"] == 20
+    assert row["mean_cv_auroc"] == pytest.approx(float(np.mean(values)))
+    assert row["q33_cv_auroc"] == pytest.approx(float(np.quantile(values, 1 / 3)))
+    assert row["median_cv_auroc"] == pytest.approx(float(np.quantile(values, 0.5)))
+    assert row["q67_cv_auroc"] == pytest.approx(float(np.quantile(values, 2 / 3)))
+
+
+def test_stage_signal_reports_columns_without_a_cv_auroc_as_unavailable() -> None:
+    """A forced rank records a null AUROC; concat and pca record none at all."""
+
+    forced = {"integration_method": "pls", "component_selection": "forced", "selected_lv": 4, "cv_mean_auroc": None}
+    no_cv = {
+        (0.0, 600): forced,
+        (0.5, 300): {"integration_method": "concat"},
+        (0.5, 600): {"integration_method": "pca"},
+    }
+    records = _column({RHO: 0.0, N: 300}, "power_primary", angle_power=0.60, auroc=0.60) + [
+        record(point={RHO: rho, N: n}, phase=DESIGN_PHASE, mode="none", effect=0.0, index=i, p_angle=0.5, integration=m)
+        for (rho, n), m in no_cv.items()
+        for i in range(5)
+    ]
+    frame = resolve_stage_signal_by_design_point(records)
+    assert len(frame) == 3 + 3
+    unavailable = frame[~frame["is_baseline"]]
+    assert (unavailable["n_replicates"] == 5).all()
+    assert (unavailable["n_auroc_available"] == 0).all()
+    for column in ("mean_cv_auroc", "q33_cv_auroc", "median_cv_auroc", "q67_cv_auroc"):
+        assert unavailable[column].isna().all()
+    assert (frame.loc[frame["is_baseline"], "n_auroc_available"] == 20).all()
+
+
+def test_stage_signal_table_is_empty_without_design_cells() -> None:
+    baseline_only = _column({RHO: 0.0, N: 300}, "power_primary", angle_power=0.6, auroc=0.6)
+    assert resolve_stage_signal_by_design_point(baseline_only).empty
+    plain = [
+        record(point=None, phase="power_primary", mode="orientation", effect=1.0, index=i, p_angle=0.01, cv_auroc=0.7)
+        for i in range(5)
+    ]
+    assert resolve_stage_signal_by_design_point(plain).empty
 
 
 # ── Continuity table rekeyed on other design coordinates ─────────────────────
@@ -265,16 +358,24 @@ def test_decision_files_are_written(tmp_path: Path) -> None:
 def test_report_writes_design_outputs_only_for_design_grid_studies(tmp_path: Path) -> None:
     grid = build_report_frames([], [], _grid_records())
     assert not grid.design_point_operating.empty
+    assert not grid.design_point_stage_signal.empty
     paths = write_report_csvs(grid, tmp_path / "grid")
     assert paths["design_point_operating"].exists()
+    # The stage-signal table sits beside the operating table (no AUROC recorded here: zero available).
+    assert paths["design_point_stage_signal"] == tmp_path / "grid" / "design_point_stage_signal.csv"
+    signal = pd.read_csv(paths["design_point_stage_signal"])
+    assert len(signal) == 4 * 3 and (signal["n_auroc_available"] == 0).all()
     figure = render_design_point_power(grid.design_point_operating, tmp_path / "grid" / "design_point_power.png")
     assert figure.exists() and figure.stat().st_size > 0
 
     plain = build_report_frames([], [], _column({RHO: 0.0, N: 300}, "power_primary", angle_power=0.6))
     assert plain.design_point_operating.empty
+    assert plain.design_point_stage_signal.empty
     plain_paths = write_report_csvs(plain, tmp_path / "plain")
     assert "design_point_operating" not in plain_paths
+    assert "design_point_stage_signal" not in plain_paths
     assert not (tmp_path / "plain" / "design_point_operating.csv").exists()
+    assert not (tmp_path / "plain" / "design_point_stage_signal.csv").exists()
     assert {
         "specificity_matrix",
         "power_curves",

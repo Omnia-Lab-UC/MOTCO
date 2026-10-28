@@ -1,0 +1,128 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 200,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 2.0,
+    "delta_expr": 2.0,
+    "delta_protein": 2.0,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 199,
+    "n_jobs": 1,
+    "seed": 3
+  },
+  "trajectory_modes": [
+    "magnitude"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.25
+  ],
+  "axes": {},
+  "design_grid": {
+    "axes": {
+      "generator.n_samples": [
+        80,
+        200,
+        500,
+        1000
+      ],
+      "generator.n_stages": [
+        3,
+        4
+      ],
+      "evaluation.integration_params.layers": [
+        [
+          "methylation",
+          "expression"
+        ],
+        null
+      ]
+    }
+  },
+  "n_replicates": 100,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "design-guidance-core-magnitude-pilot",
+    "phase": 5,
+    "intent": "Design-guidance pilot, core magnitude profile: how pilot-grade Type I and power of the delta / angle / shape RRPP tests for the magnitude mode(s) depend on sample size, number of stages and number of measured blocks, under the production measurement (pooled PLS with the stage-supervised double-CV rank, net-displacement orientation, rank floor 2, joint magnitude). Phase 5 sensitivity deliverable (sample size, stages, blocks, signal density); 100 replicates x 199 permutations.",
+    "derives_from": "examples/trajectory_power_study/phase6_small_n_pilot.json",
+    "sibling_profile": "examples/trajectory_power_study/design_guidance_core_geometry_pilot.json",
+    "notes": [
+      "Crossed design grid (design D1/D3): generator.n_samples {80, 200, 500, 1000} x generator.n_stages {3, 4} x evaluation.integration_params.layers {methylation + expression, null = all three blocks}: 16 columns, the baseline (n = 200, three stages, two blocks) served by the primary grid. Columns differing only in layers evaluate the same generated datasets (same data, different measurement). Block count is confounded with feature count (498 measured features vs 498 + protein); the report states it.",
+      "Mode magnitude (joint construction) at e in {0.01, 0.02, 0.05, 0.1, 0.25}: at n = 80 with two blocks the Phase 6 study measured delta power 0.206 / 0.542 / 0.956 at 0.05 / 0.10 / 0.25, and it saturates sooner at larger n, so the axis reaches down to 0.01.",
+      "Cells and cost: 2 Type I baselines + 16 columns x (1 anchor + 1 mode(s) x 5 effects) = 98 cells, 9,800 work units at 100 replicates. The n = 1000 columns dominate the core profiles' compute; shard counts and the core-hour estimate come from the local smoke run recorded in the change notes.",
+      "Design-guidance pilot (change design-guidance-grid, 2026-10-28): the replacement for the project's originally planned simulation grid (Table 1). Four profiles share one baseline (n = 200, three stages, group_ratio 0.5, p_dmp 0.1, rho 0, every per-omic delta 2.0, joint magnitude; pooled PLS on methylation + expression with the Phase 6 CV knobs), one seed root (base_seed 1028) and one matched-seed family (design-guidance), at pilot grade: 100 replicates x 199 permutations.",
+      "Production measurement named, not defaulted (design-guidance spec, 'profiles name the production measurement'): orientation_estimator net_displacement, min_components 2 and magnitude_kind joint are written out so the profile states what it measures under. This is a post-floor config: it is pinned in tests/data/post_floor_config_identity.json, not in the historical pre-flip fixture, and it does not copy the historical 'pc1' / min_components 1 pins.",
+      "Magnitude and geometry are split into sibling profiles (design D1) because one effect list cannot serve both: magnitude's delta rise sits at e = 0.01-0.25 while orientation and shape leave the null only from e = 0.25. The siblings share base_seed and the seed family, so at a given design column their zero-effect anchors have different cell ids but draw the same generator seed and evaluate the same datasets (design D2). The findings report reads the geometry profile's anchor and uses the magnitude profile's anchor as a reproduction check; it never pools the two as independent replicates.",
+      "acceptance: a type_i entry and the advisory anchor_decision (alpha 0.05, k = 2, delta/angle/shape; bound 0.0936 at R = 100). No power targets, no gate, no report contract (design D8): the pilot is descriptive, proposes the slice to rerun at paper grade, and makes no floor claims.",
+      "surgery_censoring stays at its default ('error'); enumeration rejects any over-headroom cell before compute is spent. Do not pass --n-jobs; parallelize across shards."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "n_shards": "set from the local smoke timings (openspec change notes) before submission",
+      "out_dir": "results/design-guidance-pilot-<date>/design_guidance_core_magnitude_pilot"
+    }
+  }
+}
