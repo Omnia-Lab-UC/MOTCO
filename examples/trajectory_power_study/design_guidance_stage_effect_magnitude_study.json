@@ -1,0 +1,139 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 200,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 0.25,
+    "delta_expr": 0.25,
+    "delta_protein": 0.25,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3
+  },
+  "trajectory_modes": [
+    "magnitude"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "generator.delta_methyl": 0.25,
+        "generator.delta_expr": 0.25,
+        "generator.delta_protein": 0.25
+      },
+      {
+        "generator.delta_methyl": 0.5,
+        "generator.delta_expr": 0.5,
+        "generator.delta_protein": 0.5
+      },
+      {
+        "generator.delta_methyl": 1.0,
+        "generator.delta_expr": 1.0,
+        "generator.delta_protein": 1.0
+      }
+    ]
+  },
+  "n_replicates": 500,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      },
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper",
+        "trajectory_mode": "translation",
+        "statistic": "angle"
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "design-guidance-stage-effect-magnitude-study",
+    "phase": 5,
+    "intent": "Design-guidance stage-effect arm, magnitude profile (second priority): paper-grade Type I and power of the delta / angle / shape RRPP tests for the magnitude mode(s) as the joint per-omic stage effect moves through 0.25, 0.5 and 1.0 at n = 200, three stages and two measured blocks, where the pilot located the power transition and the CV rank inflation; under the production measurement (pooled PLS with the stage-supervised double-CV rank floored at 2, net-displacement orientation, joint magnitude). 500 replicates x 999 permutations.",
+    "derives_from": "examples/trajectory_power_study/design_guidance_core_magnitude_study.json",
+    "sibling_profile": "examples/trajectory_power_study/design_guidance_stage_effect_geometry_study.json",
+    "notes": [
+      "Design-guidance stage-effect arm (change design-guidance-paper-grade-slice, 2026-10-29; design D7): the slice profile's modes, effects, replicates, permutations, seed family and measurement over explicit design points (design_grid.points) on the joint stage effect delta_methyl = delta_expr = delta_protein in {0.25, 0.5, 1.0}, no other design axis; every column sits at n = 200, three stages, methylation + expression. The pilot's delta arm measured, at pilot grade, the transition from no power at delta <= 0.1 (stage AUROC 0.55-0.73, the SEA-AD regime) to the saturated core at delta = 2.0 (AUROC 1.000), with the CV-selected rank inflating through this range.",
+      "Baseline deviation: the configuration baseline is delta = 0.25, not the shared design-guidance baseline (delta = 2.0) of the pilot profiles and the slice. The engine always enumerates the configuration baseline as the primary column, so a delta = 2.0 baseline would re-run the slice's n = 200 / two-block column (bit-identical records; 8,000 units in the geometry profile). The slice column is the delta = 2.0 reference, and the arm's columns are matched to it through the shared seed family. The Type I baseline phase (anchor and translation at delta = 0.25) is a fresh draw at the arm's baseline. Every other generator setting equals the slice baseline's.",
+      "Cells and cost: 2 Type I baselines + 3 columns x (1 anchor + 1 mode x 3 effects) = 14 cells, 7,000 work units at 500 replicates x 999 permutations; about 230 core-hours for the two arm profiles together (the pilot's delta columns ran with inflated ranks and cost more per unit than the core baseline). Shards and budget in metadata.submission are set from the ing timing at the delta = 0.25 column.",
+      "Priority: committed and pinned with the slice (tests/data/post_floor_config_identity.json) so that it is reproducible whenever it runs; submitted only on the user's decision after the slice's numbers and the measured unit cost at 999 permutations are in. It changes no spec or task of the slice.",
+      "Seed family (design D3/D7): base_seed 1028 and matched-seed family design-guidance, as the pilot. The pilot arms profiles placed delta in {0.25, 0.5, 1.0} as explicit points off the same core baseline, so at every arm column the primary and design-point cells draw the pilot arm cell's generator seeds at replicate indices 0-99 and 400 fresh ones (tests/test_design_guidance_slice_profiles.py); the pilot reproduction check (scripts/anchor_reproduction.py --by-column, p-values not comparable across 199 and 999 permutations) applies to the arm as to the slice, and the arm supersedes the pilot's rates at these columns without pooling. The two Type I baseline cells draw fresh seeds.",
+      "Magnitude and geometry are split into sibling profiles (design D1/D7) because one effect list cannot serve both. The siblings share base_seed, the seed family and evaluation.seed 3 (also the RRPP seed), so at a design column their zero-effect anchors have different cell ids but identical generator seeds, datasets and permutation draws: their p-values are identical (scripts/anchor_reproduction.py --by-column). The findings report reads the geometry profile's anchor and uses the magnitude profile's as a reproduction check; it never pools the two.",
+      "Production measurement named, not defaulted (design-guidance spec, 'profiles name the production measurement'): orientation_estimator net_displacement, min_components 2 and magnitude_kind joint are written out so the profile states what it measures under. This is a post-floor config: it is pinned in tests/data/post_floor_config_identity.json, not in the historical pre-flip fixture, and it does not copy the historical 'pc1' / min_components 1 pins.",
+      "acceptance (design D4): the advisory anchor_decision (alpha 0.05, k = 2, delta/angle/shape; bound 0.0695 at R = 500), a phase-scoped type_i entry (alpha 0.05, tolerance 2, two-sided, on the Type I baseline cells) and the column-scoped type_i entry {trajectory_mode translation, statistic angle, bound upper, alpha 0.05, se_tolerance 2}, evaluated at every design column on translation at its largest effect against alpha + 2 sqrt(alpha (1 - alpha) / R). No power targets, no specificity target, no gate, no report contract: the slice is guidance, not a gate. At R = 500 chance predicts about 0.2 anchor excesses over 9 anchor tests; the report reads any excess against that expectation and the baseline column's independent Type I-phase draw. Translation runs only in this profile's Type I baseline phase, so the column-scoped entry reports every design column unavailable here; it is declared so the sibling acceptance blocks are identical, and the geometry sibling carries the translation verdict.",
+      "surgery_censoring stays at its default ('error'); enumeration rejects any over-headroom cell before compute is spent. Do not pass --n-jobs; parallelize across shards: every record must carry n_jobs 1 (checked for PROVENANCE.txt)."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "6:00:00",
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "out_dir": "results/design-guidance-slice-<date>/stage_effect_magnitude",
+      "units": 7000,
+      "cells": 14,
+      "timing_basis": "<set in task 5.2: one anchor and one orientation e = 1.0 unit timed at 999 permutations at the delta = 0.25 column on ing>",
+      "n_shards": "<set in task 5.2 at <= 2.5 h per shard>",
+      "array": "<set in task 5.2>",
+      "budget": "<set in task 5.2; the design estimate is about 230 core-hours for the two arm profiles>"
+    }
+  }
+}

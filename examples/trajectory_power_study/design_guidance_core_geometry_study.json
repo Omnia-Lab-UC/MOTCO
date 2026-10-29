@@ -1,0 +1,140 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 200,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 2.0,
+    "delta_expr": 2.0,
+    "delta_protein": 2.0,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3
+  },
+  "trajectory_modes": [
+    "orientation",
+    "shape",
+    "translation"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "axes": {},
+  "design_grid": {
+    "axes": {
+      "generator.n_samples": [
+        80,
+        200,
+        500
+      ],
+      "generator.n_stages": [
+        3
+      ],
+      "evaluation.integration_params.layers": [
+        [
+          "methylation",
+          "expression"
+        ],
+        null
+      ]
+    }
+  },
+  "n_replicates": 500,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      },
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper",
+        "trajectory_mode": "translation",
+        "statistic": "angle"
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "design-guidance-core-geometry-study",
+    "phase": 5,
+    "intent": "Design-guidance paper-grade slice, core geometry profile: paper-grade Type I and power of the delta / angle / shape RRPP tests for the geometry mode(s) at the sample sizes and block counts the planned analyses have (n in {80, 200, 500}, three stages, methylation + expression or all three blocks), under the production measurement (pooled PLS with the stage-supervised double-CV rank floored at 2, net-displacement orientation, joint magnitude). Phase 5 sensitivity deliverable (sample size, blocks) at paper grade; 500 replicates x 999 permutations.",
+    "derives_from": "examples/trajectory_power_study/design_guidance_core_geometry_pilot.json",
+    "sibling_profile": "examples/trajectory_power_study/design_guidance_core_magnitude_study.json",
+    "notes": [
+      "Paper-grade design-guidance slice (change design-guidance-paper-grade-slice, 2026-10-29): the slice that docs/reports/design-guidance-pilot-2026-10-28.md section 7 proposes, rerun at paper grade. Crossed design grid (design D1): generator.n_samples {80, 200, 500} x generator.n_stages {3} x evaluation.integration_params.layers {methylation + expression, null = all three blocks}: six columns, the baseline (n = 200, three stages, two blocks) served by the primary grid. The single-valued stage axis keeps the stage column in design_point_operating.csv, so scripts/design_guidance_figure.py (--grade paper) reads the report unchanged and renders one panel row. Columns differing only in layers evaluate the same generated datasets (same data, different measurement); block count is confounded with feature count (498 measured features vs 498 + protein), and the report states it. Three stages are the case-study and planned AD design; the four-stage and n = 1000 columns stand at pilot grade (pilot report section 7).",
+      "Modes orientation, shape and translation at e in {0.25, 0.5, 1.0}: orientation and shape sit near the null below 0.25 at n = 80, and 1.0 is kept so that orientation's non-monotone response is measured at paper grade with the selected rank recorded per cell. Translation runs at every geometry effect because a configuration has one effect list (design D2): the control figure, the anchor decision and the column-scoped type_i entry read it at its largest effect, e = 1.0; the e = 0.25 and 0.5 translation cells (2 x 6 x 500 = 6,000 units) are descriptive controls. A per-mode effect list is the documented engine alternative, swappable before submission without changing any other cell.",
+      "Cells and cost: 2 Type I baselines + 6 columns x (1 anchor + 3 modes x 3 effects) = 62 cells, 31,000 work units at 500 replicates x 999 permutations. The shard count and budget in metadata.submission are set from the 999-permutation unit timings measured on ing before submission (design D9).",
+      "Seed family (design D3): base_seed 1028 and matched-seed family design-guidance, as the pilot. At every design column the primary and design-point cells draw the pilot core cell's generator seeds at replicate indices 0-99 and 400 fresh ones, so the observed statistics and selected ranks at those replicates reproduce the pilot's (scripts/anchor_reproduction.py --by-column against the pilot's merged.jsonl; the p-values differ by the permutation count and are reported as not comparable). The slice supersedes the pilot's rates at these columns; the report never pools pilot and slice replicates. The two Type I baseline cells are keyed on their own cell ids (which carry n_replicates) and draw fresh seeds, giving the baseline column one more independent 500-replicate size reading.",
+      "Magnitude and geometry are split into sibling profiles (design D1) because one effect list cannot serve both. The siblings share base_seed, the seed family and evaluation.seed 3 (also the RRPP seed), so at a design column their zero-effect anchors have different cell ids but identical generator seeds, datasets and permutation draws: their p-values are identical (scripts/anchor_reproduction.py --by-column). The findings report reads the geometry profile's anchor and uses the magnitude profile's as a reproduction check; it never pools the two.",
+      "Production measurement named, not defaulted (design-guidance spec, 'profiles name the production measurement'): orientation_estimator net_displacement, min_components 2 and magnitude_kind joint are written out so the profile states what it measures under. This is a post-floor config: it is pinned in tests/data/post_floor_config_identity.json, not in the historical pre-flip fixture, and it does not copy the historical 'pc1' / min_components 1 pins.",
+      "acceptance (design D4): the advisory anchor_decision (alpha 0.05, k = 2, delta/angle/shape; bound 0.0695 at R = 500), a phase-scoped type_i entry (alpha 0.05, tolerance 2, two-sided, on the Type I baseline cells) and the column-scoped type_i entry {trajectory_mode translation, statistic angle, bound upper, alpha 0.05, se_tolerance 2}, evaluated at every design column on translation at its largest effect against alpha + 2 sqrt(alpha (1 - alpha) / R). No power targets, no specificity target, no gate, no report contract: the slice is guidance, not a gate. At R = 500 chance predicts about 0.4 anchor excesses over 18 anchor tests; the report reads any excess against that expectation and the baseline column's independent Type I-phase draw.",
+      "surgery_censoring stays at its default ('error'); enumeration rejects any over-headroom cell before compute is spent. Do not pass --n-jobs; parallelize across shards: every record must carry n_jobs 1 (checked for PROVENANCE.txt)."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "6:00:00",
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "out_dir": "results/design-guidance-slice-<date>/core_geometry",
+      "units": 31000,
+      "cells": 62,
+      "timing_basis": "<set in task 5.2: one anchor and one orientation e = 1.0 unit timed at 999 permutations at each slice column on ing from a clean worktree; the pilot's 199-permutation basis was 10.7 / 13.2 / 19.4 s per unit at n = 80 / 200 / 500 with three stages and two blocks, about 1.2x with three blocks, the RRPP adding 2-5 s>",
+      "n_shards": "<set in task 5.2 at <= 2.5 h per shard>",
+      "array": "<set in task 5.2>",
+      "budget": "<set in task 5.2; the design estimate is about 380 core-hours for the two slice profiles, planned at 450>"
+    }
+  }
+}

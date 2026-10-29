@@ -219,9 +219,12 @@ require every file in this directory to be in exactly one of them:
   `tests/data/orientation_default_identity.json` (captured on the pre-flip code
   with the configs unedited) pins their cell ids, parameter signatures and matched
   seeds. The set is closed: the tests assert exactly 19.
-- **Post-floor** — every config committed since the floor, starting with the four
-  design-guidance profiles. Each names its estimator and floor **explicitly and
-  non-null** (`"net_displacement"` and `2` for the design-guidance pilot), so the
+- **Post-floor** — every config committed since the floor: the four
+  design-guidance pilot profiles, the two paper-grade slice profiles
+  (`design_guidance_core_{magnitude,geometry}_study.json`) and the two
+  stage-effect profiles (`design_guidance_stage_effect_{magnitude,geometry}_study.json`).
+  Each names its estimator and floor **explicitly and
+  non-null** (`"net_displacement"` and `2` for the design-guidance profiles), so the
   measurement it ran under is stated rather than inherited from a default, and it
   is not held to the historical pins. `tests/data/post_floor_config_identity.json`
   pins its identity; `tests/post_floor_fixture_capture.py` regenerates it and
@@ -978,3 +981,119 @@ n = 80 / 200 / 500 / 1000 with three stages and two blocks, 14.1 / 19.7 /
 (~73 core-hours), core geometry 49 (~121), arms magnitude 17 (~41), arms
 geometry 28 (~68); about 303 core-hours in all with a 20 % margin, ~2.4 h
 wall per shard. The n = 1000 columns are about a quarter of the total.
+
+## Design-guidance paper-grade slice
+
+Four **post-floor** profiles rerun the slice that the pilot report proposes
+(`docs/reports/design-guidance-pilot-2026-10-28.md` §7) at paper grade —
+**500 replicates × 999 permutations** (SE ≤ 0.022; anchor bound 0.0695 at
+R = 500) — in the pilot's seed family (`base_seed` 1028, family
+`design-guidance`) and under the same production measurement (pooled PLS with
+the stage-supervised double-CV rank floored at 2, `"net_displacement"`,
+`"magnitude_kind": "joint"`, the Phase 6 CV knobs). Attribution and the gate
+are off and there is no power target: the slice is guidance, not a gate. Each
+`_study` profile diffs against its `_pilot` sibling in the grid, the effects,
+the replicate and permutation counts, the acceptance block and the metadata.
+
+- `design_guidance_core_magnitude_study.json` — the pilot core magnitude
+  profile with the grid narrowed to `n_samples` ∈ {80, 200, 500} ×
+  `n_stages` ∈ {3} × `layers` ∈ {methylation + expression, all three} (six
+  columns; the baseline n = 200 / three stages / two blocks is the primary
+  grid) and `magnitude` at e ∈ {0.02, 0.05, 0.1}: 0.01 resolved only at
+  n = 1000 and 0.25 is saturated at every column. 2 Type I baselines +
+  6 × (1 anchor + 3 effects) = 26 cells, 13,000 units.
+- `design_guidance_core_geometry_study.json` — the same grid; `orientation`,
+  `shape` and `translation` at e ∈ {0.25, 0.5, 1.0} (1.0 kept so that
+  orientation's non-monotone response is measured at paper grade with the
+  selected rank recorded per cell). 2 + 6 × (1 + 3 × 3) = 62 cells, 31,000
+  units.
+- `design_guidance_stage_effect_magnitude_study.json` and
+  `design_guidance_stage_effect_geometry_study.json` — **second priority**:
+  the slice profiles with explicit design points (`design_grid.points`) on
+  the joint stage effect `delta_methyl = delta_expr = delta_protein` ∈ {0.25,
+  0.5, 1.0} at n = 200, three stages, two blocks, where the pilot located the
+  power transition and the CV rank inflation. 14 and 32 cells, 7,000 and
+  16,000 units. Submitted only on the user's decision after the slice's
+  numbers and the measured unit cost at 999 permutations are in.
+
+**Predeclared rules** (every profile, the same acceptance block): the advisory
+`anchor_decision` (α 0.05, k = 2, `delta`/`angle`/`shape`), a phase-scoped
+`type_i` entry (α 0.05, tolerance 2, two-sided, on the Type I baseline cells)
+and a **column-scoped** `type_i` entry `{"trajectory_mode": "translation",
+"statistic": "angle", "bound": "upper", "alpha": 0.05, "se_tolerance": 2.0}`,
+evaluated at every design column on translation at its largest effect against
+α + 2·√(α(1 − α)/R) (see the study README, *Column-scoped Type I entries*). In
+the magnitude profiles translation runs only in the Type I baseline phase, so
+that entry reports every column unavailable there; it is declared so the
+sibling acceptance blocks are identical, and the geometry sibling carries the
+verdict. No power targets, no specificity target, no gate, no report contract.
+
+**Translation at three effects.** A configuration has one effect list, so the
+geometry profiles run translation at e ∈ {0.25, 0.5, 1.0} like orientation and
+shape: 6,000 units (about 55 core-hours, 13 % of the slice) beyond a single
+translation cell per column. The control figure, the anchor decision and the
+column-scoped entry read it at e = 1.0; the two smaller effects are descriptive
+controls. A per-mode effect list is the documented engine alternative; swapping
+it in before submission changes no other cell.
+
+**Seeds and reproduction.** At every design column the primary and design-point
+cells draw the pilot cell's generator seeds at replicate indices 0–99 and 400
+fresh ones (the slice against the core pilot profiles; the stage-effect arm
+against the pilot arms profiles, whose δ points sit on the same baseline), so
+the observed statistics and selected ranks at those replicates reproduce the
+pilot's and the p-values differ only by the permutation count. The slice
+supersedes the pilot's rates at these columns; the report never pools them. The
+two Type I baseline cells are keyed on their own cell ids and draw fresh seeds.
+The magnitude and geometry siblings share `evaluation.seed` (also the RRPP
+seed), so their anchors at a column have identical p-values. Both checks are
+`scripts/anchor_reproduction.py --by-column`.
+
+**Stage-effect baseline.** The arm's configuration baseline is δ = 0.25, not
+the shared δ = 2.0: the engine always enumerates the configuration baseline as
+the primary column, so a δ = 2.0 baseline would re-run the slice's n = 200 /
+two-block column (8,000 units in the geometry profile, bit-identical records).
+The slice column is the δ = 2.0 reference, matched to the arm's columns through
+the shared seed family; the arm's Type I baseline phase is a fresh draw at
+δ = 0.25.
+
+Structure tests: `tests/test_design_guidance_slice_profiles.py`; identity
+pins: `tests/data/post_floor_config_identity.json`.
+
+```bash
+# On ing, from a clean worktree of the pushed branch (PYTHONPATH on its src).
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+RUN=results/design-guidance-slice-$(date -u +%F)
+for p in core_magnitude core_geometry; do   # then stage_effect_magnitude stage_effect_geometry on the user's go
+  CFG=examples/trajectory_power_study/design_guidance_${p}_study.json
+  N_SHARDS=$(python -c "import json; print(json.load(open('$CFG'))['metadata']['submission']['n_shards'])")
+  sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=6:00:00 --array=0-$((N_SHARDS-1)) \
+      --export=ALL,STUDY_CONFIG=$(pwd)/$CFG,STUDY_OUT=$(pwd)/$RUN/$p,N_SHARDS=$N_SHARDS \
+      scripts/motco_study_array.sbatch
+done
+# After completion:
+for p in core_magnitude core_geometry; do
+  python scripts/motco_study.py merge  --out-dir $RUN/$p
+  python scripts/motco_study.py report \
+      --config examples/trajectory_power_study/design_guidance_${p}_study.json --out-dir $RUN/$p
+done
+python scripts/design_guidance_figure.py --grade paper \
+    --magnitude $RUN/core_magnitude/report --geometry $RUN/core_geometry/report \
+    --out-dir $RUN/figures
+python scripts/anchor_reproduction.py --by-column \
+    --candidate $RUN/core_magnitude/merged.jsonl --reference $RUN/core_geometry/merged.jsonl \
+    --out $RUN/reproduction/siblings.csv
+for p in core_magnitude core_geometry; do
+  python scripts/anchor_reproduction.py --by-column \
+      --candidate $RUN/$p/merged.jsonl \
+      --reference results/design-guidance-pilot-2026-10-28/$p/merged.jsonl \
+      --out $RUN/reproduction/pilot_${p}.csv   # p-values not comparable (999 vs 199)
+done
+```
+
+Shard counts and budget are set in each profile's `metadata.submission` from
+one anchor and one orientation e = 1.0 unit timed at 999 permutations at every
+slice column on `ing` (≤ 2.5 h per shard under the 6 h limit); the design
+estimate is about 380 core-hours for the two slice profiles (planned at 450
+against the pilot's 23 % per-unit overrun on rank-inflated units) and about
+230 for the stage-effect arm. The slice has not run yet; its results directory
+and findings report are named by the submission date.

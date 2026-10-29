@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Design-guidance figures from the two core pilot reports.
+"""Design-guidance figures from the two core design-guidance reports.
 
 Reads ``design_point_operating.csv`` from the reports of the magnitude and the
-geometry core profiles (``examples/trajectory_power_study/design_guidance_core_*_pilot.json``)
-and writes, under ``--out-dir``:
+geometry core profiles (``examples/trajectory_power_study/design_guidance_core_*_pilot.json``
+or the paper-grade ``design_guidance_core_*_study.json``) and writes, under
+``--out-dir``:
 
 - ``design_guidance_magnitude.png`` (magnitude / ``delta``),
   ``design_guidance_orientation.png`` (orientation / ``angle``) and
@@ -24,15 +25,19 @@ and the two block counts are never merged. The control figure reads the
 geometry profile's anchor (the magnitude profile's anchor evaluates the same
 datasets and is the report's reproduction check, not a second measurement).
 
+``--grade`` (default ``pilot``) is the grade label written into every figure
+title; the panels are derived from the stage counts and block counts present,
+so a report with one stage count renders one panel row.
+
 A report lacking any of the three design axes is refused before anything is
 written: the script exits 1 and names the missing axis.
 
 Example:
 
     python scripts/design_guidance_figure.py \\
-        --magnitude results/design-guidance-pilot-<date>/core_magnitude/report \\
-        --geometry results/design-guidance-pilot-<date>/core_geometry/report \\
-        --out-dir results/design-guidance-pilot-<date>/figures
+        --magnitude results/design-guidance-slice-<date>/core_magnitude/report \\
+        --geometry results/design-guidance-slice-<date>/core_geometry/report \\
+        --out-dir results/design-guidance-slice-<date>/figures --grade paper
 """
 
 from __future__ import annotations
@@ -70,6 +75,8 @@ ANCHOR_MODE = "none"
 CONTROL_MODE = "translation"
 OPERATING_TABLE = "design_point_operating.csv"
 CSV_NAME = "design_guidance_power.csv"
+#: Grade label the titles carry when none is given (the pilot's).
+DEFAULT_GRADE = "pilot"
 
 
 class DesignGuidanceError(ValueError):
@@ -171,12 +178,23 @@ def _empty_figure(out_path: Path, title: str) -> Path:
     return out_path
 
 
-def render_mode_figure(rows: pd.DataFrame, out_path: Path, *, mode: str, statistic: str) -> Path:
+def render_mode_figure(
+    rows: pd.DataFrame, out_path: Path, *, mode: str, statistic: str, grade: str = DEFAULT_GRADE
+) -> Path:
     """Panels for stages × blocks; rate vs n on a log axis, one line per effect, ±1 SE."""
 
     out_path = Path(out_path)
     if rows.empty:
         return _empty_figure(out_path, f"{mode}/{statistic}: no rows")
+    fig = build_mode_figure(rows, mode=mode, statistic=statistic, grade=grade)
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return out_path
+
+
+def build_mode_figure(rows: pd.DataFrame, *, mode: str, statistic: str, grade: str = DEFAULT_GRADE) -> Any:
+    """The mode figure (one panel per stage count × block count present), titled with the grade label."""
+
     stages, blocks = _panels(rows)
     n_values = sorted(float(n) for n in rows[N_AXIS].unique())
     fig, axes = plt.subplots(
@@ -210,11 +228,9 @@ def render_mode_figure(rows: pd.DataFrame, out_path: Path, *, mode: str, statist
             if j == 0:
                 ax.set_ylabel(f"{mode}/{statistic} rejection rate")
     axes[0][0].legend(fontsize=7, title="effect", title_fontsize=7)
-    fig.suptitle(f"{mode} / {statistic}: power vs sample size (pilot; ±1 MC SE)", fontsize=10)
+    fig.suptitle(f"{mode} / {statistic}: power vs sample size ({grade}; ±1 MC SE)", fontsize=10)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    return out_path
+    return fig
 
 
 def type_i_bound(alpha: float, se_multiplier: float, n_available: float) -> float:
@@ -226,13 +242,24 @@ def type_i_bound(alpha: float, se_multiplier: float, n_available: float) -> floa
 
 
 def render_control_figure(
-    rows: pd.DataFrame, out_path: Path, *, alpha: float, se_multiplier: float
+    rows: pd.DataFrame, out_path: Path, *, alpha: float, se_multiplier: float, grade: str = DEFAULT_GRADE
 ) -> Path:
     """Rows = statistics, columns = stages × blocks; anchor and translation vs n with the anchor bound."""
 
     out_path = Path(out_path)
     if rows.empty:
         return _empty_figure(out_path, "control: no rows")
+    fig = build_control_figure(rows, alpha=alpha, se_multiplier=se_multiplier, grade=grade)
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return out_path
+
+
+def build_control_figure(
+    rows: pd.DataFrame, *, alpha: float, se_multiplier: float, grade: str = DEFAULT_GRADE
+) -> Any:
+    """The control figure (statistics × panels present), titled with the grade label."""
+
     stages, blocks = _panels(rows)
     panels = [(s, b) for s in stages for b in blocks]
     statistics = [statistic for statistic in STATISTICS if statistic in set(rows["statistic"])]
@@ -281,11 +308,9 @@ def render_control_figure(
             if j == 0:
                 ax.set_ylabel(f"{statistic} rejection rate")
     axes[0][0].legend(fontsize=6)
-    fig.suptitle(f"Size controls vs sample size (pilot; α = {alpha:g}, ±1 MC SE)", fontsize=10)
+    fig.suptitle(f"Size controls vs sample size ({grade}; α = {alpha:g}, ±1 MC SE)", fontsize=10)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    return out_path
+    return fig
 
 
 def plotted_table(frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
@@ -304,6 +329,7 @@ def run(
     *,
     alpha: float = 0.05,
     se_multiplier: float = 2.0,
+    grade: str = DEFAULT_GRADE,
 ) -> dict[str, Path]:
     """Validate both reports, then write the four figures and the CSV. Nothing is written on a refusal."""
 
@@ -317,10 +343,14 @@ def run(
     paths: dict[str, Path] = {}
     for figure, mode, statistic, _ in MODE_FIGURES:
         paths[figure] = render_mode_figure(
-            frames[figure], out_dir / f"design_guidance_{figure}.png", mode=mode, statistic=statistic
+            frames[figure], out_dir / f"design_guidance_{figure}.png", mode=mode, statistic=statistic, grade=grade
         )
     paths["control"] = render_control_figure(
-        frames["control"], out_dir / "design_guidance_control.png", alpha=alpha, se_multiplier=se_multiplier
+        frames["control"],
+        out_dir / "design_guidance_control.png",
+        alpha=alpha,
+        se_multiplier=se_multiplier,
+        grade=grade,
     )
     paths["csv"] = out_dir / CSV_NAME
     table.to_csv(paths["csv"], index=False)
@@ -336,13 +366,23 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--se-multiplier", type=float, default=2.0, help="k in alpha + k*sqrt(alpha(1-alpha)/R) (default 2)."
     )
+    parser.add_argument(
+        "--grade", default=DEFAULT_GRADE, help="Grade label in every figure title (default 'pilot'; e.g. 'paper')."
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
-        paths = run(args.magnitude, args.geometry, args.out_dir, alpha=args.alpha, se_multiplier=args.se_multiplier)
+        paths = run(
+            args.magnitude,
+            args.geometry,
+            args.out_dir,
+            alpha=args.alpha,
+            se_multiplier=args.se_multiplier,
+            grade=args.grade,
+        )
     except DesignGuidanceError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
