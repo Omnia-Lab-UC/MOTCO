@@ -1,0 +1,22 @@
+# Design-guidance pilot provenance — arms_geometry profile
+date_utc: 2026-10-28T13:30:57 (first array task start); written 2026-10-29T11:40:55+00:00
+config: examples/trajectory_power_study/design_guidance_arms_geometry_pilot.json
+config_sha256: be4e50300d54edee1aa7441e6d2310125438598f2a747462d5f61fb72ffe3ab4
+code_revision: 7c218c6b6692ae321068ec9955e2ecce388b0f5e (branch feat/design-guidance-grid; clean worktree /home1/tgonza/MOTCO-design-guidance, run with the main checkout's .venv and PYTHONPATH on the worktree's src)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, nodes {'n1': 28}; python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3, uv 0.12.10 (x86_64-unknown-linux-gnu)
+pre-flight: fast suite on the workstation at the same tree (ruff, mypy, 1510 passed / 1 skipped); the 2 x 19 smoke of all four profiles on ing (880/880 units, 0 failures) and 16 timed units at 199 permutations (openspec/changes/design-guidance-grid/notes.md)
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset
+error_policy: record (from the sbatch template)
+launch: sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=6:00:00 --job-name=dg-pilot-arms_geometry --array=0-27 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO-design-guidance/examples/trajectory_power_study/design_guidance_arms_geometry_pilot.json,STUDY_OUT=/home1/tgonza/MOTCO-design-guidance/results/design-guidance-pilot-2026-10-28/arms_geometry,N_SHARDS=28 scripts/motco_study_array.sbatch
+job_id: 929163
+shard layout: N_SHARDS=28, --array=0-27, --n-shards 28; units mapped to shards by the stable (cell_id, replicate_index) hash
+units: 132 cells x 100 replicates = 13,200 (199 permutations per unit); modes ['orientation', 'shape', 'translation'], effects [0.0, 0.25, 0.5, 1.0]
+n_jobs: {1: 13200} in the records, evaluation.n_jobs = 1
+measurement: orientation_estimator {'net_displacement': 13200}, min_components {2: 13200} in runtime_metadata
+outcome: array tasks {'COMPLETED 0:0': 28}; 13,200 records, 13,200 distinct (cell, replicate) of 13,200 expected; duplicates 0; missing 0; unexpected 0; signature mismatches 0; failed records 0 ; censored surgeries 0
+wall: 2026-10-28T13:30:57 -> 2026-10-28T16:51:25
+unit_timings: 13,200 units, median 20.8 s (min 15.7, mean 20.9, max 28.1), 76.8 recorded core-hours
+merge: python scripts/motco_study.py merge --out-dir results/design-guidance-pilot-2026-10-28/arms_geometry (13,200 records); merged.jsonl sha256 cba378c9fa48cc698ca093a9a2f8a1766ec7b88f4872d6e51bd15087019c6867; shard_*.jsonl and merged.jsonl stay gitignored
+report: python scripts/motco_study.py report --config examples/trajectory_power_study/design_guidance_arms_geometry_pilot.json --out-dir results/design-guidance-pilot-2026-10-28/arms_geometry (gate disabled; anchor_decision.json written)
+figures: python scripts/design_guidance_figure.py --magnitude results/design-guidance-pilot-2026-10-28/core_magnitude/report --geometry results/design-guidance-pilot-2026-10-28/core_geometry/report --out-dir results/design-guidance-pilot-2026-10-28/figures (core profiles only)
+reading: docs/reports/design-guidance-pilot-2026-10-28.md

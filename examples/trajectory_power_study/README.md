@@ -92,7 +92,8 @@ guard (parameter signature) skips already-completed replicates.
 | `generator.group_stage_sizes` | Exact group × stage sample sizes, `[[A per stage], [B per stage]]`; replaces `n_samples`/`stage_sample_prop`/`group_ratio` (which must then be omitted). Absent = proportional sizing, byte-identical to before (see the Phase 6 small-n study) |
 | `evaluation.integration_params.layers` | Omic blocks to measure, e.g. `["methylation", "expression"]`; absent = all three, byte-identical to before. Usable as a design-grid axis (`null` = all three) whose columns share data |
 | `generator.magnitude_kind` | Magnitude construction (`joint` default, `all`, `extremes`); every committed config names it, and a new config must choose it deliberately (see below) |
-| `evaluation.orientation_estimator` | Orientation estimator for `angle` (`net_displacement` default, `pc1`); every committed config pins `"pc1"`, and a new config must choose it deliberately (see below). In a design grid `null` names the default and `"pc1"` names PC1 |
+| `evaluation.orientation_estimator` | Orientation estimator for `angle` (`net_displacement` default, `pc1`); the 19 historical configs pin `"pc1"`, the design-guidance profiles name `"net_displacement"`, and a new config must choose it deliberately (see below). In a design grid `null` names the default and `"pc1"` names PC1 |
+| `evaluation.min_components` | Rank floor for the PLS double CV (`2` default; `1` is the unfloored 0.9.0 rule); the 19 historical configs pin `1`, the design-guidance profiles name `2`, and a new config must name the floor it measures under (see "Historical and post-floor configs") |
 | `report_contract` | Declared reporting/execution rules (`driver_component`, `cross_replicate_driver_agreement: descriptive`, `n_jobs_override: forbid`/`warn`); adds `report_contract.json` + `driver_report.csv` and, under `forbid`, makes the runner refuse `--n-jobs` (see the Phase 5 paper-grade study) |
 
 Unknown top-level keys are rejected by name, so a misspelled block cannot be
@@ -168,7 +169,7 @@ reproduces only the historical methylation-only construction. The same test
 requires every committed config here to name the key, so a config that omits it
 fails.
 
-### `evaluation.orientation_estimator` — why every committed config pins `"pc1"`
+### `evaluation.orientation_estimator` — why the historical configs pin `"pc1"`
 
 `orientation_estimator` defaults to `"net_displacement"`: each group's orientation
 is the unit vector from its first to its last stage mean. It became the harness
@@ -176,7 +177,8 @@ default after the
 [net-displacement power comparison](../../docs/reports/net-displacement-power-2026-10-14.md)
 selected it (orientation/`angle` power 0.300 → 0.648 at Phase 6 and 0.840 → 0.924
 at Phase 5, anchor size held, shape → `angle` leak removed). Every config in this
-directory was run under PC1, the former default, so each now carries an explicit
+directory older than the design-guidance pilot — the 19 **historical** configs —
+was run under PC1, the former default, so each carries an explicit
 `"orientation_estimator": "pc1"` in its `evaluation` block, and the four
 net-displacement profiles name their baseline column `"pc1"` rather than `null`
 (a `null` there would now name the new default and silently swap which column is
@@ -185,10 +187,10 @@ the primary one).
 **The pin is behavior-neutral.** `"pc1"` normalizes to `None`, which is left out
 of every hash payload, so every cell id, parameter signature, matched seed and
 shard assignment is unchanged, records are byte-identical, and committed results
-stay resumable. `tests/test_orientation_default_pins.py` checks all 19 configs
-against `tests/data/orientation_default_identity.json`, a fixture captured on the
-pre-flip code with the configs unedited, and asserts that each baseline
-evaluation resolves to PC1.
+stay resumable. `tests/test_orientation_default_pins.py` checks the 19 historical
+configs against `tests/data/orientation_default_identity.json`, a fixture
+captured on the pre-flip code with the configs unedited, and asserts that each of
+their baseline evaluations resolves to PC1.
 
 **Committed provenance hashes.** As with the `magnitude_kind` pin, these files'
 bytes changed, so their sha256 no longer matches the `config_sha256` in committed
@@ -197,10 +199,38 @@ revision its `PROVENANCE.txt` names; the provenance files are frozen and were no
 rewritten.
 
 **A new config must not copy the pin.** Choose `orientation_estimator`
-deliberately: `"net_displacement"` (or omitting the key) is the estimator the
-paper describes; `"pc1"` reproduces only the historical measurement. The same
-test requires every committed config here to name the key and forbids a `null`
-estimator in a committed design grid.
+deliberately: `"net_displacement"` is the estimator the paper describes; `"pc1"`
+reproduces only the historical measurement. The same test requires every
+committed config here to name the key and forbids a `null` estimator in a
+committed design grid. A config committed after the flip is not held to the
+historical pin: it names `"net_displacement"` explicitly and is pinned by the
+post-floor fixture described next.
+
+### Historical and post-floor configs — two identity fixtures
+
+The committed configs fall into two closed sets, and the pin tests
+(`tests/test_orientation_default_pins.py`, `tests/test_rank_floor_default_pins.py`)
+require every file in this directory to be in exactly one of them:
+
+- **Historical** — the 19 configs whose recorded results predate the
+  net-displacement default (2026-10-15) and the rank floor (0.10.0). Each pins
+  `"orientation_estimator": "pc1"` and `"min_components": 1`, the hash-omitted
+  spellings of what was actually run, and
+  `tests/data/orientation_default_identity.json` (captured on the pre-flip code
+  with the configs unedited) pins their cell ids, parameter signatures and matched
+  seeds. The set is closed: the tests assert exactly 19.
+- **Post-floor** — every config committed since the floor, starting with the four
+  design-guidance profiles. Each names its estimator and floor **explicitly and
+  non-null** (`"net_displacement"` and `2` for the design-guidance pilot), so the
+  measurement it ran under is stated rather than inherited from a default, and it
+  is not held to the historical pins. `tests/data/post_floor_config_identity.json`
+  pins its identity; `tests/post_floor_fixture_capture.py` regenerates it and
+  lists the configs in `POST_FLOOR_CONFIGS`. To commit a new config, append it
+  there, regenerate the fixture, and let
+  `tests/test_post_floor_config_identity.py` check it.
+
+A config in neither fixture fails both coverage tests by name, so a stray file
+cannot be committed unpinned.
 
 ## Phase 4 pilot
 
@@ -858,3 +888,93 @@ done
 Do not pass `--n-jobs`; parallelize across shards. Planning cost on `ing`:
 about 13 s per unit at Phase 6 (64 core-hours) and 62 s at Phase 5
 (319 core-hours).
+
+## Design-guidance pilot
+
+Four **post-floor** profiles (see "Historical and post-floor configs") replace
+the project's originally planned simulation grid (Table 1) with design guidance
+under the **production measurement**, named explicitly rather than defaulted:
+pooled PLS with the stage-supervised double-CV rank, `"net_displacement"`,
+`"min_components": 2` and `"magnitude_kind": "joint"`. All four share one
+baseline — n = 200, three stages, `group_ratio` 0.5, `p_dmp` 0.1, ρ = 0, every
+per-omic δ 2.0, methylation + expression measured, the Phase 6 CV knobs — one
+seed root (`base_seed` 1028), one matched-seed family (`design-guidance`), the
+advisory `anchor_decision` (α 0.05, k = 2, bound 0.0936 at R = 100) and pilot
+grade: **100 replicates × 199 permutations**. Attribution and the gate are off;
+there are no power targets. The pilot is descriptive and proposes the slice to
+rerun at paper grade.
+
+- `design_guidance_core_magnitude_pilot.json` — crossed grid `n_samples`
+  ∈ {80, 200, 500, 1000} × `n_stages` ∈ {3, 4} × `layers` ∈ {methylation +
+  expression, all three}; `magnitude` at e ∈ {0.01, 0.02, 0.05, 0.1, 0.25}.
+  2 Type I baselines + 16 columns × (1 anchor + 5 effects) = 98 cells,
+  9,800 units.
+- `design_guidance_core_geometry_pilot.json` — the same grid; `orientation`,
+  `shape` and `translation` at e ∈ {0.25, 0.5, 1.0}. 162 cells, 16,200 units.
+- `design_guidance_arms_magnitude_pilot.json` — explicit design points moving
+  one generator setting at a time off the core baseline: `group_ratio` {0.65,
+  0.8}, `stage_sample_prop` 0.5/0.3/0.2, `p_dmp` {0.05, 0.15}, the joint stage
+  effect `delta_methyl = delta_expr = delta_protein` ∈ {0.05, 0.1, 0.25, 0.5,
+  1.0}, `baseline_continuity` {0.5, 0.8}; the magnitude axis. 2 + 13 × 6 = 80
+  cells, 8,000 units.
+- `design_guidance_arms_geometry_pilot.json` — the same arms; the geometry
+  axis. 2 + 13 × 10 = 132 cells, 13,200 units.
+
+The δ arm first stopped at 0.25; the 2026-10-28 smoke measured the held-out CV
+stage AUROC at 1.000 at every column but δ = 0.25 (0.988), so 0.05 and 0.1
+were added to reach the SEA-AD regime (0.64–0.70), which the rank-floor check
+located near δ = 0.05–0.1.
+
+The pilot ran on 2026-10-28 (`results/design-guidance-pilot-2026-10-28/`:
+`report/` and `PROVENANCE.txt` per profile plus `figures/`; 47,200 units, 0
+failures, 345 core-hours on `ing`). Its findings and the proposed paper-grade
+slice are in `docs/reports/design-guidance-pilot-2026-10-28.md`.
+
+The magnitude and geometry siblings of each grid are split (one effect list
+cannot serve both: magnitude's `delta` rise sits at e = 0.01–0.25 while
+orientation and shape leave the null only from 0.25) but matched: at a given
+design column their zero-effect anchors have different cell ids yet draw the
+same generator seed and evaluate the same datasets. The findings report reads
+the geometry profile's anchor and uses the magnitude profile's as a
+reproduction check; it never pools the two. Columns differing only in `layers`
+evaluate the same datasets, so block count is a measurement contrast (confounded
+with feature count: 498 vs 498 + protein). `p_dmp` 0.2 is absent because at
+three stages it fails the headroom check (orientation saturates at e = 0.89,
+translation at 0.52); 0.15 fits (1.39 / 1.12).
+
+The report writes `design_point_stage_signal.csv` beside
+`design_point_operating.csv` (held-out CV AUROC for stage per column, the
+number that compares with a real analysis), and
+`scripts/design_guidance_figure.py --magnitude <report> --geometry <report>
+--out-dir <dir>` joins the two core reports into one figure per mode (panels
+for stages × blocks, n on a log axis, one line per effect), a control figure
+and `design_guidance_power.csv`; see the study README.
+
+```bash
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+RUN=results/design-guidance-pilot-$(date -u +%F)
+for p in core_magnitude core_geometry arms_magnitude arms_geometry; do
+  CFG=examples/trajectory_power_study/design_guidance_${p}_pilot.json
+  sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=12:00:00 --array=0-$((N_SHARDS-1)) \
+      --export=ALL,STUDY_CONFIG=$(pwd)/$CFG,STUDY_OUT=$(pwd)/$RUN/$p,N_SHARDS=$N_SHARDS \
+      scripts/motco_study_array.sbatch
+done
+# After completion:
+for p in core_magnitude core_geometry arms_magnitude arms_geometry; do
+  python scripts/motco_study.py merge  --out-dir $RUN/$p
+  python scripts/motco_study.py report \
+      --config examples/trajectory_power_study/design_guidance_${p}_pilot.json --out-dir $RUN/$p
+done
+python scripts/design_guidance_figure.py \
+    --magnitude $RUN/core_magnitude/report --geometry $RUN/core_geometry/report \
+    --out-dir $RUN/figures
+```
+
+Shard counts and budget (each profile's `metadata.submission`; timing basis
+the 2026-10-28 `ing` smoke, 880 units at 2 × 19 with 0 failures, and 16 units
+timed at 199 permutations: 10.7 / 13.2 / 19.4 / 27.6 s per unit at
+n = 80 / 200 / 500 / 1000 with three stages and two blocks, 14.1 / 19.7 /
+29.4 / 42.9 s with four stages and three blocks): core magnitude 30 shards
+(~73 core-hours), core geometry 49 (~121), arms magnitude 17 (~41), arms
+geometry 28 (~68); about 303 core-hours in all with a 20 % margin, ~2.4 h
+wall per shard. The n = 1000 columns are about a quarter of the total.

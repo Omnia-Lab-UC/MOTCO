@@ -437,6 +437,7 @@ results/
     ├── eigengap_stratified_power.csv  orientation power by eigengap tercile
     ├── continuity_resolved_orientation.csv  only when the grid sweeps baseline continuity
     ├── design_point_operating.csv only when the config declares a design_grid
+    ├── design_point_stage_signal.csv (same condition) per-column held-out CV stage AUROC
     ├── design_point_power.png     (same condition)
     ├── design_point_decision.json only when acceptance.design_point is declared
     ├── design_point_decision.csv  (same condition)
@@ -556,6 +557,16 @@ table, Phase 4 gate, acceptance targets). The report then writes:
   statistic), anchors included as `none` at `0.0`: rejection rate ± MC SE, the
   recorded pooled-eigengap distribution, the `angle` null-width (`q95`)
   dispersion, and the selected-dimensionality distribution.
+- `design_point_stage_signal.csv` — one row per (design coordinates, mode,
+  effect), the baseline column and every anchor included, bucketed exactly as
+  the operating table so the rows line up: `n_auroc_available` and the mean,
+  `q33`, median and `q67` of the recorded held-out CV stage AUROC
+  (`integration_metadata.cv_mean_auroc`). This is the stage-separability number
+  that compares directly with a real analysis's recorded AUROC (SEA-AD
+  0.64–0.70). A column whose records carry no cross-validated rank — a forced
+  rank, `concat`, `pca` — reports zero available and empty summaries. The
+  operating table is unchanged by it, and a study without a design grid writes
+  no such file.
 - `design_point_power.png` — the target statistic's power at the top effect per
   point against the first design axis, one line per value of the second,
   annotated with the median eigengap.
@@ -610,6 +621,45 @@ The committed Phase 5 latent-rank ladder,
 chosen design point fixed (ρ = 0, n = 1200, `p_dmp = 0.1`) and varies only the
 rank over {`null`, 3, 4, 6, 9, 12} for all four modes.
 
+### Design-guidance figure
+
+`scripts/design_guidance_figure.py` joins the reports of the two
+design-guidance core profiles
+(`examples/trajectory_power_study/design_guidance_core_magnitude_pilot.json`
+and `design_guidance_core_geometry_pilot.json`), which the engine never does
+(`design_point_power.png` plots two numeric axes and would mix the two- and
+three-block columns on that grid):
+
+```bash
+python scripts/design_guidance_figure.py \
+    --magnitude results/design-guidance-pilot-<date>/core_magnitude/report \
+    --geometry  results/design-guidance-pilot-<date>/core_geometry/report \
+    --out-dir   results/design-guidance-pilot-<date>/figures
+```
+
+It reads each report's `design_point_operating.csv`, labels the block count
+from the CSV spelling of `evaluation.integration_params.layers` (the
+measured-block list, or empty for all three blocks) and writes:
+
+- `design_guidance_magnitude.png` (magnitude / `delta`, from the magnitude
+  report), `design_guidance_orientation.png` (orientation / `angle`) and
+  `design_guidance_shape.png` (shape / `shape`, both from the geometry
+  report): one panel per (stage count, block count), `n_samples` on a log
+  axis, one line per nonzero effect with ±1 MC SE bars; the block columns are
+  never merged;
+- `design_guidance_control.png`: per statistic and panel, the geometry
+  report's zero-effect anchor and translation at its largest effect against
+  `n_samples`, with the bound `α + k·√(α(1 − α)/R)` drawn for the anchor's
+  available replicates `R` (`--alpha` 0.05 and `--se-multiplier` 2 by
+  default);
+- `design_guidance_power.csv`: exactly the operating-table rows plotted,
+  labelled with `figure`, `profile` and `n_blocks`.
+
+A report whose operating table lacks `generator.n_samples`,
+`generator.n_stages` or `evaluation.integration_params.layers` is refused:
+the script exits 1 naming the axis and writes nothing. Tests:
+`tests/test_design_guidance_figure.py`.
+
 ### Measurement columns and the anchor Type I rule
 
 `evaluation.orientation_estimator` and `evaluation.integration_method` are
@@ -630,8 +680,15 @@ evaluator's default (`2`) and `1` the unfloored rank rule, whose evaluator value
 is the hash-omitted `None`; a `1` column writes records identical to a config
 from before the floor existed (no `min_components` entry in `runtime_metadata`
 or in the latent `integration_params`), a floor-2 column records the floor and
-selects ranks of at least 2 on the same datasets. Every committed config pins
-`"min_components": 1` beside `"pc1"` (`tests/test_rank_floor_default_pins.py`).
+selects ranks of at least 2 on the same datasets. The 19 historical configs pin
+`"min_components": 1` beside `"pc1"` and are held to the pre-flip identity
+fixture; a config committed after the floor names its estimator and floor
+explicitly and non-null (the design-guidance profiles name `"net_displacement"`
+and `2`) and is pinned by `tests/data/post_floor_config_identity.json` instead
+(`tests/post_floor_fixture_capture.py` regenerates it). The pin tests
+(`tests/test_rank_floor_default_pins.py`, `tests/test_orientation_default_pins.py`,
+`tests/test_post_floor_config_identity.py`) require every committed config to be
+in exactly one of the two fixtures.
 `concat` and `pca` columns record no
 PLS component selection: `design_point_operating.csv` reports their rates,
 eigengap and `angle` null width and leaves `component_selection` and the
