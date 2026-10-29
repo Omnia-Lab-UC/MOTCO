@@ -130,10 +130,14 @@
       "out_dir": "results/design-guidance-slice-<date>/stage_effect_magnitude",
       "units": 7000,
       "cells": 14,
-      "timing_basis": "<set in task 5.2: one anchor and one orientation e = 1.0 unit timed at 999 permutations at the delta = 0.25 column on ing>",
-      "n_shards": "<set in task 5.2 at <= 2.5 h per shard>",
-      "array": "<set in task 5.2>",
-      "budget": "<set in task 5.2; the design estimate is about 230 core-hours for the two arm profiles>"
+      "timing_basis": "ing 2026-10-29, from the clean worktree at 23bc09e: one zero-effect anchor and one orientation e = 1.0 unit at 999 permutations per column, single CPU, BLAS pinned, through run_simulation_replicate. Two samples: job 929843 on n4 (load 21 of 128 CPUs) and job 929834 on n1 (load 99, 126 of 128 CPUs allocated). Mean unit seconds n4 / n1: n = 80: 8.3 / 16.4 (two blocks), 9.4 / 18.2 (three); n = 200: 10.2 / 19.5, 12.1 / 22.5; n = 500: 15.5 / 27.4, 19.4 / 33.4; the delta = 0.25 arm column (n = 200, two blocks): 10.9 / 21.1, selecting ranks 8 and 19. The RRPP's 999 permutations are a small part of a unit (the PLS double CV dominates: 999 permutations cost no more than the pilot's 199 did on a quiet node), and the per-unit cost tracks node load, 1.8x between the two nodes. Shards are sized at the loaded-node cost plus a 20% margin, <= 2.5 h per shard under the 6 h limit (about 1.3 h at the quiet-node cost); the core-hour budget is stated as the quiet-to-loaded range.",
+      "n_shards": 20,
+      "array": "0-19",
+      "budget": "21 core-hours at the quiet-node cost, 41 at the loaded-node cost; planned at 49 (loaded cost + 20%) in 20 single-CPU shards of <= 2.5 h each at the loaded cost (about 1.3 h at the quiet cost)",
+      "timing_jobs": {
+        "n4": 929843,
+        "n1": 929834
+      }
     }
   }
 }

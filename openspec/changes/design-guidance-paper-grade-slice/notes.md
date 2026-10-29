@@ -38,4 +38,31 @@ Scratchpad copies of the four profiles at 2 replicates × 19 permutations (never
 
 ## 6. Unit timings and compute plan (task 5.2)
 
-_Pending: `time_units.py` on `ing` from a clean worktree of the pushed branch._
+Branch `feat/design-guidance-paper-grade-slice` pushed at `23bc09e`; clean worktree `/home1/tgonza/MOTCO-design-guidance-slice` added beside the main checkout on `ing` (the main checkout's `.venv`, `PYTHONPATH` on the worktree's `src`); the change's six test modules pass there (115 tests, python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3; the venv's `motco` metadata still says 0.11.0, so `PROVENANCE.txt` cites the revision). Session tooling in `/home1/tgonza/MOTCO-design-guidance-scratch/slice/` (`time_units.py`, `ing_timing.sbatch`, `timing_999*.json`).
+
+**Unit cost at 999 permutations** (`time_units.py` via `run_simulation_replicate`, replicate 0 of the anchor and of orientation e = 1.0 at each column, single CPU, BLAS pinned; mean of the two units):
+
+| Column | n4, job 929843 (load 21 / 128) | n1, job 929834 (load 99, 126 / 128 allocated) | selected ranks |
+|---|---:|---:|---|
+| n = 80, 2 blocks | 8.3 s | 16.4 s | 3, 3 |
+| n = 80, 3 blocks | 9.4 s | 18.2 s | 2, 3 |
+| n = 200, 2 blocks (baseline) | 10.2 s | 19.5 s | 2, 3 |
+| n = 200, 3 blocks | 12.1 s | 22.5 s | 2, 3 |
+| n = 500, 2 blocks | 15.5 s | 27.4 s | 2, 3 |
+| n = 500, 3 blocks | 19.4 s | 33.4 s | 2, 2 |
+| δ = 0.25 arm column (n = 200, 2 blocks) | 10.9 s | 21.1 s | 8, 19 |
+
+Two things the pilot's basis did not show. (1) 999 permutations cost no more than 199 did on a quiet node (the pilot measured 10.7 / 13.2 / 19.4 s at n = 80 / 200 / 500 at 199 permutations): the RRPP on a rank-2–3 latent space is a small part of a unit, the PLS double CV dominates. (2) The per-unit cost tracks node load: 1.8× between n4 and n1 at every column. The first timing job happened to land on n1 and spent 27 min on 14 units, most of it in NFS-bound imports (a bare `import motco` took 77 s wall for 11 s CPU even on the login node); the n4 job took 13 min. The plan therefore sizes shards at the **loaded-node** cost — the core-hours are what they are; more, shorter shards only add array tasks — and states the budget as a range.
+
+**Plan** (`compute_plan.py`: cells × 500 units at the column's cost, the two Type I baseline cells at the baseline column's cost, the arm's three columns at the δ = 0.25 cost; 20 % margin; shards at ≤ 2.5 h at the loaded cost):
+
+| Profile | Units | Core-hours (quiet → loaded) | Planned (loaded + 20 %) | Shards | Per shard (loaded / quiet) |
+|---|---:|---:|---:|---:|---:|
+| core magnitude | 13,000 | 44 → 82 | 98 | 40 | 2.45 h / 1.3 h |
+| core geometry | 31,000 | 107 → 196 | 236 | 95 | 2.48 h / 1.3 h |
+| **slice** | **44,000** | **151 → 278** | **334** | **135** | |
+| stage-effect magnitude | 7,000 | 21 → 41 | 49 | 20 | 2.46 h / 1.3 h |
+| stage-effect geometry | 16,000 | 49 → 94 | 113 | 46 | 2.45 h / 1.3 h |
+| **arm** | **23,000** | **70 → 135** | **162** | **66** | |
+
+The design's estimate was about 380 core-hours for the slice (planned at 450) from the pilot's 199-permutation basis scaled up for the permutations; the measured cost is below it at either load. Written into each profile's `metadata.submission` (`timing_basis`, `n_shards`, `array`, `budget`, `timing_jobs`). Submission recipe (after the user's approval; `scripts/motco_study_array.sbatch`, partition `512x1024`, 1 CPU, 4 GB, 6 h, BLAS pinned, `STUDY_N_JOBS` unset, `--error-policy record`, from the worktree, `STUDY_OUT` under `results/design-guidance-slice-<date>/<profile>`): see `examples/trajectory_power_study/README.md`, "Design-guidance paper-grade slice".
