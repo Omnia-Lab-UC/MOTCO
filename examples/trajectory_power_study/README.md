@@ -1095,5 +1095,17 @@ one anchor and one orientation e = 1.0 unit timed at 999 permutations at every
 slice column on `ing` (≤ 2.5 h per shard under the 6 h limit); the design
 estimate is about 380 core-hours for the two slice profiles (planned at 450
 against the pilot's 23 % per-unit overrun on rank-inflated units) and about
-230 for the stage-effect arm. The slice has not run yet; its results directory
-and findings report are named by the submission date.
+230 for the stage-effect arm.
+
+The slice ran on 2026-10-29 (`results/design-guidance-slice-2026-10-29/`:
+`report/` and `PROVENANCE.txt` per profile, `figures/` and `reproduction/`;
+jobs 929844 + 929980 and 929845 from a clean worktree at `8bf8eb7`; 44,000
+units, 0 failures, 172 recorded core-hours — 999 permutations cost no more per
+unit than the pilot's 199, the double CV dominating). Size held at every column
+under both predeclared rules; the sibling anchors reproduced each other with
+identical p-values at every column and the pilot's datasets at replicates 0–99.
+The stage-effect arm ran the same day on the user's decision (jobs 930041 and
+930042; 23,000 units, 0 failures, 68 core-hours): size held at every δ, the CV
+rank inflated to a median 11 at δ = 0.25, `delta` and `shape` lost their power
+below δ = 2.0, and `angle` at e = 1.0 was higher at δ = 0.5–1.0 than at 2.0.
+Findings: `docs/reports/design-guidance-slice-2026-10-29.md`.

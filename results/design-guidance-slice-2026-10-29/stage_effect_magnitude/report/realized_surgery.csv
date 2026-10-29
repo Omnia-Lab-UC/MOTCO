@@ -1,0 +1,15 @@
+cell_id,phase,trajectory_mode,effect_size,completed_replicates,nominal_size,realized_mean,realized_min,realized_max,censored_replicates,censored_fraction,duplicate_of,duplicate_construction
+power_design-4bb0125fe1dd,power_design,magnitude,0.02,500,,,,,,,,False
+power_design-9aeaaaea37d8,power_design,magnitude,0.02,500,,,,,,,,False
+power_primary-146ce0b8cfbe,power_primary,magnitude,0.02,500,,,,,,,,False
+power_design-0e7f21279f2d,power_design,magnitude,0.05,500,,,,,,,,False
+power_design-392cde4af9fa,power_design,magnitude,0.05,500,,,,,,,,False
+power_primary-9903666e37db,power_primary,magnitude,0.05,500,,,,,,,,False
+power_design-03394e578115,power_design,magnitude,0.1,500,,,,,,,,False
+power_design-5bfff21c2ac4,power_design,magnitude,0.1,500,,,,,,,,False
+power_primary-b4fa5db87737,power_primary,magnitude,0.1,500,,,,,,,,False
+power_design-68a14da9c305,power_design,none,0.0,500,,,,,,,,False
+power_design-efd98565d748,power_design,none,0.0,500,,,,,,,,False
+power_primary-bf04351049fa,power_primary,none,0.0,500,,,,,,,,False
+type_i_baseline-dcc6c0f3fe2a,type_i_baseline,none,,500,,,,,,,,False
+type_i_baseline-d878a0d119e6,type_i_baseline,translation,0.1,500,4.0,4.0,4.0,4.0,0.0,0.0,,False

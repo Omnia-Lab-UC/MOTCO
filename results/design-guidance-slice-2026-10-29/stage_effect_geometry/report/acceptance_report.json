@@ -1,0 +1,200 @@
+[
+  {
+    "target_name": "type_i_control[type_i_baseline-d11dc3326a48,delta]",
+    "target_kind": "type_i_control",
+    "met": false,
+    "rationale": "|rate - alpha| = 0.0220 > 2.00\u00b7SE (0.0148)",
+    "observations": {
+      "cell_id": "type_i_baseline-d11dc3326a48",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "delta",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.028,
+      "monte_carlo_se": 0.007377804551490911,
+      "available_replicates": 500,
+      "deviation": 0.022000000000000002,
+      "bound": 0.014755609102981822
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-d11dc3326a48,angle]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0040 <= 2.00\u00b7SE (0.0202)",
+    "observations": {
+      "cell_id": "type_i_baseline-d11dc3326a48",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.054,
+      "monte_carlo_se": 0.010107818755794942,
+      "available_replicates": 500,
+      "deviation": 0.003999999999999997,
+      "bound": 0.020215637511589883
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-d11dc3326a48,shape]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0100 <= 2.00\u00b7SE (0.0212)",
+    "observations": {
+      "cell_id": "type_i_baseline-d11dc3326a48",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "shape",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.06,
+      "monte_carlo_se": 0.010620734437881401,
+      "available_replicates": 500,
+      "deviation": 0.009999999999999995,
+      "bound": 0.021241468875762802
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-dcc6c0f3fe2a,delta]",
+    "target_kind": "type_i_control",
+    "met": false,
+    "rationale": "|rate - alpha| = 0.0240 > 2.00\u00b7SE (0.0142)",
+    "observations": {
+      "cell_id": "type_i_baseline-dcc6c0f3fe2a",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "delta",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.026,
+      "monte_carlo_se": 0.007116740827092132,
+      "available_replicates": 500,
+      "deviation": 0.024000000000000004,
+      "bound": 0.014233481654184263
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-dcc6c0f3fe2a,angle]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0120 <= 2.00\u00b7SE (0.0216)",
+    "observations": {
+      "cell_id": "type_i_baseline-dcc6c0f3fe2a",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.062,
+      "monte_carlo_se": 0.010784804124322332,
+      "available_replicates": 500,
+      "deviation": 0.011999999999999997,
+      "bound": 0.021569608248644664
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-dcc6c0f3fe2a,shape]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0140 <= 2.00\u00b7SE (0.0167)",
+    "observations": {
+      "cell_id": "type_i_baseline-dcc6c0f3fe2a",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "shape",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.036,
+      "monte_carlo_se": 0.008331146379700696,
+      "available_replicates": 500,
+      "deviation": 0.014000000000000005,
+      "bound": 0.01666229275940139
+    }
+  },
+  {
+    "target_name": "type_i_control[translation@1.0, angle, {\"generator.delta_expr\": 0.25, \"generator.delta_methyl\": 0.25, \"generator.delta_protein\": 0.25}]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "rate = 0.0540 <= alpha + 2.00\u00b7SE_alpha (0.0695)",
+    "observations": {
+      "design_point": {
+        "generator.delta_expr": 0.25,
+        "generator.delta_methyl": 0.25,
+        "generator.delta_protein": 0.25
+      },
+      "is_baseline": true,
+      "cell_id": "power_primary-6a54fe3079c2",
+      "phase": "power_primary",
+      "trajectory_mode": "translation",
+      "effect_size": 1.0,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.054,
+      "monte_carlo_se": 0.010107818755794942,
+      "available_replicates": 500,
+      "bound_kind": "upper",
+      "alpha_se": 0.009746794344808964,
+      "deviation": 0.003999999999999997,
+      "bound": 0.06949358868961793
+    }
+  },
+  {
+    "target_name": "type_i_control[translation@1.0, angle, {\"generator.delta_expr\": 0.5, \"generator.delta_methyl\": 0.5, \"generator.delta_protein\": 0.5}]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "rate = 0.0480 <= alpha + 2.00\u00b7SE_alpha (0.0695)",
+    "observations": {
+      "design_point": {
+        "generator.delta_expr": 0.5,
+        "generator.delta_methyl": 0.5,
+        "generator.delta_protein": 0.5
+      },
+      "is_baseline": false,
+      "cell_id": "power_design-3bbcda656716",
+      "phase": "power_design",
+      "trajectory_mode": "translation",
+      "effect_size": 1.0,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.048,
+      "monte_carlo_se": 0.009559916317625379,
+      "available_replicates": 500,
+      "bound_kind": "upper",
+      "alpha_se": 0.009746794344808964,
+      "deviation": -0.0020000000000000018,
+      "bound": 0.06949358868961793
+    }
+  },
+  {
+    "target_name": "type_i_control[translation@1.0, angle, {\"generator.delta_expr\": 1.0, \"generator.delta_methyl\": 1.0, \"generator.delta_protein\": 1.0}]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "rate = 0.0480 <= alpha + 2.00\u00b7SE_alpha (0.0695)",
+    "observations": {
+      "design_point": {
+        "generator.delta_expr": 1.0,
+        "generator.delta_methyl": 1.0,
+        "generator.delta_protein": 1.0
+      },
+      "is_baseline": false,
+      "cell_id": "power_design-3f60acac9bb3",
+      "phase": "power_design",
+      "trajectory_mode": "translation",
+      "effect_size": 1.0,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.048,
+      "monte_carlo_se": 0.009559916317625379,
+      "available_replicates": 500,
+      "bound_kind": "upper",
+      "alpha_se": 0.009746794344808964,
+      "deviation": -0.0020000000000000018,
+      "bound": 0.06949358868961793
+    }
+  }
+]

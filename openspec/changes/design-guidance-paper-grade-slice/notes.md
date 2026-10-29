@@ -66,3 +66,34 @@ Two things the pilot's basis did not show. (1) 999 permutations cost no more tha
 | **arm** | **23,000** | **70 → 135** | **162** | **66** | |
 
 The design's estimate was about 380 core-hours for the slice (planned at 450) from the pilot's 199-permutation basis scaled up for the permutations; the measured cost is below it at either load. Written into each profile's `metadata.submission` (`timing_basis`, `n_shards`, `array`, `budget`, `timing_jobs`). Submission recipe (after the user's approval; `scripts/motco_study_array.sbatch`, partition `512x1024`, 1 CPU, 4 GB, 6 h, BLAS pinned, `STUDY_N_JOBS` unset, `--error-policy record`, from the worktree, `STUDY_OUT` under `results/design-guidance-slice-<date>/<profile>`): see `examples/trajectory_power_study/README.md`, "Design-guidance paper-grade slice".
+
+## 7. Paper-grade run (task 6.1)
+
+Submitted 2026-10-29 at about 11:45 local after the user's approval of the plan in §6, by `/home1/tgonza/MOTCO-design-guidance-scratch/slice/ing_submit_slice.sh` from the worktree at `8bf8eb7` (0 dirty files; import check confirmed the worktree's code): `sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=6:00:00 --export=ALL,STUDY_CONFIG=…,STUDY_OUT=…,N_SHARDS=…` with `PYTHONPATH` on the worktree's `src`, BLAS pinned, `MPLBACKEND=Agg`, `STUDY_N_JOBS` unset, `--error-policy record` (the template's default).
+
+| Profile | Job | Shards | Config sha256 (first 16) | Output |
+|---|---|---:|---|---|
+| core magnitude | 929844 | 40 | `3f4a618d57fc59db` | `results/design-guidance-slice-2026-10-29/core_magnitude` (in the worktree) |
+| core geometry | 929845 | 95 | `bb56f1c6f61ce2e3` | `results/design-guidance-slice-2026-10-29/core_geometry` |
+
+First tasks started at once on n1, n4 and n11 (n2 down, n1 saturated by other users' jobs).
+
+**Placement incident (12:13–12:20).** SLURM put 35 of the 40 magnitude shards on n11 (load 100–110 on 128 CPUs) and they sat in `nfs_wait_bit_killable` at 3–6 % CPU for 32 minutes without finishing their imports or writing a unit, while the five magnitude shards on n1/n4 ran at 17–31 s per unit and the 95 geometry shards on n3/n4 at 10 s per unit. The 35 tasks were cancelled (`scancel 929844_<id>`; no `shard_<id>.jsonl` existed for any of them) and the same array ids resubmitted as **job 929980** with `--exclude=n11` from the same worktree and environment: 19 started on n3 at once, 16 pended until cores freed. Shard assignment is by the `(cell_id, replicate_index)` hash, so the node is irrelevant to the records; `PROVENANCE.txt` lists both job ids and the cancelled tasks. The arm's shards, if run, should exclude n11 unless its load has dropped.
+
+**Geometry profile finished 13:34** (95 / 95 tasks `COMPLETED 0:0`, 31,000 records, 0 tracebacks, every cell at 500 available replicates; interim merge + report run at 13:36, anchor decision `SIZE_HOLDS` at all six columns, the column-scoped translation `angle` rule met at all six at 0.028–0.052 against 0.0695).
+
+## 8. Stage-effect arm (task 6.3)
+
+Submitted 2026-10-29 at about 13:45 after the user's decision (asked with the geometry numbers in hand and the magnitude profile still running), by `ing_submit_arm.sh` from the worktree at `8bf8eb7` with `--exclude=n11` (the placement incident above), otherwise exactly as the slice:
+
+| Profile | Job | Shards | Config sha256 (first 16) |
+|---|---|---:|---|
+| stage-effect magnitude | 930041 | 20 | `2cd406d7d6238ff0` |
+| stage-effect geometry | 930042 | 46 | `961bac86a2e2a6c8` |
+
+## 9. Outcome (tasks 6.2, 6.3, 7.1)
+
+- Slice finish (`ing_finish_slice.sh`, 14:30–14:50): both profiles `accounting ok` — every array task `COMPLETED 0:0`, 13,000 / 31,000 records, 0 duplicates / missing / unexpected / signature mismatches / failed / censored, `n_jobs` 1, `net_displacement`, `min_components` 2 in every record; 52.7 + 119.0 = 171.7 recorded core-hours (median 11.9 / 12.1 s per unit) against the 151 (quiet) – 278 (saturated) estimate; anchor decision `SIZE_HOLDS` at all six columns in both; figures `--grade paper`; siblings 3,000 / 3,000 with identical p-values; pilot 600 / 600 per profile at replicates 0–99 (p-values not comparable), the ten pilot-only columns listed with zero pairs.
+- Arm finish (15:13–15:35): both profiles `accounting ok`, 7,000 / 16,000 records, 0 failures, 20.5 + 47.6 = 68.1 core-hours (median 10.5–10.7 s per unit; the inflated ranks did not raise the unit cost at n = 200), `SIZE_HOLDS` at all three δ; arm siblings 1,500 / 1,500 identical p-values. The committed `--by-column` tool paired **0** columns against the pilot arms (its key is the full design point; the pilot arms' points carry seven axes), so the arm-vs-pilot reproduction was done with a projected join on (δ, replicate index) restricted to the pilot columns at the baseline of the other axes (`arm_pilot_projected.py`, session tooling; `reproduction/pilot_stage_effect_*_projected.csv`). Follow-up for the tool: an option to project the column key onto named axes.
+- Committed: `results/design-guidance-slice-2026-10-29/{core_magnitude,core_geometry,stage_effect_magnitude,stage_effect_geometry}/{report/,PROVENANCE.txt}`, `figures/`, `reproduction/`, `tables.md`; the four `merged.jsonl` (43–197 MB) stay on `ing` under the worktree, gitignored. Report: `docs/reports/design-guidance-slice-2026-10-29.md`.
+

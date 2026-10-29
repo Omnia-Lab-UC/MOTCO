@@ -1,0 +1,25 @@
+# Design-guidance paper-grade slice provenance — stage_effect_magnitude profile
+date_utc: 2026-10-29T13:42:12 (first array task start); written 2026-10-29T18:19:16+00:00
+config: examples/trajectory_power_study/design_guidance_stage_effect_magnitude_study.json
+config_sha256: 2cd406d7d6238ff033cc7cb509d04229f5c268e5be0bda9b4ec54778a526f192
+code_revision: 8bf8eb71514c754f6630dc0d88c8352b8a29bcb9 (branch feat/design-guidance-paper-grade-slice; clean worktree /home1/tgonza/MOTCO-design-guidance-slice, run with the main checkout's .venv and PYTHONPATH on the worktree's src; the venv's motco distribution metadata lags the code, so the revision is the version of record)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, nodes {'n4': 20}; python 3.11.16, motco 0.6.0 (dist metadata; code at the revision above, __version__ in src), numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+pre-flight: fast suite on the workstation at the same tree (ruff, mypy, 1583 passed / 1 skipped); the change's six test modules on ing from the worktree (115 passed); the 2 x 19 smoke of all four profiles on the workstation (268/268 units, 0 failures); 14 units timed at 999 permutations on ing (openspec/changes/design-guidance-paper-grade-slice/notes.md)
+unit_timing_basis: ing 2026-10-29 jobs 929843 (n4, quiet) / 929834 (n1, saturated): 8.3-19.4 s / 16.4-33.4 s per unit at 999 permutations across the six columns; shards sized at the saturated cost + 20% (notes.md section 6)
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; MPLBACKEND=Agg
+error_policy: record (from the sbatch template)
+launch: sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=6:00:00 --job-name=dg-slice-stage_effect_magnitude --array=0-19 --export=ALL,STUDY_CONFIG=/home1/tgonza/MOTCO-design-guidance-slice/examples/trajectory_power_study/design_guidance_stage_effect_magnitude_study.json,STUDY_OUT=/home1/tgonza/MOTCO-design-guidance-slice/results/design-guidance-slice-2026-10-29/stage_effect_magnitude,N_SHARDS=20 scripts/motco_study_array.sbatch
+job_id: 930041
+shard layout: N_SHARDS=20, --array=0-19, --n-shards 20; units mapped to shards by the stable (cell_id, replicate_index) hash
+units: 14 cells x 500 replicates = 7,000 (999 permutations per unit); modes ['magnitude'], effects [0.0, 0.02, 0.05, 0.1]; design grid {'generator.delta_methyl': (0.25, 0.5, 1.0), 'generator.delta_expr': (0.25, 0.5, 1.0), 'generator.delta_protein': (0.25, 0.5, 1.0)}
+seed_family: base_seed 1028, family design-guidance (the pilot's: every design column evaluates the pilot arms_magnitude profile's datasets at replicate indices 0-99; the Type I baseline cells draw fresh seeds)
+n_jobs: {1: 7000} in the records, evaluation.n_jobs = 1
+measurement: orientation_estimator {'net_displacement': 7000}, min_components {2: 7000} in runtime_metadata; selected ranks over completed records {2: 19, 3: 2903, 4: 996, 5: 80, 6: 8, 7: 54, 8: 242, 9: 498, 10: 528, 11: 467, 12: 319, 13: 229, 14: 149, 15: 87, 16: 54, 17: 62, 18: 81, 19: 224}
+outcome: array tasks {'COMPLETED 0:0': 20} (plus 0 cancelled-and-resubmitted); 7,000 records, 7,000 distinct (cell, replicate) of 7,000 expected; duplicates 0; missing 0; unexpected 0; signature mismatches 0; failed records 0 ; censored surgeries 0
+wall: 2026-10-29T13:42:12 -> 2026-10-29T15:01:02; 24.7 array-task hours (sacct Elapsed)
+unit_timings: 7,000 units, median 10.5 s (min 9.6, mean 10.6, max 12.3), 20.5 recorded core-hours
+merge: python scripts/motco_study.py merge --out-dir results/design-guidance-slice-2026-10-29/stage_effect_magnitude (7,000 records); merged.jsonl sha256 3bcb0905d096a3f13e7a0a738d7554b6e6028c07bf87a760e0b4513526a71757; shard_*.jsonl and merged.jsonl stay on the cluster, gitignored
+report: python scripts/motco_study.py report --config examples/trajectory_power_study/design_guidance_stage_effect_magnitude_study.json --out-dir results/design-guidance-slice-2026-10-29/stage_effect_magnitude (gate disabled; anchor_decision.json and the column-scoped translation entries in acceptance_report.* written)
+figures: none (the design-guidance figure reads the slice pair; the arm is tabulated in the report)
+reproduction: python scripts/anchor_reproduction.py --by-column --candidate results/design-guidance-slice-2026-10-29/stage_effect_magnitude/merged.jsonl --reference results/design-guidance-slice-2026-10-29/stage_effect_geometry/merged.jsonl --out results/design-guidance-slice-2026-10-29/reproduction/siblings_stage_effect.csv (identical p-values); python scripts/anchor_reproduction.py --by-column --candidate results/design-guidance-slice-2026-10-29/stage_effect_magnitude/merged.jsonl --reference results/design-guidance-pilot-2026-10-28/arms_magnitude/merged.jsonl --out results/design-guidance-slice-2026-10-29/reproduction/pilot_stage_effect_magnitude.csv (replicates 0-99; p-values not comparable across 999 and 199 permutations)
+reading: docs/reports/design-guidance-slice-2026-10-29.md

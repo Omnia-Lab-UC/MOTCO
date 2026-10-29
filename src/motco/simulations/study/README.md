@@ -686,7 +686,12 @@ python scripts/design_guidance_figure.py --grade paper \
 unchanged) is the label written into every figure title. The panels are derived
 from the stage counts and block counts present in the tables, so a report with
 one stage count (the slice's `generator.n_stages: [3]`) renders one panel row of
-two panels per mode figure.
+two panels per mode figure. The paper-grade slice ran on 2026-10-29
+(`results/design-guidance-slice-2026-10-29/figures/`,
+`docs/reports/design-guidance-slice-2026-10-29.md`): size held at every column
+under the anchor decision and the column-scoped translation rule, and the
+figures show `delta` and `shape` rising with n, effect and block count while
+`angle` follows n and block count only.
 
 It reads each report's `design_point_operating.csv`, labels the block count
 from the CSV spelling of `evaluation.integration_params.layers` (the

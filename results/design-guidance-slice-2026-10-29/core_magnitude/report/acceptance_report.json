@@ -1,0 +1,269 @@
+[
+  {
+    "target_name": "type_i_control[type_i_baseline-20b78813f595,delta]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0100 <= 2.00\u00b7SE (0.0175)",
+    "observations": {
+      "cell_id": "type_i_baseline-20b78813f595",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "delta",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.04,
+      "monte_carlo_se": 0.008763560920082658,
+      "available_replicates": 500,
+      "deviation": 0.010000000000000002,
+      "bound": 0.017527121840165315
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-20b78813f595,angle]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0120 <= 2.00\u00b7SE (0.0171)",
+    "observations": {
+      "cell_id": "type_i_baseline-20b78813f595",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.038,
+      "monte_carlo_se": 0.00855055553750749,
+      "available_replicates": 500,
+      "deviation": 0.012000000000000004,
+      "bound": 0.01710111107501498
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-20b78813f595,shape]",
+    "target_kind": "type_i_control",
+    "met": false,
+    "rationale": "|rate - alpha| = 0.0220 > 2.00\u00b7SE (0.0148)",
+    "observations": {
+      "cell_id": "type_i_baseline-20b78813f595",
+      "phase": "type_i_baseline",
+      "trajectory_mode": "translation",
+      "statistic": "shape",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.028,
+      "monte_carlo_se": 0.007377804551490911,
+      "available_replicates": 500,
+      "deviation": 0.022000000000000002,
+      "bound": 0.014755609102981822
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-fb5ccc68425d,delta]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0020 <= 2.00\u00b7SE (0.0191)",
+    "observations": {
+      "cell_id": "type_i_baseline-fb5ccc68425d",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "delta",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.048,
+      "monte_carlo_se": 0.009559916317625379,
+      "available_replicates": 500,
+      "deviation": 0.0020000000000000018,
+      "bound": 0.019119832635250758
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-fb5ccc68425d,angle]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0000 <= 2.00\u00b7SE (0.0195)",
+    "observations": {
+      "cell_id": "type_i_baseline-fb5ccc68425d",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.05,
+      "monte_carlo_se": 0.009746794344808964,
+      "available_replicates": 500,
+      "deviation": 0.0,
+      "bound": 0.019493588689617928
+    }
+  },
+  {
+    "target_name": "type_i_control[type_i_baseline-fb5ccc68425d,shape]",
+    "target_kind": "type_i_control",
+    "met": true,
+    "rationale": "|rate - alpha| = 0.0080 <= 2.00\u00b7SE (0.0179)",
+    "observations": {
+      "cell_id": "type_i_baseline-fb5ccc68425d",
+      "phase": "type_i_baseline",
+      "trajectory_mode": null,
+      "statistic": "shape",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": 0.042,
+      "monte_carlo_se": 0.008970618707759236,
+      "available_replicates": 500,
+      "deviation": 0.008,
+      "bound": 0.017941237415518473
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": [\"methylation\", \"expression\"], \"generator.n_samples\": 200, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 200,
+        "generator.n_stages": 3
+      },
+      "is_baseline": true,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": [\"methylation\", \"expression\"], \"generator.n_samples\": 500, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 500,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": [\"methylation\", \"expression\"], \"generator.n_samples\": 80, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 80,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": null, \"generator.n_samples\": 200, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 200,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": null, \"generator.n_samples\": 500, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 500,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  },
+  {
+    "target_name": "type_i_control[translation, angle, {\"evaluation.integration_params.layers\": null, \"generator.n_samples\": 80, \"generator.n_stages\": 3}]",
+    "target_kind": "type_i_control",
+    "met": null,
+    "rationale": "No available replicates: no completed record of translation at this design column",
+    "observations": {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 80,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "cell_id": null,
+      "phase": null,
+      "trajectory_mode": "translation",
+      "effect_size": null,
+      "statistic": "angle",
+      "alpha_target": 0.05,
+      "se_tolerance": 2.0,
+      "rejection_rate": null,
+      "monte_carlo_se": null,
+      "available_replicates": 0
+    }
+  }
+]
