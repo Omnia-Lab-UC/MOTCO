@@ -1,0 +1,101 @@
+{
+ "units": 40,
+ "expected": 40,
+ "missing": [],
+ "decision": "primary_validated",
+ "admissible": [
+  "adjusted"
+ ],
+ "verdicts": {
+  "adjusted": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   },
+   "translation": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  },
+  "latent_stage": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "exceeds"
+   },
+   "translation": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  }
+ },
+ "exceeding": [
+  {
+   "arm": "latent_stage",
+   "mode": "anchor",
+   "effect": 0.0,
+   "statistic": "shape",
+   "rate": 0.35,
+   "bound": 0.14746794344808964
+  }
+ ],
+ "unavailable": [],
+ "controls": {
+  "anchor": {
+   "adjusted": {
+    "delta": 0.1,
+    "angle": 0.05,
+    "shape": 0.05
+   },
+   "unadjusted": {
+    "delta": 0.6,
+    "angle": 0.05,
+    "shape": 0.25
+   },
+   "latent_stage": {
+    "delta": 0.1,
+    "angle": 0.05,
+    "shape": 0.35
+   }
+  },
+  "translation": {
+   "adjusted": {
+    "delta": 0.05,
+    "angle": 0.0,
+    "shape": 0.05
+   },
+   "unadjusted": {
+    "delta": 0.9,
+    "angle": 0.05,
+    "shape": 0.4
+   },
+   "latent_stage": {
+    "delta": 0.0,
+    "angle": 0.05,
+    "shape": 0.1
+   }
+  }
+ },
+ "bound": {
+  "anchor": 0.14746794344808964,
+  "translation": 0.14746794344808964
+ },
+ "calibration": {
+  "met": true,
+  "adjusted_auroc_mean": 0.6919527777777777,
+  "unadjusted_median_abs_rho": 0.8733825597749648,
+  "unadjusted_anchor_rates": {
+   "delta": 0.6,
+   "angle": 0.05,
+   "shape": 0.25
+  }
+ },
+ "failures": {
+  "adjusted": 0,
+  "unadjusted": 0,
+  "latent_stage": 0
+ }
+}

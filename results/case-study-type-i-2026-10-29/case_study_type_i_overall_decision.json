@@ -1,0 +1,81 @@
+{
+  "rule": "conjunction over runs: an arm is admissible overall only when it is admissible in every run",
+  "runs": [
+    {
+      "label": "delta0.1",
+      "strengths": {
+        "delta": 0.1,
+        "delta_methyl": 0.1,
+        "delta_expr": 0.1,
+        "delta_protein": 0.1,
+        "p_dmp": 0.1,
+        "s_z": 10.0
+      },
+      "settings_hash": "899ce29a0f002ef87e5f2ab7958e6f034609e16980c2e882f7d73faaf8ecc51c",
+      "decision": "diagnose_configuration_excess",
+      "admissible": [],
+      "exceeding": [
+        {
+          "arm": "latent_stage",
+          "mode": "anchor",
+          "effect": 0.0,
+          "statistic": "angle",
+          "rate": 0.09,
+          "bound": 0.06949358868961793
+        },
+        {
+          "arm": "latent_stage",
+          "mode": "anchor",
+          "effect": 0.0,
+          "statistic": "shape",
+          "rate": 0.092,
+          "bound": 0.06949358868961793
+        },
+        {
+          "arm": "adjusted",
+          "mode": "translation",
+          "effect": 1.0,
+          "statistic": "delta",
+          "rate": 0.072,
+          "bound": 0.06949358868961793
+        }
+      ]
+    },
+    {
+      "label": "delta0.05",
+      "strengths": {
+        "delta": 0.05,
+        "delta_methyl": 0.05,
+        "delta_expr": 0.05,
+        "delta_protein": 0.05,
+        "p_dmp": 0.1,
+        "s_z": 10.0
+      },
+      "settings_hash": "97eb6d90a5fee3ef5513144e2813dee7daec4aa9f57c48201f09af3406928db5",
+      "decision": "primary_validated",
+      "admissible": [
+        "adjusted"
+      ],
+      "exceeding": [
+        {
+          "arm": "latent_stage",
+          "mode": "anchor",
+          "effect": 0.0,
+          "statistic": "angle",
+          "rate": 0.084,
+          "bound": 0.06949358868961793
+        },
+        {
+          "arm": "latent_stage",
+          "mode": "anchor",
+          "effect": 0.0,
+          "statistic": "shape",
+          "rate": 0.078,
+          "bound": 0.06949358868961793
+        }
+      ]
+    }
+  ],
+  "admissible": [],
+  "decision": "diagnose_configuration_excess"
+}

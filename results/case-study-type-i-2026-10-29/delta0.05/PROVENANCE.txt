@@ -1,0 +1,32 @@
+case-study configuration Type I check, delta=0.05, s_z=10 (openspec change case-study-configuration-type-i, design D8)
+submitted: 2026-10-29T20:54:49Z on ing, partition 512x1024, --exclude=n11, array 0-49 (50 shards), job 930172
+command: sbatch -p 512x1024 --exclude=n11 --array=0-49 --export=ALL,CASE_STUDY_OUT=<worktree>/results/case-study-type-i-2026-10-29/delta0.05,N_SHARDS=50,CASE_STUDY_ARGS="--delta 0.05 --s-z 10",PYTHONPATH=<worktree>/src scripts/case_study_type_i_array.sbatch
+  (reps 500, perms 999, base seed 2026, alpha 0.05, k 2, a_g 0.5, a_s 1, a_gs 2, s_c 0, feature fraction 0.2, five noise covariates, p_dmp 0.1, min_components 2, net displacement; settings.json pre-created with `run --shard 0/50 --limit 0`)
+resubmissions (resumable shards; a unit recorded in any shard file is never re-run): 49 of 930172's tasks landed on n3 (load 111/128) and had recorded nothing after 13 min, so at 21:09:16Z the 42 still-empty ones (array ids 4, 8, 10-49) were cancelled and resubmitted as job 930224 with --exclude=n11,n3; 40 of those landed on n4, which had become ~5x slower than an hour earlier (a 16-CPU job joined the node), so at 21:29:44Z they (ids 4, 8, 10-47) were cancelled again and resubmitted as job 930266 with --exclude=n11,n4. Final task states: 930172 8 COMPLETED 0:0 + 42 CANCELLED; 930224 2 COMPLETED 0:0 + 40 CANCELLED; 930266 40 COMPLETED 0:0. Completed tasks ran on n1 (13), n3 (36) and n4 (1).
+code: clean git worktree /home1/tgonza/MOTCO-case-study-type-i of branch feat/case-study-configuration-type-i at ffd6249 (PYTHONPATH on its src; .venv symlinked from /home1/tgonza/MOTCO)
+tree hash (sha256 of sha256sums of src/ scripts/ tests/ examples/ *.py *.json *.sbatch): ececcb83ee5f8ceb81011246e14716ca87491a6493bfffcc3fcea72455e8c5d8 (identical on ing and the workstation)
+settings hash: 97eb6d90a5fee3ef5513144e2813dee7daec4aa9f57c48201f09af3406928db5
+python: Python 3.11.16; numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3; motco 0.12.0 (imported from the worktree)
+
+completed: 2026-10-29T21:45:41Z (last task end); 1000/1000 units (2 cells x 500 replicates, three arms each), 0 arm failures; core-hours: 35.4 recorded CPU time across the three jobs (930172 12.9, 930224 13.3, 930266 9.2; single-threaded BLAS), of which the stalled and slow cancelled tasks account for about 20 - the productive cost is about 15, as for delta=0.1
+merged: python scripts/case_study_type_i_check.py merge --out-dir results/case-study-type-i-2026-10-29/delta0.05 > merge.json (on ing, 21:47Z); records/ and merged.jsonl (sha256 9c36415e24b219c929cfa78da102a896bf6de041096e23de28ef68cc8eaf94d0) stay on ing, gitignored
+decision: primary_validated (admissible: ['adjusted']); exceeding: latent_stage anchor angle 0.084 > 0.0695; latent_stage anchor shape 0.078 > 0.0695
+overall (conjunction with delta=0.1, `combine`, results/case-study-type-i-2026-10-29/case_study_type_i_overall_decision.json): diagnose_configuration_excess
+calibration realized at the anchor: adjusted mean held-out CV AUROC 0.688 (band 0.60-0.75), unadjusted median |rho| 0.918 (threshold 0.8), unadjusted anchor rates {"delta": 0.686, "angle": 0.098, "shape": 0.222}; met True
+
+sha256 of the files that define the measurement (identical on ing and the workstation; tree hash above):
+3890346ddbc6b44ea5ccdfc8cf9c16cf9e2c6f00bb0be331e8a86ad5b02baf85  scripts/case_study_type_i_check.py
+cc2d08531a2b9e7d9471e88da86813bf7f6d95d1e1488836a6f2e741804ec748  scripts/covariate_type_i_check.py
+93f3364d81ebd06229a367e189ee3c69bd59a8324bc13e24daa4e56b124fd528  scripts/case_study_type_i_array.sbatch
+e9463200f4c6e874112e5339ef716bc9b164a1318b13745598ceb4cbf64b57be  src/motco/analysis.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+29cd217a3aabfadbcbe86167dd0b8a9f4cf01eca63c0e5f9a0683a0378483a19  src/motco/stats/design.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+e69a37b40b47f077fdc7f8d9c2bf7df1a6444b68421cf17066551a351efcb62a  src/motco/stats/permutation.py
+837f41351ca8bb35ef91f1146c48d5fa504aaac85079c417cf26e86992939ef9  src/motco/simulations/evaluation.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+89bf84084deff16d02d9cef2af994ecdaa93947238d731cc1e478506cca1880b  src/motco/simulations/preprocessing.py
+
+Committed: settings.json, merge.json, case_study_type_i_decision.json, case_study_type_i_rates.csv, case_study_type_i_replicates.csv, case_study_type_i_pvalues.csv (each under 1 MB).
+Not committed: records/ and merged.jsonl, under /home1/tgonza/MOTCO-case-study-type-i/results/case-study-type-i-2026-10-29/delta0.05/ on ing; `case_study_type_i_check.py merge` regenerates every table from records/.

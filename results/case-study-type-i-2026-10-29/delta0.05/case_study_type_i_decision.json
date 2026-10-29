@@ -1,0 +1,613 @@
+{
+  "rule": "judged-arm rate (p <= alpha) <= alpha + k * sqrt(alpha * (1 - alpha) / R) for delta, angle and shape at the zero-effect anchor and the translation control; primary_validated when the adjusted arm holds every statistic at both controls, else adopt_latent_stage when the latent_stage arm does, else diagnose_configuration_excess",
+  "alpha": 0.05,
+  "k": 2.0,
+  "judged_arms": [
+    "adjusted",
+    "latent_stage"
+  ],
+  "controls": {
+    "anchor": {
+      "effect": 0.0,
+      "adjusted": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 32,
+          "rate": 0.064,
+          "monte_carlo_se": 0.010945684080951725,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 24,
+          "rate": 0.048,
+          "monte_carlo_se": 0.009559916317625379,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 27,
+          "rate": 0.054,
+          "monte_carlo_se": 0.010107818755794942,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        }
+      },
+      "unadjusted": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 343,
+          "rate": 0.686,
+          "monte_carlo_se": 0.020755914819636352,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 49,
+          "rate": 0.098,
+          "monte_carlo_se": 0.013296315279053818,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 111,
+          "rate": 0.222,
+          "monte_carlo_se": 0.018585801031970616,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        }
+      },
+      "latent_stage": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 32,
+          "rate": 0.064,
+          "monte_carlo_se": 0.010945684080951725,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 42,
+          "rate": 0.084,
+          "monte_carlo_se": 0.012405160216619535,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 39,
+          "rate": 0.078,
+          "monte_carlo_se": 0.011992997957141493,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        }
+      }
+    },
+    "translation": {
+      "effect": 1.0,
+      "adjusted": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 30,
+          "rate": 0.06,
+          "monte_carlo_se": 0.010620734437881401,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 22,
+          "rate": 0.044,
+          "monte_carlo_se": 0.009172131704244111,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 34,
+          "rate": 0.068,
+          "monte_carlo_se": 0.011258419071965654,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        }
+      },
+      "unadjusted": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 364,
+          "rate": 0.728,
+          "monte_carlo_se": 0.019900552756142227,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 53,
+          "rate": 0.106,
+          "monte_carlo_se": 0.013766916866168693,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 121,
+          "rate": 0.242,
+          "monte_carlo_se": 0.019153902996517445,
+          "bound": 0.06949358868961793,
+          "verdict": "descriptive"
+        }
+      },
+      "latent_stage": {
+        "delta": {
+          "replicates": 500,
+          "rejections": 26,
+          "rate": 0.052,
+          "monte_carlo_se": 0.00992935043192655,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "angle": {
+          "replicates": 500,
+          "rejections": 32,
+          "rate": 0.064,
+          "monte_carlo_se": 0.010945684080951725,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        },
+        "shape": {
+          "replicates": 500,
+          "rejections": 28,
+          "rate": 0.056,
+          "monte_carlo_se": 0.010282412168358162,
+          "bound": 0.06949358868961793,
+          "verdict": "holds"
+        }
+      }
+    }
+  },
+  "verdicts": {
+    "adjusted": {
+      "anchor": {
+        "delta": "holds",
+        "angle": "holds",
+        "shape": "holds"
+      },
+      "translation": {
+        "delta": "holds",
+        "angle": "holds",
+        "shape": "holds"
+      }
+    },
+    "latent_stage": {
+      "anchor": {
+        "delta": "holds",
+        "angle": "exceeds",
+        "shape": "exceeds"
+      },
+      "translation": {
+        "delta": "holds",
+        "angle": "holds",
+        "shape": "holds"
+      }
+    }
+  },
+  "admissible": [
+    "adjusted"
+  ],
+  "exceeding": [
+    {
+      "arm": "latent_stage",
+      "mode": "anchor",
+      "effect": 0.0,
+      "statistic": "angle",
+      "rate": 0.084,
+      "bound": 0.06949358868961793
+    },
+    {
+      "arm": "latent_stage",
+      "mode": "anchor",
+      "effect": 0.0,
+      "statistic": "shape",
+      "rate": 0.078,
+      "bound": 0.06949358868961793
+    }
+  ],
+  "unavailable": [],
+  "decision": "primary_validated",
+  "unadjusted_role": "descriptive (no covariates; evidence the construction confounds); not part of the decision",
+  "calibration": {
+    "statistics": {
+      "adjusted_auroc": "adjusted-arm mean held-out CV stage AUROC at the anchor inside auroc_band",
+      "unadjusted_rejects": "unadjusted-arm anchor rejection rate (p <= alpha) above alpha on at least one statistic",
+      "unadjusted_rho": "unadjusted-arm median |Spearman| of the first latent component with z at the anchor >= rho_threshold"
+    },
+    "criteria": {
+      "adjusted_auroc": {
+        "band": [
+          0.6,
+          0.75
+        ],
+        "replicates": 500,
+        "mean": 0.688019,
+        "quantiles": {
+          "min": 0.5840555555555556,
+          "q05": 0.6282111111111112,
+          "q25": 0.6594027777777778,
+          "q50": 0.6843611111111112,
+          "q75": 0.7153333333333334,
+          "q95": 0.7562055555555555,
+          "max": 0.828
+        },
+        "met": true
+      },
+      "unadjusted_rho": {
+        "threshold": 0.8,
+        "replicates": 500,
+        "median_abs": 0.9175808720112517,
+        "quantiles_abs": {
+          "min": 0.4889826535396156,
+          "q05": 0.6925058602906705,
+          "q25": 0.821993670886076,
+          "q50": 0.9175808720112517,
+          "q75": 0.9649964838255978,
+          "q95": 0.9853984997655886,
+          "max": 0.9918659165494609
+        },
+        "met": true
+      },
+      "unadjusted_rejects": {
+        "alpha": 0.05,
+        "replicates": {
+          "delta": 500,
+          "angle": 500,
+          "shape": 500
+        },
+        "rates": {
+          "delta": 0.686,
+          "angle": 0.098,
+          "shape": 0.222
+        },
+        "met": true
+      }
+    },
+    "met": true
+  },
+  "latent": {
+    "adjusted": {
+      "[\"anchor\", 0.0]": {
+        "selected_rank": {
+          "2": 407,
+          "3": 92,
+          "5": 1
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.688019,
+          "quantiles": {
+            "min": 0.5840555555555556,
+            "q05": 0.6282111111111112,
+            "q25": 0.6594027777777778,
+            "q50": 0.6843611111111112,
+            "q75": 0.7153333333333334,
+            "q95": 0.7562055555555555,
+            "max": 0.828
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.9175808720112517,
+          "quantiles_abs": {
+            "min": 0.4889826535396156,
+            "q05": 0.6925058602906705,
+            "q25": 0.821993670886076,
+            "q50": 0.9175808720112517,
+            "q75": 0.9649964838255978,
+            "q95": 0.9853984997655886,
+            "max": 0.9918659165494609
+          }
+        }
+      },
+      "[\"translation\", 1.0]": {
+        "selected_rank": {
+          "2": 392,
+          "3": 106,
+          "5": 2
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.6861853333333333,
+          "quantiles": {
+            "min": 0.5776111111111112,
+            "q05": 0.6201805555555555,
+            "q25": 0.6579583333333333,
+            "q50": 0.6839444444444445,
+            "q75": 0.7121111111111111,
+            "q95": 0.75495,
+            "max": 0.8203888888888888
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.9248945147679326,
+          "quantiles_abs": {
+            "min": 0.4307313642756681,
+            "q05": 0.7106399437412095,
+            "q25": 0.8380860290670418,
+            "q50": 0.9248945147679326,
+            "q75": 0.9648382559774966,
+            "q95": 0.9841385372714488,
+            "max": 0.990857946554149
+          }
+        }
+      }
+    },
+    "unadjusted": {
+      "[\"anchor\", 0.0]": {
+        "selected_rank": {
+          "2": 407,
+          "3": 92,
+          "5": 1
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.688019,
+          "quantiles": {
+            "min": 0.5840555555555556,
+            "q05": 0.6282111111111112,
+            "q25": 0.6594027777777778,
+            "q50": 0.6843611111111112,
+            "q75": 0.7153333333333334,
+            "q95": 0.7562055555555555,
+            "max": 0.828
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.9175808720112517,
+          "quantiles_abs": {
+            "min": 0.4889826535396156,
+            "q05": 0.6925058602906705,
+            "q25": 0.821993670886076,
+            "q50": 0.9175808720112517,
+            "q75": 0.9649964838255978,
+            "q95": 0.9853984997655886,
+            "max": 0.9918659165494609
+          }
+        }
+      },
+      "[\"translation\", 1.0]": {
+        "selected_rank": {
+          "2": 392,
+          "3": 106,
+          "5": 2
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.6861853333333333,
+          "quantiles": {
+            "min": 0.5776111111111112,
+            "q05": 0.6201805555555555,
+            "q25": 0.6579583333333333,
+            "q50": 0.6839444444444445,
+            "q75": 0.7121111111111111,
+            "q95": 0.75495,
+            "max": 0.8203888888888888
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.9248945147679326,
+          "quantiles_abs": {
+            "min": 0.4307313642756681,
+            "q05": 0.7106399437412095,
+            "q25": 0.8380860290670418,
+            "q50": 0.9248945147679326,
+            "q75": 0.9648382559774966,
+            "q95": 0.9841385372714488,
+            "max": 0.990857946554149
+          }
+        }
+      }
+    },
+    "latent_stage": {
+      "[\"anchor\", 0.0]": {
+        "selected_rank": {
+          "2": 383,
+          "3": 56,
+          "4": 39,
+          "5": 15,
+          "6": 4,
+          "7": 1,
+          "8": 1,
+          "10": 1
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.622367,
+          "quantiles": {
+            "min": 0.4685555555555556,
+            "q05": 0.5397444444444445,
+            "q25": 0.5897638888888889,
+            "q50": 0.6202777777777777,
+            "q75": 0.6571111111111111,
+            "q95": 0.7043972222222221,
+            "max": 0.7565555555555556
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.0812822315986873,
+          "quantiles_abs": {
+            "min": 0.0002812939521800282,
+            "q05": 0.008509142053445853,
+            "q25": 0.03784575714955462,
+            "q50": 0.0812822315986873,
+            "q75": 0.1293834974214721,
+            "q95": 0.2093436474449132,
+            "max": 0.41092358180965777
+          }
+        }
+      },
+      "[\"translation\", 1.0]": {
+        "selected_rank": {
+          "2": 368,
+          "3": 84,
+          "4": 23,
+          "5": 18,
+          "6": 3,
+          "7": 2,
+          "8": 2
+        },
+        "cv_mean_auroc": {
+          "replicates": 500,
+          "mean": 0.6268408888888889,
+          "quantiles": {
+            "min": 0.48305555555555557,
+            "q05": 0.5489333333333334,
+            "q25": 0.5910833333333334,
+            "q50": 0.6264444444444445,
+            "q75": 0.6618472222222223,
+            "q95": 0.7114944444444444,
+            "max": 0.7683888888888888
+          }
+        },
+        "first_component_spearman_z": {
+          "replicates": 500,
+          "median_abs": 0.07315986872948899,
+          "quantiles_abs": {
+            "min": 0.0001406469760900141,
+            "q05": 0.007172995780590718,
+            "q25": 0.0339662447257384,
+            "q50": 0.07315986872948899,
+            "q75": 0.12477730895452416,
+            "q95": 0.21973511486169714,
+            "max": 0.3276371308016878
+          }
+        }
+      }
+    }
+  },
+  "failures": {
+    "adjusted": 0,
+    "unadjusted": 0,
+    "latent_stage": 0
+  },
+  "units": 1000,
+  "settings_hash": "97eb6d90a5fee3ef5513144e2813dee7daec4aa9f57c48201f09af3406928db5",
+  "construction": {
+    "generator": {
+      "baseline_continuity": 0.0,
+      "delta_expr": 0.05,
+      "delta_methyl": 0.05,
+      "delta_protein": 0.05,
+      "group_effect_size": 0.0,
+      "group_stage_sizes": [
+        [
+          11,
+          10,
+          28
+        ],
+        [
+          9,
+          10,
+          12
+        ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "trajectory_mode": "magnitude"
+    },
+    "strengths": {
+      "delta": 0.05,
+      "delta_methyl": 0.05,
+      "delta_expr": 0.05,
+      "delta_protein": 0.05,
+      "p_dmp": 0.1,
+      "s_z": 10.0
+    },
+    "layers": [
+      "methylation",
+      "expression"
+    ],
+    "cv": {
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "max_components": 20,
+      "n_repeats": 5,
+      "random_state": 1203
+    },
+    "min_components": 2,
+    "orientation_estimator": "net_displacement",
+    "covariates": {
+      "categorical": {
+        "levels": [
+          "c0",
+          "c1",
+          "c2"
+        ],
+        "logit_scale": 0.5,
+        "logits": "k * logit_scale * eta",
+        "role": "drawn (the D10 RNG stream is kept); neither declared nor injected"
+      },
+      "declared": [
+        "z",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5"
+      ],
+      "noise_numeric": {
+        "count": 5,
+        "distribution": "iid N(0, 1), not injected"
+      },
+      "numeric": {
+        "a_g": 0.5,
+        "a_gs": 2.0,
+        "a_s": 1.0,
+        "noise_sd": 1.0
+      }
+    },
+    "declared_covariates": [
+      "z",
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5"
+    ],
+    "injection": {
+      "feature_fraction": 0.2,
+      "s_c": 0.0,
+      "s_z": 10.0,
+      "scale": "pooled feature SD on the analysed scale"
+    },
+    "arms": {
+      "adjusted": {
+        "covariates": true,
+        "latent_adjustment": null
+      },
+      "latent_stage": {
+        "covariates": true,
+        "latent_adjustment": "stage"
+      },
+      "unadjusted": {
+        "covariates": false,
+        "latent_adjustment": null
+      }
+    },
+    "controls": {
+      "anchor": 0.0,
+      "translation": 1.0
+    },
+    "permutations": 999,
+    "replicates": 500,
+    "base_seed": 2026
+  }
+}

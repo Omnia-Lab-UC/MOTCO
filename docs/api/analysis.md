@@ -307,6 +307,27 @@ effect. Report latent-adjusted results only with `stage` conditioning, as a
 sensitivity analysis beside the covariate-adjusted analysis rather than as a
 replacement, under the conditions of both reports.
 
+**Validation at the case study's configuration.** `scripts/case_study_type_i_check.py`
+measures size where the SEA-AD case study is actually run: the rank floor of 2,
+six numeric covariate design columns (one confounded with group × stage and
+injected into the features, five pure noise), a stage signal weakened to a
+held-out CV AUROC of 0.69–0.70 and a nuisance the covariate-blind basis follows
+(median |Spearman| 0.92), with three arms per unit on the same data and
+permutation draws: covariates in the trajectory model only (`adjusted`, the
+primary analysis), none (`unadjusted`, descriptive) and the `stage` latent
+adjustment (`latent_stage`, the fallback). Its decision names
+`primary_validated` | `adopt_latent_stage` | `diagnose_configuration_excess`
+over the anchor and the translation control. The 2026-10-29 run (500 × 999 at
+δ = 0.1 and 0.05, conjunction) returned **`diagnose_configuration_excess`**
+([report](../reports/case-study-type-i-2026-10-29.md)): the adjusted model held
+every statistic at δ = 0.05 and exceeded the 0.0695 bound on translation
+`delta` at δ = 0.1 (0.072; `delta` 0.060–0.072 in every reading, 0.066 pooled),
+and the `stage` adjustment exceeded at the anchor on `angle` (0.084–0.090) and
+`shape` (0.078–0.092) at both strengths. At that configuration, read
+covariate-adjusted `delta` p-values against a realized size of about 0.066, and
+do not interpret `stage`-adjusted `angle` or `shape` rejections, until the
+diagnosis the report names is done.
+
 Without the setting, every output is identical to MOTCO 0.8.0 except the
 runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
 

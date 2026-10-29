@@ -1,0 +1,115 @@
+{
+ "units": 1000,
+ "expected": 1000,
+ "missing": [],
+ "decision": "diagnose_configuration_excess",
+ "admissible": [],
+ "verdicts": {
+  "adjusted": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   },
+   "translation": {
+    "delta": "exceeds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  },
+  "latent_stage": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "exceeds",
+    "shape": "exceeds"
+   },
+   "translation": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  }
+ },
+ "exceeding": [
+  {
+   "arm": "latent_stage",
+   "mode": "anchor",
+   "effect": 0.0,
+   "statistic": "angle",
+   "rate": 0.09,
+   "bound": 0.06949358868961793
+  },
+  {
+   "arm": "latent_stage",
+   "mode": "anchor",
+   "effect": 0.0,
+   "statistic": "shape",
+   "rate": 0.092,
+   "bound": 0.06949358868961793
+  },
+  {
+   "arm": "adjusted",
+   "mode": "translation",
+   "effect": 1.0,
+   "statistic": "delta",
+   "rate": 0.072,
+   "bound": 0.06949358868961793
+  }
+ ],
+ "unavailable": [],
+ "controls": {
+  "anchor": {
+   "adjusted": {
+    "delta": 0.068,
+    "angle": 0.048,
+    "shape": 0.056
+   },
+   "unadjusted": {
+    "delta": 0.672,
+    "angle": 0.104,
+    "shape": 0.252
+   },
+   "latent_stage": {
+    "delta": 0.06,
+    "angle": 0.09,
+    "shape": 0.092
+   }
+  },
+  "translation": {
+   "adjusted": {
+    "delta": 0.072,
+    "angle": 0.042,
+    "shape": 0.068
+   },
+   "unadjusted": {
+    "delta": 0.718,
+    "angle": 0.102,
+    "shape": 0.26
+   },
+   "latent_stage": {
+    "delta": 0.048,
+    "angle": 0.064,
+    "shape": 0.056
+   }
+  }
+ },
+ "bound": {
+  "anchor": 0.06949358868961793,
+  "translation": 0.06949358868961793
+ },
+ "calibration": {
+  "met": true,
+  "adjusted_auroc_mean": 0.7022705555555556,
+  "unadjusted_median_abs_rho": 0.9171472105016409,
+  "unadjusted_anchor_rates": {
+   "delta": 0.672,
+   "angle": 0.104,
+   "shape": 0.252
+  }
+ },
+ "failures": {
+  "adjusted": 0,
+  "unadjusted": 0,
+  "latent_stage": 0
+ }
+}

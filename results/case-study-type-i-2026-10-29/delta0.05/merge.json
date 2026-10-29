@@ -1,0 +1,109 @@
+{
+ "units": 1000,
+ "expected": 1000,
+ "missing": [],
+ "decision": "primary_validated",
+ "admissible": [
+  "adjusted"
+ ],
+ "verdicts": {
+  "adjusted": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   },
+   "translation": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  },
+  "latent_stage": {
+   "anchor": {
+    "delta": "holds",
+    "angle": "exceeds",
+    "shape": "exceeds"
+   },
+   "translation": {
+    "delta": "holds",
+    "angle": "holds",
+    "shape": "holds"
+   }
+  }
+ },
+ "exceeding": [
+  {
+   "arm": "latent_stage",
+   "mode": "anchor",
+   "effect": 0.0,
+   "statistic": "angle",
+   "rate": 0.084,
+   "bound": 0.06949358868961793
+  },
+  {
+   "arm": "latent_stage",
+   "mode": "anchor",
+   "effect": 0.0,
+   "statistic": "shape",
+   "rate": 0.078,
+   "bound": 0.06949358868961793
+  }
+ ],
+ "unavailable": [],
+ "controls": {
+  "anchor": {
+   "adjusted": {
+    "delta": 0.064,
+    "angle": 0.048,
+    "shape": 0.054
+   },
+   "unadjusted": {
+    "delta": 0.686,
+    "angle": 0.098,
+    "shape": 0.222
+   },
+   "latent_stage": {
+    "delta": 0.064,
+    "angle": 0.084,
+    "shape": 0.078
+   }
+  },
+  "translation": {
+   "adjusted": {
+    "delta": 0.06,
+    "angle": 0.044,
+    "shape": 0.068
+   },
+   "unadjusted": {
+    "delta": 0.728,
+    "angle": 0.106,
+    "shape": 0.242
+   },
+   "latent_stage": {
+    "delta": 0.052,
+    "angle": 0.064,
+    "shape": 0.056
+   }
+  }
+ },
+ "bound": {
+  "anchor": 0.06949358868961793,
+  "translation": 0.06949358868961793
+ },
+ "calibration": {
+  "met": true,
+  "adjusted_auroc_mean": 0.688019,
+  "unadjusted_median_abs_rho": 0.9175808720112517,
+  "unadjusted_anchor_rates": {
+   "delta": 0.686,
+   "angle": 0.098,
+   "shape": 0.222
+  }
+ },
+ "failures": {
+  "adjusted": 0,
+  "unadjusted": 0,
+  "latent_stage": 0
+ }
+}
