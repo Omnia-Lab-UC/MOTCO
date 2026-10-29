@@ -1,0 +1,1482 @@
+{
+  "verdict": "size_holds",
+  "rationale": "Every named statistic holds the bound at all 6 point(s).",
+  "alpha": 0.05,
+  "rule": {
+    "version": 1,
+    "name": "anchor_decision",
+    "alpha": 0.05,
+    "se_multiplier": 2.0,
+    "statistics": [
+      "delta",
+      "angle",
+      "shape"
+    ],
+    "bound": "alpha + se_multiplier * sqrt(alpha * (1 - alpha) / R), R = available anchor replicates"
+  },
+  "points": [
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 200,
+        "generator.n_stages": 3
+      },
+      "is_baseline": true,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.04,
+          "monte_carlo_se": 0.008763560920082658,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.06,
+          "monte_carlo_se": 0.010620734437881401,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.034,
+          "monte_carlo_se": 0.008104813384649889,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.222,
+              "monte_carlo_se": 0.018585801031970616,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.158,
+              "monte_carlo_se": 0.01631171358257617,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.218,
+              "monte_carlo_se": 0.018464885594013304,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.254,
+              "monte_carlo_se": 0.019467100451787882,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.242,
+              "monte_carlo_se": 0.019153902996517445,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.27,
+              "monte_carlo_se": 0.019854470529329156,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.226,
+              "monte_carlo_se": 0.01870422412183943,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.184,
+              "monte_carlo_se": 0.017328819925199752,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.276,
+              "monte_carlo_se": 0.01999119806314769,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.314,
+              "monte_carlo_se": 0.020755914819636352,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.04,
+              "monte_carlo_se": 0.008763560920082658,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.236,
+              "monte_carlo_se": 0.018989681408596616,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.492,
+              "monte_carlo_se": 0.022357817424784557,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.418,
+              "monte_carlo_se": 0.02205792374635473,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.62,
+              "monte_carlo_se": 0.021707141681944216,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.034,
+              "monte_carlo_se": 0.008104813384649889,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.562,
+              "monte_carlo_se": 0.022188104921331157,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.054,
+              "monte_carlo_se": 0.010107818755794942,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.04,
+              "monte_carlo_se": 0.008763560920082658,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.058,
+              "monte_carlo_se": 0.010453324829928513,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.054,
+              "monte_carlo_se": 0.010107818755794942,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_primary",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.052,
+              "monte_carlo_se": 0.00992935043192655,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.032,
+              "monte_carlo_se": 0.007870959280799261,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "type_i_baseline",
+          "trajectory_mode": "none",
+          "effect_size": null,
+          "rates": {
+            "delta": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "type_i_baseline",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.06,
+              "monte_carlo_se": 0.010620734437881401,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 500,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.04,
+          "monte_carlo_se": 0.008763560920082658,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.05,
+          "monte_carlo_se": 0.009746794344808964,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.04,
+          "monte_carlo_se": 0.008763560920082658,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.436,
+              "monte_carlo_se": 0.02217674457624473,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.364,
+              "monte_carlo_se": 0.02151762068631195,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.462,
+              "monte_carlo_se": 0.022296008611408458,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.532,
+              "monte_carlo_se": 0.022314838112789434,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.426,
+              "monte_carlo_se": 0.02211442967837968,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.662,
+              "monte_carlo_se": 0.02115447943108031,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.438,
+              "monte_carlo_se": 0.02218810492133116,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.358,
+              "monte_carlo_se": 0.021439962686534694,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.554,
+              "monte_carlo_se": 0.022229889788300795,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.574,
+              "monte_carlo_se": 0.02211442967837968,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.038,
+              "monte_carlo_se": 0.00855055553750749,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.548,
+              "monte_carlo_se": 0.02225740326273485,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.754,
+              "monte_carlo_se": 0.019260529587734602,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.04,
+              "monte_carlo_se": 0.008763560920082658,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.75,
+              "monte_carlo_se": 0.019364916731037084,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.818,
+              "monte_carlo_se": 0.017255491879398864,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.034,
+              "monte_carlo_se": 0.008104813384649889,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.848,
+              "monte_carlo_se": 0.01605590234150669,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.054,
+              "monte_carlo_se": 0.010107818755794942,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.068,
+              "monte_carlo_se": 0.011258419071965654,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.n_samples": 80,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.022,
+          "monte_carlo_se": 0.006559878047646922,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.036,
+          "monte_carlo_se": 0.008331146379700696,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.01,
+          "monte_carlo_se": 0.0044497190922573975,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.052,
+              "monte_carlo_se": 0.00992935043192655,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.1,
+              "monte_carlo_se": 0.01341640786499874,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.092,
+              "monte_carlo_se": 0.012925633446759968,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.11,
+              "monte_carlo_se": 0.013992855319769442,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.09,
+              "monte_carlo_se": 0.012798437404620925,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.176,
+              "monte_carlo_se": 0.01703079563614102,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.15,
+              "monte_carlo_se": 0.015968719422671314,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.174,
+              "monte_carlo_se": 0.016954291492126704,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.078,
+              "monte_carlo_se": 0.011992997957141493,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.162,
+              "monte_carlo_se": 0.016477621187537962,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.104,
+              "monte_carlo_se": 0.013651666564928987,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.288,
+              "monte_carlo_se": 0.020251222185339826,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.204,
+              "monte_carlo_se": 0.018021320706318948,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.02,
+              "monte_carlo_se": 0.006260990336999411,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.074,
+              "monte_carlo_se": 0.011706750189527408,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.02,
+              "monte_carlo_se": 0.006260990336999411,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.034,
+              "monte_carlo_se": 0.008104813384649889,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.078,
+              "monte_carlo_se": 0.011992997957141493,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.02,
+              "monte_carlo_se": 0.006260990336999411,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.032,
+              "monte_carlo_se": 0.007870959280799261,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.04,
+              "monte_carlo_se": 0.008763560920082658,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.024,
+              "monte_carlo_se": 0.00684455988358638,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 200,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.038,
+          "monte_carlo_se": 0.00855055553750749,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.06,
+          "monte_carlo_se": 0.010620734437881401,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.062,
+          "monte_carlo_se": 0.010784804124322332,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.492,
+              "monte_carlo_se": 0.022357817424784557,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.406,
+              "monte_carlo_se": 0.021961967125009547,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.58,
+              "monte_carlo_se": 0.02207260745811423,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.568,
+              "monte_carlo_se": 0.022152923057691506,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.494,
+              "monte_carlo_se": 0.02235906974809104,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.746,
+              "monte_carlo_se": 0.019467100451787882,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.594,
+              "monte_carlo_se": 0.021961967125009547,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.492,
+              "monte_carlo_se": 0.022357817424784557,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.74,
+              "monte_carlo_se": 0.019616319736382767,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.488,
+              "monte_carlo_se": 0.022354238971613417,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.486,
+              "monte_carlo_se": 0.022351912669836556,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.676,
+              "monte_carlo_se": 0.020929596269398033,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.038,
+              "monte_carlo_se": 0.00855055553750749,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.668,
+              "monte_carlo_se": 0.02106067425321421,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.818,
+              "monte_carlo_se": 0.017255491879398864,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.028,
+              "monte_carlo_se": 0.007377804551490911,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.856,
+              "monte_carlo_se": 0.015701210144444283,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.046,
+              "monte_carlo_se": 0.00936845771725528,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.052,
+              "monte_carlo_se": 0.00992935043192655,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.042,
+              "monte_carlo_se": 0.008970618707759236,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.062,
+              "monte_carlo_se": 0.010784804124322332,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 500,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.042,
+          "monte_carlo_se": 0.008970618707759236,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.046,
+          "monte_carlo_se": 0.00936845771725528,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.04,
+          "monte_carlo_se": 0.008763560920082658,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.742,
+              "monte_carlo_se": 0.019567115270269147,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.662,
+              "monte_carlo_se": 0.02115447943108031,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.842,
+              "monte_carlo_se": 0.016311713582576173,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.78,
+              "monte_carlo_se": 0.018525657883055057,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.738,
+              "monte_carlo_se": 0.01966499427917537,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.924,
+              "monte_carlo_se": 0.01185107590052481,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.78,
+              "monte_carlo_se": 0.018525657883055057,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.71,
+              "monte_carlo_se": 0.020292855885754475,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.92,
+              "monte_carlo_se": 0.012132600710482479,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.75,
+              "monte_carlo_se": 0.019364916731037084,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.024,
+              "monte_carlo_se": 0.00684455988358638,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.78,
+              "monte_carlo_se": 0.018525657883055057,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.846,
+              "monte_carlo_se": 0.016142118820031033,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.03,
+              "monte_carlo_se": 0.00762889244910426,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.892,
+              "monte_carlo_se": 0.013880633991284403,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.902,
+              "monte_carlo_se": 0.013296315279053816,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.02,
+              "monte_carlo_se": 0.006260990336999411,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.97,
+              "monte_carlo_se": 0.007628892449104264,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.054,
+              "monte_carlo_se": 0.010107818755794942,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.036,
+              "monte_carlo_se": 0.008331146379700696,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.046,
+              "monte_carlo_se": 0.00936845771725528,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.052,
+              "monte_carlo_se": 0.00992935043192655,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.032,
+              "monte_carlo_se": 0.007870959280799261,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.052,
+              "monte_carlo_se": 0.00992935043192655,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "design_point": {
+        "evaluation.integration_params.layers": null,
+        "generator.n_samples": 80,
+        "generator.n_stages": 3
+      },
+      "is_baseline": false,
+      "statistics": [
+        {
+          "statistic": "delta",
+          "rate": 0.052,
+          "monte_carlo_se": 0.00992935043192655,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "angle",
+          "rate": 0.032,
+          "monte_carlo_se": 0.007870959280799261,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        },
+        {
+          "statistic": "shape",
+          "rate": 0.046,
+          "monte_carlo_se": 0.00936845771725528,
+          "n_available": 500,
+          "bound": 0.06949358868961793,
+          "classification": "holds"
+        }
+      ],
+      "verdict": "size_holds",
+      "other_controls": [
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.23,
+              "monte_carlo_se": 0.01882020191177555,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.238,
+              "monte_carlo_se": 0.01904499934365974,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.234,
+              "monte_carlo_se": 0.018933779337469845,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.308,
+              "monte_carlo_se": 0.020646355610615643,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.312,
+              "monte_carlo_se": 0.02071984555926998,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.38,
+              "monte_carlo_se": 0.021707141681944216,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "orientation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.342,
+              "monte_carlo_se": 0.021214900423994452,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.274,
+              "monte_carlo_se": 0.01994612744369192,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.358,
+              "monte_carlo_se": 0.021439962686534694,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.268,
+              "monte_carlo_se": 0.0198078772209442,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.184,
+              "monte_carlo_se": 0.017328819925199752,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.4,
+              "monte_carlo_se": 0.021908902300206645,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.05,
+              "monte_carlo_se": 0.009746794344808964,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.316,
+              "monte_carlo_se": 0.020791536739741004,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "shape",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.524,
+              "monte_carlo_se": 0.02233490541730589,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.028,
+              "monte_carlo_se": 0.007377804551490911,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.484,
+              "monte_carlo_se": 0.022349228174592516,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.25,
+          "rates": {
+            "delta": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.064,
+              "monte_carlo_se": 0.010945684080951725,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.062,
+              "monte_carlo_se": 0.010784804124322332,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 0.5,
+          "rates": {
+            "delta": {
+              "rate": 0.058,
+              "monte_carlo_se": 0.010453324829928513,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.056,
+              "monte_carlo_se": 0.010282412168358162,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.044,
+              "monte_carlo_se": 0.009172131704244111,
+              "n_available": 500
+            }
+          }
+        },
+        {
+          "phase": "power_design",
+          "trajectory_mode": "translation",
+          "effect_size": 1.0,
+          "rates": {
+            "delta": {
+              "rate": 0.046,
+              "monte_carlo_se": 0.00936845771725528,
+              "n_available": 500
+            },
+            "angle": {
+              "rate": 0.028,
+              "monte_carlo_se": 0.007377804551490911,
+              "n_available": 500
+            },
+            "shape": {
+              "rate": 0.048,
+              "monte_carlo_se": 0.009559916317625379,
+              "n_available": 500
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

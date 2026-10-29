@@ -114,7 +114,7 @@ schema lives in `config.py` (`StudyConfig`). Required top-level keys:
 | `n_replicates`     | Replicates per cell.                                                   |
 | `base_seed`        | Deterministic seed root for replicates.                                |
 | `alpha`            | Significance level for rejection rates.                                |
-| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity` (each `type_i`/`specificity` entry takes an optional `bound`: `two_sided` \| `upper`, see *Acceptance target bound form* below), optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor), optional `column_decision` (advisory candidate-vs-baseline column rule, see *The column decision rule* below). |
+| `acceptance`       | Pre-specified targets: `type_i`, `power`, `specificity` (each `type_i`/`specificity` entry takes an optional `bound`: `two_sided` \| `upper`, see *Acceptance target bound form* below; a `type_i` entry may also name a negative-control `trajectory_mode` and a `statistic` to be evaluated at every design column, see *Column-scoped Type I entries* below), optional `gate`, optional `design_point` (advisory design-point rule over a `design_grid`), optional `rank_decision` (advisory retained-rank rule over the rank axis), optional `anchor_decision` (advisory Type I rule over every design point's zero-effect anchor), optional `column_decision` (advisory candidate-vs-baseline column rule, see *The column decision rule* below). |
 | `report_contract`  | Optional declared reporting/execution rules: `driver_component` (`observed` \| `pls_captured` \| `residual`; which attribution component `driver_report.csv` and the attribution figure present), `cross_replicate_driver_agreement` (only `descriptive` is legal — cross-replicate Jaccard/sign agreement is never a stability claim), `n_jobs_override` (`forbid` \| `warn`, default `warn`; `forbid` makes the shard runner refuse a differing `--n-jobs`). When declared, `report` also writes `report_contract.json` and `driver_report.csv`; when absent, every output is byte-identical to a pre-contract run. The Phase 5 profile declares `observed` / `descriptive` / `forbid`. |
 | `metadata`         | Free-form provenance (name, intent, notes).                            |
 
@@ -156,6 +156,10 @@ Validation enforces:
 - `acceptance.type_i[i].bound` and `acceptance.specificity[i].bound`, when
   present, are `two_sided` or `upper`; any other value fails to load with an
   error naming the entry and the value.
+- `acceptance.type_i[i].trajectory_mode`, when present, is a negative-control
+  mode (`none` or `translation`); `acceptance.type_i[i].statistic` is accepted
+  only beside a `trajectory_mode` and is one of `delta`, `angle`, `shape`. Any
+  other value fails to load with an error naming the entry and the value.
 
 ### Acceptance target bound form
 
@@ -186,9 +190,43 @@ byte-identically. In a mixed report those two columns are blank on the
 two-sided rows, and `obs_bound_kind` marks the rows where `obs_deviation` is
 signed. `dump_study_config` writes the resolved `bound` on every target.
 
-No committed config sets `upper`. Flipping the default would change the
-regenerated `acceptance_report.*` of every committed `results/` tree, so it would
-require re-issuing every committed report.
+Flipping the default would change the regenerated `acceptance_report.*` of
+every committed `results/` tree, so it would require re-issuing every committed
+report. The design-guidance paper-grade slice profiles are the first committed
+configs to set `upper`, on their column-scoped translation entry (next).
+
+### Column-scoped Type I entries
+
+A `type_i` entry without a `trajectory_mode` is evaluated on the Type I phases
+(`type_i_baseline`), as above. An entry that names a negative-control
+`trajectory_mode` (`none` or `translation`) and, optionally, a `statistic` is
+**column-scoped**: it is evaluated at every design column — the baseline column
+and every design point, bucketed exactly as `acceptance.anchor_decision`
+buckets them — on that control's cell at the column: the zero-effect anchor for
+`none`, the control at its largest enumerated effect for `translation`. It is
+judged once per statistic (the named one, or `delta`, `angle` and `shape`)
+through the entry's bound form, and it never reads the Type I baseline phase.
+
+```json
+{"alpha": 0.05, "se_tolerance": 2.0, "bound": "upper",
+ "trajectory_mode": "translation", "statistic": "angle"}
+```
+
+Each evaluation is named
+`type_i_control[<mode>@<effect>, <statistic>, <column>]` (the column as its
+JSON design point; `{}` in a study without a design grid) and its observations
+carry `design_point`, `is_baseline`, `cell_id`, `phase`, `trajectory_mode`,
+`effect_size`, `statistic`, the rate, SE, available replicates and the bound
+fields of the chosen form. A column with no completed record of the control
+yields `met: null` with a "No available replicates" rationale. The anchor
+(`none`) evaluations agree with `anchor_decision.csv` at every column; the
+difference is that a column-scoped entry is a predeclared *verdict* in the
+acceptance report, while the anchor decision lists the other controls
+descriptively. `dump_study_config` writes `trajectory_mode` and `statistic`
+only when set, and an entry without a mode produces exactly the evaluations it
+produced before the fields existed, so every committed acceptance report and
+configuration echo regenerates byte-identically (`tests/test_study_targets.py`,
+`tests/test_study_config.py`).
 
 ### Nested evaluation axes
 
@@ -626,7 +664,9 @@ rank over {`null`, 3, 4, 6, 9, 12} for all four modes.
 `scripts/design_guidance_figure.py` joins the reports of the two
 design-guidance core profiles
 (`examples/trajectory_power_study/design_guidance_core_magnitude_pilot.json`
-and `design_guidance_core_geometry_pilot.json`), which the engine never does
+and `design_guidance_core_geometry_pilot.json`, or the paper-grade
+`design_guidance_core_magnitude_study.json` and
+`design_guidance_core_geometry_study.json`), which the engine never does
 (`design_point_power.png` plots two numeric axes and would mix the two- and
 three-block columns on that grid):
 
@@ -635,7 +675,23 @@ python scripts/design_guidance_figure.py \
     --magnitude results/design-guidance-pilot-<date>/core_magnitude/report \
     --geometry  results/design-guidance-pilot-<date>/core_geometry/report \
     --out-dir   results/design-guidance-pilot-<date>/figures
+# The paper-grade slice: the same call with its grade label in every title.
+python scripts/design_guidance_figure.py --grade paper \
+    --magnitude results/design-guidance-slice-<date>/core_magnitude/report \
+    --geometry  results/design-guidance-slice-<date>/core_geometry/report \
+    --out-dir   results/design-guidance-slice-<date>/figures
 ```
+
+`--grade` (default `pilot`, so the committed pilot figures regenerate
+unchanged) is the label written into every figure title. The panels are derived
+from the stage counts and block counts present in the tables, so a report with
+one stage count (the slice's `generator.n_stages: [3]`) renders one panel row of
+two panels per mode figure. The paper-grade slice ran on 2026-10-29
+(`results/design-guidance-slice-2026-10-29/figures/`,
+`docs/reports/design-guidance-slice-2026-10-29.md`): size held at every column
+under the anchor decision and the column-scoped translation rule, and the
+figures show `delta` and `shape` rising with n, effect and block count while
+`angle` follows n and block count only.
 
 It reads each report's `design_point_operating.csv`, labels the block count
 from the CSV spelling of `evaluation.integration_params.layers` (the
@@ -660,6 +716,41 @@ A report whose operating table lacks `generator.n_samples`,
 the script exits 1 naming the axis and writes nothing. Tests:
 `tests/test_design_guidance_figure.py`.
 
+### Anchor reproduction by design column
+
+`scripts/anchor_reproduction.py` checks that one run's zero-effect anchor
+reproduces another's: same generator seeds, observed statistics (at a relative
+tolerance), selected rank and — when both runs used the same permutation count —
+identical p-values. Without options it joins one anchor cell per run on the
+replicate index (the Phase 5 and Phase 6 sibling checks). `--by-column` is the
+design-grid form:
+
+```bash
+# Sibling profiles (same datasets, same RRPP draws): every column, identical p-values.
+python scripts/anchor_reproduction.py --by-column \
+    --candidate results/design-guidance-slice-<date>/core_magnitude/merged.jsonl \
+    --reference results/design-guidance-slice-<date>/core_geometry/merged.jsonl \
+    --out results/design-guidance-slice-<date>/reproduction/siblings.csv
+# The slice against the pilot (999 vs 199 permutations): seeds and statistics
+# at replicate indices 0-99, p-values reported as not comparable.
+python scripts/anchor_reproduction.py --by-column \
+    --candidate results/design-guidance-slice-<date>/core_geometry/merged.jsonl \
+    --reference results/design-guidance-pilot-2026-10-28/core_geometry/merged.jsonl \
+    --out results/design-guidance-slice-<date>/reproduction/pilot_geometry.csv
+```
+
+Every anchor of the `power_primary`/`power_design` phases is keyed by its
+design column — the record's `cell_metadata.design_point`; `power_primary` is
+the baseline column; the `type_i_baseline` anchor is a different draw and is
+excluded — and the runs are joined on (design column, replicate index). The
+CSV gains `design_column` (the JSON design point) and one column per design
+axis; the summary prints one line per column (pairs, seed/rank/statistic
+matches, p-value comparability), lists a column the other run lacks with zero
+pairs, and the verdict (exit status) covers the paired columns only. The
+keying lesson from the pilot: columns are keyed by their design point, never by
+`generator_seed`, which every column shares at a replicate index within a seed
+family. Tests: `tests/test_anchor_reproduction.py`.
+
 ### Measurement columns and the anchor Type I rule
 
 `evaluation.orientation_estimator` and `evaluation.integration_method` are
@@ -683,8 +774,11 @@ or in the latent `integration_params`), a floor-2 column records the floor and
 selects ranks of at least 2 on the same datasets. The 19 historical configs pin
 `"min_components": 1` beside `"pc1"` and are held to the pre-flip identity
 fixture; a config committed after the floor names its estimator and floor
-explicitly and non-null (the design-guidance profiles name `"net_displacement"`
-and `2`) and is pinned by `tests/data/post_floor_config_identity.json` instead
+explicitly and non-null (the eight design-guidance profiles — the four pilot
+profiles, the paper-grade slice `design_guidance_core_{magnitude,geometry}_study.json`
+and the stage-effect arm `design_guidance_stage_effect_{magnitude,geometry}_study.json`
+— name `"net_displacement"` and `2`) and is pinned by
+`tests/data/post_floor_config_identity.json` instead
 (`tests/post_floor_fixture_capture.py` regenerates it). The pin tests
 (`tests/test_rank_floor_default_pins.py`, `tests/test_orientation_default_pins.py`,
 `tests/test_post_floor_config_identity.py`) require every committed config to be

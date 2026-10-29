@@ -31,6 +31,7 @@ from motco.simulations.study.config import (
 )
 from motco.simulations.study.phase4 import type_i_inflation_bound
 from motco.simulations.study.spectrum import record_design_point
+from motco.simulations.study.summary import DEFAULT_STATISTICS
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,10 @@ def evaluate_targets(
     cell_meta = _cell_metadata_index(records)
     evaluations: list[TargetEvaluation] = []
     for type_i_target in acceptance.type_i:
-        evaluations.extend(_evaluate_type_i(type_i_target, summaries, cell_meta))
+        if type_i_target.column_scoped:
+            evaluations.extend(_evaluate_type_i_columns(type_i_target, summaries, records))
+        else:
+            evaluations.extend(_evaluate_type_i(type_i_target, summaries, cell_meta))
     for power_target in acceptance.power:
         evaluations.append(_evaluate_power(power_target, summaries, cell_meta))
     for specificity_target in acceptance.specificity:
@@ -153,6 +157,201 @@ def _evaluate_type_i(
             )
         )
     return out
+
+
+@dataclass(frozen=True)
+class _DesignColumn:
+    """One design column's completed cells, bucketed as :func:`evaluate_anchor_decision` buckets them."""
+
+    point: dict[str, Any]
+    is_baseline: bool
+    #: cell id -> (phase, trajectory mode, effect size)
+    cells: dict[str, tuple[str, str, float | None]]
+
+    @property
+    def label(self) -> str:
+        return json.dumps(self.point, sort_keys=True, default=str)
+
+
+def _thaw(value: Any) -> Any:
+    """Tuple-valued design coordinates back to lists, the JSON spelling."""
+
+    if isinstance(value, tuple | list):
+        return [_thaw(item) for item in value]
+    return value
+
+
+def _design_columns(records: Sequence[SimulationReplicateResult]) -> list[_DesignColumn]:
+    """Completed records' design columns, the baseline first.
+
+    Mirrors the bucketing of :func:`evaluate_anchor_decision`: a record's column
+    is its ``record_design_point``; a ``power_primary`` record without one sits
+    in the baseline column ``{}``; every other record without one — the
+    ``type_i_baseline`` cells among them — is never read.
+    """
+
+    points: dict[str, dict[str, Any]] = {}
+    cells: dict[str, dict[str, tuple[str, str, float | None]]] = {}
+    baseline_key: str | None = None
+    for record in records:
+        if record.status != "completed":
+            continue
+        point = record_design_point(record)
+        if point is None:
+            if record.phase != "power_primary":
+                continue
+            point = {}
+        key = json.dumps(point, sort_keys=True, default=str)
+        points.setdefault(key, point)
+        if record.phase == "power_primary":
+            baseline_key = key
+        effect = record.cell_metadata.get("effect_size")
+        cells.setdefault(key, {}).setdefault(
+            record.cell_id,
+            (record.phase, _record_trajectory_mode(record), None if effect is None else float(effect)),
+        )
+    return [
+        _DesignColumn(
+            point={axis: _thaw(value) for axis, value in points[key].items()},
+            is_baseline=key == baseline_key,
+            cells=cells[key],
+        )
+        for key in sorted(points, key=lambda k: (k != baseline_key, k))
+    ]
+
+
+def _column_control_cells(column: _DesignColumn, mode: str) -> list[tuple[str, str, float]]:
+    """``(cell_id, phase, effect)`` of the named negative control at the column.
+
+    ``none`` is the zero-effect anchor; any other control is read at its largest
+    enumerated effect. Empty when the column holds no completed record of it.
+    """
+
+    candidates = [
+        (cell_id, phase, effect)
+        for cell_id, (phase, cell_mode, effect) in column.cells.items()
+        if cell_mode == mode and effect is not None
+    ]
+    if not candidates:
+        return []
+    target_effect = 0.0 if mode == "none" else max(effect for _, _, effect in candidates)
+    return sorted((c for c in candidates if c[2] == target_effect), key=lambda c: c[0])
+
+
+def _evaluate_type_i_columns(
+    target: TypeIControlTarget,
+    summaries: Sequence[SimulationSummaryResult],
+    records: Sequence[SimulationReplicateResult],
+) -> list[TargetEvaluation]:
+    """Column-scoped Type I target: the named negative control at every design column.
+
+    Completed records are bucketed into design columns exactly as
+    :func:`evaluate_anchor_decision` buckets them (``power_primary`` is the
+    baseline column; the ``type_i_baseline`` phase is never read). At each
+    column the control is the named mode's cell at effect 0 (``none``) or at its
+    largest enumerated effect (``translation``), judged once per statistic — the
+    named one, or every statistic — through the same two-sided / upper rule as
+    the phase-scoped path. A column without a completed record of the control is
+    reported with ``met=None`` and a "No available replicates" rationale.
+    """
+
+    mode = target.trajectory_mode
+    assert mode is not None
+    statistics = (target.statistic,) if target.statistic is not None else tuple(DEFAULT_STATISTICS)
+    by_cell_statistic = {(summary.cell_id, summary.statistic): summary for summary in summaries}
+    out: list[TargetEvaluation] = []
+    for column in _design_columns(records):
+        controls = _column_control_cells(column, mode)
+        if not controls:
+            for statistic in statistics:
+                out.append(
+                    TargetEvaluation(
+                        target_name=f"{target.name}[{mode}, {statistic}, {column.label}]",
+                        target_kind=target.kind,
+                        met=None,
+                        rationale=f"No available replicates: no completed record of {mode} at this design column",
+                        observations=_column_observations(target, column, None, statistic),
+                    )
+                )
+            continue
+        for cell_id, phase, effect in controls:
+            for statistic in statistics:
+                observations = _column_observations(target, column, (cell_id, phase, effect), statistic)
+                name = f"{target.name}[{mode}@{float(effect)}, {statistic}, {column.label}]"
+                summary = by_cell_statistic.get((cell_id, statistic))
+                if summary is not None:
+                    observations["rejection_rate"] = summary.rejection_rate
+                    observations["monte_carlo_se"] = summary.monte_carlo_se
+                    observations["available_replicates"] = summary.available_replicates
+                if summary is None or summary.rejection_rate is None or summary.monte_carlo_se is None:
+                    out.append(
+                        TargetEvaluation(
+                            target_name=name,
+                            target_kind=target.kind,
+                            met=None,
+                            rationale="No available replicates",
+                            observations=observations,
+                        )
+                    )
+                    continue
+                if target.bound == "upper":
+                    met, rationale = _judge_upper(
+                        target, summary.rejection_rate, summary.available_replicates, observations
+                    )
+                else:
+                    met, rationale = _judge_two_sided(
+                        target, summary.rejection_rate, summary.monte_carlo_se, observations
+                    )
+                out.append(
+                    TargetEvaluation(
+                        target_name=name,
+                        target_kind=target.kind,
+                        met=met,
+                        rationale=rationale,
+                        observations=observations,
+                    )
+                )
+    return out
+
+
+def _column_observations(
+    target: TypeIControlTarget,
+    column: _DesignColumn,
+    control: tuple[str, str, float] | None,
+    statistic: str,
+) -> dict[str, Any]:
+    cell_id, phase, effect = control if control is not None else (None, None, None)
+    return {
+        "design_point": dict(column.point),
+        "is_baseline": column.is_baseline,
+        "cell_id": cell_id,
+        "phase": phase,
+        "trajectory_mode": target.trajectory_mode,
+        "effect_size": effect,
+        "statistic": statistic,
+        "alpha_target": target.alpha,
+        "se_tolerance": target.se_tolerance,
+        "rejection_rate": None,
+        "monte_carlo_se": None,
+        "available_replicates": 0,
+    }
+
+
+def _judge_two_sided(
+    target: TypeIControlTarget | SpecificityTarget,
+    rate: float,
+    monte_carlo_se: float,
+    observations: dict[str, Any],
+) -> tuple[bool, str]:
+    """Two-sided control rule: ``|rate − alpha| ≤ k · SE_emp``; records the absolute deviation and bound."""
+
+    bound = target.se_tolerance * monte_carlo_se
+    deviation = abs(rate - target.alpha)
+    met = deviation <= bound
+    rationale = f"|rate - alpha| = {deviation:.4f} {'<=' if met else '>'} {target.se_tolerance:.2f}·SE ({bound:.4f})"
+    observations["deviation"] = deviation
+    observations["bound"] = bound
+    return met, rationale
 
 
 def _judge_upper(

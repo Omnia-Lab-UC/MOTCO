@@ -308,3 +308,85 @@ def test_unknown_target_bound_is_rejected(tmp_path: Path, type_i: dict, specific
     path.write_text(json.dumps(_bound_payload(type_i, specificity)), encoding="utf-8")
     with pytest.raises(StudyConfigError, match=match):
         load_study_config(path)
+
+
+# --- column-scoped Type I entries ---------------------------------------------
+
+
+def _type_i_payload(*entries: dict) -> dict:
+    return {
+        "generator": {"seed": 2, "trajectory_mode": "magnitude", "group_ratio": 0.5, "n_samples": 60},
+        "evaluation": {"integration_method": "concat", "permutations": 0, "seed": 3, "n_jobs": 1},
+        "trajectory_modes": ["magnitude", "translation"],
+        "effect_sizes": [0.1, 0.5],
+        "acceptance": {"type_i": list(entries)},
+    }
+
+
+def test_column_scoped_type_i_entry_loads_and_round_trips(tmp_path: Path) -> None:
+    path = tmp_path / "study.json"
+    entry = {
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "bound": "upper",
+        "trajectory_mode": "translation",
+        "statistic": "angle",
+    }
+    path.write_text(json.dumps(_type_i_payload({"alpha": 0.05}, entry)), encoding="utf-8")
+    config = load_study_config(path)
+    phase_scoped, column_scoped = config.acceptance.type_i
+    assert not phase_scoped.column_scoped
+    assert phase_scoped.trajectory_mode is None and phase_scoped.statistic is None
+    assert column_scoped.column_scoped
+    assert column_scoped.trajectory_mode == "translation" and column_scoped.statistic == "angle"
+    assert column_scoped.bound == "upper"
+
+    dumped = tmp_path / "dumped.json"
+    dump_study_config(config, dumped)
+    echo = json.loads(dumped.read_text(encoding="utf-8"))["acceptance"]["type_i"]
+    # The column-scoped fields are written only when set.
+    assert echo[0] == {
+        "alpha": 0.05,
+        "se_tolerance": 2.0,
+        "name": "type_i_control",
+        "bound": "two_sided",
+        "kind": "type_i_control",
+    }
+    assert echo[1]["trajectory_mode"] == "translation" and echo[1]["statistic"] == "angle"
+    assert load_study_config(dumped) == config
+
+
+def test_column_scoped_none_entry_without_statistic_loads() -> None:
+    target = TypeIControlTarget(alpha=0.05, trajectory_mode="none")
+    assert target.column_scoped and target.statistic is None
+
+
+@pytest.mark.parametrize(
+    ("entry", "message"),
+    [
+        ({"alpha": 0.05, "trajectory_mode": "magnitude"}, "negative-control mode"),
+        ({"alpha": 0.05, "trajectory_mode": "orientation", "statistic": "angle"}, "'orientation'"),
+        ({"alpha": 0.05, "statistic": "angle"}, "requires trajectory_mode"),
+        ({"alpha": 0.05, "trajectory_mode": "translation", "statistic": "size"}, "'size'"),
+    ],
+)
+def test_invalid_column_scoped_type_i_entry_is_rejected_naming_the_entry(
+    tmp_path: Path, entry: dict, message: str
+) -> None:
+    path = tmp_path / "study.json"
+    path.write_text(json.dumps(_type_i_payload({"alpha": 0.05}, entry)), encoding="utf-8")
+    with pytest.raises(StudyConfigError, match=r"acceptance\.type_i\[1\]") as excinfo:
+        load_study_config(path)
+    assert message in str(excinfo.value)
+
+
+def test_type_i_entries_without_a_mode_dump_without_the_column_scoped_keys(tmp_path: Path) -> None:
+    path = tmp_path / "study.json"
+    path.write_text(
+        json.dumps(_type_i_payload({"alpha": 0.05}, {"alpha": 0.05, "bound": "upper", "name": "u"})), encoding="utf-8"
+    )
+    dumped = tmp_path / "dumped.json"
+    dump_study_config(load_study_config(path), dumped)
+    for entry in json.loads(dumped.read_text(encoding="utf-8"))["acceptance"]["type_i"]:
+        assert "trajectory_mode" not in entry and "statistic" not in entry
+        assert set(entry) == {"alpha", "se_tolerance", "name", "bound", "kind"}

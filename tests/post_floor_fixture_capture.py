@@ -34,6 +34,11 @@ POST_FLOOR_CONFIGS: tuple[str, ...] = (
     "design_guidance_core_geometry_pilot.json",
     "design_guidance_arms_magnitude_pilot.json",
     "design_guidance_arms_geometry_pilot.json",
+    # design-guidance-paper-grade-slice (0.12.0): the paper-grade slice and the stage-effect arm.
+    "design_guidance_core_magnitude_study.json",
+    "design_guidance_core_geometry_study.json",
+    "design_guidance_stage_effect_magnitude_study.json",
+    "design_guidance_stage_effect_geometry_study.json",
 )
 
 
@@ -54,7 +59,8 @@ def main() -> None:
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     payload = {
         "note": "Identity of every study config committed after the rank floor (minimum-latent-rank, 0.10.0), "
-        "starting with the four design-guidance pilot profiles (design-guidance-grid). Maps each config "
+        "starting with the four design-guidance pilot profiles (design-guidance-grid), then the paper-grade "
+        "slice and stage-effect profiles (design-guidance-paper-grade-slice). Maps each config "
         "under examples/trajectory_power_study/ to {cell_id: {signature, seeds (replicates 0-2)}}. These "
         "configs name evaluation.orientation_estimator and evaluation.min_components explicitly and are not "
         "held to the historical PC1 / floor-1 pins. Checked by tests/test_post_floor_config_identity.py; "

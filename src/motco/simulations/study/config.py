@@ -18,6 +18,8 @@ from motco.simulations.semisynthetic import (
 )
 
 _TRAJECTORY_MODES = {"none", "translation", "magnitude", "orientation", "shape"}
+#: Negative-control modes a column-scoped Type I entry may name (``enumerate.NEGATIVE_CONTROL_MODES``).
+_NEGATIVE_CONTROL_MODES = ("none", "translation")
 _AXIS_NAMESPACES = {"generator", "evaluation"}
 _TARGET_KINDS = {"type_i_control", "power_monotonicity", "specificity"}
 _TARGET_BOUNDS = {"two_sided", "upper"}
@@ -50,13 +52,45 @@ class StudyConfigError(ValueError):
 
 @dataclass(frozen=True)
 class TypeIControlTarget:
-    """Type I control target evaluated on null cells."""
+    """Type I control target evaluated on null cells.
+
+    Without ``trajectory_mode`` the target is evaluated on the Type I phases.
+    With a negative-control ``trajectory_mode`` (``none`` or ``translation``) it
+    is **column-scoped**: evaluated at every design column — the baseline column
+    included — on that control's cell at the column (the zero-effect anchor for
+    ``none``, the largest enumerated effect for ``translation``), once per
+    ``statistic`` (the named one, or every statistic), and never on the Type I
+    baseline phase. ``statistic`` is accepted only beside a mode. Both fields
+    are omitted from a dumped configuration while ``None``.
+    """
 
     alpha: float
     se_tolerance: float = 2.0
     name: str = "type_i_control"
     bound: str = "two_sided"
+    trajectory_mode: str | None = None
+    statistic: str | None = None
     kind: str = field(default="type_i_control", init=False)
+
+    def __post_init__(self) -> None:
+        if self.trajectory_mode is not None and self.trajectory_mode not in _NEGATIVE_CONTROL_MODES:
+            raise StudyConfigError(
+                f"trajectory_mode must be a negative-control mode {list(_NEGATIVE_CONTROL_MODES)}; "
+                f"got {self.trajectory_mode!r}."
+            )
+        if self.statistic is not None:
+            if self.trajectory_mode is None:
+                raise StudyConfigError(
+                    f"statistic {self.statistic!r} requires trajectory_mode (a column-scoped entry)."
+                )
+            if self.statistic not in _STATISTICS:
+                raise StudyConfigError(f"statistic must be one of {sorted(_STATISTICS)}; got {self.statistic!r}.")
+
+    @property
+    def column_scoped(self) -> bool:
+        """Whether the entry is evaluated per design column rather than on the Type I phases."""
+
+        return self.trajectory_mode is not None
 
 
 @dataclass(frozen=True)
@@ -1454,12 +1488,20 @@ def _parse_target_bound(raw: Mapping[str, Any], label: str) -> str:
 def _build_type_i_target(raw: Mapping[str, Any], index: int = 0) -> TypeIControlTarget:
     if "alpha" not in raw:
         raise StudyConfigError("acceptance.type_i entries require 'alpha'.")
-    return TypeIControlTarget(
-        alpha=float(raw["alpha"]),
-        se_tolerance=float(raw.get("se_tolerance", 2.0)),
-        name=str(raw.get("name", "type_i_control")),
-        bound=_parse_target_bound(raw, f"acceptance.type_i[{index}]"),
-    )
+    label = f"acceptance.type_i[{index}]"
+    bound = _parse_target_bound(raw, label)
+    try:
+        return TypeIControlTarget(
+            alpha=float(raw["alpha"]),
+            se_tolerance=float(raw.get("se_tolerance", 2.0)),
+            name=str(raw.get("name", "type_i_control")),
+            bound=bound,
+            trajectory_mode=raw.get("trajectory_mode"),
+            statistic=raw.get("statistic"),
+        )
+    except StudyConfigError as exc:
+        # The column-scoped fields are validated by the dataclass; name the entry.
+        raise StudyConfigError(f"{label}: {exc}") from None
 
 
 def _build_power_target(raw: Mapping[str, Any]) -> PowerMonotonicityTarget:
@@ -1570,7 +1612,7 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
         "base_seed": config.base_seed,
         "alpha": config.alpha,
         "acceptance": {
-            "type_i": [_dataclass_dict(t) for t in config.acceptance.type_i],
+            "type_i": [_type_i_target_dict(t) for t in config.acceptance.type_i],
             "power": [_dataclass_dict(t) for t in config.acceptance.power],
             "specificity": [_dataclass_dict(t) for t in config.acceptance.specificity],
             "gate": _dataclass_dict(config.acceptance.gate),
@@ -1592,6 +1634,16 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
         ),
         "metadata": dict(config.metadata),
     }
+
+
+def _type_i_target_dict(target: TypeIControlTarget) -> dict[str, Any]:
+    """A Type I entry's echo; the column-scoped fields are written only when set."""
+
+    payload = _dataclass_dict(target)
+    for key in ("trajectory_mode", "statistic"):
+        if payload[key] is None:
+            del payload[key]
+    return payload
 
 
 def _dataclass_dict(value: Any) -> dict[str, Any]:

@@ -1,0 +1,79 @@
+evaluation.integration_params.layers,generator.n_samples,generator.n_stages,is_baseline,role,phase,trajectory_mode,effect_size,statistic,rate,monte_carlo_se,n_available,bound,classification,point_verdict
+"('methylation', 'expression')",200,3,True,anchor,,none,0.0,delta,0.04,0.008763560920082658,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",200,3,True,anchor,,none,0.0,angle,0.06,0.010620734437881401,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",200,3,True,anchor,,none,0.0,shape,0.034,0.008104813384649889,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.02,delta,0.228,0.018762515822778138,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.02,angle,0.058,0.010453324829928513,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.02,shape,0.036,0.008331146379700696,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.05,delta,0.694,0.020608930103234373,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.05,angle,0.058,0.010453324829928513,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.05,shape,0.038,0.00855055553750749,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.1,delta,0.936,0.01094568408095172,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.1,angle,0.048,0.009559916317625379,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,power_primary,magnitude,0.1,shape,0.038,0.00855055553750749,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,none,,delta,0.048,0.009559916317625379,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,none,,angle,0.05,0.009746794344808964,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,none,,shape,0.042,0.008970618707759236,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,translation,0.1,delta,0.04,0.008763560920082658,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,translation,0.1,angle,0.038,0.00855055553750749,500,,,size_holds
+"('methylation', 'expression')",200,3,True,control,type_i_baseline,translation,0.1,shape,0.028,0.007377804551490911,500,,,size_holds
+"('methylation', 'expression')",500,3,False,anchor,,none,0.0,delta,0.04,0.008763560920082658,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",500,3,False,anchor,,none,0.0,angle,0.05,0.009746794344808964,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",500,3,False,anchor,,none,0.0,shape,0.04,0.008763560920082658,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.02,delta,0.632,0.021567382780485908,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.02,angle,0.05,0.009746794344808964,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.02,shape,0.038,0.00855055553750749,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.05,delta,0.962,0.008550555537507495,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.05,angle,0.052,0.00992935043192655,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.05,shape,0.032,0.007870959280799261,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.1,delta,0.998,0.001997998998998749,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.1,angle,0.034,0.008104813384649889,500,,,size_holds
+"('methylation', 'expression')",500,3,False,control,power_design,magnitude,0.1,shape,0.02,0.006260990336999411,500,,,size_holds
+"('methylation', 'expression')",80,3,False,anchor,,none,0.0,delta,0.022,0.006559878047646922,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",80,3,False,anchor,,none,0.0,angle,0.036,0.008331146379700696,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",80,3,False,anchor,,none,0.0,shape,0.01,0.0044497190922573975,500,0.06949358868961793,holds,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.02,delta,0.036,0.008331146379700696,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.02,angle,0.038,0.00855055553750749,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.02,shape,0.01,0.0044497190922573975,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.05,delta,0.234,0.018933779337469845,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.05,angle,0.034,0.008104813384649889,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.05,shape,0.008,0.003983967871356395,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.1,delta,0.62,0.021707141681944216,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.1,angle,0.032,0.007870959280799261,500,,,size_holds
+"('methylation', 'expression')",80,3,False,control,power_design,magnitude,0.1,shape,0.01,0.0044497190922573975,500,,,size_holds
+,200,3,False,anchor,,none,0.0,delta,0.038,0.00855055553750749,500,0.06949358868961793,holds,size_holds
+,200,3,False,anchor,,none,0.0,angle,0.06,0.010620734437881401,500,0.06949358868961793,holds,size_holds
+,200,3,False,anchor,,none,0.0,shape,0.062,0.010784804124322332,500,0.06949358868961793,holds,size_holds
+,200,3,False,control,power_design,magnitude,0.02,delta,0.43,0.022140460699813815,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.02,angle,0.058,0.010453324829928513,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.02,shape,0.062,0.010784804124322332,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.05,delta,0.878,0.014636666287102402,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.05,angle,0.048,0.009559916317625379,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.05,shape,0.056,0.010282412168358162,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.1,delta,0.992,0.003983967871356396,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.1,angle,0.036,0.008331146379700696,500,,,size_holds
+,200,3,False,control,power_design,magnitude,0.1,shape,0.042,0.008970618707759236,500,,,size_holds
+,500,3,False,anchor,,none,0.0,delta,0.042,0.008970618707759236,500,0.06949358868961793,holds,size_holds
+,500,3,False,anchor,,none,0.0,angle,0.046,0.00936845771725528,500,0.06949358868961793,holds,size_holds
+,500,3,False,anchor,,none,0.0,shape,0.04,0.008763560920082658,500,0.06949358868961793,holds,size_holds
+,500,3,False,control,power_design,magnitude,0.02,delta,0.834,0.016639951923007473,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.02,angle,0.046,0.00936845771725528,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.02,shape,0.042,0.008970618707759236,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.05,delta,0.994,0.0034536936748935927,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.05,angle,0.034,0.008104813384649889,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.05,shape,0.036,0.008331146379700696,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.1,delta,1.0,0.0,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.1,angle,0.024,0.00684455988358638,500,,,size_holds
+,500,3,False,control,power_design,magnitude,0.1,shape,0.01,0.0044497190922573975,500,,,size_holds
+,80,3,False,anchor,,none,0.0,delta,0.052,0.00992935043192655,500,0.06949358868961793,holds,size_holds
+,80,3,False,anchor,,none,0.0,angle,0.032,0.007870959280799261,500,0.06949358868961793,holds,size_holds
+,80,3,False,anchor,,none,0.0,shape,0.046,0.00936845771725528,500,0.06949358868961793,holds,size_holds
+,80,3,False,control,power_design,magnitude,0.02,delta,0.112,0.014103616557464968,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.02,angle,0.034,0.008104813384649889,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.02,shape,0.05,0.009746794344808964,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.05,delta,0.512,0.022354238971613417,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.05,angle,0.028,0.007377804551490911,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.05,shape,0.046,0.00936845771725528,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.1,delta,0.836,0.0165592270351004,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.1,angle,0.018,0.005945754788081997,500,,,size_holds
+,80,3,False,control,power_design,magnitude,0.1,shape,0.036,0.008331146379700696,500,,,size_holds

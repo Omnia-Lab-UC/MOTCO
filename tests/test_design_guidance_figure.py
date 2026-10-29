@@ -74,10 +74,12 @@ def _record(point: dict, mode: str, effect: float, index: int, rejected: bool) -
     )
 
 
-def _records(modes: dict[str, tuple[float, ...]]) -> list[SimulationReplicateResult]:
+def _records(
+    modes: dict[str, tuple[float, ...]], stages_present: tuple[int, ...] = (3, 4)
+) -> list[SimulationReplicateResult]:
     records = []
     for n in (80, 200):
-        for stages in (3, 4):
+        for stages in stages_present:
             for layers in (TWO, None):
                 point = {N: n, STAGES: stages, LAYERS: layers}
                 blocks = 3 if layers is None else len(layers)
@@ -179,3 +181,81 @@ def test_missing_axis_is_refused_without_writing(reports: tuple[Path, Path], tmp
     # A missing report directory is refused the same way.
     assert dgf.main(["--magnitude", str(magnitude), "--geometry", str(tmp_path / "nope"), "--out-dir", str(out)]) == 1
     assert not out.exists()
+
+
+# --- grade label and the single-stage-count layout ------------------------------
+
+GEOMETRY_MODES = {"orientation": (0.5, 1.0), "shape": (0.5, 1.0), "translation": (0.5, 1.0)}
+PRE_CHANGE_TITLES = {
+    "magnitude": "magnitude / delta: power vs sample size (pilot; ±1 MC SE)",
+    "orientation": "orientation / angle: power vs sample size (pilot; ±1 MC SE)",
+    "shape": "shape / shape: power vs sample size (pilot; ±1 MC SE)",
+    "control": "Size controls vs sample size (pilot; α = 0.05, ±1 MC SE)",
+}
+
+
+@pytest.fixture
+def single_stage_reports(tmp_path: Path) -> tuple[Path, Path]:
+    magnitude = _write_report(_records({"magnitude": (0.05, 0.1)}, (3,)), tmp_path / "magnitude" / "report")
+    geometry = _write_report(_records(GEOMETRY_MODES, (3,)), tmp_path / "geometry" / "report")
+    return magnitude, geometry
+
+
+def _frames(magnitude: Path, geometry: Path) -> dict[str, pd.DataFrame]:
+    return dgf.build_frames(
+        dgf.load_operating_table(magnitude, "magnitude"), dgf.load_operating_table(geometry, "geometry")
+    )
+
+
+def test_single_stage_count_renders_one_panel_row(single_stage_reports: tuple[Path, Path], tmp_path: Path) -> None:
+    magnitude, geometry = single_stage_reports
+    frames = _frames(magnitude, geometry)
+    for figure, mode, statistic, _ in dgf.MODE_FIGURES:
+        fig = dgf.build_mode_figure(frames[figure], mode=mode, statistic=statistic)
+        assert len(fig.axes) == 2  # one stage count x two block counts
+        assert [ax.get_title() for ax in fig.axes] == ["3 stages, 2 blocks", "3 stages, 3 blocks"]
+        matplotlib.pyplot.close(fig)
+    control = dgf.build_control_figure(frames["control"], alpha=0.05, se_multiplier=2.0)
+    assert len(control.axes) == 3 * 2  # three statistics x the same two panels
+    matplotlib.pyplot.close(control)
+
+    paths = dgf.run(magnitude, geometry, tmp_path / "figures")
+    csv = pd.read_csv(paths["csv"])
+    plotted = pd.concat(frames.values(), ignore_index=True)
+    assert len(csv) == len(plotted)
+    assert set(csv[STAGES]) == {3}
+    keys = ["figure", "trajectory_mode", "statistic", "effect_size", N, STAGES, "n_blocks", "rejection_rate"]
+    assert sorted(map(tuple, csv[keys].to_records(index=False).tolist())) == sorted(
+        map(tuple, plotted[keys].to_records(index=False).tolist())
+    )
+
+
+def test_grade_label_is_in_every_title_and_defaults_to_the_pilot(reports: tuple[Path, Path], tmp_path: Path) -> None:
+    magnitude, geometry = reports
+    frames = _frames(magnitude, geometry)
+    for figure, mode, statistic, _ in dgf.MODE_FIGURES:
+        default = dgf.build_mode_figure(frames[figure], mode=mode, statistic=statistic)
+        assert default.get_suptitle() == PRE_CHANGE_TITLES[figure]
+        paper = dgf.build_mode_figure(frames[figure], mode=mode, statistic=statistic, grade="paper")
+        assert paper.get_suptitle() == PRE_CHANGE_TITLES[figure].replace("(pilot;", "(paper;")
+        matplotlib.pyplot.close(default)
+        matplotlib.pyplot.close(paper)
+    default = dgf.build_control_figure(frames["control"], alpha=0.05, se_multiplier=2.0)
+    assert default.get_suptitle() == PRE_CHANGE_TITLES["control"]
+    paper = dgf.build_control_figure(frames["control"], alpha=0.05, se_multiplier=2.0, grade="paper")
+    assert paper.get_suptitle() == PRE_CHANGE_TITLES["control"].replace("(pilot;", "(paper;")
+    matplotlib.pyplot.close(default)
+    matplotlib.pyplot.close(paper)
+
+    # The CLI accepts the label and still writes the four figures and the CSV.
+    out = tmp_path / "figures"
+    argv = ["--magnitude", str(magnitude), "--geometry", str(geometry), "--out-dir", str(out), "--grade", "paper"]
+    assert dgf.main(argv) == 0
+    assert {p.name for p in out.iterdir()} == {
+        "design_guidance_magnitude.png",
+        "design_guidance_orientation.png",
+        "design_guidance_shape.png",
+        "design_guidance_control.png",
+        "design_guidance_power.csv",
+    }
+    assert dgf.build_parser().parse_args(["--magnitude", "m", "--geometry", "g", "--out-dir", "o"]).grade == "pilot"
