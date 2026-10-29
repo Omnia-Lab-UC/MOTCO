@@ -925,6 +925,11 @@ stage AUROC at 1.000 at every column but δ = 0.25 (0.988), so 0.05 and 0.1
 were added to reach the SEA-AD regime (0.64–0.70), which the rank-floor check
 located near δ = 0.05–0.1.
 
+The pilot ran on 2026-10-28 (`results/design-guidance-pilot-2026-10-28/`:
+`report/` and `PROVENANCE.txt` per profile plus `figures/`; 47,200 units, 0
+failures, 345 core-hours on `ing`). Its findings and the proposed paper-grade
+slice are in `docs/reports/design-guidance-pilot-2026-10-28.md`.
+
 The magnitude and geometry siblings of each grid are split (one effect list
 cannot serve both: magnitude's `delta` rise sits at e = 0.01–0.25 while
 orientation and shape leave the null only from 0.25) but matched: at a given

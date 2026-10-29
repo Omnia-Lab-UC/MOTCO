@@ -95,15 +95,15 @@
 
 ## 6. Pilot run on ing
 
-- [ ] 6.1 After the user's approval, submit the four arrays with `scripts/motco_study_array.sbatch` and the shard counts from 5.2, splitting n = 1000 into its own array if the estimate calls for it. Merge each profile. Verify:
+- [x] 6.1 After the user's approval, submit the four arrays with `scripts/motco_study_array.sbatch` and the shard counts from 5.2, splitting n = 1000 into its own array if the estimate calls for it. Merge each profile. Verify:
   - every shard completed;
   - the merged record counts equal 9,800 / 16,200 / 8,000 / 13,200 minus recorded failures;
   - no `(cell_id, replicate_index)` is duplicated.
-- [ ] 6.2 Report each profile and run the figure script on the two core reports. Commit `results/design-guidance-pilot-<date>/<profile>/report/`, `PROVENANCE.txt` per profile, and `results/design-guidance-pilot-<date>/figures/`. Verify that each `PROVENANCE.txt` names the code revision, config, software versions, record and failure counts, and reproduction commands.
+- [x] 6.2 Report each profile and run the figure script on the two core reports. Commit `results/design-guidance-pilot-<date>/<profile>/report/`, `PROVENANCE.txt` per profile, and `results/design-guidance-pilot-<date>/figures/`. Verify that each `PROVENANCE.txt` names the code revision, config, software versions, record and failure counts, and reproduction commands.
 
 ## 7. Findings report and roadmap
 
-- [ ] 7.1 Write `docs/reports/design-guidance-pilot-<date>.md`. It contains:
+- [x] 7.1 Write `docs/reports/design-guidance-pilot-<date>.md`. It contains:
   - provenance;
   - per-column operating characteristics with Monte Carlo SE;
   - each column's stage signal (CV AUROC) and selected rank;
@@ -115,13 +115,13 @@
   - limitations: pilot precision, block count confounded with feature count, structural-analogue blocks.
 
   Verify that the report has a section for each scenario of the "Dated design-guidance pilot report" requirement.
-- [ ] 7.2 Update `docs/roadmap.md`:
+- [x] 7.2 Update `docs/roadmap.md`:
   - add a Next changes entry for the design-guidance pilot, its outcome and the follow-ups;
   - note it under Phase 5's sensitivity deliverables (sample size, stages, blocks, signal density);
   - update the `study/` paragraph of `AGENTS.md` with the pilot's result line.
 
   Verify with `uv run mkdocs build --strict`.
-- [ ] 7.3 Run the pre-commit gate (`uv run ruff check src/ tests/`, `uv run mypy src/motco/`, `MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) and verify all three pass.
+- [x] 7.3 Run the pre-commit gate (`uv run ruff check src/ tests/`, `uv run mypy src/motco/`, `MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) and verify all three pass.
 
 ## Workflow follow-up
 

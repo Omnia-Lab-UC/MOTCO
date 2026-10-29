@@ -1,0 +1,97 @@
+evaluation.integration_params.layers,generator.n_samples,generator.n_stages,phase,is_baseline,trajectory_mode,effect_size,n_cells,n_replicates,n_auroc_available,mean_cv_auroc,q33_cv_auroc,median_cv_auroc,q67_cv_auroc
+,80,3,power_design,False,magnitude,0.01,1,100,100,0.9999242979242979,1.0,1.0,1.0
+,80,3,power_design,False,magnitude,0.02,1,100,100,0.9999224664224663,1.0,1.0,1.0
+,80,3,power_design,False,magnitude,0.05,1,100,100,0.9999297924297924,1.0,1.0,1.0
+,80,3,power_design,False,magnitude,0.1,1,100,100,0.9999314713064713,1.0,1.0,1.0
+,80,3,power_design,False,magnitude,0.25,1,100,100,0.9999029304029304,1.0,1.0,1.0
+,80,3,power_design,False,none,0.0,1,100,100,0.9999204822954824,1.0,1.0,1.0
+,80,4,power_design,False,magnitude,0.01,1,100,100,0.9998199999999998,1.0,1.0,1.0
+,80,4,power_design,False,magnitude,0.02,1,100,100,0.9998283333333332,1.0,1.0,1.0
+,80,4,power_design,False,magnitude,0.05,1,100,100,0.9998366666666665,1.0,1.0,1.0
+,80,4,power_design,False,magnitude,0.1,1,100,100,0.9998483333333332,1.0,1.0,1.0
+,80,4,power_design,False,magnitude,0.25,1,100,100,0.9998566666666666,1.0,1.0,1.0
+,80,4,power_design,False,none,0.0,1,100,100,0.9998349999999999,1.0,1.0,1.0
+,200,3,power_design,False,magnitude,0.01,1,100,100,0.9999991087344029,1.0,1.0,1.0
+,200,3,power_design,False,magnitude,0.02,1,100,100,0.9999991087344029,1.0,1.0,1.0
+,200,3,power_design,False,magnitude,0.05,1,100,100,0.9999991087344029,1.0,1.0,1.0
+,200,3,power_design,False,magnitude,0.1,1,100,100,0.9999984959893048,1.0,1.0,1.0
+,200,3,power_design,False,magnitude,0.25,1,100,100,0.9999988023618539,1.0,1.0,1.0
+,200,3,power_design,False,none,0.0,1,100,100,0.9999991087344029,1.0,1.0,1.0
+,200,4,power_design,False,magnitude,0.01,1,100,100,0.9999938946410987,1.0,1.0,1.0
+,200,4,power_design,False,magnitude,0.02,1,100,100,0.9999938946410987,1.0,1.0,1.0
+,200,4,power_design,False,magnitude,0.05,1,100,100,0.9999944428867127,1.0,1.0,1.0
+,200,4,power_design,False,magnitude,0.1,1,100,100,0.9999952225124923,1.0,1.0,1.0
+,200,4,power_design,False,magnitude,0.25,1,100,100,0.9999960306333662,1.0,1.0,1.0
+,200,4,power_design,False,none,0.0,1,100,100,0.9999936347658388,1.0,1.0,1.0
+,500,3,power_design,False,magnitude,0.01,1,100,100,1.0,1.0,1.0,1.0
+,500,3,power_design,False,magnitude,0.02,1,100,100,1.0,1.0,1.0,1.0
+,500,3,power_design,False,magnitude,0.05,1,100,100,1.0,1.0,1.0,1.0
+,500,3,power_design,False,magnitude,0.1,1,100,100,1.0,1.0,1.0,1.0
+,500,3,power_design,False,magnitude,0.25,1,100,100,1.0,1.0,1.0,1.0
+,500,3,power_design,False,none,0.0,1,100,100,0.9999999521897113,1.0,1.0,1.0
+,500,4,power_design,False,magnitude,0.01,1,100,100,1.0,1.0,1.0,1.0
+,500,4,power_design,False,magnitude,0.02,1,100,100,1.0,1.0,1.0,1.0
+,500,4,power_design,False,magnitude,0.05,1,100,100,1.0,1.0,1.0,1.0
+,500,4,power_design,False,magnitude,0.1,1,100,100,1.0,1.0,1.0,1.0
+,500,4,power_design,False,magnitude,0.25,1,100,100,0.999999785518188,1.0,1.0,1.0
+,500,4,power_design,False,none,0.0,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,magnitude,0.01,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,magnitude,0.02,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,magnitude,0.05,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,magnitude,0.1,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,magnitude,0.25,1,100,100,1.0,1.0,1.0,1.0
+,1000,3,power_design,False,none,0.0,1,100,100,1.0,1.0,1.0,1.0
+,1000,4,power_design,False,magnitude,0.01,1,100,100,1.0,1.0,1.0,1.0
+,1000,4,power_design,False,magnitude,0.02,1,100,100,0.9999999892759094,1.0,1.0,1.0
+,1000,4,power_design,False,magnitude,0.05,1,100,100,0.9999999892759094,1.0,1.0,1.0
+,1000,4,power_design,False,magnitude,0.1,1,100,100,0.9999999892759094,1.0,1.0,1.0
+,1000,4,power_design,False,magnitude,0.25,1,100,100,1.0,1.0,1.0,1.0
+,1000,4,power_design,False,none,0.0,1,100,100,1.0,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,magnitude,0.01,1,100,100,0.9998046398046398,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,magnitude,0.02,1,100,100,0.9997953296703297,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,magnitude,0.05,1,100,100,0.9998102869352868,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,magnitude,0.1,1,100,100,0.9998250915750917,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,magnitude,0.25,1,100,100,0.9997667887667887,1.0,1.0,1.0
+"('methylation', 'expression')",80,3,power_design,False,none,0.0,1,100,100,0.9997991452991454,1.0,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,magnitude,0.01,1,100,100,0.9998166666666667,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,magnitude,0.02,1,100,100,0.9998133333333332,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,magnitude,0.05,1,100,100,0.9998,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,magnitude,0.1,1,100,100,0.999755,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,magnitude,0.25,1,100,100,0.999755,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",80,4,power_design,False,none,0.0,1,100,100,0.9997799999999999,0.9998333333333334,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,magnitude,0.01,1,100,100,0.9999766135620916,1.0,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,magnitude,0.02,1,100,100,0.9999778019162211,1.0,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,magnitude,0.05,1,100,100,0.9999801971925134,1.0,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,magnitude,0.1,1,100,100,0.9999837901069519,1.0,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,magnitude,0.25,1,100,100,0.9999787581699345,1.0,1.0,1.0
+"('methylation', 'expression')",200,3,power_primary,True,none,0.0,1,100,100,0.9999760008169934,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,magnitude,0.01,1,100,100,0.9999809932022103,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,magnitude,0.02,1,100,100,0.9999812673250174,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,magnitude,0.05,1,100,100,0.9999834318123791,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,magnitude,0.1,1,100,100,0.9999863616779734,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,magnitude,0.25,1,100,100,0.9999848024264142,1.0,1.0,1.0
+"('methylation', 'expression')",200,4,power_design,False,none,0.0,1,100,100,0.9999834603074734,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,magnitude,0.01,1,100,100,0.9999993784662459,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,magnitude,0.02,1,100,100,0.9999993784662459,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,magnitude,0.05,1,100,100,0.9999995218971123,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,magnitude,0.1,1,100,100,0.999999569707401,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,magnitude,0.25,1,100,100,0.9999994740868234,1.0,1.0,1.0
+"('methylation', 'expression')",500,3,power_design,False,none,0.0,1,100,100,0.9999993784662459,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,magnitude,0.01,1,100,100,0.9999999571036376,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,magnitude,0.02,1,100,100,0.9999999571036376,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,magnitude,0.05,1,100,100,1.0,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,magnitude,0.1,1,100,100,0.9999999142072753,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,magnitude,0.25,1,100,100,0.9999996568291009,1.0,1.0,1.0
+"('methylation', 'expression')",500,4,power_design,False,none,0.0,1,100,100,1.0,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,magnitude,0.01,1,100,100,0.9999999158309886,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,magnitude,0.02,1,100,100,0.9999999278551331,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,magnitude,0.05,1,100,100,0.9999999398792775,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,magnitude,0.1,1,100,100,0.9999999398792775,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,magnitude,0.25,1,100,100,0.9999999278551331,1.0,1.0,1.0
+"('methylation', 'expression')",1000,3,power_design,False,none,0.0,1,100,100,0.9999999038068441,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,magnitude,0.01,1,100,100,0.9999999678277283,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,magnitude,0.02,1,100,100,0.9999999678277283,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,magnitude,0.05,1,100,100,0.9999999892759094,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,magnitude,0.1,1,100,100,0.9999999786656047,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,magnitude,0.25,1,100,100,0.9999999786656047,1.0,1.0,1.0
+"('methylation', 'expression')",1000,4,power_design,False,none,0.0,1,100,100,0.9999999678277283,1.0,1.0,1.0
