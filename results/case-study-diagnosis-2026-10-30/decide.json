@@ -1,0 +1,86 @@
+{
+ "decision": "diagnosed",
+ "indicative": false,
+ "verdicts": {
+  "adjusted_delta": {
+   "verdict": "residual_df_shrinkage",
+   "consequence": "a MOTCO change offering the residual-df corrected permutation (opt-in, byte-identical when absent), validated by its own Type I and power check before the case study may use it; then a sead_sexdiff re-issue",
+   "next_step": "MOTCO change: the opt-in residual-df corrected permutation with its own validation",
+   "indicative": false,
+   "conditions": {
+    "column_contrast_significant": {
+     "C1": false,
+     "C2": true
+    },
+    "corrected_case_study_model_holds": true,
+    "corrected_not_holding": [],
+    "corrected_column_contrast_significant": false,
+    "collinear_contrast_significant": false,
+    "p_values": {
+     "C1": 0.06454751454293728,
+     "C2": 0.015348440312664025,
+     "C3": 0.38628147542476654,
+     "C4": 0.15611059963703156
+    }
+   }
+  },
+  "latent_stage": {
+   "verdict": "residualized_basis",
+   "consequence": "the stage latent adjustment stays inadmissible at this configuration",
+   "indicative": false,
+   "rank2_not_holding": [
+    {
+     "run": "delta0.1",
+     "mode": "anchor",
+     "statistic": "angle",
+     "rate": 0.084,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.05",
+     "mode": "anchor",
+     "statistic": "angle",
+     "rate": 0.082,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    }
+   ],
+   "cv_exceeding": [
+    {
+     "run": "delta0.1",
+     "mode": "anchor",
+     "statistic": "angle",
+     "rate": 0.09,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.1",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.092,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.05",
+     "mode": "anchor",
+     "statistic": "angle",
+     "rate": 0.084,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.05",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.078,
+     "bound": 0.06949358868961793,
+     "verdict": "exceeds"
+    }
+   ],
+   "floor1": "descriptive; does not enter the verdict"
+  }
+ }
+}

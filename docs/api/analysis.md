@@ -328,6 +328,31 @@ covariate-adjusted `delta` p-values against a realized size of about 0.066, and
 do not interpret `stage`-adjusted `angle` or `shape` rejections, until the
 diagnosis the report names is done.
 
+**Diagnosis of that excess.** `scripts/case_study_diagnosis.py` reran the same
+units, with the committed `adjusted` and `latent_stage` p-values reproduced
+exactly (0 mismatches over 6,000 per strength), under arms that separate the
+candidate causes:
+
+- on the covariate-blind basis, the confounded covariate estimated or its
+  injection removed exactly, crossed with 0, 2 or 5 noise covariates;
+- each of those rerun with the Freedman–Lane residuals rescaled by
+  √(n / (n − p_red));
+- the `stage` adjustment at a forced rank of 2.
+
+The 2026-10-30 run
+([report](../reports/case-study-diagnosis-2026-10-30.md)) returned two verdicts:
+
+- **`residual_df_shrinkage`** for the adjusted `delta`. RRPP's permuted residuals
+  shrink with the reduced model's column count, so pooled `delta` rises from
+  0.0545 to 0.066 between one and six covariate columns at n = 80. The corrected
+  permutation holds every reading.
+- **`residualized_basis`** for the `stage` adjustment. It still exceeds on anchor
+  `angle` at a fixed rank of 2 (0.084 / 0.082).
+
+With many covariates at small n, read covariate-adjusted `delta` p-values against
+that realized size until the corrected permutation is offered and validated
+(roadmap, Next changes item 8).
+
 Without the setting, every output is identical to MOTCO 0.8.0 except the
 runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
 

@@ -1,0 +1,27 @@
+{
+  "parent": {
+    "label": "delta0.05",
+    "path": "results/case-study-type-i-2026-10-29/delta0.05",
+    "hash": "97eb6d90a5fee3ef5513144e2813dee7daec4aa9f57c48201f09af3406928db5"
+  },
+  "settings_hash": "6c5d447a5b72f3c7999e832e37c128f908a20739ce1ccf326b58739e1bd5e197",
+  "permutations": 999,
+  "parent_permutations": 999,
+  "units": 1000,
+  "status": "holds",
+  "scale": 1000,
+  "arms": {
+    "z_noise5": {
+      "parent_arm": "adjusted",
+      "compared": 3000,
+      "mismatches": 0
+    },
+    "latent_stage_cv": {
+      "parent_arm": "latent_stage",
+      "compared": 3000,
+      "mismatches": 0
+    }
+  },
+  "mismatches": [],
+  "mismatching_units": []
+}

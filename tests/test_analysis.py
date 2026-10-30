@@ -700,6 +700,43 @@ def test_statistics_do_not_depend_on_the_reference_row() -> None:
     assert np.linalg.norm(shift[0]) > 0
 
 
+def test_rrpp_p_values_do_not_depend_on_the_reference_row() -> None:
+    from dataclasses import replace
+
+    from motco.analysis import _covariate_adjusted_design
+    from motco.simulations.evaluation import _empirical_p_value
+    from motco.stats.design import build_covariate_matrix
+    from motco.stats.permutation import RRPP
+    from motco.stats.trajectory import estimate_difference
+
+    groups, stages, _, z, v = _confounded_latent()
+    rng = np.random.default_rng(2)
+    # No group difference beyond the covariate, so the p-values sit inside (1/(B + 1), 1].
+    Y = rng.normal(size=(3, 4))[stages] + np.outer(z, v) + rng.normal(scale=0.5, size=(groups.size, 4))
+    design = _cell_design(groups, stages)
+    covariates = build_covariate_matrix(pd.DataFrame({"z": z}), ["z"])
+    shifted = replace(covariates, reference_row=covariates.reference_row + 3.7)
+    kwargs = {"orientation_estimator": "net_displacement"}
+    outputs = []
+    for cov in (covariates, shifted):
+        full, reduced, ls = _covariate_adjusted_design(design.model_full, design.model_reduced, design.ls_means, cov)
+        observed = estimate_difference(Y, full, ls, design.contrast, **kwargs)
+        nulls = RRPP(Y, full, reduced, ls, design.contrast, permutations=99, n_jobs=1, progress=False, seed=11,
+                     **kwargs)
+        p_values = [
+            _empirical_p_value([draw[0, 1] for draw in null], statistic[0, 1])
+            for statistic, null in zip(observed, nulls)
+        ]
+        outputs.append((observed, nulls, p_values))
+    (observed_a, nulls_a, p_a), (observed_b, nulls_b, p_b) = outputs
+    for a, b in zip(observed_a, observed_b):
+        np.testing.assert_allclose(a, b, atol=1e-9)
+    for null_a, null_b in zip(nulls_a, nulls_b):
+        np.testing.assert_allclose(np.asarray(null_a), np.asarray(null_b), atol=1e-9)
+    assert p_a == p_b
+    assert any(0.01 < p < 1.0 for p in p_a)
+
+
 def test_adjustment_removes_a_known_covariate_effect() -> None:
     from motco.analysis import _covariate_adjusted_design
     from motco.stats.design import build_covariate_matrix
