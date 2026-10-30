@@ -1,0 +1,27 @@
+{
+  "parent": {
+    "label": "delta0.1",
+    "path": "results/case-study-type-i-2026-10-29/delta0.1",
+    "hash": "899ce29a0f002ef87e5f2ab7958e6f034609e16980c2e882f7d73faaf8ecc51c"
+  },
+  "settings_hash": "95cc4229c86f5b2b29713521d49068365888d8f4085ea6db0f5dc454dfef16fe",
+  "permutations": 99,
+  "parent_permutations": 999,
+  "units": 40,
+  "status": "not_compared",
+  "reason": "fewer permutations than the parent (smoke run)",
+  "arms": {
+    "z_noise5": {
+      "parent_arm": "adjusted",
+      "compared": 0,
+      "mismatches": 0
+    },
+    "latent_stage_cv": {
+      "parent_arm": "latent_stage",
+      "compared": 0,
+      "mismatches": 0
+    }
+  },
+  "mismatches": [],
+  "mismatching_units": []
+}

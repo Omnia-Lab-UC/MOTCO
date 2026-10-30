@@ -1,0 +1,70 @@
+{
+ "decision": "diagnosed",
+ "indicative": true,
+ "verdicts": {
+  "adjusted_delta": {
+   "verdict": "unresolved",
+   "consequence": "the R = 1,000 replication of the case-study configuration Type I check is the next step",
+   "next_step": "the R = 1,000 replication",
+   "indicative": true,
+   "conditions": {
+    "column_contrast_significant": {
+     "C1": false,
+     "C2": false
+    },
+    "corrected_case_study_model_holds": true,
+    "corrected_not_holding": [],
+    "corrected_column_contrast_significant": false,
+    "collinear_contrast_significant": false,
+    "p_values": {
+     "C1": 0.5,
+     "C2": 0.875,
+     "C3": 0.875,
+     "C4": 0.9375
+    }
+   }
+  },
+  "latent_stage": {
+   "verdict": "residualized_basis",
+   "consequence": "the stage latent adjustment stays inadmissible at this configuration",
+   "indicative": true,
+   "rank2_not_holding": [
+    {
+     "run": "delta0.1",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.3,
+     "bound": 0.14746794344808964,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.05",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.3,
+     "bound": 0.14746794344808964,
+     "verdict": "exceeds"
+    }
+   ],
+   "cv_exceeding": [
+    {
+     "run": "delta0.1",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.35,
+     "bound": 0.14746794344808964,
+     "verdict": "exceeds"
+    },
+    {
+     "run": "delta0.05",
+     "mode": "anchor",
+     "statistic": "shape",
+     "rate": 0.35,
+     "bound": 0.14746794344808964,
+     "verdict": "exceeds"
+    }
+   ],
+   "floor1": "descriptive; does not enter the verdict"
+  }
+ }
+}
