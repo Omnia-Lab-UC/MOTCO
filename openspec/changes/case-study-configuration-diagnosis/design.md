@@ -211,3 +211,34 @@ Run locally on the workstation (24 cores, single-threaded BLAS) from the working
 - Committed afterwards: `settings.json`, `merge.json`, `diagnosis_rates.csv`, `diagnosis_rank_table.csv`, `diagnosis_reproduction.json`, `PROVENANCE.txt` per run, plus `case_study_diagnosis_decision.json` and `diagnosis_contrasts.csv`. `diagnosis_pvalues.csv` (about 45,000 rows, about 2.2 MB per run), `records/` and `merged.jsonl` stay on `ing`, named with their sha256 in `PROVENANCE.txt`.
 
 **Approval:** the user approved both arrays as planned on 2026-10-30.
+
+## Paper-grade run (2026-10-30)
+
+**Run.**
+- From the clean worktree `/home1/tgonza/MOTCO-case-study-diagnosis` of `feat/case-study-configuration-diagnosis` at `5c30c51`. The git tree `4fe2050d…` and the file hash `fcfa5488…` match the workstation, and 37 tests passed on `ing`.
+- Job 930358 (δ = 0.1, on n2 and n4) and job 930408 (δ = 0.05, on n2), 50 / 50 tasks `COMPLETED 0:0` each.
+- Partition `512x1024` with n11 and n3 excluded. n3 was at load 99 / 128, the node that stalled the parent's δ = 0.05 shards; excluding it was the one departure from the plan.
+- 25.1 recorded core-hours against 34 planned. Units took a mean of 31 s and 42 s on the two nodes.
+
+**Checks.**
+- 1,000 / 1,000 units per parent and 0 arm failures.
+- Maximum reconstruction error 2.7e-13 and maximum rank-one residual 6.5e-16.
+- The `z_noise5` identity held on every unit.
+- Reproduction `holds`: 0 mismatches over 3,000 `z_noise5` and 3,000 `latent_stage_cv` p-values per parent.
+- The decision file's settings hashes equal the settings files' (`ca57cc38…`, `6c5d447a…`).
+
+**Verdicts** (`results/case-study-diagnosis-2026-10-30/case_study_diagnosis_decision.json`):
+- **`residual_df_shrinkage`** for the covariate-adjusted `delta`.
+  - C2 p = 0.015, C1 p = 0.065, C3 p = 0.39, C4 p = 0.156.
+  - Pooled `delta` 0.0545 → 0.0595 → 0.066 with `z` and 0.0525 → 0.0545 → 0.060 under the oracle. The corrected arms read 0.0475–0.0545, and `z_noise5_corrected` holds every statistic in every reading.
+- **`residualized_basis`** for the `stage` arm. `latent_stage_rank2` exceeds on anchor `angle` (0.084 / 0.082) and holds `shape`.
+
+**Against the Risks.**
+- The reconstruction never needed D3's fallback.
+- The correction over-corrects `angle` and `shape` mildly (`z_noise5_corrected` 0.042 and 0.0465), which is reported as a power question for the follow-up.
+- The contrasts were powered enough for C2.
+- `latent_stage_rank2`'s confound is stated in the report.
+
+**Unanticipated.** The oracle arms exceed on `angle` in every reading (0.0725–0.083) while every `z` arm holds. The oracle is therefore not a size-α reference for `angle`. The report says so, and the verdicts, which read paired contrasts, do not depend on it. The smoke's oracle `delta` reading was noise at R = 20.
+
+Report: `docs/reports/case-study-diagnosis-2026-10-30.md`. No change under `src/motco/`, so the version stays 0.12.0 (D10).

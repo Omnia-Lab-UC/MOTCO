@@ -1,0 +1,1784 @@
+{
+  "rule": {
+    "rate": "share of available replicates with p <= alpha, against alpha + k * sqrt(alpha(1 - alpha)/R)",
+    "contrasts": "exact one-sided sign flip on per-replicate discordant rejections (d_r over both runs and both controls), significant at p <= 0.05; C1-C4 on delta judged",
+    "adjusted_delta": "residual_df_shrinkage when C1 or C2 is significant, z_noise5_corrected holds every statistic at both controls in every run and C4 is not significant; else collinear_covariate when C3 is significant; else unresolved",
+    "latent_stage": "rank_selection when latent_stage_rank2 holds every statistic at both controls in every run; else residualized_basis; latent_stage_floor1 descriptive",
+    "gate": "any reproduction mismatch gives reproduction_failed and no verdict"
+  },
+  "alpha": 0.05,
+  "k": 2.0,
+  "contrast_alpha": 0.05,
+  "runs": [
+    "delta0.1",
+    "delta0.05"
+  ],
+  "reproduction": {
+    "status": "holds",
+    "runs": {
+      "delta0.1": {
+        "status": "holds",
+        "arms": {
+          "z_noise5": {
+            "parent_arm": "adjusted",
+            "compared": 3000,
+            "mismatches": 0
+          },
+          "latent_stage_cv": {
+            "parent_arm": "latent_stage",
+            "compared": 3000,
+            "mismatches": 0
+          }
+        },
+        "mismatching_units": []
+      },
+      "delta0.05": {
+        "status": "holds",
+        "arms": {
+          "z_noise5": {
+            "parent_arm": "adjusted",
+            "compared": 3000,
+            "mismatches": 0
+          },
+          "latent_stage_cv": {
+            "parent_arm": "latent_stage",
+            "compared": 3000,
+            "mismatches": 0
+          }
+        },
+        "mismatching_units": []
+      }
+    },
+    "mismatching_units": []
+  },
+  "indicative": false,
+  "contrasts": [
+    {
+      "contrast": "C1",
+      "arm_b": "oracle_noise5",
+      "arm_a": "oracle_noise0",
+      "statistic": "delta",
+      "role": "judged",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 120,
+      "a_rejections": 105,
+      "b_only": 33,
+      "a_only": 18,
+      "net": 15,
+      "p_value": 0.06454751454293728
+    },
+    {
+      "contrast": "C2",
+      "arm_b": "z_noise5",
+      "arm_a": "z_noise0",
+      "statistic": "delta",
+      "role": "judged",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 132,
+      "a_rejections": 109,
+      "b_only": 41,
+      "a_only": 18,
+      "net": 23,
+      "p_value": 0.015348440312664025
+    },
+    {
+      "contrast": "C3",
+      "arm_b": "z_noise0",
+      "arm_a": "oracle_noise0",
+      "statistic": "delta",
+      "role": "judged",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 109,
+      "a_rejections": 105,
+      "b_only": 31,
+      "a_only": 27,
+      "net": 4,
+      "p_value": 0.38628147542476654
+    },
+    {
+      "contrast": "C4",
+      "arm_b": "z_noise5_corrected",
+      "arm_a": "z_noise0_corrected",
+      "statistic": "delta",
+      "role": "judged",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 109,
+      "a_rejections": 98,
+      "b_only": 32,
+      "a_only": 21,
+      "net": 11,
+      "p_value": 0.15611059963703156
+    },
+    {
+      "contrast": "C1",
+      "arm_b": "oracle_noise5",
+      "arm_a": "oracle_noise0",
+      "statistic": "angle",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 166,
+      "a_rejections": 159,
+      "b_only": 31,
+      "a_only": 24,
+      "net": 7,
+      "p_value": 0.2805520538240671
+    },
+    {
+      "contrast": "C2",
+      "arm_b": "z_noise5",
+      "arm_a": "z_noise0",
+      "statistic": "angle",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 91,
+      "a_rejections": 100,
+      "b_only": 20,
+      "a_only": 29,
+      "net": -9,
+      "p_value": 0.8515662550926208
+    },
+    {
+      "contrast": "C3",
+      "arm_b": "z_noise0",
+      "arm_a": "oracle_noise0",
+      "statistic": "angle",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 100,
+      "a_rejections": 159,
+      "b_only": 23,
+      "a_only": 82,
+      "net": -59,
+      "p_value": 0.9999967238981979
+    },
+    {
+      "contrast": "C4",
+      "arm_b": "z_noise5_corrected",
+      "arm_a": "z_noise0_corrected",
+      "statistic": "angle",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 84,
+      "a_rejections": 88,
+      "b_only": 22,
+      "a_only": 26,
+      "net": -4,
+      "p_value": 0.7015451118350029
+    },
+    {
+      "contrast": "C1",
+      "arm_b": "oracle_noise5",
+      "arm_a": "oracle_noise0",
+      "statistic": "shape",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 120,
+      "a_rejections": 114,
+      "b_only": 43,
+      "a_only": 37,
+      "net": 6,
+      "p_value": 0.3341187765866209
+    },
+    {
+      "contrast": "C2",
+      "arm_b": "z_noise5",
+      "arm_a": "z_noise0",
+      "statistic": "shape",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 123,
+      "a_rejections": 118,
+      "b_only": 40,
+      "a_only": 35,
+      "net": 5,
+      "p_value": 0.36304872729604654
+    },
+    {
+      "contrast": "C3",
+      "arm_b": "z_noise0",
+      "arm_a": "oracle_noise0",
+      "statistic": "shape",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 118,
+      "a_rejections": 114,
+      "b_only": 70,
+      "a_only": 66,
+      "net": 4,
+      "p_value": 0.42249853198018966
+    },
+    {
+      "contrast": "C4",
+      "arm_b": "z_noise5_corrected",
+      "arm_a": "z_noise0_corrected",
+      "statistic": "shape",
+      "role": "descriptive",
+      "scope": "clustered",
+      "readings": 2000,
+      "clusters": 500,
+      "b_rejections": 93,
+      "a_rejections": 107,
+      "b_only": 29,
+      "a_only": 43,
+      "net": -14,
+      "p_value": 0.9037408033855172
+    }
+  ],
+  "rates": {
+    "delta0.1": {
+      "anchor": {
+        "oracle_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 40,
+            "rate": 0.08,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 40,
+            "rate": 0.08,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 37,
+            "rate": 0.074,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 41,
+            "rate": 0.082,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 38,
+            "rate": 0.076,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 38,
+            "rate": 0.076,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 20,
+            "rate": 0.04,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 20,
+            "rate": 0.04,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 18,
+            "rate": 0.036,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 20,
+            "rate": 0.04,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 19,
+            "rate": 0.038,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_cv": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 45,
+            "rate": 0.09,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 46,
+            "rate": 0.092,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          }
+        },
+        "latent_stage_floor1": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 41,
+            "rate": 0.082,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 41,
+            "rate": 0.082,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          }
+        },
+        "latent_stage_rank2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 42,
+            "rate": 0.084,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        }
+      },
+      "translation": {
+        "oracle_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 40,
+            "rate": 0.08,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 42,
+            "rate": 0.084,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 43,
+            "rate": 0.086,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 35,
+            "rate": 0.07,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          }
+        },
+        "z_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 19,
+            "rate": 0.038,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 37,
+            "rate": 0.074,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 37,
+            "rate": 0.074,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 15,
+            "rate": 0.03,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_cv": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_floor1": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_rank2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        }
+      }
+    },
+    "delta0.05": {
+      "anchor": {
+        "oracle_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 39,
+            "rate": 0.078,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 39,
+            "rate": 0.078,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 38,
+            "rate": 0.076,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 19,
+            "rate": 0.038,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 37,
+            "rate": 0.074,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 38,
+            "rate": 0.076,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 18,
+            "rate": 0.036,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 20,
+            "rate": 0.04,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 18,
+            "rate": 0.036,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 17,
+            "rate": 0.034,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_cv": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 42,
+            "rate": 0.084,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 39,
+            "rate": 0.078,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          }
+        },
+        "latent_stage_floor1": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 33,
+            "rate": 0.066,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 40,
+            "rate": 0.08,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_rank2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 41,
+            "rate": 0.082,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        }
+      },
+      "translation": {
+        "oracle_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 40,
+            "rate": 0.08,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 24,
+            "rate": 0.048,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 43,
+            "rate": 0.086,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 44,
+            "rate": 0.088,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 35,
+            "rate": 0.07,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          }
+        },
+        "z_noise2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 18,
+            "rate": 0.036,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 34,
+            "rate": 0.068,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 23,
+            "rate": 0.046,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 37,
+            "rate": 0.074,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 18,
+            "rate": 0.036,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 35,
+            "rate": 0.07,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "oracle_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 36,
+            "rate": 0.072,
+            "bound": 0.06949358868961793,
+            "verdict": "exceeds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise0_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 20,
+            "rate": 0.04,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 21,
+            "rate": 0.042,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 31,
+            "rate": 0.062,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise2_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 19,
+            "rate": 0.038,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 14,
+            "rate": 0.028,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "z_noise5_corrected": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 27,
+            "rate": 0.054,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 22,
+            "rate": 0.044,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_cv": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 32,
+            "rate": 0.064,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_floor1": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 28,
+            "rate": 0.056,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 29,
+            "rate": 0.058,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 26,
+            "rate": 0.052,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        },
+        "latent_stage_rank2": {
+          "delta": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "angle": {
+            "replicates": 500,
+            "rejections": 30,
+            "rate": 0.06,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          },
+          "shape": {
+            "replicates": 500,
+            "rejections": 25,
+            "rate": 0.05,
+            "bound": 0.06949358868961793,
+            "verdict": "holds"
+          }
+        }
+      }
+    }
+  },
+  "floor1": {
+    "delta0.1": {
+      "units_by_rank": {
+        "1": 56,
+        "2": 297,
+        "3": 60,
+        ">=4": 87
+      },
+      "units": 500,
+      "rank1_fraction": 0.112
+    },
+    "delta0.05": {
+      "units_by_rank": {
+        "1": 60,
+        "2": 330,
+        "3": 54,
+        ">=4": 56
+      },
+      "units": 500,
+      "rank1_fraction": 0.12
+    }
+  },
+  "verdicts": {
+    "adjusted_delta": {
+      "verdict": "residual_df_shrinkage",
+      "consequence": "a MOTCO change offering the residual-df corrected permutation (opt-in, byte-identical when absent), validated by its own Type I and power check before the case study may use it; then a sead_sexdiff re-issue",
+      "next_step": "MOTCO change: the opt-in residual-df corrected permutation with its own validation",
+      "indicative": false,
+      "conditions": {
+        "column_contrast_significant": {
+          "C1": false,
+          "C2": true
+        },
+        "corrected_case_study_model_holds": true,
+        "corrected_not_holding": [],
+        "corrected_column_contrast_significant": false,
+        "collinear_contrast_significant": false,
+        "p_values": {
+          "C1": 0.06454751454293728,
+          "C2": 0.015348440312664025,
+          "C3": 0.38628147542476654,
+          "C4": 0.15611059963703156
+        }
+      }
+    },
+    "latent_stage": {
+      "verdict": "residualized_basis",
+      "consequence": "the stage latent adjustment stays inadmissible at this configuration",
+      "indicative": false,
+      "rank2_not_holding": [
+        {
+          "run": "delta0.1",
+          "mode": "anchor",
+          "statistic": "angle",
+          "rate": 0.084,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        },
+        {
+          "run": "delta0.05",
+          "mode": "anchor",
+          "statistic": "angle",
+          "rate": 0.082,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        }
+      ],
+      "cv_exceeding": [
+        {
+          "run": "delta0.1",
+          "mode": "anchor",
+          "statistic": "angle",
+          "rate": 0.09,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        },
+        {
+          "run": "delta0.1",
+          "mode": "anchor",
+          "statistic": "shape",
+          "rate": 0.092,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        },
+        {
+          "run": "delta0.05",
+          "mode": "anchor",
+          "statistic": "angle",
+          "rate": 0.084,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        },
+        {
+          "run": "delta0.05",
+          "mode": "anchor",
+          "statistic": "shape",
+          "rate": 0.078,
+          "bound": 0.06949358868961793,
+          "verdict": "exceeds"
+        }
+      ],
+      "floor1": "descriptive; does not enter the verdict"
+    }
+  },
+  "decision": "diagnosed",
+  "run_settings": [
+    {
+      "label": "delta0.1",
+      "settings_hash": "ca57cc389e303a5953b849eff038a98df377a5d087b991051700a7200eb7e919",
+      "parent_hash": "899ce29a0f002ef87e5f2ab7958e6f034609e16980c2e882f7d73faaf8ecc51c",
+      "parent_path": "results/case-study-type-i-2026-10-29/delta0.1",
+      "strengths": {
+        "delta": 0.1,
+        "delta_methyl": 0.1,
+        "delta_expr": 0.1,
+        "delta_protein": 0.1,
+        "p_dmp": 0.1,
+        "s_z": 10.0
+      },
+      "replicates": 500,
+      "permutations": 999,
+      "smoke": false
+    },
+    {
+      "label": "delta0.05",
+      "settings_hash": "6c5d447a5b72f3c7999e832e37c128f908a20739ce1ccf326b58739e1bd5e197",
+      "parent_hash": "97eb6d90a5fee3ef5513144e2813dee7daec4aa9f57c48201f09af3406928db5",
+      "parent_path": "results/case-study-type-i-2026-10-29/delta0.05",
+      "strengths": {
+        "delta": 0.05,
+        "delta_methyl": 0.05,
+        "delta_expr": 0.05,
+        "delta_protein": 0.05,
+        "p_dmp": 0.1,
+        "s_z": 10.0
+      },
+      "replicates": 500,
+      "permutations": 999,
+      "smoke": false
+    }
+  ]
+}

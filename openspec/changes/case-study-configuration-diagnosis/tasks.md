@@ -66,13 +66,13 @@
 
 ## 6. Paper-grade run on `ing`
 
-- [ ] 6.1 Push the branch, create the clean worktree on `ing`, confirm the tree hash matches the local tree, and run `tests/test_case_study_diagnosis.py` there. Verify: identical tree hashes and passing tests on `ing`.
-- [ ] 6.2 Submit one 50-shard array per parent (500 replicates, 999 permutations) into `results/case-study-diagnosis-<date>/delta*/`, monitoring to completion and excluding or resubmitting shards stalled on n11. Verify: every task `COMPLETED 0:0`, 1,000 units per parent, and arm failures counted.
-- [ ] 6.3 Run `merge` per parent and `decide` on `ing`, copy the tables and the decision back (committing each CSV under about 1 MB, else naming it in provenance), and write `PROVENANCE.txt` per run: command, jobs, tree hash, parent and diagnosis hashes, versions, file sha256s and core-hours. Verify: `diagnosis_reproduction.json` shows zero mismatches over 3,000 + 3,000 p-values per parent, and the decision file's hashes equal the settings files'.
+- [x] 6.1 Push the branch, create the clean worktree on `ing`, confirm the tree hash matches the local tree, and run `tests/test_case_study_diagnosis.py` there. Verify: identical tree hashes and passing tests on `ing`.
+- [x] 6.2 Submit one 50-shard array per parent (500 replicates, 999 permutations) into `results/case-study-diagnosis-<date>/delta*/`, monitoring to completion and excluding or resubmitting shards stalled on n11. Verify: every task `COMPLETED 0:0`, 1,000 units per parent, and arm failures counted.
+- [x] 6.3 Run `merge` per parent and `decide` on `ing`, copy the tables and the decision back (committing each CSV under about 1 MB, else naming it in provenance), and write `PROVENANCE.txt` per run: command, jobs, tree hash, parent and diagnosis hashes, versions, file sha256s and core-hours. Verify: `diagnosis_reproduction.json` shows zero mismatches over 3,000 + 3,000 p-values per parent, and the decision file's hashes equal the settings files'.
 
 ## 7. Report, roadmap and docs
 
-- [ ] 7.1 Write `docs/reports/case-study-diagnosis-<date>.md`. It covers:
+- [x] 7.1 Write `docs/reports/case-study-diagnosis-<date>.md`. It covers:
   - the construction (the parent binding) and the reproduction counts;
   - rates per run × control × arm × statistic against the bound;
   - the contrasts with discordant counts and sign-flip p-values;
@@ -81,12 +81,12 @@
   - the parent's four limitations, plus the rank-tail / per-training-set confound of `latent_stage_rank2`.
 
   Verify: every number is read from the committed decision, rate, contrast and rank files, and the report names them.
-- [ ] 7.2 Update `docs/roadmap.md`: item 1's condition on the case study changes per the verdicts, item 7(c) gains the diagnosis with its report link, and a follow-up item is added when the verdict names one (the corrected permutation, or the R = 1,000 replication). Append a "Paper-grade run" record to `design.md`. Verify: `uv run mkdocs build --strict` reports no warnings beyond those already present on `main`.
-- [ ] 7.3 Add the diagnosis to `docs/api/analysis.md` beside the case-study check's validation paragraph, and to the `analysis.py` paragraph of `AGENTS.md` (script, verdicts, date). Verify by reading both against the decision file and with `uv run mkdocs build --strict` as in 7.2.
+- [x] 7.2 Update `docs/roadmap.md`: item 1's condition on the case study changes per the verdicts, item 7(c) gains the diagnosis with its report link, and a follow-up item is added when the verdict names one (the corrected permutation, or the R = 1,000 replication). Append a "Paper-grade run" record to `design.md`. Verify: `uv run mkdocs build --strict` reports no warnings beyond those already present on `main`.
+- [x] 7.3 Add the diagnosis to `docs/api/analysis.md` beside the case-study check's validation paragraph, and to the `analysis.py` paragraph of `AGENTS.md` (script, verdicts, date). Verify by reading both against the decision file and with `uv run mkdocs build --strict` as in 7.2.
 
 ## 8. Gate
 
-- [ ] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) plus `uv run ruff check scripts/case_study_diagnosis.py`, and confirm all pass. Confirm `src/motco/__init__.py` is unchanged at 0.12.0 (design D10).
+- [x] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) plus `uv run ruff check scripts/case_study_diagnosis.py`, and confirm all pass. Confirm `src/motco/__init__.py` is unchanged at 0.12.0 (design D10).
 
 ## Workflow follow-up
 

@@ -1,0 +1,36 @@
+case-study configuration diagnosis, parent results/case-study-type-i-2026-10-29/delta0.1 (openspec change case-study-configuration-diagnosis, design D10)
+submitted: 2026-10-30T11:52:14Z on ing, partition 512x1024, --exclude=n11,n3 (n11 per the plan; n3 at load 99/128, which stalled the parent's delta=0.05 shards), array 0-49 (50 shards), job 930358
+command: sbatch -p 512x1024 --exclude=n11,n3 --array=0-49 --export=ALL,DIAGNOSIS_OUT=<worktree>/results/case-study-diagnosis-2026-10-30/delta0.1,DIAGNOSIS_PARENT=results/case-study-type-i-2026-10-29/delta0.1,N_SHARDS=50,PYTHONPATH=<worktree>/src scripts/case_study_diagnosis_array.sbatch
+  (reps 500 and perms 999, both the parent's; settings.json pre-created with `run --parent results/case-study-type-i-2026-10-29/delta0.1 --out-dir <out> --shard 0/50 --limit 0`; logs/ created before submission)
+code: clean git worktree /home1/tgonza/MOTCO-case-study-diagnosis of branch feat/case-study-configuration-diagnosis at 5c30c51 (PYTHONPATH on its src; .venv symlinked from /home1/tgonza/MOTCO)
+tree hash: git tree 4fe2050d9195e79ba19eb9d41374082cbf4d9412; sha256 of the sorted sha256sums of the tracked *.py, *.json and *.sbatch files under src/ scripts/ tests/ examples/: fcfa5488f0187f5f94f448cd2c218fd38f101431264bc2522c9f788dd5d675fb (both identical on ing and the workstation; tests/test_case_study_diagnosis.py and the reference-row test passed on ing, 37 tests)
+settings hash: ca57cc389e303a5953b849eff038a98df377a5d087b991051700a7200eb7e919
+parent settings hash: 899ce29a0f002ef87e5f2ab7958e6f034609e16980c2e882f7d73faaf8ecc51c (verified against the parent's settings.json and rebuilt by case_study_type_i_check.build_settings from its recorded arguments)
+python: Python 3.11.16; numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3 pandas 2.3.3; motco 0.12.0 (imported from the worktree)
+
+completed: 2026-10-30T12:08:28Z (last task end); 50/50 tasks COMPLETED exit 0:0 on n2 (16) and n4 (34); 1000/1000 units (2 cells x 500 replicates; four analyses and 12 RRPP-only arms each), 0 arm failures; unit runtime mean 31.3 s, median 26.9 s, max 44.3 s (8.68 h summed); core-hours: 10.72 recorded CPU time (single-threaded BLAS)
+checks: max reconstruction error of the covariate-blind projection 2.17e-13 (tolerance 1e-9); max rank-one residual of X - X0 and Y - Y0 6.33e-16 (tolerance 1e-9); the script's z_noise5 equalled analyze_trajectories on every unit (asserted)
+merged: python scripts/case_study_diagnosis.py merge --out-dir results/case-study-diagnosis-2026-10-30/delta0.1 > merge.json (on ing, 12:17Z)
+reproduction (diagnosis_reproduction.json): holds; z_noise5 vs the parent's adjusted 3000 compared / 0 mismatches, latent_stage_cv vs the parent's latent_stage 3000 compared / 0 mismatches (as k/1000 integers)
+decided: python scripts/case_study_diagnosis.py decide --run results/case-study-diagnosis-2026-10-30/delta0.1 --run results/case-study-diagnosis-2026-10-30/delta0.05 --out-dir results/case-study-diagnosis-2026-10-30 > decide.json (on ing, 12:18Z); verdicts residual_df_shrinkage (adjusted delta) and residualized_basis (latent_stage)
+
+sha256 of the files that define the measurement (identical on ing and the workstation; every file shared with the parent run matches the parent's PROVENANCE.txt):
+3890346ddbc6b44ea5ccdfc8cf9c16cf9e2c6f00bb0be331e8a86ad5b02baf85  scripts/case_study_type_i_check.py
+cc2d08531a2b9e7d9471e88da86813bf7f6d95d1e1488836a6f2e741804ec748  scripts/covariate_type_i_check.py
+f7a64f86a2d032261f5de2e57c5158b74c30a7c821a76ef7651586efef3faad7  scripts/case_study_diagnosis.py
+4b1849c26434b85fa0d08e475b3e7ebf7e065256d8c986b190fee49685301e1d  scripts/case_study_diagnosis_array.sbatch
+e9463200f4c6e874112e5339ef716bc9b164a1318b13745598ceb4cbf64b57be  src/motco/analysis.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+29cd217a3aabfadbcbe86167dd0b8a9f4cf01eca63c0e5f9a0683a0378483a19  src/motco/stats/design.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+e69a37b40b47f077fdc7f8d9c2bf7df1a6444b68421cf17066551a351efcb62a  src/motco/stats/permutation.py
+837f41351ca8bb35ef91f1146c48d5fa504aaac85079c417cf26e86992939ef9  src/motco/simulations/evaluation.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+89bf84084deff16d02d9cef2af994ecdaa93947238d731cc1e478506cca1880b  src/motco/simulations/preprocessing.py
+
+Committed: settings.json, merge.json, diagnosis_rates.csv, diagnosis_rank_table.csv, diagnosis_reproduction.json; at the run root case_study_diagnosis_decision.json, diagnosis_contrasts.csv and decide.json.
+Not committed (under /home1/tgonza/MOTCO-case-study-diagnosis/results/case-study-diagnosis-2026-10-30/delta0.1/ on ing; `case_study_diagnosis.py merge` regenerates every table from records/):
+df0601595b0feaccb83ac81e1007dbe0fe714441d009839d431416fb8bccfd8e  diagnosis_pvalues.csv (45,000 rows, 2.5 MB, above the ~1 MB commit threshold)
+4da307478b29eac3cce929d82dae4794800d20d12058fede88a3558ee690fda6  merged.jsonl (8.3 MB)
+records/ (50 shard files)

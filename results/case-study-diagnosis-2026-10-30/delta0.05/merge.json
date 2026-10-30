@@ -1,0 +1,162 @@
+{
+ "run": "delta0.05",
+ "units": 1000,
+ "expected": 1000,
+ "missing": [],
+ "smoke": false,
+ "reproduction": {
+  "status": "holds",
+  "arms": {
+   "z_noise5": {
+    "parent_arm": "adjusted",
+    "compared": 3000,
+    "mismatches": 0
+   },
+   "latent_stage_cv": {
+    "parent_arm": "latent_stage",
+    "compared": 3000,
+    "mismatches": 0
+   }
+  }
+ },
+ "failures": {
+  "oracle_noise0": 0,
+  "oracle_noise2": 0,
+  "oracle_noise5": 0,
+  "z_noise0": 0,
+  "z_noise2": 0,
+  "z_noise5": 0,
+  "oracle_noise0_corrected": 0,
+  "oracle_noise2_corrected": 0,
+  "oracle_noise5_corrected": 0,
+  "z_noise0_corrected": 0,
+  "z_noise2_corrected": 0,
+  "z_noise5_corrected": 0,
+  "latent_stage_cv": 0,
+  "latent_stage_floor1": 0,
+  "latent_stage_rank2": 0
+ },
+ "max_reconstruction_error": 2.682298827494378e-13,
+ "max_rank_one_residual": 6.45285081240343e-16,
+ "exceeding": [
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise0",
+   "statistic": "angle",
+   "rate": 0.078,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise2",
+   "statistic": "angle",
+   "rate": 0.078,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise5",
+   "statistic": "angle",
+   "rate": 0.076,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise0_corrected",
+   "statistic": "angle",
+   "rate": 0.074,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise2_corrected",
+   "statistic": "angle",
+   "rate": 0.076,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "oracle_noise5_corrected",
+   "statistic": "angle",
+   "rate": 0.072,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "latent_stage_cv",
+   "statistic": "angle",
+   "rate": 0.084,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "latent_stage_cv",
+   "statistic": "shape",
+   "rate": 0.078,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "latent_stage_floor1",
+   "statistic": "angle",
+   "rate": 0.08,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "anchor",
+   "arm": "latent_stage_rank2",
+   "statistic": "angle",
+   "rate": 0.082,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise0",
+   "statistic": "angle",
+   "rate": 0.08,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise2",
+   "statistic": "angle",
+   "rate": 0.086,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise5",
+   "statistic": "angle",
+   "rate": 0.088,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "z_noise0",
+   "statistic": "shape",
+   "rate": 0.07,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise0_corrected",
+   "statistic": "angle",
+   "rate": 0.074,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise2_corrected",
+   "statistic": "angle",
+   "rate": 0.07,
+   "bound": 0.06949358868961793
+  },
+  {
+   "mode": "translation",
+   "arm": "oracle_noise5_corrected",
+   "statistic": "angle",
+   "rate": 0.072,
+   "bound": 0.06949358868961793
+  }
+ ]
+}
