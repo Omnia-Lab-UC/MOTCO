@@ -24,6 +24,11 @@ built without them; ``TrajectoryAnalysisParams.covariate_latent_adjustment``
 residualized on the covariates conditional on that design, and measures the
 raw features in it.
 
+``TrajectoryAnalysisParams.residual_correction`` (``"df"`` or ``"leverage"``)
+rescales the reduced model's residuals before RRPP permutes them, so the null
+keeps the residual variance the reduced model's degrees of freedom remove. It
+moves only the p-values and the null summary.
+
 :func:`write_analysis_outputs` writes the result as plain JSON/CSV (record,
 latent scores, PLS loadings, latent stage means and, when requested, the
 attribution tables) — the fitted estimator is never pickled.
@@ -75,7 +80,7 @@ from motco.stats.design import (
     build_conditioning_matrix,
     build_covariate_matrix,
 )
-from motco.stats.permutation import RRPP
+from motco.stats.permutation import RESIDUAL_CORRECTIONS, RRPP, residual_correction_scale
 from motco.stats.pls import NuisanceDesign
 from motco.stats.trajectory import estimate_betas, estimate_difference
 
@@ -370,6 +375,14 @@ class TrajectoryAnalysisParams:
     ``latent`` block, so a floor-1 analysis reproduces every 0.9.0 artifact.
     A floor below 1 is rejected before any fitting. The floor guarantees two
     dimensions, not a second axis with signal.
+
+    ``residual_correction`` (``None``, ``"df"`` or ``"leverage"``) rescales the
+    reduced model's residuals before RRPP permutes them (see
+    :func:`motco.stats.permutation.RRPP`): ``"df"`` by κ = √(n / (n − r)),
+    ``"leverage"`` by 1 / √(1 − h_ii). The observed statistics, latent space and
+    stage means are unchanged; only the null moves. An unknown value is
+    rejected before any fitting, and the setting is omitted from
+    :meth:`to_dict` while ``None``.
     """
 
     permutations: int = 0
@@ -386,6 +399,7 @@ class TrajectoryAnalysisParams:
     progress: bool = False
     covariate_latent_adjustment: str | None = None
     min_components: int | None = 2
+    residual_correction: str | None = None
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -398,6 +412,11 @@ class TrajectoryAnalysisParams:
             raise TrajectoryAnalysisError(
                 f"Unknown covariate_latent_adjustment {self.covariate_latent_adjustment!r}; allowed: "
                 f"{list(CONDITIONING_KINDS)} or None."
+            )
+        if self.residual_correction is not None and self.residual_correction not in RESIDUAL_CORRECTIONS:
+            raise TrajectoryAnalysisError(
+                f"Unknown residual_correction {self.residual_correction!r}; allowed: "
+                f"{list(RESIDUAL_CORRECTIONS)} or None."
             )
         if self.orientation_estimator not in EVALUATION_ORIENTATION_ESTIMATORS:
             raise TrajectoryAnalysisError(
@@ -423,6 +442,9 @@ class TrajectoryAnalysisParams:
         if self.min_components is None:
             # Floor 1 means the 0.9.0 rank rule: its resolved parameters stay byte-identical.
             data.pop("min_components")
+        if self.residual_correction is None:
+            # Absent means the 0.12.0 null: its resolved parameters stay byte-identical.
+            data.pop("residual_correction")
         return data
 
     @property
@@ -481,6 +503,10 @@ def analyze_trajectories(
     inside the cross-validation, at the pooled scale), the raw features are
     projected onto that basis, and the trajectory model, LS-means and RRPP are
     unchanged. Attribution is not available with covariates.
+
+    ``params.residual_correction`` rescales the reduced model's residuals
+    (covariates included) before RRPP permutes them; the record's
+    ``measurement`` block then states the correction it applied.
     """
 
     params = params or TrajectoryAnalysisParams()
@@ -571,7 +597,13 @@ def analyze_trajectories(
 
     p_values: dict[str, float] = {}
     null_summary: dict[str, dict[str, float]] = {}
+    correction_record: dict[str, Any] | None = None
     if params.permutations > 0:
+        if params.residual_correction is not None:
+            try:
+                correction_record = _residual_correction_record(model_reduced, params.residual_correction)
+            except ValueError as exc:
+                raise TrajectoryAnalysisError(str(exc)) from exc
         dist_delta, dist_angle, dist_shape, dist_eigengap = RRPP(
             latent.matrix,
             model_full,
@@ -584,6 +616,7 @@ def analyze_trajectories(
             seed=params.seed,
             return_eigengaps=True,
             orientation_estimator=params.orientation_estimator,
+            residual_correction=params.residual_correction,
         )
         null_values = _extract_null_distributions(
             dist_delta, dist_angle, dist_shape, shape_available=shape_available
@@ -666,6 +699,7 @@ def analyze_trajectories(
             "permutations": params.permutations,
             "seed": params.seed,
             "n_jobs": params.n_jobs,
+            **({"residual_correction": correction_record} if correction_record is not None else {}),
             "shape_available": shape_available,
             "runtime_seconds": perf_counter() - start,
         },
@@ -787,6 +821,29 @@ def _covariate_adjusted_design(
     reduced = np.hstack([np.asarray(model_reduced, dtype=float), covariates.matrix])
     reference = np.tile(covariates.reference_row, (np.asarray(ls_means).shape[0], 1))
     return full, reduced, np.hstack([np.asarray(ls_means, dtype=float), reference])
+
+
+def _residual_correction_record(model_reduced: Any, correction: str) -> dict[str, Any]:
+    """What the residual correction applied: kind, n, reduced rank, and κ or the leverage range."""
+
+    reduced = np.asarray(model_reduced, dtype=float)
+    scale = residual_correction_scale(reduced, correction)
+    record: dict[str, Any] = {
+        "kind": correction,
+        "n": int(reduced.shape[0]),
+        "reduced_rank": int(np.linalg.matrix_rank(reduced)),
+    }
+    if correction == "df":
+        record["kappa"] = float(scale[0])
+    else:
+        leverage = 1.0 - scale**-2.0
+        record.update(
+            leverage_min=float(leverage.min()),
+            leverage_max=float(leverage.max()),
+            scale_min=float(scale.min()),
+            scale_max=float(scale.max()),
+        )
+    return record
 
 
 def _latent_nuisance(

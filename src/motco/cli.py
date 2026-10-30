@@ -318,6 +318,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             ),
             covariate_latent_adjustment=args.latent_adjustment,
             min_components=args.min_components,
+            residual_correction=args.residual_correction,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -343,6 +344,19 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             f"Latent adjustment: basis fitted on features residualized on the covariates, conditioning "
             f"{adjustment['conditioning']}; residual df {adjustment['residual_df']}"
             + ("" if cv_df is None else f", smallest CV training df {cv_df}")
+        )
+    correction = record["measurement"].get("residual_correction")
+    if correction is not None:
+        if correction["kind"] == "df":
+            detail = f"kappa = {correction['kappa']:.4g}"
+        else:
+            detail = (
+                f"leverage {correction['leverage_min']:.3g}-{correction['leverage_max']:.3g}, "
+                f"multipliers {correction['scale_min']:.4g}-{correction['scale_max']:.4g}"
+            )
+        print(
+            f"RRPP null: residual correction {correction['kind']} ({detail}; n = {correction['n']}, "
+            f"reduced rank {correction['reduced_rank']})"
         )
     for statistic, value in record["statistics"].items():
         p_value = record["p_values"].get(statistic)
@@ -566,6 +580,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_an.add_argument("--n-jobs", type=int, default=1, help="Parallel jobs for CV and RRPP (-1 = all CPUs)")
     p_an.add_argument("--forced-components", type=int, default=None,
                       help="Fix the latent rank and skip cross-validation (dimensionality sensitivity)")
+    p_an.add_argument("--residual-correction", type=str, default=None, choices=["df", "leverage"],
+                      help="Rescale the reduced model's residuals before RRPP permutes them: df (kappa = "
+                           "sqrt(n / (n - rank))) or leverage (1 / sqrt(1 - h_ii)). Moves only the null. "
+                           "Default: off")
     p_an.add_argument("--min-components", type=int, default=2,
                       help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
                            "(default: 2; 1 restores the unfloored 0.9.0 rule)")

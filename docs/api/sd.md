@@ -122,3 +122,5 @@ inverse of the measured features.
 ## Permutation test
 
 ::: motco.stats.permutation.RRPP
+
+::: motco.stats.permutation.residual_correction_scale

@@ -273,3 +273,40 @@ def test_analyze_latent_adjustment_requires_covariates(tmp_path: Path, analyze_f
         main(args)
     assert exc.value.code != 0
     assert not (tmp_path / "out").exists()
+
+
+def test_analyze_with_residual_correction(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--permutations", "19", "--seed", "1", "--residual-correction", "df"))
+    record = json.loads((out_dir / "result.json").read_text())
+    block = record["measurement"]["residual_correction"]
+    # 46 complete cases; intercept, group, two stages, two numeric covariates and two education levels.
+    assert block == {"kind": "df", "n": 46, "reduced_rank": 8, "kappa": pytest.approx((46 / 38) ** 0.5)}
+    assert record["params"]["residual_correction"] == "df"
+    printed = capsys.readouterr().out
+    assert f"RRPP null: residual correction df (kappa = {block['kappa']:.4g}" in printed
+
+
+def test_analyze_unknown_residual_correction_exits(tmp_path: Path, analyze_files,
+                                                   capsys: pytest.CaptureFixture) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--residual-correction", "hc3"))
+    assert exc.value.code != 0
+    err = capsys.readouterr().err
+    assert "hc3" in err and "df" in err and "leverage" in err
+    assert not (tmp_path / "out").exists()
+
+
+def test_analyze_without_residual_correction_prints_no_line(tmp_path: Path, analyze_files,
+                                                            capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--permutations", "9", "--seed", "1"))
+    assert "residual correction" not in capsys.readouterr().out
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "residual_correction" not in record["measurement"]
+    assert "residual_correction" not in record["params"]
