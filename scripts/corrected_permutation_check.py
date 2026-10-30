@@ -64,7 +64,10 @@ clustered exact sign flip) and no such loss on any; otherwise ``df``. The
 uncorrected arm goes through the same rule descriptively
 (``uncorrected_excess_reproduced``: its pooled ``delta`` exceeds in either
 table). A run below 999 permutations, or a missing run, marks the verdict
-indicative.
+indicative. Because a table's Type I readings share replicate seeds (the two
+strengths of one replicate are strongly dependent), the decision also reports
+the pooled tier with a replicate-clustered standard error
+(:func:`clustered_pooled_rows`), descriptively: it never changes the verdict.
 
 Outputs (one ``--out-dir`` per run):
 
@@ -775,6 +778,9 @@ SIZE_COLUMNS = (
     "rate",
     "bound",
     "verdict",
+    "clusters",
+    "design_effect",
+    "effective_replicates",
 )
 
 
@@ -853,6 +859,77 @@ def size_rows_by_tier(
                 "verdict": _verdict(rate, bound),
             }
         )
+    return out
+
+
+def clustered_pooled_rows(
+    rows: Iterable[Mapping[str, Any]],
+    settings: Mapping[str, Mapping[str, Any]],
+    *,
+    alpha: float,
+    pooled_k: float,
+) -> list[dict[str, Any]]:
+    """The pooled tier with a replicate-clustered standard error (descriptive sensitivity; never judged).
+
+    A table's Type I readings share replicate seeds, so they are not
+    R_pooled independent replicates. Per table × arm × statistic, with c_r the
+    rejections and m_r the available readings of replicate r, the pooled rate
+    is p = Σc / N (N = Σm), its ratio-estimator variance
+    R_c/(R_c − 1)·Σ(c_r − p·m_r)²/N² over the R_c replicates, and its design
+    effect that variance over p(1 − p)/N. The bound is
+    alpha + pooled_k·√(alpha(1 − alpha)/R_eff) with R_eff = N / design effect.
+    """
+
+    tables = {run: str(s["table"]["name"]) for run, s in settings.items() if s["profile"] == "type_i"}
+    controls = {run: {mode: float(settings[run]["controls"][mode]) for mode in CONTROL_MODES} for run in tables}
+    clusters: dict[tuple[str, str, str], dict[int, list[int]]] = {}
+    for row in rows:
+        run = str(row["run"])
+        mode = str(row["mode"])
+        if run not in tables or mode not in CONTROL_MODES or float(row["effect"]) != controls[run][mode]:
+            continue
+        if not _finite(row.get("p_value")):
+            continue
+        tally = clusters.setdefault((tables[run], str(row["arm"]), str(row["statistic"])), {}).setdefault(
+            int(row["replicate"]), [0, 0]
+        )
+        tally[0] += int(float(row["p_value"]) <= alpha)
+        tally[1] += 1
+    out = []
+    for table in sorted(set(tables.values())):
+        for arm in ARMS:
+            for statistic in STATISTICS:
+                per_replicate = list(clusters.get((table, arm, statistic), {}).values())
+                count = len(per_replicate)
+                total = sum(m for _, m in per_replicate)
+                rejections = sum(c for c, _ in per_replicate)
+                rate = rejections / total if total else None
+                design_effect = effective = bound = None
+                if rate is not None and count > 1 and 0.0 < rate < 1.0:
+                    variance = count / (count - 1) * sum((c - rate * m) ** 2 for c, m in per_replicate) / total**2
+                    design_effect = variance / (rate * (1.0 - rate) / total)
+                    effective = total / design_effect
+                    bound = size_bound(alpha, effective, pooled_k)
+                out.append(
+                    {
+                        "tier": "pooled_clustered",
+                        "table": table,
+                        "run": None,
+                        "mode": None,
+                        "effect": None,
+                        "statistic": statistic,
+                        "arm": arm,
+                        "role": "sensitivity",
+                        "replicates": total,
+                        "rejections": rejections,
+                        "rate": rate,
+                        "bound": bound,
+                        "verdict": _verdict(rate, bound),
+                        "clusters": count,
+                        "design_effect": design_effect,
+                        "effective_replicates": effective,
+                    }
+                )
     return out
 
 
@@ -964,7 +1041,9 @@ def corrected_permutation_decision(
     rule = next(iter(settings.values()))["rule"]
     alpha, reading_k, pooled_k = float(rule["alpha"]), float(rule["reading_k"]), float(rule["pooled_k"])
     contrast_alpha = float(rule["contrast_alpha"])
+    size_rows = list(size_rows)
     size = size_rows_by_tier(size_rows, settings, alpha=alpha, reading_k=reading_k, pooled_k=pooled_k)
+    clustered = clustered_pooled_rows(size_rows, settings, alpha=alpha, pooled_k=pooled_k)
     holds = {
         arm: bool(verdicts) and all(verdict == "holds" for verdict in verdicts)
         for arm in ARMS
@@ -1015,6 +1094,19 @@ def corrected_permutation_decision(
         "power_cost": power_cost(power_rows, power_run, effects, alpha=alpha),
         "readings": [row for row in size if row["tier"] == "reading"],
         "pooled": [row for row in size if row["tier"] == "pooled"],
+        "clustered_sensitivity": {
+            "role": (
+                "descriptive; never enters the verdict. The pooled tier with a replicate-clustered standard error, "
+                "because a table's Type I readings share replicate seeds (decided 2026-10-30, before any "
+                "paper-grade result)"
+            ),
+            "holds": {
+                arm: all(row["verdict"] == "holds" for row in size if row["arm"] == arm and row["tier"] == "reading")
+                and all(row["verdict"] == "holds" for row in clustered if row["arm"] == arm)
+                for arm in ARMS
+            },
+            "pooled": clustered,
+        },
         "runs": {
             run: {
                 "profile": run_settings["profile"],
@@ -1087,7 +1179,11 @@ def decide(run_dirs: Sequence[Path], out_dir: Path) -> dict[str, Any]:
     }
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    d10._write_csv(out_dir / "size_readings.csv", [*decision["readings"], *decision["pooled"]], SIZE_COLUMNS)
+    d10._write_csv(
+        out_dir / "size_readings.csv",
+        [*decision["readings"], *decision["pooled"], *decision["clustered_sensitivity"]["pooled"]],
+        SIZE_COLUMNS,
+    )
     (out_dir / "corrected_permutation_decision.json").write_text(
         json.dumps(d10._jsonable(decision), indent=2, allow_nan=False) + "\n", encoding="utf-8"
     )
@@ -1136,6 +1232,7 @@ def main(argv: list[str] | None = None) -> int:
         decision = decide(args.runs, args.out_dir)
         summary = {key: decision[key] for key in ("verdict", "indicative", "indicative_reasons", "holds")}
         summary["uncorrected_excess_reproduced"] = decision["uncorrected"]["uncorrected_excess_reproduced"]
+        summary["clustered_sensitivity_holds"] = decision["clustered_sensitivity"]["holds"]
         print(json.dumps(summary, indent=1))
         return 0
     if args.command == "merge":

@@ -81,6 +81,15 @@ R is the number of available replicates, and α = 0.05.
 - **WHEN** the rule is applied to the uncorrected arm
 - **THEN** its outcome is recorded as descriptive, with a flag stating whether the fresh family reproduces a pooled `delta` excess in either table, and it never enters the verdict
 
+### Requirement: A replicate-clustered pooled sensitivity is reported
+
+Because a cohort table's Type I readings share replicate seeds, the decision SHALL also report, per table, arm and statistic, the pooled rate against α + 2·√(α(1 − α)/R_eff), where R_eff is the pooled reading count divided by the design effect of the replicate-clustered rate. This sensitivity SHALL be descriptive and SHALL NOT change the verdict.
+
+#### Scenario: Duplicated readings form one cluster
+
+- **WHEN** every reading of a table rejects on the same 31 of 500 replicates, so its pooled rate is 0.062
+- **THEN** D8's pooled tier fails, the clustered sensitivity reports a design effect of 4·500/499 and a bound of α + 2·√(α(1 − α)/499), under which the rate holds, and the verdict is unchanged
+
 ### Requirement: A predeclared rule chooses between two size-valid corrections
 
 When both corrections hold size, the check SHALL pair them on the power profile's units. For each target pair (magnitude/`delta`, orientation/`angle`, shape/`shape`) it SHALL pool the mode's four effects and compute a replicate-clustered exact one-sided sign-flip test in each direction. `leverage` SHALL be chosen only with a gain at p ≤ 0.05 on at least one target pair and no loss at p ≤ 0.05 on any; otherwise `df`.

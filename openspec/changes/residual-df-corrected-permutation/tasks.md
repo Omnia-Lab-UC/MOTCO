@@ -99,6 +99,8 @@
   - an indicative smoke decision.
 - [x] 4.5 Write `scripts/corrected_permutation_array.sbatch`, modelled on `scripts/case_study_diagnosis_array.sbatch`: profile, table, δ and shard count as arguments; partition `512x1024`; one CPU and BLAS threads set to 1; n11 excluded. Verify that `bash -n` passes and that a dry render of the `sbatch` command lines for the five runs names the intended output directories.
 
+- [x] 4.6 (Added 2026-10-30 at the user's decision after the smoke.) Report the pooled tier with a replicate-clustered standard error beside D8, descriptively (`clustered_pooled_rows`, `clustered_sensitivity`, tier `pooled_clustered` in `size_readings.csv`). Verify with tests: duplicated readings give a design effect of 4R/(R − 1) and leave the verdict unchanged; disjoint readings give a design effect at most 1.
+
 ## 5. Smoke, timing and approval
 
 - [x] 5.1 Run the smoke profiles locally:

@@ -524,3 +524,40 @@ def test_decision_records_every_settings_hash_and_the_power_cost() -> None:
     cost = {(c["correction"], c["mode"], c["statistic"]): c for c in decision["power_cost"]}
     assert cost[("df", "orientation", "angle")]["uncorrected_rate"] == pytest.approx(0.2)
     assert cost[("leverage", "shape", "shape")]["p_loss"] == 1.0
+
+
+def test_clustered_sensitivity_is_descriptive() -> None:
+    # Every microglia reading rejects the same 31 replicates: D8's pooled tier fails (0.062 > 0.0597), but the four
+    # readings of a replicate are one cluster, so the design effect is 4·R/(R − 1) and R_eff = R − 1.
+    overrides = {("microglia", arm, "delta"): 31 for arm in check.ARMS}
+    decision = _decide(overrides)
+    assert decision["verdict"] == "no_correction_holds"
+    sensitivity = decision["clustered_sensitivity"]
+    assert "never enters the verdict" in sensitivity["role"]
+    row = {(r["table"], r["arm"], r["statistic"]): r for r in sensitivity["pooled"]}
+    entry = row[("microglia", "df", "delta")]
+    assert entry["tier"] == "pooled_clustered" and entry["clusters"] == R and entry["replicates"] == 4 * R
+    assert entry["rate"] == pytest.approx(0.062)
+    assert entry["design_effect"] == pytest.approx(4 * R / (R - 1))
+    assert entry["effective_replicates"] == pytest.approx((R - 1))
+    assert entry["bound"] == pytest.approx(0.05 + 2 * math.sqrt(0.0475 / (R - 1)))
+    assert entry["verdict"] == "holds"
+    assert sensitivity["holds"] == {"none": True, "df": True, "leverage": True}
+
+
+def test_clustered_sensitivity_is_near_binomial_for_independent_readings() -> None:
+    settings = _decision_settings()
+    rows = []
+    for position, (run, run_settings) in enumerate(sorted(settings.items())):
+        for offset, mode in enumerate(("anchor", "translation")):
+            effect = float(run_settings["controls"][mode])
+            start = 25 * ((2 * position + offset) % 20)
+            for arm in check.ARMS:
+                for statistic in check.STATISTICS:
+                    rows.extend(_rows(run, mode, effect, arm, statistic, set(range(start, start + 25))))
+    clustered = check.clustered_pooled_rows(rows, settings, alpha=0.05, pooled_k=2.0)
+    assert len(clustered) == 2 * 3 * 3
+    for entry in clustered:
+        assert entry["rate"] == pytest.approx(0.05)
+        # Disjoint rejections across a replicate's readings: at most binomial (slightly below, as c_r <= 1).
+        assert 0.8 < entry["design_effect"] <= 1.0
