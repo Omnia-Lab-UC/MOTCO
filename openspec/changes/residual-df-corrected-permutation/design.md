@@ -254,3 +254,28 @@ The case study adopts the correction in its own change, after the release and un
 
 - The number of power shards is set by the smoke timing (D12). It does not affect any rule.
 - Whether `corrected_permutation_pvalues.csv` is committed depends on its size at merge (9,000 rows per Type I run and 63,000 for the power run): it is committed if it is under about 1 MB. Otherwise it is named in `PROVENANCE.txt`. The decision is unaffected.
+
+## Smoke and shard plan (2026-10-30)
+
+Run locally on the workstation (24 cores, single-threaded BLAS) from branch `feat/residual-df-corrected-permutation` at `a2f1a1f` (tree `4d8a22fb…`), MOTCO 0.13.0.
+
+**Smoke at R = 20 × 99 permutations** (`results/corrected-permutation-2026-10-30/smoke-type-i-{astrocyte,microglia}-delta{0.1,0.05}/`, `smoke-power/`, decision in `smoke-decision/`; 2 shards per Type I run, 12 for power):
+- 40 / 40 units per Type I run and 280 / 280 power units, 0 arm failures and 0 consistency failures (every unit's three arms shared their latent scores, rank and statistics).
+- The decision is marked indicative (99 permutations in every run) and reads `no_correction_holds`. The only failing entries are the pooled `shape` readings, 9–10 / 80 against the R = 80 bound of 0.099, in every arm including the uncorrected one. At R = 20 per reading this is Monte Carlo noise, not a size reading; the replicates are shared with the paper-grade run, so replicates 0–19 will be read again there.
+- Pooled `delta` (astrocyte / microglia): none 2 / 7, `df` 0 / 6, `leverage` 0 / 6 of 80, so both corrections move `delta` down, as the diagnosis measured. `uncorrected_excess_reproduced` is false at R = 20.
+- Calibration (uncorrected arm, anchor): mean held-out CV AUROC 0.695–0.716 in every Type I run (band 0.60–0.75) and median first-component |ρ| with `z` 0.93–0.97 (threshold 0.8); CV rank 2 or 3. The power run reads AUROC 1.000 and |ρ| 0.81.
+- Power at R = 20 (none / `df` / `leverage`, top effect): magnitude `delta` 19 / 19 / 19, orientation `angle` 16 / 16 / 16, shape `shape` 7 / 6 / 6. The tie-break contrasts are empty (one discordant unit on magnitude `delta`, p_gain 0.5).
+
+**999 permutations** (scratch, `build/corrected-permutation-2026-10-30/`): `type-i-astrocyte-delta0.1` at R = 4 (8 / 8 units), `type-i-microglia-delta0.1` at R = 2 (4 / 4) and `power` at R = 1 (14 / 14), each end to end with merge and 0 failures.
+
+**Timing.** At 999 permutations a unit (three analyses) takes 19.0 s (astrocyte), 19.5 s (microglia) and 18.2 s (power) on one uncontended workstation core, against 19.3 s for the parent check's unit (`case_study_type_i_check.py`, δ = 0.1, `s_z = 10`). The parent measured 54.7 s per unit on `ing`, so the plan is about 54 s per Type I unit and 52 s per power unit on an `ing` EPYC core (the diagnosis ran at 31 s on less loaded nodes).
+
+**Shard plan.**
+- Four 50-shard Type I arrays (20 units per shard, about 18 min) and one 140-shard power array (50 units per shard, about 45 min), 500 × 999, on partition `512x1024` with `--exclude=n11` (in the template), one CPU and BLAS threads at 1. The 8 h task limit covers a node running 10× slow.
+- Code: the clean worktree `/home1/tgonza/MOTCO-corrected-permutation` of the pushed branch at `a2f1a1f`, whose tree hash equals the workstation's; `PYTHONPATH` on its `src`, `.venv` symlinked from `/home1/tgonza/MOTCO`. `tests/test_residual_correction.py` and `tests/test_corrected_permutation_check.py` passed there (60 tests; MOTCO 0.13.0 imported from the worktree). Each `settings.json` is pre-created with `run … --shard 0/N --limit 0` before its array is submitted (`/home1/tgonza/corrected_permutation_submit.sh`).
+- Outputs: `results/corrected-permutation-2026-10-30/type-i-{astrocyte,microglia}-delta{0.1,0.05}/` and `power/` in that worktree.
+- About 60 core-hours for the Type I runs and 100 for power, 160 in all (design estimate 140).
+
+**Approval:** the user approved committing and pushing the branch and submitting the five arrays as planned on 2026-10-30 (10:52 local), before the timing above was complete; submission waited for the smoke and the 999-permutation units.
+
+**Open item found at smoke (for the user, before `decide`).** A table's four Type I readings share replicate seeds, and the two strengths of one replicate are strongly dependent: the smoke's per-replicate p-values correlate at Spearman 0.77–0.96 between δ = 0.1 and 0.05 (anchor), while anchor and translation are nearly independent (−0.05 to 0.27). The pooled tier (D8) treats the four readings as R_pooled = 2,000 independent replicates, so its 0.0597 bound is tighter than its stated 2.5 % one-sided risk per test: at an effective R of about 1,100–1,200 a correction at exact size fails a pooled test with probability about 6 %, not 2.5 %. D8's 21 % overall figure is therefore optimistic. The data the arrays collect do not depend on the rule; whether to amend the pooled tier (for example, a replicate-clustered standard error) before the results are read is the user's decision, recorded here before any paper-grade result exists.

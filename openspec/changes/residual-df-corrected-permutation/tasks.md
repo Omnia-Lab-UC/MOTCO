@@ -101,16 +101,16 @@
 
 ## 5. Smoke, timing and approval
 
-- [ ] 5.1 Run the smoke profiles locally:
+- [x] 5.1 Run the smoke profiles locally:
   - every run at R = 20 × 99 permutations into `results/corrected-permutation-<date>/smoke-*/`, then `merge` and `decide`;
   - one Type I run at R = 4 × 999 into a scratch directory.
 
   Verify: every unit completes with zero consistency failures, the decision is marked indicative, and the 999-permutation units run end to end.
-- [ ] 5.2 Time the units at 999 permutations per profile and table. Append a dated "Smoke and shard plan" section to `design.md` with the smoke rates, the timing, the shards per run and the planned core-hours. Present it to the user and obtain approval for the five arrays. Verify that the section and the recorded approval exist in `design.md`.
+- [x] 5.2 Time the units at 999 permutations per profile and table. Append a dated "Smoke and shard plan" section to `design.md` with the smoke rates, the timing, the shards per run and the planned core-hours. Present it to the user and obtain approval for the five arrays. Verify that the section and the recorded approval exist in `design.md`.
 
 ## 6. Paper-grade run on `ing`
 
-- [ ] 6.1 Push the branch, create a clean worktree on `ing`, confirm that its tree hash equals the local tree, and run `tests/test_residual_correction.py` and `tests/test_corrected_permutation_check.py` there. Verify: identical tree hashes and passing tests on `ing`.
+- [x] 6.1 Push the branch, create a clean worktree on `ing`, confirm that its tree hash equals the local tree, and run `tests/test_residual_correction.py` and `tests/test_corrected_permutation_check.py` there. Verify: identical tree hashes and passing tests on `ing`.
 - [ ] 6.2 Submit the four Type I arrays (50 shards each) and the power array (shard count from 5.2) at 500 replicates × 999 permutations, into `results/corrected-permutation-<date>/<run>/`. Monitor them to completion, and resubmit any stalled shard. Verify: every task `COMPLETED 0:0`, 1,000 units per Type I run and 7,000 for power, and zero consistency failures.
 - [ ] 6.3 Run `merge` per run and `decide` on `ing`, and copy back the rate, contrast and size tables and the decision. Commit each CSV under about 1 MB; otherwise name it in provenance. Write `PROVENANCE.txt` per run: command, jobs, tree hash, settings hash, versions (MOTCO 0.13.0), file sha256s and core-hours. Verify that the decision file's hashes equal the five settings files' hashes, and that its verdict is not indicative.
 
