@@ -314,5 +314,5 @@ validated at this configuration and keeps it opt-in".
   pooled `delta` on this family is at α, which means that `df` is conservative for `delta` here.
 - **What stays on `ing`.** `records/` (4.0 MB per Type I run, 26 MB for power) and the power run's 63,000-row
   `corrected_permutation_pvalues.csv` (2.6 MB) stay there, under
-  `/home1/tgonza/MOTCO-corrected-permutation/results/corrected-permutation-2026-10-30/`. Each `PROVENANCE.txt` names
-  them with their sha256. `corrected_permutation_check.py merge` regenerates every committed table from `records/`.
+  `/home1/tgonza/MOTCO/results/corrected-permutation-2026-10-30/` with the SLURM logs. They were moved there from the
+  run's worktree on 2026-10-31, and their digests were rechecked. Each `PROVENANCE.txt` names them with their sha256. `corrected_permutation_check.py merge` regenerates every committed table from `records/`.

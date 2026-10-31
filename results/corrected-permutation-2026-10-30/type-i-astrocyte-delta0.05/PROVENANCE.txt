@@ -41,6 +41,7 @@ a52518aa8f16128c31f84e03311c7a6837cd832138ad6d177d35a9499c91b4bb  merge.json
 bcf05b4a99d8187e8af6fd63e2738071ce4b0ef453242e602e3514b00376fe89  corrected_permutation_rates.csv (3 KB)
 055890d796faba6a122037341b1b562353d60c8cac9958436a09496e470e07ae  corrected_permutation_pvalues.csv (557 KB)
 
-Not committed, under /home1/tgonza/MOTCO-corrected-permutation/results/corrected-permutation-2026-10-30/type-i-astrocyte-delta0.05/ on ing:
+Not committed, under /home1/tgonza/MOTCO/results/corrected-permutation-2026-10-30/type-i-astrocyte-delta0.05/ on ing (moved on 2026-10-31 from the run's worktree /home1/tgonza/MOTCO-corrected-permutation, where they were written; the decision file's run_directories keep the original paths; digests rechecked after the move):
 records/: 50 shard files, 1000 lines, 4.0M; sha256 of their sorted sha256sum listing 0132669813f6d164097fcdf973246b33b472179911309a558f2adeaa48ae0735
+SLURM task logs of all five arrays: ../logs/ (682 files), moved from the worktree with the results.
 `corrected_permutation_check.py merge` regenerates every table above from records/.

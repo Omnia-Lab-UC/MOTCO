@@ -41,7 +41,8 @@ a3249aa30ff14206a56b579ecf158a0cda808e62605b35d3ca5aa90712f18107  merge.json
 ca889dbab6b7dbed23a16af5986e1de4fbd930f0652864a8a3201eaf8508b0bd  corrected_permutation_rates.csv (18 KB)
 431cfa9826587ef7a8b6b6f46a3b4afd939e929de23f0cb0548c879339795a0d  corrected_permutation_contrasts.csv (16 KB)
 
-Not committed, under /home1/tgonza/MOTCO-corrected-permutation/results/corrected-permutation-2026-10-30/power/ on ing:
+Not committed, under /home1/tgonza/MOTCO/results/corrected-permutation-2026-10-30/power/ on ing (moved on 2026-10-31 from the run's worktree /home1/tgonza/MOTCO-corrected-permutation, where they were written; the decision file's run_directories keep the original paths; digests rechecked after the move):
 eaf7af1b8952c86e295aebb8c3f8ab2c6529d3adca17b22bd0df4ddee1401ace  corrected_permutation_pvalues.csv (2.6 MB, over the 1 MB limit of design D11)
 records/: 140 shard files, 7000 lines, 26M; sha256 of their sorted sha256sum listing 24971d255391e1a2c120ba83f0c1524e7c5fe302a97e84af5724a606bc2e71c2
+SLURM task logs of all five arrays: ../logs/ (682 files), moved from the worktree with the results.
 `corrected_permutation_check.py merge` regenerates every table above from records/.

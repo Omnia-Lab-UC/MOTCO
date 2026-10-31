@@ -41,6 +41,7 @@ b78cb2f462d5888bb102c2ee68abf64ee01ffcb91cb03435a3ca0943870a2640  settings.json
 3585739588c049bc339a2cc3879f541596be2ef44d83260020d63bb64fc7d07e  corrected_permutation_rates.csv (4 KB)
 7c6e964af6e6ac65a2461b0be4c46841e7ba34f4e953090f225ff723f7b15182  corrected_permutation_pvalues.csv (548 KB)
 
-Not committed, under /home1/tgonza/MOTCO-corrected-permutation/results/corrected-permutation-2026-10-30/type-i-microglia-delta0.1/ on ing:
+Not committed, under /home1/tgonza/MOTCO/results/corrected-permutation-2026-10-30/type-i-microglia-delta0.1/ on ing (moved on 2026-10-31 from the run's worktree /home1/tgonza/MOTCO-corrected-permutation, where they were written; the decision file's run_directories keep the original paths; digests rechecked after the move):
 records/: 50 shard files, 1000 lines, 4.0M; sha256 of their sorted sha256sum listing df13287836863e247904cd923b65364fa98c8d3c81392b0d91ef66af6ef3fe45
+SLURM task logs of all five arrays: ../logs/ (682 files), moved from the worktree with the results.
 `corrected_permutation_check.py merge` regenerates every table above from records/.
