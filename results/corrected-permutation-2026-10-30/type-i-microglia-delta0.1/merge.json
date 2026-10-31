@@ -1,0 +1,40 @@
+{
+ "run": "type-i-microglia-delta0.1",
+ "units": 1000,
+ "expected": 1000,
+ "missing": [],
+ "failures": {
+  "none": 0,
+  "df": 0,
+  "leverage": 0
+ },
+ "control_rates": {
+  "anchor/none/delta": 0.04,
+  "anchor/none/angle": 0.054,
+  "anchor/none/shape": 0.06,
+  "anchor/df/delta": 0.028,
+  "anchor/df/angle": 0.046,
+  "anchor/df/shape": 0.044,
+  "anchor/leverage/delta": 0.028,
+  "anchor/leverage/angle": 0.048,
+  "anchor/leverage/shape": 0.044,
+  "translation/none/delta": 0.05,
+  "translation/none/angle": 0.06,
+  "translation/none/shape": 0.074,
+  "translation/df/delta": 0.032,
+  "translation/df/angle": 0.054,
+  "translation/df/shape": 0.056,
+  "translation/leverage/delta": 0.034,
+  "translation/leverage/angle": 0.058,
+  "translation/leverage/shape": 0.054
+ },
+ "runtime_seconds": {
+  "min": 35.665008104988374,
+  "q05": 36.263280429667795,
+  "q25": 36.743113714968786,
+  "q50": 38.93305261450587,
+  "q75": 39.44651891622925,
+  "q95": 40.04438260784955,
+  "max": 41.01928528700955
+ }
+}

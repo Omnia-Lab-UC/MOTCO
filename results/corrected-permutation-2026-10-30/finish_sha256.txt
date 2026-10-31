@@ -1,0 +1,63 @@
+python 3.11.16 motco 0.13.0 /home1/tgonza/MOTCO-corrected-permutation/src/motco/__init__.py numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3 pandas 2.3.3
+aeb653228b2bfbc7a12e9c676ad0e14543133679ff80312f6f2c0849981ed9a9  corrected_permutation_decision.json
+12c399fad186e5b8cf8ea72d7bc44336248fdf90945c125ff882a9eacd1a0b48  size_readings.csv
+f26f61dfcf0b80267eeaece75c0bc7b76b071c58bd5318d3c2654f93bdb78e07  decide.json
+35a104e2c7b175ff62b63ca79b4e968d3ebef2e6b1151fbfbb8069a788b36a8b  power/settings.json
+03265817755eaf236abc2b078660c25f3a6fb24a87ba190e20aaf36382ab0457  smoke-power/settings.json
+a08d7e640d1b7520b46701f88bdc80a1849c549b1aac2278b2cb84d18ca1f667  smoke-type-i-astrocyte-delta0.05/settings.json
+2860e0aff6692019012cf33b545676f930eb29967f8dee910eaae1680caf2ac0  smoke-type-i-astrocyte-delta0.1/settings.json
+7a8543eb35d2ab822a19e978d2cd540616d141ba026bc0cf37398d1726210be4  smoke-type-i-microglia-delta0.05/settings.json
+fec60fb925aaaa01c9cf05c612e489a037b14341ad18f567d48e2bca30f68158  smoke-type-i-microglia-delta0.1/settings.json
+4ad478afc7dc15f696839fe77cdbb7e544f78bc5d418d5cda04c2aa8da2a2f7e  type-i-astrocyte-delta0.05/settings.json
+423d06b7d339e0056c371ada5cb25351358463232f9a5e06e487cbf1e5982fba  type-i-astrocyte-delta0.1/settings.json
+36d5a13ca4d9d094234e7bc80f26a1ce7b8a8e318e314e7729ba2ba66c124f5d  type-i-microglia-delta0.05/settings.json
+b78cb2f462d5888bb102c2ee68abf64ee01ffcb91cb03435a3ca0943870a2640  type-i-microglia-delta0.1/settings.json
+a3249aa30ff14206a56b579ecf158a0cda808e62605b35d3ca5aa90712f18107  power/merge.json
+a52518aa8f16128c31f84e03311c7a6837cd832138ad6d177d35a9499c91b4bb  type-i-astrocyte-delta0.05/merge.json
+47ffa39ab996dc6aec02a7926e01ba8f1f9f13d1f80cf083c8ed6e5fea5c8dcd  type-i-astrocyte-delta0.1/merge.json
+340d3609f31280770c2a3e07063a7c2859de1e9b9f51b8f8a1c647551e2abf26  type-i-microglia-delta0.05/merge.json
+50af3b8611afbb736601128e99114a52b601620344a44bbf7faba76cabd13e05  type-i-microglia-delta0.1/merge.json
+431cfa9826587ef7a8b6b6f46a3b4afd939e929de23f0cb0548c879339795a0d  power/corrected_permutation_contrasts.csv
+eaf7af1b8952c86e295aebb8c3f8ab2c6529d3adca17b22bd0df4ddee1401ace  power/corrected_permutation_pvalues.csv
+ca889dbab6b7dbed23a16af5986e1de4fbd930f0652864a8a3201eaf8508b0bd  power/corrected_permutation_rates.csv
+45d8cef49a219baec9d8850260fa438900868bd039c793e497056336a67d500b  smoke-power/corrected_permutation_contrasts.csv
+4af4d6e8f00d105888eec3483dd735e6463ffda6e52bfd84abd65e5ce97a333c  smoke-power/corrected_permutation_pvalues.csv
+0de8f773d3e3d1665aa03445932b90d77d0eed9654c1569044ef7174b7b51ea2  smoke-power/corrected_permutation_rates.csv
+7ef0e26a181610b9afcafc9b57d1c93d805f43bb7ef6c225d5d2c78168002560  smoke-type-i-astrocyte-delta0.05/corrected_permutation_pvalues.csv
+a88becd3ecc1689aadd0c00655596925f7839981f6b7cec9151c61d7a1a078fb  smoke-type-i-astrocyte-delta0.05/corrected_permutation_rates.csv
+49498a907f94423c7ca0e51478526735e21b327e4898eaa395988b18cf2e246b  smoke-type-i-astrocyte-delta0.1/corrected_permutation_pvalues.csv
+bd501f4029a852562a99d3ccd4135af5f003582b79023eeaae78da901dc1c091  smoke-type-i-astrocyte-delta0.1/corrected_permutation_rates.csv
+abc2b981218107a5f8c9e9fc1ee50d077fca54f4c0d6cb3037c66a5c9c4cd64f  smoke-type-i-microglia-delta0.05/corrected_permutation_pvalues.csv
+ce10904d0e7a902b42306aa506fe4d25e06d0b8264b79b4ef342cb1071dc8bd8  smoke-type-i-microglia-delta0.05/corrected_permutation_rates.csv
+5d6cdf4ae4822bc8cb7f7638d3c0d7ca67c05ea5a698ac3ed6b7fe36b6f47c22  smoke-type-i-microglia-delta0.1/corrected_permutation_pvalues.csv
+4183aabea0942f642b0f45c1a6675928e6a14d822db85018bf9fe2801eea4078  smoke-type-i-microglia-delta0.1/corrected_permutation_rates.csv
+055890d796faba6a122037341b1b562353d60c8cac9958436a09496e470e07ae  type-i-astrocyte-delta0.05/corrected_permutation_pvalues.csv
+bcf05b4a99d8187e8af6fd63e2738071ce4b0ef453242e602e3514b00376fe89  type-i-astrocyte-delta0.05/corrected_permutation_rates.csv
+d386ea30fb1bcec897fd3c5b38da9af9a38eba2687426921a6bee323a3515e68  type-i-astrocyte-delta0.1/corrected_permutation_pvalues.csv
+e0a2023c00b5a891d6d0fba5f9d28ab903a2b91254c67d3ec27bb8c64bc7eeb5  type-i-astrocyte-delta0.1/corrected_permutation_rates.csv
+1c97bfa32ddc708cf30ab9f2c7293d8dfce07fa2e6891a28aec33210d93f7066  type-i-microglia-delta0.05/corrected_permutation_pvalues.csv
+e0407cff495cd2183ebaa7177005afbe650bee4b6c92b720640129ecb6a6dfa8  type-i-microglia-delta0.05/corrected_permutation_rates.csv
+7c6e964af6e6ac65a2461b0be4c46841e7ba34f4e953090f225ff723f7b15182  type-i-microglia-delta0.1/corrected_permutation_pvalues.csv
+3585739588c049bc339a2cc3879f541596be2ef44d83260020d63bb64fc7d07e  type-i-microglia-delta0.1/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   16134 Oct 30 12:29 power/corrected_permutation_contrasts.csv
+-rw-r--r-- 1 tgonza tgonza 2595951 Oct 30 12:29 power/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza   17728 Oct 30 12:29 power/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   13641 Oct 30 12:00 smoke-power/corrected_permutation_contrasts.csv
+-rw-r--r-- 1 tgonza tgonza   98199 Oct 30 12:00 smoke-power/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza   15599 Oct 30 12:00 smoke-power/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   21481 Oct 30 12:00 smoke-type-i-astrocyte-delta0.05/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    2671 Oct 30 12:00 smoke-type-i-astrocyte-delta0.05/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   21119 Oct 30 12:00 smoke-type-i-astrocyte-delta0.1/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    2653 Oct 30 12:00 smoke-type-i-astrocyte-delta0.1/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   21503 Oct 30 12:00 smoke-type-i-microglia-delta0.05/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    2781 Oct 30 12:00 smoke-type-i-microglia-delta0.05/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza   21132 Oct 30 12:00 smoke-type-i-microglia-delta0.1/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    2872 Oct 30 12:00 smoke-type-i-microglia-delta0.1/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza  556561 Oct 30 12:11 type-i-astrocyte-delta0.05/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    3182 Oct 30 12:11 type-i-astrocyte-delta0.05/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza  547539 Oct 30 12:05 type-i-astrocyte-delta0.1/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    3534 Oct 30 12:05 type-i-astrocyte-delta0.1/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza  556584 Oct 30 12:24 type-i-microglia-delta0.05/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    3257 Oct 30 12:24 type-i-microglia-delta0.05/corrected_permutation_rates.csv
+-rw-r--r-- 1 tgonza tgonza  547536 Oct 30 12:18 type-i-microglia-delta0.1/corrected_permutation_pvalues.csv
+-rw-r--r-- 1 tgonza tgonza    3546 Oct 30 12:18 type-i-microglia-delta0.1/corrected_permutation_rates.csv

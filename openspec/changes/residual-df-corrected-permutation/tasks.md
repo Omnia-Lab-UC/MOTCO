@@ -113,12 +113,12 @@
 ## 6. Paper-grade run on `ing`
 
 - [x] 6.1 Push the branch, create a clean worktree on `ing`, confirm that its tree hash equals the local tree, and run `tests/test_residual_correction.py` and `tests/test_corrected_permutation_check.py` there. Verify: identical tree hashes and passing tests on `ing`.
-- [ ] 6.2 Submit the four Type I arrays (50 shards each) and the power array (shard count from 5.2) at 500 replicates × 999 permutations, into `results/corrected-permutation-<date>/<run>/`. Monitor them to completion, and resubmit any stalled shard. Verify: every task `COMPLETED 0:0`, 1,000 units per Type I run and 7,000 for power, and zero consistency failures.
-- [ ] 6.3 Run `merge` per run and `decide` on `ing`, and copy back the rate, contrast and size tables and the decision. Commit each CSV under about 1 MB; otherwise name it in provenance. Write `PROVENANCE.txt` per run: command, jobs, tree hash, settings hash, versions (MOTCO 0.13.0), file sha256s and core-hours. Verify that the decision file's hashes equal the five settings files' hashes, and that its verdict is not indicative.
+- [x] 6.2 Submit the four Type I arrays (50 shards each) and the power array (shard count from 5.2) at 500 replicates × 999 permutations, into `results/corrected-permutation-<date>/<run>/`. Monitor them to completion, and resubmit any stalled shard. Verify: every task `COMPLETED 0:0`, 1,000 units per Type I run and 7,000 for power, and zero consistency failures.
+- [x] 6.3 Run `merge` per run and `decide` on `ing`, and copy back the rate, contrast and size tables and the decision. Commit each CSV under about 1 MB; otherwise name it in provenance. Write `PROVENANCE.txt` per run: command, jobs, tree hash, settings hash, versions (MOTCO 0.13.0), file sha256s and core-hours. Verify that the decision file's hashes equal the five settings files' hashes, and that its verdict is not indicative.
 
 ## 7. Report, roadmap and docs
 
-- [ ] 7.1 Write `docs/reports/corrected-permutation-<date>.md`. It covers:
+- [x] 7.1 Write `docs/reports/corrected-permutation-<date>.md`. It covers:
   - the construction (fresh family, both tables, the power design);
   - the rates per run × control × arm × statistic against both tiers, and the pooled rates;
   - `uncorrected_excess_reproduced`;
@@ -128,11 +128,11 @@
   - limitations: the `cohort_50` tables, the additive-linear covariates, the structural-analogue blocks, and calibration on the astrocyte table only.
 
   Verify that every number is read from the committed decision, rate, contrast and size files, and that the report names them.
-- [ ] 7.2 Update `docs/roadmap.md`: item 8 is marked done with its verdict and report link, item 1's condition on the case study changes under the verdict, and a follow-up is recorded if the verdict names one. Replace the validation status in `docs/api/analysis.md` with the verdict, and add the check (script, verdict, date) to the `analysis.py` paragraph of `AGENTS.md`. Append a "Paper-grade run" record to `design.md`. Verify with `uv run mkdocs build --strict` as in 2.3, and by reading the three documents against the decision file.
+- [x] 7.2 Update `docs/roadmap.md`: item 8 is marked done with its verdict and report link, item 1's condition on the case study changes under the verdict, and a follow-up is recorded if the verdict names one. Replace the validation status in `docs/api/analysis.md` with the verdict, and add the check (script, verdict, date) to the `analysis.py` paragraph of `AGENTS.md`. Append a "Paper-grade run" record to `design.md`. Verify with `uv run mkdocs build --strict` as in 2.3, and by reading the three documents against the decision file.
 
 ## 8. Gate
 
-- [ ] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) plus `uv run ruff check scripts/corrected_permutation_check.py`. Confirm that all pass, that `tests/test_analysis_identity.py` and the committed fixtures are unchanged (`git diff --stat main -- tests/data` is empty), and that the version is 0.13.0.
+- [x] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`) plus `uv run ruff check scripts/corrected_permutation_check.py`. Confirm that all pass, that `tests/test_analysis_identity.py` and the committed fixtures are unchanged (`git diff --stat main -- tests/data` is empty), and that the version is 0.13.0.
 
 ## Workflow follow-up
 

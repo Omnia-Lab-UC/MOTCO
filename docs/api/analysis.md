@@ -349,10 +349,10 @@ The 2026-10-30 run
 - **`residualized_basis`** for the `stage` adjustment. It still exceeds on anchor
   `angle` at a fixed rank of 2 (0.084 / 0.082).
 
-With many covariates at small n, read covariate-adjusted `delta` p-values against
-that realized size until the corrected permutation, now offered as the opt-in
-[residual correction](#residual-correction), is validated (roadmap, Next changes
-item 8).
+With many covariates at small n, use the opt-in
+[residual correction](#residual-correction) `df`, which the corrected-permutation
+check validated at this configuration (roadmap, Next changes item 8). Without it,
+read covariate-adjusted p-values against their realized size.
 
 Without the setting, every output is identical to MOTCO 0.8.0 except the
 runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
@@ -410,12 +410,27 @@ stage columns at three stages), so κ = 1.026 at n = 80.
   `residual_correction_scale(model_reduced, correction)` returns the per-sample
   multipliers.
 
-**Validation status: pending the corrected-permutation check.**
-`scripts/corrected_permutation_check.py` measures the size of both corrections
-on a fresh seed family at the case study's configuration, for both case-study
-cohort tables, and their power cost at the Phase 6 design. Until its verdict,
-the correction is offered but not validated, and the default stays the
-uncorrected null.
+**Validation status: `df` validated (`adopt_df`, 2026-10-30).** The
+corrected-permutation check (`scripts/corrected_permutation_check.py`;
+[report](../reports/corrected-permutation-2026-10-30.md)) measured both
+corrections. It used a fresh seed family at the case study's configuration:
+six covariate columns, the rank floor of 2 and a weak stage signal, on both
+case-study cohort tables (n = 80 and 76) at 500 replicates × 999 permutations.
+
+- **Size.** Both corrections hold every pooled rate and every reading. Under
+  `df`, `delta` reads 0.029–0.031, `angle` 0.0425–0.050 and `shape`
+  0.052–0.058 pooled per table, against a bound of 0.0597.
+- **The uncorrected null.** On the same data it was liberal: pooled `shape`
+  0.0675–0.0685, and anchor `angle` 0.086 at the Phase 6 stage effect.
+- **Power cost.** At the Phase 6 stage effect, `df` gives up 0.024–0.034 of
+  `angle` and `shape` power, and up to 0.054 of `delta` power, against the
+  uncorrected null.
+- **`leverage`.** It holds size as well but showed no paired power advantage,
+  so `df` is the validated choice.
+
+The validation covers n = 76–80 with six covariate columns. Smaller tables
+(for example n = 63) and other covariate sets are inferred, not measured. The
+correction stays opt-in, and the default is the uncorrected null.
 
 Without the setting, every output is identical to MOTCO 0.12.0 except the
 runtime (`tests/test_analysis_identity.py`).
