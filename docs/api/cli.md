@@ -180,9 +180,9 @@ usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      [--categorical-covariate COL]
                      [--missing-covariates {error,complete_case}]
                      [--latent-adjustment {stage,group_stage}]
-                     [--permutations PERMUTATIONS]
-                     [--seed SEED] [--n-jobs N_JOBS]
-                     [--forced-components FORCED_COMPONENTS]
+                     [--permutations PERMUTATIONS] [--seed SEED]
+                     [--n-jobs N_JOBS] [--forced-components FORCED_COMPONENTS]
+                     [--residual-correction {df,leverage}]
                      [--min-components MIN_COMPONENTS]
                      [--orientation-estimator {net_displacement,pc1}]
                      [--attribution]
@@ -217,6 +217,10 @@ options:
   --seed SEED                RRPP seed
   --n-jobs N_JOBS            Parallel jobs for CV and RRPP (-1 = all CPUs)
   --forced-components K      Fix the latent rank and skip cross-validation
+  --residual-correction {df,leverage}
+                             Rescale the reduced model's residuals before RRPP permutes them: df
+                             (kappa = sqrt(n / (n - rank))) or leverage (1 / sqrt(1 - h_ii)).
+                             Moves only the null. Default: off
   --min-components N         Rank floor of the cross-validated latent space: CV considers
                              ranks N..MAX-1 (default: 2; 1 restores the unfloored 0.9.0 rule);
                              a value below 1 exits non-zero
@@ -237,11 +241,14 @@ rank with its floor, the estimator, the statistics with their p-values and the
 written paths;
 with covariates it also prints each covariate's kind and the number of samples
 complete-case deletion dropped, and with `--latent-adjustment` the conditioning
-and the residual degrees of freedom of the residualization. Covariates are
+and the residual degrees of freedom of the residualization, and with
+`--residual-correction` the correction it applied to the RRPP null (κ for `df`,
+the leverage and multiplier range for `leverage`). Covariates are
 declared in flag order across `--covariate` and `--categorical-covariate`.
 `--latent-adjustment` without a covariate flag exits non-zero before any data
 are read; see [Latent adjustment](analysis.md#latent-adjustment) for what it
-changes and the mediator caveat.
+changes and the mediator caveat, and [Residual correction](analysis.md#residual-correction)
+for the corrected null and its validation status.
 Input and validation errors exit non-zero with an `Error: …` message.
 
 **Example:**

@@ -1,0 +1,7 @@
+before: a2f1a1fca0dcf2da0686b773c9a61b3de9ed3430 tree 4d8a22fbc91250b3343c9624a302e6673e33793f
+Updating files:  30% (7/23)Updating files:  34% (8/23)Updating files:  39% (9/23)Updating files:  43% (10/23)Updating files:  47% (11/23)Updating files:  52% (12/23)Updating files:  56% (13/23)Updating files:  60% (14/23)Updating files:  65% (15/23)Updating files:  69% (16/23)Updating files:  73% (17/23)Updating files:  78% (18/23)Updating files:  82% (19/23)Updating files:  86% (20/23)Updating files:  91% (21/23)Updating files:  95% (22/23)Updating files: 100% (23/23)Updating files: 100% (23/23), done.
+after:  ea9bacc3cdb745b7c4fc297e992cfa279f11a19e tree ac872d299e391281f8301fc8229cd8dc380e6ccc
+measurement code changed since a2f1a1f (expect nothing):
+corrected_permutation_check.py changes since a2f1a1f (decision code only):
+ scripts/corrected_permutation_check.py | 101 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 2 deletions(-)

@@ -1,0 +1,40 @@
+{
+ "run": "type-i-astrocyte-delta0.1",
+ "units": 1000,
+ "expected": 1000,
+ "missing": [],
+ "failures": {
+  "none": 0,
+  "df": 0,
+  "leverage": 0
+ },
+ "control_rates": {
+  "anchor/none/delta": 0.038,
+  "anchor/none/angle": 0.066,
+  "anchor/none/shape": 0.066,
+  "anchor/df/delta": 0.026,
+  "anchor/df/angle": 0.048,
+  "anchor/df/shape": 0.06,
+  "anchor/leverage/delta": 0.026,
+  "anchor/leverage/angle": 0.046,
+  "anchor/leverage/shape": 0.06,
+  "translation/none/delta": 0.052,
+  "translation/none/angle": 0.048,
+  "translation/none/shape": 0.07,
+  "translation/df/delta": 0.036,
+  "translation/df/angle": 0.04,
+  "translation/df/shape": 0.058,
+  "translation/leverage/delta": 0.036,
+  "translation/leverage/angle": 0.04,
+  "translation/leverage/shape": 0.058
+ },
+ "runtime_seconds": {
+  "min": 23.256007473915815,
+  "q05": 23.565056140720845,
+  "q25": 23.86663161870092,
+  "q50": 24.202496958896518,
+  "q75": 26.40432183924713,
+  "q95": 27.047095710894062,
+  "max": 27.929211244001635
+ }
+}

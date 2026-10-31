@@ -151,7 +151,7 @@ The analysis SHALL be writable to a directory as: `result.json` (the JSON-safe r
 
 ### Requirement: motco analyze subcommand
 
-`motco analyze` SHALL be a CLI subcommand over the real-data analysis. It SHALL accept: a repeatable `--block NAME=PATH` (CSV, first column the sample identifier); a repeatable `--transform NAME=KIND` (default `identity` for any block not named); `--metadata PATH`, `--sample-col`, `--group-col` and `--stage-col`; a required `--stage-order` (comma-separated labels) and an optional `--group-order`; a repeatable `--covariate COL`; a repeatable `--categorical-covariate COL`, which also declares the column a covariate; `--missing-covariates` (`error` default, `complete_case` selectable); `--latent-adjustment` (`stage` or `group_stage`; absent by default, and rejected without a covariate); `--permutations` (default 0), `--seed`, `--n-jobs` and `--forced-components`; `--min-components` (default 2; `1` restores the unfloored rule); `--orientation-estimator` (`net_displacement` default, `pc1` selectable); `--attribution` with `--bootstrap-replicates`, `--bootstrap-seed` and `--top-k`; `--out-dir` (required); and `--overwrite`. Covariates SHALL be declared in the order the flags are given. Cross-validation settings SHALL be exposed with the harness defaults. Input and validation errors SHALL exit non-zero with a descriptive message. A successful run SHALL write the analysis artifact and print the pair statistics, p-values, selected rank, rank floor and estimator. When covariates are declared, it SHALL also print the covariate names and the number of dropped samples. When latent adjustment is requested, it SHALL also print the conditioning.
+`motco analyze` SHALL be a CLI subcommand over the real-data analysis. It SHALL accept: a repeatable `--block NAME=PATH` (CSV, first column the sample identifier); a repeatable `--transform NAME=KIND` (default `identity` for any block not named); `--metadata PATH`, `--sample-col`, `--group-col` and `--stage-col`; a required `--stage-order` (comma-separated labels) and an optional `--group-order`; a repeatable `--covariate COL`; a repeatable `--categorical-covariate COL`, which also declares the column a covariate; `--missing-covariates` (`error` default, `complete_case` selectable); `--latent-adjustment` (`stage` or `group_stage`; absent by default, and rejected without a covariate); `--permutations` (default 0), `--seed`, `--n-jobs` and `--forced-components`; `--residual-correction` (`df` or `leverage`; absent by default); `--min-components` (default 2; `1` restores the unfloored rule); `--orientation-estimator` (`net_displacement` default, `pc1` selectable); `--attribution` with `--bootstrap-replicates`, `--bootstrap-seed` and `--top-k`; `--out-dir` (required); and `--overwrite`. Covariates SHALL be declared in the order the flags are given. Cross-validation settings SHALL be exposed with the harness defaults. Input and validation errors SHALL exit non-zero with a descriptive message. A successful run SHALL write the analysis artifact and print the pair statistics, p-values, selected rank, rank floor and estimator. When covariates are declared, it SHALL also print the covariate names and the number of dropped samples. When latent adjustment is requested, it SHALL also print the conditioning. When a residual correction is applied, it SHALL also print the correction and its κ or leverage range.
 
 #### Scenario: Two-block analysis from CSV files
 
@@ -197,6 +197,16 @@ The analysis SHALL be writable to a directory as: `result.json` (the JSON-safe r
 
 - **WHEN** `--min-components 0` is given
 - **THEN** the command exits non-zero with a message stating the floor must be at least 1
+
+#### Scenario: Residual-corrected analysis from the CLI
+
+- **WHEN** the covariate-adjusted command above is run with `--residual-correction df`
+- **THEN** the command exits zero, `out/result.json` states the `df` correction with its κ in the measurement block, and the printed summary names the correction and κ
+
+#### Scenario: Unknown residual correction is rejected
+
+- **WHEN** `--residual-correction hc3` is given
+- **THEN** the command exits non-zero and the message names the allowed corrections
 
 ### Requirement: Real-data analysis accepts declared covariates
 
@@ -312,3 +322,46 @@ The analysis parameters SHALL accept an integer rank floor, default 2, with 1 re
 
 - **WHEN** the parameters name a floor of 0
 - **THEN** the analysis raises an error before fitting the latent space
+
+### Requirement: Real-data analysis offers the residual-corrected permutation
+
+The analysis parameters SHALL accept a residual correction, absent by default or one of `df` and `leverage`, and pass it to RRPP with the reduced model including any covariates. The observed statistics, latent space, models and LS-means SHALL be unchanged by it. An unknown value SHALL be rejected before any fitting.
+
+#### Scenario: Correction moves only the p-values
+
+- **WHEN** the same covariate-adjusted analysis runs with no correction and with `df`, on the same inputs, permutation count and seed
+- **THEN** the latent scores, selected rank, statistics and stage means are identical, and only the p-values and null summary may differ
+
+#### Scenario: Analysis uses the primitive's corrected null
+
+- **WHEN** an analysis with six covariates runs with `leverage`
+- **THEN** its p-values equal those computed from RRPP with `leverage` on the analysis's latent scores, full and reduced models with covariates, LS-means, contrast and seed
+
+#### Scenario: Unknown correction is rejected before fitting
+
+- **WHEN** the parameters name the correction `uniform`
+- **THEN** the analysis raises an error naming the value and the allowed corrections before fitting the latent space
+
+#### Scenario: Correction without covariates is allowed
+
+- **WHEN** an analysis without covariates runs with `df`
+- **THEN** it completes, and κ is computed from the reduced model of intercept, group and stage
+
+### Requirement: Real-data analysis records the residual correction
+
+When a correction is set and permutations run, the measurement block SHALL state the correction's kind, the number of samples and the reduced model's rank. For `df` it SHALL also state κ, and for `leverage` the minimum and maximum leverage and multiplier. The resolved parameters SHALL carry the correction only when it is set. Without a correction, every output SHALL equal 0.12.0's except the runtime.
+
+#### Scenario: df correction is recorded
+
+- **WHEN** an analysis with 80 samples and a reduced model of rank 10 runs with `df` and 99 permutations
+- **THEN** the record's measurement block states kind `df`, 80 samples, rank 10 and κ = √(80 / 70), and the resolved parameters carry `residual_correction: "df"`
+
+#### Scenario: No correction means no change
+
+- **WHEN** the committed identity analyses run without a correction
+- **THEN** their records, minus the runtime, and their tables equal the committed fixtures, and neither the resolved parameters nor the measurement block carries a residual-correction key
+
+#### Scenario: Correction without permutations is not reported as applied
+
+- **WHEN** an analysis runs with `df` and 0 permutations
+- **THEN** the resolved parameters carry the setting and the measurement block carries no residual-correction entry

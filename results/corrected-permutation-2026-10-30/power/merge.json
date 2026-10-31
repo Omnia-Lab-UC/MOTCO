@@ -1,0 +1,40 @@
+{
+ "run": "power",
+ "units": 7000,
+ "expected": 7000,
+ "missing": [],
+ "failures": {
+  "none": 0,
+  "df": 0,
+  "leverage": 0
+ },
+ "control_rates": {
+  "anchor/none/delta": 0.046,
+  "anchor/none/angle": 0.086,
+  "anchor/none/shape": 0.064,
+  "anchor/df/delta": 0.034,
+  "anchor/df/angle": 0.064,
+  "anchor/df/shape": 0.046,
+  "anchor/leverage/delta": 0.034,
+  "anchor/leverage/angle": 0.068,
+  "anchor/leverage/shape": 0.044,
+  "translation/none/delta": 0.056,
+  "translation/none/angle": 0.07,
+  "translation/none/shape": 0.07,
+  "translation/df/delta": 0.04,
+  "translation/df/angle": 0.058,
+  "translation/df/shape": 0.056,
+  "translation/leverage/delta": 0.042,
+  "translation/leverage/angle": 0.06,
+  "translation/leverage/shape": 0.056
+ },
+ "runtime_seconds": {
+  "min": 22.492163356393576,
+  "q05": 23.109245621785522,
+  "q25": 24.173067641444504,
+  "q50": 53.01026285625994,
+  "q75": 53.99687931407243,
+  "q95": 54.795562791172415,
+  "max": 57.13945102877915
+ }
+}

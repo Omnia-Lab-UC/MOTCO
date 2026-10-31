@@ -1,0 +1,47 @@
+corrected-permutation check, run type-i-microglia-delta0.05 (openspec change residual-df-corrected-permutation, design D5, D11, D12)
+construction: profile type_i, table microglia [[11, 10, 24], [9, 11, 11]] (sha256 0dba07a7… of sead_sexdiff results/microglia/motco_analysis/cohort_30/result.json (MOTCO 0.10.0)), delta 0.05, cells anchor (e = 0) and translation (e = 1.0)
+  (reps 500, perms 999, base seed 2031, alpha 0.05, s_z 10.0, feature fraction 0.2, six declared covariates z/x1/x2/x3/x4/x5, p_dmp 0.1, layers methylation+expression, min_components 2, net_displacement; three arms per unit: no correction, df, leverage)
+submitted: 2026-10-30T14:02:04Z on ing, partition 512x1024, --exclude=n11, array 0-49 (50 shards), job 930620
+command: sbatch --array=0-49 --export=ALL,CP_OUT=<worktree>/results/corrected-permutation-2026-10-30/type-i-microglia-delta0.05,CP_PROFILE=type_i,CP_TABLE=microglia,CP_DELTA=0.05,N_SHARDS=50,PYTHONPATH=<worktree>/src scripts/corrected_permutation_array.sbatch
+  (settings.json pre-created with `run ... --shard 0/50 --limit 0`; all five arrays from /home1/tgonza/corrected_permutation_submit.sh)
+code: clean git worktree /home1/tgonza/MOTCO-corrected-permutation of branch feat/residual-df-corrected-permutation at a2f1a1f (git tree 4d8a22fbc91250b3343c9624a302e6673e33793f, identical to the workstation; tests/test_residual_correction.py and tests/test_corrected_permutation_check.py passed there); PYTHONPATH on its src, .venv symlinked from /home1/tgonza/MOTCO
+settings hash: 399ae54e5e568f8bae567e048deb23e7f3c22c15903cfabc659289fd9a2a4248 (equals the decision file's runs.type-i-microglia-delta0.05.settings_hash)
+versions: python 3.11.16 motco 0.13.0 /home1/tgonza/MOTCO-corrected-permutation/src/motco/__init__.py numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3 pandas 2.3.3
+
+completed: 2026-10-30T14:28:29Z (first task ended 2026-10-30T14:19:33Z, first started 2026-10-30T14:02:05Z); 50/50 tasks COMPLETED 0:0 on n1 (30), n2 (20)
+units: 1000/1000, missing 0, arm failures none 0, df 0, leverage 0; 0 consistency failures (a unit whose arms differ in latent scores, rank or statistics raises and writes no line, and every expected unit has a line)
+core-hours: 18.89 elapsed (sacct CPUTimeRAW, one CPU per task, BLAS threads 1); the units' own timers sum to 13.30 h (median 46.7 s per unit of three analyses, q95 56.7 s, max 57.9 s)
+
+merged and decided on ing by the afterany job 930817 (/home1/tgonza/corrected_permutation_finish.sbatch, 2026-10-30T14:59:33Z-15:34:25Z on n3):
+  it fast-forwarded the worktree a2f1a1f -> ea9bacc (git tree ac872d299e391281f8301fc8229cd8dc380e6ccc), which changes only the decision code in scripts/corrected_permutation_check.py and its tests (finish_git.txt: no change under src/ or in the construction scripts), then ran
+  python scripts/corrected_permutation_check.py merge --out-dir <worktree>/results/corrected-permutation-2026-10-30/type-i-microglia-delta0.05 > merge.json
+  python scripts/corrected_permutation_check.py decide --runs <root>/type-i-* <root>/power --out-dir <root> > decide.json
+decision (shared by the five runs, ../corrected_permutation_decision.json): adopt_df, indicative false
+
+sha256 of the files that define the measurement (identical on ing at ea9bacc and on the workstation):
+4a05c7d0eac6b16e096169f9e31e1ecb3600f9ebf859317d567a81a3b492ee6a  scripts/corrected_permutation_check.py
+3890346ddbc6b44ea5ccdfc8cf9c16cf9e2c6f00bb0be331e8a86ad5b02baf85  scripts/case_study_type_i_check.py
+cc2d08531a2b9e7d9471e88da86813bf7f6d95d1e1488836a6f2e741804ec748  scripts/covariate_type_i_check.py
+f7a64f86a2d032261f5de2e57c5158b74c30a7c821a76ef7651586efef3faad7  scripts/case_study_diagnosis.py
+ce4128219508ace3a434b45fab748de0b348fbe89cb60ae365f39be9a3be81d3  scripts/corrected_permutation_array.sbatch
+433b54c0114ca65753b4b0cc0cb662d9b12365103e538e4a2f0fcf382d11ce6f  src/motco/analysis.py
+177c23667c294c55c50a3e5ab8600d9fb34e01208c49bb0433361bfe5950e0ef  src/motco/stats/permutation.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+29cd217a3aabfadbcbe86167dd0b8a9f4cf01eca63c0e5f9a0683a0378483a19  src/motco/stats/design.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+837f41351ca8bb35ef91f1146c48d5fa504aaac85079c417cf26e86992939ef9  src/motco/simulations/evaluation.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+89bf84084deff16d02d9cef2af994ecdaa93947238d731cc1e478506cca1880b  src/motco/simulations/preprocessing.py
+c348800d0da985afd56a00da296df58354fb68d2e3bd34114b1dfdf19fb0d2fa  src/motco/__init__.py
+
+Committed (sha256 from ../finish_sha256.txt, rechecked on the workstation after rsync):
+36d5a13ca4d9d094234e7bc80f26a1ce7b8a8e318e314e7729ba2ba66c124f5d  settings.json
+340d3609f31280770c2a3e07063a7c2859de1e9b9f51b8f8a1c647551e2abf26  merge.json
+e0407cff495cd2183ebaa7177005afbe650bee4b6c92b720640129ecb6a6dfa8  corrected_permutation_rates.csv (3 KB)
+1c97bfa32ddc708cf30ab9f2c7293d8dfce07fa2e6891a28aec33210d93f7066  corrected_permutation_pvalues.csv (557 KB)
+
+Not committed, under /home1/tgonza/MOTCO/results/corrected-permutation-2026-10-30/type-i-microglia-delta0.05/ on ing (moved on 2026-10-31 from the run's worktree /home1/tgonza/MOTCO-corrected-permutation, where they were written; the decision file's run_directories keep the original paths; digests rechecked after the move):
+records/: 50 shard files, 1000 lines, 4.0M; sha256 of their sorted sha256sum listing 22043c932a0e75eae6603c000c5e3568c66f2e433882e5647032486505f95e84
+SLURM task logs of all five arrays: ../logs/ (682 files), moved from the worktree with the results.
+`corrected_permutation_check.py merge` regenerates every table above from records/.

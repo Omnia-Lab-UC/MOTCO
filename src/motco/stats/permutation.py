@@ -17,6 +17,75 @@ from motco.stats.trajectory import (
 
 logger = logging.getLogger(__name__)
 
+#: Residual corrections :func:`RRPP` accepts; ``None`` is the uncorrected Freedman–Lane null.
+RESIDUAL_CORRECTIONS: tuple[str, ...] = ("df", "leverage")
+
+# Smallest admissible ``1 − h_ii`` under the leverage correction.
+_LEVERAGE_TOLERANCE = 1e-10
+
+
+def residual_correction_scale(
+    model_reduced: Union[pd.DataFrame, np.ndarray],
+    correction: str,
+) -> np.ndarray:
+    """Per-sample multipliers a residual correction applies to the reduced model's residuals.
+
+    The reduced model's mean squared residual is RSS/n, not the unbiased
+    RSS/(n − r), so permuting the raw residuals draws a null that is too
+    narrow for scale-dependent statistics. The corrections restore that scale:
+
+    - ``"df"``: every residual is multiplied by κ = √(n / (n − r));
+    - ``"leverage"``: residual i is divided by √(1 − h_ii), with h the reduced
+      model's hat matrix.
+
+    r is the numerical rank of ``model_reduced`` (numpy's ``matrix_rank``
+    tolerance on its thin SVD), so a rank-deficient model uses its rank, not
+    its column count. A balanced one-factor model gives every sample the same
+    leverage r/n, where both corrections coincide.
+
+    Parameters
+    ----------
+    model_reduced: Union[pd.DataFrame, np.ndarray]
+        Model matrix of the reduced model, including intercept.
+    correction: str
+        One of :data:`RESIDUAL_CORRECTIONS`.
+
+    Returns
+    -------
+    np.ndarray
+        One multiplier per row of ``model_reduced``.
+
+    Raises
+    ------
+    ValueError
+        For an unknown correction, for ``"df"`` when n − r ≤ 0, and for
+        ``"leverage"`` when a row has leverage 1 to numerical tolerance.
+    """
+    if correction not in RESIDUAL_CORRECTIONS:
+        raise ValueError(
+            f"Unknown residual_correction {correction!r}; allowed: {list(RESIDUAL_CORRECTIONS)} or None."
+        )
+    X = np.asarray(model_reduced, dtype=float)
+    n, p = X.shape
+    U, s, _ = np.linalg.svd(X, full_matrices=False)
+    tolerance = s.max() * max(n, p) * np.finfo(float).eps if s.size else 0.0
+    rank = int(np.sum(s > tolerance))
+    if correction == "df":
+        if n - rank <= 0:
+            raise ValueError(
+                f"The df residual correction needs n - rank > 0, but the reduced model has n = {n} rows "
+                f"and rank {rank}."
+            )
+        return np.full(n, np.sqrt(n / (n - rank)))
+    complement = 1.0 - np.sum(U[:, :rank] ** 2, axis=1)
+    saturated = np.flatnonzero(complement <= _LEVERAGE_TOLERANCE)
+    if saturated.size:
+        raise ValueError(
+            f"The leverage residual correction is undefined: row {int(saturated[0])} of the reduced model has "
+            f"leverage 1 (1 - h_ii = {complement[saturated[0]]:.3g})."
+        )
+    return 1.0 / np.sqrt(complement)
+
 
 class _RRPPWorker:
     """Picklable callable that runs a chunk of RRPP permutations."""
@@ -87,6 +156,7 @@ def RRPP(
     seed: Optional[int] = None,
     return_eigengaps: bool = False,
     orientation_estimator: str = "pc1",
+    residual_correction: Optional[str] = None,
 ) -> tuple:
     """
     Residual Randomization in a Permutation Procedure to evaluate
@@ -124,6 +194,15 @@ def RRPP(
         Orientation estimator for every permuted ``angle`` (``"pc1"``, the
         default, or ``"net_displacement"``); see
         :func:`motco.stats.trajectory.estimate_difference`.
+    residual_correction: Optional[str]
+        Rescale the reduced model's residuals once before they are permuted:
+        ``"df"`` multiplies each by κ = √(n / (n − r)) and ``"leverage"``
+        divides each by √(1 − h_ii) (see :func:`residual_correction_scale`).
+        The permutation indices, the reduced fitted values and the full-model
+        estimation are unchanged, so only the null distributions move. ``None``
+        (the default) permutes the raw residuals, exactly as before the
+        setting existed. An unknown or undefined correction raises before any
+        permutation is drawn.
 
     Returns
     -------
@@ -166,6 +245,7 @@ def RRPP(
         raise ValueError("model_full contains NaN or Inf values.")
     if not np.all(np.isfinite(_Xr)):
         raise ValueError("model_reduced contains NaN or Inf values.")
+    correction_scale = None if residual_correction is None else residual_correction_scale(_Xr, residual_correction)
     # --- End validation ---
     # Set Y to be pandas df
     Y = pd.DataFrame(Y)
@@ -179,6 +259,9 @@ def RRPP(
     # Prepare NumPy views to avoid pandas inside the permutation loop
     y_hat_np = np.asarray(y_hat)
     y_res_np = np.asarray(y_res)
+    if correction_scale is not None:
+        # Rescaled once, before either path: the draws below are untouched.
+        y_res_np = y_res_np * correction_scale[:, None]
     # Prepare containers
     deltas: list[np.ndarray] = []
     angles: list[np.ndarray] = []

@@ -66,7 +66,7 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `design` | group and ordered stage levels, cell sizes per group × stage, contrast, analysed sample count |
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
-| `measurement` | orientation estimator, selected rank, permutations, seed, runtime |
+| `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
 | `attribution` | the compact attribution record, or a `not_requested` marker |
 
@@ -349,12 +349,91 @@ The 2026-10-30 run
 - **`residualized_basis`** for the `stage` adjustment. It still exceeds on anchor
   `angle` at a fixed rank of 2 (0.084 / 0.082).
 
-With many covariates at small n, read covariate-adjusted `delta` p-values against
-that realized size until the corrected permutation is offered and validated
-(roadmap, Next changes item 8).
+With many covariates at small n, use the opt-in
+[residual correction](#residual-correction) `df`, which the corrected-permutation
+check validated at this configuration (roadmap, Next changes item 8). Without it,
+read covariate-adjusted p-values against their realized size.
 
 Without the setting, every output is identical to MOTCO 0.8.0 except the
 runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
+
+## Residual correction
+
+RRPP permutes the reduced model's residuals (Freedman–Lane). Their mean square
+is RSS/n, not the unbiased RSS/(n − r), where r is the reduced model's rank, so
+the permuted noise is narrower than the real noise by a factor of
+√((n − r)/n). With many covariate columns at small n that factor matters: at
+n = 80 and r = 10 (intercept, group, two stage columns and six covariates) the
+permuted noise is about 6 % narrower in SD, the null of a scale-dependent
+statistic is too narrow, and `delta` rejects at about 0.066 at α = 0.05 (the
+[diagnosis](../reports/case-study-diagnosis-2026-10-30.md)). The opt-in
+`residual_correction` rescales the residuals once before they are permuted:
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, residual_correction="df")
+```
+
+```bash
+motco analyze ... --covariate age_at_death --covariate pmi --residual-correction df
+```
+
+- **`df`** multiplies every residual by κ = √(n / (n − r)): one scalar per
+  analysis (κ = 1.069 at n = 80, r = 10). It is the correction the diagnosis
+  measured.
+- **`leverage`** divides residual i by √(1 − h_ii), with h the reduced model's
+  hat matrix, so samples in small cells or with extreme covariate values are
+  inflated more. In a balanced one-factor design every sample has leverage r/n
+  and the two corrections coincide.
+
+r is the numerical rank of the reduced model with its covariates, so a
+rank-deficient model uses its rank, not its column count. The permutation draws
+(the same seed gives the same sample orders), the reduced fitted values, the
+full-model estimation and the observed statistics are unchanged: **only the
+p-values and the null summary move**. The latent scores, selected rank, stage
+means and every other block are identical with and without the setting. The
+correction does not need covariates: without them r = 4 (intercept, group, two
+stage columns at three stages), so κ = 1.026 at n = 80.
+
+- **Errors.** An unknown value is rejected before any fitting. `df` with
+  n − r ≤ 0, and `leverage` with a sample of leverage 1 (the only member of a
+  reduced-model category), raise an error naming the counts or the sample's row
+  before any permutation.
+- **Record.** When the correction is set and permutations run,
+  `measurement.residual_correction` states `kind`, `n` and `reduced_rank`, plus
+  `kappa` for `df`, or `leverage_min`/`leverage_max` and `scale_min`/`scale_max`
+  for `leverage`; the CLI prints it as `RRPP null: residual correction …`.
+  `params.residual_correction` is recorded only when set. With
+  `permutations=0` the parameter is recorded but no correction entry is
+  written, since nothing was applied.
+- **The primitive.** `motco.stats.permutation.RRPP(..., residual_correction=)`
+  applies the same rescaling for any caller, and
+  `residual_correction_scale(model_reduced, correction)` returns the per-sample
+  multipliers.
+
+**Validation status: `df` validated (`adopt_df`, 2026-10-30).** The
+corrected-permutation check (`scripts/corrected_permutation_check.py`;
+[report](../reports/corrected-permutation-2026-10-30.md)) measured both
+corrections. It used a fresh seed family at the case study's configuration:
+six covariate columns, the rank floor of 2 and a weak stage signal, on both
+case-study cohort tables (n = 80 and 76) at 500 replicates × 999 permutations.
+
+- **Size.** Both corrections hold every pooled rate and every reading. Under
+  `df`, `delta` reads 0.029–0.031, `angle` 0.0425–0.050 and `shape`
+  0.052–0.058 pooled per table, against a bound of 0.0597.
+- **The uncorrected null.** On the same data it was liberal: pooled `shape`
+  0.0675–0.0685, and anchor `angle` 0.086 at the Phase 6 stage effect.
+- **Power cost.** At the Phase 6 stage effect, `df` gives up 0.024–0.034 of
+  `angle` and `shape` power, and up to 0.054 of `delta` power, against the
+  uncorrected null.
+- **`leverage`.** It holds size as well but showed no paired power advantage,
+  so `df` is the validated choice.
+
+The validation covers n = 76–80 with six covariate columns. Smaller tables
+(for example n = 63) and other covariate sets are inferred, not measured. The
+correction stays opt-in, and the default is the uncorrected null.
+
+Without the setting, every output is identical to MOTCO 0.12.0 except the
+runtime (`tests/test_analysis_identity.py`).
 
 ## Example: SEA-AD-style design
 

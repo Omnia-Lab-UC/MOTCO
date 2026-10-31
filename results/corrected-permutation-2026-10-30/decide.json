@@ -1,0 +1,18 @@
+{
+ "verdict": "adopt_df",
+ "indicative": false,
+ "indicative_reasons": {
+  "below_default_permutations": [],
+  "missing_runs": []
+ },
+ "holds": {
+  "df": true,
+  "leverage": true
+ },
+ "uncorrected_excess_reproduced": false,
+ "clustered_sensitivity_holds": {
+  "none": false,
+  "df": true,
+  "leverage": true
+ }
+}
