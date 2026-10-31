@@ -1,0 +1,1432 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Rank-floor check — 2026-10-23 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rank-floor-check-2026-10-23" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Rank-floor check — 2026-10-23
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction-and-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction and calibration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Construction and calibration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoke-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smoke profiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-rates-against-the-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rates against the bound
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-the-floor-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What the floor changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-power-in-both-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Power in both arms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-decision-limitation-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Decision, limitation and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rank-floor-check-2026-10-23">Rank-floor check — 2026-10-23</h1>
+<blockquote>
+<p>Paper-grade size and power check of the PLS latent-space rank floor (<code>min_components=2</code>, MOTCO 0.10.0) against the
+unfloored 0.9.0 rule at the Phase 6 SEA-AD design (<code>openspec/changes/archive/2026-10-23-minimum-latent-rank/</code>, design D7, spec
+<code>rank-floor-validation</code>). It is the gate behind the default flip: <code>motco analyze</code> and the simulation harness select
+the PLS rank from candidates at or above 2 only once this check names the floor-2 arm admissible. Every number below
+is read from <code>results/rank-floor-2026-10-23/</code> (<code>delta0.05/</code> and <code>delta0.1/</code>: <code>rank_floor_decision.json</code>,
+<code>rank_floor_rates.csv</code>, <code>rank_floor_replicates.csv</code>, <code>rank_floor_pvalues.csv</code>, <code>merged.jsonl</code>, the last three kept on ing as
+<code>PROVENANCE.txt</code> records; <code>calibration/</code>;
+<code>smoke-delta0.05/</code>, <code>smoke-delta0.1/</code>). Rates are rejection rates at p ≤ 0.05 over the available replicates of 500,
+at 999 permutations.</p>
+</blockquote>
+<p><strong>Run:</strong> two SLURM arrays of 100 shards on <code>ing</code> (partition <code>512x1024</code>): job 925691 for δ = 0.05 and job 925791 for
+δ = 0.1, 7,000 units each, 100 / 100 tasks completed, 0 arm failures, 53.0 + 45.8 recorded
+core-hours (29 and 25 s per unit, two analyses at 999 permutations). The code is local <code>main</code> at <code>0a15d44</code> plus this
+change's working tree, rsynced over the cluster checkout and verified by tree hash; file hashes are in each
+<code>PROVENANCE.txt</code>.</p>
+<p><strong>Decision:</strong> <code>adopt_floor</code> at δ = 0.05 and <code>adopt_floor</code> at δ = 0.1, hence <strong><code>adopt_floor</code></strong> under the predeclared
+conjunction. The floor-2 arm holds the bound 0.0695 for every statistic at both controls in both runs.</p>
+<p><strong>In one paragraph.</strong> At the Phase 6 SEA-AD design with the stage signal weakened until the unfloored rank rule
+selects rank 1 in 58 % (δ = 0.05) and 42 % (δ = 0.1) of the null replicates (held-out CV AUROC
+0.51 and 0.57), each of 7,000 units per strength was analysed twice on the same data and permutation draws,
+with the 0.9.0 rule and with the rank floor of 2. In the floored arm the zero-effect anchor rejects <code>delta</code> 0.042 / 0.044,
+<code>angle</code> 0.054 / 0.060 and <code>shape</code> 0.036 / 0.038 (δ = 0.05 / 0.1), and the translation
+control 0.036 / 0.036, 0.046 / 0.042 and 0.026 / 0.030, all at or below
+0.0695 at R = 500. The floor lifted 4,257 and 3,228 rank-1 selections, mostly to rank 2; in the unfloored arm every rank-1 unit measured
+<code>angle</code> as exactly 0° or 180° with a two-point null that never rejected. Power is at the null in both arms at
+these strengths, so the check establishes size, not a gain: the floor defines <code>angle</code> and <code>shape</code> where the 0.9.0
+rule left them degenerate, and the record's spectrum and null summary say how resolvable they are.</p>
+<h2 id="1-construction-and-calibration">1. Construction and calibration</h2>
+<ul>
+<li><strong>Why a new construction.</strong> The 0.9.0 latent-adjustment power comparison recorded the CV-selected rank per unit at
+  the Phase 6 construction: no unit in any arm selected rank 1 (<a href="../../roadmap/">roadmap</a>, Next changes item 4), while
+  both SEA-AD cohorts did (held-out AUROC 0.63 / 0.66). The floor changes the measurement only where the unfloored
+  rule selects rank 1, so it is validated where that happens.</li>
+<li><strong>Data.</strong> <code>generate_semisynthetic_trajectory</code> at the Phase 6 small-n design: three stages,
+  <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code> (n = 80), methylation (M-values) and expression measured, 498
+  features, joint magnitude, <code>p_dmp = 0.1</code>, <code>baseline_continuity = 0</code>, with the <strong>stage signal weakened</strong> through the
+  per-omic effect sizes <code>delta_methyl = delta_expr = delta_protein = δ</code>, at the Phase 6 value 2.0 for every committed
+  study. Two strengths were run, δ = 0.05 and δ = 0.1 (below). <code>p_dmp</code> stays at 0.1 so every pool-limited surgery
+  keeps its Phase 6 headroom (translation 98 sites available, orientation and shape 242; every cell fits).</li>
+<li><strong>Cells.</strong> The zero-effect anchor; the <code>translation</code> negative control at e = 1.0; <code>magnitude</code> at e = 0.02, 0.05,
+  0.1, 0.25 (the Phase 6 magnitude profile below its saturation); <code>orientation</code> and <code>shape</code> at e = 0.25, 0.5, 0.75,
+  1.0 (the Phase 6 study profile). 14 cells × 500 replicates = 7,000 units per strength. The generator and RRPP seeds
+  depend on the replicate index only (base seed 2026), so every cell and both arms of replicate <code>r</code> share the
+  baseline draw and the permutation draws.</li>
+<li><strong>Arms.</strong> Each unit is analysed with <code>analyze_trajectories</code> twice, with the harness CV defaults
+  (<code>cv2_splits = 4</code>, <code>cv1_splits = 3</code>, <code>n_repeats = 5</code>, <code>max_components = 20</code>, <code>random_state = 1203</code>), 999
+  permutations, the same RRPP seed, no covariates and the net-displacement estimator:</li>
+<li><code>floor_1</code>: <code>min_components = 1</code>, the 0.9.0 rule (measured, not judged);</li>
+<li><code>floor_2</code>: <code>min_components = 2</code>, the candidate default.</li>
+<li><strong>Rule</strong> (predeclared in design D7, pure function <code>rank_floor_decision</code>). For the anchor and the translation
+  control, the <code>floor_2</code> arm's rate over its R available replicates must be at most α + k·√(α(1 − α)/R) with
+  α = 0.05 and k = 2 (0.0695 at R = 500) for <code>delta</code>, <code>angle</code> and <code>shape</code>. Every statistic holding at both controls
+  gives <code>adopt_floor</code>, otherwise <code>diagnose_floor_excess</code>. With two strengths, <code>adopt_floor</code> requires both runs to hold
+  (settled with the user before submission). The <code>floor_1</code> arm's rates are reported and never enter the decision;
+  power rows are descriptive.</li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<p>The calibration criterion is that the unfloored rule selects rank 1 in at least half of the null (anchor) replicates
+on a recorded smoke run before any paper-grade run (<code>scripts/rank_floor_check.py calibrate</code>; every iteration is in
+<code>results/rank-floor-2026-10-23/calibration/calibration.json</code>). Weakening δ alone first <em>raises</em> the selected rank:
+at δ = 1.0 and 0.5 the held-out AUROC stays at 1.0 and the CV picks 3–6 components, at δ = 0.25 it is 0.92 with
+4–11 components, because the stage signal thins across more directions before it fades. It reaches rank 1 only once
+the signal is near chance.</p>
+<table>
+<thead>
+<tr>
+<th>δ</th>
+<th>R</th>
+<th>rank-1 fraction</th>
+<th>rank distribution</th>
+<th>mean CV AUROC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.0 (Phase 6)</td>
+<td>20</td>
+<td>0.00</td>
+<td>2: 8, 3: 12</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>20</td>
+<td>0.00</td>
+<td>3: 20</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>20</td>
+<td>0.00</td>
+<td>3: 1, 4: 8, 5: 9, 6: 2</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>0.25</td>
+<td>20</td>
+<td>0.00</td>
+<td>4–11</td>
+<td>0.920</td>
+</tr>
+<tr>
+<td>0.15</td>
+<td>50</td>
+<td>0.08</td>
+<td>1: 4, 2: 12, 3: 8, 4–12: 26</td>
+<td>0.702</td>
+</tr>
+<tr>
+<td>0.1</td>
+<td>20 / 50</td>
+<td>0.55 / 0.44</td>
+<td>1: 22, 2: 13, 3: 5, 4–10: 10 (R = 50)</td>
+<td>0.579 / 0.583</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>50</td>
+<td>0.58</td>
+<td>1: 29, 2: 14, 3: 4, 4: 3</td>
+<td>0.525</td>
+</tr>
+</tbody>
+</table>
+<p>Both strengths meet the criterion on their smoke replicates (δ = 0.05: 0.70; δ = 0.1: 0.55), and they bracket the
+SEA-AD regime from the two sides: δ = 0.1 has the cohorts' held-out AUROC (0.58 against 0.63–0.66) with a rank-1
+fraction near one half, δ = 0.05 is robustly in the rank-1 regime with almost no stage signal left (AUROC 0.52).</p>
+<h3 id="smoke-profiles">Smoke profiles</h3>
+<p>R = 20 at 99 permutations, 14 cells × 2 arms = 560 analyses per strength (<code>smoke-delta0.05/</code>, <code>smoke-delta0.1/</code>). No
+arm failed; the <code>floor_2</code> arm selected rank ≥ 2 in every unit while <code>floor_1</code> measured <code>angle</code> in one dimension in
+183 / 280 (δ = 0.05) and 147 / 280 (δ = 0.1) units. Each smoke decision reads <code>diagnose_floor_excess</code> on one
+statistic at 3 of 20 rejections (0.150 against the R = 20 bound 0.147): anchor <code>angle</code> at δ = 0.05, translation
+<code>delta</code> at δ = 0.1. At R = 20 one rejection moves a rate by 0.05, so the smoke decisions are calibration and cost
+evidence, not verdicts. Cost: 26–53 s per unit at 99 permutations locally, 58 s at 999 permutations.</p>
+<h2 id="2-rates-against-the-bound">2. Rates against the bound</h2>
+<p>Rate (Monte Carlo SE) with the floor-2 verdict against α + 2·√(α(1 − α)/500) = 0.0695; the floor-1 arm is descriptive.</p>
+<table>
+<thead>
+<tr>
+<th>control</th>
+<th>statistic</th>
+<th>floor-2 δ = 0.05</th>
+<th>floor-2 δ = 0.1</th>
+<th>floor-1 δ = 0.05</th>
+<th>floor-1 δ = 0.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor</td>
+<td><code>delta</code></td>
+<td>0.042 (0.0090) holds</td>
+<td>0.044 (0.0092) holds</td>
+<td>0.044 (0.0092)</td>
+<td>0.042 (0.0090)</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td><code>angle</code></td>
+<td>0.054 (0.0101) holds</td>
+<td>0.060 (0.0106) holds</td>
+<td>0.030 (0.0076)</td>
+<td>0.038 (0.0086)</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td><code>shape</code></td>
+<td>0.036 (0.0083) holds</td>
+<td>0.038 (0.0086) holds</td>
+<td>0.048 (0.0096)</td>
+<td>0.046 (0.0094)</td>
+</tr>
+<tr>
+<td>translation</td>
+<td><code>delta</code></td>
+<td>0.036 (0.0083) holds</td>
+<td>0.036 (0.0083) holds</td>
+<td>0.038 (0.0086)</td>
+<td>0.036 (0.0083)</td>
+</tr>
+<tr>
+<td>translation</td>
+<td><code>angle</code></td>
+<td>0.046 (0.0094) holds</td>
+<td>0.042 (0.0090) holds</td>
+<td>0.016 (0.0056)</td>
+<td>0.026 (0.0071)</td>
+</tr>
+<tr>
+<td>translation</td>
+<td><code>shape</code></td>
+<td>0.026 (0.0071) holds</td>
+<td>0.030 (0.0076) holds</td>
+<td>0.034 (0.0081)</td>
+<td>0.026 (0.0071)</td>
+</tr>
+</tbody>
+</table>
+<p>At p &lt; 0.05 instead of p ≤ 0.05 the floor-2 anchor rates are <code>delta</code> 0.042 / 0.044, <code>angle</code> 0.052 / 0.058, <code>shape</code>
+0.036 / 0.038 and the translation rates 0.036 / 0.036, 0.046 / 0.042, 0.024 / 0.030; the decision is unchanged.</p>
+<p><strong>Stability.</strong> Floor-2 rates over five consecutive blocks of 100 replicates:</p>
+<ul>
+<li>δ = 0.05, anchor: <code>delta</code> 0.06, 0.03, 0.05, 0.05, 0.02; <code>angle</code> 0.05, 0.04, 0.07, 0.05, 0.06; <code>shape</code> 0.04, 0.01, 0.07, 0.04, 0.02.
+  Translation: <code>delta</code> 0.03, 0.03, 0.02, 0.05, 0.05; <code>angle</code> 0.02, 0.04, 0.06, 0.04, 0.07; <code>shape</code> 0.04, 0.01, 0.03, 0.02, 0.03.</li>
+<li>δ = 0.1, anchor: <code>delta</code> 0.07, 0.02, 0.05, 0.04, 0.04; <code>angle</code> 0.04, 0.05, 0.07, 0.05, 0.09; <code>shape</code> 0.06, 0.01, 0.07, 0.02, 0.03.
+  Translation: <code>delta</code> 0.03, 0.03, 0.02, 0.05, 0.05; <code>angle</code> 0.02, 0.03, 0.06, 0.03, 0.07; <code>shape</code> 0.05, 0.01, 0.05, 0.01, 0.03.</li>
+</ul>
+<p>No block exceeds 0.09, and no statistic is near the bound in both runs at once (<code>angle</code> at the anchor is the closest,
+0.054 and 0.060). Every unit was available in both arms: no CV training fold failed, which the 0.9.0 checks saw only
+with categorical covariates.</p>
+<h2 id="3-what-the-floor-changes">3. What the floor changes</h2>
+<ul>
+<li><strong>Calibration realized.</strong> The unfloored anchor arm selected rank 1 in 289 / 500 replicates at δ = 0.05
+  (0.578; criterion met) and 210 / 500 at δ = 0.1 (0.420; the smoke replicates' 0.55 was the high side of the
+  R = 50 estimate 0.44, so the paper-grade fraction sits just under one half, as reported before submission). The anchor
+  rank distributions are 1: 289, 2: 120, 3: 59, 4: 18, 5: 10, ≥6: 4 (floor 1) against 2: 346, 3: 91, 4: 27, 5: 23, 6: 7, ≥7: 6 (floor 2) at δ = 0.05, and
+  1: 210, 2: 131, 3: 66, 4: 27, 5: 25, ≥6: 41 against 2: 275, 3: 104, 4: 37, 5: 39, 6: 22, ≥7: 23 at δ = 0.1.</li>
+<li><strong>The lift.</strong> Over all 7,000 units the unfloored rule selected rank 1 in 4,257 (δ = 0.05) and 3,228 (δ = 0.1); the floor
+  moved those to rank 2 in 3,289 / 2,187, rank 3 in 558 / 499, rank 4 in 184 / 180 and higher in the rest. The two arms
+  select the same rank in 2,635 / 3,633 units; in 108 / 139 units the unfloored modal rank was already ≥ 2 but
+  moved, because outer folds that had chosen rank 1 chose another candidate under the floor. The floor-2 arm
+  selected rank 2 in 4,795 / 3,909 units and rank ≥ 3 in the remainder; it never fell back to a lower rank.</li>
+<li><strong><code>angle</code> at rank 1.</strong> In every unfloored anchor unit that selected rank 1 the observed <code>angle</code> is exactly 0°
+  (246 and 182 units) or 180° (43 and 28), its null's 95 % quantile is 180° (a two-point distribution) and
+  its smallest p-value is 0.068 / 0.054: the rank-1 <code>angle</code> test never rejects. The unfloored arm's anchor <code>angle</code>
+  rates (0.030 / 0.038) therefore come entirely from its rank ≥ 2 units, where they are 15 / 211 = 0.071 and
+  19 / 290 = 0.066. Under the 0.9.0 rule a real-data <code>angle</code> p-value of 1.0 at rank 1 says nothing about
+  orientation; this is the degeneracy the floor removes.</li>
+<li><strong>Null width.</strong> The median over anchor replicates of the <code>angle</code> null's 95 % quantile is 84.0° / 61.2° in the
+  unfloored arm (180° in its rank-1 units, 55.9° / 52.4° in its others) against 61.2° / 57.0° with the floor; the
+  null's median SD is 34.0° / 21.0° against 17.8° / 16.3°. In a two-dimensional space with no stage signal the
+  <code>angle</code> null is wide (two near-random directions), which is what a resolvable-orientation reader should see in
+  <code>null_summary.angle</code>.</li>
+<li><strong>The signal.</strong> Mean held-out CV AUROC at the anchor is 0.513 / 0.571 (floor 1) and 0.516 / 0.580 (floor 2):
+  the floor does not change what the CV can find, only the smallest rank it may report.</li>
+</ul>
+<h2 id="4-power-in-both-arms">4. Power in both arms</h2>
+<p>Rejection rates at p ≤ 0.05 over 500 replicates, floor 1 / floor 2, with the <code>angle</code> difference (floor 2 − floor 1)
+and its pooled Monte Carlo SE; the last column is the share of units whose unfloored rule selected rank 1. Descriptive.</p>
+<p>δ = 0.05:</p>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>e</th>
+<th><code>delta</code> 1 / 2</th>
+<th><code>angle</code> 1 / 2 (diff, pooled SE)</th>
+<th><code>shape</code> 1 / 2</th>
+<th>rank-1 share, floor 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magnitude</td>
+<td>0.02</td>
+<td>0.044 / 0.042</td>
+<td>0.030 / 0.056 (+0.026, 0.013)</td>
+<td>0.050 / 0.038</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.05</td>
+<td>0.044 / 0.042</td>
+<td>0.030 / 0.054 (+0.024, 0.013)</td>
+<td>0.046 / 0.036</td>
+<td>0.57</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.1</td>
+<td>0.046 / 0.038</td>
+<td>0.030 / 0.054 (+0.024, 0.013)</td>
+<td>0.044 / 0.036</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.25</td>
+<td>0.046 / 0.044</td>
+<td>0.032 / 0.058 (+0.026, 0.013)</td>
+<td>0.044 / 0.040</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.25</td>
+<td>0.030 / 0.022</td>
+<td>0.020 / 0.032 (+0.012, 0.010)</td>
+<td>0.038 / 0.046</td>
+<td>0.65</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.5</td>
+<td>0.034 / 0.032</td>
+<td>0.024 / 0.040 (+0.016, 0.011)</td>
+<td>0.024 / 0.024</td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.75</td>
+<td>0.044 / 0.038</td>
+<td>0.010 / 0.042 (+0.032, 0.010)</td>
+<td>0.038 / 0.040</td>
+<td>0.64</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>1</td>
+<td>0.030 / 0.028</td>
+<td>0.020 / 0.036 (+0.016, 0.010)</td>
+<td>0.032 / 0.040</td>
+<td>0.64</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.25</td>
+<td>0.046 / 0.036</td>
+<td>0.024 / 0.060 (+0.036, 0.013)</td>
+<td>0.044 / 0.054</td>
+<td>0.62</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.5</td>
+<td>0.054 / 0.048</td>
+<td>0.030 / 0.052 (+0.022, 0.013)</td>
+<td>0.048 / 0.046</td>
+<td>0.61</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.75</td>
+<td>0.036 / 0.038</td>
+<td>0.028 / 0.056 (+0.028, 0.013)</td>
+<td>0.048 / 0.036</td>
+<td>0.62</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>1</td>
+<td>0.046 / 0.040</td>
+<td>0.026 / 0.060 (+0.034, 0.013)</td>
+<td>0.044 / 0.032</td>
+<td>0.64</td>
+</tr>
+</tbody>
+</table>
+<p>δ = 0.1:</p>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>e</th>
+<th><code>delta</code> 1 / 2</th>
+<th><code>angle</code> 1 / 2 (diff, pooled SE)</th>
+<th><code>shape</code> 1 / 2</th>
+<th>rank-1 share, floor 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magnitude</td>
+<td>0.02</td>
+<td>0.046 / 0.048</td>
+<td>0.038 / 0.060 (+0.022, 0.014)</td>
+<td>0.046 / 0.040</td>
+<td>0.42</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.05</td>
+<td>0.046 / 0.046</td>
+<td>0.038 / 0.060 (+0.022, 0.014)</td>
+<td>0.044 / 0.038</td>
+<td>0.41</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.1</td>
+<td>0.044 / 0.048</td>
+<td>0.034 / 0.060 (+0.026, 0.013)</td>
+<td>0.044 / 0.038</td>
+<td>0.40</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.25</td>
+<td>0.046 / 0.050</td>
+<td>0.042 / 0.062 (+0.020, 0.014)</td>
+<td>0.038 / 0.034</td>
+<td>0.38</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.25</td>
+<td>0.032 / 0.026</td>
+<td>0.024 / 0.034 (+0.010, 0.011)</td>
+<td>0.052 / 0.048</td>
+<td>0.49</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.5</td>
+<td>0.030 / 0.030</td>
+<td>0.026 / 0.048 (+0.022, 0.012)</td>
+<td>0.036 / 0.028</td>
+<td>0.51</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.75</td>
+<td>0.048 / 0.046</td>
+<td>0.018 / 0.042 (+0.024, 0.011)</td>
+<td>0.038 / 0.040</td>
+<td>0.54</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>1</td>
+<td>0.030 / 0.032</td>
+<td>0.028 / 0.042 (+0.014, 0.012)</td>
+<td>0.034 / 0.042</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.25</td>
+<td>0.044 / 0.040</td>
+<td>0.036 / 0.056 (+0.020, 0.013)</td>
+<td>0.058 / 0.062</td>
+<td>0.43</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.5</td>
+<td>0.058 / 0.048</td>
+<td>0.038 / 0.052 (+0.014, 0.013)</td>
+<td>0.048 / 0.042</td>
+<td>0.43</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.75</td>
+<td>0.036 / 0.034</td>
+<td>0.042 / 0.062 (+0.020, 0.014)</td>
+<td>0.040 / 0.040</td>
+<td>0.48</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>1</td>
+<td>0.054 / 0.040</td>
+<td>0.030 / 0.060 (+0.030, 0.013)</td>
+<td>0.050 / 0.042</td>
+<td>0.51</td>
+</tr>
+</tbody>
+</table>
+<p>At these strengths the surgeries scale a stage effect that is itself near the noise (magnitude multiplies δ by
+1 + e; orientation, shape and translation relocate differential sites whose shift is δ), so every rate in both arms
+sits at the null, 0.010–0.062. The construction therefore measures size, not power: nothing here says the floor
+makes <code>angle</code> or <code>shape</code> powerful. The <code>angle</code> differences of +0.016 to +0.036, several above two pooled SEs, are
+the unfloored arm's under-rejection at rank 1 (its <code>angle</code> rates of 0.010–0.042 are below α, as at the anchor), not
+detection; <code>delta</code> and <code>shape</code> differ by at most ±0.014 between the arms.</p>
+<h2 id="5-decision-limitation-and-scope">5. Decision, limitation and scope</h2>
+<p><strong>Decision</strong>, read verbatim from <code>results/rank-floor-2026-10-23/delta0.05/rank_floor_decision.json</code> and
+<code>delta0.1/rank_floor_decision.json</code>: <code>"decision": "adopt_floor"</code> in both, with <code>"exceeding": []</code> and every
+<code>floor_2</code> verdict <code>"holds"</code> at the anchor and the translation control. Under the predeclared conjunction the
+check adopts the floor: MOTCO 0.10.0 keeps <code>min_components=2</code> as the default of <code>fit_pls_latent_space</code>,
+<code>SimulationEvaluationParams</code> and <code>TrajectoryAnalysisParams</code> / <code>motco analyze</code>.</p>
+<p><strong>Limitation: the floor guarantees two dimensions, not a second axis with signal.</strong> When the stage signal supports
+one component, or none, the second component is the best of the remaining candidates and carries whatever the inner
+CV preferred among them; <code>angle</code> and <code>shape</code> are then defined but their nulls are wide, and at these strengths
+their power is at α. A rank-2 selection under the floor is a statement about the measurement space, not evidence of
+a second biological axis. Read the record's <code>config_spectrum</code> relative eigengap and <code>null_summary.angle</code> together:
+they say how resolvable orientation is in each analysis, and the selected rank stays the covariate reported beside
+any <code>angle</code> result. The 0.9.0 rule remains reachable as <code>min_components=1</code> for comparison.</p>
+<p><strong>Scope.</strong></p>
+<ul>
+<li>The construction weakens the per-omic effect sizes uniformly; <code>p_dmp</code>, the cell sizes, the block set and the
+  joint magnitude are the Phase 6 study's. It reproduces the SEA-AD cohorts' held-out AUROC regime, not their
+  mechanism (a dominant technical axis aligned with stage), which the covariate-aware latent construction addresses.</li>
+<li>Both arms used the harness CV defaults and no covariates; the floor applies inside the same cross-validation
+  with covariates and latent adjustment, but their interaction was not measured here.</li>
+<li>Every committed study config, fixture and dated report pins <code>min_components: 1</code> and is unchanged by the default
+  (<code>tests/test_rank_floor_default_pins.py</code>); the sead_sexdiff cohorts are to be rerun at the floor in their own
+  proposal, pinning MOTCO 0.10.0.</li>
+<li>Replicates are matched across cells and arms by seed; the two strengths are independent runs with their own
+  decision files, and the report's conjunction rule was fixed with the user before submission.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

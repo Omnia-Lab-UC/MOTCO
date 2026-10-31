@@ -1,0 +1,2050 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../latent-rank-ladder-2026-09-08/">
+      
+      
+        <link rel="next" href="../phase4-medium-pls-pilot-2026-08-27/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Phase 5 design-point pilot - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-5-design-point-pilot" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phase 5 design-point pilot
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#design-point-decision-chosen-0-n-1200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design-point decision: CHOSEN — ρ = 0, n = 1200
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-characteristics-per-design-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating characteristics per design point
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operating characteristics per design point">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-i-behaviour-per-column" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type I behaviour, per column
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orientation-at-the-baseline-column-against-phase-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orientation at the baseline column, against Phase 4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-governs-orientation-power-across-the-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What governs orientation power across the grid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pls-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PLS representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-and-hand-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision and hand-off
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#design-point-decision-chosen-0-n-1200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design-point decision: CHOSEN — ρ = 0, n = 1200
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-characteristics-per-design-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating characteristics per design point
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operating characteristics per design point">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-i-behaviour-per-column" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type I behaviour, per column
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orientation-at-the-baseline-column-against-phase-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orientation at the baseline column, against Phase 4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-governs-orientation-power-across-the-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What governs orientation power across the grid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pls-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PLS representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-and-hand-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision and hand-off
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="phase-5-design-point-pilot">Phase 5 design-point pilot</h1>
+<p><strong>Run date:</strong> 2026-09-08
+<strong>Configuration:</strong> <code>examples/trajectory_power_study/phase5_design_point_pilot.json</code>
+(sha256 <code>153f53b7…</code>, recorded in full in <code>results/phase5-design-point-2026-09-08/PROVENANCE.txt</code>)
+<strong>Code revision:</strong> <code>ff68514</code> on <code>feat/phase5-design-point-pilot</code> (clean working tree at launch; parent
+<code>afab7df</code> = <code>main</code>). Record generation and report generation used the same revision.
+<strong>Execution:</strong> SLURM array job 878322 on <code>cluster.ing.uc.cl</code>, partition <code>512x1024</code> (AMD EPYC 7662 nodes),
+100 single-CPU shards, <code>--error-policy record</code>, no <code>--n-jobs</code>, BLAS pinned to one thread.
+<strong>Environment:</strong> Python 3.11.16, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3, motco 0.6.0,
+installed from the lockfile with uv 0.12.10; no R at runtime.
+<strong>Answers:</strong> readiness item 4 (<a href="../../phase5-readiness/"><code>phase5-readiness.md</code></a>) — the Phase 5 design point and
+the 0.80 orientation power floor. Every number below traces to a file under
+<code>results/phase5-design-point-2026-09-08/report/</code>; the JSONL records are gitignored as regenerable.</p>
+<h2 id="design-point-decision-chosen-0-n-1200">Design-point decision: <strong>CHOSEN — ρ = 0, n = 1200</strong></h2>
+<blockquote>
+<p>First design point in preference order (<code>n_samples</code> ascending, then <code>baseline_continuity</code> ascending) whose
+orientation/<code>angle</code> power at its top effect (1.00) clears the 0.80 floor with 1·SE confirmation:
+<strong>rate 0.88, lower bound 0.85</strong> (<code>report/design_point_decision.json</code>).</p>
+</blockquote>
+<p>The rule was predeclared in the config (<code>acceptance.design_point</code>) and is advisory. Its per-column
+evaluation (<code>report/design_point_decision.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ρ</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">orientation <code>angle</code> power at e = 1.00</th>
+<th style="text-align: right;">MC SE</th>
+<th style="text-align: right;">1·SE lower bound</th>
+<th>status</th>
+<th>anchor Type I (delta / angle / shape)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.50</td>
+<td>fails</td>
+<td>0.03 / 0.06 / 0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">0.20</td>
+<td>fails</td>
+<td>0.01 / 0.02 / 0.01</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.64</td>
+<td>fails</td>
+<td>0.04 / 0.01 / 0.01</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">0.72</td>
+<td>fails</td>
+<td>0.04 / 0.05 / 0.05</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.41</td>
+<td>fails</td>
+<td>0.02 / 0.00 / 0.02</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.69</td>
+<td>fails</td>
+<td>0.02 / 0.05 / 0.07</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>0.0</strong></td>
+<td style="text-align: right;"><strong>1200</strong></td>
+<td style="text-align: right;"><strong>0.88</strong></td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;"><strong>0.85</strong></td>
+<td><strong>meets</strong></td>
+<td>0.04 / 0.04 / 0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.64</td>
+<td>fails</td>
+<td>0.05 / 0.02 / 0.02</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.77</td>
+<td>marginal</td>
+<td>0.02 / 0.04 / 0.03</td>
+</tr>
+</tbody>
+</table>
+<p>The chosen column's own zero-effect anchor holds nominal level on all three statistics (0.04 / 0.04 / 0.03
+against α = 0.05), so the design.md risk — a column that meets the floor on <code>angle</code> while another statistic
+drifts — did not materialize. ρ = 0 is also the declared isotropic stress-test endpoint and the Phase 4
+comparator, so the chosen point carries the <strong>most general</strong> claim the grid offered: the floor is met
+without assuming any baseline continuity.</p>
+<p>The figure <code>report/design_point_power.png</code> shows the same nine points as curves: orientation <code>angle</code>
+rejection rate at e = 1.00 versus <code>n_samples</code>, one line per ρ, Monte Carlo error bars, each point annotated
+with the column's median pooled eigengap. The ρ = 0 line rises steepest (0.55 → 0.76 → 0.88) and is the only
+one to clear 0.80 with margin; the ρ = 0.5 line lies below it everywhere; the ρ = 0.8 line starts highest at
+n = 300 and is overtaken by n = 600.</p>
+<h2 id="run-configuration">Run configuration</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integration</td>
+<td style="text-align: right;">Pooled PLS, M-value methylation</td>
+</tr>
+<tr>
+<td>PLS cross-validation</td>
+<td style="text-align: right;"><code>cv1_splits=3</code>, <code>cv2_splits=4</code>, <code>n_repeats=5</code>, <code>max_components=20</code>, <code>random_state=1203</code></td>
+</tr>
+<tr>
+<td>Stages</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>Differential-site density <code>p_dmp</code></td>
+<td style="text-align: right;"><strong>0.1</strong> (Phase 4 used 0.2)</td>
+</tr>
+<tr>
+<td>Surgery censoring</td>
+<td style="text-align: right;">default <code>"error"</code> (fail loud); no cell was censored</td>
+</tr>
+<tr>
+<td>Design grid</td>
+<td style="text-align: right;">ρ ∈ {0.0, 0.5, 0.8} × <code>n_samples</code> ∈ {300, 600, 1200} (9 columns; ρ = 0, n = 300 is the baseline column)</td>
+</tr>
+<tr>
+<td>Trajectory modes</td>
+<td style="text-align: right;">orientation, translation</td>
+</tr>
+<tr>
+<td>Effect sizes</td>
+<td style="text-align: right;">0.00 (shared anchor per column), 0.25, 0.50, 1.00</td>
+</tr>
+<tr>
+<td>Replicates per cell</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr>
+<td>Permutations per test</td>
+<td style="text-align: right;">199</td>
+</tr>
+<tr>
+<td>Seed policy</td>
+<td style="text-align: right;">one matched primary family across the whole grid; one zero-effect anchor per column</td>
+</tr>
+<tr>
+<td>Attribution / Phase 4 gate</td>
+<td style="text-align: right;">off / off</td>
+</tr>
+<tr>
+<td>Cells</td>
+<td style="text-align: right;">65 (2 Type I + 63 primary/design)</td>
+</tr>
+<tr>
+<td>Total work units</td>
+<td style="text-align: right;">6,500</td>
+</tr>
+<tr>
+<td>Failed work units</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Censored surgeries</td>
+<td style="text-align: right;">0 (<code>report/realized_surgery.csv</code>, <code>censored_fraction</code> = 0.0 in all 55 surgery cells)</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td style="text-align: right;">70.4 core-hours of recorded unit runtime (75.2 CPU-hours billed by <code>sacct</code>), 70 minutes wall on 100 concurrent tasks</td>
+</tr>
+</tbody>
+</table>
+<p>All 6,500 units completed with status <code>completed</code>; every (cell, replicate) appears exactly once in
+<code>merged.jsonl</code>; every record's parameter signature equals the signature enumerated from the committed
+config; every record carries 199 permutations, <code>n_jobs = 1</code>, <code>config_spectrum</code>, and <code>selected_lv</code>.</p>
+<h2 id="operating-characteristics-per-design-point">Operating characteristics per design point</h2>
+<p>Rejection rates at α = 0.05, 100 replicates per entry (<code>report/design_point_operating.csv</code>). Bold is
+orientation's target statistic. Each column's <code>none</code> row is that column's shared zero-effect anchor — one
+measurement per column, not one per mode.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ρ</th>
+<th style="text-align: right;">n</th>
+<th>mode</th>
+<th style="text-align: right;">e</th>
+<th style="text-align: right;">delta</th>
+<th style="text-align: right;"><strong>angle</strong></th>
+<th style="text-align: right;">shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;"><strong>0.45</strong></td>
+<td style="text-align: right;">0.82</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;"><strong>0.63</strong></td>
+<td style="text-align: right;">0.93</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;"><strong>0.55</strong></td>
+<td style="text-align: right;">0.91</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.02–0.05</td>
+<td style="text-align: right;">0.02–0.06</td>
+<td style="text-align: right;">0.01–0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;"><strong>0.16</strong></td>
+<td style="text-align: right;">0.41</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;"><strong>0.19</strong></td>
+<td style="text-align: right;">0.57</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;"><strong>0.24</strong></td>
+<td style="text-align: right;">0.76</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.04–0.06</td>
+<td style="text-align: right;">0.01–0.03</td>
+<td style="text-align: right;">0.01–0.02</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;"><strong>0.07</strong></td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;"><strong>0.27</strong></td>
+<td style="text-align: right;">0.32</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;"><strong>0.69</strong></td>
+<td style="text-align: right;">0.43</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.03–0.05</td>
+<td style="text-align: right;">0.03–0.06</td>
+<td style="text-align: right;">0.01–0.05</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;"><strong>0.74</strong></td>
+<td style="text-align: right;">0.96</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;"><strong>0.81</strong></td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;"><strong>0.76</strong></td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.02–0.05</td>
+<td style="text-align: right;">0.00–0.06</td>
+<td style="text-align: right;">0.02–0.06</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;"><strong>0.38</strong></td>
+<td style="text-align: right;">0.63</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;"><strong>0.39</strong></td>
+<td style="text-align: right;">0.83</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;"><strong>0.46</strong></td>
+<td style="text-align: right;">0.87</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.03–0.07</td>
+<td style="text-align: right;">0.00–0.04</td>
+<td style="text-align: right;">0.01–0.08</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;"><strong>0.22</strong></td>
+<td style="text-align: right;">0.47</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;"><strong>0.32</strong></td>
+<td style="text-align: right;">0.53</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;"><strong>0.73</strong></td>
+<td style="text-align: right;">0.61</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.03–0.05</td>
+<td style="text-align: right;">0.01–0.04</td>
+<td style="text-align: right;">0.03–0.05</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;"><strong>0.83</strong></td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;"><strong>0.89</strong></td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;"><strong>0.88</strong></td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.04–0.09</td>
+<td style="text-align: right;">0.03–0.04</td>
+<td style="text-align: right;">0.03–0.06</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;"><strong>0.71</strong></td>
+<td style="text-align: right;">0.89</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;"><strong>0.70</strong></td>
+<td style="text-align: right;">0.92</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;"><strong>0.69</strong></td>
+<td style="text-align: right;">0.97</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.05–0.07</td>
+<td style="text-align: right;">0.01–0.02</td>
+<td style="text-align: right;">0.03–0.06</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td>none</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;"><strong>0.26</strong></td>
+<td style="text-align: right;">0.48</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;"><strong>0.48</strong></td>
+<td style="text-align: right;">0.66</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td>orientation</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;"><strong>0.81</strong></td>
+<td style="text-align: right;">0.69</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td>translation</td>
+<td style="text-align: right;">0.25–1.00</td>
+<td style="text-align: right;">0.04–0.05</td>
+<td style="text-align: right;">0.02–0.04</td>
+<td style="text-align: right;">0.03–0.05</td>
+</tr>
+</tbody>
+</table>
+<p>Translation rows are collapsed to their range over the three nonzero effects; the individual rows are in
+the CSV.</p>
+<h3 id="type-i-behaviour-per-column">Type I behaviour, per column</h3>
+<p>Every column's anchor and every translation cell sits at or below the one-sided bound
+<code>0.05 + 2·sqrt(0.05·0.95/100) = 0.0936</code> on all three statistics; the largest control rate anywhere in the
+grid is 0.09 (translation <code>delta</code>, ρ = 0, n = 1200, e = 0.25). Type I calibration does <strong>not</strong> drift with
+sample size or continuity, which is the property the design.md risk list asked this report to check before
+adopting a column.</p>
+<p>The baseline <code>type_i</code> acceptance targets (<code>report/acceptance_report.json</code>, two-sided <code>|rate − α| ≤ 2·SE</code>)
+pass on 5 of 6 tests. The one flagged test is the translation control's <code>delta</code> rate of <strong>0.02</strong> — 0.03
+<em>below</em> α against a 0.028 bound — i.e. a conservative rate, not an inflation. The Phase 4 report judged
+these controls one-sided (inflation only); under that reading all six pass. It is reported here as flagged
+because the config's target is two-sided.</p>
+<h3 id="orientation-at-the-baseline-column-against-phase-4">Orientation at the baseline column, against Phase 4</h3>
+<p>At ρ = 0, n = 300 the orientation <code>angle</code> curve is 0.45, 0.63, 0.55 across e = 0.25 / 0.50 / 1.00
+(<code>report/power_curves.csv</code>). Phase 4 measured 0.59, 0.59, 0.64, 0.65 (0.64–0.68 after the sign-anchor
+correction) at <code>p_dmp = 0.2</code>. The <em>shape</em> of the curve is the same — no monotone response to the requested
+effect; adjacent points differ by at most 2.6 combined standard errors and the top effect is not the most
+powerful — and the level is about 0.1 lower, consistent with halving the differential-site density rather
+than with any change in the estimator. The off-diagonal pattern is also unchanged: orientation moves <code>shape</code>
+(0.82–0.93 here, 0.97–1.00 in Phase 4) and <code>delta</code> (0.60–0.69 here, 0.60–0.69 in Phase 4). Item 2
+predeclared the <code>shape</code> response as a projection artifact of the rank-3 stage-supervised space; nothing here
+contradicts that, and at n ≥ 600 the response saturates at 0.96–1.00 in every ρ = 0 and ρ = 0.5 column.</p>
+<h2 id="what-governs-orientation-power-across-the-grid">What governs orientation power across the grid</h2>
+<p>The design-point table carries the two recorded covariates readiness item 4 asked for — the pooled
+configuration eigengap and the dispersion of each replicate's own <code>angle</code> null width (<code>q95</code>). Orientation
+cells at e = 1.00, from <code>report/continuity_resolved_orientation.csv</code> (identical rows appear in
+<code>design_point_operating.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ρ</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;"><code>angle</code> power</th>
+<th>median eigengap (q33–q67)</th>
+<th style="text-align: right;">median <code>angle</code> null q95</th>
+<th style="text-align: right;">IQR of q95</th>
+<th style="text-align: right;">SD of q95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.55</td>
+<td>0.052 (0.035–0.067)</td>
+<td style="text-align: right;">40.7°</td>
+<td style="text-align: right;">107.4°</td>
+<td style="text-align: right;">59.1°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.76</td>
+<td>0.048 (0.038–0.066)</td>
+<td style="text-align: right;">18.8°</td>
+<td style="text-align: right;">38.2°</td>
+<td style="text-align: right;">55.5°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1200</td>
+<td style="text-align: right;">0.88</td>
+<td>0.049 (0.038–0.063)</td>
+<td style="text-align: right;">10.8°</td>
+<td style="text-align: right;">13.0°</td>
+<td style="text-align: right;">48.4°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.24</td>
+<td>0.086 (0.071–0.125)</td>
+<td style="text-align: right;">56.6°</td>
+<td style="text-align: right;">116.6°</td>
+<td style="text-align: right;">57.4°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.46</td>
+<td>0.114 (0.090–0.149)</td>
+<td style="text-align: right;">26.2°</td>
+<td style="text-align: right;">42.2°</td>
+<td style="text-align: right;">54.2°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1200</td>
+<td style="text-align: right;">0.69</td>
+<td>0.133 (0.094–0.188)</td>
+<td style="text-align: right;">16.3°</td>
+<td style="text-align: right;">12.1°</td>
+<td style="text-align: right;">29.5°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.69</td>
+<td>0.221 (0.145–0.285)</td>
+<td style="text-align: right;">24.6°</td>
+<td style="text-align: right;">83.3°</td>
+<td style="text-align: right;">60.2°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.73</td>
+<td>0.193 (0.156–0.269)</td>
+<td style="text-align: right;">21.3°</td>
+<td style="text-align: right;">37.6°</td>
+<td style="text-align: right;">54.1°</td>
+</tr>
+<tr>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1200</td>
+<td style="text-align: right;">0.81</td>
+<td>0.186 (0.142–0.234)</td>
+<td style="text-align: right;">15.3°</td>
+<td style="text-align: right;">20.0°</td>
+<td style="text-align: right;">49.9°</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample size does what item 1 predicted.</strong> Along n at fixed ρ = 0 the eigengap is constant (≈ 0.05: the
+baseline is near-isotropic at every n, as it must be — ρ, not n, sets the configuration's shape) while the
+median <code>angle</code> null width contracts 40.7° → 18.8° → 10.8° and its IQR collapses 107° → 38° → 13°. Power
+rises 0.55 → 0.76 → 0.88 with it. The zero-effect anchors show the same contraction (median q95 17.3°, 8.1°,
+4.9° at n = 300, 600, 1200; <code>design_point_operating.csv</code>, <code>none</code> rows). This is the mechanism the pivotality
+report identified — each replicate's critical value tracks its own geometry, and more samples per
+group-stage cell pin that geometry down — now measured across n rather than inferred at one point.</p>
+<p><strong>Continuity does not help at this baseline, and its effect is non-monotone.</strong> ρ = 0.5 is <em>worse</em> than
+ρ = 0 at every n (0.24 / 0.46 / 0.69 vs 0.55 / 0.76 / 0.88), and ρ = 0.8 is above ρ = 0 only at n = 300
+(0.69 vs 0.55), then below it (0.73 vs 0.76, 0.81 vs 0.88). This is not what the headroom analysis
+anticipated, and the covariates say why the simple story fails:</p>
+<ul>
+<li>The eigengap behaves as designed — it rises from ≈ 0.05 at ρ = 0 to 0.09–0.13 at ρ = 0.5 and 0.19–0.22 at
+  ρ = 0.8, so the stage configuration does acquire a dominant PC1 — and at ρ = 0.5, n = 1200 the anchor's
+  null is the <strong>narrowest in the grid</strong> (median q95 2.2° against 4.9° at ρ = 0). The null side of the test
+  improves with continuity exactly as the audit predicted.</li>
+<li>What does not carry over is the <strong>signal</strong>. Computed from the records (<code>merged.jsonl</code>,
+  <code>pair_statistics.angle</code>; reproduction snippet below), the median observed latent angle for orientation at
+  e = 1.00 is 61° / 73° / 66° at ρ = 0 for n = 300 / 600 / 1200, but only <strong>46° / 35° / 28°</strong> at ρ = 0.5 —
+  the same nominal surgery realizes a smaller latent orientation contrast when the baseline trends, and the
+  contrast <em>shrinks</em> as n grows. At ρ = 0.8 the observed angle is back to 64° / 62° / 66°, but the anchor's
+  null is wide again (median q95 54° / 26° / 19°, versus 23° / 9° / 2° at ρ = 0.5), so the larger eigengap
+  buys nothing on the null side there.</li>
+</ul>
+<p>So "larger eigengap ⇒ narrower null ⇒ more power" holds only along n at fixed ρ. Across ρ, two things
+change at once — the realized orientation contrast of the surgery and the null width — and they do not move
+together. <strong>The claim Phase 5 can make is therefore n-conditional, not continuity-conditional:</strong> at the
+chosen point the floor is met at the isotropic endpoint, with an eigengap distribution (median 0.049,
+terciles 0.038–0.063) that is the real-data observable to report alongside any orientation result. A
+trending baseline is <em>not</em> a lever Phase 5 should pull to buy orientation power; if anything, the ρ = 0.5
+columns are a warning that the orientation surgery's semantics are not ρ-invariant, which belongs in the
+Phase 5 report contract as a stated limitation of the construction.</p>
+<h2 id="pls-representation">PLS representation</h2>
+<p>Selected latent dimensionality (<code>design_point_operating.csv</code>, <code>median/min/max_selected_lv</code>):</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>anchors (median, range)</th>
+<th>orientation e = 1.00 (median, range)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ρ = 0, every n</td>
+<td>3 (2–4)</td>
+<td>3–4 (2–4)</td>
+</tr>
+<tr>
+<td>ρ = 0.5, every n</td>
+<td>3–4 (2–4)</td>
+<td>4 (3–6)</td>
+</tr>
+<tr>
+<td>ρ = 0.8, n = 300 / 600 / 1200</td>
+<td>4 (4–7), 4 (4–5), 4 (3–5)</td>
+<td><strong>8 (4–14), 7 (4–10), 7 (4–9)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>At the chosen point selection saturates at <code>n_stages − 1 = 3</code> (median 3, range 2–4, orientation cells
+included), exactly as in Phase 4: the stage-supervised double CV sizes the space for stage separation and
+does not respond to n. The retained-rank question — whether a space sized for stage centroids should be the
+space that measures the <em>group</em> orientation contrast — is <strong>handed to readiness item 3 unchanged</strong>; this
+pilot recorded rank and did not vary it.</p>
+<p>One new observation for item 3: at ρ = 0.8 the orientation surgery at e = 1.00 roughly doubles the selected
+rank (median 7–8, up to 14) relative to that column's own anchor (median 4), while at ρ ≤ 0.5 it adds at most
+one component. A strongly trending baseline plus a global feature permutation evidently creates additional
+stage-predictive directions that the CV retains. It coincides with ρ = 0.8 being the <em>only</em> ρ at which
+orientation's <code>delta</code> and <code>shape</code> responses fall (0.27–0.46 and 0.43–0.69, versus 0.60–0.88 and 0.91–1.00
+at ρ = 0) — consistent with the latent-rank probe's finding that the projection artifact decays as rank
+grows. It is recorded, not explained, here.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>100 replicates give a Monte Carlo SE of about 0.05 at a rate of 0.5 and 0.032 at 0.88. The decision's
+  confirmation margin is one SE by predeclaration; the chosen column would also clear a 2·SE margin (0.88 −
+  0.065 = 0.815) but ρ = 0.8, n = 1200 would not.</li>
+<li><code>magnitude</code> and <code>shape</code> were deliberately not run (decided 2026-09-04; both reached power 1.00 at n = 300
+  in Phase 4 and only gain from larger n). Their operating characteristics at the chosen point are measured
+  in the Phase 5 study itself, not here. The <code>p_dmp</code> change from 0.2 to 0.1 touches every mode, so Phase 4's
+  magnitude and shape numbers are not transferable to this baseline without that measurement.</li>
+<li>The observed-angle medians in "What governs orientation power" are computed from the gitignored
+  <code>merged.jsonl</code>, not from a committed CSV; the snippet below regenerates them from the records. Every
+  rejection rate, eigengap, null-width, and rank figure comes from committed CSV/JSON.</li>
+<li>Comparisons along ρ at fixed n are paired at the baseline indicator draw (one matched family, ρ thresholds
+  the same uniform block); comparisons across n are not paired. Neither pairing is exploited by the report's
+  rate estimates, which are per-cell binomials.</li>
+<li>Each column's <code>0.00</code> row is one shared anchor cell; the two modes' nulls in a column are one measurement.</li>
+<li>The Type I acceptance target is two-sided in this config, which is why a conservative 0.02 control rate is
+  flagged. Phase 4's one-sided reading is the one the readiness worklist uses; both readings pass on
+  inflation.</li>
+<li>The examples README's pre-run cost estimate (~500 workstation-core-hours) was about 7× too high; it was
+  taken from a rehearsal that oversubscribed BLAS threads. The measured cost is 70 core-hours on EPYC 7662
+  cores, and about 35 on a modern desktop core (12.5 s / 18.5 s / 27 s per unit at n = 300 / 600 / 1200,
+  single-threaded, 199 permutations). The README is corrected in this change.</li>
+</ul>
+<h2 id="decision-and-hand-off">Decision and hand-off</h2>
+<ol>
+<li><strong>Phase 5 design point: ρ = 0 (independent baseline), n = 1200 (300 samples per group-stage cell), four
+   stages, <code>p_dmp = 0.1</code>, pooled PLS on M-value methylation with CV-selected rank.</strong> Orientation <code>angle</code>
+   power at e = 1.00 is 0.88 (1·SE lower bound 0.85) with the column's anchor at nominal level on all three
+   statistics. The 0.80 floor stands; the claim is <strong>not revised</strong>.</li>
+<li><strong>Report the eigengap, not ρ, with any orientation claim.</strong> At the chosen point the pooled eigengap is
+   0.049 (terciles 0.038–0.063). That distribution is what a real cohort must be compared against; the
+   continuity knob is a generator parameter and does not transfer.</li>
+<li><strong>Do not use baseline continuity to buy orientation power.</strong> ρ = 0.5 lowers power at every n and ρ = 0.8
+   does not beat ρ = 0 beyond n = 300. The orientation surgery's realized contrast is not ρ-invariant; state
+   this as a construction limitation in the Phase 5 report contract.</li>
+<li><strong>Hand the retained-rank question to item 3</strong> with one new fact: rank is 3 at the chosen point regardless
+   of n, and only a strongly trending baseline (ρ = 0.8) moves the CV off <code>n_stages − 1</code>.</li>
+<li><strong>Phase 5 must re-measure magnitude and shape</strong> at the chosen point, since <code>p_dmp</code> changed.</li>
+</ol>
+<h2 id="reproduction">Reproduction</h2>
+<p>The run used the committed config at revision <code>ff68514</code>. Locally (about 35 core-hours on a modern desktop
+core; ~3.5 hours on 22 single-thread shards):</p>
+<pre><code class="language-bash">export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+for i in $(seq 0 21); do
+  uv run python scripts/run_study_shard.py \
+    --config examples/trajectory_power_study/phase5_design_point_pilot.json \
+    --out-dir results/phase5-design-point-2026-09-08 \
+    --shard-index &quot;$i&quot; --n-shards 22 --error-policy record &amp;
+done
+wait
+</code></pre>
+<p>On SLURM, as actually executed (partition and resource flags are cluster-specific; do NOT set
+<code>STUDY_N_JOBS</code>, it changes the permutation draws and the parameter signature):</p>
+<pre><code class="language-bash">export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+sbatch -p 512x1024 --cpus-per-task=1 --mem=2G --time=6:00:00 --array=0-99 \
+  --export=ALL,STUDY_CONFIG=$PWD/examples/trajectory_power_study/phase5_design_point_pilot.json,STUDY_OUT=$PWD/results/phase5-design-point-2026-09-08,N_SHARDS=100 \
+  scripts/motco_study_array.sbatch
+</code></pre>
+<p>Then, from the repository root:</p>
+<pre><code class="language-bash">uv run python scripts/motco_study.py merge  --out-dir results/phase5-design-point-2026-09-08
+uv run python scripts/motco_study.py report \
+  --config examples/trajectory_power_study/phase5_design_point_pilot.json \
+  --out-dir results/phase5-design-point-2026-09-08
+</code></pre>
+<p>Record-derived observed-angle medians (the only figures above not in a committed CSV):</p>
+<pre><code class="language-bash">uv run python - &lt;&lt;'EOF'
+import json, collections, statistics
+by = collections.defaultdict(list)
+for line in open(&quot;results/phase5-design-point-2026-09-08/merged.jsonl&quot;):
+    r = json.loads(line); cm = r[&quot;cell_metadata&quot;]
+    if cm[&quot;trajectory_mode&quot;] != &quot;orientation&quot; or cm[&quot;effect_size&quot;] != 1.0: continue
+    dp = cm.get(&quot;design_point&quot;) or {&quot;generator.baseline_continuity&quot;: 0.0, &quot;generator.n_samples&quot;: 300}
+    by[(dp[&quot;generator.baseline_continuity&quot;], dp[&quot;generator.n_samples&quot;])].append(r[&quot;pair_statistics&quot;][&quot;angle&quot;])
+for k in sorted(by): print(k, round(statistics.median(by[k]), 1))
+EOF
+</code></pre>
+<p>The per-shard and merged JSONL (43 MB) are gitignored as regenerable; <code>report/</code> and <code>PROVENANCE.txt</code> are
+committed. Every claim above traces to <code>results/phase5-design-point-2026-09-08/report/</code>:
+<code>design_point_decision.json</code> / <code>.csv</code>, <code>design_point_operating.csv</code>, <code>continuity_resolved_orientation.csv</code>,
+<code>power_curves.csv</code>, <code>type_i_table.csv</code>, <code>acceptance_report.json</code>, <code>realized_surgery.csv</code>,
+<code>eigengap_stratified_power.csv</code>, <code>config_spectrum.csv</code>, and the figures <code>design_point_power.png</code>,
+<code>power_curves.png</code>, <code>specificity_matrix.png</code>, <code>type_i.png</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

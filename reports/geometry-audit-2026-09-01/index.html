@@ -1,0 +1,1694 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Geometry audit: statistics, constructions, and documentation - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#geometry-audit-statistics-constructions-and-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Geometry audit: statistics, constructions, and documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f1-the-angle-null-width-has-a-measurable-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F1 — The angle-null width has a measurable driver
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F1 — The angle-null width has a measurable driver">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evidence-recomputed-from-the-committed-pivotality-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence: recomputed from the committed pivotality records
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-construction-sets-the-eigengap-near-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The construction sets the eigengap near zero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addendum-full-cell-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Addendum: full-cell confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f2-the-orientation-and-translation-effect-axes-are-censored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F2 — The orientation and translation effect axes are censored
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F2 — The orientation and translation effect axes are censored">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evidence-the-phase-4-records-own-truth-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence: the Phase-4 records' own truth metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consequences_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f3-the-reflection-contract-is-rank-dependent-reflection-is-not-the-orientationshape-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F3 — The reflection contract is rank-dependent; reflection is not the orientation→shape mechanism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F3 — The reflection contract is rank-dependent; reflection is not the orientation→shape mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evidence-the-production-estimator-on-deterministic-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence: the production estimator on deterministic configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidence-but-reflection-does-not-explain-orientationshape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence: but reflection does not explain orientation→shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-that-leaves-for-readiness-item-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What that leaves for readiness item 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f4-the-angle-test-and-its-attribution-decompose-different-orientations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F4 — The angle test and its attribution decompose different orientations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f5-synthesis-why-the-assumed-featurelatent-mapping-kept-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F5 — Synthesis: why the assumed feature→latent mapping kept failing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-documentation-and-spec-defects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Documentation and spec defects
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#s-audited-and-found-sound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S — Audited and found sound
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remediation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remediation plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Remediation plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p1-record-latent-config-spectrum-f1-readiness-items-1-3-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P1 — record-latent-config-spectrum (F1 → readiness items 1, 3, 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p2-fix-effect-axis-censoring-f2-readiness-item-4-precondition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P2 — fix-effect-axis-censoring (F2 → readiness item 4 precondition)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p3-unify-shape-reflection-policy-f3-readiness-item-2-phase-5-report-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P3 — unify-shape-reflection-policy (F3 → readiness item 2, Phase-5 report contract)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p4-add-baseline-continuity-axis-f5-the-080-floor-question-readiness-item-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P4 — add-baseline-continuity-axis (F5 → the 0.80-floor question, readiness item 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p5-align-orientation-attribution-f4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P5 — align-orientation-attribution (F4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p6-docs-sync-audit-d1d9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P6 — docs-sync-audit (D1–D9)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequencing-and-cautions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequencing and cautions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="geometry-audit-statistics-constructions-and-documentation">Geometry audit: statistics, constructions, and documentation</h1>
+<p><strong>Run date:</strong> 2026-09-01
+<strong>Code revision:</strong> <code>cd583a7</code> (branch <code>main</code>, the merge of <code>diagnose-angle-null-pivotality</code>)
+<strong>Records read:</strong> <code>results/angle-pivotality-2026-09-01/merged.jsonl</code> (500 replicates) and
+<code>results/phase4-2026-08-27/merged.jsonl</code> (1,900 units) — read-only; no new study cells were run
+<strong>New computation:</strong> three targeted experiments — a deterministic estimator check, and replicate
+regenerations from persisted <code>generator_seed</code>s pushed through the identical PLS integration. Every
+regenerated statistic was matched against its persisted record (angles to 1e-8, shapes to 4+ decimals)
+before any conclusion was drawn.
+<strong>Scope:</strong> <code>stats/</code> (trajectory, permutation, design, pls, snf, attribution), <code>simulations/</code>
+(semisynthetic, generator, evaluation, preprocessing, diagnostics, specificity, pivotality, grid), all six
+reports under <code>docs/reports/</code>, the OpenSpec spec set, and the test suite
+<strong>Affects:</strong> <a href="../../phase5-readiness/">Phase 5 readiness</a> items 1–5
+<strong>Environment:</strong> Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime</p>
+<h2 id="summary">Summary</h2>
+<p>The statistical core — RRPP, the design coding, the Procrustes solver, the sign-anchor fix, the M-value
+contract, the matched-seed and signature machinery — is sound, and the 2026-09-01 pivotality diagnosis is
+correct as far as it goes. The audit found that it stops one step short, and found four further defects:</p>
+<ul>
+<li><strong>F1.</strong> The per-replicate <code>angle</code> null width that the pivotality report calls <em>"invisible to every
+  integration diagnostic currently persisted"</em> is in fact predicted (Spearman −0.81 on the 16 extreme
+  replicates) by the <strong>relative eigengap of the latent stage-mean configuration</strong> — and that eigengap is
+  near zero <em>by construction</em>, because the baseline draws independent per-stage indicator programs whose
+  stage means form a near-regular simplex.</li>
+<li><strong>F2.</strong> The orientation and translation effect axes are <strong>silently censored</strong> by the relocation clamp:
+  the orientation surgery saturates at e ≈ 0.69, and <strong>80 of 100 replicate pairs at e = 0.75 and e = 1.00
+  are byte-identical datasets</strong> with identical statistics. The flat top of the orientation power curve is
+  partly guaranteed by construction.</li>
+<li><strong>F3.</strong> The <code>shape</code> reflection contract is <strong>ambient-dimension-dependent</strong>: "reflections retained as
+  distinct" is true only where the trajectory configuration spans the full space (the PLS latent
+  checkpoint) and silently vacuous at every pre-integration checkpoint, so the Phase-4 localization table
+  compares two different statistics across its rows. Measured on regenerated pilot replicates, however,
+  reflection is <strong>ruled out</strong> as the orientation→shape mechanism (allowing reflections changes the latent
+  shape distance in 0 of 100 replicates) — the latent shape response is genuine projection-induced
+  deformation.</li>
+<li><strong>F4.</strong> The tested <code>angle</code> statistic (PC1-axis divergence) and its attribution machinery
+  (per-adjacent-transition contrasts) decompose <strong>different orientation quantities</strong> for ≥ 3 stages; the
+  planned "signed principal orientations" extension was never implemented.</li>
+<li><strong>F5 (synthesis).</strong> The load-bearing assumption <em>surgery mode ⇒ target latent statistic</em> fails at five
+  compounding layers, and <code>angle</code> is the only statistic exposed at all five — which is why every fix so far
+  (sign anchor, studentization candidates, more replicates) moved it by points rather than tens of points.
+  The deepest layer is the independent-indicator baseline, which makes the orientation estimand itself
+  nearly degenerate per draw.</li>
+</ul>
+<p>Plus a set of documentation and spec defects (D1–D9), including README examples that raise on execution
+and a stale GPA description in <code>CLAUDE.md</code>.</p>
+<p>A remediation plan, expressed as proposed OpenSpec changes in priority order, closes the report.</p>
+<hr />
+<h2 id="f1-the-angle-null-width-has-a-measurable-driver">F1 — The angle-null width has a measurable driver</h2>
+<p>The pivotality report established that the RRPP null for <code>angle</code> tracks its own observed statistic (slope
+0.811), that the tracking is load-bearing, and that <em>"nothing the harness records today identifies which
+replicates will be resolvable"</em> — selected dimensionality and CV AUROC both saturate and neither correlates
+with the null width. That last gap is closed here: the missing quantity is the <strong>relative eigengap
+(λ₁−λ₂)/Σλ of the centered stage-mean configuration</strong> in the latent space, computable per replicate (and
+per permutation) from matrices already in hand.</p>
+<h3 id="evidence-recomputed-from-the-committed-pivotality-records">Evidence: recomputed from the committed pivotality records</h3>
+<p>The 8 narrowest-null and 8 widest-null orientation replicates were regenerated from their persisted
+<code>generator_seed</code>s and pushed through the identical PLS integration (<code>cv1_splits=3, cv2_splits=4,
+n_repeats=5, max_components=20, random_state=1203</code>). Fidelity first: every recomputed observed angle
+matched the persisted <code>pair_statistics["angle"]</code> (e.g. 8.56 vs 8.56, 138.46 vs 138.46), so this is the
+study pipeline reproduced bit-for-bit, not an approximation.</p>
+<p>Per replicate, the relative eigengap of the pooled latent stage-mean configuration against the recorded
+null width:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th style="text-align: right;">mean eigengap (pooled config)</th>
+<th style="text-align: right;">mean recorded <code>angle</code> q95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8 narrowest nulls</td>
+<td style="text-align: right;">0.097</td>
+<td style="text-align: right;">6.6°</td>
+</tr>
+<tr>
+<td>8 widest nulls</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">174.0°</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Spearman(log q95, pooled eigengap) = <strong>−0.81</strong>; Pearson on log–log = <strong>−0.88</strong>. (Correlations computed
+  within the 16 selected extremes; a full-cell run over all 100 replicates confirms the association — see
+  the addendum at the end of this section.)</li>
+<li>A 2× separation in eigengap maps to a <strong>26×</strong> separation in null width.</li>
+<li>The replicates whose <em>per-group</em> eigengap is near zero (0.002–0.013) are exactly the ones carrying huge
+  observed angles (138°–157°). Observed statistic and null co-vary because both are driven by the same
+  anisotropy — that shared dependence <strong>is</strong> the measured 0.811 slope, mechanistically.</li>
+</ul>
+<h3 id="the-construction-sets-the-eigengap-near-zero">The construction sets the eigengap near zero</h3>
+<p><code>_baseline_methyl</code> draws <strong>independent Bernoulli(p_dmp) indicators per stage</strong> ("intentionally not forced
+continuous", per the module docstring). Independent stage programs of equal expected size put the stage
+means at the vertices of a <strong>near-regular simplex</strong>: every pairwise distance is statistically identical, the
+configuration is nearly isotropic, and PC1 — the orientation estimator — is decided by the few-percent
+random asymmetry of the draw.</p>
+<p>Direct measurement (200 indicator draws at k = 4 stages, p_dmp = 0.2): median relative eigengap <strong>0.026</strong>
+(q5 0.005, q95 0.050), against <strong>1.0</strong> for a straight trajectory; net displacement is ~⅓ of path length.
+PC1's estimator variance scales like noise/eigengap, so per-replicate angle nulls spanning 5°–177° are the
+<em>expected</em> behavior of this construction. The heavy near-180° null mass (21/700, unchanged by the sign fix)
+follows from the same degeneracy: once the axis itself wanders, the sign anchor cannot stabilize the angle.</p>
+<h3 id="consequences">Consequences</h3>
+<ol>
+<li><strong>Readiness items 1 and 3 asked for exactly this quantity.</strong> It is one SVD of a k×d matrix per
+   configuration, computable per replicate <em>and per permutation</em>, and on real data it doubles as an
+   "orientation resolvability" qualifier for reporting.</li>
+<li><strong>The item-4 design-point question changes shape.</strong> More samples shrink the noise on stage means, so
+   power does rise with n — but the required n scales like the inverse square of the eigengap, and the
+   gap's lower tail (draws near perfect isotropy) is what caps the power curve. Sample size buys those
+   replicates almost nothing; the baseline's continuity (F5) is the stronger lever.</li>
+<li>The spec expectation that <em>"null configurations never approach antiparallel"</em>
+   (<code>trajectory-orientation-invariance</code>) is enforced only by a small-noise 2-D test
+   (<code>tests/test_trajectory_orientation.py:109</code>). The production operating regime violates its spirit
+   lawfully, because noise there is not small relative to the anisotropy.</li>
+</ol>
+<h3 id="addendum-full-cell-confirmation">Addendum: full-cell confirmation</h3>
+<p>The same computation over <strong>all 100 orientation replicates</strong> (no selection): Spearman(log q95, pooled
+eigengap) = <strong>−0.75</strong> (Pearson log–log −0.62), so the association is a property of the cell, not of the
+extremes. The eigengap also predicts the <em>outcome</em>: replicates that reject <code>angle</code> average gap <strong>0.053</strong>,
+replicates that fail average <strong>0.035</strong>. The observed angle tracks the smaller per-group gap (Spearman
+−0.33), consistent with the shared-anisotropy mechanism. The same run carries the F3 reflection probe over
+the whole cell: allowing reflections changes the latent shape distance in <strong>0 of 100</strong> replicates (mean
+improper/proper ratio 1.000), and the reflection-allowed observed shape still exceeds the recorded
+shape-null q95 in <strong>99 of 100</strong>.</p>
+<hr />
+<h2 id="f2-the-orientation-and-translation-effect-axes-are-censored">F2 — The orientation and translation effect axes are censored</h2>
+<p><code>_relocate_rows</code> clamps the relocation count to the destination pool:
+<code>k = min(round(e·|src_pool|), |dst_pool|)</code>. With p_dmp = 0.2 and four stages, ~59% of CpGs are stage-active
+and only ~41% are inactive, so the orientation surgery <strong>saturates at e ≈ 0.69</strong>. The translation mode's
+candidate pool (stage-inactive CpGs on untouched genes) is smaller still.</p>
+<h3 id="evidence-the-phase-4-records-own-truth-metadata">Evidence: the Phase-4 records' own truth metadata</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th style="text-align: right;">e = 0.25</th>
+<th style="text-align: right;">0.50</th>
+<th style="text-align: right;">0.75</th>
+<th style="text-align: right;">1.00</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orientation, realized relocations (mean)</td>
+<td style="text-align: right;">54.4</td>
+<td style="text-align: right;">108.9</td>
+<td style="text-align: right;"><strong>146.9</strong></td>
+<td style="text-align: right;"><strong>149.3</strong></td>
+</tr>
+<tr>
+<td>orientation, nominal (uncensored)</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">163</td>
+<td style="text-align: right;">217</td>
+</tr>
+<tr>
+<td>translation, realized set size (mean)</td>
+<td style="text-align: right;">18.0</td>
+<td style="text-align: right;">34.3</td>
+<td style="text-align: right;"><strong>37.7</strong></td>
+<td style="text-align: right;"><strong>38.2</strong></td>
+</tr>
+<tr>
+<td>translation, nominal</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">73</td>
+</tr>
+</tbody>
+</table>
+<p>Because matched seeds share the generator seed across effect sizes and the clamp makes k identical whenever
+it binds, <strong>80 of 100 replicate pairs at e = 0.75 and e = 1.00 are byte-identical datasets with identical
+angle statistics</strong> (same <code>generator_seed</code>, angle equal to 1e-9). The Phase-4 "0.67 vs 0.68" comparison
+between those cells differs on 20 replicates of fresh information.</p>
+<p>The other modes are clean: shape/relocate realizes ≈ its nominal count at every effect
+(18.2 / 36.5 / 54.6 / 72.8 against nominal 18 / 37 / 55 / 73 — its per-stage source pool is smaller than
+the destination pool), and magnitude scales δ with no pool at all.</p>
+<h3 id="consequences_1">Consequences</h3>
+<ul>
+<li>The flat top of the orientation power curve is partly guaranteed by construction, and the preregistered
+  monotonicity gate is near-vacuous between the top cells.</li>
+<li>"Power at effect 1.00" actually characterizes an e ≈ 0.69-equivalent construction.</li>
+<li>A Phase-5 grid inheriting this axis would duplicate ~80% of its compute between those cells while
+  reporting them as independent measurements.</li>
+<li>The realized sizes <em>are</em> recorded (<code>truth_metadata.transform</code>) — they have never been surfaced in a
+  report. This is the Phase-2 lesson ("report realized geometry, not requested labels") recurring one level
+  further upstream, at requested-effect → realized-surgery.</li>
+</ul>
+<hr />
+<h2 id="f3-the-reflection-contract-is-rank-dependent-reflection-is-not-the-orientationshape-mechanism">F3 — The reflection contract is rank-dependent; reflection is <em>not</em> the orientation→shape mechanism</h2>
+<p>The shape spec and the Procrustes audit state that <em>"reflections are retained as distinct shapes by
+default."</em> That is true precisely when the trajectory configuration spans the full ambient space
+(dimension ≤ k−1) and <strong>silently false otherwise</strong>: when the configuration is rank-deficient, the
+determinant correction in <code>_proper_procrustes_distance</code> flips a null-space singular vector, which costs
+nothing in the objective — the "proper rotation" constraint is vacuous and the estimator returns the
+reflection-allowed distance.</p>
+<h3 id="evidence-the-production-estimator-on-deterministic-configurations">Evidence: the production estimator on deterministic configurations</h3>
+<p>A bent 4-stage planar trajectory vs its mirror image, embedded by zero-padding:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Ambient dimension</th>
+<th style="text-align: right;">shape distance, config vs mirror</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.431</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"><strong>0.000</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;"><strong>0.000</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">660</td>
+<td style="text-align: right;"><strong>0.000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>A rank-3 configuration vs its mirror: positive in 3-D, 0.000 in ≥ 4-D. So at every pre-integration
+checkpoint (<code>population_native</code>, <code>population_standardized</code>, <code>observed_standardized</code>: hundreds of
+dimensions, configurations of rank ≤ 3) shape is reflection-<strong>invariant</strong>, while at <code>pls_latent</code> (3 dims,
+rank-3 configurations) it is reflection-<strong>sensitive</strong>. The invariance test pins only the 2-D full-rank
+case, so the suite passes while the contract fails in the very spaces the realized-geometry checkpoints
+use. The Phase-4 localization table therefore compares two different statistics across its rows.</p>
+<h3 id="evidence-but-reflection-does-not-explain-orientationshape">Evidence: but reflection does not explain orientation→shape</h3>
+<p>The natural suspicion — that orientation→shape "first becomes material at the PLS checkpoint" because a
+mirror-like difference is invisible pre-integration and visible in 3-D — was tested on the regenerated pilot
+replicates. Allowing reflections in the latent space changed the shape distance by <strong>0.0% in 100 of 100</strong>
+(the optimal alignment is already a proper rotation), and the reflection-allowed distance still exceeded
+the replicate's recorded shape-null q95 in 99 of 100. The recomputed proper distances matched the persisted
+observed shapes to four decimals. The latent shape response is genuine configuration deformation.</p>
+<h3 id="what-that-leaves-for-readiness-item-2">What that leaves for readiness item 2</h3>
+<p>With reflection eliminated, the remaining account is the one the Phase-4 report labeled "a property of a
+rank-3 stage-supervised space": an orthogonal (rotation-only) difference between two feature-space programs
+does not survive a rank-3 projection <em>as</em> a rotation — only rotations within the retained subspace do. At
+e = 1 the two groups' programs are nearly disjoint, so their relative rotation lies mostly outside any
+shared 3-D subspace, and its image under the projection returns as deformation, which the shape statistic
+(nearly pivotal, per the pivotality tables) then detects at rate ~0.99. Under this account the response is
+an expected property of measuring an out-of-subspace rotation in a rank-limited space — predeclarable for
+Phase 5 as a projection artifact, and testable: it should shrink as retained rank grows toward the joint
+program rank.</p>
+<hr />
+<h2 id="f4-the-angle-test-and-its-attribution-decompose-different-orientations">F4 — The angle test and its attribution decompose different orientations</h2>
+<p><code>_estimate_orientation</code> returns PC1 of the k-stage configuration signed by net displacement: the tested
+<code>angle</code> is a <strong>principal-axis divergence</strong>. <code>stats/attribution.py</code> explains <strong>per-adjacent-transition
+normalized contrasts</strong> (<code>d/‖d‖</code> per transition). These coincide only for k = 2. For a bent trajectory PC1
+is not any transition direction — and under the random-simplex baseline (F1) the divergence between the two
+notions is maximal: transition directions are well-defined per step while PC1 is nearly degenerate.</p>
+<p>Two documentation consequences: the orientation-invariance spec's purpose line ("a difference in direction
+of progression") and its "known angle is recovered" scenario hold only for straight trajectories; and the
+roadmap's Phase-3 plan to extend attribution with "signed principal orientations" was not implemented.
+Nothing here is a wrong computation — but a significant 4-stage <code>angle</code> is currently interpreted through a
+decomposition of a related, different quantity.</p>
+<hr />
+<h2 id="f5-synthesis-why-the-assumed-featurelatent-mapping-kept-failing">F5 — Synthesis: why the assumed feature→latent mapping kept failing</h2>
+<p>The study's load-bearing assumption — <em>surgery mode ⇒ its target latent statistic</em> — fails at five distinct
+layers:</p>
+<ol>
+<li><strong>Requested → realized surgery.</strong> The clamp censors the orientation and translation axes (F2). The
+   effect knob is not the effect delivered.</li>
+<li><strong>Methylation surgery → multi-omic geometry.</strong> The CpG→gene→protein OR-derivation converts a pure
+   methylation relocation into a mixed multi-omic program change (documented in Phase 2 — this layer is
+   understood).</li>
+<li><strong>Feature geometry → standardized joint geometry.</strong> Pooled per-feature scaling, and magnitude scaling
+   only one of three blocks, mix size into direction (documented — the 39.9° population angle of the
+   magnitude construction).</li>
+<li><strong>Joint geometry → latent geometry.</strong> The stage-supervised space saturates at rank k−1 and retains ~6%
+   of the group orientation contrast; rotation-only differences that lie outside the retained subspace
+   re-enter as deformation (F3's mechanism for orientation→shape). Angles between projections are not
+   angles between originals.</li>
+<li><strong>Latent geometry → statistic.</strong> PC1 on a near-isotropic configuration is an ill-determined estimand;
+   observed statistic and permutation null co-vary through the shared anisotropy (F1), which <em>is</em> the
+   measured 0.811 tracking.</li>
+</ol>
+<p><code>delta</code> survives all five because path length is a sum of norms — insensitive to axis identity, projection
+rotation, and configuration anisotropy. <code>shape</code> survives because the constructed bend is large and its null
+is nearly pivotal. <code>angle</code> is structurally exposed at every layer, which is why every fix so far moved it
+by points rather than tens of points.</p>
+<p><strong>The deepest of the five is the baseline.</strong> "Intentionally not forced continuous" was a defensible
+generality choice, but it makes the orientation estimand itself nearly meaningless at the population level:
+a trajectory with independent stage programs has no direction to differ in. It is also the less
+biologically representative case for staged progression, where successive stages share and accumulate
+programs and the configuration has a dominant trend — precisely the regime where PC1 is well-conditioned
+and angle nulls are tight. A <strong>baseline-continuity axis</strong> (from fully independent to strongly trending
+indicator draws) would turn the orientation question from "which replicates got lucky draws" into a
+designed, monotone operating characteristic — while keeping the current isotropic baseline as the
+stress-test endpoint.</p>
+<hr />
+<h2 id="d-documentation-and-spec-defects">D — Documentation and spec defects</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Location</th>
+<th>Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><code>CLAUDE.md:73</code></td>
+<td>Says shape uses "iterative Procrustes GPA" — superseded 2026-08-04 by strict pairwise OPA; contradicts the audit report and the code.</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><code>README.md:52–57</code></td>
+<td><code>motco simulate</code> example passes <code>--prop-affected-features</code>, which the CLI does not accept, and the comment says the command "requires R + InterSIM" while the parser help says "numpy generator, no R" (<code>cli.py:321</code>).</td>
+</tr>
+<tr>
+<td>D3</td>
+<td><code>README.md:304–315</code></td>
+<td>Python example imports <code>generate_semisynthetic_trajectory_from_intersim</code> and passes <code>prop_affected_features</code> — neither exists in <code>src/</code> anymore; the example raises on execution.</td>
+</tr>
+<tr>
+<td>D4</td>
+<td><code>docs/roadmap.md:28</code></td>
+<td>The resolved shape-invariance item is filed under "Not yet established".</td>
+</tr>
+<tr>
+<td>D5</td>
+<td><code>openspec/specs/semisynthetic-trajectory-generator/spec.md:5</code></td>
+<td>Purpose line still says datasets are generated "from InterSIM outputs"; the requirements below it correctly say no R at runtime.</td>
+</tr>
+<tr>
+<td>D6</td>
+<td><code>grid.py:328</code>, <code>showcase.py:71–74</code></td>
+<td>Matched-seed docstrings claim family cells generate "the <em>same</em> dataset" / that "the only thing that changes is group B's transform". Only the baseline indicators and group assignment match: the transforms consume different RNG amounts, so all sampled values differ across modes (the sole common-random-numbers pair is none↔magnitude, whose transforms draw nothing). The pivotality config note "the comparison across modes is on the same generator draws" overstates likewise.</td>
+</tr>
+<tr>
+<td>D7</td>
+<td><code>CLAUDE.md</code> / <code>evaluation.py</code> vs <code>docs/roadmap.md</code></td>
+<td>CLAUDE.md and the evaluation docstring call SNF a "production latent-space method" while rung 2 found SNF leaks independently and the roadmap defers SNF pending graph-native statistics (Phase 7). One message should win.</td>
+</tr>
+<tr>
+<td>D8</td>
+<td><code>evaluation.py:368</code>, <code>design.py</code></td>
+<td>Stage levels sort as strings; ordering silently breaks at n_stages ≥ 10 ("10" &lt; "2"). Latent hazard only, but path length and shape depend on stage order.</td>
+</tr>
+<tr>
+<td>D9</td>
+<td><code>README.md:270</code>, shape spec</td>
+<td>Shape described as removing "orientation differences" with reflections retained — needs the F3 rank qualifier to be true as stated. <strong>Resolved 2026-09-03</strong> by <code>unify-shape-reflection-policy</code>: rather than adding the qualifier, the policy was unified — reflections are aligned away at every ambient dimension, and README, spec, and docstrings now say so.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="s-audited-and-found-sound">S — Audited and found sound</h2>
+<ul>
+<li><strong>S1 — RRPP.</strong> The reduced model (additive group+stage) is the right null for the interaction; permuting
+  whole residual rows is exchangeable under the generator's homoskedastic cells; keeping the latent space
+  fixed under permutation is defensible because integration is group-blind (stage-supervised only) — and
+  empirically Type I holds. The add-one right-tail p-value is applied consistently.</li>
+<li><strong>S2 — Design coding.</strong> <code>get_model_matrix</code> / <code>build_ls_means</code> / contrast indexing are mutually consistent
+  (drop-first dummies, group-major LS-mean rows).</li>
+<li><strong>S3 — Procrustes solver.</strong> The rotation solution and determinant handling are algebraically correct; the
+  independent recomputation reproduced all 16 persisted shape statistics exactly.</li>
+<li><strong>S4 — Orientation sign anchor.</strong> Net-displacement anchoring is the right convention; its one degeneracy
+  (closed trajectories) is documented. The remaining instability is the axis, not the sign (F1).</li>
+<li><strong>S5 — M-value contract.</strong> Applied uniformly across preprocessing, concat, SNF, and diagnostics; the
+  rung-ladder conclusion is honored in the production path.</li>
+<li><strong>S6 — Study machinery.</strong> Parameter signatures (including <code>n_jobs</code>), resumable sharding, seed derivation,
+  and record persistence reproduce byte-identically — verified by regenerating replicates from persisted
+  seeds and matching statistics to 1e-8.</li>
+<li><strong>S7 — The pivotality report's logic.</strong> The studentization no-op argument, the fixed-threshold
+  catastrophe, and the "tracking is load-bearing" reading are all correct. F1 extends it with the missing
+  covariate; it contradicts nothing.</li>
+<li><strong>S8 — Magnitude path.</strong> The one construction/estimator pair with no unexplained behavior: the estimator
+  is more specific than the (deliberately mixed) construction, as reported.</li>
+</ul>
+<hr />
+<h2 id="remediation-plan">Remediation plan</h2>
+<p>Proposed as OpenSpec changes, in priority order. P1–P2 are small, additive, and unblock the Phase-5
+design-point work; P3 is contract hygiene the paper-grade study's cross-checkpoint claims depend on; P4 is
+the substantive scientific decision; P5–P6 are cleanups that can land any time.</p>
+<h3 id="p1-record-latent-config-spectrum-f1-readiness-items-1-3-4">P1 — <code>record-latent-config-spectrum</code> (F1 → readiness items 1, 3, 4)</h3>
+<p>Persist the eigenspectrum of the centered stage-mean configuration — pooled and per group — in every
+evaluation record, beside <code>null_summary</code>.</p>
+<ul>
+<li>Scope: <code>evaluation.py</code> (compute after <code>estimate_difference</code>, from <code>obs_vect</code> already in hand),
+  <code>grid.py</code> record schema (version bump so resume signatures cannot mix contracts), study report tables
+  (power stratified by eigengap for orientation cells).</li>
+<li>Also record the per-permutation eigengap summary (quantiles over the RRPP draws) — one SVD of a k×d
+  matrix per permutation, negligible next to <code>estimate_difference</code>.</li>
+<li>Acceptance: the pivotality analysis re-run over new records shows log(null q95) regressing on the
+  recorded eigengap with the association found here; the Phase-5 report contract gains the stratified
+  power table.</li>
+<li>Non-goal: no change to any statistic or test.</li>
+</ul>
+<h3 id="p2-fix-effect-axis-censoring-f2-readiness-item-4-precondition">P2 — <code>fix-effect-axis-censoring</code> (F2 → readiness item 4 precondition)</h3>
+<p>Make the requested-vs-realized surgery relationship explicit and non-degenerate.</p>
+<ul>
+<li>Decide the policy per mode: fail loudly when the clamp would bind (preferred for study configs), or
+  renormalize the axis to realized fractions, or raise headroom (e.g. lower p_dmp for the orientation
+  cell, or relocate within the active set). The current silent <code>min()</code> is the one indefensible option.</li>
+<li>Surface <code>transform.orientation_relocated</code> / <code>translation_set_size</code> in <code>summarize_rejection_rates</code> and the
+  study report; annotate or dedupe cells whose realized construction is identical in distribution.</li>
+<li>Acceptance: enumerating the Phase-4 grid under the new policy either errors on the censored cells or
+  reports distinct realized effects per cell; no two power cells share &gt; 5% identical replicates.</li>
+<li>Note: changes generator semantics → parameter signatures will (correctly) refuse to resume old shards.</li>
+</ul>
+<h3 id="p3-unify-shape-reflection-policy-f3-readiness-item-2-phase-5-report-contract">P3 — <code>unify-shape-reflection-policy</code> (F3 → readiness item 2, Phase-5 report contract)</h3>
+<p><strong>Landed 2026-09-03</strong>, taking the preferred option below: the determinant correction is gone,
+<code>SHAPE_STATISTIC_VERSION = 2</code> guards resume compatibility, and the follow-up probe ships as
+<code>scripts/latent_rank_probe.py</code> (results under <code>results/latent-rank-probe-2026-09-03/</code>).</p>
+<p>Pick one reflection policy that holds at every checkpoint.</p>
+<ul>
+<li>Preferred: <strong>allow reflections everywhere</strong> (drop the determinant correction). Measured cost on real
+  replicates: zero (100/100 identical distances); benefit: one statistic across all checkpoints, matching
+  the standard identification of reflections in shape spaces whose dimension exceeds configuration rank.</li>
+<li>Alternative: keep the proper-rotation estimator but document the rank threshold in the spec and annotate
+  every cross-checkpoint comparison with its regime.</li>
+<li>Either way: add mirror-pair tests at ambient dimension &gt; rank (the current suite pins only 2-D), and
+  update <code>trajectory-shape-invariance</code> spec + README + docstrings.</li>
+<li>Include the item-2 follow-up probe: re-measure latent shape at forced larger <code>n_components</code>; if the
+  orientation→shape response decays toward the population value, predeclare it as a projection artifact.</li>
+</ul>
+<h3 id="p4-add-baseline-continuity-axis-f5-the-080-floor-question-readiness-item-4">P4 — <code>add-baseline-continuity-axis</code> (F5 → the 0.80-floor question, readiness item 4)</h3>
+<p>Add a generator axis controlling stage-program continuity, from independent (current behavior, the
+stress-test endpoint) to strongly trending (e.g. Markov persistence of indicators across stages, or
+cumulative programs).</p>
+<ul>
+<li>The design decision to make explicitly: orientation power is then reported <em>as a function of baseline
+  continuity</em>, and the honest scientific claim becomes "MOTCO resolves orientation differences when the
+  trajectory has a direction to differ in" — with the eigengap (P1) as the observable that carries that
+  statement to real data.</li>
+<li>Realized-geometry diagnostics already in place will show how continuity moves the eigengap distribution.</li>
+<li>This is the change most likely to move the orientation operating characteristics by tens of points;
+  n-scaling alone attacks the noise term while the gap's lower tail persists.</li>
+</ul>
+<h3 id="p5-align-orientation-attribution-f4">P5 — <code>align-orientation-attribution</code> (F4)</h3>
+<p>Either add a principal-orientation component to attribution (contrast of the PC1 axes reconstructed
+through the fitted loadings, beside the existing per-transition contrasts), or narrow the documented
+estimand of <code>angle</code> to "principal-axis divergence" and state explicitly that attribution explains
+transitions. Small; matters for how a significant orientation result is interpreted in Phase 6.</p>
+<h3 id="p6-docs-sync-audit-d1d9">P6 — <code>docs-sync-audit</code> (D1–D9)</h3>
+<p>One documentation batch: CLAUDE.md GPA line (D1), README simulate example and Python examples (D2, D3),
+roadmap bullet placement (D4), semisynthetic spec purpose line (D5), matched-seed docstring wording in
+<code>grid.py</code>/<code>showcase.py</code> and the pivotality config note (D6), one consistent SNF status message (D7), the
+stage-label natural-sort guard plus test (D8 — the one code change in the batch), and the reflection
+qualifier in shape descriptions (D9, folds into P3 if that lands first).</p>
+<h3 id="sequencing-and-cautions">Sequencing and cautions</h3>
+<ul>
+<li>P1 + P2 before any new power runs; P3 before Phase-5 report drafting; P4 decides the Phase-5 design
+  point; P5/P6 anytime.</li>
+<li><strong>Caution on latent-space sizing (item 3):</strong> any group-aware supervision or sizing puts group information
+  into the measurement space and voids the fixed-latent-space RRPP conditioning that currently makes the
+  permutation test defensible (S1). That road requires integrating inside the permutation loop or a proof
+  of invariance — do not take it casually.</li>
+<li>The zero-effect anchor, <code>n_jobs</code>-in-signature, and matched-seed machinery need no changes.</li>
+</ul>
+<hr />
+<h2 id="reproduction">Reproduction</h2>
+<p>All three experiments read committed study records and re-derive datasets from persisted seeds; none
+re-runs RRPP.</p>
+<p><strong>1. Reflection rank-dependence</strong> (pure estimator check):</p>
+<pre><code class="language-python">import numpy as np
+from motco.stats.trajectory import _estimate_shape
+
+config = np.array([[0.0, 0.0], [1.0, 0.2], [2.0, -0.1], [3.0, 0.8]])
+mirror = config * np.array([1.0, -1.0])
+for d in (2, 3, 10, 660):
+    A = np.hstack([config, np.zeros((4, d - 2))])
+    B = np.hstack([mirror, np.zeros((4, d - 2))])
+    V = np.vstack([A, B])
+    print(d, _estimate_shape(V, [[0, 1, 2, 3], [4, 5, 6, 7]])[0, 1])
+# 2 → 0.431;  3, 10, 660 → 0.000
+</code></pre>
+<p><strong>2. Eigengap vs recorded angle-null width</strong> (regeneration from persisted seeds):</p>
+<pre><code class="language-python">import json
+import numpy as np
+from motco.simulations.semisynthetic import SemiSyntheticTrajectoryParams, generate_semisynthetic_trajectory
+from motco.simulations.evaluation import (
+    SimulationEvaluationParams, integrate_semisynthetic_dataset, build_simulation_trajectory_design)
+from motco.stats.trajectory import estimate_betas
+
+PLS = {&quot;cv1_splits&quot;: 3, &quot;cv2_splits&quot;: 4, &quot;n_repeats&quot;: 5, &quot;max_components&quot;: 20, &quot;random_state&quot;: 1203}
+recs = [json.loads(l) for l in open(&quot;results/angle-pivotality-2026-09-01/merged.jsonl&quot;)]
+orient = [r for r in recs if (r.get(&quot;cell_metadata&quot;) or {}).get(&quot;trajectory_mode&quot;) == &quot;orientation&quot;
+          and r.get(&quot;phase&quot;) == &quot;power_primary&quot;]
+
+def relgap(cfg):
+    X = cfg - cfg.mean(0, keepdims=True)
+    e = np.linalg.svd(X, compute_uv=False) ** 2
+    return (e[0] - e[1]) / e.sum()
+
+for r in orient:  # or a subset
+    ds = generate_semisynthetic_trajectory(SemiSyntheticTrajectoryParams(
+        seed=int(r[&quot;generator_seed&quot;]), trajectory_mode=&quot;orientation&quot;,
+        n_samples=300, n_stages=4, group_effect_size=1.0, p_dmp=0.2))
+    latent = integrate_semisynthetic_dataset(ds, SimulationEvaluationParams(
+        integration_method=&quot;pls&quot;, integration_params=PLS, permutations=0))
+    design = build_simulation_trajectory_design(ds.metadata)
+    Y = latent.matrix.to_numpy(float)
+    stages = ds.metadata[&quot;stage&quot;].to_numpy()
+    pooled = np.vstack([Y[stages == s].mean(0) for s in sorted(set(stages))])
+    # sanity: estimate_difference here reproduces r[&quot;pair_statistics&quot;] exactly
+    print(r[&quot;generator_seed&quot;], relgap(pooled), r[&quot;null_summary&quot;][&quot;angle&quot;][&quot;q95&quot;])
+</code></pre>
+<p>The reflection probe (F3) is the same regeneration with the group LS-mean configurations
+(<code>build_ls_means @ betas</code>), <code>_center_scale_unit</code> on each, and the Procrustes residual computed with and
+without the determinant correction.</p>
+<p><strong>3. Effect-axis censoring</strong> (record scan):</p>
+<pre><code class="language-python">import json
+from collections import defaultdict
+import numpy as np
+
+rows = defaultdict(list)
+for l in open(&quot;results/phase4-2026-08-27/merged.jsonl&quot;):
+    r = json.loads(l)
+    cm = r.get(&quot;cell_metadata&quot;) or {}
+    tr = (r.get(&quot;truth_metadata&quot;) or {}).get(&quot;transform&quot;) or {}
+    if cm.get(&quot;trajectory_mode&quot;) == &quot;orientation&quot;:
+        rows[cm[&quot;effect_size&quot;]].append(tr.get(&quot;orientation_relocated&quot;))
+for e in sorted(rows):
+    print(e, np.mean([v for v in rows[e] if v is not None]))
+# 0.25 → 54.4, 0.5 → 108.9, 0.75 → 146.9, 1.0 → 149.3 (nominal 54/108/163/217)
+</code></pre>
+<p>The 80/100 duplication figure comes from joining orientation <code>power_primary</code> records on
+<code>replicate_index</code> across effects 0.75 and 1.00 and counting pairs with equal <code>generator_seed</code> and equal
+<code>pair_statistics["angle"]</code> (tolerance 1e-9).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

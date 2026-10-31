@@ -1,0 +1,1805 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Case-study configuration diagnosis — 2026-10-30 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#case-study-configuration-diagnosis-2026-10-30" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Case-study configuration diagnosis — 2026-10-30
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-rates-against-the-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rates against the bound
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Rates against the bound">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angle-and-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        angle and shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-paired-contrasts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Paired contrasts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rank-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Rank tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-the-arms-show" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What the arms show
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-verdicts-and-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Verdicts and consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-limitations-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Limitations and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="case-study-configuration-diagnosis-2026-10-30">Case-study configuration diagnosis — 2026-10-30</h1>
+<blockquote>
+<p>This report diagnoses the size excess that the <a href="../case-study-type-i-2026-10-29/">case-study configuration Type I check</a>
+found at the SEA-AD case study's configuration (openspec change <code>case-study-configuration-diagnosis</code>, spec
+<code>case-study-configuration-diagnosis</code>). It covers two findings: the covariate-adjusted model's <code>delta</code>, and the
+<code>stage</code> latent adjustment's anchor <code>angle</code> and <code>shape</code>.</p>
+<p>Every number below is read from <code>results/case-study-diagnosis-2026-10-30/</code>:
+- <code>case_study_diagnosis_decision.json</code>, <code>diagnosis_contrasts.csv</code>, <code>decide.json</code>;
+- per run in <code>delta0.1/</code> and <code>delta0.05/</code>: <code>diagnosis_rates.csv</code>, <code>diagnosis_rank_table.csv</code>,
+  <code>diagnosis_reproduction.json</code>, <code>merge.json</code>, <code>settings.json</code>, <code>PROVENANCE.txt</code>;
+- the smoke records <code>smoke-delta0.1/</code>, <code>smoke-delta0.05/</code> and <code>smoke-decision/</code>.</p>
+<p><code>diagnosis_pvalues.csv</code>, <code>merged.jsonl</code> and <code>records/</code> stay on <code>ing</code>; each <code>PROVENANCE.txt</code> names them with their
+sha256. Rates are rejection rates at p ≤ 0.05 over R = 500 replicates at 999 permutations. The bound is the parent
+check's one-sided <code>α + 2·√(α(1 − α)/R)</code> = 0.0695, i.e. at most 34 rejections in 500.</p>
+</blockquote>
+<p><strong>Run.</strong>
+- Two 50-shard SLURM arrays on <code>ing</code> (partition <code>512x1024</code>, n11 and the heavily loaded n3 excluded), from the clean
+  worktree of <code>feat/case-study-configuration-diagnosis</code> at <code>5c30c51</code>. The git tree is <code>4fe2050d…</code>, identical to the
+  workstation, and the diagnosis tests passed there.
+- Job 930358 ran the δ = 0.1 parent and job 930408 the δ = 0.05 parent: 50 / 50 tasks <code>COMPLETED 0:0</code> in each,
+  10.7 + 14.4 = 25.1 recorded core-hours (34 planned).
+- 1,000 units per parent (the zero-effect anchor and the translation control at e = 1.0, × 500 replicates).
+  Each unit ran four analyses and twelve RRPP-only arms, with 0 arm failures.
+- Every unit passed three hard checks:
+  - the reconstruction of the fitted covariate-blind projection matched the analysis's latent scores (maximum
+    error 2.7e-13 against the 1e-9 tolerance);
+  - <code>X − X0</code> and <code>Y − Y0</code> were rank one in <code>z</code> (maximum residual 6.5e-16);
+  - the script's <code>z_noise5</code> equalled <code>analyze_trajectories</code> exactly.</p>
+<p><strong>Reproduction.</strong> The diagnosis regenerated the parent's data, covariates, CV folds and RRPP seeds. <code>z_noise5</code>
+reproduces the parent's <code>adjusted</code> arm, and <code>latent_stage_cv</code> its <code>latent_stage</code> arm, with <strong>0 mismatches over 3,000 +
+3,000 p-values per parent</strong> (<code>diagnosis_reproduction.json</code>, status <code>holds</code> in both runs). So every derived arm below sits
+on the parent's exact units, and the decision's gate is open.</p>
+<p><strong>Verdicts.</strong> Both are read verbatim from <code>case_study_diagnosis_decision.json</code> (<code>"decision": "diagnosed"</code>,
+<code>"indicative": false</code>):
+- <strong>Covariate-adjusted <code>delta</code>: <code>residual_df_shrinkage</code>.</strong> The column contrast C2 (<code>z_noise5</code> vs <code>z_noise0</code>) is
+  significant (one-sided p = 0.015). The residual-df corrected case-study model holds the bound for every statistic at
+  both controls in both runs, and its own column contrast C4 is not significant (p = 0.156).
+- <strong><code>stage</code> latent adjustment: <code>residualized_basis</code>.</strong> At a forced rank of 2, with no cross-validation, it still
+  exceeds on anchor <code>angle</code> in both runs (0.084 / 0.082), although its <code>shape</code> now holds.</p>
+<p><strong>In one paragraph.</strong>
+- <strong>The design.</strong> The diagnosis reran the parent check's exact units:
+  - on the covariate-blind basis, it crossed the confounded covariate <code>z</code> (estimated in the model, or its injection
+    removed exactly from the latent scores) with 0, 2 or 5 pure-noise covariates;
+  - each of those six arms was rerun with the Freedman–Lane residuals rescaled by κ = √(n / (n − p_red));
+  - the <code>stage</code> latent adjustment ran at the CV floor of 2, at floor 1 and at a forced rank of 2.
+- <strong><code>delta</code> rises with the column count and the correction removes it.</strong> Pooled over the four control readings
+  (2,000 units), <code>delta</code> rises 0.0545 → 0.0595 → 0.066 with <code>z</code> in the model and 0.0525 → 0.0545 → 0.060 under the
+  oracle. The corrected arms read 0.0475–0.0545, with no arm above the bound in any reading.
+- <strong>Estimating <code>z</code> costs no <code>delta</code> size.</strong> C3 (<code>z_noise0</code> vs <code>oracle_noise0</code>) has p = 0.39.
+- <strong>What this means.</strong> The case study's <code>delta</code> excess is the Freedman–Lane null's residual-df shrinkage at ten
+  reduced-model columns and n = 80. It is not the covariate's confounding.
+- <strong>The <code>stage</code> arm.</strong> Its anchor <code>angle</code> excess sits at rank 2 itself. Its <code>shape</code> excess sits in the CV rank's
+  tail, and a fixed rank of 2 cures <code>shape</code> but not <code>angle</code>.
+- <strong>Consequences.</strong> The case study's primary waits for a MOTCO change offering the corrected permutation, validated
+  by its own Type I and power check. The <code>stage</code> sensitivity arm stays inadmissible at this configuration, at a
+  fixed rank too.</p>
+<h2 id="1-construction">1. Construction</h2>
+<p><code>scripts/case_study_diagnosis.py</code> (design D1) binds each run to one committed run directory of the parent check
+(<code>--parent</code>).</p>
+<p><strong>Parent binding.</strong>
+- It refuses a parent whose <code>settings.json</code> fails its recorded hash.
+- It also refuses one whose settings <code>case_study_type_i_check.build_settings</code> does not rebuild from the recorded
+  arguments to the same hash.
+- The diagnosis's own <code>settings.json</code> carries the parent's settings, path and hash: <code>ca57cc38…</code> against parent
+  <code>899ce29a…</code> at δ = 0.1, and <code>6c5d447a…</code> against <code>97eb6d90…</code> at δ = 0.05.</p>
+<p>The parent's construction is unchanged:
+- the Phase 6 SEA-AD design, <code>[[11, 10, 28], [9, 10, 12]]</code> with n = 80, methylation + expression;
+- the per-omic stage effect weakened to δ = 0.1 or 0.05;
+- <code>z = 0.5·g + 1·s + 2·g·s + ε</code>, injected at <code>s_z = 10</code> along a fixed direction;
+- five i.i.d. N(0, 1) noise covariates <code>x1</code>–<code>x5</code>;
+- the rank floor of 2, the harness CV knobs and the net-displacement estimator.</p>
+<p><strong>Arms</strong> (design D2–D6). Every arm of a unit shares its data and its RRPP seed.</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>latent scores</th>
+<th>covariates in both trajectory models</th>
+<th>p_red</th>
+<th>κ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oracle_noise0</code></td>
+<td><code>Y0</code></td>
+<td>none</td>
+<td>4</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>oracle_noise2</code></td>
+<td><code>Y0</code></td>
+<td><code>x1</code>, <code>x2</code></td>
+<td>6</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>oracle_noise5</code></td>
+<td><code>Y0</code></td>
+<td><code>x1</code>–<code>x5</code></td>
+<td>9</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>z_noise0</code></td>
+<td><code>Y</code></td>
+<td><code>z</code></td>
+<td>5</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>z_noise2</code></td>
+<td><code>Y</code></td>
+<td><code>z</code>, <code>x1</code>, <code>x2</code></td>
+<td>7</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>z_noise5</code></td>
+<td><code>Y</code></td>
+<td><code>z</code>, <code>x1</code>–<code>x5</code> (the case study's model)</td>
+<td>10</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>&lt;arm&gt;_corrected</code></td>
+<td>as <code>&lt;arm&gt;</code></td>
+<td>as <code>&lt;arm&gt;</code></td>
+<td>as <code>&lt;arm&gt;</code></td>
+<td>√(80 / (80 − p_red)): 1.026–1.069</td>
+</tr>
+<tr>
+<td><code>latent_stage_cv</code></td>
+<td>own basis, <code>stage</code> adjustment, CV at floor 2 (the parent's arm)</td>
+<td><code>z</code>, <code>x1</code>–<code>x5</code></td>
+<td>10</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>latent_stage_floor1</code></td>
+<td>own basis, <code>stage</code> adjustment, CV at floor 1 (descriptive)</td>
+<td><code>z</code>, <code>x1</code>–<code>x5</code></td>
+<td>10</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>latent_stage_rank2</code></td>
+<td>own basis, <code>stage</code> adjustment, forced rank 2, no CV</td>
+<td><code>z</code>, <code>x1</code>–<code>x5</code></td>
+<td>10</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>Y</code> and the factorial.</strong> <code>Y</code> is the latent score matrix of one <code>analyze_trajectories</code> call with the six covariates
+  on the covariate-blind basis. The six factorial arms are inference-only on that basis: the analysis's design,
+  <code>_covariate_adjusted_design</code>, <code>estimate_difference</code> and serial <code>RRPP</code>.</li>
+<li><strong>The oracle (design D3).</strong></li>
+<li><code>X0</code> is D10's build at <code>s_z = 0</code> with the same seeds.</li>
+<li>The fitted covariate-blind map is reconstructed from the block scalers, the PLS centring and <code>ddof = 1</code> scaling,
+    and the PLS rotations, and checked against the analysis's latent scores.</li>
+<li><code>Y0</code> is <code>X0</code> through that map. It equals <code>Y</code> minus <code>z</code> times a fixed latent vector, which the tests check against
+    the analytic injection.</li>
+<li><strong>The correction (design D5).</strong> Each corrected arm runs <code>RRPP</code> on <code>ŷ_red + κ·e_red</code> with the arm's models and seed:
+  the same permutation indices, the uncorrected observed statistics, and p-values by the analysis's rule.</li>
+</ul>
+<p><strong>Contrasts</strong> (design D7) are paired on the same units:
+- For a contrast of arm B against arm A, replicate r contributes <code>d_r</code>: the readings (2 runs × 2 controls) that B
+  rejects and A does not, minus the reverse.
+- The one-sided p-value is P(Σ ε_r d_r ≥ Σ d_r) over independent equiprobable signs, computed exactly by convolution.
+  Each replicate is one cluster because its four readings share the covariates, noise columns and RRPP seed.
+- The predeclared <code>delta</code> contrasts are:
+  - C1: <code>oracle_noise5</code> vs <code>oracle_noise0</code>
+  - C2: <code>z_noise5</code> vs <code>z_noise0</code>
+  - C3: <code>z_noise0</code> vs <code>oracle_noise0</code>
+  - C4: <code>z_noise5_corrected</code> vs <code>z_noise0_corrected</code></p>
+<p><strong>Smoke</strong> (design D10; <code>smoke-*</code>, R = 20 × 99 permutations; the <code>design.md</code> "Smoke and shard plan" record):
+- 40 / 40 units per parent with 0 failures, and indicative verdicts <code>unresolved</code> / <code>residualized_basis</code>;
+- a separate R = 4 × 999 run reproduced 24 + 24 p-values per parent with 0 mismatches;
+- one unit took 20.5 s on a workstation core (1.11× a parent unit). On <code>ing</code> the mean unit took 31 s (δ = 0.1,
+  n2 and n4) and 42 s (δ = 0.05, n2).</p>
+<h2 id="2-rates-against-the-bound">2. Rates against the bound</h2>
+<p>Rejections out of 500 per reading, then the rate pooled over the four readings, from each run's
+<code>diagnosis_rates.csv</code>. The readings are the anchor and translation controls at δ = 0.1 and 0.05. <strong>Bold</strong> marks a
+reading above 34 / 500, i.e. verdict <code>exceeds</code>.</p>
+<h3 id="delta"><code>delta</code></h3>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>anchor δ = 0.1</th>
+<th>anchor δ = 0.05</th>
+<th>translation δ = 0.1</th>
+<th>translation δ = 0.05</th>
+<th>pooled (2,000)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oracle_noise0</code></td>
+<td>31</td>
+<td>23</td>
+<td>27</td>
+<td>24</td>
+<td>0.0525</td>
+</tr>
+<tr>
+<td><code>oracle_noise2</code></td>
+<td>34</td>
+<td>28</td>
+<td>23</td>
+<td>24</td>
+<td>0.0545</td>
+</tr>
+<tr>
+<td><code>oracle_noise5</code></td>
+<td><strong>37</strong></td>
+<td>29</td>
+<td>28</td>
+<td>26</td>
+<td>0.0600</td>
+</tr>
+<tr>
+<td><code>z_noise0</code></td>
+<td>34</td>
+<td>30</td>
+<td>23</td>
+<td>22</td>
+<td>0.0545</td>
+</tr>
+<tr>
+<td><code>z_noise2</code></td>
+<td><strong>36</strong></td>
+<td>29</td>
+<td>28</td>
+<td>26</td>
+<td>0.0595</td>
+</tr>
+<tr>
+<td><code>z_noise5</code></td>
+<td>34</td>
+<td>32</td>
+<td><strong>36</strong></td>
+<td>30</td>
+<td>0.0660</td>
+</tr>
+<tr>
+<td><code>oracle_noise0_corrected</code></td>
+<td>28</td>
+<td>19</td>
+<td>26</td>
+<td>23</td>
+<td>0.0480</td>
+</tr>
+<tr>
+<td><code>oracle_noise2_corrected</code></td>
+<td>32</td>
+<td>24</td>
+<td>21</td>
+<td>18</td>
+<td>0.0475</td>
+</tr>
+<tr>
+<td><code>oracle_noise5_corrected</code></td>
+<td>32</td>
+<td>24</td>
+<td>24</td>
+<td>21</td>
+<td>0.0505</td>
+</tr>
+<tr>
+<td><code>z_noise0_corrected</code></td>
+<td>30</td>
+<td>26</td>
+<td>22</td>
+<td>20</td>
+<td>0.0490</td>
+</tr>
+<tr>
+<td><code>z_noise2_corrected</code></td>
+<td>31</td>
+<td>24</td>
+<td>22</td>
+<td>19</td>
+<td>0.0480</td>
+</tr>
+<tr>
+<td><code>z_noise5_corrected</code></td>
+<td>30</td>
+<td>24</td>
+<td>28</td>
+<td>27</td>
+<td>0.0545</td>
+</tr>
+<tr>
+<td><code>latent_stage_cv</code></td>
+<td>30</td>
+<td>32</td>
+<td>24</td>
+<td>26</td>
+<td>0.0560</td>
+</tr>
+<tr>
+<td><code>latent_stage_floor1</code></td>
+<td>31</td>
+<td>33</td>
+<td>24</td>
+<td>28</td>
+<td>0.0580</td>
+</tr>
+<tr>
+<td><code>latent_stage_rank2</code></td>
+<td>30</td>
+<td>31</td>
+<td>25</td>
+<td>25</td>
+<td>0.0555</td>
+</tr>
+</tbody>
+</table>
+<p><code>z_noise5</code> reproduces the parent's <code>adjusted</code> <code>delta</code> reading for reading: 0.068 / 0.064 at the anchor and 0.072 /
+0.060 at translation, including the one excess (translation δ = 0.1, 36 / 500).</p>
+<h3 id="angle-and-shape"><code>angle</code> and <code>shape</code></h3>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th><code>angle</code> (four readings)</th>
+<th><code>angle</code> pooled</th>
+<th><code>shape</code> (four readings)</th>
+<th><code>shape</code> pooled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oracle_noise0</code></td>
+<td><strong>40 39 40 40</strong></td>
+<td>0.0795</td>
+<td>30 26 28 30</td>
+<td>0.0570</td>
+</tr>
+<tr>
+<td><code>oracle_noise2</code></td>
+<td><strong>40 39 42 43</strong></td>
+<td>0.0820</td>
+<td>26 23 30 30</td>
+<td>0.0545</td>
+</tr>
+<tr>
+<td><code>oracle_noise5</code></td>
+<td><strong>41 38 43 44</strong></td>
+<td>0.0830</td>
+<td>34 29 29 28</td>
+<td>0.0600</td>
+</tr>
+<tr>
+<td><code>z_noise0</code></td>
+<td>26 27 24 23</td>
+<td>0.0500</td>
+<td>26 22 <strong>35 35</strong></td>
+<td>0.0590</td>
+</tr>
+<tr>
+<td><code>z_noise2</code></td>
+<td>24 23 19 18</td>
+<td>0.0420</td>
+<td>24 25 32 29</td>
+<td>0.0550</td>
+</tr>
+<tr>
+<td><code>z_noise5</code></td>
+<td>24 24 21 22</td>
+<td>0.0455</td>
+<td>28 27 34 34</td>
+<td>0.0615</td>
+</tr>
+<tr>
+<td><code>oracle_noise0_corrected</code></td>
+<td><strong>38 37 36 37</strong></td>
+<td>0.0740</td>
+<td>27 24 27 25</td>
+<td>0.0515</td>
+</tr>
+<tr>
+<td><code>oracle_noise2_corrected</code></td>
+<td><strong>38 38 37 35</strong></td>
+<td>0.0740</td>
+<td>20 18 29 26</td>
+<td>0.0465</td>
+</tr>
+<tr>
+<td><code>oracle_noise5_corrected</code></td>
+<td><strong>36 36 37 36</strong></td>
+<td>0.0725</td>
+<td>27 25 27 22</td>
+<td>0.0505</td>
+</tr>
+<tr>
+<td><code>z_noise0_corrected</code></td>
+<td>22 23 22 21</td>
+<td>0.0440</td>
+<td>23 21 32 31</td>
+<td>0.0535</td>
+</tr>
+<tr>
+<td><code>z_noise2_corrected</code></td>
+<td>20 20 15 14</td>
+<td>0.0345</td>
+<td>18 18 28 27</td>
+<td>0.0455</td>
+</tr>
+<tr>
+<td><code>z_noise5_corrected</code></td>
+<td>20 21 21 22</td>
+<td>0.0420</td>
+<td>19 17 28 29</td>
+<td>0.0465</td>
+</tr>
+<tr>
+<td><code>latent_stage_cv</code></td>
+<td><strong>45 42</strong> 32 32</td>
+<td>0.0755</td>
+<td><strong>46 39</strong> 28 28</td>
+<td>0.0705</td>
+</tr>
+<tr>
+<td><code>latent_stage_floor1</code></td>
+<td><strong>41 40</strong> 32 29</td>
+<td>0.0710</td>
+<td><strong>41</strong> 34 25 26</td>
+<td>0.0630</td>
+</tr>
+<tr>
+<td><code>latent_stage_rank2</code></td>
+<td><strong>42 41</strong> 31 30</td>
+<td>0.0720</td>
+<td>34 32 27 25</td>
+<td>0.0590</td>
+</tr>
+</tbody>
+</table>
+<p>The readings are in the column order of the <code>delta</code> table. <code>latent_stage_cv</code> reproduces the parent's <code>latent_stage</code>
+arm: anchor <code>angle</code> 0.090 / 0.084 and <code>shape</code> 0.092 / 0.078.</p>
+<h2 id="3-paired-contrasts">3. Paired contrasts</h2>
+<p>Clustered over both runs and both controls: 500 replicate clusters, 2,000 paired readings
+(<code>diagnosis_contrasts.csv</code>, scope <code>clustered</code>). "B only" and "A only" count discordant readings, and p is the exact
+one-sided sign-flip p-value that B rejects more often than A. The <code>delta</code> rows are judged and the rest descriptive.</p>
+<table>
+<thead>
+<tr>
+<th>contrast</th>
+<th>statistic</th>
+<th>B</th>
+<th>A</th>
+<th>B rejections</th>
+<th>A rejections</th>
+<th>B only</th>
+<th>A only</th>
+<th>net</th>
+<th>p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td><code>delta</code></td>
+<td><code>oracle_noise5</code></td>
+<td><code>oracle_noise0</code></td>
+<td>120</td>
+<td>105</td>
+<td>33</td>
+<td>18</td>
+<td>15</td>
+<td>0.065</td>
+</tr>
+<tr>
+<td>C2</td>
+<td><code>delta</code></td>
+<td><code>z_noise5</code></td>
+<td><code>z_noise0</code></td>
+<td>132</td>
+<td>109</td>
+<td>41</td>
+<td>18</td>
+<td>23</td>
+<td><strong>0.015</strong></td>
+</tr>
+<tr>
+<td>C3</td>
+<td><code>delta</code></td>
+<td><code>z_noise0</code></td>
+<td><code>oracle_noise0</code></td>
+<td>109</td>
+<td>105</td>
+<td>31</td>
+<td>27</td>
+<td>4</td>
+<td>0.386</td>
+</tr>
+<tr>
+<td>C4</td>
+<td><code>delta</code></td>
+<td><code>z_noise5_corrected</code></td>
+<td><code>z_noise0_corrected</code></td>
+<td>109</td>
+<td>98</td>
+<td>32</td>
+<td>21</td>
+<td>11</td>
+<td>0.156</td>
+</tr>
+<tr>
+<td>C1</td>
+<td><code>angle</code></td>
+<td><code>oracle_noise5</code></td>
+<td><code>oracle_noise0</code></td>
+<td>166</td>
+<td>159</td>
+<td>31</td>
+<td>24</td>
+<td>7</td>
+<td>0.281</td>
+</tr>
+<tr>
+<td>C2</td>
+<td><code>angle</code></td>
+<td><code>z_noise5</code></td>
+<td><code>z_noise0</code></td>
+<td>91</td>
+<td>100</td>
+<td>20</td>
+<td>29</td>
+<td>−9</td>
+<td>0.852</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><code>angle</code></td>
+<td><code>z_noise0</code></td>
+<td><code>oracle_noise0</code></td>
+<td>100</td>
+<td>159</td>
+<td>23</td>
+<td>82</td>
+<td>−59</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>C4</td>
+<td><code>angle</code></td>
+<td><code>z_noise5_corrected</code></td>
+<td><code>z_noise0_corrected</code></td>
+<td>84</td>
+<td>88</td>
+<td>22</td>
+<td>26</td>
+<td>−4</td>
+<td>0.702</td>
+</tr>
+<tr>
+<td>C1</td>
+<td><code>shape</code></td>
+<td><code>oracle_noise5</code></td>
+<td><code>oracle_noise0</code></td>
+<td>120</td>
+<td>114</td>
+<td>43</td>
+<td>37</td>
+<td>6</td>
+<td>0.334</td>
+</tr>
+<tr>
+<td>C2</td>
+<td><code>shape</code></td>
+<td><code>z_noise5</code></td>
+<td><code>z_noise0</code></td>
+<td>123</td>
+<td>118</td>
+<td>40</td>
+<td>35</td>
+<td>5</td>
+<td>0.363</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><code>shape</code></td>
+<td><code>z_noise0</code></td>
+<td><code>oracle_noise0</code></td>
+<td>118</td>
+<td>114</td>
+<td>70</td>
+<td>66</td>
+<td>4</td>
+<td>0.422</td>
+</tr>
+<tr>
+<td>C4</td>
+<td><code>shape</code></td>
+<td><code>z_noise5_corrected</code></td>
+<td><code>z_noise0_corrected</code></td>
+<td>93</td>
+<td>107</td>
+<td>29</td>
+<td>43</td>
+<td>−14</td>
+<td>0.904</td>
+</tr>
+</tbody>
+</table>
+<p>Per reading (descriptive; the same file, scopes <code>&lt;run&gt;/&lt;control&gt;</code>), C2's <code>delta</code> discordance concentrates at the
+translation control:</p>
+<table>
+<thead>
+<tr>
+<th>reading</th>
+<th>B only</th>
+<th>A only</th>
+<th>p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 0.1, translation</td>
+<td>13</td>
+<td>0</td>
+<td>0.0001</td>
+</tr>
+<tr>
+<td>δ = 0.05, translation</td>
+<td>8</td>
+<td>0</td>
+<td>0.004</td>
+</tr>
+<tr>
+<td>δ = 0.1, anchor</td>
+<td>9</td>
+<td>9</td>
+<td>0.593</td>
+</tr>
+<tr>
+<td>δ = 0.05, anchor</td>
+<td>11</td>
+<td>9</td>
+<td>0.412</td>
+</tr>
+</tbody>
+</table>
+<p>The same holds, more weakly, for the corrected C4: 9 / 3 and 8 / 1 at translation, 9 / 9 and 6 / 8 at the anchor.</p>
+<h2 id="4-rank-tables">4. Rank tables</h2>
+<p>Anchor units by selected rank, with rejections <code>delta</code> / <code>angle</code> / <code>shape</code> (<code>diagnosis_rank_table.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th>run</th>
+<th>rank 1</th>
+<th>rank 2</th>
+<th>rank 3</th>
+<th>rank ≥ 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>z_noise5</code></td>
+<td>δ = 0.1</td>
+<td>—</td>
+<td>366: 25 / 15 / 19</td>
+<td>128: 9 / 9 / 9</td>
+<td>6: 0 / 0 / 0</td>
+</tr>
+<tr>
+<td><code>z_noise5</code></td>
+<td>δ = 0.05</td>
+<td>—</td>
+<td>407: 28 / 20 / 21</td>
+<td>92: 4 / 4 / 6</td>
+<td>1: 0 / 0 / 0</td>
+</tr>
+<tr>
+<td><code>latent_stage_cv</code></td>
+<td>δ = 0.1</td>
+<td>—</td>
+<td>344: 22 / 35 / 27</td>
+<td>65: 0 / 6 / 10</td>
+<td>91: 8 / 4 / 9</td>
+</tr>
+<tr>
+<td><code>latent_stage_cv</code></td>
+<td>δ = 0.05</td>
+<td>—</td>
+<td>383: 24 / 34 / 27</td>
+<td>56: 2 / 6 / 7</td>
+<td>61: 6 / 2 / 5</td>
+</tr>
+<tr>
+<td><code>latent_stage_floor1</code></td>
+<td>δ = 0.1</td>
+<td>56: 6 / 0 / 2</td>
+<td>297: 18 / 32 / 22</td>
+<td>60: 0 / 5 / 9</td>
+<td>87: 7 / 4 / 8</td>
+</tr>
+<tr>
+<td><code>latent_stage_floor1</code></td>
+<td>δ = 0.05</td>
+<td>60: 5 / 0 / 1</td>
+<td>330: 22 / 32 / 22</td>
+<td>54: 2 / 6 / 7</td>
+<td>56: 4 / 2 / 4</td>
+</tr>
+<tr>
+<td><code>latent_stage_rank2</code></td>
+<td>δ = 0.1</td>
+<td>—</td>
+<td>500: 30 / 42 / 34</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>latent_stage_rank2</code></td>
+<td>δ = 0.05</td>
+<td>—</td>
+<td>500: 31 / 41 / 32</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>latent_stage_cv</code> by rank.</strong></li>
+<li>Its <code>angle</code> excess sits at rank 2: 35 / 344 = 0.102 and 34 / 383 = 0.089. The tail rejects less (4 / 91 and
+    2 / 61 at rank ≥ 4).</li>
+<li>Its <code>shape</code> excess sits in the tail: 10 / 65 and 7 / 56 at rank 3, 9 / 91 at rank ≥ 4, against 27 / 344 and
+    27 / 383 at rank 2.</li>
+<li><strong>Forcing rank 2</strong> therefore removes the <code>shape</code> excess (34 / 32 at the anchor) but not the <code>angle</code> excess (42 / 41).</li>
+<li><strong>Floor 1.</strong> It selects rank 1 in 56 / 500 (0.112) and 60 / 500 (0.120) anchor units (<code>"floor1"</code> in the decision
+  file). Those units never reject <code>angle</code>, the two-point null of the <a href="../rank-floor-2026-10-23/">rank-floor check</a>.</li>
+<li><strong><code>z_noise5</code></strong> is at rank 2–3 in 494 and 499 anchor units. Its <code>delta</code> rejections are spread over ranks 2 and 3 in
+  proportion (0.068 and 0.070 at δ = 0.1), so its <code>delta</code> excess is not a rank effect.</li>
+</ul>
+<h2 id="5-what-the-arms-show">5. What the arms show</h2>
+<p><strong>The case study's <code>delta</code> excess is residual-df shrinkage.</strong> The mechanism the proposal named predicts three things,
+and the run shows all three:
+- <strong>The uncorrected rate rises with the reduced model's column count in both families.</strong>
+  - With <code>z</code>: 0.0545, 0.0595, 0.066 at p_red 5, 7, 10.
+  - Under the oracle: 0.0525, 0.0545, 0.060 at p_red 4, 6, 9.
+  - The proposal's normal-tail estimate was 0.067 at six columns and 0.056 at none.
+- <strong>The corrected rate is flat and at or below α.</strong>
+  - With <code>z</code>: 0.049, 0.048, 0.0545.
+  - Under the oracle: 0.048, 0.0475, 0.0505.
+  - No corrected arm exceeds the bound on <code>delta</code> in any reading; <code>z_noise5_corrected</code>'s largest is 30 / 500.
+- <strong><code>angle</code> is not inflated.</strong> The <code>z</code> arms read 0.042–0.050.</p>
+<p>C2 is significant at 0.015. C1 points the same way but stops at 0.065 (net 15 against C2's 23). C4 keeps a residual
+net of 11 (p = 0.156), so the uniform κ removes most, though not visibly all, of the column trend. C3 is flat (p = 0.39,
+net 4), so estimating a covariate confounded with the group × stage cells costs no <code>delta</code> size here.</p>
+<p>The C2 discordance comes from the translation control: 21 readings against 0, while the anchor readings balance at
+20 against 18. That fits a null narrowed by the reduced model's columns, which a constant location offset in group B
+leaves otherwise untouched. The parent's single excess (translation <code>delta</code> at δ = 0.1, 36 / 500) belongs to this
+pattern.</p>
+<p><strong>The correction costs some <code>angle</code> and <code>shape</code> rejections.</strong> <code>z_noise5_corrected</code> reads <code>angle</code> 0.042 and <code>shape</code>
+0.0465, against 0.0455 and 0.0615 uncorrected. A uniformly widened null is conservative for the two statistics that
+were not inflated. That is a power question for the follow-up change (design D5 deferred the leverage-adjusted
+alternative to it).</p>
+<p><strong>The oracle is not a size-α reference for <code>angle</code>.</strong>
+- Removing <code>z</code>'s injection exactly from the latent scores, while leaving <code>z</code> out of the model, gives <code>angle</code>
+  0.0725–0.083 in every reading, corrected or not. Every <code>z</code> arm holds <code>angle</code>. C3 on <code>angle</code> is 23 against 82 in the
+  opposite direction.
+- The basis is fitted on features that contain <code>z</code>, and only a <code>z</code> column in both models absorbs whatever that basis
+  selected along <code>z</code>. That is a candidate explanation, not a tested one: the smoke probes (<code>design.md</code>, "Smoke and
+  shard plan") found no <code>z</code>-aligned content in <code>Y0</code>'s within-cell or interaction pattern on 10–20 units. The
+  mechanism stays open.
+- The smoke had flagged the oracle rows for <code>delta</code> (5–7 / 20). At R = 500 the oracle's <code>delta</code> is 0.0525–0.060, so
+  that was noise at R = 20. The <code>angle</code> inflation is real.
+- The <code>delta</code> verdict reads only paired contrasts, and C1 is within the oracle family. Neither depends on the oracle
+  being size-α. Only C3's absolute meaning does, and C3 is flat on <code>delta</code>.</p>
+<p><strong>The <code>stage</code> latent adjustment fails on <code>angle</code> at rank 2, not through its rank tail.</strong>
+- With the rank forced to 2 and no cross-validation, which removes both the rank tail and the per-training-set
+  nuisance coefficients, anchor <code>angle</code> still reads 0.084 / 0.082.
+- Under CV, its rank-2 units reject <code>angle</code> at 0.102 / 0.089. The parent's <code>latent_stage</code> <code>angle</code> excess is
+  therefore a property of the residualized basis.
+- <code>shape</code> behaves differently: its excess came with the CV rank's tail, and at rank 2 it holds (0.068 / 0.064).
+- Floor 1 changes little: anchor <code>angle</code> 0.082 / 0.080 and <code>shape</code> 0.082 / 0.068, with 11–12 % of units at rank 1.</p>
+<h2 id="6-verdicts-and-consequences">6. Verdicts and consequences</h2>
+<p>Read verbatim from <code>case_study_diagnosis_decision.json</code>.</p>
+<p><strong>Gate.</strong> <code>"reproduction": {"status": "holds"}</code>, with 3,000 / 0 compared / mismatching per arm and run. No run was a
+smoke run, so <code>"indicative": false</code>.</p>
+<p><strong>Covariate-adjusted <code>delta</code>: <code>residual_df_shrinkage</code>.</strong>
+- Conditions:
+  - <code>"column_contrast_significant": {"C1": false, "C2": true}</code>
+  - <code>"corrected_case_study_model_holds": true</code>
+  - <code>"corrected_column_contrast_significant": false</code>
+  - <code>"collinear_contrast_significant": false</code>
+- p-values C1 0.0645, C2 0.0153, C3 0.3863, C4 0.1561.
+- <strong>For MOTCO.</strong> A change offering the residual-df corrected permutation:
+  - opt-in, with every output byte-identical when it is absent;
+  - its own Type I and power check, comparing the uniform κ with the leverage-adjusted residuals of design D5, and
+    reporting the <code>angle</code> and <code>shape</code> cost seen here.
+- <strong>For <code>sead_sexdiff</code>.</strong>
+  - The primary stays withheld until that change is released and validated; then the primary is re-issued under it.
+  - Until then, the primary's <code>delta</code> p-values read against a realized size of about 0.066 at six covariate columns.
+    That is now attributed to the reduced model's column count, not to the covariate's confounding.
+  - Its <code>angle</code> and <code>shape</code> p-values are size-controlled (0.042–0.068 in <code>z_noise5</code>).
+  - Nothing in <code>sead_sexdiff</code> changes under this report.</p>
+<p><strong><code>stage</code> latent adjustment: <code>residualized_basis</code>.</strong>
+- <code>"rank2_not_holding"</code> lists anchor <code>angle</code> at δ = 0.1 (0.084) and δ = 0.05 (0.082). <code>latent_stage_rank2</code> holds every
+  other reading.
+- <strong>For <code>sead_sexdiff</code>.</strong> The <code>stage</code> sensitivity arm stays inadmissible at this configuration, at a fixed rank of 2
+  too. Its <code>angle</code> rejections are not interpretable there. A rank-2 <code>stage</code> arm would hold <code>shape</code>, but the verdict
+  is on the arm, so it is not adopted.
+- <strong>For MOTCO.</strong> Separating the per-training-set coefficients from the residualized basis would need a core switch
+  (design, Risks). It is not proposed, because the forced-rank arm already has neither the rank tail nor CV.</p>
+<h2 id="7-limitations-and-scope">7. Limitations and scope</h2>
+<p>The parent check's four limitations carry over unchanged:</p>
+<ul>
+<li><strong>Astrocyte primary cohort sizes only.</strong> <code>[[11, 10, 28], [9, 10, 12]]</code> with n = 80. The microglia cohort (n = 76)
+  and the other cohorts' tables were not run. The shrinkage scales with p_red / n, so a cohort with fewer donors at
+  the same covariate set is expected to be more liberal, not less.</li>
+<li><strong>Additive-linear covariate effects.</strong> <code>z</code> enters the features additively along one fixed direction and the
+  trajectory model linearly.</li>
+<li><strong>One confounded covariate beside five independent ones.</strong> The five noise covariates are i.i.d. normals,
+  uncorrelated with one another and with the design, unlike the case study's age, education, PMI, RIN and library
+  sizes. The column-count mechanism does not depend on their joint distribution, but its size at the real covariates
+  is inferred.</li>
+<li><strong>Structural-analogue blocks.</strong> These are InterSIM-calibrated methylation and expression analogues (498 measured
+  features), not the case study's TMM log2-CPM blocks of 5,000 features each.</li>
+</ul>
+<p>And those of the diagnosis itself:</p>
+<ul>
+<li><strong><code>latent_stage_rank2</code> confounds two things.</strong> It removes the CV rank's tail and the per-training-set nuisance
+  coefficients together. Under <code>residualized_basis</code> neither is the cause of the <code>angle</code> excess, but the arm cannot say
+  which of them carried the parent's <code>shape</code> excess. The rank table places that excess in the tail.</li>
+<li><strong>The oracle's absolute rates.</strong> The oracle arms are a valid within-family reference for the column contrast C1, not
+  a size-α baseline for <code>angle</code> (§5).</li>
+<li><strong>No new replicates.</strong> The diagnosis reuses the parent's 500 replicates per strength, so the parent's own excess
+  (two rejections over the bound) is explained rather than re-measured. The R = 1,000 replication was not needed under
+  this verdict and stays deferred.</li>
+<li><strong>The correction is minimal.</strong> The uniform κ restores the unbiased residual variance but not the leverage structure,
+  and C4's residual net of 11 (p = 0.156) leaves room for that. The follow-up change measures both corrections' size
+  and power.</li>
+<li><strong>No package change.</strong> Nothing under <code>src/motco/</code> changed: the correction is computed in the script from the public
+  <code>RRPP</code>, and MOTCO stays at 0.12.0. The case study's pin is untouched.</li>
+<li><strong>What stays on <code>ing</code>.</strong> The 45,000-row <code>diagnosis_pvalues.csv</code> (2.5 MB per run), <code>merged.jsonl</code> and <code>records/</code> stay
+  there, named with their sha256 in each <code>PROVENANCE.txt</code>. <code>case_study_diagnosis.py merge</code> regenerates every committed
+  table from <code>records/</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
