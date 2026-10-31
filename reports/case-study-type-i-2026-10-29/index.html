@@ -1,0 +1,1416 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Case-study configuration Type I check — 2026-10-29 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#case-study-configuration-type-i-check-2026-10-29" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Case-study configuration Type I check — 2026-10-29
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction-and-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction and calibration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Construction and calibration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoke-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smoke profiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-rates-against-the-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rates against the bound
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-the-arms-show" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What the arms show
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-decision-consequence-and-what-to-diagnose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Decision, consequence and what to diagnose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-limitations-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Limitations and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="case-study-configuration-type-i-check-2026-10-29">Case-study configuration Type I check — 2026-10-29</h1>
+<blockquote>
+<p>Paper-grade size check of the real-data analysis (<code>motco analyze</code>, MOTCO 0.12.0) at the SEA-AD case study's
+configuration — the rank floor of 2, six numeric covariate design columns, a weak stage signal and a nuisance
+covariate the covariate-blind basis follows (<code>openspec/changes/case-study-configuration-type-i/</code>, spec
+<code>case-study-configuration-validation</code>). It is the measurement the case-study section cites for its primary
+analysis and for its <code>stage</code> latent-adjusted sensitivity arm. Every number below is read from
+<code>results/case-study-type-i-2026-10-29/</code> (<code>delta0.1/</code> and <code>delta0.05/</code>: <code>case_study_type_i_decision.json</code>,
+<code>case_study_type_i_rates.csv</code>, <code>case_study_type_i_replicates.csv</code>, <code>case_study_type_i_pvalues.csv</code>, <code>merge.json</code>,
+<code>settings.json</code>, <code>PROVENANCE.txt</code>; <code>case_study_type_i_overall_decision.json</code>; <code>calibration/calibration.json</code>;
+<code>smoke-delta0.1-sz10/</code>, <code>smoke-delta0.05-sz10/</code>; <code>merged.jsonl</code> and <code>records/</code> stay on <code>ing</code> as each
+<code>PROVENANCE.txt</code> records). Rates are rejection rates at p ≤ 0.05 over the R = 500 available replicates at 999
+permutations; the bound is the one-sided <code>α + 2·√(α(1 − α)/R)</code> = 0.0695, i.e. at most 34 rejections in 500.</p>
+</blockquote>
+<p><strong>Run:</strong> two 50-shard SLURM arrays on <code>ing</code> (partition <code>512x1024</code>, n11 excluded) from the clean worktree of
+<code>feat/case-study-configuration-type-i</code> at <code>ffd6249</code> (tree hash <code>ececcb83…</code>, identical to the workstation): job 930122
+for δ = 0.1 (50 / 50 tasks completed, 15.2 core-hours) and job 930172 for δ = 0.05, whose stalled and slow shards
+were moved twice (jobs 930224 and 930266; 35.4 recorded core-hours, about 15 of them productive). 1,000 units per
+strength (the zero-effect anchor and the translation control at e = 1.0 × 500 replicates), three analyses per unit,
+6,000 analyses in all, 0 arm failures, every <code>latent_stage</code> arm available.</p>
+<p><strong>Decision:</strong> <code>diagnose_configuration_excess</code> at δ = 0.1 and <code>primary_validated</code> at δ = 0.05, hence
+<strong><code>diagnose_configuration_excess</code></strong> under the predeclared conjunction (<code>case_study_type_i_overall_decision.json</code>).
+The <code>adjusted</code> arm — the case study's primary — holds the bound for every statistic at both controls at δ = 0.05 and
+for five of six at δ = 0.1, exceeding it on the translation control's <code>delta</code> by two rejections (36 / 500 = 0.072
+against 0.0695). The <code>latent_stage</code> arm — the case study's sensitivity arm and the predeclared fallback — exceeds the
+bound at the anchor on <code>angle</code> (0.090 / 0.084) and <code>shape</code> (0.092 / 0.078) at both strengths, so it is not
+admissible either.</p>
+<p><strong>In one paragraph.</strong> At the Phase 6 SEA-AD design with the per-omic stage effect weakened to δ = 0.1 and 0.05 and
+a numeric covariate <code>z</code> confounded with group, stage and their interaction injected at <code>s_z = 10</code> — calibrated so
+that the covariate-adjusted analysis reads a held-out CV stage AUROC of 0.70 / 0.69 (the cohorts read 0.64–0.70) and
+the covariate-blind basis spends its first component on <code>z</code> (median |Spearman| 0.92; the real basis reads 0.84) —
+each of 1,000 units per strength was analysed three times on the same data, CV folds and permutation draws at the
+rank floor of 2 with the net-displacement estimator: with <code>z</code> and five pure-noise covariates in the trajectory model
+(<code>adjusted</code>), with no covariates (<code>unadjusted</code>) and with the six covariates under the <code>stage</code> latent adjustment
+(<code>latent_stage</code>). The unadjusted arm confirms that the construction confounds (anchor <code>delta</code> 0.672 / 0.686, <code>shape</code>
+0.252 / 0.222). The adjusted model removes almost all of it: anchor <code>delta</code> 0.068 / 0.064, <code>angle</code> 0.048 / 0.048,
+<code>shape</code> 0.056 / 0.054, translation <code>delta</code> 0.072 / 0.060, <code>angle</code> 0.042 / 0.044, <code>shape</code> 0.068 / 0.068. Its <code>delta</code>
+sits at or just above the bound in every reading (0.066 pooled over the four control readings, 34–36 rejections
+where 34 are allowed) and its <code>shape</code> at the bound at translation; <code>angle</code> is comfortably under it but its RRPP null
+is wide (median q95 109–113°). The <code>stage</code> latent adjustment removes the nuisance axis from the basis (|ρ| 0.08) at
+the price of a heavier rank tail (up to 11), a lower AUROC (0.66 / 0.62) and anchor <code>angle</code> and <code>shape</code> rates of
+0.078–0.092. Under the rule written before the run, the case study's primary is <strong>withheld pending diagnosis</strong> of a
+small <code>delta</code> inflation at six design columns and n = 80, and its <code>stage</code> sensitivity arm's <code>angle</code> and <code>shape</code>
+rejections are not interpretable at this configuration.</p>
+<h2 id="1-construction-and-calibration">1. Construction and calibration</h2>
+<p>The check composes two validated constructions by import (<code>scripts/case_study_type_i_check.py</code>, design D1):</p>
+<ul>
+<li><strong>The D10 covariate construction</strong> (<code>scripts/covariate_type_i_check.py</code>, <a href="../covariate-type-i-2026-10-16/">covariate Type I
+  report</a>): a null semi-synthetic dataset at the Phase 6 small-n design (three
+  stages, <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code>, n = 80, methylation + expression, joint magnitude),
+  a numeric covariate <code>z = 0.5·g + 1·s + 2·g·s + ε</code> and its effect injected into every feature along a fixed
+  direction over 20 % of the joint features, <code>X_f += s_z·sd_f·w_f·z</code>, on the M-value scale. The three-level
+  categorical covariate D10 draws stays in the RNG stream but is neither declared nor injected (<code>s_c = 0</code>): the
+  case study enters six numerics and no factor, and without a factor no CV training set can lose a level (design D2).</li>
+<li><strong>The weakened stage signal of the rank-floor check</strong> (<a href="../rank-floor-2026-10-23/">report</a>): one <code>--delta</code> applied
+  to <code>delta_methyl</code>, <code>delta_expr</code> and <code>delta_protein</code>, with <code>p_dmp</code> at the Phase 6 value 0.1 so the translation
+  surgery keeps its pool headroom.</li>
+</ul>
+<p>Beside <code>z</code> the check declares five pure-noise covariates <code>x1</code>–<code>x5</code> (i.i.d. N(0, 1) from their own seed, never
+injected), so the trajectory model carries six numeric design columns, as the case study's does. Cells are the
+zero-effect anchor and the <code>translation</code> negative control at e = 1.0 (design D4). Seeds depend on the replicate
+index only, so both cells and all three arms of a replicate share the baseline draw, the covariate values and the
+RRPP seed; the <code>adjusted</code> and <code>unadjusted</code> latent spaces are asserted identical per unit (they share the
+covariate-blind basis), so an <code>adjusted</code> excess is attributable to the trajectory model and an <code>unadjusted</code> excess
+to confounding. All three arms run at <code>min_components=2</code>, the harness CV knobs (3 × 4 folds, 5 repeats, <code>max_components</code>
+20, <code>random_state</code> 1203), 999 permutations and the net-displacement estimator.</p>
+<h3 id="calibration">Calibration</h3>
+<p>Three criteria were fixed before any run (design D3): the <code>adjusted</code> arm's mean held-out CV AUROC inside
+<code>[0.60, 0.75]</code> (the SEA-AD cohorts read 0.636–0.697); the <code>unadjusted</code> arm's median first-component |Spearman ρ|
+with <code>z</code> at least 0.8 (the real basis reads 0.84); and the <code>unadjusted</code> arm rejecting above α on at least one
+statistic at the anchor, so the gate is not vacuous. The knobs were δ and <code>s_z</code>. Six iterations
+(<code>calibration/calibration.json</code>; R = 20, 99 permutations, base seed 2026):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>δ</th>
+<th><code>s_z</code></th>
+<th>adjusted mean AUROC</th>
+<th>unadjusted median |ρ|</th>
+<th>unadjusted anchor rates (<code>delta</code> / <code>angle</code> / <code>shape</code>)</th>
+<th>met</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.10</td>
+<td>3</td>
+<td>0.691</td>
+<td>0.565</td>
+<td>0.55 / 0.05 / 0.30</td>
+<td>no (|ρ|)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.15</td>
+<td>3</td>
+<td>0.744</td>
+<td>0.571</td>
+<td>0.55 / 0.05 / 0.35</td>
+<td>no (|ρ|)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.10</td>
+<td>10</td>
+<td>0.699</td>
+<td>0.876</td>
+<td>0.55 / 0.10 / 0.25</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.10</td>
+<td>20</td>
+<td>0.699</td>
+<td>0.918</td>
+<td>0.65 / 0.10 / 0.30</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.05</td>
+<td>10</td>
+<td>0.692</td>
+<td>0.873</td>
+<td>0.60 / 0.05 / 0.25</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>0.05</td>
+<td>20</td>
+<td>0.693</td>
+<td>0.917</td>
+<td>0.65 / 0.10 / 0.25</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>At D10's <code>s_z = 3</code> the basis does not follow <code>z</code> (median |ρ| 0.57, which is the regime of the 2026-10-16 check). At
+<code>s_z ≥ 10</code> it does, and the realized stage AUROC is then set by the injected covariate rather than by δ — 0.69–0.70
+at both δ = 0.05 and 0.10 — because <code>z</code> is confounded with stage. The criteria did not conflict. The settled
+strengths are <code>s_z = 10</code> (the smallest injection meeting the threshold, so the nuisance is the case study's rather
+than a harsher one) at δ = 0.10 and δ = 0.05, the rank-floor check's pair; the user approved two paper-grade runs
+with the decision as their conjunction.</p>
+<p>Realized at paper grade (anchor, R = 500): adjusted mean AUROC 0.702 (q05 0.641, q95 0.771) at δ = 0.1 and 0.688
+(0.628, 0.756) at δ = 0.05; unadjusted median |ρ| 0.917 (q05 0.697, q95 0.985) and 0.918 (0.693, 0.985); unadjusted
+anchor rates <code>delta</code> 0.672 / 0.686, <code>angle</code> 0.104 / 0.098, <code>shape</code> 0.252 / 0.222. All three criteria hold in both
+runs (<code>calibration.met: true</code> in each decision file).</p>
+<h3 id="smoke-profiles">Smoke profiles</h3>
+<p><code>smoke-delta0.1-sz10/</code> and <code>smoke-delta0.05-sz10/</code> (R = 20, 99 permutations, both cells, three arms): 40 / 40 units
+at each strength, 0 arm failures, the <code>latent_stage</code> arm available in every unit. Both smoke decisions were
+<code>primary_validated</code>; the <code>latent_stage</code> arm's anchor <code>shape</code> rate of 0.35 (7 / 20) at both strengths was recorded in
+the design as the warning sign to carry into the paper-grade run, and the paper-grade run confirmed an excess on
+<code>shape</code> (0.092 / 0.078) and on <code>angle</code> (0.090 / 0.084) at R = 500. One unit took 57 s locally at 999 permutations
+and 47–55 s on an <code>ing</code> EPYC core.</p>
+<h2 id="2-rates-against-the-bound">2. Rates against the bound</h2>
+<p>Rejection rates (rejections / 500) per control × arm × statistic, with the Monte Carlo SE <code>√(r(1 − r)/500)</code>, read
+from <code>case_study_type_i_rates.csv</code> of each run. The judged arms carry a verdict against 0.0695; the <code>unadjusted</code>
+arm is descriptive.</p>
+<table>
+<thead>
+<tr>
+<th>control</th>
+<th>arm</th>
+<th>statistic</th>
+<th>δ = 0.1 rate (rejections)</th>
+<th>SE</th>
+<th>verdict</th>
+<th>δ = 0.05 rate (rejections)</th>
+<th>SE</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor</td>
+<td>adjusted</td>
+<td><code>delta</code></td>
+<td>0.068 (34)</td>
+<td>0.011</td>
+<td>holds</td>
+<td>0.064 (32)</td>
+<td>0.011</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>adjusted</td>
+<td><code>angle</code></td>
+<td>0.048 (24)</td>
+<td>0.010</td>
+<td>holds</td>
+<td>0.048 (24)</td>
+<td>0.010</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>adjusted</td>
+<td><code>shape</code></td>
+<td>0.056 (28)</td>
+<td>0.010</td>
+<td>holds</td>
+<td>0.054 (27)</td>
+<td>0.010</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>latent_stage</td>
+<td><code>delta</code></td>
+<td>0.060 (30)</td>
+<td>0.011</td>
+<td>holds</td>
+<td>0.064 (32)</td>
+<td>0.011</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>latent_stage</td>
+<td><code>angle</code></td>
+<td><strong>0.090</strong> (45)</td>
+<td>0.013</td>
+<td><strong>exceeds</strong></td>
+<td><strong>0.084</strong> (42)</td>
+<td>0.012</td>
+<td><strong>exceeds</strong></td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>latent_stage</td>
+<td><code>shape</code></td>
+<td><strong>0.092</strong> (46)</td>
+<td>0.013</td>
+<td><strong>exceeds</strong></td>
+<td><strong>0.078</strong> (39)</td>
+<td>0.012</td>
+<td><strong>exceeds</strong></td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>unadjusted</td>
+<td><code>delta</code></td>
+<td>0.672 (336)</td>
+<td>0.021</td>
+<td>descriptive</td>
+<td>0.686 (343)</td>
+<td>0.021</td>
+<td>descriptive</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>unadjusted</td>
+<td><code>angle</code></td>
+<td>0.104 (52)</td>
+<td>0.014</td>
+<td>descriptive</td>
+<td>0.098 (49)</td>
+<td>0.013</td>
+<td>descriptive</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>unadjusted</td>
+<td><code>shape</code></td>
+<td>0.252 (126)</td>
+<td>0.019</td>
+<td>descriptive</td>
+<td>0.222 (111)</td>
+<td>0.019</td>
+<td>descriptive</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>adjusted</td>
+<td><code>delta</code></td>
+<td><strong>0.072</strong> (36)</td>
+<td>0.012</td>
+<td><strong>exceeds</strong></td>
+<td>0.060 (30)</td>
+<td>0.011</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>adjusted</td>
+<td><code>angle</code></td>
+<td>0.042 (21)</td>
+<td>0.009</td>
+<td>holds</td>
+<td>0.044 (22)</td>
+<td>0.009</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>adjusted</td>
+<td><code>shape</code></td>
+<td>0.068 (34)</td>
+<td>0.011</td>
+<td>holds</td>
+<td>0.068 (34)</td>
+<td>0.011</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>latent_stage</td>
+<td><code>delta</code></td>
+<td>0.048 (24)</td>
+<td>0.010</td>
+<td>holds</td>
+<td>0.052 (26)</td>
+<td>0.010</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>latent_stage</td>
+<td><code>angle</code></td>
+<td>0.064 (32)</td>
+<td>0.011</td>
+<td>holds</td>
+<td>0.064 (32)</td>
+<td>0.011</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>latent_stage</td>
+<td><code>shape</code></td>
+<td>0.056 (28)</td>
+<td>0.010</td>
+<td>holds</td>
+<td>0.056 (28)</td>
+<td>0.010</td>
+<td>holds</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>unadjusted</td>
+<td><code>delta</code></td>
+<td>0.718 (359)</td>
+<td>0.020</td>
+<td>descriptive</td>
+<td>0.728 (364)</td>
+<td>0.020</td>
+<td>descriptive</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>unadjusted</td>
+<td><code>angle</code></td>
+<td>0.102 (51)</td>
+<td>0.014</td>
+<td>descriptive</td>
+<td>0.106 (53)</td>
+<td>0.014</td>
+<td>descriptive</td>
+</tr>
+<tr>
+<td>translation</td>
+<td>unadjusted</td>
+<td><code>shape</code></td>
+<td>0.260 (130)</td>
+<td>0.020</td>
+<td>descriptive</td>
+<td>0.242 (121)</td>
+<td>0.019</td>
+<td>descriptive</td>
+</tr>
+</tbody>
+</table>
+<p>Verdicts are read verbatim from the decision files: at δ = 0.1, <code>"exceeding"</code> lists <code>latent_stage</code> anchor <code>angle</code>
+and <code>shape</code> and <code>adjusted</code> translation <code>delta</code>, <code>"admissible": []</code>, <code>"decision": "diagnose_configuration_excess"</code>;
+at δ = 0.05, <code>"exceeding"</code> lists <code>latent_stage</code> anchor <code>angle</code> and <code>shape</code>, <code>"admissible": ["adjusted"]</code>,
+<code>"decision": "primary_validated"</code>. No verdict is <code>unavailable</code> (0 failures). Pooled descriptively over the four
+control readings (two controls × two strengths, 2,000 units), the adjusted arm rejects <code>delta</code> at 0.066 (132 / 2,000),
+<code>shape</code> at 0.062 (123 / 2,000) and <code>angle</code> at 0.046 (91 / 2,000); the <code>latent_stage</code> arm rejects at the anchor
+<code>angle</code> 0.087 (87 / 1,000) and <code>shape</code> 0.085 (85 / 1,000).</p>
+<h2 id="3-what-the-arms-show">3. What the arms show</h2>
+<p><strong>The construction confounds, and the trajectory model removes almost all of it.</strong> The unadjusted arm rejects
+<code>delta</code> in two thirds of the null units and <code>shape</code> in a quarter; the adjusted arm, on the identical latent scores
+(asserted per unit), brings <code>delta</code> to 0.060–0.072, <code>shape</code> to 0.054–0.068 and <code>angle</code> to 0.042–0.048. The
+covariate Type I check of 2026-10-16 measured the same model at three design columns (<code>z</code> plus the two indicator
+columns of a three-level factor), a saturated stage signal (AUROC 1.000), the unfloored rank rule and a nuisance the basis did not follow
+(|ρ| 0.64): adjusted <code>delta</code> 0.040, <code>angle</code> 0.062, <code>shape</code> 0.034. Here, at six columns, the case study's AUROC and
+a basis that follows the nuisance, <code>delta</code> reads 0.064–0.072 in every control reading, at or above the 34-rejection
+limit, and <code>shape</code> reads 0.068 at translation in both runs; <code>angle</code> is lower than in 2026-10-16. The excess that
+trips the rule — two rejections on one control at one strength — is one Monte Carlo SE wide, but the pooled <code>delta</code>
+of 0.066 over 2,000 units, every reading above α, is what the diagnosis should take as its starting point: a small
+<code>delta</code> inflation of the covariate-adjusted model at six design columns and n = 80, which the three-column check did
+not show.</p>
+<p><strong>The adjusted arm's <code>angle</code> null is wide.</strong> The median q95 of the RRPP <code>angle</code> null is 109° (δ = 0.1) and 113°
+(δ = 0.05) in the adjusted arm against 36° in the unadjusted arm on the same basis and 57–59° in the <code>latent_stage</code>
+arm (<code>case_study_type_i_replicates.csv</code>, <code>angle_null_q95</code>). With six covariates in the reduced model the permuted
+residuals carry little stage structure, so the permuted net displacements point almost anywhere; <code>angle</code> is
+size-controlled at this configuration but, as the design-guidance δ arm found at δ ≤ 0.1, it has no power to spend.</p>
+<p><strong>The <code>stage</code> latent adjustment is inadmissible at this configuration.</strong> It does what it is built to do — the
+first component's |ρ| with <code>z</code> falls from 0.92 to 0.08 — and its translation control holds (0.048–0.064), but at the
+anchor it rejects <code>angle</code> 0.090 / 0.084 and <code>shape</code> 0.092 / 0.078, about three Monte Carlo SE above α in each of the
+four readings. Beside it, the basis changes: the held-out AUROC falls to 0.659 / 0.622 (from 0.702 / 0.688), the CV
+rank's tail lengthens (rank ≥ 4 in 91 / 500 and 61 / 500 anchor units against 6 / 500 and 1 / 500 in the adjusted
+arm; maximum 11), and the smallest training-set residual df inside the CV is 31 (<code>cv_min_training_df</code>; full-sample
+<code>residual_df</code> 71: n − 1 − 2 stage indicators − 6 covariates). The 2026-10-20 latent-adjustment check measured the
+same conditioning at the unfloored rule, eight covariates including a factor and a saturated stage signal (δ = 2.0):
+<code>stage</code> held <code>delta</code> 0.031, <code>angle</code> 0.067, <code>shape</code> 0.058 against 0.0706, while its covariate-blind baseline arm
+rejected <code>shape</code> at 0.078. The excess here therefore belongs to the weak-signal, floor-2, six-numeric regime, not to
+the conditioning as such; the per-training-set residualization at 31 residual df and the rank tail are the two
+things to look at first.</p>
+<p><strong>Rank and signal.</strong> The adjusted arm selects rank 2 in 366 / 500 (δ = 0.1) and 407 / 500 (δ = 0.05) anchor units
+and rank 3 in most of the rest; no unit selected rank 1 (the floor binds). The rank-floor check at the same
+strengths without covariates measured the floor-2 arm's anchor at <code>delta</code> 0.044 / 0.042, <code>angle</code> 0.060 / 0.054 and
+<code>shape</code> 0.038 / 0.036 (δ = 0.1 / 0.05), so the covariate-adjusted model, not the floor, carries the <code>delta</code> and
+<code>shape</code> readings here.</p>
+<h2 id="4-decision-consequence-and-what-to-diagnose">4. Decision, consequence and what to diagnose</h2>
+<p><strong>Decision</strong>, read verbatim from <code>results/case-study-type-i-2026-10-29/case_study_type_i_overall_decision.json</code>:
+<code>"decision": "diagnose_configuration_excess"</code>, <code>"admissible": []</code>, runs <code>delta0.1 → diagnose_configuration_excess</code>
+and <code>delta0.05 → primary_validated</code>. The rule, written before the run (proposal, design D5): <code>primary_validated</code> when
+the <code>adjusted</code> arm holds every statistic at both controls in every run; otherwise <code>adopt_latent_stage</code> when the
+<code>latent_stage</code> arm does; otherwise <code>diagnose_configuration_excess</code>. The <code>adjusted</code> arm fails the conjunction on one
+reading (translation <code>delta</code> at δ = 0.1, 36 / 500) and the <code>latent_stage</code> arm fails on four (anchor <code>angle</code> and
+<code>shape</code> at both strengths).</p>
+<p><strong>Consequence for the case study.</strong> Under <code>diagnose_configuration_excess</code> the primary analysis of <code>sead_sexdiff</code>
+(covariates in the trajectory model, floor 2, net displacement, 999 permutations) is <strong>withheld pending diagnosis</strong>:
+it does not rest on a validated size at its configuration, and it cannot move to the <code>stage</code> latent adjustment,
+which is not admissible here either. Concretely for the readers of its results, until the diagnosis is done: the
+primary's <code>delta</code> p-values should be read against a realized size of about 0.066 rather than 0.05 (a p-value near
+0.05 is not a rejection at the nominal level; a p-value well below it is unaffected in kind); its <code>angle</code> and <code>shape</code>
+p-values are size-controlled in this check (0.042–0.068), with <code>angle</code>'s null so wide that a non-rejection is
+uninformative; and the <code>stage</code> sensitivity arm's <code>angle</code> and <code>shape</code> rejections are not interpretable at this
+configuration. Nothing in <code>sead_sexdiff</code> changes under this report; the diagnosis is its own change there and here.</p>
+<p><strong>What to diagnose</strong> (named by the rule; none of it is done here):</p>
+<ol>
+<li>The <code>adjusted</code> arm's <code>delta</code> (0.060–0.072, pooled 0.066). Candidates, in the order they should be excluded: the
+   degrees-of-freedom cost of six columns at n = 80 (the same seeds and construction at one, three and six noise
+   columns, which isolates the column count from the confounding); the LS-mean reference row and the RRPP reduced
+   model under covariates at these cell sizes (the design's <code>reference_row</code> is the pooled mean; the reduced model
+   keeps the covariates); and the bound itself at R = 500 (a replication at R = 1,000 on the same seed family would
+   halve the SE, at about 30 core-hours per strength).</li>
+<li>The <code>latent_stage</code> arm's anchor <code>angle</code> and <code>shape</code> (0.078–0.092). Candidates: the per-training-set nuisance
+   coefficients at <code>cv_min_training_df</code> 31 (the residualized CV rank's tail reaches 11, and <code>angle</code>/<code>shape</code> at rank
+   ≥ 4 should be tabulated against rank 2–3); and the interaction of the residualized basis with the rank floor,
+   which the 2026-10-20 check never measured (it ran at floor 1).</li>
+</ol>
+<h2 id="5-limitations-and-scope">5. Limitations and scope</h2>
+<p>Four limitations the spec requires the report to carry, then the scope:</p>
+<ul>
+<li><strong>Astrocyte primary cohort sizes only.</strong> The check uses the astrocyte <code>cohort_30</code> cell sizes
+  <code>[[11, 10, 28], [9, 10, 12]]</code> (n = 80) that every Phase 6 check uses; the microglia cohort (n = 76) and the other
+  cohorts' tables were not run, and size at their cell sizes is inferred, not measured.</li>
+<li><strong>Additive-linear covariate effects.</strong> <code>z</code> enters the features additively along one fixed direction and the
+  trajectory model linearly; non-linear or interaction effects of real covariates on the features are outside the
+  construction.</li>
+<li><strong>One confounded covariate beside five independent ones.</strong> The confounding rests on <code>z</code> alone; the five noise
+  covariates are i.i.d. normals, uncorrelated with one another and with the design, unlike age, education, PMI,
+  RIN and library sizes. The configuration matched is the column count, the floor and the nuisance regime, not the
+  covariates' joint distribution (design D2 records the alternatives considered).</li>
+<li><strong>Structural-analogue blocks.</strong> The blocks are InterSIM-calibrated methylation and expression analogues (498
+  measured features), not the case study's TMM log2-CPM blocks of 5,000 features each; the per-omic δ is a
+  generator strength, and the regime is matched on the realized AUROC and |ρ|, not on the feature space.</li>
+</ul>
+<p>Scope:</p>
+<ul>
+<li>No power is claimed at this configuration (the design-guidance pilot's δ arm measured none at δ ≤ 0.1), and the
+  <code>group_stage</code> conditioning, a floor-1 arm and the microglia sizes were not run.</li>
+<li>No change under <code>src/motco/</code>: every record field the check reads exists in 0.12.0, so the release and the case
+  study's pin are untouched (design D9).</li>
+<li>The two strengths are independent runs with their own decision files; the conjunction rule and the number of
+  runs were fixed with the user after calibration and before submission (design D3 record). The δ = 0.05 run's
+  shards were moved twice between nodes (<code>PROVENANCE.txt</code>); shards are resumable and a unit recorded in any shard
+  file is never re-run, so the move changes which node computed a unit and nothing else.</li>
+<li>The replicate-level tables (<code>case_study_type_i_replicates.csv</code>, <code>case_study_type_i_pvalues.csv</code>) are committed
+  for both runs; <code>merged.jsonl</code> and <code>records/</code> stay on <code>ing</code> under the worktree named in each <code>PROVENANCE.txt</code>, and
+  <code>case_study_type_i_check.py merge</code> regenerates every table from <code>records/</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

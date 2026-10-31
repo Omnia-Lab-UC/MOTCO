@@ -1,0 +1,2526 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Design-guidance pilot — findings report (2026-10-28) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#design-guidance-pilot-findings-report-2026-10-28" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Design-guidance pilot — findings report (2026-10-28)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-unit-and-failure-accounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Unit and failure accounting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-per-column-operating-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Per-column operating characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Per-column operating characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-core-grid-magnitude-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Core grid — magnitude / delta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-core-grid-orientation-angle-and-shape-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Core grid — orientation / angle and shape / shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Core grid — orientation / angle and shape / shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#translation-negative-control-all-statistics-at-e-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Translation (negative control), all statistics at e = 1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-arms-magnitude-delta-off-n-200-three-stages-two-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Arms — magnitude / delta (off n = 200, three stages, two blocks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-arms-orientation-angle-and-shape-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Arms — orientation / angle and shape / shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Arms — orientation / angle and shape / shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#translation-negative-control-all-statistics-at-e-10_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Translation (negative control), all statistics at e = 1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-stage-signal-and-selected-rank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Stage signal and selected rank
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Stage signal and selected rank">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-size-at-every-column" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Size at every column
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Size at every column">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-grid_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arms_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-originally-planned-grid-and-what-was-run-instead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The originally planned grid and what was run instead
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-proposed-paper-grade-slice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Proposed paper-grade slice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="design-guidance-pilot-findings-report-2026-10-28">Design-guidance pilot — findings report (2026-10-28)</h1>
+<p><strong>Change:</strong> <code>design-guidance-grid</code> · <strong>Configs:</strong> <code>examples/trajectory_power_study/design_guidance_{core,arms}_{magnitude,geometry}_pilot.json</code> · <strong>Code revision:</strong> <code>7c218c6</code> (branch <code>feat/design-guidance-grid</code>) · <strong>Records:</strong> <code>results/design-guidance-pilot-2026-10-28/&lt;profile&gt;/</code> (<code>report/</code>, <code>PROVENANCE.txt</code>) and <code>results/design-guidance-pilot-2026-10-28/figures/</code> · <strong>Grade:</strong> pilot, 100 replicates × 199 permutations; every rate below carries its Monte Carlo standard error at R = 100 (SE ≤ 0.05) and the anchor bound is α + 2·√(α(1 − α)/R) = 0.0936. <strong>This report proposes the slice to rerun at paper grade; it makes no paper-grade claim.</strong></p>
+<p><strong>Run:</strong> four SLURM arrays on <code>ing</code> (partition <code>512x1024</code>, one CPU and 4 GB per task, BLAS single-threaded, <code>STUDY_N_JOBS</code> unset, <code>--error-policy record</code>), jobs 929160–929163, 124 array tasks, 47,200 units at 199 permutations, 124 / 124 tasks <code>COMPLETED 0:0</code>, <strong>0 failed records, 0 censored surgeries</strong>, 345.3 recorded unit core-hours (362.4 by <code>sacct</code> wall-sum), 3 h 51 m wall. Code: <code>7c218c6</code> on a clean worktree of <code>feat/design-guidance-grid</code>. The four <code>PROVENANCE.txt</code> files carry the launch lines, hashes and timings.</p>
+<p><strong>In one paragraph.</strong> Under the production measurement (pooled PLS, CV rank floored at 2, net displacement), <strong>magnitude/<code>delta</code></strong> is the well-powered component: at n = 80 with three stages and two blocks it rejects 0.23 ± 0.04 at e = 0.05 and 0.59 ± 0.05 at e = 0.1, at n = 200 0.72 ± 0.04 and 0.94 ± 0.02, and e = 0.25 is saturated (≥ 0.98) at every column; a third block raises every sub-saturation rate (0.49 / 0.81 at n = 80), and a fourth stage changes little. <strong>Shape/<code>shape</code></strong> rises monotonically with n, e and block count: 0.24 / 0.40 / 0.55 at n = 200 (two blocks, e = 0.25 / 0.5 / 1.0), 0.50 / 0.72 / 0.85 at n = 500, 0.82 / 0.92 / 0.97 at n = 1000, and ≤ 0.20 at n = 80 with two blocks (0.52 at e = 1.0 with three). <strong>Orientation/<code>angle</code></strong> is governed by n and block count, not by the effect size: with two blocks it stays at 0.05–0.22 for n ≤ 200 and reaches 0.41–0.62 only at n = 1000; with three blocks 0.35–0.46 at n = 200 and 0.75–0.87 at n = 1000; its response is flat or non-monotone in e (at five of the six two-block columns with n ≥ 200 the e = 1.0 rate is below the e = 0.5 rate), and across the arms the e = 1.0 rate tracks the CV-selected rank (0.97 at median rank 5, 0.81 at rank 7, 0.12 at the baseline's rank 3), the pattern the Phase 6 study recorded. The held-out CV stage AUROC is 1.000 at every core column and every arm except the stage-effect arm, where δ = 0.05 and 0.1 give 0.553 and 0.729 — bracketing the SEA-AD cohorts' 0.64–0.70 — and there <strong>no statistic has power at any effect at n = 200</strong> (magnitude ≤ 0.03, orientation ≤ 0.07, shape ≤ 0.09). Size holds at 26 of 28 distinct anchors; the two <code>excess</code> verdicts are both exactly 0.10 against the bound 0.0936 (<code>delta</code> at n = 80 / four stages / three blocks, <code>angle</code> at the n = 200 baseline), the count chance predicts over 84 anchor tests at R = 100 (2.4), and the baseline column's independent Type I-phase draw gives <code>angle</code> 0.03. Translation's <code>angle</code> is within the pilot bound at every column (0.01–0.09). The paper-grade slice proposed in §7 is the three-stage core at n ∈ {80, 200, 500} × {two, three blocks} (36,000 units, about 350–400 core-hours).</p>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Config (<code>sha256</code> prefix)</th>
+<th style="text-align: right;">Cells × R</th>
+<th style="text-align: right;">Units</th>
+<th>Job</th>
+<th style="text-align: right;">Shards</th>
+<th>Unit runtime, median (min–max)</th>
+<th style="text-align: right;">Recorded core-hours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>core magnitude</td>
+<td><code>design_guidance_core_magnitude_pilot.json</code> (<code>c2bd261307a10bd3</code>)</td>
+<td style="text-align: right;">98 × 100</td>
+<td style="text-align: right;">9,800</td>
+<td>929160</td>
+<td style="text-align: right;">30</td>
+<td>21.4 s (7.5–95.0)</td>
+<td style="text-align: right;">68.5</td>
+</tr>
+<tr>
+<td>core geometry</td>
+<td><code>design_guidance_core_geometry_pilot.json</code> (<code>57942119d892ba2b</code>)</td>
+<td style="text-align: right;">162 × 100</td>
+<td style="text-align: right;">16,200</td>
+<td>929161</td>
+<td style="text-align: right;">49</td>
+<td>28.4 s (12.7–106.7)</td>
+<td style="text-align: right;">148.8</td>
+</tr>
+<tr>
+<td>arms magnitude</td>
+<td><code>design_guidance_arms_magnitude_pilot.json</code> (<code>e33e8c4eb6ec3f60</code>)</td>
+<td style="text-align: right;">80 × 100</td>
+<td style="text-align: right;">8,000</td>
+<td>929162</td>
+<td style="text-align: right;">17</td>
+<td>23.0 s (17.2–27.6)</td>
+<td style="text-align: right;">51.2</td>
+</tr>
+<tr>
+<td>arms geometry</td>
+<td><code>design_guidance_arms_geometry_pilot.json</code> (<code>be4e50300d54edee</code>)</td>
+<td style="text-align: right;">132 × 100</td>
+<td style="text-align: right;">13,200</td>
+<td>929163</td>
+<td style="text-align: right;">28</td>
+<td>20.8 s (15.7–28.1)</td>
+<td style="text-align: right;">76.8</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Submission</strong> (2026-10-28 13:30:57 cluster time, all 124 tasks running within a minute): <code>sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=6:00:00 --array=0-&lt;K−1&gt; --export=ALL,STUDY_CONFIG=…,STUDY_OUT=…,N_SHARDS=&lt;K&gt; scripts/motco_study_array.sbatch</code> with <code>OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1</code> exported and <code>STUDY_N_JOBS</code> unset; units are mapped to shards by the stable <code>(cell_id, replicate_index)</code> hash. The last task ended 17:22:20 (3 h 51 m wall). The task 5.2 estimate in the change notes was 303 core-hours; the core geometry profile ran 148.8 against 121 estimated (its n = 1000, four-stage, three-block units ran up to 107 s), core magnitude ran within its estimate (68.5 against 73) and the arm profiles above theirs (51.2 against 41, 76.8 against 68).</li>
+<li><strong>Code and software.</strong> Revision <code>7c218c6</code> (branch <code>feat/design-guidance-grid</code>), run from a clean worktree (<code>/home1/tgonza/MOTCO-design-guidance</code>) with <code>PYTHONPATH</code> on its <code>src/</code> and the cluster's existing virtual environment: python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3. The code at <code>7c218c6</code> is motco 0.10.0 (<code>motco.__version__</code>, verified from the worktree); the virtual environment's distribution metadata still names 0.6.0 because its editable install predates, and <code>PROVENANCE.txt</code> records that string. The code revision is the authoritative version.</li>
+<li><strong>Measurement, recorded per unit.</strong> Every record carries <code>n_jobs</code> 1, <code>orientation_estimator</code> <code>net_displacement</code> and <code>min_components</code> 2 in <code>runtime_metadata</code>; every unit ran 199 permutations.</li>
+<li><strong>Records.</strong> <code>merged.jsonl</code> per profile (sha256 in each <code>PROVENANCE.txt</code>: <code>ca372700…</code>, <code>fc76e0c6…</code>, <code>9aca73b4…</code>, <code>cba378c9…</code>) and the shard files stay on <code>ing</code>, gitignored; <code>report/</code> (16 files per profile, 17 for arms geometry, which also writes <code>continuity_resolved_orientation.csv</code>) and <code>PROVENANCE.txt</code> are committed, as are the four figures and <code>design_guidance_power.csv</code> under <code>figures/</code>.</li>
+<li><strong>Reproduction.</strong> <code>python scripts/motco_study.py merge --out-dir results/design-guidance-pilot-2026-10-28/&lt;profile&gt;</code>; <code>python scripts/motco_study.py report --config examples/trajectory_power_study/design_guidance_&lt;profile&gt;_pilot.json --out-dir results/design-guidance-pilot-2026-10-28/&lt;profile&gt;</code>; <code>python scripts/design_guidance_figure.py --magnitude results/design-guidance-pilot-2026-10-28/core_magnitude/report --geometry results/design-guidance-pilot-2026-10-28/core_geometry/report --out-dir results/design-guidance-pilot-2026-10-28/figures</code>. Pre-flight: the fast suite at the same tree (ruff, mypy, 1510 passed / 1 skipped), the 2 × 19 smoke of all four profiles on <code>ing</code> (880 / 880 units, 0 failures) and 16 timed units at 199 permutations (<code>openspec/changes/design-guidance-grid/notes.md</code>).</li>
+</ul>
+<p>Shared design (one baseline, one seed root <code>base_seed</code> 1028, one matched-seed family <code>design-guidance</code>): n = 200, three stages, <code>group_ratio</code> 0.5, <code>p_dmp</code> 0.1, ρ = 0, every per-omic δ 2.0, <code>magnitude_kind: joint</code>; pooled PLS on methylation + expression with the stage-supervised double-CV rank (<code>cv1_splits</code> 3, <code>cv2_splits</code> 4, 5 repeats, ≤ 20 components, <code>random_state</code> 1203), <code>orientation_estimator: net_displacement</code>, <code>min_components: 2</code>, 199 RRPP permutations, <code>n_jobs</code> 1. The production measurement is named in every profile, not defaulted. Attribution and the Phase 4 gate are off; the only predeclared rule is the advisory <code>anchor_decision</code> (α 0.05, k = 2, <code>delta</code>/<code>angle</code>/<code>shape</code>).</p>
+<ul>
+<li><strong>Core</strong> (design grid <code>n_samples</code> {80, 200, 500, 1000} × <code>n_stages</code> {3, 4} × <code>layers</code> {methylation + expression, all three}): magnitude at e ∈ {0.01, 0.02, 0.05, 0.1, 0.25} (98 cells, 9,800 units); orientation, shape and translation at e ∈ {0.25, 0.5, 1.0} (162 cells, 16,200 units).</li>
+<li><strong>Arms</strong> (explicit points, one setting moved off the baseline): group ratio {0.65, 0.8}; stage proportions 0.5/0.3/0.2; <code>p_dmp</code> {0.05, 0.15}; joint δ {0.05, 0.1, 0.25, 0.5, 1.0}; ρ {0.5, 0.8}. Magnitude 80 cells / 8,000 units; geometry 132 cells / 13,200 units.</li>
+</ul>
+<p>The magnitude and geometry siblings share their seed family, so at every design column their zero-effect anchors evaluate the same datasets with the same RRPP draws (the smoke verified identical p-values at every column). This report reads the <strong>geometry profile's anchor</strong> and uses the magnitude profile's only as the reproduction check in §2; the two are never pooled.</p>
+<h2 id="2-unit-and-failure-accounting">2. Unit and failure accounting</h2>
+<ul>
+<li><strong>Units.</strong> 9,800 / 16,200 / 8,000 / 13,200 records, each <code>(cell_id, replicate_index)</code> present exactly once: duplicates 0, missing 0, unexpected 0, parameter-signature mismatches 0 in every profile (<code>PROVENANCE.txt</code>, computed against the enumerated grids).</li>
+<li><strong>Failures.</strong> 0 failed records in every profile. The design risk — stage-stratified double CV failing or selecting erratically in the n = 80, four-stage cells of 10 samples — did not materialize: those columns completed every unit and selected rank 3–4 (§4).</li>
+<li><strong>Censored surgeries.</strong> 0 (<code>report/realized_surgery.csv</code>: <code>censored_fraction</code> 0 at every orientation, shape and translation cell), as the headroom check at enumeration predicted.</li>
+<li><strong>Anchor reproduction (design D2).</strong> Keyed by design column (generator parameters without the mode and effect, plus the evaluation parameters) and replicate, the 28 distinct anchor columns give 2,800 keys: 2,700 hold one record from each sibling (16 core and 11 non-baseline arm columns × 100 replicates) and 100 hold eight (the baseline column: its design-point anchor and its <code>type_i_baseline</code>-phase anchor in each of the four profiles). Records sharing a key and the same <code>(generator_seed, evaluation_seed)</code> have <strong>identical p-values</strong> in every case (3,300 pairwise comparisons, 0 mismatches; observed statistics agree to 4 × 10⁻¹¹), so the siblings share both data and RRPP draws and the magnitude profile's anchors reproduce the geometry profile's exactly. The baseline column's Type I-phase anchor is a separate seed derivation (<code>type_i_baseline</code> phase, p-values identical across the four profiles), which gives that column a second, independent 100-replicate size reading (§5). This report reads the geometry profiles' design-point anchors; nothing is pooled.</li>
+</ul>
+<h2 id="3-per-column-operating-characteristics">3. Per-column operating characteristics</h2>
+<p>Every rate is the rejection rate at p ≤ 0.05 over 100 available replicates ± its Monte Carlo SE, read from <code>report/design_point_operating.csv</code>. Column labels give <code>n_samples</code>, stage count and measured block count (two = methylation + expression; three = all blocks). The figures are <code>results/design-guidance-pilot-2026-10-28/figures/design_guidance_{magnitude,orientation,shape}.png</code> (one panel per stage count × block count, n on a log axis, one line per effect, ±1 SE bars) and <code>design_guidance_control.png</code> (§5); <code>design_guidance_power.csv</code> beside them holds exactly the rows plotted.</p>
+<h3 id="31-core-grid-magnitude-delta">3.1 Core grid — magnitude / <code>delta</code></h3>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>magnitude/delta e=0.01</th>
+<th>magnitude/delta e=0.02</th>
+<th>magnitude/delta e=0.05</th>
+<th>magnitude/delta e=0.1</th>
+<th>magnitude/delta e=0.25</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 80, 3 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.23 ± 0.04</td>
+<td>0.59 ± 0.05</td>
+<td>0.99 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 80, 3 st, 3 bl</td>
+<td>0.04 ± 0.02</td>
+<td>0.09 ± 0.03</td>
+<td>0.49 ± 0.05</td>
+<td>0.81 ± 0.04</td>
+<td>0.99 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.13 ± 0.03</td>
+<td>0.59 ± 0.05</td>
+<td>0.98 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 3 bl</td>
+<td>0.13 ± 0.03</td>
+<td>0.20 ± 0.04</td>
+<td>0.47 ± 0.05</td>
+<td>0.81 ± 0.04</td>
+<td>0.98 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 2 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.21 ± 0.04</td>
+<td>0.72 ± 0.04</td>
+<td>0.94 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 3 bl</td>
+<td>0.10 ± 0.03</td>
+<td>0.39 ± 0.05</td>
+<td>0.87 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 2 bl</td>
+<td>0.12 ± 0.03</td>
+<td>0.19 ± 0.04</td>
+<td>0.59 ± 0.05</td>
+<td>0.95 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 3 bl</td>
+<td>0.17 ± 0.04</td>
+<td>0.36 ± 0.05</td>
+<td>0.93 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 2 bl</td>
+<td>0.22 ± 0.04</td>
+<td>0.66 ± 0.05</td>
+<td>0.97 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 3 bl</td>
+<td>0.40 ± 0.05</td>
+<td>0.85 ± 0.04</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 2 bl</td>
+<td>0.15 ± 0.04</td>
+<td>0.57 ± 0.05</td>
+<td>0.97 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 3 bl</td>
+<td>0.36 ± 0.05</td>
+<td>0.86 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 2 bl</td>
+<td>0.55 ± 0.05</td>
+<td>0.89 ± 0.03</td>
+<td>0.99 ± 0.01</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 3 bl</td>
+<td>0.73 ± 0.04</td>
+<td>0.99 ± 0.01</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 2 bl</td>
+<td>0.48 ± 0.05</td>
+<td>0.91 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 3 bl</td>
+<td>0.76 ± 0.04</td>
+<td>0.97 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+<td>1.00 ± 0.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading.</strong> <code>delta</code> power rises with n at every effect and saturates at e = 0.25 everywhere (0.98–1.00); the rise is resolved by e = 0.01–0.1. At the case-study size (n = 80, three stages, two blocks) it is 0.23 ± 0.04 at e = 0.05 and 0.59 ± 0.05 at e = 0.1; at n = 200, 0.72 / 0.94; at n = 500 e = 0.05 is saturated (0.97) and e = 0.02 resolves (0.57–0.86); at n = 1000 e = 0.01 resolves (0.48–0.76). A <strong>third block raises every sub-saturation rate</strong> (n = 80: 0.49 / 0.81 at e = 0.05 / 0.1; n = 200: 0.87 / 1.00; n = 500 at e = 0.02: 0.85–0.86 against 0.57–0.66), with the feature-count confound of §8. A <strong>fourth stage changes little</strong>: at two blocks the four-stage column is within 0.13 of the three-stage one at every n and effect (0.59 against 0.72 at n = 200, e = 0.05, the largest gap; 0.59 against 0.59 at n = 80, e = 0.1), and at three blocks within 0.07 for n ≥ 200. The n = 80 / four-stage / three-block column's e = 0.01–0.02 rates (0.13, 0.20) sit on an anchor <code>delta</code> of 0.10 (§5) and are not read as power.</p>
+<h3 id="32-core-grid-orientation-angle-and-shape-shape">3.2 Core grid — orientation / <code>angle</code> and shape / <code>shape</code></h3>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>orientation/angle e=0.25</th>
+<th>orientation/angle e=0.5</th>
+<th>orientation/angle e=1</th>
+<th>shape/shape e=0.25</th>
+<th>shape/shape e=0.5</th>
+<th>shape/shape e=1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 80, 3 st, 2 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.15 ± 0.04</td>
+<td>0.02 ± 0.01</td>
+<td>0.14 ± 0.03</td>
+<td>0.20 ± 0.04</td>
+</tr>
+<tr>
+<td>n = 80, 3 st, 3 bl</td>
+<td>0.24 ± 0.04</td>
+<td>0.22 ± 0.04</td>
+<td>0.23 ± 0.04</td>
+<td>0.20 ± 0.04</td>
+<td>0.28 ± 0.04</td>
+<td>0.52 ± 0.05</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 2 bl</td>
+<td>0.09 ± 0.03</td>
+<td>0.09 ± 0.03</td>
+<td>0.13 ± 0.03</td>
+<td>0.02 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.19 ± 0.04</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 3 bl</td>
+<td>0.16 ± 0.04</td>
+<td>0.23 ± 0.04</td>
+<td>0.21 ± 0.04</td>
+<td>0.13 ± 0.03</td>
+<td>0.34 ± 0.05</td>
+<td>0.46 ± 0.05</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 2 bl</td>
+<td>0.17 ± 0.04</td>
+<td>0.22 ± 0.04</td>
+<td>0.12 ± 0.03</td>
+<td>0.24 ± 0.04</td>
+<td>0.40 ± 0.05</td>
+<td>0.55 ± 0.05</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 3 bl</td>
+<td>0.40 ± 0.05</td>
+<td>0.41 ± 0.05</td>
+<td>0.38 ± 0.05</td>
+<td>0.43 ± 0.05</td>
+<td>0.55 ± 0.05</td>
+<td>0.84 ± 0.04</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 2 bl</td>
+<td>0.10 ± 0.03</td>
+<td>0.09 ± 0.03</td>
+<td>0.11 ± 0.03</td>
+<td>0.11 ± 0.03</td>
+<td>0.29 ± 0.05</td>
+<td>0.59 ± 0.05</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 3 bl</td>
+<td>0.39 ± 0.05</td>
+<td>0.46 ± 0.05</td>
+<td>0.35 ± 0.05</td>
+<td>0.50 ± 0.05</td>
+<td>0.71 ± 0.05</td>
+<td>0.76 ± 0.04</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 2 bl</td>
+<td>0.33 ± 0.05</td>
+<td>0.39 ± 0.05</td>
+<td>0.29 ± 0.05</td>
+<td>0.50 ± 0.05</td>
+<td>0.72 ± 0.04</td>
+<td>0.85 ± 0.04</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 3 bl</td>
+<td>0.67 ± 0.05</td>
+<td>0.69 ± 0.05</td>
+<td>0.61 ± 0.05</td>
+<td>0.75 ± 0.04</td>
+<td>0.88 ± 0.03</td>
+<td>0.99 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 2 bl</td>
+<td>0.27 ± 0.04</td>
+<td>0.28 ± 0.04</td>
+<td>0.13 ± 0.03</td>
+<td>0.60 ± 0.05</td>
+<td>0.75 ± 0.04</td>
+<td>0.86 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 3 bl</td>
+<td>0.62 ± 0.05</td>
+<td>0.76 ± 0.04</td>
+<td>0.73 ± 0.04</td>
+<td>0.86 ± 0.03</td>
+<td>0.91 ± 0.03</td>
+<td>0.98 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 2 bl</td>
+<td>0.62 ± 0.05</td>
+<td>0.61 ± 0.05</td>
+<td>0.49 ± 0.05</td>
+<td>0.82 ± 0.04</td>
+<td>0.92 ± 0.03</td>
+<td>0.97 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 3 bl</td>
+<td>0.82 ± 0.04</td>
+<td>0.75 ± 0.04</td>
+<td>0.76 ± 0.04</td>
+<td>0.89 ± 0.03</td>
+<td>0.92 ± 0.03</td>
+<td>0.99 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 2 bl</td>
+<td>0.60 ± 0.05</td>
+<td>0.60 ± 0.05</td>
+<td>0.41 ± 0.05</td>
+<td>0.78 ± 0.04</td>
+<td>0.93 ± 0.03</td>
+<td>0.94 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 3 bl</td>
+<td>0.81 ± 0.04</td>
+<td>0.87 ± 0.03</td>
+<td>0.84 ± 0.04</td>
+<td>0.96 ± 0.02</td>
+<td>0.96 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Orientation / <code>angle</code>.</strong> Power is governed by <strong>sample size and block count, not by the effect size</strong>. With two blocks it stays at 0.05–0.15 (n = 80), 0.09–0.22 (n = 200) and 0.13–0.39 (n = 500), and reaches 0.41–0.62 only at n = 1000; with three blocks it is 0.16–0.24 at n = 80, 0.35–0.46 at n = 200, 0.61–0.76 at n = 500 and 0.75–0.87 at n = 1000. The response in e is flat or non-monotone: at five of the six two-block columns with n ≥ 200 the e = 1.0 rate is <strong>below</strong> the e = 0.5 rate (n = 200 / 3 st: 0.12 against 0.22; n = 500 / 3 st: 0.29 against 0.39; n = 500 / 4 st: 0.13 against 0.28; n = 1000 / 3 st: 0.49 against 0.61; n = 1000 / 4 st: 0.41 against 0.60), while the three-block columns show no consistent direction in e. The arms (§3.4) and the Phase 6 study point at the CV-selected rank: the e = 1.0 orientation surgery relocates every stage-active methylation site of group B, and whether the two groups' net displacements separate in the latent space depends on how many components the stage-supervised CV retains (median 2–4 at every core column, §4; 0.280 against 0.996 below and above three components in the Phase 6 study). The orientation construction at e = 1.0 also moves the other two statistics (<code>delta</code> 0.12–0.92 and <code>shape</code> 0.19–1.00 across the core columns), the cross-talk the Phase 5 response matrix recorded; the figure plots the target statistic only.</p>
+<p><strong>Shape / <code>shape</code>.</strong> Monotone in e, n and block count. Two blocks: 0.02 / 0.14 / 0.20 at n = 80, 0.24 / 0.40 / 0.55 at n = 200, 0.50 / 0.72 / 0.85 at n = 500, 0.82 / 0.92 / 0.97 at n = 1000 (e = 0.25 / 0.5 / 1.0); three blocks: 0.20 / 0.28 / 0.52, 0.43 / 0.55 / 0.84, 0.75 / 0.88 / 0.99, 0.89 / 0.92 / 0.99. Four stages are comparable to three at n ≥ 500 (n = 500, two blocks: 0.60 / 0.75 / 0.86) and lower at e ≤ 0.5 for n ≤ 200 (0.11 / 0.29 against 0.24 / 0.40 at n = 200, two blocks). Shape never leaks into <code>angle</code> (≤ 0.10 at e = 1.0 at every column) but does move <code>delta</code> (0.25–0.96), as in Phase 5.</p>
+<h4 id="translation-negative-control-all-statistics-at-e-10">Translation (negative control), all statistics at e = 1.0</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>delta</th>
+<th>angle</th>
+<th>shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 80, 3 st, 2 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 80, 3 st, 3 bl</td>
+<td>0.07 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.06 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 2 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 3 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 2 bl</td>
+<td>0.02 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 2 bl</td>
+<td>0.07 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 3 bl</td>
+<td>0.09 ± 0.03</td>
+<td>0.02 ± 0.01</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 2 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.06 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+<td>0.06 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 2 bl</td>
+<td>0.06 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 3 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 2 bl</td>
+<td>0.08 ± 0.03</td>
+<td>0.07 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 3 bl</td>
+<td>0.06 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.06 ± 0.02</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-arms-magnitude-delta-off-n-200-three-stages-two-blocks">3.3 Arms — magnitude / <code>delta</code> (off n = 200, three stages, two blocks)</h3>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>magnitude/delta e=0.01</th>
+<th>magnitude/delta e=0.02</th>
+<th>magnitude/delta e=0.05</th>
+<th>magnitude/delta e=0.1</th>
+<th>magnitude/delta e=0.25</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline</td>
+<td>0.05 ± 0.02</td>
+<td>0.21 ± 0.04</td>
+<td>0.72 ± 0.04</td>
+<td>0.94 ± 0.02</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>group ratio = 0.65</td>
+<td>0.12 ± 0.03</td>
+<td>0.30 ± 0.05</td>
+<td>0.67 ± 0.05</td>
+<td>0.98 ± 0.01</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>group ratio = 0.8</td>
+<td>0.10 ± 0.03</td>
+<td>0.21 ± 0.04</td>
+<td>0.53 ± 0.05</td>
+<td>0.86 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>stage proportions 0.5/0.3/0.2</td>
+<td>0.07 ± 0.03</td>
+<td>0.18 ± 0.04</td>
+<td>0.58 ± 0.05</td>
+<td>0.87 ± 0.03</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>p_dmp = 0.05</td>
+<td>0.04 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.20 ± 0.04</td>
+<td>0.55 ± 0.05</td>
+<td>0.98 ± 0.01</td>
+</tr>
+<tr>
+<td>p_dmp = 0.15</td>
+<td>0.17 ± 0.04</td>
+<td>0.41 ± 0.05</td>
+<td>0.85 ± 0.04</td>
+<td>0.99 ± 0.01</td>
+<td>1.00 ± 0.00</td>
+</tr>
+<tr>
+<td>δ = 0.05</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.1</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.25</td>
+<td>0.08 ± 0.03</td>
+<td>0.06 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.10 ± 0.03</td>
+<td>0.33 ± 0.05</td>
+</tr>
+<tr>
+<td>δ = 0.5</td>
+<td>0.03 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.12 ± 0.03</td>
+<td>0.29 ± 0.05</td>
+<td>0.68 ± 0.05</td>
+</tr>
+<tr>
+<td>δ = 1</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.17 ± 0.04</td>
+<td>0.45 ± 0.05</td>
+<td>0.97 ± 0.02</td>
+</tr>
+<tr>
+<td>ρ = 0.5</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.17 ± 0.04</td>
+<td>0.42 ± 0.05</td>
+<td>0.94 ± 0.02</td>
+</tr>
+<tr>
+<td>ρ = 0.8</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.27 ± 0.04</td>
+<td>0.67 ± 0.05</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-arms-orientation-angle-and-shape-shape">3.4 Arms — orientation / <code>angle</code> and shape / <code>shape</code></h3>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>orientation/angle e=0.25</th>
+<th>orientation/angle e=0.5</th>
+<th>orientation/angle e=1</th>
+<th>shape/shape e=0.25</th>
+<th>shape/shape e=0.5</th>
+<th>shape/shape e=1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline</td>
+<td>0.17 ± 0.04</td>
+<td>0.22 ± 0.04</td>
+<td>0.12 ± 0.03</td>
+<td>0.24 ± 0.04</td>
+<td>0.40 ± 0.05</td>
+<td>0.55 ± 0.05</td>
+</tr>
+<tr>
+<td>group ratio = 0.65</td>
+<td>0.16 ± 0.04</td>
+<td>0.18 ± 0.04</td>
+<td>0.97 ± 0.02</td>
+<td>0.17 ± 0.04</td>
+<td>0.33 ± 0.05</td>
+<td>0.39 ± 0.05</td>
+</tr>
+<tr>
+<td>group ratio = 0.8</td>
+<td>0.14 ± 0.03</td>
+<td>0.19 ± 0.04</td>
+<td>0.70 ± 0.05</td>
+<td>0.28 ± 0.04</td>
+<td>0.68 ± 0.05</td>
+<td>0.87 ± 0.03</td>
+</tr>
+<tr>
+<td>stage proportions 0.5/0.3/0.2</td>
+<td>0.17 ± 0.04</td>
+<td>0.09 ± 0.03</td>
+<td>0.12 ± 0.03</td>
+<td>0.17 ± 0.04</td>
+<td>0.35 ± 0.05</td>
+<td>0.56 ± 0.05</td>
+</tr>
+<tr>
+<td>p_dmp = 0.05</td>
+<td>0.06 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.12 ± 0.03</td>
+<td>0.06 ± 0.02</td>
+<td>0.10 ± 0.03</td>
+<td>0.11 ± 0.03</td>
+</tr>
+<tr>
+<td>p_dmp = 0.15</td>
+<td>0.14 ± 0.03</td>
+<td>0.39 ± 0.05</td>
+<td>0.37 ± 0.05</td>
+<td>0.47 ± 0.05</td>
+<td>0.74 ± 0.04</td>
+<td>0.92 ± 0.03</td>
+</tr>
+<tr>
+<td>δ = 0.05</td>
+<td>0.06 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>δ = 0.1</td>
+<td>0.07 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.09 ± 0.03</td>
+</tr>
+<tr>
+<td>δ = 0.25</td>
+<td>0.10 ± 0.03</td>
+<td>0.08 ± 0.03</td>
+<td>0.09 ± 0.03</td>
+<td>0.02 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>δ = 0.5</td>
+<td>0.08 ± 0.03</td>
+<td>0.09 ± 0.03</td>
+<td>0.46 ± 0.05</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.08 ± 0.03</td>
+</tr>
+<tr>
+<td>δ = 1</td>
+<td>0.08 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.44 ± 0.05</td>
+<td>0.05 ± 0.02</td>
+<td>0.12 ± 0.03</td>
+<td>0.15 ± 0.04</td>
+</tr>
+<tr>
+<td>ρ = 0.5</td>
+<td>0.13 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+<td>0.26 ± 0.04</td>
+<td>0.64 ± 0.05</td>
+<td>0.90 ± 0.03</td>
+<td>0.93 ± 0.03</td>
+</tr>
+<tr>
+<td>ρ = 0.8</td>
+<td>0.06 ± 0.02</td>
+<td>0.14 ± 0.03</td>
+<td>0.81 ± 0.04</td>
+<td>0.76 ± 0.04</td>
+<td>0.94 ± 0.02</td>
+<td>0.99 ± 0.01</td>
+</tr>
+</tbody>
+</table>
+<h4 id="translation-negative-control-all-statistics-at-e-10_1">Translation (negative control), all statistics at e = 1.0</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>delta</th>
+<th>angle</th>
+<th>shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline</td>
+<td>0.05 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>group ratio = 0.65</td>
+<td>0.02 ± 0.01</td>
+<td>0.08 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>group ratio = 0.8</td>
+<td>0.04 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+</tr>
+<tr>
+<td>stage proportions 0.5/0.3/0.2</td>
+<td>0.06 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>p_dmp = 0.05</td>
+<td>0.03 ± 0.02</td>
+<td>0.09 ± 0.03</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>p_dmp = 0.15</td>
+<td>0.04 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.05</td>
+<td>0.03 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>δ = 0.1</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>δ = 0.25</td>
+<td>0.03 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>δ = 0.5</td>
+<td>0.01 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 1</td>
+<td>0.01 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>ρ = 0.5</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>ρ = 0.8</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading across the arms</strong> (baseline: <code>delta</code> 0.72 / 0.94 at e = 0.05 / 0.1; <code>angle</code> 0.17 / 0.22 / 0.12 and <code>shape</code> 0.24 / 0.40 / 0.55 at e = 0.25 / 0.5 / 1.0):</p>
+<ul>
+<li><strong>Group ratio.</strong> Magnitude moves little (0.67 / 0.98 at 0.65; 0.53 / 0.86 at 0.8). Shape is 0.39 at e = 1.0 at ratio 0.65 and 0.87 at 0.8. Orientation at e = 1.0 jumps to <strong>0.97 ± 0.02 at ratio 0.65 and 0.70 ± 0.05 at 0.8</strong>, where the CV-selected rank at that cell rises to a median of 5 and 3.5 (baseline 3); at e ≤ 0.5 both arms sit at the baseline's 0.14–0.19.</li>
+<li><strong>Stage proportions 0.5 / 0.3 / 0.2.</strong> Close to the baseline for every component (magnitude 0.58 / 0.87 against 0.72 / 0.94; shape 0.17 / 0.35 / 0.56; orientation 0.17 / 0.09 / 0.12).</li>
+<li><strong>Differential-feature proportion.</strong> <code>p_dmp</code> 0.05 lowers every component (magnitude 0.20 / 0.55; shape ≤ 0.11; orientation ≤ 0.12); 0.15 raises every one (magnitude 0.85 / 0.99; shape 0.47 / 0.74 / 0.92; orientation 0.14 / 0.39 / 0.37).</li>
+<li><strong>Stage effect δ.</strong> At δ = 0.05 and 0.1 <strong>every statistic is at the null at every effect</strong> (magnitude ≤ 0.03, orientation ≤ 0.07, shape ≤ 0.09). δ = 0.25 gives magnitude 0.33 at e = 0.25 and the geometry modes at the null; δ = 0.5 gives magnitude 0.68, orientation 0.46 at e = 1.0 (median rank 9) and shape ≤ 0.08; δ = 1.0 gives magnitude 0.97, orientation 0.44 (rank 4) and shape 0.15. Every surgery scales with δ (magnitude multiplies it; orientation and shape relocate sites whose effect is δ), so group differences shrink with the stage signal by construction.</li>
+<li><strong>Baseline continuity ρ.</strong> Continuity trades magnitude power for geometry power: at ρ = 0.5 magnitude is 0.17 / 0.42 / 0.94 at e = 0.05 / 0.1 / 0.25 and at ρ = 0.8 0.05 / 0.27 / 0.67 (baseline 0.72 / 0.94 / 1.00), while shape rises to 0.64 / 0.90 / 0.93 and 0.76 / 0.94 / 0.99 and orientation at e = 1.0 to 0.26 and 0.81 ± 0.04 (median rank 7). The arms geometry report's <code>continuity_resolved_orientation.csv</code> carries the per-ρ eigengap and <code>angle</code> null-width distributions.</li>
+</ul>
+<h2 id="4-stage-signal-and-selected-rank">4. Stage signal and selected rank</h2>
+<p>Read from <code>report/design_point_stage_signal.csv</code> (mean and q33–q67 of the recorded held-out CV stage AUROC at the zero-effect anchor; 100 of 100 available at every column) and <code>design_point_operating.csv</code> (<code>median_selected_lv</code>, min–max). The core table is the geometry profile's; the magnitude profile's is identical (§2).</p>
+<h4 id="core-grid">Core grid</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>anchor CV AUROC (mean, q33–q67)</th>
+<th>anchor rank (median, min–max)</th>
+<th>n AUROC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 80, 3 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 80, 3 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>4 (3–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (3–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>4 (3–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–2)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (3–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–2)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–2)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 2 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–4)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 3 bl</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<h4 id="arms">Arms</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>anchor CV AUROC (mean, q33–q67)</th>
+<th>anchor rank (median, min–max)</th>
+<th>n AUROC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>group ratio = 0.65</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>group ratio = 0.8</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>stage proportions 0.5/0.3/0.2</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>p_dmp = 0.05</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>p_dmp = 0.15</td>
+<td>1.000 (1.000–1.000)</td>
+<td>2 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>δ = 0.05</td>
+<td>0.553 (0.537–0.565)</td>
+<td>3 (2–19)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>δ = 0.1</td>
+<td>0.729 (0.717–0.742)</td>
+<td>10 (3–19)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>δ = 0.25</td>
+<td>0.997 (0.996–0.998)</td>
+<td>10 (6–19)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>δ = 0.5</td>
+<td>1.000 (1.000–1.000)</td>
+<td>4 (3–5)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>δ = 1</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ρ = 0.5</td>
+<td>1.000 (1.000–1.000)</td>
+<td>3 (2–3)</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ρ = 0.8</td>
+<td>1.000 (1.000–1.000)</td>
+<td>4 (3–6)</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading.</strong> At δ = 2.0 the stage signal is <strong>saturated at every core column and every non-δ arm</strong> (AUROC 1.000 with a degenerate q33–q67 interval), and the CV selects rank 2–3 at three stages and 3–4 at four stages, never more than 4: the rank floor of 2 binds at the three-stage columns (median 2 at n ≥ 200). Only the δ arm leaves that regime: δ = 0.05 gives 0.553 (0.537–0.565) and δ = 0.1 gives 0.729 (0.717–0.742), <strong>bracketing the SEA-AD cohorts' recorded 0.64–0.70</strong> at n = 200, and δ = 0.25 is already 0.997. In the bracketed regime no statistic has power at any effect (§3.4). The selected rank behaves differently from the rank-floor check at n = 80: there the unfloored rule fell to rank 1; here, at n = 200, the double CV <strong>inflates</strong> the rank in the intermediate regime (median 10 at δ = 0.1 and 0.25, up to 19) and returns to 3–4 by δ = 0.5. Any <code>angle</code> reading from a real cohort must therefore be accompanied by its selected rank, as the Phase 6 statement already requires.</p>
+<h2 id="5-size-at-every-column">5. Size at every column</h2>
+<p>Zero-effect anchor rates per statistic (geometry profiles; the magnitude profiles reproduce them exactly, §2) with the advisory <code>anchor_decision</code> status against the bound α + 2·√(α(1 − α)/100) = 0.0936, and translation's <code>angle</code> rate at e = 1.0 (<code>report/anchor_decision.json</code> and <code>.csv</code>; figure <code>design_guidance_control.png</code>).</p>
+<h4 id="core-grid_1">Core grid</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>delta</th>
+<th>angle</th>
+<th>shape</th>
+<th>bound</th>
+<th>verdict</th>
+<th>translation angle (top e)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 80, 3 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 80, 3 st, 3 bl</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.08 ± 0.03</td>
+<td>0.01 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.06 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 80, 4 st, 3 bl</td>
+<td>0.10 ± 0.03</td>
+<td>0.07 ± 0.03</td>
+<td>0.06 ± 0.02</td>
+<td>0.0936</td>
+<td>excess</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 2 bl</td>
+<td>0.02 ± 0.01</td>
+<td>0.10 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+<td>0.0936</td>
+<td>excess</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 200, 3 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 2 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.04 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 200, 4 st, 3 bl</td>
+<td>0.02 ± 0.01</td>
+<td>0.06 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 2 bl</td>
+<td>0.01 ± 0.01</td>
+<td>0.08 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 500, 3 st, 3 bl</td>
+<td>0.02 ± 0.01</td>
+<td>0.02 ± 0.01</td>
+<td>0.01 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 2 bl</td>
+<td>0.04 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 500, 4 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 2 bl</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 3 st, 3 bl</td>
+<td>0.06 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 2 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>n = 1000, 4 st, 3 bl</td>
+<td>0.03 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.07 ± 0.03</td>
+</tr>
+</tbody>
+</table>
+<h4 id="arms_1">Arms</h4>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>delta</th>
+<th>angle</th>
+<th>shape</th>
+<th>bound</th>
+<th>verdict</th>
+<th>translation angle (top e)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline</td>
+<td>0.02 ± 0.01</td>
+<td>0.10 ± 0.03</td>
+<td>0.05 ± 0.02</td>
+<td>0.0936</td>
+<td>excess</td>
+<td>0.07 ± 0.03</td>
+</tr>
+<tr>
+<td>group ratio = 0.65</td>
+<td>0.03 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.01 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.08 ± 0.03</td>
+</tr>
+<tr>
+<td>group ratio = 0.8</td>
+<td>0.04 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.02 ± 0.01</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>stage proportions 0.5/0.3/0.2</td>
+<td>0.02 ± 0.01</td>
+<td>0.04 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>p_dmp = 0.05</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.09 ± 0.03</td>
+</tr>
+<tr>
+<td>p_dmp = 0.15</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.05 ± 0.02</td>
+</tr>
+<tr>
+<td>δ = 0.05</td>
+<td>0.02 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.1</td>
+<td>0.03 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.25</td>
+<td>0.05 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 0.5</td>
+<td>0.04 ± 0.02</td>
+<td>0.06 ± 0.02</td>
+<td>0.04 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.02 ± 0.01</td>
+</tr>
+<tr>
+<td>δ = 1</td>
+<td>0.01 ± 0.01</td>
+<td>0.06 ± 0.02</td>
+<td>0.05 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.01 ± 0.01</td>
+</tr>
+<tr>
+<td>ρ = 0.5</td>
+<td>0.03 ± 0.02</td>
+<td>0.07 ± 0.03</td>
+<td>0.03 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.03 ± 0.02</td>
+</tr>
+<tr>
+<td>ρ = 0.8</td>
+<td>0.01 ± 0.01</td>
+<td>0.05 ± 0.02</td>
+<td>0.03 ± 0.02</td>
+<td>0.0936</td>
+<td>size_holds</td>
+<td>0.01 ± 0.01</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading.</strong> Across the 28 distinct anchor columns the advisory decision is <code>EXCESS</code> in every profile because two points carry an <code>excess</code> verdict, both at <strong>exactly 0.10 ± 0.03 against 0.0936</strong>, the smallest excess a 100-replicate column can show: <code>delta</code> at n = 80 / four stages / three blocks, and <code>angle</code> at the n = 200 / three stages / two blocks baseline (the same measurement in all four profiles). Over the 84 anchor tests (28 columns × 3 statistics), a test with exact size 0.05 exceeds the bound with probability P(Bin(100, 0.05) ≥ 10) = 0.028, so <strong>2.4 such excesses are expected by chance</strong>; two were observed. The baseline column's independent Type I-phase anchor (<code>report/type_i_table.csv</code>, a separate 100-replicate draw) gives <code>angle</code> 0.03 ± 0.02 (<code>delta</code> 0.04, <code>shape</code> 0.00), 13 / 200 = 0.065 pooled over the two draws. Neither excess is evidence of inflated size, and the pilot cannot clear them either; both columns (n = 80 and the n = 200 baseline) are in the paper-grade slice (§7). Every other anchor rate is ≤ 0.08.</p>
+<p><strong>Translation.</strong> <code>angle</code> at e = 1.0 is 0.01–0.07 across the core columns and 0.01–0.09 across the arms (0.09 at <code>p_dmp</code> 0.05, 0.08 at group ratio 0.65), within the pilot bound everywhere; <code>delta</code> is 0.01–0.09 and <code>shape</code> 0.01–0.07. Seven of the 28 distinct translation <code>angle</code> rates sit at 0.07–0.09, above the paper-grade bound 0.0695 that the net-displacement studies read translation against (0.058–0.068 at R = 500), which the pilot's SE of 0.03 cannot resolve: the paper-grade slice keeps translation at every column.</p>
+<p><strong>Other negative controls.</strong> Magnitude at e = 0.25 moves neither <code>angle</code> (≤ 0.07) nor <code>shape</code> (≤ 0.04) at any core column; shape at e = 1.0 moves <code>angle</code> at ≤ 0.10.</p>
+<h2 id="6-the-originally-planned-grid-and-what-was-run-instead">6. The originally planned grid and what was run instead</h2>
+<p>The project's originally planned simulation grid (Table 1) crossed every row below; crossing them is infeasible (3,456 null combinations before any power cell), its mean shifts (0.01–0.2) sit far below the InterSIM stage effect the generator operates on (δ = 2.0), its "power" rows do not map to trajectory components, and two of them are null scenarios. Each factor's disposition:</p>
+<table>
+<thead>
+<tr>
+<th>Table 1 factor</th>
+<th>Disposition</th>
+<th>Where, and why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample size</td>
+<td><strong>Run</strong></td>
+<td>Core axis <code>n_samples</code> ∈ {80, 200, 500, 1000}, crossed with stages and blocks.</td>
+</tr>
+<tr>
+<td>Group ratio</td>
+<td><strong>Run</strong></td>
+<td>Arm: <code>group_ratio</code> 0.65 and 0.8 off 0.5.</td>
+</tr>
+<tr>
+<td>Number of stages</td>
+<td><strong>Run</strong></td>
+<td>Core axis <code>n_stages</code> ∈ {3, 4}. Two-stage designs are dropped: with two stage means the configuration is a segment, <code>shape</code> is undefined by construction (nothing to bend) and <code>angle</code> reduces to the segment direction, so the three-component guidance cannot be read there; the case study has three stages.</td>
+</tr>
+<tr>
+<td>Stage proportions</td>
+<td><strong>Run</strong></td>
+<td>Arm: 0.5/0.3/0.2 off equal thirds.</td>
+</tr>
+<tr>
+<td>Differential-feature proportion</td>
+<td><strong>Run</strong></td>
+<td>Arm: <code>p_dmp</code> 0.05 and 0.15 off 0.1. 0.2 is excluded because at three stages it fails the surgery-headroom check (orientation saturates at e = 0.89, translation at 0.52).</td>
+</tr>
+<tr>
+<td>Shared stage shift</td>
+<td><strong>Run, rescaled</strong></td>
+<td>Arm: the joint per-omic δ ∈ {0.05, 0.1, 0.25, 0.5, 1.0} off InterSIM's 2.0. Table 1's 0.01–0.2 are on a scale the generator never reaches; 0.05–0.1 is where the rank-floor check found the SEA-AD stage-signal regime.</td>
+</tr>
+<tr>
+<td>Noise level</td>
+<td><strong>Dropped</strong></td>
+<td>Redundant with the stage shift: features are standardized before the PLS fit, so σ and δ enter the measurement only through δ/σ, which the δ arm already sweeps.</td>
+</tr>
+<tr>
+<td>Group-specific mean shift</td>
+<td><strong>Run</strong></td>
+<td>The <code>translation</code> mode (a constant location offset of group B) at e ∈ {0.25, 0.5, 1.0} in both geometry profiles, read as the negative control for all three statistics; the <code>magnitude</code> mode covers a group-specific <em>size</em> change.</td>
+</tr>
+<tr>
+<td>Covariance scaling</td>
+<td><strong>Deferred</strong></td>
+<td>To the group-specific-dispersion change (change B): an opt-in generator field scaling group B's covariance and a null-only Type I study crossing spread {1, 1.5, 2, 3} × group ratio {0.2, 0.5, 0.8}. It is a size question, not a power row.</td>
+</tr>
+<tr>
+<td>Correlation scaling</td>
+<td><strong>Deferred</strong></td>
+<td>Same change and the same reason: it changes group B's dispersion, not its trajectory.</td>
+</tr>
+<tr>
+<td>Feature filtering</td>
+<td><strong>Dropped</strong></td>
+<td>Supervised filtering (by group or stage) biases the permutation null unless it is repeated inside every permutation, so MOTCO documents it as forbidden; label-blind filtering is upstream preprocessing and changes what is measured, not the validity of the test.</td>
+</tr>
+<tr>
+<td>Integration method</td>
+<td><strong>Dropped</strong></td>
+<td>PLS is the production measurement (<code>docs/roadmap.md</code>); SNF with the Euclidean statistics is deferred pending graph-native statistics; MOFA is out of scope; <code>concat</code> is a diagnostic baseline, not a constructed latent space.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-proposed-paper-grade-slice">7. Proposed paper-grade slice</h2>
+<p>The pilot answers the design question descriptively at every column; what the paper needs at paper grade (500 replicates × 999 permutations, SE ≤ 0.022, anchor bound 0.0695) is the slice where the rates are neither saturated nor at the null, at the sizes the planned analyses have. Proposed, as two sibling profiles sharing one seed family exactly as here (the anchor reproduction check is then bit-exact):</p>
+<ul>
+<li><strong>Columns:</strong> <code>n_samples</code> ∈ {80, 200, 500} × <strong>three stages</strong> × <code>layers</code> ∈ {methylation + expression, all three} — six columns. Three stages are the case-study and planned AD design; the four-stage columns tracked the three-stage ones for magnitude and shape (within 0.13 at every n, within SE at n ≥ 500) and differ for orientation only within the rank-driven scatter, so a second stage count buys little at twice the cost. n = 1000 is dropped: magnitude and shape are saturated there and the pilot's n = 1000 rates stand as pilot-grade values.</li>
+<li><strong>Effects:</strong> magnitude at e ∈ {0.02, 0.05, 0.1} (0.01 resolves only at n = 1000; 0.25 is saturated at every column); orientation and shape at e ∈ {0.25, 0.5, 1.0} (1.0 kept so that orientation's non-monotone response is measured at paper grade with the selected rank recorded per cell); translation at e = 1.0 as the negative control; a zero-effect anchor per column.</li>
+<li><strong>Units and cost:</strong> magnitude profile 6 × (1 + 3) × 500 = 12,000 units; geometry profile 6 × (1 + 3 + 3 + 1) × 500 = 24,000; 36,000 in total. From the pilot's unit timings (10–30 s at n ≤ 500 with 199 permutations, the RRPP adding 2–5 s) a 999-permutation unit costs about 25 s at n = 80 to 50 s at n = 500 with three blocks: <strong>about 350–400 core-hours</strong>, in line with the latent-adjustment power comparison, on about 150 shards of ≤ 2.5 h on <code>512x1024</code>.</li>
+<li><strong>Predeclared rules:</strong> <code>acceptance.anchor_decision</code> at α 0.05, k 2 (bound 0.0695 at R = 500); <code>acceptance.type_i</code> entries for translation's <code>angle</code> with <code>bound: upper</code> at every column; no power targets — the slice is guidance, not a gate. The report states rates ± SE, each column's stage AUROC and selected rank, and the design-guidance figure.</li>
+<li><strong>Second priority, if budget allows:</strong> the stage-effect arm δ ∈ {0.25, 0.5, 1.0} at the baseline column (3 columns × 11 cells × 500 = 16,500 units, about 150 core-hours), because that is where power transitions and the CV rank inflates. δ ≤ 0.1 is the null regime at n = 200 and need not be rerun; the rank-floor check already sized it at n = 80 at paper grade.</li>
+</ul>
+<p>Not proposed, with reasons: the <strong>ρ arm</strong> (continuity raises shape and e = 1.0 orientation power and lowers magnitude power; it is an assumption about the baseline geometry, and the design-point pilot chose ρ = 0 as the most general claim — a follow-up sensitivity if the case study's trajectories trend); <strong>group ratio, stage proportions and <code>p_dmp</code></strong> (main effects measured at pilot grade move power in the expected direction; the orientation jump at group ratio 0.65 should be understood through the selected rank before it is rerun); the <strong>four-stage</strong> and <strong>n = 1000</strong> columns (above).</p>
+<p><strong>Guidance statement the slice would support.</strong> <code>delta</code> is the component a cohort of n = 80–200 can detect (e ≥ 0.1 at n = 80, e ≥ 0.05 at n = 200, with two blocks); <code>shape</code> reaches 0.72–0.85 at n = 500 with two blocks (e = 0.5–1.0) and 0.84 at n = 200 with three blocks at e = 1.0, but stays ≤ 0.55 at n = 200 and ≤ 0.20 at n = 80 with two blocks; an <code>angle</code> non-rejection is uninformative at n ≤ 200 with two blocks, and any <code>angle</code> reading carries its selected rank. None of this holds when the stage signal is at the SEA-AD level: there the pilot measured no power for any component at n = 200.</p>
+<h2 id="8-limitations">8. Limitations</h2>
+<ul>
+<li><strong>Pilot precision.</strong> 100 replicates: SE ≤ 0.05 on every rate, and the anchor bound (0.0936) is loose; a column whose anchor sits between 0.07 and 0.09 is neither cleared nor flagged at this grade. Translation's <code>angle</code> rate is read against the bound and flagged, never claimed.</li>
+<li><strong>Block count is confounded with feature count.</strong> The two-block columns measure 498 features (methylation + expression); the three-block columns add the protein block. The contrast is "more blocks and more features", not block count alone; block weighting is roadmap item 5.</li>
+<li><strong>Structural analogue.</strong> The InterSIM blocks are a structural analogue of a real multi-omic design (498 measured features, cross-omic coupling through the reference maps), not an emulation of SEA-AD's RNA/ATAC.</li>
+<li><strong>Stage signal.</strong> The core columns run at δ = 2.0, where the held-out stage AUROC is saturated; only the δ arm reaches the regime of a real analysis, and only at n = 200 with three stages and two blocks.</li>
+<li><strong>One-at-a-time arms</strong> measure main effects off one baseline; interactions with sample size are not measured.</li>
+<li><strong>Orientation's effect-size response is confounded with the CV-selected rank.</strong> The e = 1.0 <code>angle</code> rate tracks the rank the stage-supervised double CV retains (§3.2, §3.4), and the rank is recorded, not controlled; the pilot describes the dependence and does not explain it.</li>
+<li><strong>The δ arm scales every surgery.</strong> Magnitude multiplies δ and the relocation surgeries move sites whose effect is δ, so "no power at δ ≤ 0.1" is partly the construction (group differences proportional to the stage effect), and it is measured at n = 200 with three stages and two blocks only.</li>
+<li><strong>Two anchor excesses at 0.10 are unresolvable at R = 100</strong>, and the baseline column's second anchor (the Type I-phase draw) is also a 100-replicate reading; the paper-grade slice resolves both columns.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1650 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../phase5-readiness/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Scientific Roadmap - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#motco-scientific-roadmap" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Scientific Roadmap
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current position
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current position">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Established
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-yet-established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not yet established
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-0-close-and-preserve-the-current-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 0 — Close and preserve the current baseline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-resolve-shape-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Resolve shape invariance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-audit-orientation-and-shape-constructions-before-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Audit orientation and shape constructions before integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-implement-production-orientation-driver-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Implement production orientation-driver attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-repeat-the-medium-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Repeat the medium pilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-paper-grade-pls-operating-characteristic-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 — Paper-grade PLS operating-characteristic study
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-real-data-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6 — Real-data case study
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-7-optional-snf-native-trajectory-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7 — Optional SNF-native trajectory methodology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-engineering-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-cutting engineering work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicitly-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicitly deferred
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current position
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current position">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Established
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-yet-established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not yet established
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-0-close-and-preserve-the-current-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 0 — Close and preserve the current baseline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-resolve-shape-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Resolve shape invariance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-audit-orientation-and-shape-constructions-before-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Audit orientation and shape constructions before integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-implement-production-orientation-driver-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Implement production orientation-driver attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-repeat-the-medium-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Repeat the medium pilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-paper-grade-pls-operating-characteristic-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 — Paper-grade PLS operating-characteristic study
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-real-data-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6 — Real-data case study
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-7-optional-snf-native-trajectory-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7 — Optional SNF-native trajectory methodology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-engineering-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-cutting engineering work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicitly-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicitly deferred
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="motco-scientific-roadmap">MOTCO Scientific Roadmap</h1>
+<h2 id="objective">Objective</h2>
+<p>Develop MOTCO into a scientifically defensible workflow that can:</p>
+<ol>
+<li>detect whether groups follow different multivariate molecular trajectories;</li>
+<li>distinguish progression magnitude and orientation reliably;</li>
+<li>treat shape with an explicitly validated interpretation; and</li>
+<li>identify stable feature and pathway drivers after a global trajectory difference is detected.</li>
+</ol>
+<p>The roadmap prioritizes interpretability and validation before larger simulations or additional integration methods.</p>
+<h2 id="current-position">Current position</h2>
+<h3 id="established">Established</h3>
+<ul>
+<li>Methylation is converted from B values to M values before standardization and PLS integration.</li>
+<li>Under that contract, magnitude is specific and well behaved: the 50-replicate pilot reached delta power 1.00 at the largest effect, with angle and shape rejection rates of 0.02.</li>
+<li>PLS is the preferred production measurement space for MOTCO's Euclidean magnitude and orientation statistics.</li>
+<li>A controlled inverse-PLS study showed that latent interventions reconstruct reproducibly into feature space, with round-trip errors near machine precision.</li>
+<li>A 45-degree latent orientation change reconstructed as approximately 42 degrees in feature space with negligible magnitude change.</li>
+<li>Latent orientation differences represent different relative combinations of stage-associated molecular patterns, usually as dense loading-aligned feature changes.</li>
+<li>SNF is not intrinsically unsuitable for integration, but its graph-spectral geometry is not naturally aligned with MOTCO's current Euclidean path-length and angle statistics.</li>
+<li>Shape invariance has been audited and corrected: production <code>shape</code> removes translation, uniform scale, and any orthogonal transformation. Reflections are aligned away at every ambient dimension (<code>unify-shape-reflection-policy</code>, resolving audit finding F3); the earlier "reflections retained" contract bound only in a full-rank latent space and was vacuous everywhere else.</li>
+</ul>
+<h3 id="not-yet-established">Not yet established</h3>
+<ul>
+<li>The production orientation and shape feature-surgery modes are not geometrically pure before integration; orientation's <code>shape</code> response (0.998 at paper grade, 0.99–1.00 at the design point under CV rank) is a descriptive gate role, not evidence about the shape estimator (<a href="../reports/latent-rank-ladder-2026-09-08/">ladder report</a>, §6). Its predeclared "projection-associated" label is <strong>refuted</strong>: orientation's response is present <em>within</em> each omic block (max block <code>angle</code> 90.08° against joint 89.93°), and under the recalibrated materiality rule no pair in the study localizes as projection-associated at all (<a href="../reports/magnitude-construction-diagnostic-2026-09-10/">diagnostic</a>, §1 and §4). It is construction-present cross-talk of a per-omic feature permutation; the paper must not repeat the projection-associated framing.</li>
+<li>The orientation power claim is n-conditional at the isotropic endpoint and eigengap-dependent: 0.840 ± 0.016 at n = 1200, ρ = 0 at paper-grade precision (500 × 999), agreeing with the two pilots' 0.85–0.88 (<a href="../reports/phase5-paper-grade-2026-09-10/">paper-grade report</a>, §5; <a href="../reports/phase5-design-point-pilot-2026-09-08/">design-point report</a>, <a href="../reports/latent-rank-ladder-2026-09-08/">ladder report</a>). Stratified by recorded eigengap the pooled figure straddles the 0.80 floor — 0.754 / 0.886 / 0.880 by tercile — so a real-data result must be read against its own eigengap, never the pooled number.</li>
+<li>The <code>angle</code> null tracks its own observed statistic (slope 0.811) and is load-bearing rather than corrigible (<a href="../reports/angle-null-pivotality-2026-09-01/">report</a>); the recorded eigengap and null-width dispersion must accompany any real-data orientation result.</li>
+<li>Cross-replicate driver stability has no design that holds the driver set fixed, so it is not claimable.</li>
+<li>The <em>former default</em> magnitude surgery (<code>magnitude_kind='all'</code>) is not size-pure: at paper-grade precision it moves <code>angle</code> (0.276) and <code>shape</code> (0.742) far past the α + 2·SE control bound, which held the Phase 4 gate at <strong>HOLD</strong> (<a href="../reports/phase5-paper-grade-2026-09-10/">paper-grade report</a>, §6). <strong>The mechanism is established</strong> (<a href="../reports/magnitude-construction-diagnostic-2026-09-10/">magnitude-construction diagnostic</a>): it scales <code>delta_methyl</code> alone, so the surgery is exactly size-pure <em>within</em> every omic block and the entire off-target response is the geometry of concatenating one block that grew with two that did not. The remedy — the <code>joint</code> construction, every omic's δ scaled together — is now a production <code>magnitude_kind</code> and <strong>has been measured at paper grade</strong> (<a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">magnitude re-measurement addendum</a>): both controls met (0.024 / 0.000), gate PROCEED. The acceptance-target reader records the same two controls as <em>not met</em>, because its default two-sided rule treats a conservative rate as a failure. <code>one-sided-acceptance-targets</code> (2026-10-14) adds the opt-in <code>bound: "upper"</code> form, which agrees with the gate. Since <code>default-joint-magnitude-construction</code>, <code>joint</code> is the generator and <code>motco simulate</code> default; the committed pre-flip study configs and diagnostics pin <code>all</code> explicitly so their signatures and datasets are unchanged. Specificity remains unestablished for <code>all</code> (and for the methylation-only <code>extremes</code> and <code>shape_kind='magnitude'</code> scalings), so the paper must still say which construction a magnitude result is about.</li>
+<li>Orientation <code>angle</code> power does not rise with effect: it saturates at 0.84–0.88 from e = 0.25 because the <code>angle</code> null widens with the observed statistic, so the strictly-monotone form of the power claim is unsupported (the 0.80 floor is still cleared).</li>
+<li>At the Phase 6 case-study design (n = 80, three stages, two blocks) only <code>delta</code> has useful power, and none of the three statistics is mode-specific for orientation or shape (<a href="../reports/phase6-small-n-2026-10-09/">small-n report</a>). Type I holds (0.010–0.040). magnitude/<code>delta</code> reaches 0.542 at a 10 % joint size change and 0.956 at 25 %. orientation/<code>angle</code> and shape/<code>shape</code> reach only 0.300 and 0.228 at the strongest constructions the generator allows, and those constructions are detected more often by other statistics (orientation by <code>shape</code> 0.464 and <code>delta</code> 0.354; shape by <code>delta</code> 0.330). Orientation power at the construction maximum depends on the CV-selected rank (0.51 above rank 3 vs 0.08 at or below it). These figures are at the isotropic endpoint ρ = 0 (anchor eigengap median 0.111), not at a trending baseline. The <a href="../reports/orientation-measurement-probe-2026-10-12/">orientation measurement probe</a> located the orientation loss in the measurement, not the generator. The net-displacement estimator raises Phase 6 orientation power in the production PLS space from 0.29 to 0.67 and removes the Phase 5 shape → <code>angle</code> leak (0.89 → 0.02), and the <a href="../reports/net-displacement-type-i-2026-10-13/">net-displacement Type I study</a> shows it holds size at paper grade (anchor <code>angle</code> 0.050 at both designs, bound 0.0695; the probe's 0.08–0.10 was Monte Carlo noise at 100 replicates). The <a href="../reports/net-displacement-power-2026-10-14/">net-displacement power comparison</a> establishes its advantage at paper grade: orientation/<code>angle</code> 0.300 → 0.648 at Phase 6 and 0.840 → 0.924 at Phase 5 on identical datasets, the shape → <code>angle</code> leak removed (0.138 → 0.054; 0.796 → 0.022), every control within the bound. Its verdict was <code>adopt_net_displacement</code>, and since <code>default-net-displacement-orientation</code> (2026-10-15) net displacement is the harness default; the committed configs and diagnostics pin <code>"pc1"</code> so their results are unchanged. At n = 80 a non-rejection of <code>angle</code> stays uninformative.</li>
+<li>No real-data trajectory difference has been detected. Neither case study's primary analysis rejects any statistic: SEA-AD astrocytes and microglia (n = 80 and 76, under the <code>df</code>-corrected null) and ADNI serum metabolomics (n = 1,501). Orientation-driver attribution has therefore not run on real data, and the Phase 6 exit gate is not met (Next changes items 9 and 10).</li>
+</ul>
+<h2 id="priority-sequence">Priority sequence</h2>
+<pre><code class="language-text">Close current studies
+        |
+        v
+Audit shape estimator invariance
+        |
+        v
+Audit/correct orientation and shape constructions
+        |
+        v
+Implement orientation-driver attribution
+        |
+        v
+Repeat the medium pilot
+        |
+        v
+Run the paper-grade PLS study
+        |
+        v
+Validate on a real multi-omics case study
+        |
+        v
+Optional graph-native SNF methods
+</code></pre>
+<h2 id="phase-0-close-and-preserve-the-current-baseline">Phase 0 — Close and preserve the current baseline</h2>
+<p><strong>Status:</strong> completed on 2026-08-05. The latent-space metric-compatibility and inverse-PLS studies are archived, and their capability specifications are canonical.</p>
+<p><strong>Purpose:</strong> ensure the conclusions already reached remain reproducible and discoverable.</p>
+<p>Work:</p>
+<ul>
+<li>Archive the completed latent-space metric-compatibility and inverse-PLS OpenSpec changes.</li>
+<li>Sync their capability specifications into the canonical OpenSpec specs.</li>
+<li>Keep the M-value/PLS pilot report, inverse-study findings, configs, and reproduction commands linked from the documentation.</li>
+<li>Record the current production contract: pooled PLS-DA, M-value methylation, fixed shared coordinate system, and per-statistic interpretation boundaries.</li>
+</ul>
+<p><strong>Exit gate:</strong> passed. A new contributor can locate and reproduce the current magnitude, orientation, shape, and inverse-interpretability evidence from the repository documentation.</p>
+<h2 id="phase-1-resolve-shape-invariance">Phase 1 — Resolve shape invariance</h2>
+<p><strong>Status:</strong> resolved on 2026-08-04; see <a href="../reports/procrustes-shape-invariance-audit-2026-08-04/">Procrustes Shape Invariance Audit</a>.</p>
+<p><strong>Purpose:</strong> determine whether the current nonzero shape response to rigid rotation is intended methodology or an estimator defect.</p>
+<p>Work:</p>
+<ul>
+<li>Create minimal two-dimensional configurations with known translation, uniform scaling, rigid rotation, reflection, and genuine bend transformations.</li>
+<li>Compare MOTCO's GPA/Procrustes output against an analytic expectation and independent reference implementations such as SciPy and the original R procedure.</li>
+<li>Isolate whether any discrepancy comes from centering, centroid-size normalization, rotation/reflection handling, iterative GPA, or the final distance calculation.</li>
+<li>Add permanent invariance and regression tests.</li>
+<li>If necessary, correct the estimator and document any behavioral change; otherwise rename/reinterpret the statistic so its actual invariants are explicit.</li>
+</ul>
+<p><strong>Exit gate:</strong> passed. Rigid translation, scaling, and proper rotation have documented expected outputs enforced by tests. The reflection policy was revisited on 2026-09-03 (<code>unify-shape-reflection-policy</code>): reflections are now aligned away at every ambient dimension, and mirror pairs score zero at full rank and above.</p>
+<h2 id="phase-2-audit-orientation-and-shape-constructions-before-integration">Phase 2 — Audit orientation and shape constructions before integration</h2>
+<p><strong>Status:</strong> resolved on 2026-08-05; see <a href="../reports/realized-generator-geometry-2026-08-05/">Realized Generator Geometry — Phase 2 Findings</a>.</p>
+<p><strong>Purpose:</strong> separate generator cross-talk from integration or estimator cross-talk.</p>
+<p>Work:</p>
+<ul>
+<li>Measure every generated mode directly in the standardized pre-integration feature space.</li>
+<li>For orientation, verify that the group trajectories differ primarily in normalized direction while path length and within-trajectory configuration remain controlled.</li>
+<li>For shape, distinguish a free biological bend from a magnitude-matched bend; do not require a free bend to be magnitude- or orientation-neutral.</li>
+<li>Retain magnitude as the positive control because it is already specific under M-value integration.</li>
+<li>Add construction-level diagnostics to study outputs so each replicate records the realized pre-integration delta, angle, and shape—not only its requested mode/effect size.</li>
+<li>Revise acceptance targets so they reflect achievable properties of the chosen constructions rather than an assumed perfectly diagonal specificity matrix.</li>
+</ul>
+<p><strong>Exit gate:</strong> passed. Each study mode has a documented realized geometry before PLS, and evaluation records analytic population, standardized population, observed standardized, and PLS-latent checkpoints. Orientation is pure in native methylation but mixed after biological cascade propagation; both shape constructions are documented as free/mixed bends rather than shape-specific interventions.</p>
+<h2 id="phase-3-implement-production-orientation-driver-attribution">Phase 3 — Implement production orientation-driver attribution</h2>
+<p><strong>Purpose:</strong> turn a significant global orientation test into stable feature- and pathway-level interpretation.</p>
+<p>For two stages, calculate standardized or covariate-adjusted feature transitions</p>
+<pre><code class="language-text">d_A = LSmean(A, stage 2) - LSmean(A, stage 1)
+d_B = LSmean(B, stage 2) - LSmean(B, stage 1)
+</code></pre>
+<p>and isolate direction from magnitude with</p>
+<pre><code class="language-text">q_observed = d_B / ||d_B|| - d_A / ||d_A||.
+</code></pre>
+<p>Work:</p>
+<ul>
+<li>Keep one pooled preprocessing and PLS model fixed for both groups.</li>
+<li>Reconstruct each group-stage PLS displacement through the same fitted loadings and calculate <code>q_PLS</code> from the reconstructed normalized feature transitions.</li>
+<li>Report <code>q_observed</code>, <code>q_PLS</code>, and their residual so users can see which directional difference PLS retained and omitted.</li>
+<li>Attribution reports both decompositions for trajectories with more than two stages: the adjacent transitions, and the signed principal orientations that decompose the tested <code>angle</code> estimand, the latter qualified by a relative-eigengap degeneracy flag.</li>
+<li>Bootstrap subjects within the appropriate design strata to estimate feature sign stability, rank stability, and top-k selection frequency.</li>
+<li>Add correlated-feature module and pathway summaries; individual features should not be presented as stable drivers without bootstrap support.</li>
+<li>Report standardized and original-unit effects separately.</li>
+<li>Treat pooled VIP as supporting context only: VIP measures pooled importance for stage prediction, not group differences in normalized progression effects.</li>
+</ul>
+<p><strong>Exit gate:</strong> a significant orientation result can produce a reproducible driver report containing transition-specific features/modules, captured-versus-residual contrast, and uncertainty measures without refitting separate group latent spaces.</p>
+<h2 id="phase-4-repeat-the-medium-pilot">Phase 4 — Repeat the medium pilot</h2>
+<p><strong>Purpose:</strong> verify the corrected estimator/constructions before spending cluster time on the definitive study.</p>
+<p>Recommended run:</p>
+<ul>
+<li>PLS integration with M-value methylation</li>
+<li>300 samples and 4 stages</li>
+<li>50–100 replicates per cell</li>
+<li>199 permutations</li>
+<li>Effects 0.00, 0.25, 0.50, 0.75, and 1.00</li>
+<li>Modes: magnitude, orientation, shape, and translation</li>
+<li>Matched seeds and construction-level realized-geometry diagnostics</li>
+</ul>
+<p>Evaluate:</p>
+<ul>
+<li>Per-statistic Type I error under <code>none</code> and translation controls</li>
+<li>Magnitude/delta specificity and monotonic power</li>
+<li>Orientation/angle power and monotonicity</li>
+<li>Shape behavior under the interpretation established in Phase 1</li>
+<li>Off-diagonal rejection rates alongside realized pre-integration geometry</li>
+<li>Stability of PLS component count and attribution summaries</li>
+</ul>
+<p><strong>Exit gate:</strong> no unresolved implementation artifact; magnitude remains specific; orientation reaches an agreed power target with an interpretable curve; shape results match its validated invariance contract. If a target fails, revise the method or scientific claim—not merely the Monte Carlo sample size.</p>
+<p><strong>Status: HOLD</strong> (run 2026-08-27, <a href="../reports/phase4-medium-pls-pilot-2026-08-27/">full report</a>). The pilot ran
+1,900 work units with zero failures using <code>examples/trajectory_power_study/phase4_pilot_100x199.json</code>:
+100 replicates, 199 permutations, n=300, four stages, matched seeds with a shared zero-effect anchor, and
+bounded orientation attribution.</p>
+<p>What passed:</p>
+<ul>
+<li>All eighteen predeclared Type I control tests. Translation leaves every statistic at nominal level at
+  every effect size; the largest control rate anywhere was 0.09 against a bound of 0.0936.</li>
+<li>Magnitude: delta power 1.00 throughout, with angle 0.01 and shape 0.00 at the top effect — the estimator
+  is more specific than the construction, whose population angle is already 39.9°.</li>
+<li>Shape: shape power 0.94–1.00, monotone. The corrected Procrustes estimator detects the constructed bend.</li>
+<li>Diagnostics: selected PLS dimensionality was modally 3 in all 19 cells; all 400 eligible orientation
+  replicates produced valid attribution.</li>
+</ul>
+<p>What failed:</p>
+<ul>
+<li>Orientation angle power is 0.65 at the top effect against the 0.80 floor — over three Monte Carlo standard
+  errors short — and the curve is nearly flat across effects (0.59 → 0.65). <strong>The cause is not yet
+  identified.</strong> The construction is strong and survives integration (81° at population, 57° in the latent
+  space, against an 8.9° latent null floor), so a simple underpowered-signal account should not apply; and
+  the records contradict it directly, since replicates that fail to reject have a <em>larger</em> mean observed
+  angle (66.7°) than those that reject (52.5°). Latent dimensionality, weak construction, cross-talk, and
+  Monte Carlo noise are all ruled out. More replicates would not fix it.</li>
+</ul>
+<p><strong>Update 2026-08-28</strong> (<a href="../reports/orientation-sign-anchor-2026-08-28/">report</a>): an orientation sign-anchor
+  defect was found and fixed — PC1's sign was anchored on the centered first-stage row, which flips for bent
+  trajectories. It was a real bug, but it does <strong>not</strong> explain this failure. On byte-identical data corrected
+  power is 0.64/0.64/0.67/0.68 across effects 0.25 → 1.00: ~3 points higher, still flat, still short of 0.80.
+  The near-180° null mass is unchanged at 21/700, and the realized-geometry figures stand (81° population,
+  57° latent). The shortfall survives correction and remains unexplained.</p>
+<p><strong>Update 2026-09-01</strong> (<a href="../reports/angle-null-pivotality-2026-09-01/">report</a>): the shortfall is
+  <strong>explained</strong>. Each replicate's own <code>angle</code> critical value regresses on its own observed angle with slope
+  0.811 — near-unit tracking, specific to <code>angle</code> (the same slope is 0.030 for <code>delta</code> and 0.058 for <code>shape</code>
+  in the cells where those carry signal). That accounts for the inversion completely: the 32 non-rejecting
+  orientation replicates carry a larger mean observed angle (60.8° vs 46.5°) but a 6.6× larger critical
+  value (103.6° vs 15.8°). The tracking is <strong>not</strong> a defect to remove — a fixed threshold drops power from
+  0.68 to 0.01, and cross-replicate standardization gains only 0.02 — so the statistic and its test are
+  sound, and the gap to 0.80 is a design-point property.</p>
+<p>Two findings carry into Phase 5. Orientation→shape is the only response that first becomes material at the
+PLS checkpoint rather than in the population geometry. And the PLS reconstruction retains only ~6% of the
+observed orientation contrast (cosine 0.08), so its captured-component top-20 precision against generator
+truth is 0.15 while the observed component's is 1.00 — driver reports must use the observed component.
+Component selection saturates at <code>n_stages - 1</code> because supervision is on the stage label, so a space sized
+for stage separation is not sized to preserve group orientation contrast.</p>
+<p><strong>Update 2026-09-02</strong> (<a href="../reports/latent-config-spectrum-2026-09-02/">note</a>): the quantity the pivotality
+report could not name — what makes one replicate resolvable and another not — is now <strong>recorded on every
+replicate</strong>. Each record carries the eigenspectrum of its centered latent stage-mean configuration (pooled
+and per group) and, when permutations run, the pooled relative eigengap over its own permutation draws. The
+study report stratifies orientation power by that eigengap and the pivotality analysis reports its
+association with the null width. It is a recorded covariate only: no statistic, p-value, permutation draw,
+or decision rule changed.</p>
+<p>Before Phase 5, see the <a href="../phase5-readiness/">Phase 5 readiness worklist</a>. Its blocking item — diagnosing
+the orientation shortfall — was <strong>resolved on 2026-09-01</strong> by
+<a href="../reports/angle-null-pivotality-2026-09-01/"><code>diagnose-angle-null-pivotality</code></a>: the co-variation
+hypothesis is confirmed, it explains the inversion, no remedy recovers the power, and <code>angle</code> proceeds as
+specified. What remains: investigate orientation→shape at the PLS checkpoint, revisit latent dimensionality
+if orientation is a primary estimand, and then choose the Phase 5 design point — which now also owns the
+0.80 orientation power floor.</p>
+<p><strong>Update 2026-09-08</strong> (<a href="../reports/phase5-design-point-pilot-2026-09-08/">report</a>): the design point is
+<strong>chosen</strong> and the floor is <strong>met, not revised</strong>. A crossed pilot (ρ ∈ {0, 0.5, 0.8} × n ∈ {300, 600, 1200},
+<code>p_dmp = 0.1</code>, uncensored effect axis, 6,500 units, 0 failures) puts orientation <code>angle</code> power at <strong>0.88</strong>
+(1·SE lower bound 0.85) at <strong>ρ = 0, n = 1200</strong>, with that column's null at nominal level on every statistic.
+Sample size does what the pivotality report predicted — the <code>angle</code> null width contracts 40.7° → 18.8° →
+10.8° along n at a constant eigengap — but baseline continuity does not help and is non-monotone (ρ = 0.5 is
+worse at every n), because the orientation surgery realizes a smaller latent contrast on a trending baseline.
+The Phase 5 claim is therefore n-conditional at the isotropic endpoint, reported beside the recorded eigengap
+(median 0.049). Selected rank stays at <code>n_stages − 1</code> for every n, so the retained-rank question passes to
+readiness item 3 unchanged; magnitude and shape must be re-measured at the chosen point because <code>p_dmp</code>
+changed.</p>
+<p>The July pilot (<a href="../reports/mvalue-pls-pilot-2026-07-30/"><code>mvalue-pls-pilot-2026-07-30.md</code></a>) predates the
+corrected shape estimator and realized-geometry diagnostics. It is retained unchanged as historical evidence
+and is superseded for Phase 4 gate purposes.</p>
+<h2 id="phase-5-paper-grade-pls-operating-characteristic-study">Phase 5 — Paper-grade PLS operating-characteristic study</h2>
+<p><strong>Purpose:</strong> produce the definitive evidence for publication and production guidance.</p>
+<p>Planned baseline:</p>
+<ul>
+<li>Design point chosen 2026-09-08 (<a href="../reports/phase5-design-point-pilot-2026-09-08/">report</a>): ρ = 0
+  (independent baseline), n = 1200, four stages, <code>p_dmp = 0.1</code>, pooled PLS on M-value methylation</li>
+<li>Rank rule committed 2026-09-08 (<a href="../reports/latent-rank-ladder-2026-09-08/">latent-rank ladder report</a>):
+  <strong>stage-supervised double cross-validation</strong> (<code>plsda_doubleCV</code>, modal LV, parsimony tie-break; group-blind),
+  which selects rank 3 = <code>n_stages − 1</code> at the design point. The predeclared ladder rule over fixed ranks
+  {3, 4, 6, 9, 12} returned <code>keep_cv</code>: no rank gained orientation <code>angle</code> power (0.79–0.86 vs 0.85) and every
+  rank above 3 lost shape/<code>shape</code> (1.00 → 0.57) and orientation <code>shape</code>/<code>delta</code> power while off-target <code>angle</code>
+  responses rose. Magnitude and shape were re-measured there under CV (<code>delta</code> 1.00, <code>shape</code> ≥ 0.95).</li>
+<li>500 replicates per cell</li>
+<li>999 permutations per test</li>
+<li>Resumable, sharded execution using <code>examples/trajectory_power_study/phase5_power_study.json</code> (<code>study.json</code> is the superseded historical config)</li>
+<li>Predeclared acceptance targets and parameter signatures</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Per-statistic Type I tables and combined-rule Type I results</li>
+<li>Power curves with Monte Carlo uncertainty</li>
+<li>Mode-by-statistic response matrix interpreted against realized input geometry</li>
+<li>Sensitivity analyses for sample size, retained PLS dimensions, signal density, and relevant nuisance settings <em>(sample size and block count at three stages: measured at paper grade by the <a href="../reports/design-guidance-slice-2026-10-29/">design-guidance slice</a>, 2026-10-29, 500 × 999 at n ∈ {80, 200, 500} × {2, 3} blocks, with the joint stage effect δ ∈ {0.25, 0.5, 1.0} as its second-priority arm; stage count and the remaining arms at pilot grade by the <a href="../reports/design-guidance-pilot-2026-10-28/">design-guidance pilot</a>, 2026-10-28; retained dimensions: the latent-rank ladder above)</em></li>
+<li>Runtime, failure, and reproducibility report</li>
+<li>Paper-ready figures and a versioned study report tied to the exact code revision and configuration</li>
+</ul>
+<p><strong>Run status:</strong> executed 2026-09-10 as job 880599 on <code>ing</code> (19 cells × 500 replicates × 999 permutations = 9,500 units, 100 shards, 3 h 04 m wall, 182.7 core-hours, 0 failures, 0 censored surgeries). Gate decision <strong>HOLD</strong> on the two magnitude mandatory controls; all three mandatory power diagonals and all 21 Type I checks met. See the <a href="../reports/phase5-paper-grade-2026-09-10/">findings report</a> and <code>results/phase5-2026-09-10/</code>. <strong>Magnitude re-measured 2026-10-08</strong> under the <code>joint</code> construction as job 906705 (9 cells × 500 × 999 = 4,500 units, 2 h 06 m wall, 106.7 core-hours, 0 failures): reduced gate <strong>PROCEED</strong> — magnitude/<code>delta</code> 1.000 at the top with the rise resolved at 0.13 / 0.38 / 0.84 / 0.996 over e = 0.0025–0.02, magnitude/<code>angle</code> 0.024 and magnitude/<code>shape</code> 0.000 at e = 1.00, anchor byte-identical to the 2026-09-10 anchor at all 500 replicates. See the <a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>, <code>results/phase5-magnitude-2026-10-08/</code>, the pilot <code>results/phase5-magnitude-pilot-2026-10-08/</code>, and the bracket <code>results/magnitude-axis-bracket-2026-10-08/</code>.</p>
+<p><strong>Exit gate:</strong> conclusions are stable at paper-grade Monte Carlo precision, all deviations from preregistered targets are explained, and the report distinguishes statistical operating characteristics from biological construction cross-talk. <strong>CLOSED 2026-09-10 as a conditional pass</strong> (<a href="../reports/phase5-exit-review-2026-09-10/">exit review</a>): all three criteria met; the Phase 4 gate's HOLD stands as recorded and resolves to a construction defect with a known fix; the magnitude specificity claim, withheld pending re-measurement of the corrected construction, <strong>was lifted on 2026-10-08 for the <code>joint</code> construction</strong> (<a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>) — stated as "specific and conservative", and construction-specific until the default is flipped.</p>
+<h2 id="phase-6-real-data-case-study">Phase 6 — Real-data case study</h2>
+<p><strong>Purpose:</strong> demonstrate that the validated method answers a meaningful biological question end to end.</p>
+<p>Work:</p>
+<ul>
+<li>Predefine cohorts, stages, covariates, missing-data handling, and preprocessing. <em>(Case-study repository. <code>motco analyze</code> takes the stage order and block units as explicit inputs and does no normalization, filtering or imputation; donor covariates and the missing-covariate policy are explicit inputs since 0.8.0, and covariate-aware latent construction (<code>--latent-adjustment</code>) is opt-in since 0.9.0.)</em></li>
+<li>Fit one pooled, cross-validated PLS representation. <em>(MOTCO: <code>motco analyze</code>, <code>real-data-trajectory-analysis</code>.)</em></li>
+<li>Report magnitude, orientation, and validated shape results with uncertainty. <em>(MOTCO: <code>motco analyze</code> statistics, RRPP p-values and null summary.)</em></li>
+<li>For significant orientation, produce observed and PLS-reconstructed feature contrasts, bootstrap stability, and pathway/module enrichment. <em>(MOTCO: <code>motco analyze --attribution</code> for contrasts and bootstrap stability; pathway/module enrichment stays in the case-study repository.)</em></li>
+<li>Include sensitivity to PLS dimensionality and preprocessing choices. <em>(Dimensionality: MOTCO, <code>motco analyze --forced-components</code>. Preprocessing choices: case-study repository.)</em></li>
+<li>Make the analysis reproducible from raw-input contracts to final figures. <em>(MOTCO writes the analysis artifact; raw inputs and figures live in the case-study repository.)</em></li>
+</ul>
+<p><strong>Exit gate:</strong> collaborators can trace each global trajectory claim to stable feature/module drivers and reproduce the result from documented inputs and configuration.</p>
+<p><strong>Exit-gate status (2026-10-31): not met.</strong> Neither case study has a global trajectory claim to trace; how Phase 6 closes is Next changes item 10.</p>
+<p><strong>Case study.</strong> SEA-AD middle temporal gyrus astrocytes, with donor-level RNA + ATAC pseudobulks. Sex is the group and ADNC is merged into three stages (Not AD + Low / Intermediate / High). The primary cohort is the ≥30-nuclei cohort (n = 80: F 11/10/28, M 9/10/12); the ≥50-nuclei cohort (n = 74) is a sensitivity analysis. SEA-AD preprocessing and the real-data analysis live in the external case-study repository, <a href="https://github.com/Omnia-Lab-UC/sead_sexdiff">Omnia-Lab-UC/sead_sexdiff</a>. MOTCO supplies the method and the operating characteristics below. The case-study analysis must pin MOTCO to the revision that merges <code>phase6-small-n-operating-study</code>. The operating study itself ran at <code>5325f6d</code> (records) and <code>946e471</code> (report), with motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3 and python 3.11.16. A second case study, ADNI serum metabolomics at n = 1,501, runs in <a href="https://github.com/Omnia-Lab-UC/adni_sexdiff">Omnia-Lab-UC/adni_sexdiff</a> (below).</p>
+<p><strong>Small-n operating study — done 2026-10-09</strong> (<a href="../reports/phase6-small-n-2026-10-09/">report</a>). This is the precondition the Phase 5 exit review set before any SEA-AD result can be interpreted. MOTCO gained explicit group × stage sample sizes (<code>group_stage_sizes</code>) and evaluation-time block selection (<code>integration_params.layers</code>); both are byte-identical when absent.
+- A pilot (<code>results/phase6-small-n-pilot-2026-10-09/</code>, 3,500 units) fixed the effect axes.
+- The paper-grade run was split into a magnitude profile and an orientation/shape/translation profile, 500 × 999 each, over a four-column design grid (cohort size × block count). That is 42,000 units, 150 core-hours and 0 failures (<code>results/phase6-small-n-magnitude-2026-10-09/</code>, <code>results/phase6-small-n-2026-10-09/</code>).
+- Advisory gates: magnitude <strong>PROCEED</strong>; orientation/shape <strong>HOLD</strong>, because both power floors are missed (0.300 / 0.228). Per design D6 this revises the claim, not the method.</p>
+<p><strong>Orientation measurement probe — done 2026-10-12</strong> (<a href="../reports/orientation-measurement-probe-2026-10-12/">report</a>, <code>results/orientation-measurement-probe-2026-10-12/</code>). This probe asked why orientation is weak at n = 80. It crossed five measurement spaces with two orientation estimators on matched seeds, at the Phase 6 and Phase 5 designs: 1,000 units, 10 arms each, 28 core-hours, 0 failures. MOTCO gained the opt-in <code>orientation_estimator</code> (<code>net_displacement</code>) and the diagnostic <code>pca</code> / <code>pls_within_group</code> integration methods, all byte-identical when unused.
+- Under the predeclared rule no arm advances.
+- <code>pls_cv × net_displacement</code> fails only the anchor criterion (Phase 6 0.100 vs bound 0.0936), with a large orientation gain and no power or specificity loss.
+- A fixed-basis <code>pls_within_group</code> is invalid without a refit (anchor up to 0.88).
+- <code>pca</code> and forced rank 2(K − 1) lose Phase 6 shape power.
+- A baseline-continuity (ρ) sweep at the Phase 6 design was considered first and dropped: the Phase 5 design-point pilot already showed that ρ does not buy orientation power, and the probe places the loss in the measurement.
+- Production defaults are unchanged, and the case-study interpretability statement above stands.</p>
+<p><strong>Net-displacement Type I study — done 2026-10-13</strong> (<a href="../reports/net-displacement-type-i-2026-10-13/">report</a>, <code>results/net-displacement-type-i-2026-10-13/</code>). The paper-grade estimator comparison's (Next changes item 2) anchor-only step: the zero-effect anchor and the translation control at 500 × 999, at both designs, across five matched columns (<code>pls_cv × pc1</code>, and <code>pls_cv</code>, forced rank 2(K − 1), <code>pca</code>, <code>concat</code> × net displacement). 12,000 units, 133 core-hours, 0 failures. MOTCO gained the explicit design-grid form (<code>design_grid.points</code>), the advisory <code>acceptance.anchor_decision</code> rule and <code>scripts/net_displacement_follow_up.py</code>, all byte-identical when unused.
+- Every net-displacement column holds the bound 0.0695 on <code>delta</code>, <code>angle</code> and <code>shape</code> at both designs; the lead arm's anchor <code>angle</code> is 0.050 at both.
+- The follow-up rule selects <strong><code>paper_grade_power_comparison</code></strong>; the anchor-excess diagnosis is not needed.
+- Under net displacement the translation control's <code>angle</code> rate is close to the bound (lead arm 0.068 at Phase 6; <code>concat</code> 0.078), so the comparison must hold it to that bound.
+- The baseline column reproduces the Phase 6 and Phase 5 parent records (same seeds and RRPP seed): p-values identical in 2,000/2,000 records.</p>
+<p><strong>Net-displacement power comparison — done 2026-10-14</strong> (<a href="../reports/net-displacement-power-2026-10-14/">report</a>, <code>results/net-displacement-power-2026-10-14/</code>). Formerly Next changes item 2: <code>pls_cv × net_displacement</code> against <code>pls_cv × pc1</code> at 500 × 999, four modes at e = 0.25–1.0, at both designs, on matched datasets and permutation draws. 36,000 units, 384 core-hours, 0 failures. MOTCO gained the advisory <code>acceptance.column_decision</code> rule, <code>scripts/net_displacement_power_follow_up.py</code> and <code>scripts/net_displacement_power_checks.py</code>, all byte-identical when unused.
+- The candidate qualifies at both designs: orientation/<code>angle</code> at e = 1.0 rises from 0.300 to 0.648 at Phase 6 (<code>gain</code>, +0.348 against a 0.059 threshold) and from 0.840 to 0.924 at Phase 5 (<code>no_loss</code>). Anchor <code>angle</code> 0.050 at both.
+- Every mandatory control is within 0.0695, which PC1 does not achieve: shape → <code>angle</code> 0.054 / 0.022 (PC1 0.138 / 0.796), magnitude → <code>angle</code> 0.030 / 0.000, translation → <code>angle</code> 0.068 / 0.040 (Phase 6 one rejection under the bound).
+- The cross-design rule selects <strong><code>adopt_net_displacement</code></strong>. Its follow-up, the harness-default flip, is done (<code>default-net-displacement-orientation</code>, 2026-10-15).
+- At Phase 6 the eigengap no longer gates orientation power (low tercile 0.114 → 0.731), but the CV-selected rank still does at the construction maximum (0.280 at rank ≤ 3, 0.996 above), and power is 0.084–0.178 at e ≤ 0.75.
+- <code>delta</code> and <code>shape</code> p-values are identical between the two columns in 17,000/17,000 paired records, and the baseline column reproduces 15,500 parent records with 0 seed or p-value mismatches.</p>
+<p>The report's binding interpretability statement for the case study:
+- <strong><code>delta</code>.</strong> A rejection is evidence that the trajectories differ; it is consistent with a size difference but does not exclude a direction or shape difference. A non-rejection argues only against size differences of about 25 % or more.
+- <strong><code>angle</code> and <code>shape</code>.</strong> A rejection is evidence that the trajectories differ, but not of which kind. A non-rejection is uninformative at n = 80.
+- <strong><code>angle</code> (net displacement, revised 2026-10-15).</strong> With net displacement the harness default (<code>default-net-displacement-orientation</code>), the <code>angle</code> statement is the one in the <a href="../reports/net-displacement-power-2026-10-14/">power comparison report</a> §7. <code>angle</code> is the angle between the groups' net displacement vectors (last stage mean − first stage mean) in the latent space, so it reads only the endpoint stages. A rejection is evidence that the groups' net directions of change differ: Type I is controlled (anchor 0.050), and the size, shape and location constructions stay within the bound (0.024–0.068). Translation sits at 0.058–0.068, near the bound, so a rejection alongside a location difference warrants care. A non-rejection is uninformative at n = 80: power is 0.084–0.178 at e ≤ 0.75, and 0.648 at the construction maximum (0.280 when CV retains three or fewer components, 0.996 above).
+- <strong>Selected rank.</strong> The cohort's CV-selected PLS rank replaces its eigengap as the covariate reported beside any <code>angle</code> result; under net displacement the eigengap no longer conditions the statement.</p>
+<p><strong>Covariate-aware latent construction — done 2026-10-20</strong> (<code>covariate-aware-latent-construction</code>, MOTCO 0.9.0; <a href="../api/analysis/#latent-adjustment">API</a>). In both SEA-AD cohorts CV selected rank 1, so <code>angle</code> was 0° by construction. The single component turned out to be a donor-level library-quality axis: Spearman −0.84 with the astrocyte nuclei's ribosomal-protein UMI fraction, against +0.49 with stage. The 0.8.0 covariates adjust the stage means exactly within the basis but never touch which basis is chosen. Label-blind residualization upstream removed the axis but also the stage signal collinear with it (held-out CV AUROC 0.63 → 0.41). <code>covariate_latent_adjustment</code> (<code>stage</code> | <code>group_stage</code>) instead residualizes the features on the declared covariates conditional on the stage, or group × stage, indicators, with per-training-set coefficients inside the CV, folds stratified on the conditioning cells, and the pooled scale kept. It measures the raw features in the new basis, so only the basis and the CV rank change. Without the setting every output equals 0.8.0. The local smoke run of the Type I check (R = 20, 99 permutations) calibrated the nuisance injection: the unadjusted basis's first component tracks the covariate at median |ρ| 0.815 with <code>s_z = 40</code>, against 0.64 at the covariate check's <code>s_z = 3</code>. In the residualized arms that falls to about 0.32. The paper-grade Type I check (2026-10-20, <a href="../reports/latent-adjustment-type-i-2026-10-20/">report</a>) returned <strong><code>adopt_stage</code></strong>: <code>stage</code> held <code>delta</code> 0.031, <code>angle</code> 0.067 and <code>shape</code> 0.058 against 0.0706; <code>group_stage</code> exceeded on <code>angle</code> (0.082). The power comparison (2026-10-20, <a href="../reports/latent-adjustment-power-2026-10-20/">report</a>) returned <code>candidate_fails</code> for both conditionings. <code>stage</code> gains orientation power (<code>angle</code> 0.922 against 0.784 with the nuisance axis, 0.931 against 0.642 without), but loses <code>shape</code> power with the axis (0.243 against 0.428) and small-magnitude power without it. Its translation <code>angle</code> control, like the covariate-blind basis's, sits above the bound. <code>group_stage</code> loses most orientation and shape power. The case study may therefore use <code>--latent-adjustment stage</code> only, as a sensitivity analysis beside the 0.8.0 covariate-adjusted analysis, under both reports' conditions. It must first justify the covariate set in its own proposal (the mediator limitation).</p>
+<p><strong>Case-study configuration Type I check — done 2026-10-29</strong> (<code>case-study-configuration-type-i</code>; <a href="../reports/case-study-type-i-2026-10-29/">report</a>, <code>results/case-study-type-i-2026-10-29/</code>). The size of <code>motco analyze</code> where the case study is run: the rank floor of 2, six numeric covariate design columns, a weak stage signal and a nuisance covariate the covariate-blind basis follows. <code>scripts/case_study_type_i_check.py</code> composes the D10 covariate construction (imported; <code>z</code> confounded with group × stage, injected at <code>s_z = 10</code>, the categorical neither declared nor injected) with the rank-floor check's weakened stage signal (δ = 0.1 and 0.05, <code>p_dmp</code> 0.1) and five pure-noise covariates, calibrated before the run so the adjusted arm's held-out CV AUROC is 0.69–0.70 (band 0.60–0.75; the cohorts read 0.64–0.70) and the covariate-blind basis follows <code>z</code> at median |ρ| 0.92 (threshold 0.8; the real basis 0.84). Each of 1,000 units per strength (the anchor and translation at e = 1.0 × 500 replicates) was analysed three times on the same data and permutation draws at 999 permutations: covariates in the trajectory model (<code>adjusted</code>, the primary), none (<code>unadjusted</code>, descriptive) and the <code>stage</code> latent adjustment (<code>latent_stage</code>, the fallback). The unadjusted arm confounds (anchor <code>delta</code> 0.67–0.69, <code>shape</code> 0.22–0.25). The adjusted arm reads anchor <code>delta</code> 0.068 / 0.064, <code>angle</code> 0.048 / 0.048, <code>shape</code> 0.056 / 0.054 and translation <code>delta</code> 0.072 / 0.060, <code>angle</code> 0.042 / 0.044, <code>shape</code> 0.068 / 0.068 (δ = 0.1 / 0.05) against 0.0695, exceeding once; the <code>latent_stage</code> arm holds the translation control but rejects anchor <code>angle</code> 0.090 / 0.084 and <code>shape</code> 0.092 / 0.078. Decision <strong><code>diagnose_configuration_excess</code></strong> (δ = 0.1 <code>diagnose_configuration_excess</code>, δ = 0.05 <code>primary_validated</code>, conjunction). 0 arm failures, 15.2 + 35.4 recorded core-hours (the δ = 0.05 shards were moved twice between nodes). No change under <code>src/motco/</code>; MOTCO stays at 0.12.0. The consequence for the case study and the two things to diagnose are under Next changes item 1 and the report's §4.</p>
+<p><strong>Case-study configuration diagnosis — done 2026-10-30</strong> (<code>case-study-configuration-diagnosis</code>; <a href="../reports/case-study-diagnosis-2026-10-30/">report</a>, <code>results/case-study-diagnosis-2026-10-30/</code>). <code>scripts/case_study_diagnosis.py</code> reran the Type I check's exact units, bound to its committed run directories (the settings hash and the rebuild are checked), under 15 arms. Its reproduction of the committed p-values was exact: 0 mismatches over 3,000 + 3,000 per strength. The arms were:
+- a factorial on the covariate-blind basis: the confounded covariate <code>z</code> estimated, or its injection removed exactly from the latent scores, crossed with 0, 2 or 5 noise covariates;
+- each of those six rerun with the Freedman–Lane residuals rescaled by κ = √(n / (n − p_red));
+- the <code>stage</code> latent adjustment at CV floor 2, floor 1 and a forced rank of 2.</p>
+<p>Two 50-shard arrays ran on <code>ing</code> (jobs 930358 and 930408, 25.1 core-hours, 0 failures). The covariate-adjusted <code>delta</code> is <strong><code>residual_df_shrinkage</code></strong>:
+- pooled over the four control readings it rises 0.0545 → 0.0595 → 0.066 with one, three and six covariate columns (C2 one-sided sign-flip p = 0.015);
+- the corrected case-study model reads 0.0545 and holds every statistic in every reading (C4 p = 0.156);
+- estimating <code>z</code> costs no size (C3 p = 0.39).</p>
+<p>The <code>stage</code> adjustment is <strong><code>residualized_basis</code></strong>: at a forced rank of 2, with no CV, it still exceeds on anchor <code>angle</code> (0.084 / 0.082), although its <code>shape</code> excess, which came with the CV rank's tail, is gone. The consequences are under Next changes items 1 and 8. No change under <code>src/motco/</code>; MOTCO stays at 0.12.0.</p>
+<p><strong>Corrected-permutation check — done 2026-10-30</strong> (<code>residual-df-corrected-permutation</code>, MOTCO 0.13.0; <a href="../reports/corrected-permutation-2026-10-30/">report</a>, <code>results/corrected-permutation-2026-10-30/</code>). MOTCO 0.13.0 offers the diagnosis's remedy as the opt-in <code>residual_correction</code> on <code>RRPP</code> and <code>motco analyze</code>. <code>scripts/corrected_permutation_check.py</code> validated it on a fresh seed family (base seed 2031) at the case study's configuration:
+- both cohort tables at δ = 0.1 and 0.05;
+- a power run at the Phase 6 stage effect;
+- each unit analysed under no correction, <code>df</code> and <code>leverage</code>.</p>
+<p>The runs were five arrays on <code>ing</code> (jobs 930470–930670): 11,000 units, 164 core-hours, 0 failures. Verdict <strong><code>adopt_df</code></strong>: both corrections hold every pooled rate and every reading, and <code>leverage</code> shows no paired power advantage. The uncorrected null was liberal on pooled <code>shape</code> and on the strong-signal anchor <code>angle</code> rather than on <code>delta</code>. The consequences are under Next changes items 1 and 8.</p>
+<p><strong>Case-study primary re-issued under <code>df</code> — done 2026-10-31</strong> (<code>sead_sexdiff</code> change <code>mtg-residual-correction-primary</code>, report <code>reports/motco-residual-correction-primary-2026-10-31.md</code>, <code>motco==0.13.0</code> from PyPI). The case study re-made every MOTCO-dependent output of both cell types with <code>--residual-correction df</code>: astrocytes, and microglia, which it carries as a positive-control cell type. Two gates came first: without the correction the pin move changed no artifact, and with it only the null moved.
+- The latent spaces, ranks, CV AUROCs, observed statistics and stage means of all 44 analyses reproduce. Every p-value moved up or stayed, as κ &gt; 1 on the same permutation indices predicts.
+- <strong>No statistic is rejected in any of the 44 analyses</strong>: the four primaries, twelve forced ranks, sixteen preprocessing-variant analyses, eight latent-adjustment arms and four donor-exclusion analyses. No rejection status differs from the uncorrected analyses.
+- The primaries' <code>delta</code> / <code>angle</code> / <code>shape</code> p-values: astrocyte <code>cohort_30</code> (n = 80, CV rank 5, AUROC 0.636) 0.501 / 0.449 / 0.331; astrocyte <code>cohort_50</code> (n = 74, rank 2, 0.697) 0.628 / 0.242 / 0.514; microglia <code>cohort_30</code> (n = 76, rank 2, 0.685) 0.705 / 0.456 / 0.991; microglia <code>cohort_50</code> (n = 63, rank 4, 0.657) 0.834 / 0.291 / 0.644.
+- Under the binding statement the <code>angle</code> and <code>shape</code> non-rejections are uninformative, and the <code>delta</code> non-rejections are weak evidence against a size difference, since <code>delta</code> is conservative under <code>df</code> at this configuration.
+- The positive control still fails on the primary basis in <code>cohort_30</code>, through E3 alone, and holds on the <code>latent_adjusted</code> basis, whose <code>angle</code> and <code>shape</code> p-values are reported but not read (<code>residualized_basis</code>).</p>
+<p><strong>Second case study: ADNI serum metabolomics — primary and sensitivities run, 2026-10-27 to 2026-10-31</strong> (<a href="https://github.com/Omnia-Lab-UC/adni_sexdiff">Omnia-Lab-UC/adni_sexdiff</a>, report <code>reports/motco-adni-2026-10-31.md</code>). It asks the same question, sex × stage (CN / MCI / AD), on two blocks: Biocrates p180 (133 features) and Nightingale NMR (165). The design is n = 1,501 (F 237/310/125, M 223/448/158), with five covariates (age, education, APOE4, phase, statin; six design columns), MOTCO 0.10.0 (rank floor 2, net displacement) and 9,999 permutations.
+- The primary selects CV rank 8 at a held-out stage AUROC of 0.600 and rejects nothing: <code>delta</code> p 0.112, <code>angle</code> 0.688, <code>shape</code> 0.711. Its first latent component tracks the phase covariate (|ρ| 0.54).
+- The sensitivities are the <code>stage</code> latent adjustment, three export variants (<code>nist_bridge</code>, <code>per_run_standardized</code>, <code>nmr_all_columns</code>), a CN / LMCI / AD stage arm (n = 1,130) and forced ranks 2, 3, 4, 6, 9 and 12. Only <code>delta</code> rejects anywhere: at forced rank 6 (p 0.047) and under <code>nmr_all_columns</code> (0.045, rank 7; not yet in a committed report). <code>adni_sexdiff</code> reads both as dependence on that arm's setting, so the primary's non-rejection stays the result. Across the CV-selected analyses <code>delta</code> p lies at 0.045–0.19.
+- The reduced model has 10 columns, so κ = √(1501 / 1491) ≈ 1.003. The <code>df</code> correction is immaterial at this n, and the 0.10.0 pin need not move for it.
+- Its reading rule 3 states that no power statement exists at this design, so every <code>angle</code> and <code>shape</code> non-rejection is uninformative by rule. The stage AUROC lies within the range where the design-guidance δ arm (0.553 / 0.729 at δ = 0.05 / 0.1) found no power at n = 200, and n = 1,501 is beyond every measured design. That gap is Next changes item 9.</p>
+<h2 id="phase-7-optional-snf-native-trajectory-methodology">Phase 7 — Optional SNF-native trajectory methodology</h2>
+<p><strong>Purpose:</strong> use SNF according to graph geometry rather than forcing Euclidean MOTCO statistics onto spectral coordinates.</p>
+<p>This is not on the critical path for the PLS production workflow.</p>
+<p><strong>Status: deferred, and the question is closed rather than pending</strong> (<a href="../reports/phase5-exit-review-2026-09-10/">Phase 5 exit review</a>, §5). Nothing in the paper-grade run or the magnitude-construction diagnostic bears on SNF — the study measured the PLS latent space throughout and <code>concat</code> appeared only as a baseline — so the deferral does not await further Phase 5 evidence. It awaits a decision to define graph-native path-length and angle statistics, which is independent work.</p>
+<p>Candidate work:</p>
+<ul>
+<li>Define group-stage states on one pooled fused graph.</li>
+<li>Evaluate diffusion or resistance path length as a magnitude analogue.</li>
+<li>Compare transition profiles or diffusion flows as an orientation analogue.</li>
+<li>Compare normalized stage-by-stage diffusion-distance matrices as a configuration analogue.</li>
+<li>Design a permutation scheme that rebuilds or conditions on the graph without invalidating exchangeability.</li>
+<li>Validate every proposed graph statistic on controlled nonlinear manifolds before exposing it as production functionality.</li>
+</ul>
+<p><strong>Exit gate:</strong> an SNF-specific statistic has a clear graph-native estimand, calibrated Type I error, controlled power behavior, and no claim of preserving original feature-space Euclidean geometry.</p>
+<h2 id="cross-cutting-engineering-work">Cross-cutting engineering work</h2>
+<p>These items support every scientific phase:</p>
+<ul>
+<li>Preserve fitted preprocessing, PLS model, component count, feature order, and loadings as a versioned analysis artifact. For real data, <code>motco.analysis.write_analysis_outputs</code> (<code>motco analyze --out-dir</code>) writes <code>result.json</code>, latent scores, PLS loadings and latent stage means. It records units, the feature order signature and software versions, and pickles no estimator.</li>
+<li>Record seeds, configurations, parameter signatures, software versions, and failed replicates in every study.</li>
+<li>Keep fast deterministic invariance tests separate from slow operating-characteristic studies.</li>
+<li>Add CI coverage for core geometry invariants and study-config validation.</li>
+<li>Prefer structured CSV/JSON outputs plus concise Markdown reports over findings that exist only in notebooks.</li>
+<li>Keep public documentation synchronized with methodological decisions and archived OpenSpec findings.</li>
+<li><strong>Decide the fate of the committed toy fixture</strong> (<code>examples/data/toy/</code>, deferred from <code>docs-sync-audit</code>, 2026-09-04). The fixture predates the numpy generator: its <code>truth.json</code> records <code>intersim_metadata</code> and omits <code>n_stages</code>, <code>p_dmp</code>, and <code>baseline_continuity</code>, and running the current <code>motco simulate</code> at the same seed produces a different dataset. <code>docs-sync-audit</code> corrected the documentation — the <code>toy-dataset</code> spec now describes the fixture as pinned rather than regenerable — but did not resolve the underlying question: regenerate the example data with the numpy generator so the tutorial exercises the shipped code path, or keep it pinned as a historical artifact. Regenerating touches committed example data, <code>examples/motco_example.ipynb</code>, the <code>toy-dataset</code> spec scenarios, and <code>tests/test_toy_dataset.py</code>, so it needs its own change.</li>
+</ul>
+<h2 id="explicitly-deferred">Explicitly deferred</h2>
+<ul>
+<li>Expanding SNF use before graph-native metrics are defined</li>
+<li>Reading the pooled orientation power figure as applicable at any eigengap</li>
+<li>Claiming <code>angle</code> or <code>shape</code> specificity against the methylation-only <code>all</code> magnitude construction (its controls fail; the claim holds for <code>joint</code> only — <a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>)</li>
+<li>Interpreting pooled VIP scores as orientation drivers</li>
+<li>Fitting separate, unaligned PLS spaces per group</li>
+<li>Claiming that a latent-space reconstruction is a unique or causal molecular inverse</li>
+<li>Optimizing performance before the statistic and construction contracts are settled</li>
+</ul>
+<h2 id="next-changes">Next changes</h2>
+<p>The <code>magnitude_kind</code> default flip, formerly item 1, is done (<code>default-joint-magnitude-construction</code>, 2026-10-09): <code>joint</code> is the generator and <code>motco simulate</code> default, and the ten historical configs pin <code>"all"</code> with their parameter signatures checked against a pre-flip fixture (<code>tests/test_magnitude_default_pins.py</code>).</p>
+<p>The one-sided acceptance bound, formerly item 2, is done (<code>one-sided-acceptance-targets</code>, 2026-10-14). Each <code>acceptance.type_i</code> and <code>acceptance.specificity</code> entry takes <code>bound</code>: <code>two_sided</code> (the default, unchanged) or <code>upper</code>, which is the gate's <code>rate ≤ α + k·√(α(1 − α)/R)</code> and shares its implementation. No committed config opts in, so every committed <code>report/</code> regenerates byte-identically.</p>
+<p>The paper-grade estimator comparison, formerly item 2, is done (<code>net-displacement-power-comparison</code>, 2026-10-14; <a href="../reports/net-displacement-power-2026-10-14/">report</a>) and selected <code>adopt_net_displacement</code>. It ran no <code>concat</code> column, so <code>concat</code>'s p-padding question stays open; <code>concat</code> remains the ceiling reference only.</p>
+<p>The orientation-estimator default flip, formerly item 2, is done (<code>default-net-displacement-orientation</code>, 2026-10-15): <code>SimulationEvaluationParams.orientation_estimator</code> defaults to <code>net_displacement</code>, every committed config and historical diagnostic pins <code>"pc1"</code>, and the configs' signatures and matched seeds are checked against a pre-flip fixture (<code>tests/test_orientation_default_pins.py</code>). The stats primitives (<code>estimate_difference</code>, <code>RRPP</code>) keep PC1 as their default. No compute was needed.</p>
+<ol>
+<li><strong>Run the Phase 6 real-data case study</strong> in <a href="https://github.com/Omnia-Lab-UC/sead_sexdiff">Omnia-Lab-UC/sead_sexdiff</a> — <em>done</em> for SEA-AD (re-issued under <code>df</code> 2026-10-31; the closing sentences below). The orientation-estimator default flip unblocked it. The <code>real-data-trajectory-analysis</code> change (MOTCO 0.7.0) removed the last MOTCO-side blocker: the case study must run its trajectory analysis through <strong><code>motco analyze</code></strong> (or <code>motco.analysis.analyze_trajectories</code>; <a href="../api/analysis/">API</a>) and pin the MOTCO release that contains it. That entry point is the harness's production measurement on caller-supplied blocks. A regression test checks it against the harness on identical data. It defaults to the net-displacement estimator, requires an explicit stage order and records the selected rank, null summary and spectrum, so no estimator argument has to be passed by hand. Do not assemble the analysis from <code>motco plsr</code> + <code>motco de</code> or from the stats primitives: they are a different pipeline, and the primitives and <code>motco de</code> default to PC1. The small-n operating study (<a href="../reports/phase6-small-n-2026-10-09/">report</a>) and the revised <code>angle</code> statement (Phase 6 above, from the <a href="../reports/net-displacement-power-2026-10-14/">power comparison report</a> §7) are binding. Report the cohort's <strong>CV-selected rank</strong> beside any <code>angle</code> result as the covariate; the record carries it. Treat <code>angle</code> and <code>shape</code> non-rejections as uninformative, and treat a <code>delta</code> rejection as evidence of a difference, not specifically of size. Carry the structural-analogue limitation (InterSIM blocks, 498 measured features). Covariate adjustment landed in MOTCO 0.8.0 (item 2 below, done) with a <code>covariates_validated</code> Type I decision, so the case study may declare donor covariates in <code>motco analyze</code> under the conditions of the <a href="../reports/covariate-type-i-2026-10-16/">covariate Type I report</a> §5, and must pin MOTCO ≥ 0.8.0 to do so. Its preprocessing and export (<code>mtg-astrocyte-motco-export</code> in sead_sexdiff) produce TMM log2-CPM blocks without chrX/Y/M, the top 5,000 variable features per block, and a donor covariate table: age at death (with a <code>90+</code> flag), PMI, RIN, years and level of education, and astrocyte nuclei counts per omic. The <strong>Type I check at the case study's configuration</strong> (item 7(c), 2026-10-29, <a href="../reports/case-study-type-i-2026-10-29/">report</a>, <code>results/case-study-type-i-2026-10-29/</code>) returned <strong><code>diagnose_configuration_excess</code></strong> under its predeclared conjunction over δ = 0.1 and 0.05: the covariate-adjusted model — the primary as issued — holds the 0.0695 bound at δ = 0.05 and on five of six readings at δ = 0.1, exceeding it on the translation control's <code>delta</code> by two rejections (0.072), with <code>delta</code> at 0.060–0.072 in every reading (0.066 pooled over 2,000 units); the <code>stage</code> latent-adjusted arm exceeds at the anchor on <code>angle</code> (0.084–0.090) and <code>shape</code> (0.078–0.092). The <strong>diagnosis</strong> (2026-10-30, <a href="../reports/case-study-diagnosis-2026-10-30/">report</a>, <code>results/case-study-diagnosis-2026-10-30/</code>) refines the condition this places on the case study. The <code>delta</code> inflation is <strong><code>residual_df_shrinkage</code></strong>: the Freedman–Lane null's residual variance shrinks with the reduced model's ten columns at n = 80. Pooled <code>delta</code> rises 0.0545 → 0.066 from one to six covariate columns, while the √(n / (n − p_red))-corrected permutation reads 0.049–0.0545 and holds every reading. The covariate's confounding is not the cause (C3 p = 0.39). The primary therefore stayed withheld until the corrected permutation (item 8) was released and validated. The <strong>corrected-permutation check</strong> (item 8, 2026-10-30, <a href="../reports/corrected-permutation-2026-10-30/">report</a>, <code>results/corrected-permutation-2026-10-30/</code>) returned <strong><code>adopt_df</code></strong>. So the primary was <strong>re-issued for both cell types with <code>--residual-correction df</code>, pinned to MOTCO 0.13.0</strong>, in <code>sead_sexdiff</code>'s own change. Under <code>df</code> its <code>delta</code>, <code>angle</code> and <code>shape</code> p-values are size-controlled at this configuration: pooled 0.029–0.058 per cohort table and statistic, every reading at most 32 / 500. <code>delta</code> is conservative there (0.029 / 0.031 pooled), and the <code>angle</code> null stays too wide to inform a non-rejection. Before the re-issue, the uncorrected primary read against a liberal null: <code>delta</code> about 0.066 on the diagnosis's seed family, and pooled <code>shape</code> 0.0675–0.0685 on the check's fresh family. The <code>stage</code> adjustment is <strong><code>residualized_basis</code></strong>: at a forced rank of 2 it still exceeds on anchor <code>angle</code> (0.084 / 0.082). It stays inadmissible at this configuration, and its <code>angle</code> rejections are not interpretable. <strong>The re-issue is done</strong> (<code>mtg-residual-correction-primary</code>, 2026-10-31; Phase 6 above): no statistic is rejected in any of its 44 analyses, and no rejection status differs from the uncorrected ones. The second case study, ADNI serum metabolomics in <code>adni_sexdiff</code>, has run its primary and sensitivities (Phase 6 above). What remains for Phase 6 is items 9 and 10.</li>
+<li><strong>Covariate-adjusted trajectories in <code>motco analyze</code></strong> — <em>done</em> (<code>covariate-adjusted-trajectories</code>, MOTCO 0.8.0, 2026-10-16). <code>TrajectoryDataset</code> takes <code>covariate_cols</code>, <code>categorical_covariates</code> and <code>missing_covariates</code>; <code>motco analyze</code> takes <code>--covariate</code>, <code>--categorical-covariate</code> and <code>--missing-covariates</code> (<a href="../api/analysis/#covariates">API</a>). The Phase 6 Type I check returned <code>covariates_validated</code>: adjusted <code>delta</code> 0.040, <code>angle</code> 0.062, <code>shape</code> 0.034 against the bound 0.0695, while the unadjusted arm rejected <code>shape</code> at 0.364 (<a href="../reports/covariate-type-i-2026-10-16/">report</a>). Without covariates every output is byte-identical to 0.7.0. The original scope follows. The case study needs donor covariates inside the trajectory regression. MOTCO should own this because covariates enter the model: the LS-mean fit and the RRPP reduced model both change, and so does what is permuted. Scope:</li>
+<li>covariates in the full and reduced models;</li>
+<li>stage-mean LS-means evaluated at fixed covariate values (e.g. the pooled mean), recorded;</li>
+<li>an explicit missing-covariate policy, either error or complete-case, chosen by the caller, recorded, and never imputed;</li>
+<li>the covariate design recorded in <code>result.json</code>;</li>
+<li>a Type I check at the Phase 6 design with covariates that are correlated with group and stage.
+   Absent covariates must stay byte-identical to 0.7.0.</li>
+</ol>
+<p><strong>Scope boundary for MOTCO preprocessing</strong> (decided 2026-10-16). The test is whether a step touches the model or the permutation null.
+   - <em>Normalization stays upstream.</em> It is omic-specific, and when it is blind to the labels it changes what is measured, not the validity of the test. It is covered by the case study's preprocessing sensitivity analysis.
+   - <em>Label-blind feature filtering stays upstream.</em> Supervised filtering (by group or stage) would bias the null unless it were repeated inside every permutation, so MOTCO documents it as forbidden rather than offering it.
+   - <em>Imputation stays upstream.</em> The finite-values contract stays. Missing covariates are the only exception, and they are handled by the explicit policy above.
+3. <strong>Covariate-aware latent construction: validation runs</strong> (<code>covariate-aware-latent-construction</code>, MOTCO 0.9.0). (a) The Type I check, <code>scripts/latent_adjustment_type_i_check.py</code> — <em>done</em> 2026-10-20 (<a href="../reports/latent-adjustment-type-i-2026-10-20/">report</a>, <code>results/latent-adjustment-type-i-2026-10-20/</code>): 500 × 999, 5.1 core-hours, <strong><code>adopt_stage</code></strong>; <code>group_stage</code> is not admissible (<code>angle</code> 0.082 against 0.0703). (b) The power comparison — <em>done</em> 2026-10-20 (<a href="../reports/latent-adjustment-power-2026-10-20/">report</a>, <code>results/latent-adjustment-power-2026-10-20/</code>), 158 core-hours, advisory <code>candidate_fails</code> for both arms — <code>scripts/latent_adjustment_power_comparison.py</code>: <code>nuisance</code> and <code>clean</code> columns × anchor, translation and three modes at four effects, 500 × 999 (14,000 units of three analyses, about 350 core-hours from the smoke timing), writing <code>latent_adjustment_power_decision.json</code> with the per-arm rank distributions. Each gets a dated report under <code>docs/reports/</code> carrying the mediator limitation. In the Type I run, 52 <code>stage</code> and 38 <code>group_stage</code> replicates lost the arm to a rare categorical level dropping out of a CV training set; such replicates are recorded as unavailable.
+4. <strong>The rank-1 <code>angle</code> degeneracy</strong> — <em>done</em> (<code>minimum-latent-rank</code>, MOTCO 0.10.0, 2026-10-23; <a href="../reports/rank-floor-2026-10-23/">report</a>, <code>results/rank-floor-2026-10-23/</code>). CV could select rank 1, where <code>angle</code> is 0° or 180° by construction and its RRPP null is a two-point distribution, while <code>forced_components</code> required ≥ 2; both SEA-AD cohorts selected rank 1. The production latent space (<code>fit_pls_latent_space</code>, shared by the harness and <code>motco analyze</code>) now selects the rank from candidates at or above a <strong>floor of 2</strong> (<code>min_components=2</code>; <code>1</code> restores the 0.9.0 rule and is the hash-omitted spelling, so every committed config, fixture and dated report reproduces under its <code>min_components: 1</code> pin). The 0.9.0 power comparison's Phase 6 construction never selected rank 1, so the check weakened the per-omic stage effect (<code>delta_* = 0.05</code> and <code>0.1</code> against the Phase 6 value 2.0, <code>p_dmp</code> unchanged) until the unfloored rule selected rank 1 in 58 % and 42 % of null replicates (held-out CV AUROC 0.52 and 0.58, the SEA-AD cohorts' 0.63–0.66 regime), and ran two matched arms (<code>min_components</code> 1 and 2) per unit at 500 × 999 over 14 cells at each strength (two 7,000-unit arrays, 99 core-hours). Both runs returned <strong><code>adopt_floor</code></strong>: the floor-2 arm holds the 0.0695 bound at the anchor (<code>delta</code> 0.042 / 0.044, <code>angle</code> 0.054 / 0.060, <code>shape</code> 0.036 / 0.038) and at the translation control (0.036 / 0.036, 0.046 / 0.042, 0.026 / 0.030). The floor-1 arm's rank-1 units had <code>angle</code> exactly 0° or 180° with a two-point null that never rejected (anchor <code>angle</code> 0.030 / 0.038), which is the degeneracy removed. Power is at the null in both arms at these strengths (the construction has almost no stage signal by design), so the floor defines <code>angle</code> and <code>shape</code>; it does not make them powerful, and the record's <code>config_spectrum</code> eigengap and <code>null_summary</code> say how resolvable orientation is in each analysis. sead_sexdiff reruns both cohorts at the floor in its own proposal and pins 0.10.0.
+5. <strong>Consider optional block weighting.</strong> <code>motco analyze</code> z-scores each feature and concatenates the blocks unweighted, so a block's influence grows with its feature count. The SEA-AD export works around this by forcing equal N (5,000 + 5,000). How blocks are weighted is a property of the joint measurement rather than of one omic, so it is the one preprocessing step that belongs in MOTCO. Candidates are multiblock-PLS-style 1/√p_b scaling or unit total block variance. Weighting changes the latent space, so it is opt-in, byte-identical when absent, and needs its own Type I and power check before the case study may use it. It is separate from item 2.
+6. <strong>Consider defaulting the null-dispersion materiality rule.</strong> Opt-in today so the committed Phase 5 <code>report/</code> keeps regenerating byte-identically; switching the default is a reporting change needing a recorded re-issue of affected localization output.
+7. <strong>Design-guidance pilot</strong> — <em>done</em> (<code>design-guidance-grid</code>, MOTCO 0.11.0, 2026-10-28; <a href="../reports/design-guidance-pilot-2026-10-28/">report</a>, <code>results/design-guidance-pilot-2026-10-28/</code>). The originally planned Table 1 grid is replaced by four pilot profiles under the production measurement (PLS with the CV rank floored at 2, net displacement, joint magnitude; 100 × 199): a crossed core n {80, 200, 500, 1000} × stages {3, 4} × blocks {2, 3} and one-factor arms (group ratio, stage proportions, <code>p_dmp</code>, joint stage effect δ, continuity ρ) off n = 200 / 3 stages / 2 blocks; the report maps every Table 1 factor to run, deferred or dropped. The run on <code>ing</code> (jobs 929160–929163, 47,200 units, 0 failures, 0 censored surgeries, 345 core-hours) found <strong><code>delta</code> well powered</strong> (0.23 / 0.59 at e = 0.05 / 0.1 at n = 80 with two blocks, 0.72 / 0.94 at n = 200, saturated at e = 0.25 everywhere; a third block raises every rate, a fourth stage changes little), <strong><code>shape</code> monotone</strong> in n, e and block count (0.55 at n = 200 and 0.85 at n = 500 at e = 1.0 with two blocks; ≤ 0.20 at n = 80), and <strong><code>angle</code> governed by n and block count rather than the effect size</strong> (0.05–0.22 at n ≤ 200 with two blocks, 0.41–0.62 at n = 1000; 0.35–0.46 at n = 200 with three blocks), with a flat or non-monotone response in e whose e = 1.0 rate tracks the CV-selected rank. The held-out stage AUROC is 1.000 at every column except the δ arm, where δ = 0.05 / 0.1 give 0.553 / 0.729 — bracketing the SEA-AD cohorts — and no statistic has power at any effect at n = 200. Size holds at 26 of 28 anchors; the two excesses are both 0.10 against 0.0936, the count chance predicts over 84 tests, and the baseline's independent Type I-phase draw gives <code>angle</code> 0.03. Follow-ups: (a) <strong>the paper-grade slice</strong> — <em>done</em> (<code>design-guidance-paper-grade-slice</code>, MOTCO 0.12.0, 2026-10-29; <a href="../reports/design-guidance-slice-2026-10-29/">report</a>, <code>results/design-guidance-slice-2026-10-29/</code>): the three-stage core at n ∈ {80, 200, 500} × {two, three blocks}, magnitude e ∈ {0.02, 0.05, 0.1}, orientation, shape and translation e ∈ {0.25, 0.5, 1.0}, 500 × 999 in the pilot's seed family (44,000 units, 172 recorded core-hours, 0 failures; every column reproduces the pilot's datasets at replicates 0–99 and the sibling profiles' anchors have identical p-values). Size holds at every column under the advisory anchor decision (largest anchor rate 0.062 against 0.0695) and under the new column-scoped Type I rule for translation's <code>angle</code> at e = 1.0 (0.028–0.052). <code>delta</code> reaches 0.62 / 0.94 / 1.00 at e = 0.1 at n = 80 / 200 / 500 with two blocks (0.84 / 0.99 / 1.00 with three) and 0.63 at n = 500 at e = 0.02; <code>shape</code> is monotone in n, e and blocks (≤ 0.20 at n = 80, 0.56 at n = 200 and 0.85 at n = 500 at e = 1.0 with two blocks; 0.48 / 0.86 / 0.97 with three); <code>angle</code> is governed by n and block count with a flat response in e (0.10–0.15 / 0.16–0.24 / 0.36–0.43 with two blocks, 0.24–0.31 / 0.41–0.49 / 0.66–0.74 with three), every reading at a CV-selected rank of 2–3 and a saturated stage signal (AUROC 1.000). The δ ∈ {0.25, 0.5, 1.0} arm (n = 200, three stages, two blocks; 23,000 units, 68 core-hours, 0 failures) ran on the user's decision as the second priority: size holds at every δ; the stage AUROC stays at 0.997 even at δ = 0.25 (the SEA-AD level is below the arm) while the CV rank inflates to a median 11; <code>delta</code> at e = 0.1 falls from 0.94 (δ = 2.0) to 0.51 / 0.31 / 0.08 and <code>shape</code> is at the null for δ ≤ 0.5, whereas <code>angle</code> at e = 1.0 reads 0.46–0.47 at δ = 0.5–1.0 (ranks 9 and 4) against 0.18 at δ = 2.0 (rank 3), the rank confound in the other direction (report §8). MOTCO gained column-scoped <code>acceptance.type_i</code> entries, <code>design_guidance_figure.py --grade</code> and <code>anchor_reproduction.py --by-column</code>, all byte-identical when unused; (b) <strong>group-specific dispersion</strong> in the generator and its null study (change B: the covariance and correlation scaling rows of Table 1, deferred); (c) the <strong>Type I check at the case study's configuration</strong> (floor 2 plus six covariates) — <em>done</em> 2026-10-29 (<a href="../reports/case-study-type-i-2026-10-29/">report</a>, <code>results/case-study-type-i-2026-10-29/</code>; <code>scripts/case_study_type_i_check.py</code>, 2,000 units of three analyses at 500 × 999, 0 failures): <strong><code>diagnose_configuration_excess</code></strong> — the covariate-adjusted primary holds at δ = 0.05 and exceeds on translation <code>delta</code> at δ = 0.1 (0.072 against 0.0695; <code>delta</code> 0.060–0.072 in every reading), and the <code>stage</code> latent-adjusted fallback exceeds at the anchor on <code>angle</code> and <code>shape</code> at both strengths; the consequence for the case study is under item 1. Its <strong>diagnosis</strong> is <em>done</em> 2026-10-30 (<a href="../reports/case-study-diagnosis-2026-10-30/">report</a>, <code>results/case-study-diagnosis-2026-10-30/</code>; <code>scripts/case_study_diagnosis.py</code>, the parent's 2,000 units rerun under 15 arms, 25 core-hours, 0 mismatches over 6,000 reproduced p-values per strength). It returned <code>residual_df_shrinkage</code> for the primary's <code>delta</code> and <code>residualized_basis</code> for the <code>stage</code> arm (items 1 and 8).
+8. <strong>Residual-df corrected permutation</strong> — <em>done</em> (<code>residual-df-corrected-permutation</code>, MOTCO 0.13.0, 2026-10-30; <a href="../reports/corrected-permutation-2026-10-30/">report</a>, <code>results/corrected-permutation-2026-10-30/</code>). The verdict is <strong><code>adopt_df</code></strong>. <code>RRPP</code>, <code>TrajectoryAnalysisParams</code> and <code>motco analyze</code> gained the opt-in <code>residual_correction</code> (<code>df</code> | <code>leverage</code>; <a href="../api/analysis/#residual-correction">API</a>), and every output is byte-identical without it. <code>scripts/corrected_permutation_check.py</code> analysed each unit three times through <code>analyze_trajectories</code>, under no correction, <code>df</code> and <code>leverage</code>, on a fresh seed family (base seed 2031):
+   - four Type I runs: both cohort tables (astrocyte n = 80, microglia n = 76) at δ = 0.1 and 0.05, with the anchor and translation controls;
+   - one power run at the Phase 6 stage effect: 14 cells.</p>
+<p>All runs used 500 × 999, 11,000 units in all, 164 core-hours and 0 failures. Both corrections hold every pooled rate (bound 0.0597) and every reading (39 / 500). <code>df</code> reads 0.029–0.058 pooled and at most 32 / 500 per reading. The paired tie-break found no <code>leverage</code> gain (at most 3 discordant readings per target), so <code>df</code> is the validated choice. The uncorrected arm did not reproduce the <code>delta</code> excess on this family (0.046 / 0.045 pooled, <code>uncorrected_excess_reproduced: false</code>). It failed instead on pooled <code>shape</code> (0.0685 / 0.0675) and on the power design's anchor <code>angle</code> (43 / 500). The correction costs 0.024–0.034 of <code>angle</code> and <code>shape</code> power and up to 0.054 of <code>delta</code> power, measured against that liberal uncorrected arm. Consequences:
+   - The case study re-issued its primary under <code>df</code> on 2026-10-31 (item 1); nothing is rejected.
+   - <strong>Follow-ups:</strong>
+     - whether <code>df</code> becomes the analysis default, a separate change that would re-issue the identity fixtures;
+     - the <code>cohort_50</code> tables (microglia n = 63, κ = 1.090), whose size under the correction is inferred, not measured. Nothing rejects there, so no rejection depends on it.</p>
+<p>The original scope follows. It was the follow-up named by the case-study diagnosis's <code>residual_df_shrinkage</code> (<a href="../reports/case-study-diagnosis-2026-10-30/">report</a> §6). RRPP permutes the reduced model's residuals, whose mean square is RSS/n rather than RSS/(n − p_red). With six covariates at n = 80 (p_red = 10) that narrows the null of a scale-dependent statistic, and covariate-adjusted <code>delta</code> reads about 0.066. The diagnosis computed the remedy in a script, as RRPP on <code>ŷ_red + κ·e_red</code> with κ = √(n / (n − p_red)), and it held size in every reading. Scope for the MOTCO change:
+   - an opt-in setting on <code>RRPP</code>, <code>TrajectoryAnalysisParams</code> and <code>motco analyze</code>, with every output byte-identical when absent;
+   - a comparison of the uniform κ with leverage-adjusted residuals <code>e_i / √(1 − h_ii)</code>;
+   - its own Type I check at the case-study configuration, and a power check that reports the <code>angle</code> and <code>shape</code> cost the diagnosis saw (<code>z_noise5_corrected</code> <code>angle</code> 0.042, <code>shape</code> 0.0465, against 0.0455 and 0.0615 uncorrected).</p>
+<p>The case study's primary is re-issued under it in <code>sead_sexdiff</code>'s own change.
+9. <strong>Operating characteristics at the ADNI design</strong> (proposed). The ADNI case study's reading rule 3 says that no power statement exists at its design (Phase 6 above), so its <code>angle</code> and <code>shape</code> non-rejections are uninformative by rule, and its <code>delta</code> p-values sit near α in several arms. Scope:
+   - extend the case-study check machinery (<code>scripts/case_study_type_i_check.py</code>, <code>scripts/corrected_permutation_check.py</code>) with ADNI's cell table <code>[[237, 310, 125], [223, 448, 158]]</code>, two blocks, six covariate design columns including a phase-like nuisance the covariate-blind basis follows, and a stage signal calibrated to a held-out AUROC of about 0.60;
+   - measure Type I at the anchor and the translation control, and power for the three modes, reported beside the CV-selected rank;
+   - replace rule 3 with a measured statement, or confirm that the non-rejections are uninformative.</p>
+<p>Caveats: the generator's blocks are InterSIM omics, not metabolomics, so the structural-analogue limitation is wider than for SEA-AD. Each analysis at n = 1,501 also costs far more than at n = 80, so a smoke timing comes before any array.
+10. <strong>Phase 6 exit review.</strong> Neither case study has a global trajectory claim: SEA-AD rejects nothing in 44 analyses, and ADNI's primary rejects nothing. The exit gate as written (trace each claim to stable drivers) is therefore not met, and <code>motco analyze --attribution</code> has not run on real data. A dated exit review, in the form of the <a href="../reports/phase5-exit-review-2026-09-10/">Phase 5 exit review</a>, decides how Phase 6 closes. One option is a size-controlled null with the method's limits at these designs stated. The other is to hold Phase 6 open for a design with power. It reads item 9's ADNI result, so it follows item 9.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

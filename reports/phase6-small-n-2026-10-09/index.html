@@ -1,0 +1,1589 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Phase 6 small-n operating study at the SEA-AD design — 2026-10-09 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-6-small-n-operating-study-at-the-sea-ad-design-2026-10-09" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phase 6 small-n operating study at the SEA-AD design — 2026-10-09
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-unit-and-failure-accounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Unit and failure accounting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-gate-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Gate decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-type-i-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Type I error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-power-per-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Power per mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Power per mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cohort-size-and-block-count-contrasts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cohort-size and block-count contrasts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-cross-talk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cross-talk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Drivers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-construction-limitations-and-case-study-interpretability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Construction limitations and case-study interpretability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="phase-6-small-n-operating-study-at-the-sea-ad-design-2026-10-09">Phase 6 small-n operating study at the SEA-AD design — 2026-10-09</h1>
+<blockquote>
+<p>Follows <code>examples/trajectory_power_study/phase5_report_template.md</code> section for section. The study is split
+into two profiles (spec "Phase 6 small-n study profiles", split rule), so each section reports both runs.
+Rates and Monte Carlo SEs are read from the two runs' <code>report/</code> directories. The few figures that are not in
+<code>report/</code> (selected-rank breakdowns, anchor reproduction) are computed from <code>merged.jsonl</code>, whose sha256 is
+in each <code>PROVENANCE.txt</code>, and are marked as such.</p>
+</blockquote>
+<p><strong>Runs:</strong> <code>results/phase6-small-n-magnitude-2026-10-09/</code> (magnitude) and <code>results/phase6-small-n-2026-10-09/</code>
+(orientation, shape, translation) · <strong>Configs:</strong> <code>examples/trajectory_power_study/phase6_small_n_magnitude.json</code>
+(sha256 <code>41211d61…</code>) and <code>examples/trajectory_power_study/phase6_small_n_study.json</code> (sha256 <code>18cf0fc7…</code>) ·
+<strong>Gate decisions:</strong> magnitude <strong>PROCEED</strong>, orientation/shape <strong>HOLD</strong> (advisory, design D6; from each run's
+<code>report/phase4_gate_decision.json</code>).</p>
+<p><strong>In one paragraph.</strong> At the SEA-AD MTG astrocyte design (n = 80, three stages, cells of 9–28, two blocks),
+the three RRPP tests hold their size. Every Type I cell of the baseline column is at or below α (0.010–0.040, bound 0.0695), and the three-block columns stay inside the bound. The tests
+differ sharply in power. <code>delta</code> detects a joint size change of 10 % about half the time (0.542) and of 25 %
+almost always (0.956), and the magnitude construction leaves <code>angle</code> and <code>shape</code> at the floor. <code>angle</code> and
+<code>shape</code> stay weak even at the strongest orientation and shape constructions the generator can build: 0.300 and
+0.228 at e = 1.00, where every differential site has been relocated. They are also not specific. The orientation
+construction rejects <code>shape</code> (0.464) and <code>delta</code> (0.354) more often than <code>angle</code>, and the shape construction
+rejects <code>delta</code> (0.330) more often than <code>shape</code>. For the case study, a <code>delta</code> rejection is interpretable
+evidence that the trajectories differ. A <code>delta</code> non-rejection is evidence against size changes of about 25 % or
+more. <code>angle</code> and <code>shape</code> rejections are interpretable as evidence of a difference, but not of which kind, and
+their non-rejections carry no information at n = 80 (section 8).</p>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<p><strong>Design point.</strong> The study reproduces the SEA-AD MTG astrocyte case-study design fixed on 2026-10-09. Sex is
+the group (A = F, B = M; the surgery is applied to the smaller group, the conservative assignment, design D4).
+ADNC is merged into three stages (Not AD + Low / Intermediate / High). The donor table at ≥30 nuclei per donor
+per omic is <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code> (n = 80). All three InterSIM blocks are generated,
+but only methylation + expression are measured (<code>integration_params.layers</code>), as the two-block analogue of
+ATAC + RNA (design D2). Every trajectory surgery acts on methylation indicators, so each mode's construction is
+present in the measured space. Measurement is pooled PLS on M-value methylation with the committed
+stage-supervised double-CV rank, and <code>magnitude_kind = joint</code>. <code>p_dmp = 0.1</code> and ρ = 0 are copied from
+Phase 5. Only the stage count and sizes change.</p>
+<p><strong>Design grid.</strong> Both profiles cross the ≥30-nuclei and ≥50-nuclei tables (<code>[[10, 9, 25], [9, 9, 12]]</code>, n = 74)
+with two-block and three-block measurement (<code>layers</code> null), giving four columns. The cohort-size contrast is the
+baseline vs the ≥50-nuclei column at two blocks. The block-count contrast is the baseline vs the three-block
+column at n = 80. Columns that differ only in <code>layers</code> evaluate the same generated datasets. The fourth column
+(≥50 nuclei, three blocks) exists because the engine crosses design-grid axes (design D4, accepted 2026-10-09).</p>
+<p><strong>Effect axes.</strong> These come from the pilot (<code>results/phase6-small-n-pilot-2026-10-09/NOTES.md</code>; each profile's
+<code>metadata.effect_axis</code> gives the reason for each point). Magnitude: 0 / 0.02 / 0.05 / 0.10 / 0.25 / 0.50 / 1.00,
+covering the measured rise and saturation. Orientation, shape and translation: 0 / 0.25 / 0.50 / 0.75 / 1.00.
+For orientation and shape, e = 1.00 is the construction maximum, because <code>_relocate_rows</code> clamps the relocated
+fraction at 1.</p>
+<p><strong>Monte Carlo sizing and seeds.</strong> 500 replicates × 999 permutations per cell. Base seed 800 and the matched-seed
+family <code>phase6-small-n</code> are shared with the pilot. This makes the shared zero-effect anchor the same datasets in
+the pilot and both profiles, and the family is independent of every Phase 5 record. Both configs derive from
+<code>phase6_small_n_pilot.json</code> (<code>metadata.derives_from</code>) and name each other as split siblings.</p>
+<p><strong>Provenance.</strong> See each run's <code>PROVENANCE.txt</code>; the fields the template requires are all present. In summary:
+- Records were produced at code revision <code>5325f6d</code>; the reports were rendered at <code>946e471</code>, which adds only a
+  reporting fix (section 2).
+- The runs used cluster <code>ing</code>, partition <code>512x1024</code>, AMD EPYC 7662, with <code>--exclude=n3</code> and later <code>n3,n4</code>.
+  <code>STUDY_N_JOBS</code> was unset and BLAS was pinned to one thread.
+- Software: python 3.11.16, motco 0.6.0, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, uv 0.12.10.
+- Layout: 100 shards per profile, error policy <code>record</code>, and <code>n_jobs = 1</code> in every record (each
+  <code>report/report_contract.json</code>).
+- Magnitude: 30 cells × 500 = 15,000 units, median 11.6 s per unit, 47.6 core-hours.
+- Orientation/shape/translation: 54 cells × 500 = 27,000 units, median 13.2 s per unit, 102.4 core-hours.</p>
+<h2 id="2-unit-and-failure-accounting">2. Unit and failure accounting</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>magnitude</th>
+<th>orientation / shape / translation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>units expected</td>
+<td>15,000 (30 cells × 500)</td>
+<td>27,000 (54 cells × 500)</td>
+</tr>
+<tr>
+<td>units present exactly once</td>
+<td>15,000</td>
+<td>27,000</td>
+</tr>
+<tr>
+<td>cells present with exactly 500 replicates</td>
+<td>30 / 30</td>
+<td>54 / 54</td>
+</tr>
+<tr>
+<td>parameter-signature mismatches</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>status = failed</code> records</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>censored surgeries (<code>report/realized_surgery.csv</code>, <code>censored_fraction</code>)</td>
+<td>0 at every cell</td>
+<td>0 at every cell</td>
+</tr>
+<tr>
+<td>attribution (<code>report/driver_report.csv</code>)</td>
+<td>not requested (15,000)</td>
+<td>4 orientation cells: 500 eligible / 500 computed / 0 failed each; 25,000 not requested</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Node incident.</strong> At 19:40Z node n4 ran out of memory under other users' jobs, and the 12 magnitude shards
+running there stalled without writing. They were cancelled and requeued, and no unit was lost or duplicated
+(magnitude <code>PROVENANCE.txt</code>, <code>node_incident</code>).</p>
+<p><strong>Report fix.</strong> The first <code>report</code> at <code>5325f6d</code> crashed before writing anything: design-point coordinates for a
+sequence-valued axis come back from JSONL as unhashable lists. <code>946e471</code> fixes this and adds a regression test
+(<code>tests/test_study_design_point_report.py::test_list_valued_design_axes_survive_a_jsonl_round_trip</code>). Records
+and statistics are unaffected.</p>
+<h2 id="3-gate-decision">3. Gate decision</h2>
+<p>The Phase 4 gate is declared as <strong>advisory</strong> acceptance (design D6). At n = 80 a missed 0.80 power floor is a
+finding about the case study's design, not a defect.</p>
+<p><strong>Magnitude profile — PROCEED</strong> (<code>report/phase4_gate_decision.json</code>; rules reduced to magnitude as in the Phase 5
+re-measurement):
+- Mandatory power: magnitude/<code>delta</code> reaches 1.000 at e = 1.00 against the 0.80 floor.
+- Mandatory controls at e = 1.00, bound α + 2·SE = 0.0695: magnitude/<code>angle</code> 0.008, magnitude/<code>shape</code> 0.002.
+- Type I inflation: anchor 0.026 / 0.024 / 0.020 (<code>delta</code> / <code>angle</code> / <code>shape</code>); <code>type_i_baseline</code> <code>none</code>
+  0.016 / 0.028 / 0.018.
+- Completeness met.</p>
+<p><strong>Orientation/shape profile — HOLD</strong> (<code>report/phase4_gate_decision.json</code>). Two mandatory power rules fail, and
+both curves are monotone (<code>tolerated_monotone=True</code>):
+- orientation/<code>angle</code>: top rate 0.300 against the 0.80 floor.
+- shape/<code>shape</code>: top rate 0.228 against the 0.80 floor.</p>
+<p>Every Type I inflation observation passes (<code>report/phase4_gate.csv</code>): the anchor, <code>type_i_baseline</code> <code>none</code> and
+translation, and translation at every e (0.010–0.040, bound 0.0695). The descriptive roles (orientation/<code>delta</code>,
+orientation/<code>shape</code>, shape/<code>delta</code>, shape/<code>angle</code>) are reported in section 6, and completeness is met. No
+confirmation re-run is required: a HOLD on mandatory power at the top effect is not a marginal exceedance. The
+HOLD is the measured answer to "can orientation and shape be detected at n = 80?".</p>
+<h2 id="4-type-i-error">4. Type I error</h2>
+<p>Null claims read the <code>type_i_baseline</code> cells, a separate seed family from the power grid (<code>report/type_i_table.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code> (<code>type_i_baseline-ca766c21680e</code>)</td>
+<td>0.016 ± 0.006</td>
+<td>0.028 ± 0.007</td>
+<td>0.018 ± 0.006</td>
+</tr>
+<tr>
+<td>translation at e = 1.00 (<code>type_i_baseline-74c0457435ca</code>)</td>
+<td>0.034 ± 0.008</td>
+<td>0.040 ± 0.009</td>
+<td>0.018 ± 0.006</td>
+</tr>
+</tbody>
+</table>
+<p>Both cells have the same cell ids and signatures in the two profiles and are the same measurement. They are
+counted once.</p>
+<p>The shared zero-effect anchor reads 0.026 ± 0.007 / 0.024 ± 0.007 / 0.020 ± 0.006. It is
+<code>power_primary-6f04726ce01b</code> in the magnitude profile and <code>power_primary-1a2e4088b485</code> in the
+orientation/shape profile (<code>report/report_contract.json</code> resolves it to <code>[magnitude]</code> and to
+<code>[orientation, shape, translation]</code>, <code>counted_as: 1</code>). The two cells hold the same 500 datasets. Generator seeds
+and selected ranks are identical at all 500 replicate indices, observed statistics agree to within 1.4e-11, and
+p-values are identical (computed from <code>merged.jsonl</code>). The anchor is therefore <strong>one</strong> measurement, not one per
+mode or per profile. Its first 100 replicates also reproduce the pilot's anchor to within 7.3e-12 on the
+observed statistics, with identical seeds and ranks (p-values differ: 199 vs 999 permutations).</p>
+<p>Translation at e &gt; 0, read as a negative control on all three statistics (<code>report/power_curves.csv</code>):
+0.014–0.032 for <code>delta</code>, 0.018–0.030 for <code>angle</code> and 0.010–0.030 for <code>shape</code>, at every e.</p>
+<p>The two-block measurement is <strong>conservative</strong> at n = 80. The baseline column's null rates sit at half of α. At
+three blocks the anchor rates rise to 0.062 ± 0.011 (<code>delta</code>) and 0.056 ± 0.010 (<code>shape</code>), still inside the
+bound; at ≥50 nuclei and two blocks they fall to 0.010 and 0.008 (<code>report/design_point_operating.csv</code>).</p>
+<h2 id="5-power-per-mode">5. Power per mode</h2>
+<p>Baseline column (≥30 nuclei, two blocks), <code>report/power_curves.csv</code>, rate ± Monte Carlo SE:</p>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>e</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor</td>
+<td>0</td>
+<td>0.026 ± 0.007</td>
+<td>0.024 ± 0.007</td>
+<td>0.020 ± 0.006</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>0.02</td>
+<td><strong>0.052 ± 0.010</strong></td>
+<td>0.024 ± 0.007</td>
+<td>0.022 ± 0.007</td>
+</tr>
+<tr>
+<td></td>
+<td>0.05</td>
+<td><strong>0.206 ± 0.018</strong></td>
+<td>0.020 ± 0.006</td>
+<td>0.024 ± 0.007</td>
+</tr>
+<tr>
+<td></td>
+<td>0.10</td>
+<td><strong>0.542 ± 0.022</strong></td>
+<td>0.018 ± 0.006</td>
+<td>0.022 ± 0.007</td>
+</tr>
+<tr>
+<td></td>
+<td>0.25</td>
+<td><strong>0.956 ± 0.009</strong></td>
+<td>0.016 ± 0.006</td>
+<td>0.014 ± 0.005</td>
+</tr>
+<tr>
+<td></td>
+<td>0.50</td>
+<td><strong>1.000</strong></td>
+<td>0.010 ± 0.004</td>
+<td>0.006 ± 0.003</td>
+</tr>
+<tr>
+<td></td>
+<td>1.00</td>
+<td><strong>1.000</strong></td>
+<td>0.008 ± 0.004</td>
+<td>0.002 ± 0.002</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.25</td>
+<td>0.070 ± 0.011</td>
+<td><strong>0.034 ± 0.008</strong></td>
+<td>0.068 ± 0.011</td>
+</tr>
+<tr>
+<td></td>
+<td>0.50</td>
+<td>0.160 ± 0.016</td>
+<td><strong>0.058 ± 0.010</strong></td>
+<td>0.196 ± 0.018</td>
+</tr>
+<tr>
+<td></td>
+<td>0.75</td>
+<td>0.194 ± 0.018</td>
+<td><strong>0.090 ± 0.013</strong></td>
+<td>0.320 ± 0.021</td>
+</tr>
+<tr>
+<td></td>
+<td>1.00</td>
+<td>0.354 ± 0.021</td>
+<td><strong>0.300 ± 0.020</strong></td>
+<td>0.464 ± 0.022</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.25</td>
+<td>0.104 ± 0.014</td>
+<td>0.042 ± 0.009</td>
+<td><strong>0.060 ± 0.011</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>0.50</td>
+<td>0.216 ± 0.018</td>
+<td>0.076 ± 0.012</td>
+<td><strong>0.090 ± 0.013</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>0.75</td>
+<td>0.292 ± 0.020</td>
+<td>0.112 ± 0.014</td>
+<td><strong>0.172 ± 0.017</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>1.00</td>
+<td>0.330 ± 0.021</td>
+<td>0.138 ± 0.015</td>
+<td><strong>0.228 ± 0.019</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Magnitude.</strong> The <code>delta</code> rise sits about 10× higher on the native joint axis than at n = 1200 (Phase 5
+re-measurement: 0.836 at e = 0.01, 0.996 at 0.02). e is the per-omic size ratio minus one, so <code>delta</code> has about
+even odds at a 10 % joint size change and is near certain at 25 %. The pilot (100 × 199) measured 0.58 and 0.93
+at the same points, agreeing within pooled SE.</p>
+<p><strong>Orientation, with its recorded geometry.</strong> The anchor's pooled relative eigengap has median 0.111 and terciles
+0.082 / 0.144 (<code>report/design_point_operating.csv</code>, baseline rows). Three stage means always span at most a
+2-D subspace. The small eigengap, a near-isotropic triangle whose PC1 is poorly determined, comes from the
+generator's isotropic endpoint ρ = 0: each stage draws its differential sites independently, so the stage means
+do not trend. It is not a property of three stages. A real cohort whose stages trend would have a larger
+eigengap. The Phase 5 continuity sweep found that this does not translate into orientation power under the
+current construction: the orientation surgery realizes a smaller latent contrast on a trending baseline
+(<a href="../phase5-design-point-pilot-2026-09-08/">design-point report</a>, "Continuity does not help"). The <code>angle</code> null is
+correspondingly wide and variable: per-replicate q95 median 84° and IQR 115° at the anchor. At the orientation
+cells:</p>
+<table>
+<thead>
+<tr>
+<th>e</th>
+<th>median eigengap (terciles)</th>
+<th><code>angle</code> null q95 median (IQR)</th>
+<th>orientation/<code>angle</code> power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.25</td>
+<td>0.135 (0.101 / 0.173)</td>
+<td>59° (109°)</td>
+<td>0.034 ± 0.008</td>
+</tr>
+<tr>
+<td>0.50</td>
+<td>0.160 (0.120 / 0.210)</td>
+<td>56° (105°)</td>
+<td>0.058 ± 0.010</td>
+</tr>
+<tr>
+<td>0.75</td>
+<td>0.176 (0.135 / 0.222)</td>
+<td>65° (114°)</td>
+<td>0.090 ± 0.013</td>
+</tr>
+<tr>
+<td>1.00</td>
+<td>0.167 (0.127 / 0.213)</td>
+<td>63° (104°)</td>
+<td>0.300 ± 0.020</td>
+</tr>
+</tbody>
+</table>
+<p>Orientation <code>angle</code> power within eigengap terciles at e = 1.00 (<code>report/eigengap_stratified_power.csv</code>,
+<code>power_primary</code> rows):</p>
+<table>
+<thead>
+<tr>
+<th>tercile</th>
+<th>eigengap range</th>
+<th>power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>low</td>
+<td>0.013–0.127</td>
+<td>0.114 ± 0.025</td>
+</tr>
+<tr>
+<td>middle</td>
+<td>0.127–0.213</td>
+<td>0.449 ± 0.038</td>
+</tr>
+<tr>
+<td>high</td>
+<td>0.213–0.441</td>
+<td>0.337 ± 0.037</td>
+</tr>
+</tbody>
+</table>
+<p>At e = 0.75 the same terciles give 0.060 / 0.138 / 0.072. In the low tercile, <code>angle</code> power is at most 0.114 at
+every e (0.018 / 0.048 / 0.060 / 0.114).</p>
+<p><strong>Rank selection.</strong> Power at e = 1.00 also depends on the CV-selected rank (<code>merged.jsonl</code>). Elsewhere the rank is
+2 or 3 in essentially every replicate. At e = 1.00 in the baseline column, 257 of 500 replicates select more than
+three components, because relocating every differential site creates group-specific variation that CV
+retains. Those replicates reject <code>angle</code> at 0.506, against 0.082 for the 243 at rank ≤ 3.</p>
+<p><strong>Comparison with the pilots.</strong> The Phase 5 design-point and ladder pilots measured orientation <code>angle</code> at
+0.88 and 0.85 (n = 1200, four stages). The Phase 6 pilot (100 × 199) measured 0.24 at e = 1.00 and the
+paper-grade run 0.300 ± 0.020, a difference of 1.3 pooled SE (pilot SE about 0.043).</p>
+<p><strong>Shape.</strong> shape/<code>shape</code> rises to 0.228 at the construction maximum, against a pilot value of 0.18. The <code>shape</code>
+null is not the limiting factor (q95 near 0.1 in the pilot records). The construction is small: one interior
+vertex of a three-vertex path.</p>
+<h3 id="cohort-size-and-block-count-contrasts">Cohort-size and block-count contrasts</h3>
+<p><code>report/design_point_operating.csv</code>, target statistic per mode, at the points where the curves move:</p>
+<table>
+<thead>
+<tr>
+<th>mode / statistic, e</th>
+<th>baseline (n = 80, 2 blocks)</th>
+<th>≥50 nuclei (n = 74, 2 blocks)</th>
+<th>three blocks (n = 80)</th>
+<th>n = 74, 3 blocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor <code>delta</code> / <code>angle</code> / <code>shape</code></td>
+<td>0.026 / 0.024 / 0.020</td>
+<td>0.010 / 0.022 / 0.008</td>
+<td>0.062 / 0.020 / 0.056</td>
+<td>0.038 / 0.024 / 0.044</td>
+</tr>
+<tr>
+<td>magnitude/<code>delta</code>, 0.05</td>
+<td>0.206 ± 0.018</td>
+<td>0.198 ± 0.018</td>
+<td>0.438 ± 0.022</td>
+<td>0.436 ± 0.022</td>
+</tr>
+<tr>
+<td>magnitude/<code>delta</code>, 0.10</td>
+<td>0.542 ± 0.022</td>
+<td>0.502 ± 0.022</td>
+<td>0.774 ± 0.019</td>
+<td>0.770 ± 0.019</td>
+</tr>
+<tr>
+<td>orientation/<code>angle</code>, 0.50</td>
+<td>0.058 ± 0.010</td>
+<td>0.066 ± 0.011</td>
+<td>0.162 ± 0.016</td>
+<td>0.144 ± 0.016</td>
+</tr>
+<tr>
+<td>orientation/<code>angle</code>, 1.00</td>
+<td>0.300 ± 0.020</td>
+<td>0.112 ± 0.014</td>
+<td>0.294 ± 0.020</td>
+<td>0.210 ± 0.018</td>
+</tr>
+<tr>
+<td>shape/<code>shape</code>, 0.50</td>
+<td>0.090 ± 0.013</td>
+<td>0.088 ± 0.013</td>
+<td>0.306 ± 0.021</td>
+<td>0.276 ± 0.020</td>
+</tr>
+<tr>
+<td>shape/<code>shape</code>, 1.00</td>
+<td>0.228 ± 0.019</td>
+<td>0.138 ± 0.015</td>
+<td>0.472 ± 0.022</td>
+<td>0.448 ± 0.022</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cohort size (baseline vs ≥50 nuclei, two blocks).</strong> Dropping six donors leaves magnitude essentially unchanged
+(0.206 → 0.198; 0.542 → 0.502, within 1.3 pooled SE). It costs orientation/<code>angle</code> at e = 1.00 most of its power
+(0.300 → 0.112). That drop is a rank-selection effect, not a smooth sample-size effect. At n = 74 only 39 of 500
+replicates select more than three components, against 257 at n = 80, and within each rank class power is
+similar (0.436 vs 0.506 above rank 3; 0.085 vs 0.082 at or below it; <code>merged.jsonl</code>). shape/<code>shape</code> at e = 1.00
+falls from 0.228 to 0.138. Below the construction maximum, orientation and shape are unchanged within SE.</p>
+<p><strong>Block count (baseline vs three blocks, n = 80, same datasets).</strong> The third standardized block raises every
+mode's power where the curve is rising:
+- magnitude/<code>delta</code> at 0.05: 0.206 → 0.438;
+- orientation/<code>angle</code> at 0.50: 0.058 → 0.162;
+- shape/<code>shape</code> at 0.50: 0.090 → 0.306.</p>
+<p>It also raises the null rates of <code>delta</code> and <code>shape</code> from about half of α to near α (0.026 → 0.062,
+0.020 → 0.056), so part of the gain is the two-block measurement's conservatism being removed. Orientation at
+e = 1.00 is the exception (0.300 vs 0.294): there both columns are dominated by the rank-selection effect above.</p>
+<p><strong>Interaction column (n = 74, three blocks).</strong> It follows the three-block column within SE, except
+orientation/<code>angle</code> at e = 1.00 (0.210), where rank selection again carries the difference.</p>
+<h2 id="6-cross-talk">6. Cross-talk</h2>
+<p>The baseline column's off-diagonals are shown below (<code>report/specificity_matrix.csv</code> at the top effect,
+<code>report/power_curves.csv</code> per effect, and <code>report/phase4_localization.csv</code> for where each first becomes
+material).</p>
+<p><strong>Magnitude's off-diagonals are mandatory controls.</strong> magnitude/<code>angle</code> is 0.008–0.024 and magnitude/<code>shape</code>
+0.002–0.024 at every e, against the 0.0695 bound. The joint construction stays size-pure at n = 80, as it was
+at n = 1200.</p>
+<p><strong>Orientation → <code>shape</code> and orientation → <code>delta</code> exceed the target statistic.</strong> At e = 1.00 they are 0.464
+and 0.354, against <code>angle</code> 0.300; at e = 0.50, 0.196 and 0.160 against 0.058. Under the default materiality
+rule, the localization table labels both <code>projection_associated</code>: they first exceed the rule in the PLS latent
+space (<code>shape</code> from e = 0.75, normalized excess 0.055–0.077; <code>delta</code> at e = 1.00, 0.062). That label must not be
+carried into the paper. The
+<a href="../magnitude-construction-diagnostic-2026-09-10/">magnitude-construction diagnostic</a> (§1, §4) refuted the
+projection-associated framing for orientation's cross-talk at n = 1200: the response is present within each omic
+block, and under the recalibrated (null-dispersion) rule no pair localizes as projection-associated. That rule
+is opt-in and was not used here. The orientation construction is a per-omic feature relocation, and its
+<code>shape</code>/<code>delta</code> responses are reported as construction cross-talk. They are descriptive gate roles, not
+acceptance targets.</p>
+<p><strong>Shape's off-diagonals are construction-present.</strong> shape → <code>angle</code> (0.138 at e = 1.00) is material in the
+population-standardized geometry from e = 0.25 (normalized 0.236–0.436). shape → <code>delta</code> (0.330) is material
+from e = 0.75 (0.054–0.065). Bending one vertex of a three-vertex path changes its direction and length, not
+only its shape. Shape's construction moves <code>delta</code> more often than <code>shape</code>.</p>
+<h2 id="7-drivers">7. Drivers</h2>
+<p>Orientation attribution ran on the four nonzero orientation <code>power_primary</code> cells, observed component only
+(<code>report/driver_report.csv</code>; contract echo in <code>report/report_contract.json</code>). For each transition (0→1, 1→2), at
+e = 0.25 / 0.50 / 0.75 / 1.00:</p>
+<table>
+<thead>
+<tr>
+<th>e</th>
+<th>precision (0→1 / 1→2)</th>
+<th>recall (0→1 / 1→2)</th>
+<th>mean selected</th>
+<th>within-replicate bootstrap sign stability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.25</td>
+<td>0.996 / 0.996</td>
+<td>0.375 / 0.379</td>
+<td>20</td>
+<td>0.787 / 0.786</td>
+</tr>
+<tr>
+<td>0.50</td>
+<td>1.000 / 1.000</td>
+<td>0.194 / 0.193</td>
+<td>20</td>
+<td>0.813 / 0.810</td>
+</tr>
+<tr>
+<td>0.75</td>
+<td>1.000 / 1.000</td>
+<td>0.131 / 0.132</td>
+<td>20</td>
+<td>0.835 / 0.835</td>
+</tr>
+<tr>
+<td>1.00</td>
+<td>1.000 / 1.000</td>
+<td>0.101 / 0.102</td>
+<td>20</td>
+<td>0.855 / 0.856</td>
+</tr>
+</tbody>
+</table>
+<p>The top-20 observed drivers are almost always true drivers. Recall falls with e because the truth set grows
+(every relocated site and its cascade) while k stays at 20. <code>bootstrap_top_k_frequency_mean</code> is 0.040 at every
+cell. That is top_k / n_features (20 / 498) by construction for a mean over all features, so it carries no
+information here. The attribution figure is <code>report/phase4_attribution_stability.png</code> ("Within-replicate
+bootstrap stability (observed component)").</p>
+<blockquote>
+<p><strong>No cross-replicate driver-stability claim is made.</strong> Cross-replicate top-k Jaccard and sign agreement
+(<code>top_k_jaccard</code>, <code>sign_agreement</code> in <code>report/phase4_attribution.csv</code>) are <code>descriptive</code> only: every
+replicate index draws a fresh differential-indicator set, so the true driver set genuinely differs across
+replicates and matched seeds pair cells <em>within</em> a replicate index, not across them. A stability claim needs
+a design that holds the driver set fixed, which this study is not.</p>
+</blockquote>
+<p>Driver precision is high even where <code>angle</code> power is low. Attribution describes the observed directional
+contrast whether or not the <code>angle</code> test rejects, so in the case study a driver list is descriptive and is not
+evidence of an orientation difference.</p>
+<h2 id="8-construction-limitations-and-case-study-interpretability">8. Construction limitations and case-study interpretability</h2>
+<ul>
+<li><strong>This is a structural analogue, not an emulator.</strong> InterSIM blocks are Gaussian/M-value with 367 + 131
+  measured features against 80 samples. SEA-AD RNA and ATAC pseudobulks after VST are only approximately
+  Gaussian and will have thousands of filtered features. The operating characteristics transfer as statements
+  about the design (n, cell sizes, three stages, two blocks, stage-supervised PLS), not about RNA/ATAC
+  distributions. The case-study repo must report its feature filtering beside any result.</li>
+<li><strong>Orientation power is eigengap- and rank-conditional.</strong> At ρ = 0 the three stage means form a
+  near-isotropic triangle, and its eigengap is small (anchor median 0.111). This is the generator's
+  independent-baseline assumption, copied from Phase 5, not a consequence of three stages. The operating
+  characteristics here are not measured at other baseline geometries, and Phase 5 found the orientation
+  construction's realized contrast is not ρ-invariant. In the low eigengap tercile, <code>angle</code> power is at
+  most 0.114 even at the construction maximum. At the construction maximum, power depends on whether CV retains more than three
+  components, which a six-donor change in the cohort moves from 51 % to 8 % of replicates. The Phase 5 exit
+  condition stands: the cohort's own recorded eigengap, not n, is what carries an orientation statement.</li>
+<li><strong>The orientation and shape constructions are bounded.</strong> e = 1.00 relocates every differential site, so no
+  larger construction exists. The HOLD is a statement that these constructions are not detectable at n = 80,
+  not that the effect axis was too short.</li>
+<li><strong>The statistics are not mode-specific at n = 80.</strong> The orientation construction is detected more often by
+  <code>shape</code> and <code>delta</code> than by <code>angle</code>, and the shape construction more often by <code>delta</code> than by <code>shape</code>. Only
+  magnitude is specific: the joint size change leaves <code>angle</code> and <code>shape</code> at the floor.</li>
+<li><strong>Deviation from the predeclared targets.</strong> The orientation/<code>angle</code> and shape/<code>shape</code> power floors (0.80) are
+  missed. Per design D6 this revises the <strong>claim</strong>, not the method or the Monte Carlo size. MOTCO's orientation
+  and shape tests are not claimed to have useful power at this design.</li>
+</ul>
+<p><strong>Per-statistic interpretability for the SEA-AD cohort (n = 80, ≥30 nuclei, RNA + ATAC):</strong></p>
+<table>
+<thead>
+<tr>
+<th>statistic</th>
+<th>rejection may be reported as evidence?</th>
+<th>non-rejection may be reported as evidence?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delta</code></td>
+<td><strong>Yes</strong>, that the two sexes' ADNC trajectories differ. Type I is controlled (0.016–0.034). A rejection is consistent with a size difference, but it does not by itself exclude a direction or shape difference, since those constructions also reject <code>delta</code> at up to 0.35.</td>
+<td><strong>Yes, against large size differences only.</strong> Power is 0.956 for a 25 % joint size change and 0.542 for 10 %. A non-rejection argues against a size difference of about 25 % or more, and is uninformative below that.</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td><strong>Yes</strong>, that the trajectories differ (Type I 0.024–0.040), but not specifically in direction. Orientation constructions reject <code>shape</code> and <code>delta</code> more often, and shape constructions reject <code>angle</code> at up to 0.14. Report it with the cohort's recorded eigengap. If that eigengap falls in the simulated low tercile (below about 0.13), a rejection is still valid at level α, but the test had little chance of one.</td>
+<td><strong>No.</strong> Power is at most 0.300, at the strongest construction the generator can build, and 0.03–0.09 below it. A non-rejection is uninformative at n = 80.</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td><strong>Yes</strong>, that the trajectories differ (Type I 0.018–0.020), but not specifically in shape. The orientation construction rejects <code>shape</code> at 0.464, more than either <code>angle</code> or the shape construction's own 0.228.</td>
+<td><strong>No.</strong> Power is at most 0.228 at the construction maximum. A non-rejection is uninformative at n = 80.</td>
+</tr>
+</tbody>
+</table>
+<p>Using the ≥50-nuclei cohort (n = 74) leaves these statements unchanged for <code>delta</code> and makes <code>angle</code> and <code>shape</code>
+weaker still. Adding a third standardized block would raise power for all three statistics, but the case study
+has two blocks.</p>
+<h2 id="9-reproduction">9. Reproduction</h2>
+<p>Reproduction never passes a worker-count override: <code>n_jobs</code> is part of every cell's parameter signature and
+both configs' contracts forbid it (the runner exits 2). Parallelize across shards. Avoid nodes under memory
+pressure: a stalled shard can be cancelled and resubmitted, and the signature-guarded resume skips completed
+units.</p>
+<pre><code class="language-bash">export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+
+# SLURM (partition/resource flags are cluster-specific); STUDY_N_JOBS must stay unset.
+for P in magnitude:phase6-small-n-magnitude-2026-10-09 study:phase6-small-n-2026-10-09; do
+  CFG=examples/trajectory_power_study/phase6_small_n_${P%%:*}.json; RUN=results/${P#*:}
+  sbatch -p &lt;partition&gt; --cpus-per-task=1 --mem=2G --time=8:00:00 --array=0-99 \
+      --export=ALL,STUDY_CONFIG=$(pwd)/$CFG,STUDY_OUT=$(pwd)/$RUN,N_SHARDS=100 \
+      scripts/motco_study_array.sbatch
+done
+
+# After completion, per profile:
+uv run python scripts/motco_study.py merge  --out-dir $RUN
+uv run python scripts/motco_study.py report --config $CFG --out-dir $RUN
+</code></pre>
+<p>Each run commits <code>report/</code> and <code>PROVENANCE.txt</code> and leaves the shard and merged JSONL gitignored. The pilot that
+fixed the effect axes is <code>results/phase6-small-n-pilot-2026-10-09/</code> (<code>NOTES.md</code>, <code>PROVENANCE.txt</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

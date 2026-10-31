@@ -1,0 +1,1087 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Latent-adjustment Type I check — 2026-10-20 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#latent-adjustment-type-i-check-2026-10-20" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Latent-adjustment Type I check — 2026-10-20
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Construction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-rates-against-the-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rates against the bound
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-residualization-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What residualization changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-scope-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Scope and limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-consequence-for-the-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Consequence for the case study
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="latent-adjustment-type-i-check-2026-10-20">Latent-adjustment Type I check — 2026-10-20</h1>
+<blockquote>
+<p>Paper-grade size check of covariate-aware latent construction (<code>covariate_latent_adjustment</code>, <code>motco analyze
+--latent-adjustment</code>) at the Phase 6 SEA-AD design (<code>openspec/changes/covariate-aware-latent-construction/</code>, design
+D8, spec <code>latent-adjustment-validation</code>). It is the gate the case study must pass before it reports
+latent-adjusted trajectory results. Every number below is read from <code>results/latent-adjustment-type-i-2026-10-20/</code>
+(<code>latent_adjustment_type_i_decision.json</code>, <code>latent_adjustment_type_i_rates.csv</code>,
+<code>latent_adjustment_type_i_pvalues.csv</code>, <code>latent_adjustment_type_i_replicates.csv</code>, <code>merged.jsonl</code>). Rates are
+rejection rates at p ≤ 0.05 over the available replicates of 500, at 999 permutations.</p>
+</blockquote>
+<p><strong>Run:</strong> 500 replicates on <code>ing</code> (SLURM arrays 923443 and 923539, 50 shards, 5.1 recorded core-hours), from
+<code>979657c</code> plus this change's working tree; file hashes are in <code>PROVENANCE.txt</code>. <strong>Decision:</strong> <code>adopt_stage</code>. The
+admissible conditionings are <code>stage</code> only.</p>
+<p><strong>In one paragraph.</strong> Null datasets at the SEA-AD MTG design carried two covariates confounded with group × stage,
+whose effect was injected strongly enough that the covariate-blind basis spends its first latent component on the
+numeric covariate: median |Spearman| 0.83 between that component and the covariate. Each replicate was analysed with
+eight covariates declared, in three arms that differ only in how the basis is built. With <code>stage</code> conditioning, the
+three statistics hold the predeclared bound: <code>delta</code> 0.031, <code>angle</code> 0.067 and <code>shape</code> 0.058 against 0.0706
+(R = 448). With <code>group_stage</code> conditioning, <code>angle</code> exceeds it: 0.082 against 0.0703 (R = 462). Residualization
+moved the first component off the covariate (median |ρ| 0.34). The case study may use <code>--latent-adjustment stage</code>
+under the conditions in §5, and not <code>group_stage</code>.</p>
+<h2 id="1-construction">1. Construction</h2>
+<ul>
+<li><strong>Data and covariates.</strong> The covariate-adjustment check's construction
+  (<a href="../covariate-type-i-2026-10-16/">report</a> §1), imported from <code>scripts/covariate_type_i_check.py</code> rather than
+  copied. The data are <code>generate_semisynthetic_trajectory</code> at the <code>phase6_small_n</code> settings: three stages,
+  <code>group_stage_sizes = [[11, 10, 28], [9, 10, 12]]</code>, methylation (M-values) and expression blocks, 498 features,
+  <code>group_effect_size = 0</code>. A numeric <code>z</code> and a three-level factor depend on group, stage and their interaction
+  (<code>a_g = 0.5</code>, <code>a_s = 1</code>, <code>a_gs = 2</code>, logit scale 0.5).</li>
+<li>The seeds are the covariate check's (base seed 2026). Replicate <code>r</code> therefore draws the same generated blocks,
+    <code>z</code> and factor as that check's replicate <code>r</code>.</li>
+<li><strong>Noise covariates.</strong> Six i.i.d. N(0, 1) numeric covariates <code>x1</code>–<code>x6</code>, declared but never injected, are drawn
+  from their own seed. Every arm therefore declares 8 covariates (9 design columns). This puts the residualization
+  at the case study's 8–10 covariates and its inner CV folds at the case study's degrees of freedom (design, Risks).</li>
+<li><strong>Injection.</strong> <code>X_f += s_z·sd_f·w_f·z + s_c·sd_f·Σ_k u_{k,f}·1[cat = k]</code> on a random 20 % of features per
+  direction. The strengths are <code>s_z = 40</code> (calibrated, below) and <code>s_c = 2</code>.</li>
+<li><strong>Arms.</strong> Each replicate runs <code>analyze_trajectories</code> three times with the same covariates, CV settings
+  (harness defaults) and RRPP seed, and the net-displacement estimator:</li>
+<li><code>baseline</code>: covariates in the trajectory model only, with the covariate-blind basis (the 0.8.0 analysis);</li>
+<li><code>stage</code>: <code>covariate_latent_adjustment="stage"</code>;</li>
+<li><code>group_stage</code>: <code>covariate_latent_adjustment="group_stage"</code>.</li>
+<li><strong>Rule.</strong> For each residualized arm and statistic, the rate over the R available replicates must be at most
+  α + k·√(α(1 − α)/R), with α = 0.05 and k = 2. An arm is admissible when all three statistics hold. The decision
+  is <code>adopt_stage</code> when <code>stage</code> is admissible, <code>adopt_group_stage</code> when only <code>group_stage</code> is, and otherwise
+  <code>diagnose_latent_excess</code>. The baseline arm is reported only.</li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<p>The gate needs the covariate-blind basis to be spent on the nuisance axis. The criterion is a median |Spearman| of
+at least 0.8 between the first component's scores and <code>z</code>, checked on the smoke profile before any paper-grade run.
+At the covariate check's <code>s_z = 3</code>, the median over the 20 smoke replicates was 0.64. It rises with <code>s_z</code> and then
+saturates: 0.74 at 6, 0.78 at 10, 0.80 at 20, 0.81 at 30 and 0.815 at 40. The covariate-blind fit re-standardizes
+every feature, so once the injected features are dominated by <code>z</code> a stronger injection adds nothing; only the
+injected fifth of the features can carry <code>z</code>. <code>s_z = 40</code> was chosen for the most margin. The smoke profile (R = 20,
+99 permutations) confirmed 0.815.</p>
+<p>In the paper-grade run the baseline median |ρ| is <strong>0.830</strong> (5–95 % range 0.751–0.891; minimum 0.708), so the
+criterion is met. The covariate-blind basis selected rank 2 in 265 replicates, rank 3 in 233 and rank 4 in 2.</p>
+<h2 id="2-rates-against-the-bound">2. Rates against the bound</h2>
+<p>From <code>latent_adjustment_type_i_rates.csv</code>. Rate (Monte Carlo SE).</p>
+<table>
+<thead>
+<tr>
+<th>statistic</th>
+<th><code>stage</code> (R = 448, bound 0.0706)</th>
+<th><code>group_stage</code> (R = 462, bound 0.0703)</th>
+<th><code>baseline</code> (R = 500, descriptive)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delta</code></td>
+<td>0.031 (0.0082) holds</td>
+<td>0.048 (0.0099) holds</td>
+<td>0.048 (0.0096)</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td>0.067 (0.0118) holds</td>
+<td><strong>0.082 (0.0128) exceeds</strong></td>
+<td>0.062 (0.0108)</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td>0.058 (0.0110) holds</td>
+<td>0.069 (0.0118) holds</td>
+<td>0.078 (0.0120)</td>
+</tr>
+</tbody>
+</table>
+<p>At p &lt; 0.05 instead of p ≤ 0.05, every rate is the same except <code>group_stage</code> <code>angle</code>, which is 0.078 and still
+exceeds. The decision is unchanged.</p>
+<p><strong>Stability.</strong> In five consecutive blocks of 100 replicates (rates over each block's available replicates):</p>
+<ul>
+<li><code>stage</code>: <code>delta</code> 0.04, 0.01, 0.03, 0.03, 0.03; <code>angle</code> 0.03, 0.06, 0.07, 0.13, 0.04; <code>shape</code> 0.05, 0.07, 0.06,
+  0.04, 0.07.</li>
+<li><code>group_stage</code>: <code>delta</code> 0.04, 0.02, 0.09, 0.04, 0.04; <code>angle</code> 0.05, 0.10, 0.05, 0.14, 0.06; <code>shape</code> 0.07, 0.07,
+  0.08, 0.07, 0.06.</li>
+</ul>
+<p>In both arms the <code>angle</code> rate is driven by block 4, replicates 300–399. The covariate check's adjusted arm, on the
+same generated datasets, also had its <code>angle</code> excess in block 4 (0.11). The <code>stage</code> arm's 0.067 sits 0.004 below its
+bound; <code>group_stage</code>'s 0.082 sits 0.012 above, and its block 2 is also high.</p>
+<p><strong>Unavailable replicates.</strong> An arm is unavailable for a replicate when a CV training design loses full rank.</p>
+<ul>
+<li>That happened in 52 <code>stage</code> replicates and 38 <code>group_stage</code> replicates (22 in both), never in the baseline arm.</li>
+<li>Every one is an inner-fold training set short exactly one column, an absent level of the three-level factor.
+  They are spread across the five CV repeats (repeat 1 most often).</li>
+<li>Excluding them does not flatter the residualized arms. On the replicates <code>stage</code> lost, the always-available
+  baseline arm rejects <code>delta</code> 0.019, <code>angle</code> 0.019 and <code>shape</code> 0.096 (n = 52). On the replicates <code>stage</code> kept, it
+  rejects <code>delta</code> 0.051, <code>angle</code> 0.067 and <code>shape</code> 0.076 (n = 448), close to its overall 0.048 / 0.062 / 0.078.</li>
+<li>The <code>group_stage</code> comparison is similar: 0.026 / 0.026 / 0.132 on n = 38, against 0.050 / 0.065 / 0.074.</li>
+</ul>
+<h2 id="3-what-residualization-changes">3. What residualization changes</h2>
+<ul>
+<li><strong>The basis.</strong> The first component's median |ρ| with <code>z</code> falls from 0.830 (baseline) to 0.336 (<code>stage</code>) and
+  0.355 (<code>group_stage</code>). The residualized bases no longer spend their first component on the nuisance axis; what
+  correlation remains is the stage structure <code>z</code> shares by construction.</li>
+<li><strong>The rank.</strong> CV selects rank 3 in 417 of 448 <code>stage</code> replicates and 457 of 462 <code>group_stage</code> replicates, against
+  233 of 500 for the baseline. With the nuisance axis gone, the CV keeps more of the stage structure.</li>
+<li><strong>Degrees of freedom.</strong> The full-sample residual df is 68 under <code>stage</code> (80 − 1 − 2 − 9) and 65 under
+  <code>group_stage</code>. The smallest CV training-set df is 28 and 25 in every replicate.</li>
+<li><strong>What is removed.</strong> The per-feature partial R² of the covariates given the conditioning design has a
+  replicate-median of 0.13 (median feature), 0.27 (mean) and 0.99 (95th percentile). About 18 % of features have
+  R² above 0.5, roughly the fifth of features that carry <code>z</code>.</li>
+<li><strong>The baseline arm.</strong> Here the 0.8.0 covariate adjustment alone, on the covariate-blind basis, lets <code>shape</code> reach
+  0.078. That is above the 0.0695 bound it would face at R = 500, and its rule does not judge it. The covariate
+  check's adjusted arm held <code>shape</code> at 0.034 with <code>s_z = 3</code> and two covariates. With a nuisance strong enough to
+  take the first component, the model adjustment alone is no longer enough for <code>shape</code>, and latent adjustment is.
+  This is descriptive, not a verdict.</li>
+</ul>
+<h2 id="4-scope-and-limits">4. Scope and limits</h2>
+<ul>
+<li><strong>Mediators.</strong> Residualizing a variable that mediates the stage effect removes real signal. No simulation can
+  tell a confounder from a mediator, because the data look the same; this check injects a pure confounder. Choosing
+  and justifying the covariate set is the case study's job, in its own proposal. A technical variable that is itself
+  downstream of disease stage, such as a cell-quality metric that worsens with pathology, is a mediator candidate.</li>
+<li><strong>Additive, linear effects.</strong> The covariate effects are additive and linear, and correctly specified in the
+  residualization and the model. Non-linear effects and covariate × design interactions are outside the check.</li>
+<li><strong>One design.</strong> n = 80, two blocks, 498 features, 8 covariates with 9 design columns, and one injected direction
+  per covariate.</li>
+<li><strong><code>angle</code> is near the bound.</strong> <code>stage</code> holds <code>angle</code> by 0.004, with one 100-replicate block at 0.13. Treat a
+  marginal latent-adjusted <code>angle</code> rejection with the care the earlier reports ask of <code>angle</code> near the translation
+  control.</li>
+<li><strong>Rare factor levels.</strong> About 10 % of replicates lose an arm to a factor level absent from a CV training set, and
+  which fold fails depends on <code>random_state</code>. Merge rare levels before analysis; the record names the failing repeat
+  and fold.</li>
+<li><strong>No power claim.</strong> This report covers size only. Power, with and without a nuisance axis, is the subject of the
+  separate <a href="../latent-adjustment-power-2026-10-20/">power comparison</a>.</li>
+</ul>
+<h2 id="5-consequence-for-the-case-study">5. Consequence for the case study</h2>
+<p>The decision is <code>adopt_stage</code>. The SEA-AD case study may report latent-adjusted <code>motco analyze</code> results with
+<code>--latent-adjustment stage</code> (MOTCO ≥ 0.9.0) under these conditions:</p>
+<ul>
+<li>its own proposal names and justifies the covariate set, including why no residualized variable mediates the
+  stage effect;</li>
+<li><code>group_stage</code> conditioning is not used: it exceeded the bound on <code>angle</code>;</li>
+<li>the record's <code>latent_adjustment</code> block (conditioning, design columns, residual df, smallest CV training df, the
+  feature R² summary) and its <code>covariates</code> block are reported beside the results;</li>
+<li>categorical covariates have no level rare enough to drop out of a CV training set;</li>
+<li>the earlier binding statements stand: the CV-selected rank is reported beside <code>angle</code>, and non-rejections are
+  uninformative;</li>
+<li>the <a href="../latent-adjustment-power-2026-10-20/">power comparison</a> §6 applies: latent adjustment is a sensitivity
+  analysis beside the covariate-adjusted analysis, not a replacement for it.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

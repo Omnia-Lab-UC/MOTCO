@@ -1,0 +1,1306 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MOTCO External Usability — Design Spec - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#motco-external-usability-design-spec" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MOTCO External Usability — Design Spec
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-four-ordered-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design: Four Ordered Layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-1-trust-input-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1 — Trust: Input Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer 1 — Trust: Input Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sd.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pls.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snfpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        snf.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clipy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cli.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-style-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error style convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-2-coverage-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2 — Coverage: Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer 2 — Coverage: Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-test-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New test files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-3-accessibility-examples-docs-cli-quality-of-life" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 3 — Accessibility: Examples, Docs, CLI Quality-of-Life
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer 3 — Accessibility: Examples, Docs, CLI Quality-of-Life">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-notebook-examplesmotco_exampleipynb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example notebook (examples/motco_example.ipynb)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readme-additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        README additions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-quality-of-life" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI quality-of-life
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-4-extensions-exposing-hidden-functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 4 — Extensions: Exposing Hidden Functionality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer 4 — Extensions: Exposing Hidden Functionality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vip-scores-plspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VIP scores (pls.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurable-spectral-embedding-snfpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configurable spectral embedding (snf.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_observed_vectors-exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_observed_vectors exposure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stats__init__py-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats/__init__.py cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-change-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Change Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="motco-external-usability-design-spec">MOTCO External Usability — Design Spec</h1>
+<p><strong>Date:</strong> 2026-04-29
+<strong>Scope:</strong> Hardening and small extensions to make MOTCO usable by external scientists
+<strong>Primary user:</strong> Scientists/bioinformaticians — both CLI and Python notebook entry points
+<strong>Out of scope:</strong> New statistical methods, GUI, web app</p>
+<hr />
+<h2 id="problem-statement">Problem Statement</h2>
+<p>A scientist picking up MOTCO with their own data faces one critical risk: the analysis runs without error but produces wrong results because inputs are misaligned or misspecified. No warning is raised; the science is silently broken. Secondary friction includes zero worked examples, no tests for PLS or SNF, and hidden functionality (VIP scores, configurable spectral components) that would be useful but is unreachable.</p>
+<hr />
+<h2 id="design-four-ordered-layers">Design: Four Ordered Layers</h2>
+<p>Each layer builds on the previous. Layers 1 and 2 directly eliminate the silent-wrong-results risk. Layers 3 and 4 turn a correct tool into one scientists can actually use with confidence.</p>
+<hr />
+<h2 id="layer-1-trust-input-validation">Layer 1 — Trust: Input Validation</h2>
+<p><strong>Goal:</strong> Any misspecified input raises a clear, descriptive error before computation begins.</p>
+<h3 id="sdpy"><code>sd.py</code></h3>
+<p><strong><code>estimate_difference(Y, model_matrix, LS_means, contrast)</code></strong>
+- Y rows == model_matrix rows; error names both shapes
+- LS_means columns == Y columns; error names both
+- Every index in every contrast sublist is within <code>range(len(LS_means))</code>; error names the offending index
+- No NaN or Inf in Y or model_matrix</p>
+<p><strong><code>RRPP(Y, model_full, model_reduced, LS_means, contrast, ...)</code></strong>
+- All of the above, plus:
+- model_full rows == model_reduced rows == Y rows</p>
+<p><strong><code>get_model_matrix(X, group_col, level_col, full)</code></strong>
+- group_col and level_col exist in X
+- Each column has at least 2 unique values</p>
+<p><strong><code>center_matrix(dat, group_col, level_col, feature_cols)</code></strong>
+- All listed feature_cols exist in dat</p>
+<h3 id="plspy"><code>pls.py</code></h3>
+<p><strong><code>plsda_doubleCV(X, y, ...)</code></strong>
+- X rows == y rows (or len(y)); error names both
+- At least 2 distinct classes in y
+- max_components ≤ X.shape[1]; error names both values
+- No NaN or Inf in X</p>
+<h3 id="snfpy"><code>snf.py</code></h3>
+<p><strong><code>get_affinity_matrix(dats, K, eps)</code></strong>
+- All datasets have the same number of rows; error names the mismatched shapes
+- K &lt; n_samples for every dataset
+- eps &gt; 0
+- No NaN or Inf in any dataset</p>
+<p><strong><code>SNF(Ws, k, t)</code></strong>
+- All matrices are square
+- All matrices have the same shape
+- k &lt; n_samples</p>
+<h3 id="clipy"><code>cli.py</code></h3>
+<p>All three subcommands (<code>plsr</code>, <code>snf</code>, <code>de</code>) check shape compatibility of loaded CSVs before calling into stats modules. Error messages become specific: "Y has 100 rows but model_matrix has 50 rows — they must match."</p>
+<h3 id="error-style-convention">Error style convention</h3>
+<p>Every error message must state:
+1. The parameter name
+2. The observed value
+3. What was expected</p>
+<p>Example: <code>ValueError: Y has shape (100, 3) but model_matrix has shape (50, 4) — number of rows must match.</code></p>
+<hr />
+<h2 id="layer-2-coverage-tests">Layer 2 — Coverage: Tests</h2>
+<p><strong>Goal:</strong> Every new validation has a test; every module that currently has zero coverage gets at least smoke-level tests.</p>
+<h3 id="new-test-files">New test files</h3>
+<p><strong><code>tests/test_validation.py</code></strong>
+One test per validation rule from Layer 1. Each test:
+- Passes a bad input
+- Asserts a <code>ValueError</code> (or <code>SystemExit</code> for CLI paths) is raised
+- Asserts the error message contains the relevant context (parameter name, observed value)</p>
+<p><strong><code>tests/test_pls.py</code></strong>
+Smoke tests using a small synthetic dataset (30 samples, 10 features, 2 classes, <code>random_state=0</code>):
+- <code>plsda_doubleCV</code> returns dict with <code>"table"</code> and <code>"models"</code> keys
+- Table has <code>n_repeats</code> rows
+- All AUROC values in [0, 1]
+- Model count matches <code>n_repeats</code>
+- Validation errors fire correctly for bad inputs</p>
+<p><strong><code>tests/test_snf.py</code></strong>
+Smoke tests using small synthetic arrays (20 samples, 5 features):
+- <code>get_affinity_matrix</code> returns list of square, symmetric, non-negative matrices
+- <code>SNF</code> returns square, symmetric matrix of same size
+- <code>get_spectral</code> returns array of shape (n_samples, n_components)
+- Validation errors fire correctly for misaligned inputs and bad K</p>
+<p><strong><code>tests/test_cli.py</code></strong>
+Tests via <code>motco.cli.main(argv=[...])</code> — no subprocess needed. Uses <code>tmp_path</code> for I/O:
+- <code>plsr</code> with <code>--data</code> + <code>--label-col</code>: output table is a valid CSV with correct columns
+- <code>snf</code> with two synthetic CSVs: fused matrix written; embedding written when <code>--out-embedding</code> given
+- <code>de</code> estimate path: output JSON has <code>deltas</code>, <code>angles</code>, <code>shapes</code> keys with correct shapes
+- <code>de</code> RRPP path (1 permutation): output JSON has lists of matrices
+- Error paths: mismatched row counts, bad contrast JSON, missing required args</p>
+<h3 id="markers">Markers</h3>
+<p>Add <code>@pytest.mark.slow</code> to:
+- <code>tests/test_sd_expected_example1.py::test_example1_expected_results_match</code>
+- <code>tests/test_sd_expected_example2.py::test_example2_expected_results_match</code></p>
+<p>Register in <code>pyproject.toml</code>:</p>
+<pre><code class="language-toml">[tool.pytest.ini_options]
+markers = [
+  &quot;slow: marks tests as slow (run with MOTCO_TEST_PERMS=10000)&quot;,
+]
+</code></pre>
+<p>CI fast-test command becomes <code>pytest -m "not slow"</code> and actually filters correctly.</p>
+<hr />
+<h2 id="layer-3-accessibility-examples-docs-cli-quality-of-life">Layer 3 — Accessibility: Examples, Docs, CLI Quality-of-Life</h2>
+<p><strong>Goal:</strong> A scientist can go from zero to a working analysis using only existing docs and the example, without reading source.</p>
+<h3 id="example-notebook-examplesmotco_exampleipynb">Example notebook (<code>examples/motco_example.ipynb</code>)</h3>
+<p>Uses <code>tests/data/evo_649_sm_example1.csv</code> — runs out of the box, no external data needed.</p>
+<p>Sections:
+1. <strong>Loading data</strong> — inspect structure; explain what <code>group_col</code>, <code>level_col</code>, and feature columns mean
+2. <strong>Building the model</strong> — <code>get_model_matrix</code> and <code>build_ls_means</code> with plain-English explanation of dummy coding and the <code>contrast</code> parameter
+3. <strong>Running <code>estimate_difference</code></strong> — reading the output matrices; what a delta of 0.3 or an angle of 45° means scientifically
+4. <strong>Inspecting LS-mean coordinates</strong> — using <code>get_observed_vectors</code> to see where each group×level sits before interpreting differences
+5. <strong>Running RRPP and computing p-values</strong> — the add-one correction explained; significance at α = 0.05
+6. <strong>Equivalent CLI commands</strong> — the three CLI calls that reproduce the notebook results</p>
+<h3 id="readme-additions">README additions</h3>
+<ul>
+<li><strong>"Interpreting your results" section</strong>: plain-English meaning of deltas, angles, and shape distances</li>
+<li>Angle ≈ 0°: trajectories point in the same direction; Angle ≈ 90°: orthogonal; Angle ≈ 180°: opposite</li>
+<li>Delta: absolute difference in trajectory magnitude (path length)</li>
+<li>Shape: Procrustes distance between trajectory shapes after size and orientation are removed</li>
+<li><strong>"Quick example" section</strong>: three CLI commands that reproduce the notebook, pointing to <code>examples/</code></li>
+<li>Fix placeholder <code>pyproject.toml</code> homepage URL</li>
+</ul>
+<h3 id="cli-quality-of-life">CLI quality-of-life</h3>
+<ul>
+<li><code>motco --version</code>: reads from <code>__version__</code> in <code>src/motco/__init__.py</code>; implemented via <code>argparse</code> <code>version</code> action</li>
+<li><code>motco de --out-observed PATH</code>: saves the predicted LS-mean vectors as a CSV (computed as <code>LS_means @ estimate_betas(model_matrix, Y)</code> inside <code>cmd_de</code>). Note: <code>get_observed_vectors</code> is the Python API equivalent for notebook use, but it requires the factor DataFrame and cannot be called directly from CLI inputs.</li>
+<li>All three subcommands: error messages name exact mismatch (row count, column count, bad contrast index)</li>
+</ul>
+<hr />
+<h2 id="layer-4-extensions-exposing-hidden-functionality">Layer 4 — Extensions: Exposing Hidden Functionality</h2>
+<p><strong>Goal:</strong> Surface what is already implemented but locked away.</p>
+<h3 id="vip-scores-plspy">VIP scores (<code>pls.py</code>)</h3>
+<ul>
+<li>Rename <code>_calculate_vips</code> → <code>calculate_vips</code> (make public)</li>
+<li>Export from <code>motco.stats.pls</code></li>
+<li>Add <code>--out-vips PATH</code> to <code>motco plsr</code>: after fitting, computes VIP scores from the best model of each repeat and saves as CSV with rows = features (named from X column headers) and one column per repeat named <code>rep_1</code>, <code>rep_2</code>, …</li>
+<li>Add to example notebook: VIP scores as a feature-ranking output after <code>plsda_doubleCV</code></li>
+</ul>
+<h3 id="configurable-spectral-embedding-snfpy">Configurable spectral embedding (<code>snf.py</code>)</h3>
+<ul>
+<li>Add <code>n_components: int = 10</code> parameter to <code>get_spectral</code></li>
+<li>Add <code>--spectral-components INT</code> (default 10) to <code>motco snf</code></li>
+<li>Preserves current default behavior; no breaking change</li>
+</ul>
+<h3 id="get_observed_vectors-exposure"><code>get_observed_vectors</code> exposure</h3>
+<ul>
+<li>Already public; no code change needed</li>
+<li>Add to README Python API section and to the example notebook (Layer 3)</li>
+</ul>
+<h3 id="stats__init__py-cleanup"><code>stats/__init__.py</code> cleanup</h3>
+<p>Current <code>__all__</code> exports only the string <code>"stats"</code>. Add explicit imports:</p>
+<pre><code class="language-python">from motco.stats.sd import (
+    estimate_difference, RRPP, get_model_matrix, build_ls_means,
+    get_observed_vectors, pair_difference, center_matrix,
+)
+from motco.stats.pls import plsda_doubleCV, calculate_vips
+from motco.stats.snf import get_affinity_matrix, SNF, get_spectral
+</code></pre>
+<p>This makes <code>from motco.stats import estimate_difference</code> work without knowing the submodule.</p>
+<hr />
+<h2 id="file-change-summary">File Change Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Files changed or created</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>src/motco/stats/sd.py</code>, <code>src/motco/stats/pls.py</code>, <code>src/motco/stats/snf.py</code>, <code>src/motco/cli.py</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>tests/test_validation.py</code> (new), <code>tests/test_pls.py</code> (new), <code>tests/test_snf.py</code> (new), <code>tests/test_cli.py</code> (new), <code>tests/test_sd_expected_example1.py</code>, <code>tests/test_sd_expected_example2.py</code>, <code>pyproject.toml</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>examples/motco_example.ipynb</code> (new), <code>README.md</code>, <code>pyproject.toml</code>, <code>src/motco/cli.py</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>src/motco/stats/pls.py</code>, <code>src/motco/stats/snf.py</code>, <code>src/motco/stats/__init__.py</code>, <code>src/motco/cli.py</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="non-goals">Non-Goals</h2>
+<ul>
+<li>New statistical methods</li>
+<li>Jupyter as a required dependency (notebook is an optional example, not part of the package)</li>
+<li>GUI or web interface</li>
+<li>Performance optimization (benchmarked improvements are deferred; correctness first)</li>
+<li>R parity validation beyond what the existing regression tests already cover</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
