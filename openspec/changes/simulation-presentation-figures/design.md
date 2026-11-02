@@ -108,7 +108,9 @@ The per-statistic power-vs-n detail files restyle what `design_guidance_figure.p
 
 **Equivalence argument.** The pooled PLS is refit once at the final rank. Equal final ranks under floor 1 and floor 2 therefore mean identical latent scores, statistics and p-values. The records keep only the final rank, which is 2–4 in all 34 cells × 500 replicates of the n = 1,200 run and never 1. A fold-level choice of rank 1 that was outvoted would leave no trace, and under the floor that fold would choose another rank.
 
-**Check.** 152 datasets (19 baseline cells × replicates 0–7) were rebuilt from the config's seeds and fitted at floor 1 and floor 2 (BLAS pinned, 8 workers, about 80 minutes). Result: *pending — filled in when the run completes.*
+**Check.** 152 datasets (19 baseline cells × replicates 0–7) were rebuilt from the config's seeds and fitted at floor 1 and floor 2 (BLAS pinned, 8 workers, 1 h 43 min on 2026-11-02). Result: **every rank agrees.** 0 of 152 selected ranks change: rank 3 in 138 datasets and rank 2 in 14 under both floors. The mean CV AUROC is also equal in all 152, so no outer fold picked rank 1 either. The one-sided 95% upper bound on the mismatch rate is 0.0195. The committed script reproduces the first dataset exactly.
+
+**Tagging decision.** The Phase 5 sources (`net-displacement-power-2026-10-14/phase5`, `net-displacement-type-i-2026-10-13/phase5`) are tagged as the current measurement: "CV rank ≥ 2 by floor check (0/152 ranks change)". The tag is derived from the committed `summary.json` at render time, so a summary with any mismatch, or none at all, reverts the tag to pre-floor.
 
 - If every rank agrees, the Phase 5 sources are tagged as the current measurement, citing the check and its sample. Zero mismatches in 152 gives a 95% upper bound of 3/152 ≈ 2% on the mismatch rate.
 - If any rank differs, they are tagged pre-floor.

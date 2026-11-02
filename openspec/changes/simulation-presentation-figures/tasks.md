@@ -3,8 +3,8 @@
 ## 1. Rank-floor equivalence check at n = 1,200 (design D5)
 
 - [x] 1.1 Add `scripts/rank_floor_equivalence_check.py`, the scratch probe's logic: `--config`, `--replicates`, `--workers` and `--out-dir`. It writes a per-replicate CSV (cell, phase, mode, effect, replicate, rank and mean CV AUROC at floor 1 and floor 2) and a summary JSON (count, mismatches, 95% upper bound). Verify with a unit test of the summary on fabricated rows, including one mismatch.
-- [ ] 1.2 Commit the 152-dataset result under `results/rank-floor-equivalence-2026-11-02/`, converted from the scratch run's JSONL, with a PROVENANCE that records the revision (`b7df7c7`), the scratch script's SHA-256, the thread pinning and the wall time. Verify that the CSV's row count and mismatch count equal the scratch output.
-- [ ] 1.3 Fill in design D5's pending result and its tagging decision, and add one line for the check to `AGENTS.md`. Verify that `openspec validate simulation-presentation-figures` passes.
+- [x] 1.2 Commit the 152-dataset result under `results/rank-floor-equivalence-2026-11-02/`, converted from the scratch run's JSONL, with a PROVENANCE that records the revision (`b7df7c7`), the scratch script's SHA-256, the thread pinning and the wall time. Verify that the CSV's row count and mismatch count equal the scratch output.
+- [x] 1.3 Fill in design D5's pending result and its tagging decision, and add one line for the check to `AGENTS.md`. Verify that `openspec validate simulation-presentation-figures` passes.
 
 ## 2. Script skeleton, style and provenance (design D1, D3, D7)
 

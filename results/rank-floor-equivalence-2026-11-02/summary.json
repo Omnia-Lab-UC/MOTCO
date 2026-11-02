@@ -1,0 +1,31 @@
+{
+  "count": 152,
+  "cells": 19,
+  "replicates": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "mismatches": 0,
+  "mismatched": [],
+  "auroc_differences": 0,
+  "ranks_floor_1": [
+    2,
+    3
+  ],
+  "ranks_floor_2": [
+    2,
+    3
+  ],
+  "upper_bound_95": 0.019515816917848237,
+  "upper_bound_method": "one-sided 95% Clopper-Pearson on the rank-mismatch rate",
+  "verdict": "ranks_agree",
+  "provenance": {
+    "from_jsonl": "/tmp/claude-1000/-home-tomas-Documents-Repos-MOTCO/aa47b23c-e6ec-4e42-94d5-c6f71b926304/scratchpad/floor_probe.jsonl"
+  }
+}
