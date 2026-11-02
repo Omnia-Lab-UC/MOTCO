@@ -135,9 +135,9 @@
 
 ## 6. Paper-grade run
 
-- [ ] 6.1 Push the branch and create a clean worktree on the approved host, whose tree hash equals the local committed tree. Run `tests/test_adjusted_attribution.py` and `tests/test_adjusted_attribution_check.py` there. Verify: identical tree hashes and passing tests.
-- [ ] 6.2 Run the 1,500 units at 500 replicates × 999 permutations × B = 200 into `results/adjusted-attribution-<date>/run/`, monitored to completion, with any stalled shard resubmitted. Verify: 500 units per cell, zero consistency failures, and every array task `COMPLETED 0:0` (or every local worker exiting zero).
-- [ ] 6.3 Run `merge` and `decide`, and copy back the metric summary, the decision and the calibration. Commit each CSV under about 1 MB, and otherwise name it in provenance. Write `PROVENANCE.txt`: the commands, jobs or workers, tree hash, settings hash, versions (MOTCO 0.14.0), file sha256s and core-hours. Verify that the decision's settings hash equals `settings.json`'s and that its verdict is not indicative.
+- [x] 6.1 Push the branch and create a clean worktree on the approved host, whose tree hash equals the local committed tree. Run `tests/test_adjusted_attribution.py` and `tests/test_adjusted_attribution_check.py` there. Verify: identical tree hashes and passing tests.
+- [x] 6.2 Run the 1,500 units at 500 replicates × 999 permutations × B = 200 into `results/adjusted-attribution-<date>/run/`, monitored to completion, with any stalled shard resubmitted. Verify: 500 units per cell, zero consistency failures, and every array task `COMPLETED 0:0` (or every local worker exiting zero).
+- [x] 6.3 Run `merge` and `decide`, and copy back the metric summary, the decision and the calibration. Commit each CSV under about 1 MB, and otherwise name it in provenance. Write `PROVENANCE.txt`: the commands, jobs or workers, tree hash, settings hash, versions (MOTCO 0.14.0), file sha256s and core-hours. Verify that the decision's settings hash equals `settings.json`'s and that its verdict is not indicative.
 
 ## 7. Report, roadmap and docs
 

@@ -1,0 +1,1439 @@
+{
+  "check": "adjusted_attribution",
+  "settings_hash": "5a84844d685729e12a8a4f211c5705aad2c09cddc500748cb805964decafee43",
+  "adopted_calibration": {
+    "entry_sha256": "7d8987f21c3da76232c11f02b19aa5f255142f29d6a159b3efe81f7ca0b08176",
+    "iteration": 9,
+    "s_z": 10.0
+  },
+  "verdict": "adjusted_attribution_validated",
+  "consequence": "covariate-adjusted attribution is validated at the case study's configuration; item 12 (the plasmode demonstration on SEA-AD astrocyte cohort_30) may start on the released version (0.14.0)",
+  "failing": [],
+  "indicative": false,
+  "indicative_reasons": [],
+  "replicates": {
+    "anchor": 500,
+    "orientation@0.5": 500,
+    "orientation@1": 500
+  },
+  "permutations": 999,
+  "bootstrap_replicates": 200,
+  "margins": {
+    "contamination": 0.05,
+    "contamination_gate": 0.25,
+    "projection_gate": 0.2,
+    "recoverability_gate": 0.5,
+    "residual_confounding_ratio": 0.1,
+    "sign_stability": -0.05,
+    "top_k_frequency": -0.1,
+    "truth_precision": -0.05
+  },
+  "se_multiplier": 2.0,
+  "gates": [
+    {
+      "criterion": "contamination_gate",
+      "cell": "anchor",
+      "n": 500,
+      "mean": 0.4255,
+      "se": 0.011498431538940927,
+      "bound": 0.25,
+      "direction": "lower",
+      "value": 0.40250313692211814,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "projection_gate",
+      "cell": "anchor",
+      "n": 500,
+      "mean": 0.5091434462669671,
+      "se": 0.005694179571373883,
+      "bound": 0.2,
+      "direction": "lower",
+      "value": 0.4977550871242193,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "projection_gate",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": 0.5207049838929283,
+      "se": 0.0057112671212618095,
+      "bound": 0.2,
+      "direction": "lower",
+      "value": 0.5092824496504047,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "projection_gate",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": 0.511343672993165,
+      "se": 0.005557127038414925,
+      "bound": 0.2,
+      "direction": "lower",
+      "value": 0.5002294189163351,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "recoverability_gate",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": 0.9845,
+      "se": null,
+      "bound": 0.5,
+      "direction": "lower",
+      "value": 0.9845,
+      "verdict": "holds"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "contamination",
+      "cell": "anchor",
+      "n": 500,
+      "mean": 0.0008000000000000003,
+      "se": 0.0028168402827204657,
+      "bound": 0.05,
+      "direction": "upper",
+      "value": 0.006433680565440932,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "contamination",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": -0.005,
+      "se": 0.0013013019532556976,
+      "bound": 0.05,
+      "direction": "upper",
+      "value": -0.002397396093488605,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "contamination",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": -0.00030000000000000003,
+      "se": 0.00030000000000000003,
+      "bound": 0.05,
+      "direction": "upper",
+      "value": 0.00030000000000000003,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "residual_confounding",
+      "cell": "anchor",
+      "n": 500,
+      "mean": -0.003197062892002445,
+      "se": 0.0012063163437957285,
+      "bound": 0.05091434462669671,
+      "direction": "upper",
+      "value": 0.005609695579593902,
+      "verdict": "holds",
+      "unadjusted_mean": 0.5091434462669671
+    },
+    {
+      "criterion": "residual_confounding",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": -0.002489527334948816,
+      "se": 0.0010999182256192202,
+      "bound": 0.052070498389292834,
+      "direction": "upper",
+      "value": 0.004689363786187256,
+      "verdict": "holds",
+      "unadjusted_mean": 0.5207049838929283
+    },
+    {
+      "criterion": "residual_confounding",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": -0.002240592150903714,
+      "se": 0.001097167308532024,
+      "bound": 0.0511343672993165,
+      "direction": "upper",
+      "value": 0.004434926767967762,
+      "verdict": "holds",
+      "unadjusted_mean": 0.511343672993165
+    },
+    {
+      "criterion": "truth_precision",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": 0.0384,
+      "se": 0.013471222203471762,
+      "bound": -0.05,
+      "direction": "lower",
+      "value": 0.011457555593056473,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "truth_precision",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": 0.004699999999999999,
+      "se": 0.0018955226223983845,
+      "bound": -0.05,
+      "direction": "lower",
+      "value": 0.0009089547552032303,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "sign_stability",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": 0.03411350000000002,
+      "se": 0.003910036093183795,
+      "bound": -0.05,
+      "direction": "lower",
+      "value": 0.026293427813632426,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "sign_stability",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": 0.0166205,
+      "se": 0.003969125990915825,
+      "bound": -0.05,
+      "direction": "lower",
+      "value": 0.00868224801816835,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "top_k_frequency",
+      "cell": "orientation@0.5",
+      "n": 500,
+      "mean": -0.01096600000000001,
+      "se": 0.005011190002232699,
+      "bound": -0.1,
+      "direction": "lower",
+      "value": -0.020988380004465408,
+      "verdict": "holds"
+    },
+    {
+      "criterion": "top_k_frequency",
+      "cell": "orientation@1",
+      "n": 500,
+      "mean": -0.008697000000000003,
+      "se": 0.0043732698132769535,
+      "bound": -0.1,
+      "direction": "lower",
+      "value": -0.01744353962655391,
+      "verdict": "holds"
+    }
+  ],
+  "descriptive": {
+    "unadjusted_arm": {
+      "arm": "unadjusted",
+      "block": "principal",
+      "component": "observed",
+      "gates": [
+        {
+          "criterion": "contamination_gate",
+          "cell": "anchor",
+          "n": 500,
+          "mean": 0.4255,
+          "se": 0.011498431538940927,
+          "bound": 0.25,
+          "direction": "lower",
+          "value": 0.40250313692211814,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "projection_gate",
+          "cell": "anchor",
+          "n": 500,
+          "mean": 0.5091434462669671,
+          "se": 0.005694179571373883,
+          "bound": 0.2,
+          "direction": "lower",
+          "value": 0.4977550871242193,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "projection_gate",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.5207049838929283,
+          "se": 0.0057112671212618095,
+          "bound": 0.2,
+          "direction": "lower",
+          "value": 0.5092824496504047,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "projection_gate",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.511343672993165,
+          "se": 0.005557127038414925,
+          "bound": 0.2,
+          "direction": "lower",
+          "value": 0.5002294189163351,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "recoverability_gate",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.9845,
+          "se": null,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.9845,
+          "verdict": "holds"
+        }
+      ],
+      "criteria": [
+        {
+          "criterion": "contamination",
+          "cell": "anchor",
+          "n": 500,
+          "mean": 0.4255,
+          "se": 0.011498431538940927,
+          "bound": 0.05,
+          "direction": "upper",
+          "value": 0.44849686307788184,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "contamination",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.0219,
+          "se": 0.002522599257517542,
+          "bound": 0.05,
+          "direction": "upper",
+          "value": 0.026945198515035084,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "contamination",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.0001,
+          "se": 0.0004363034740211058,
+          "bound": 0.05,
+          "direction": "upper",
+          "value": 0.0009726069480422117,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "residual_confounding",
+          "cell": "anchor",
+          "n": 500,
+          "mean": 0.5091434462669671,
+          "se": 0.005694179571373883,
+          "bound": 0.05091434462669671,
+          "direction": "upper",
+          "value": 0.5205318054097148,
+          "verdict": "fails",
+          "unadjusted_mean": 0.5091434462669671
+        },
+        {
+          "criterion": "residual_confounding",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.5207049838929283,
+          "se": 0.0057112671212618095,
+          "bound": 0.052070498389292834,
+          "direction": "upper",
+          "value": 0.5321275181354519,
+          "verdict": "fails",
+          "unadjusted_mean": 0.5207049838929283
+        },
+        {
+          "criterion": "residual_confounding",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.511343672993165,
+          "se": 0.005557127038414925,
+          "bound": 0.0511343672993165,
+          "direction": "upper",
+          "value": 0.5224579270699948,
+          "verdict": "fails",
+          "unadjusted_mean": 0.511343672993165
+        },
+        {
+          "criterion": "truth_precision",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.08429999999999999,
+          "se": 0.013631164193661123,
+          "bound": -0.05,
+          "direction": "lower",
+          "value": 0.05703767161267774,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "truth_precision",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.0127,
+          "se": 0.0017702224082723334,
+          "bound": -0.05,
+          "direction": "lower",
+          "value": 0.009159555183455332,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "sign_stability",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.044337000000000015,
+          "se": 0.0034434070287916686,
+          "bound": -0.05,
+          "direction": "lower",
+          "value": 0.037450185942416676,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "sign_stability",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.02877900000000001,
+          "se": 0.003563834472909846,
+          "bound": -0.05,
+          "direction": "lower",
+          "value": 0.021651331054180316,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "top_k_frequency",
+          "cell": "orientation@0.5",
+          "n": 500,
+          "mean": 0.093168,
+          "se": 0.004571664279073992,
+          "bound": -0.1,
+          "direction": "lower",
+          "value": 0.08402467144185202,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "top_k_frequency",
+          "cell": "orientation@1",
+          "n": 500,
+          "mean": 0.10168750000000001,
+          "se": 0.004498695751484963,
+          "bound": -0.1,
+          "direction": "lower",
+          "value": 0.09269010849703009,
+          "verdict": "holds"
+        }
+      ]
+    },
+    "components": {
+      "pls_captured": {
+        "arm": "adjusted",
+        "block": "principal",
+        "component": "pls_captured",
+        "gates": [
+          {
+            "criterion": "contamination_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": -0.21839999999999998,
+            "se": 0.015373208874604038,
+            "bound": 0.25,
+            "direction": "lower",
+            "value": -0.24914641774920807,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.1927113268946669,
+            "se": 0.011730788457354518,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.16924974997995787,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.18836326859213992,
+            "se": 0.012354041161809633,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.16365518626852066,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.31279669076123406,
+            "se": 0.011083470302132767,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.2906297501569685,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "recoverability_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.8509,
+            "se": null,
+            "bound": 0.5,
+            "direction": "lower",
+            "value": 0.8509,
+            "verdict": "holds"
+          }
+        ],
+        "criteria": [
+          {
+            "criterion": "contamination",
+            "cell": "anchor",
+            "n": 500,
+            "mean": -0.019600000000000003,
+            "se": 0.012332715505657581,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.005065431011315159,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.003700000000000001,
+            "se": 0.007515023030056832,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.018730046060113664,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.0094,
+            "se": 0.004312827490396973,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": -0.0007743450192060543,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.02810860874761627,
+            "se": 0.008501129851291435,
+            "bound": 0.019271132689466692,
+            "direction": "upper",
+            "value": 0.04511086845019914,
+            "verdict": "fails",
+            "unadjusted_mean": 0.1927113268946669
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.020252633025836533,
+            "se": 0.008360707316399702,
+            "bound": 0.018836326859213992,
+            "direction": "upper",
+            "value": 0.03697404765863593,
+            "verdict": "fails",
+            "unadjusted_mean": 0.18836326859213992
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.010421976242373196,
+            "se": 0.006218809316038894,
+            "bound": 0.03127966907612341,
+            "direction": "upper",
+            "value": 0.022859594874450984,
+            "verdict": "holds",
+            "unadjusted_mean": 0.31279669076123406
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.003900000000000001,
+            "se": 0.007301108983214094,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.010702217966428187,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.029699999999999997,
+            "se": 0.009189925432718038,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.01132014913456392,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.0318645,
+            "se": 0.005627601783456815,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.04311970356691363,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.019761499999999998,
+            "se": 0.004882974284308944,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.029527448568617887,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.033815,
+            "se": 0.007654232103103247,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.04912346420620649,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.032066000000000004,
+            "se": 0.006568695975735465,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.04520339195147093,
+            "verdict": "holds"
+          }
+        ]
+      },
+      "residual": {
+        "arm": "adjusted",
+        "block": "principal",
+        "component": "residual",
+        "gates": [
+          {
+            "criterion": "contamination_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.4332,
+            "se": 0.014294901483285348,
+            "bound": 0.25,
+            "direction": "lower",
+            "value": 0.40461019703342926,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.3164321193723,
+            "se": 0.009948898638206994,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.296534322095886,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.33234171530078843,
+            "se": 0.011843001972095887,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.30865571135659664,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.1985469822319309,
+            "se": 0.01151622141238318,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.17551453940716455,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "recoverability_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.9693999999999999,
+            "se": null,
+            "bound": 0.5,
+            "direction": "lower",
+            "value": 0.9693999999999999,
+            "verdict": "holds"
+          }
+        ],
+        "criteria": [
+          {
+            "criterion": "contamination",
+            "cell": "anchor",
+            "n": 500,
+            "mean": -0.0051,
+            "se": 0.005706409222306515,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.00631281844461303,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.002,
+            "se": 0.0017198592476314236,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0014397184952628472,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.0015,
+            "se": 0.0015970601749479604,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0016941203498959207,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "anchor",
+            "n": 500,
+            "mean": -0.03130567163961871,
+            "se": 0.008620771582023826,
+            "bound": 0.03164321193723,
+            "direction": "upper",
+            "value": 0.04854721480366636,
+            "verdict": "fails",
+            "unadjusted_mean": 0.3164321193723
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.022742160360785364,
+            "se": 0.008374571540629809,
+            "bound": 0.03323417153007884,
+            "direction": "upper",
+            "value": 0.03949130344204498,
+            "verdict": "fails",
+            "unadjusted_mean": 0.33234171530078843
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.012662568393276912,
+            "se": 0.006272415153551146,
+            "bound": 0.019854698223193093,
+            "direction": "upper",
+            "value": 0.025207398700379205,
+            "verdict": "fails",
+            "unadjusted_mean": 0.1985469822319309
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.023000000000000003,
+            "se": 0.014576245534009621,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.052152491068019245,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0012999999999999971,
+            "se": 0.0029057713285852442,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.004511542657170491,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.01547650000000001,
+            "se": 0.004557887099866588,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.006360725800266833,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.017104000000000005,
+            "se": 0.00405178532212569,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.009000429355748624,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.0386965,
+            "se": 0.005514841700671646,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.04972618340134329,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.027294999999999993,
+            "se": 0.006380413568461626,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.040055827136923246,
+            "verdict": "holds"
+          }
+        ]
+      }
+    },
+    "transitions": {
+      "0->1": {
+        "arm": "adjusted",
+        "block": "0->1",
+        "component": "observed",
+        "gates": [
+          {
+            "criterion": "contamination_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.2531,
+            "se": 0.009816491583759853,
+            "bound": 0.25,
+            "direction": "lower",
+            "value": 0.23346701683248028,
+            "verdict": "fails"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.2983435373881895,
+            "se": 0.004197224491209156,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.28994908840577116,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.2907931548151553,
+            "se": 0.004007173952813235,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.2827788069095288,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.27919615704892314,
+            "se": 0.003947102276911805,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.27130195249509953,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "recoverability_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 1.0,
+            "se": null,
+            "bound": 0.5,
+            "direction": "lower",
+            "value": 1.0,
+            "verdict": "holds"
+          }
+        ],
+        "criteria": [
+          {
+            "criterion": "contamination",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.0010000000000000005,
+            "se": 0.002065558778183827,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.005131117556367654,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.002205816769295712,
+            "se": 0.0002865301535932176,
+            "bound": 0.029834353738818948,
+            "direction": "upper",
+            "value": 0.002778877076482147,
+            "verdict": "holds",
+            "unadjusted_mean": 0.2983435373881895
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.0021603174446468074,
+            "se": 0.0002582227133702428,
+            "bound": 0.02907931548151553,
+            "direction": "upper",
+            "value": 0.002676762871387293,
+            "verdict": "holds",
+            "unadjusted_mean": 0.2907931548151553
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.002308180478185352,
+            "se": 0.0002369760909226706,
+            "bound": 0.027919615704892316,
+            "direction": "upper",
+            "value": 0.002782132660030693,
+            "verdict": "holds",
+            "unadjusted_mean": 0.27919615704892314
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.0019000000000000015,
+            "se": 0.00042795594701460876,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.002755911894029219,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -4.999999999999449e-06,
+            "se": 1.5668151836252851e-06,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -8.13363036725002e-06,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.028761000000000002,
+            "se": 0.0013707334088568469,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.031502466817713695,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.020161499999999995,
+            "se": 0.0015781962781875292,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.023317892556375053,
+            "verdict": "holds"
+          }
+        ]
+      },
+      "1->2": {
+        "arm": "adjusted",
+        "block": "1->2",
+        "component": "observed",
+        "gates": [
+          {
+            "criterion": "contamination_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.3035,
+            "se": 0.010328545769634313,
+            "bound": 0.25,
+            "direction": "lower",
+            "value": 0.28284290846073135,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.30490941538978905,
+            "se": 0.0039038931718125345,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.297101629046164,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.2902035541133627,
+            "se": 0.0038182001544805246,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.2825671538044016,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.2772484746763263,
+            "se": 0.0036974725594583163,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.26985352955740965,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "recoverability_gate",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 1.0,
+            "se": null,
+            "bound": 0.5,
+            "direction": "lower",
+            "value": 1.0,
+            "verdict": "holds"
+          }
+        ],
+        "criteria": [
+          {
+            "criterion": "contamination",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.0013,
+            "se": 0.002062796708481241,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.005425593416962482,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "anchor",
+            "n": 500,
+            "mean": 0.0020493086141464257,
+            "se": 0.00030764267171962253,
+            "bound": 0.030490941538978907,
+            "direction": "upper",
+            "value": 0.0026645939575856707,
+            "verdict": "holds",
+            "unadjusted_mean": 0.30490941538978905
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": 0.002731140979341423,
+            "se": 0.0002798189676274035,
+            "bound": 0.02902035541133627,
+            "direction": "upper",
+            "value": 0.0032907789145962298,
+            "verdict": "holds",
+            "unadjusted_mean": 0.2902035541133627
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.002616242534491298,
+            "se": 0.0002598107812311929,
+            "bound": 0.02772484746763263,
+            "direction": "upper",
+            "value": 0.0031358640969536837,
+            "verdict": "holds",
+            "unadjusted_mean": 0.2772484746763263
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.0008000000000000007,
+            "se": 0.00028085183907359797,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.0013617036781471965,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.00030000000000000024,
+            "se": 0.00017285762788791858,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.0006457152557758374,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -1.4999999999998349e-06,
+            "se": 8.642881394394968e-07,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -3.2285762788788285e-06,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": 0.0,
+            "se": 0.0,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.0,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@0.5",
+            "n": 500,
+            "mean": -0.025817999999999997,
+            "se": 0.0015190842590099942,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.028856168518019986,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@1",
+            "n": 500,
+            "mean": -0.016574499999999992,
+            "se": 0.0015561715809893706,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.01968684316197873,
+            "verdict": "holds"
+          }
+        ]
+      }
+    },
+    "angle_rejected": {
+      "alpha": 0.05,
+      "units": {
+        "anchor": 23,
+        "orientation@0.5": 128,
+        "orientation@1": 333
+      },
+      "readings": {
+        "arm": "adjusted",
+        "block": "principal",
+        "component": "observed",
+        "gates": [
+          {
+            "criterion": "contamination_gate",
+            "cell": "anchor",
+            "n": 23,
+            "mean": 0.4760869565217391,
+            "se": 0.06402735066034607,
+            "bound": 0.25,
+            "direction": "lower",
+            "value": 0.34803225520104697,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "anchor",
+            "n": 23,
+            "mean": 0.5246923625376013,
+            "se": 0.026648839537300052,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.47139468346300123,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": 0.511165567815369,
+            "se": 0.011695346361602835,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.4877748750921634,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "projection_gate",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": 0.4978372497606946,
+            "se": 0.006770494356953723,
+            "bound": 0.2,
+            "direction": "lower",
+            "value": 0.48429626104678714,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "recoverability_gate",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": 0.9863363363363363,
+            "se": null,
+            "bound": 0.5,
+            "direction": "lower",
+            "value": 0.9863363363363363,
+            "verdict": "holds"
+          }
+        ],
+        "criteria": [
+          {
+            "criterion": "contamination",
+            "cell": "anchor",
+            "n": 23,
+            "mean": -0.006521739130434784,
+            "se": 0.010090669890292286,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.013659600650149789,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": -0.0054687500000000005,
+            "se": 0.0020924127531223697,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": -0.0012839244937552612,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "contamination",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": -0.00015015015015015017,
+            "se": 0.000260328670012581,
+            "bound": 0.05,
+            "direction": "upper",
+            "value": 0.0003705071898750118,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "anchor",
+            "n": 23,
+            "mean": 0.014291562926792803,
+            "se": 0.005245268513831974,
+            "bound": 0.05246923625376013,
+            "direction": "upper",
+            "value": 0.02478209995445675,
+            "verdict": "holds",
+            "unadjusted_mean": 0.5246923625376013
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": 0.00043610732019992563,
+            "se": 0.0022889538158598036,
+            "bound": 0.051116556781536905,
+            "direction": "upper",
+            "value": 0.005014014951919533,
+            "verdict": "holds",
+            "unadjusted_mean": 0.511165567815369
+          },
+          {
+            "criterion": "residual_confounding",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": 1.5668353875510607e-05,
+            "se": 0.001285357312117834,
+            "bound": 0.04978372497606946,
+            "direction": "upper",
+            "value": 0.0025863829781111783,
+            "verdict": "holds",
+            "unadjusted_mean": 0.4978372497606946
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": 0.03515625,
+            "se": 0.024138447961043637,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": -0.013120645922087275,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "truth_precision",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": 0.005105105105105103,
+            "se": 0.0021715087569471737,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.0007620875912107555,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": 0.03653515625,
+            "se": 0.007536004220312485,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.021463147809375027,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "sign_stability",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": 0.019485735735735744,
+            "se": 0.004676260127169185,
+            "bound": -0.05,
+            "direction": "lower",
+            "value": 0.010133215481397374,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@0.5",
+            "n": 128,
+            "mean": -0.005128906250000004,
+            "se": 0.009442157338352004,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.024013220926704014,
+            "verdict": "holds"
+          },
+          {
+            "criterion": "top_k_frequency",
+            "cell": "orientation@1",
+            "n": 333,
+            "mean": -0.001246246246246247,
+            "se": 0.005323258903028505,
+            "bound": -0.1,
+            "direction": "lower",
+            "value": -0.011892764052303257,
+            "verdict": "holds"
+          }
+        ]
+      }
+    },
+    "rank_deficient_replicates": {
+      "anchor": 0.0,
+      "orientation@0.5": 0.0,
+      "orientation@1": 0.0
+    }
+  }
+}
