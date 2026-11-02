@@ -1,0 +1,7 @@
+mode,effect,statistic,replicates,rejections,rate,monte_carlo_se,bound,verdict
+anchor,0.0,delta,20,2,0.1,0.0670820393249937,0.14746794344808964,holds
+anchor,0.0,angle,20,0,0.0,0.0,0.14746794344808964,holds
+anchor,0.0,shape,20,2,0.1,0.0670820393249937,0.14746794344808964,holds
+translation,1.0,delta,20,1,0.05,0.04873397172404482,0.14746794344808964,holds
+translation,1.0,angle,20,3,0.15,0.07984359711335656,0.14746794344808964,exceeds
+translation,1.0,shape,20,0,0.0,0.0,0.14746794344808964,holds

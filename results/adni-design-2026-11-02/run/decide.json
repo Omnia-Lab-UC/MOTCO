@@ -1,0 +1,19 @@
+{
+ "verdict": "non_rejections_uninformative",
+ "indicative": false,
+ "indicative_reasons": {
+  "below_default_permutations": null,
+  "unavailable_size_readings": []
+ },
+ "statements": {
+  "delta": "At the ADNI design `delta` reaches at most 0.530 (SE 0.022, R = 500) at e = 1 of the magnitude construction, at CV-selected rank 19 (median 19); a non-rejection is uninformative up to the construction maximum (e = 1; floor 0.80).",
+  "angle": "At the ADNI design `angle` reaches at most 0.076 (SE 0.012, R = 500) at e = 0.75 of the orientation construction, at CV-selected rank 2–19 (median 19); a non-rejection is uninformative up to the construction maximum (e = 1; floor 0.80).",
+  "shape": "At the ADNI design `shape` reaches at most 0.062 (SE 0.011, R = 500) at e = 0.25 of the shape construction, at CV-selected rank 2–19 (median 19); a non-rejection is uninformative up to the construction maximum (e = 1; floor 0.80)."
+ },
+ "size": "Size holds at the ADNI design: all six readings at or below the one-sided bound (anchor `delta` 0.034 (bound 0.0695, R = 500); anchor `angle` 0.060 (bound 0.0695, R = 500); anchor `shape` 0.040 (bound 0.0695, R = 500); translation `delta` 0.034 (bound 0.0695, R = 500); translation `angle` 0.054 (bound 0.0695, R = 500); translation `shape` 0.068 (bound 0.0695, R = 500)).",
+ "informative_from": {
+  "delta": null,
+  "angle": null,
+  "shape": null
+ }
+}

@@ -1,0 +1,9 @@
+ADNI-design check, smoke (openspec change adni-design-operating-characteristics, task 3.2; indicative by construction)
+construction: table adni [[237, 310, 125], [223, 448, 158]], delta 0.02, s_z 0.1, s_p 1.75 (the calibrated defaults), 14 cells, reps 20, perms 99, base seed 2032
+submitted: 2026-11-02 on ing, partition 512x1024, --exclude=n11, array 0-139 (140 shards), job 931824; merge + decide by job 931825 (afterany)
+command: sbatch --array=0-139 --export=ALL,ADNI_OUT=<worktree>/results/adni-design-2026-11-02/smoke,N_SHARDS=140,PYTHONPATH=<worktree>/src,ADNI_ARGS="--reps 20 --perms 99" scripts/adni_design_array.sbatch
+code: clean git worktree /home1/tgonza/MOTCO-adni-design of branch feat/adni-design-operating-characteristics at db2e30a (git tree 3ec28936ac309394c3a3a747bda1a1221fa9255b, identical to the workstation); MOTCO 0.13.0 from the worktree's src
+units: 280/280, failures 0; unit runtime median 110.8 s on n1 (102 tasks), 44.9 s on n4 (38 tasks)
+decision: diagnose_design_excess, indicative (99 permutations; translation angle 3/20 against the R = 20 bound 0.1475)
+records/ (140 shard files) stay on ing under the worktree's results/adni-design-2026-11-02/smoke/records/
+timing at 999 permutations: job 931826, R = 2 on six cells, /home1/tgonza/MOTCO-adni-design-scratch/timing999/ (not committed): 37.4-41.0 s per unit on n4

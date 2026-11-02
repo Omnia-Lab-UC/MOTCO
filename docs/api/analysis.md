@@ -354,6 +354,38 @@ With many covariates at small n, use the opt-in
 check validated at this configuration (roadmap, Next changes item 8). Without it,
 read covariate-adjusted p-values against their realized size.
 
+**Validation at the ADNI design.** `scripts/adni_design_check.py` measures size
+and power where the second case study (ADNI serum metabolomics) is run:
+
+- **The design.** n = 1,501 in ADNI's sex × stage cells, two blocks, and six
+  covariate design columns of ADNI's kinds. They are a confounded numeric, a
+  three-level factor declared with `categorical_covariates` (two drop-first
+  columns), a phase-like binary nuisance injected into one block, and two noise
+  columns.
+- **The regime.** The stage signal is calibrated to ADNI's held-out AUROC
+  (0.606 against 0.600), with a basis that follows the nuisance as ADNI's does.
+- **The analysis.** One covariate-adjusted analysis per unit, as the primary is
+  issued: the rank floor of 2, net displacement and no residual correction.
+
+The 2026-11-02 run (14 cells × 500 × 999;
+[report](../reports/adni-design-2026-11-02.md)) returned
+**`non_rejections_uninformative`**:
+
+- **Size holds** at the anchor and the translation control: every statistic
+  reads 0.034–0.068 against the 0.0695 bound. `delta` is conservative
+  (0.034), since six columns cost almost nothing in residual df at this n.
+- **No statistic reaches the 0.80 power floor.** Magnitude/`delta` reaches
+  0.530 at a doubled stage effect in one group. Orientation/`angle`
+  (0.056–0.076) and shape/`shape` (0.034–0.062) stay at the null rate at
+  every construction effect.
+- **The rank.** The CV-selected rank sits at the cap of 19 in 95–100 % of
+  units, against ADNI's 8.
+
+At a design of this kind (large n, a weak stage signal at AUROC ≈ 0.60), a
+non-rejection of `delta`, `angle` or `shape` is uninformative. The
+measurement covers this table, stage signal and covariate set only, on
+InterSIM-analogue blocks.
+
 Without the setting, every output is identical to MOTCO 0.8.0 except the
 runtime, `record["params"]` included (`tests/test_analysis_identity.py`).
 
