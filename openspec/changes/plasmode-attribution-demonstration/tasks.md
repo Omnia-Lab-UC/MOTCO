@@ -76,7 +76,7 @@
 
 ## 9. Calibration and paper-grade run
 
-- [ ] 9.1 Run `calibrate` on the real export on the approved machine. Verify that `calibration.json` records every iteration and the adopted `e*` (or `cap_reached`), and that the settings name it.
+- [x] 9.1 Run `calibrate` on the real export on the approved machine. Verify that `calibration.json` records every iteration and the adopted `e*` (or `cap_reached`), and that the settings name it.
 - [ ] 9.2 If the run goes to `ing`, write `scripts/plasmode_array.sbatch` with absolute paths and the node exclusions, copy the export, and verify its sha256 against the settings before submitting. Run the paper grade (3 cells × 500 at 999 × B = 200). Verify that every shard completes (`sacct` `COMPLETED 0:0`, or every local worker exits 0) and that every unit has a record.
 - [ ] 9.3 Run `merge` and `decide`. Copy the committed files into `results/plasmode-<date>/` (design D11), and write `PROVENANCE.txt` naming the uncommitted records and metrics with their sha256, the MOTCO commit, the `sead_sexdiff` commit and the export hashes. Verify that the decision is not indicative, and that its settings hash equals `settings.json`'s.
 

@@ -39,3 +39,22 @@ By design D11 (beyond a few hours locally) the paper grade goes to `ing`. The pr
 Early signal (not a calibration reading): at replicate 0 of the paper stream, the anchor and e = 2.0 units gave the same rank (5) and nearly the same p-values (`angle` 0.415 in both, `delta` 0.036 / 0.037); the smoke's e = 1.0 cell rejected `angle` in 2/20. A 20-feature ramp moves the 5-dimensional stage-PLS space little, so calibration may reach the cap.
 
 **Approval (2026-11-02).** The user approved calibration on `ing` as one 40-CPU job, asked to see its result before the paper grade is approved, and chose to commit on `feat/plasmode-attribution-demonstration`, push, and run from a detached worktree at that commit.
+
+## Calibration on `ing` (task 9.1, 2026-11-02)
+
+- Branch `feat/plasmode-attribution-demonstration` at `f0b05f0` (rebased onto `main` `b7df7c7`: it had first been cut from another session's HEAD on `feat/simulation-presentation-figures`; that session's commits are not on this branch), pushed to origin.
+- `ing`: detached worktree `/home1/tgonza/MOTCO-plasmode` at `f0b05f0`, `.venv` → `/home1/tgonza/MOTCO/.venv` (scikit-learn 1.8.0, numpy 2.3.5, as locally), `PYTHONPATH` set to the worktree's `src` (`motco` 0.14.0 imported from it).
+- Export copied to `/home1/tgonza/plasmode-data/cohort_30/` (the five files read); its sha256 equal the local export's and `fidelity.json`'s `export_files`.
+- Job 932595 (`scripts/plasmode_calibrate.sbatch`, 40 CPUs, n1, `--exclude=n11`): the fidelity gate again on EPYC, then the ladder; outputs in `/home1/tgonza/plasmode-2026-11-02/calibration/`.
+
+**Result.** Job 932595 `COMPLETED 0:0` in 18 min 49 s (n1, 40 CPUs, TotalCPU 8 h 26 min, MaxRSS 6.7 GB; ~150 CPU-s per unit on EPYC, faster than the workstation). The fidelity gate passed again on EPYC (rank 5, AUROC 0.635556). Calibration **reached the cap**: `angle` rejected in 0/40 units at every step, so `e*` = 3.0 (`cap_reached`, iteration 4, entry sha256 `c4fe69db…5839`) and the descriptive cell is 2.0. Per step (`delta` / `angle` / `shape` rejections of 40; selected ranks):
+
+| e | delta | angle | shape | ranks |
+|---|---:|---:|---:|---|
+| 0.5 | 2 | 0 | 1 | 5 ×35, 2 ×4, 10 ×1 |
+| 1.0 | 1 | 0 | 1 | 5 ×25, 2 ×11, 7 ×2, 10, 12 |
+| 1.5 | 2 | 0 | 0 | 5 ×22, 2 ×12, 7 ×4, 8, 11 |
+| 2.0 | 1 | 0 | 0 | 5 ×24, 2 ×9, 7 ×4, 8 ×2, 11 |
+| 3.0 | 1 | 0 | 0 | 5 ×24, 2 ×8, 7 ×3, 8 ×4, 11 |
+
+`run --calibration` settings name iteration 4 and the cells [0, 3.0, 2.0]. A label-free diagnostic (scratchpad `latent_capture.py`, forced rank 5 on the export) finds the pooled stage displacement 99.9 % inside the rank-5 stage-PLS span, but a random 20-feature plant only 2.2 % (median; q95 3.2 %), the share of any random direction (√(5/10,000)): the planted orientation is outside the measured subspace unless it reshapes the PLS fit, which the drift of the rank from 5 toward 2 suggests it starts to do. Revised paper-grade estimate: 1,500 × ~150–200 CPU-s ≈ 65–85 EPYC core-hours.
