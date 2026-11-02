@@ -298,3 +298,9 @@ The failing reading has mean +0.010 (the adjusted arm at or above the oracle) an
 4. After every task completes `0:0`, run `merge` and `decide` on `ing`, copy back `settings.json`, the decision, the summary and metric CSVs, `merge.json`, `decide.json` and `sacct.txt`, and write `PROVENANCE.txt` (commands, jobs, tree hash, settings hash, versions, file sha256s, core-hours).
 
 **Approval.** Approved by the user on 2026-11-02, on `ing` ("you can also use the server").
+
+## Paper-grade run (2026-11-02)
+
+The approved plan ran as written. On `ing`, a one-unit timing task (job 932517, 15.3 s, `COMPLETED 0:0` on n1) created `settings.json`, then array 932521 (`--array=0-49`, 30 units per task, n2 and n11 excluded) ran the 1,500 units from the clean worktree `/home1/tgonza/MOTCO-adjusted-attribution` at `3862c6c` (git tree `feaf93b8…`, equal to the workstation's; 78 tests passed there). All 50 tasks ended `COMPLETED 0:0` on n1 between 20:40Z and 20:53Z: 10.44 core-hours, the units' timers summing to 8.42 h (median 20.2 s). There were no consistency failures and no rank-deficient replicates. `merge` and `decide` ran on `ing`; the decision's settings hash `5a84844d…` equals `settings.json`'s, and the copied-back files' sha256 equal `ing`'s (`run/PROVENANCE.txt`).
+
+The verdict is **`adjusted_attribution_validated`**, not indicative, at 500 replicates per cell, adopting calibration iteration 9. Every gate and criterion holds (report §2–3): the gates read 0.40 (contamination, anchor), 0.50 / 0.51 / 0.50 (projection) and 0.985 (recoverability); the criteria's worst readings are contamination 0.0064 against 0.05, residual confounding 0.0056 against 0.0509, truth precision +0.0009 against −0.05, sign stability +0.0087 against −0.05 and top-k frequency −0.0210 against −0.10. Item 12 may start on 0.14.0. See `docs/reports/adjusted-attribution-2026-11-02.md`.

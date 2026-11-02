@@ -141,7 +141,7 @@
 
 ## 7. Report, roadmap and docs
 
-- [ ] 7.1 Write `docs/reports/adjusted-attribution-<date>.md`. It covers:
+- [x] 7.1 Write `docs/reports/adjusted-attribution-<date>.md`. It covers:
   - the construction;
   - the calibration with every iteration;
   - per cell, the gates and the four criteria with their bounds, SEs and R;
@@ -150,7 +150,7 @@
   - the limitations: numeric covariates only, the astrocyte table only, the InterSIM blocks (498 features), δ = 2.0 rather than SEA-AD's stage signal, and the additive linear covariate model.
 
   Verify that every number is read from the committed decision, summary and calibration files, and that the report names them.
-- [ ] 7.2 Update the documents with the verdict:
+- [x] 7.2 Update the documents with the verdict:
   - `docs/roadmap.md`: item 11 marked done with its verdict and report link, item 12's start condition, and the Phase 6 "Not yet established" bullet;
   - `docs/api/analysis.md`: the validation status;
   - `AGENTS.md`: the check (script, verdict, date) in the `analysis.py` paragraph;
@@ -160,7 +160,7 @@
 
 ## 8. Gate
 
-- [ ] 8.1 Run the pre-commit gate plus `uv run ruff check scripts/adjusted_attribution_check.py`. Confirm three things:
+- [x] 8.1 Run the pre-commit gate plus `uv run ruff check scripts/adjusted_attribution_check.py`. Confirm three things:
   - all checks pass;
   - `git diff --stat main -- tests/data` lists only the new `attribution_no_covariate_identity.json`;
   - the version is 0.14.0.

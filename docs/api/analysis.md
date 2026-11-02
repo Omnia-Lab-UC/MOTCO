@@ -125,8 +125,18 @@ replicate and is counted. The record's attribution block then gains an
 CLI prints `Attribution: covariate-adjusted means at the reference row; <k> of
 <B> bootstrap replicates rank-deficient`. See [covariate-adjusted
 means](attribution.md#covariate-adjusted-means) for the definition and its
-interpretation boundary. Validation at the case study's configuration is
-pending the adjusted-attribution check (`scripts/adjusted_attribution_check.py`).
+interpretation boundary.
+
+**Validation.** `scripts/adjusted_attribution_check.py` returned
+**`adjusted_attribution_validated`** at the case study's configuration (astrocyte
+`cohort_30` table, six covariate columns with one confounded and injected,
+rank floor 2, `df`, at the Phase 6 stage effect; 500 × 999 × B = 200). Against
+an oracle that removes the injection exactly, the adjusted attribution's top-20
+contamination is within 0.005, its residual tilt toward the covariate is under
+1 % of the unadjusted one, and truth precision and bootstrap stability are
+non-inferior. The PLS-captured and residual views keep 3–15 % of the
+confounding, so read drivers from the observed component. See [the
+report](../reports/adjusted-attribution-2026-11-02.md).
 
 **Not with latent adjustment.** Attribution together with
 `covariate_latent_adjustment` raises an error before any fitting: that basis
