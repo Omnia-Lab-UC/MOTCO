@@ -60,9 +60,50 @@ result records the seed, requested count, valid count, sign stability, and
 top-k selection frequency, for the principal-orientation block as well as the
 transitions. Each replicate's principal axis is signed by that replicate's own
 net displacement, so resampling noise cannot flip the axis; a replicate whose
-trajectory closes contributes no contrast and counts as invalid. Bootstrap is available for arithmetic row-derived
-means; precomputed covariate-adjusted mean tables are accepted with stability
-marked unavailable.
+trajectory closes contributes no contrast and counts as invalid. Bootstrap is
+available for arithmetic and covariate-adjusted means (below); a precomputed
+mean table is accepted with stability marked unavailable.
+
+## Covariate-adjusted means
+
+Pass `covariates` (numeric design columns, row-aligned with `X`; code factors
+as indicator columns) to attribute from covariate-adjusted cell means instead
+of arithmetic ones. Each group × stage mean is then the least-squares mean of
+the cell-means model with the covariates added, evaluated at a reference
+covariate row `c_ref` (`covariate_reference`, by default the column means):
+
+```text
+m̂_gs = x̄_gs − γ̂ᵀ (c̄_gs − c_ref)
+```
+
+where `x̄_gs` and `c̄_gs` are the cell's feature and covariate means and `γ̂`
+holds the covariate coefficients estimated within cells. This is the model the
+real-data analysis fits in the latent space, here fitted in feature space, so
+projecting the adjusted means through the fitted PLS model gives the analysis's
+latent stage means. The reconstructed and residual components follow from the
+adjusted means as they do from arithmetic ones.
+
+- **Reference-row invariance.** `c_ref` shifts every cell by the same vector
+  `γ̂ᵀ c_ref`, so transitions, path lengths and both contrast blocks do not
+  depend on it. Only the means tables move.
+- **Bootstrap refit.** Each replicate draws the same within-cell resample as
+  attribution without covariates for the same seed, refits `γ̂` on the
+  resampled rows and evaluates the means at the fixed full-sample `c_ref`. The
+  fitted preprocessing and PLS model stay frozen, so stability includes the
+  uncertainty of estimating the covariate coefficients.
+- **Rank-deficient replicates.** Covariates collinear within cells (for
+  example, constant within every cell) are an error on the full sample. In a
+  resample, for example one that omits the only sample carrying a rare factor
+  level, they make the replicate invalid. Such a replicate contributes no
+  contrast to any block, is excluded from every valid count, and is counted in
+  the configuration row `bootstrap_rank_deficient_replicates`.
+
+The configuration records `mean_source = covariate_adjusted`, the covariate
+columns in order and the reference row. The interpretation table adds an
+`adjustment_boundary`: adjusted effects assume an additive linear covariate
+model evaluated at the reference row, and adjustment does not remove
+unmeasured confounding. `covariates` cannot be combined with a precomputed
+mean table. Without covariates every output is unchanged.
 
 ## Labels and interpretation
 
