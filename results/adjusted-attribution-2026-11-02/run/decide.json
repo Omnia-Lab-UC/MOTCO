@@ -1,0 +1,10 @@
+{
+ "verdict": "adjusted_attribution_validated",
+ "failing": [],
+ "indicative": false,
+ "replicates": {
+  "anchor": 500,
+  "orientation@0.5": 500,
+  "orientation@1": 500
+ }
+}

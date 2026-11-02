@@ -187,6 +187,8 @@ def compute_attribution_diagnostics(
     stages: Sequence[str] | None = None,
     truth: TruthDrivers | None = None,
     original_basis: Mapping[str, str] | None = None,
+    covariates: pd.DataFrame | None = None,
+    covariate_reference: Mapping[str, float] | None = None,
 ) -> dict[str, Any]:
     """Run frozen-model attribution and reduce it to a compact JSON-safe record.
 
@@ -211,6 +213,8 @@ def compute_attribution_diagnostics(
         stages=stages,
         truth=truth,
         original_basis=original_basis,
+        covariates=covariates,
+        covariate_reference=covariate_reference,
     )
     return record
 
@@ -233,6 +237,8 @@ def run_attribution_diagnostics(
     stages: Sequence[str] | None = None,
     truth: TruthDrivers | None = None,
     original_basis: Mapping[str, str] | None = None,
+    covariates: pd.DataFrame | None = None,
+    covariate_reference: Mapping[str, float] | None = None,
 ) -> tuple[dict[str, Any], OrientationAttributionResult]:
     """Run frozen-model attribution; return the compact record and the full result.
 
@@ -242,6 +248,11 @@ def run_attribution_diagnostics(
     ``stages`` orders and a ``truth`` (an unavailable :class:`TruthDrivers` for
     real data). ``original_basis`` overrides the per-block original-unit labels
     (default :data:`UNIT_BASIS`).
+
+    ``covariates`` (row-aligned numeric design columns) and
+    ``covariate_reference`` are forwarded to the primitive, which then
+    attributes from covariate-adjusted cell means; the record then carries an
+    ``adjustment`` block. Without covariates the record is unchanged.
     """
 
     if metadata is None:
@@ -253,6 +264,7 @@ def run_attribution_diagnostics(
     start = perf_counter()
     metadata = metadata.reset_index(drop=True)
     aligned_features = features.reset_index(drop=True)
+    aligned_covariates = None if covariates is None else covariates.reset_index(drop=True)
     try:
         result = analyze_orientation_attribution(
             aligned_features,
@@ -269,6 +281,8 @@ def run_attribution_diagnostics(
             bootstrap_seed=settings.bootstrap_seed,
             top_k=int(settings.top_k),
             zero_tolerance=float(settings.zero_tolerance),
+            covariates=aligned_covariates,
+            covariate_reference=covariate_reference,
         )
     except AttributionError as exc:
         raise AttributionDiagnosticError(f"Orientation attribution failed: {exc}") from exc
@@ -313,6 +327,7 @@ def run_attribution_diagnostics(
             "original_basis": dict(UNIT_BASIS if original_basis is None else original_basis),
             "methylation_units": methylation_units,
         },
+        **({"adjustment": _adjustment_record(result, settings)} if covariates is not None else {}),
         "truth": {
             "available": truth.available,
             "definition": truth.definition,
@@ -331,6 +346,19 @@ def run_attribution_diagnostics(
         },
     }
     return record, result
+
+
+def _adjustment_record(result: OrientationAttributionResult, settings: Any) -> dict[str, Any]:
+    """How the cell means were adjusted: design columns, reference row and rank-deficient replicates."""
+
+    config = result.config
+    return {
+        "mean_source": config.mean_source,
+        "design_columns": list(config.covariate_columns or ()),
+        "reference_row": dict(config.covariate_reference or {}),
+        "rank_deficient_replicates": int(config.rank_deficient_replicates or 0),
+        "bootstrap_replicates": int(settings.bootstrap_replicates),
+    }
 
 
 def unavailable_record(reason: str, *, status: str = "not_requested") -> dict[str, Any]:

@@ -1,0 +1,46 @@
+Adjusted-attribution check, paper-grade run (openspec change covariate-adjusted-attribution, design D7-D12)
+construction: astrocyte cohort_30 table [[11, 10, 28], [9, 10, 12]] (n = 80), methylation + expression (498 joint features), joint magnitude, delta 2.0 (Phase 6 stage effect), p_dmp 0.1, s_z 10 (calibration.json iteration 9, rule version 2), s_c 0, feature fraction 0.2
+  (cells: anchor, orientation 0.5, orientation 1.0; reps 500, perms 999, bootstrap 200, top-k 20, base seed 2033; declared covariates z, x1..x5 -> six numeric design columns; min_components 2, net_displacement, residual_correction df, harness CV knobs)
+arms: adjusted (analyze_trajectories with covariates and attribution), oracle and unadjusted (the primitive on the exposed estimator and features, same bootstrap seed and draws)
+rule: version 2 (gates amended 2026-11-02 with the user's approval before any smoke or paper-grade unit; design.md D10)
+approved: by the user on 2026-11-02, on ing (design.md, "Smoke and run plan")
+code: clean git worktree /home1/tgonza/MOTCO-adjusted-attribution (detached) of branch feat/covariate-adjusted-attribution at 3862c6c (git tree feaf93b868259f001c1ae0972ab4fe7e68bc819c, identical to the workstation at that commit); PYTHONPATH on its src, .venv symlinked from /home1/tgonza/MOTCO, logs/ created before sbatch; tests/test_adjusted_attribution.py, tests/test_adjusted_attribution_check.py and tests/test_attribution_identity.py passed there (78 passed, n1)
+versions: python 3.11.16 motco 0.14.0 /home1/tgonza/MOTCO-adjusted-attribution/src/motco/__init__.py numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3 pandas 2.3.3
+settings hash: 5a84844d685729e12a8a4f211c5705aad2c09cddc500748cb805964decafee43 (equals adjusted_attribution_decision.json's settings_hash)
+
+timing task: job 932517 (--array=0, AA_ARGS="--limit 1"), 2026-11-02T20:38:54Z-20:39:37Z on n1, COMPLETED 0:0; it wrote settings.json and the first unit (15.3 s) of shard 0
+submitted: 2026-11-02 on ing, partition 512x1024, --exclude=n2,n11, array 0-49 (50 shards of 30 units), job 932521
+command: sbatch --array=0-49 --exclude=n2,n11 --export=ALL,AA_OUT=<worktree>/results/adjusted-attribution-2026-11-02/run,N_SHARDS=50,AA_CALIBRATION=results/adjusted-attribution-2026-11-02/calibration/calibration.json,PYTHONPATH=<worktree>/src scripts/adjusted_attribution_array.sbatch
+completed: every task started 2026-11-02T20:40:07Z, first ended 20:52:21Z, last ended 20:52:52Z; 50/50 tasks COMPLETED 0:0, all on n1 (sacct.txt)
+units: 1500/1500, missing 0, consistency failures 0, rank-deficient bootstrap replicates 0
+core-hours: 10.44 elapsed for the array plus 0.01 for the timing task (sacct CPUTimeRAW, one CPU per task, BLAS threads 1); the units' own timers sum to 8.42 h (median 20.2 s per unit, q05 19.7 s, q95 20.6 s, max 22.0 s; 50 tasks shared n1)
+merged and decided on ing (srun on n1, 2026-11-02T20:54:03Z-20:54:19Z):
+  python scripts/adjusted_attribution_check.py merge --out-dir <worktree>/results/adjusted-attribution-2026-11-02/run > merge.json
+  python scripts/adjusted_attribution_check.py decide --out-dir <worktree>/results/adjusted-attribution-2026-11-02/run > decide.json
+decision (adjusted_attribution_decision.json): adjusted_attribution_validated, indicative false, 500 replicates per cell, adopted calibration iteration 9
+
+sha256 of the files that define the measurement (identical on ing at 3862c6c and on the workstation):
+37be748daf93dd26fc16f19631e8ad59c85dd086dd3ac3c6d2a5f4292ca2a91a  scripts/adjusted_attribution_check.py
+3890346ddbc6b44ea5ccdfc8cf9c16cf9e2c6f00bb0be331e8a86ad5b02baf85  scripts/case_study_type_i_check.py
+fcae01c889e246df9f8c8379eaaa6bc06e71f98bde3313c261a7f2d7860feb56  scripts/covariate_type_i_check.py
+8373a102de5248e7e00995deb7f62ed0ff16f066be1a6336bd3d9ab315ac0883  scripts/adjusted_attribution_array.sbatch
+17f8a7185e9d2eb07b49195bfb43eae9103c409b38d9f641d10646654b641fb8  src/motco/stats/attribution.py
+00fd8721bb257a3417f683c3f2d07e1a1b879c217c5c97b37a5e76479580a6bb  src/motco/analysis.py
+af3825fcd76a00cec5075762de38a465ef3fe2c9c9e56f04513c8b67dd9dc11a  src/motco/simulations/attribution_diagnostics.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+177c23667c294c55c50a3e5ab8600d9fb34e01208c49bb0433361bfe5950e0ef  src/motco/stats/permutation.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+
+sha256 of the committed tables (copied back and checked against ing):
+19100668dd880a38c36fb222ba1f3f16ed817ec15017857fae3e368e0bfd3fe9  adjusted_attribution_decision.json
+4d2b65516616f5f780cd5363235ca9db34d9c7beedf2cf549d611e62ac31f39f  adjusted_attribution_summary.csv
+ea4eab4b34c1b9b3fd9b163f2f7efb9ad620d1bee79926153d92941a1cc8e69e  merge.json
+0efe288794da2375766c8aa757015e43f9e9c7e38e0304671d2844b8d51b0cb4  decide.json
+676e7affcf8660b9f12ba4457e3153a7e325480accba83b176c20f1ca428c79a  settings.json
+3148575f73523ec92aabb1567135c1e192eaba3bc1f4502f6d1e2b5687feed90  sacct.txt
+
+stays on ing (/home1/tgonza/MOTCO-adjusted-attribution/results/adjusted-attribution-2026-11-02/run/):
+  records/ (50 shard files, 13 MB) and merged.jsonl (13 MB)
+  adjusted_attribution_metrics.csv (5.4 MB, over the 1 MB commit limit; sha256 e6c557ad095f807cd082a5ac560721ba0f90a954756605ac8184298bd1071384)
+  the SLURM logs under /home1/tgonza/MOTCO-adjusted-attribution/logs/ (102 files)

@@ -310,3 +310,44 @@ def test_analyze_without_residual_correction_prints_no_line(tmp_path: Path, anal
     record = json.loads((out_dir / "result.json").read_text())
     assert "residual_correction" not in record["measurement"]
     assert "residual_correction" not in record["params"]
+
+
+def test_analyze_covariate_adjusted_attribution(tmp_path: Path, covariate_files,
+                                                capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--attribution", "--bootstrap-replicates", "20", "--bootstrap-seed", "3"))
+    configuration = pd.read_csv(out_dir / "attribution" / "configuration.csv")
+    assert dict(zip(configuration["setting"], configuration["value"]))["mean_source"] == "covariate_adjusted"
+    record = json.loads((out_dir / "result.json").read_text())
+    adjustment = record["attribution"]["adjustment"]
+    assert adjustment["design_columns"] == record["covariates"]["design_columns"]
+    assert adjustment["reference_row"] == record["covariates"]["reference_row"]
+    assert adjustment["bootstrap_replicates"] == 20
+    printed = capsys.readouterr().out
+    assert (
+        "Attribution: covariate-adjusted means at the reference row; "
+        f"{adjustment['rank_deficient_replicates']} of 20 bootstrap replicates rank-deficient"
+    ) in printed
+
+
+def test_analyze_attribution_with_latent_adjustment_exits(tmp_path: Path, covariate_files) -> None:
+    args = _analyze_args(covariate_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                         "--covariate", "age_at_death", "--covariate", "pmi",
+                         "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                         "--latent-adjustment", "stage", "--attribution")
+    with pytest.raises(SystemExit, match="Attribution is not available with latent adjustment") as exc:
+        main(args)
+    assert exc.value.code != 0
+    assert not (tmp_path / "out").exists()
+
+
+def test_analyze_attribution_without_covariates_prints_no_adjustment(tmp_path: Path, analyze_files,
+                                                                    capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--attribution", "--bootstrap-replicates", "5"))
+    assert "covariate-adjusted" not in capsys.readouterr().out
+    assert "adjustment" not in json.loads((out_dir / "result.json").read_text())["attribution"]

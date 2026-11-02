@@ -1,0 +1,44 @@
+{
+ "s_z": 50.0,
+ "base_seed": 2033,
+ "replicates": 20,
+ "permutations": 99,
+ "bootstrap_replicates": 50,
+ "cells": [
+  "anchor",
+  "orientation@1"
+ ],
+ "units": 40,
+ "contamination": {
+  "bound": 0.25,
+  "cells": {
+   "anchor": {
+    "mean": 0.16500000000000004,
+    "n": 20,
+    "met": false
+   },
+   "orientation@1": {
+    "mean": 0.0,
+    "n": 20,
+    "met": false
+   }
+  },
+  "met": false
+ },
+ "recoverability": {
+  "bound": 0.5,
+  "cell": "orientation@1",
+  "oracle_truth_precision": 0.985,
+  "met": true
+ },
+ "met": false,
+ "selected_rank": {
+  "2": 11,
+  "3": 12,
+  "4": 12,
+  "5": 3,
+  "6": 1,
+  "7": 1
+ },
+ "outcome": "stop_exhausted"
+}

@@ -358,6 +358,13 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             f"RRPP null: residual correction {correction['kind']} ({detail}; n = {correction['n']}, "
             f"reduced rank {correction['reduced_rank']})"
         )
+    adjustment = record["attribution"].get("adjustment")
+    if adjustment is not None:
+        print(
+            f"Attribution: covariate-adjusted means at the reference row; "
+            f"{adjustment['rank_deficient_replicates']} of {adjustment['bootstrap_replicates']} bootstrap "
+            "replicates rank-deficient"
+        )
     for statistic, value in record["statistics"].items():
         p_value = record["p_values"].get(statistic)
         shown = "unavailable" if value is None else f"{value:.6g}"

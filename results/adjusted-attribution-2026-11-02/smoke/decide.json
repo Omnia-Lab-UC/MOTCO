@@ -1,0 +1,16 @@
+{
+ "verdict": "diagnose_adjusted_attribution",
+ "failing": [
+  {
+   "criterion": "truth_precision",
+   "cell": "orientation@0.5",
+   "verdict": "fails"
+  }
+ ],
+ "indicative": true,
+ "replicates": {
+  "anchor": 20,
+  "orientation@0.5": 20,
+  "orientation@1": 20
+ }
+}

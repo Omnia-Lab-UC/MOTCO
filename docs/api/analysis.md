@@ -110,6 +110,47 @@ stage order and group labels. The latent space is not refitted. Real data carry
 no generator truth, so the truth-recovery block is reported unavailable rather
 than invented. The full tables are written under `attribution/`.
 
+**With covariates**, attribution uses covariate-adjusted cell means: the
+least-squares means of the cell-means model with the declared covariate design
+columns (`record["covariates"]["design_columns"]`), evaluated at the record's
+`covariates.reference_row`. They are the feature-space counterpart of the
+latent LS-means, so the attribution's observed means, projected through the
+fitted estimator, equal `stage_means.csv`. Its bootstrap resamples within
+cells exactly as without covariates and refits the covariate coefficients in
+every replicate; a resample whose covariates are collinear within cells (for
+example, one that omits the only donor at a rare factor level) is an invalid
+replicate and is counted. The record's attribution block then gains an
+`adjustment` block: `mean_source` (`covariate_adjusted`), `design_columns`,
+`reference_row`, `rank_deficient_replicates` and `bootstrap_replicates`. The
+CLI prints `Attribution: covariate-adjusted means at the reference row; <k> of
+<B> bootstrap replicates rank-deficient`. See [covariate-adjusted
+means](attribution.md#covariate-adjusted-means) for the definition and its
+interpretation boundary.
+
+**Validation.** `scripts/adjusted_attribution_check.py` returned
+**`adjusted_attribution_validated`** at the case study's configuration (astrocyte
+`cohort_30` table, six covariate columns with one confounded and injected,
+rank floor 2, `df`, at the Phase 6 stage effect; 500 × 999 × B = 200). Against
+an oracle that removes the injection exactly, the adjusted attribution's top-20
+contamination is within 0.005, its residual tilt toward the covariate is under
+1 % of the unadjusted one, and truth precision and bootstrap stability are
+non-inferior. The PLS-captured and residual views keep 3–15 % of the
+confounding, so read drivers from the observed component. See [the
+report](../reports/adjusted-attribution-2026-11-02.md).
+
+**Not with latent adjustment.** Attribution together with
+`covariate_latent_adjustment` raises an error before any fitting: that basis
+is fitted on covariate-residualized features, and attribution on it is not
+defined.
+
+**The frozen measurement in memory.** `result.latent_artifacts` holds the
+fitted estimator, the standardized joint feature matrix the latent scores are
+the projection of (`latent_artifacts.model.transform(latent_artifacts.features)`
+reproduces `latent_scores` to rounding) and the per-feature original scales. It
+exists for callers that attribute or probe in exactly the analysed coordinates.
+It is in memory only: it is not part of the record, and
+`write_analysis_outputs` never writes or pickles it.
+
 ## Analysis artifact
 
 `write_analysis_outputs(result, out_dir)` writes:
@@ -182,9 +223,8 @@ covariate effect is large and aligned with stage, PLS may spend a component on
 it; [latent adjustment](#latent-adjustment) chooses the basis with the
 covariates instead.
 
-**Attribution is not available with covariates.** Frozen-model attribution
-works from unadjusted cell means, so a request for both raises an error before
-any fitting.
+**Attribution with covariates** uses covariate-adjusted cell means at the
+same reference row; see [Attribution](#attribution).
 
 **Keep the covariate set parsimonious.** Small cells (the SEA-AD MTG design
 has 9–28 donors per cell) and many covariate columns can make the model
@@ -264,8 +304,8 @@ motco analyze ... --covariate age_at_death --covariate pmi --latent-adjustment s
   must too, otherwise the error names the repeat and fold; this happens when a
   rare factor level drops out of a training set, and depends on
   `random_state`. Merge rare levels upstream rather than relying on a
-  minimum-norm fit, whose held-out shift would be arbitrary. Attribution stays
-  unavailable with covariates.
+  minimum-norm fit, whose held-out shift would be arbitrary. Attribution is
+  rejected with latent adjustment, before any fitting.
 - **Record.** `result.json` gains a `latent_adjustment` block after
   `covariates`, and `latent.integration_params.latent_adjustment` names the
   conditioning. The block holds `conditioning`, `covariates`, `design_columns`

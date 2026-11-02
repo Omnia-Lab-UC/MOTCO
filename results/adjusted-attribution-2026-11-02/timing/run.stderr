@@ -1,0 +1,3 @@
+[shard 0/1] 1/2 ["anchor", 0.0, 0] 7.4s
+[shard 0/1] 2/2 ["orientation", 0.5, 0] 8.4s
+evaluated 2 unit(s) into results/adjusted-attribution-2026-11-02/timing/records/shard_000_of_001.jsonl

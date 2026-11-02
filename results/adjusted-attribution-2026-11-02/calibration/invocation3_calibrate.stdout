@@ -1,0 +1,52 @@
+{
+ "s_z": 10.0,
+ "base_seed": 2033,
+ "replicates": 20,
+ "permutations": 99,
+ "bootstrap_replicates": 50,
+ "cells": [
+  "anchor",
+  "orientation@1"
+ ],
+ "units": 40,
+ "rule_version": 2,
+ "confounding": {
+  "contamination_bound": 0.25,
+  "projection_bound": 0.2,
+  "contamination": {
+   "anchor": {
+    "mean": 0.485,
+    "n": 20,
+    "met": true
+   }
+  },
+  "projection": {
+   "anchor": {
+    "mean": 0.5629885453690406,
+    "n": 20,
+    "met": true
+   },
+   "orientation@1": {
+    "mean": 0.5467469610366817,
+    "n": 20,
+    "met": true
+   }
+  },
+  "met": true
+ },
+ "recoverability": {
+  "bound": 0.5,
+  "cell": "orientation@1",
+  "oracle_truth_precision": 0.975,
+  "met": true
+ },
+ "met": true,
+ "selected_rank": {
+  "2": 14,
+  "3": 19,
+  "4": 3,
+  "5": 3,
+  "6": 1
+ },
+ "outcome": "adopt"
+}

@@ -24,6 +24,11 @@ built without them; ``TrajectoryAnalysisParams.covariate_latent_adjustment``
 residualized on the covariates conditional on that design, and measures the
 raw features in it.
 
+Attribution (``TrajectoryAnalysisParams.attribution``) explains the measured
+orientation on the fitted estimator. With declared covariates it attributes
+from covariate-adjusted cell means, the feature-space counterpart of the
+latent LS-means; it is not available with latent adjustment.
+
 ``TrajectoryAnalysisParams.residual_correction`` (``"df"`` or ``"leverage"``)
 rescales the reduced model's residuals before RRPP permutes them, so the null
 keeps the residual variance the reduced model's degrees of freedom remove. It
@@ -56,6 +61,7 @@ from motco.simulations.evaluation import (
     EVALUATION_ORIENTATION_ESTIMATORS,
     AttributionDiagnosticSettings,
     LatentAdjustmentSummary,
+    PLSIntegrationArtifacts,
     SimulationEvaluationError,
     _config_spectrum_block,
     _empirical_p_value,
@@ -463,6 +469,13 @@ class TrajectoryAnalysisResult:
     first), ``stage_means`` the fitted latent LS-mean vector per group × stage
     in declared stage order, and ``attribution`` the full attribution result
     when it was requested.
+
+    ``latent_artifacts`` is the frozen measurement itself — the fitted PLS
+    estimator, the standardized joint feature matrix the latent scores are its
+    projection of, and the per-feature original scales — for callers that
+    attribute or probe on exactly the analysed coordinates. It is held **in
+    memory only**: it is never part of ``record``, :meth:`to_json` or
+    :func:`write_analysis_outputs`, and the estimator is never serialized.
     """
 
     record: dict[str, Any]
@@ -470,6 +483,7 @@ class TrajectoryAnalysisResult:
     pls_loadings: pd.DataFrame
     stage_means: pd.DataFrame
     attribution: OrientationAttributionResult | None = None
+    latent_artifacts: PLSIntegrationArtifacts | None = field(default=None, repr=False, compare=False)
 
     def to_json(self, **kwargs: Any) -> str:
         return json.dumps(self.record, **kwargs)
@@ -502,7 +516,14 @@ def analyze_trajectories(
     (``"group_stage"``) indicators before the basis is fitted (per training set
     inside the cross-validation, at the pooled scale), the raw features are
     projected onto that basis, and the trajectory model, LS-means and RRPP are
-    unchanged. Attribution is not available with covariates.
+    unchanged.
+
+    With covariates, attribution uses the covariate-adjusted cell means at the
+    record's covariate reference row (the same design columns), so its means
+    project through the fitted estimator to the latent stage means, and its
+    bootstrap refits the covariate coefficients in every resample. Attribution
+    is not available with latent adjustment; the request is rejected before
+    fitting.
 
     ``params.residual_correction`` rescales the reduced model's residuals
     (covariates included) before RRPP permutes them; the record's
@@ -516,10 +537,11 @@ def analyze_trajectories(
             f"Latent adjustment ({params.covariate_latent_adjustment!r}) requires declared covariates; "
             "declare covariate_cols on the dataset or drop the setting."
         )
-    if covariates is not None and params.attribution.enabled:
+    if params.covariate_latent_adjustment is not None and params.attribution.enabled:
         raise TrajectoryAnalysisError(
-            "Attribution is not available with covariates: it works from unadjusted cell means. "
-            "Disable attribution or drop the covariates."
+            "Attribution is not available with latent adjustment: that basis is fitted on "
+            "covariate-residualized features, and attribution on it is not defined. Disable attribution or "
+            "drop the latent adjustment."
         )
     start = perf_counter()
     blocks = {block.name: block.values for block in dataset.blocks}
@@ -643,7 +665,7 @@ def analyze_trajectories(
         list(latent.matrix.columns),
     )
 
-    attribution_record, attribution_result = _run_attribution(dataset, params, latent, X, transforms)
+    attribution_record, attribution_result = _run_attribution(dataset, params, latent, X, transforms, covariates)
     cell_sizes = {
         group: {
             stage: int(
@@ -713,6 +735,7 @@ def analyze_trajectories(
         pls_loadings=pls_loadings,
         stage_means=stage_means,
         attribution=attribution_result,
+        latent_artifacts=artifacts,
     )
 
 
@@ -756,7 +779,14 @@ def _run_attribution(
     latent: Any,
     X: pd.DataFrame,
     transforms: Mapping[str, str],
+    covariates: CovariateDesign | None,
 ) -> tuple[dict[str, Any], OrientationAttributionResult | None]:
+    """Frozen-model attribution; with covariates, from adjusted means at the covariate reference row.
+
+    The covariate rows are the analysed samples in metadata order (after any
+    complete-case deletion), the rows the features have.
+    """
+
     settings = params.attribution
     if not settings.enabled:
         return unavailable_record("attribution was not requested"), None
@@ -790,6 +820,14 @@ def _run_attribution(
             stages=list(dataset.stages),
             truth=truth,
             original_basis={name: _TRANSFORM_UNITS[kind] for name, kind in transforms.items()},
+            covariates=(
+                None
+                if covariates is None
+                else pd.DataFrame(covariates.matrix, columns=list(covariates.column_names))
+            ),
+            covariate_reference=(
+                None if covariates is None else dict(zip(covariates.column_names, covariates.reference_row))
+            ),
         )
     except AttributionDiagnosticError as exc:
         raise TrajectoryAnalysisError(str(exc)) from exc

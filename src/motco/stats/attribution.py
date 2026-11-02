@@ -38,6 +38,25 @@ no direction exists to report at all.
 
 Neither the flag nor the attribution as a whole is an inference. Attribution
 runs after the calling workflow has made its orientation decision.
+
+Covariate-adjusted means
+------------------------
+By default each group × stage mean is the arithmetic mean of its rows. With
+``covariates`` (row-aligned numeric design columns ``C``), each mean is instead
+the least-squares mean of the cell-means model ``X ~ cells + C`` evaluated at a
+reference covariate row ``c_ref`` (by default the column means)::
+
+    m_gs = mean_gs(X) - gamma' (mean_gs(C) - c_ref)
+
+with ``gamma`` the covariate coefficients estimated within cells
+(:func:`motco.stats.pls.fit_nuisance_coefficients` on the cell indicators). The
+reference row shifts every cell by the same vector ``gamma' c_ref``, so the
+transitions, path lengths and both contrast blocks do not depend on it; only
+the means tables do. The bootstrap draws the same within-cell resamples as
+without covariates and refits ``gamma`` in each; a resample whose covariates
+are collinear within cells is an invalid replicate, and those are counted.
+Covariates enter additively and linearly, and adjustment removes nothing that
+was not declared.
 """
 
 from __future__ import annotations
@@ -49,7 +68,15 @@ from typing import Any, Mapping, Sequence, cast
 import numpy as np
 import pandas as pd
 
+from motco.stats.pls import NuisanceDesign, fit_nuisance_coefficients
 from motco.stats.trajectory import configuration_spectrum, principal_orientation
+
+#: Boundary statement recorded with every covariate-adjusted result.
+ADJUSTMENT_BOUNDARY = (
+    "Adjusted effects are group × stage least-squares means of an additive linear covariate model evaluated at "
+    "the reference covariate row; bootstrap replicates refit the covariate coefficients. Adjustment removes only "
+    "the declared covariates' linear contribution and does not remove unmeasured confounding."
+)
 
 
 class AttributionError(ValueError):
@@ -58,7 +85,12 @@ class AttributionError(ValueError):
 
 @dataclass(frozen=True)
 class AttributionConfig:
-    """Effective settings and coordinate-system metadata for an analysis."""
+    """Effective settings and coordinate-system metadata for an analysis.
+
+    The three covariate fields are ``None`` unless the means are covariate
+    adjusted; then they hold the design columns in order, the reference row
+    (column → value) and the number of rank-deficient bootstrap replicates.
+    """
 
     group_column: str
     stage_column: str
@@ -77,6 +109,9 @@ class AttributionConfig:
     label_source: str | None
     eigengap_threshold: float
     principal_component_id: str
+    covariate_columns: tuple[str, ...] | None = None
+    covariate_reference: dict[str, float] | None = None
+    rank_deficient_replicates: int | None = None
 
 
 @dataclass(frozen=True)
@@ -180,7 +215,10 @@ class BootstrapSummary:
 
 @dataclass(frozen=True)
 class InterpretationMetadata:
-    """Interpretation boundary recorded with every result."""
+    """Interpretation boundary recorded with every result.
+
+    ``adjustment_boundary`` is set only for covariate-adjusted means.
+    """
 
     statement: str
     causal_boundary: str
@@ -189,6 +227,7 @@ class InterpretationMetadata:
     bootstrap_boundary: str
     label_source: str | None
     decomposition_boundary: str
+    adjustment_boundary: str | None = None
 
 
 @dataclass(frozen=True)
@@ -251,6 +290,8 @@ def analyze_orientation_attribution(
     stages: Sequence[str] | None = None,
     mean_table: pd.DataFrame | None = None,
     precomputed_means: pd.DataFrame | None = None,
+    covariates: pd.DataFrame | np.ndarray | None = None,
+    covariate_reference: Sequence[float] | pd.Series | Mapping[str, float] | None = None,
     original_scales: Sequence[float] | pd.Series | Mapping[str, float] | None = None,
     feature_scales: Sequence[float] | pd.Series | Mapping[str, float] | None = None,
     feature_groups: Mapping[str, str] | pd.Series | pd.DataFrame | None = None,
@@ -286,7 +327,20 @@ def analyze_orientation_attribution(
         Optional complete group-by-stage table. It may have a two-level
         MultiIndex or explicit group/stage columns. When supplied, bootstrap
         resampling is unavailable because row-level sampling semantics are not
-        defined for adjusted means.
+        defined for precomputed means. Exclusive with ``covariates``.
+    covariates:
+        Optional numeric covariate design columns, row-aligned with ``X`` (a
+        DataFrame must share its index; an array's columns are named
+        ``covariate_0`` …). Every cell mean is then the least-squares mean of
+        ``X ~ cells + covariates`` at ``covariate_reference`` (see the module
+        docstring), and each bootstrap replicate refits the covariate
+        coefficients on its resampled rows. Categorical covariates are the
+        caller's to code as indicator columns. Covariates collinear within the
+        group × stage cells are an error.
+    covariate_reference:
+        The covariate row the adjusted means are evaluated at: a mapping or
+        Series over the covariate columns, or a sequence in their order. The
+        default is the column means. It moves the means tables only.
     original_scales, feature_scales:
         Optional positive per-feature scale in canonical feature order. The
         aliases are accepted for readability at call sites; supplying both is
@@ -315,6 +369,10 @@ def analyze_orientation_attribution(
     """
     if mean_table is not None and precomputed_means is not None:
         raise AttributionError("Provide only one of mean_table and precomputed_means.")
+    if covariates is not None and (mean_table is not None or precomputed_means is not None):
+        raise AttributionError(
+            "Provide only one mean source: a precomputed mean table, or covariates for adjusted means."
+        )
     if original_scales is not None and feature_scales is not None:
         raise AttributionError("Provide only one of original_scales and feature_scales.")
     if feature_groups is not None and group_labels is not None:
@@ -344,8 +402,26 @@ def analyze_orientation_attribution(
     _validate_cells(metadata_frame, group_col, stage_col, ordered_groups, ordered_stages)
     scale_values = _validate_scales(original_scales, feature_names)
     label_values = _validate_feature_groups(feature_groups, feature_names)
+    adjustment = _validate_covariates(covariates, covariate_reference, feature_frame.index)
 
-    if mean_table is None:
+    if adjustment is not None:
+        cells = _cell_codes(metadata_frame, group_col, stage_col, ordered_groups, ordered_stages)
+        try:
+            means_array = _adjusted_means(
+                feature_frame.to_numpy(dtype=float),
+                adjustment.matrix,
+                cells,
+                adjustment,
+                ordered_groups,
+                ordered_stages,
+            )
+        except ValueError as exc:
+            raise AttributionError(
+                f"Covariates {list(adjustment.names)} are collinear with the group × stage cells or with one "
+                f"another, so covariate-adjusted cell means are not identified: {exc}"
+            ) from exc
+        mean_source = "covariate_adjusted"
+    elif mean_table is None:
         means_array = _arithmetic_means(
             feature_frame,
             metadata_frame,
@@ -391,6 +467,23 @@ def analyze_orientation_attribution(
         principal_component_id,
     )
     model_components = _model_components(model)
+    bootstrap_records, rank_deficient = _bootstrap(
+        feature_frame,
+        metadata_frame,
+        group_col,
+        stage_col,
+        ordered_groups,
+        ordered_stages,
+        model,
+        feature_names,
+        scale_values,
+        bootstrap_replicates,
+        bootstrap_seed,
+        top_k,
+        zero_tolerance,
+        principal_component_id,
+        adjustment,
+    )
     config = AttributionConfig(
         group_column=group_col,
         stage_column=stage_col,
@@ -409,23 +502,11 @@ def analyze_orientation_attribution(
         label_source="caller-supplied" if label_values is not None else None,
         eigengap_threshold=float(eigengap_threshold),
         principal_component_id=principal_component_id,
-    )
-
-    bootstrap_records = _bootstrap(
-        feature_frame,
-        metadata_frame,
-        group_col,
-        stage_col,
-        ordered_groups,
-        ordered_stages,
-        model,
-        feature_names,
-        scale_values,
-        bootstrap_replicates,
-        bootstrap_seed,
-        top_k,
-        zero_tolerance,
-        principal_component_id,
+        covariate_columns=adjustment.names if adjustment is not None else None,
+        covariate_reference=(
+            dict(zip(adjustment.names, map(float, adjustment.reference))) if adjustment is not None else None
+        ),
+        rank_deficient_replicates=rank_deficient if adjustment is not None else None,
     )
     bootstrap_lookup = {
         (record.transition_id, record.component): record for record in bootstrap_records
@@ -483,6 +564,7 @@ def analyze_orientation_attribution(
             "for two-stage designs. A degenerate principal contrast is reported with its flag and MUST NOT be "
             "read as a well-defined orientation."
         ),
+        adjustment_boundary=ADJUSTMENT_BOUNDARY if adjustment is not None else None,
     )
     return OrientationAttributionResult(
         config=config,
@@ -508,8 +590,22 @@ run_orientation_attribution = analyze_orientation_attribution
 
 
 def attribution_frames(result: OrientationAttributionResult) -> dict[str, pd.DataFrame]:
-    """Return all findings-ready tables for ``result``."""
+    """Return all findings-ready tables for ``result``.
 
+    The covariate rows of ``configuration`` and the ``adjustment_boundary`` row
+    of ``interpretation`` appear only for covariate-adjusted means.
+    """
+
+    adjustment_settings: list[tuple[str, Any]] = []
+    if result.config.covariate_columns is not None:
+        adjustment_settings = [
+            ("covariate_columns", list(result.config.covariate_columns)),
+            ("covariate_reference", dict(result.config.covariate_reference or {})),
+            ("bootstrap_rank_deficient_replicates", result.config.rank_deficient_replicates),
+        ]
+    adjustment_fields: list[tuple[str, Any]] = []
+    if result.interpretation.adjustment_boundary is not None:
+        adjustment_fields = [("adjustment_boundary", result.interpretation.adjustment_boundary)]
     configuration = pd.DataFrame(
         [
             ("group_column", result.config.group_column),
@@ -529,6 +625,7 @@ def attribution_frames(result: OrientationAttributionResult) -> dict[str, pd.Dat
             ("label_source", result.config.label_source),
             ("eigengap_threshold", result.config.eigengap_threshold),
             ("principal_component_id", result.config.principal_component_id),
+            *adjustment_settings,
         ],
         columns=["setting", "value"],
     )
@@ -541,6 +638,7 @@ def attribution_frames(result: OrientationAttributionResult) -> dict[str, pd.Dat
             ("bootstrap_boundary", result.interpretation.bootstrap_boundary),
             ("label_source", result.interpretation.label_source),
             ("decomposition_boundary", result.interpretation.decomposition_boundary),
+            *adjustment_fields,
         ],
         columns=["field", "value"],
     )
@@ -761,6 +859,131 @@ def _arithmetic_means(
         for si, stage in enumerate(stages):
             mask = ((group_values == group) & (stage_values == stage)).to_numpy()
             result[gi, si] = values[mask].mean(axis=0)
+    return result
+
+
+@dataclass(frozen=True)
+class _CovariateAdjustment:
+    """Validated covariate design columns and the reference row the adjusted means use."""
+
+    matrix: np.ndarray
+    names: tuple[str, ...]
+    reference: np.ndarray
+
+
+def _validate_covariates(
+    covariates: pd.DataFrame | np.ndarray | None,
+    reference: Sequence[float] | pd.Series | Mapping[str, float] | None,
+    index: pd.Index,
+) -> _CovariateAdjustment | None:
+    if covariates is None:
+        if reference is not None:
+            raise AttributionError("covariate_reference requires covariates.")
+        return None
+    if isinstance(covariates, pd.DataFrame):
+        if covariates.shape[0] != len(index):
+            raise AttributionError(f"covariates have {covariates.shape[0]} rows but X has {len(index)}.")
+        if not covariates.index.equals(index):
+            raise AttributionError("covariate rows are not aligned to X rows; their indexes must be equal.")
+        names = tuple(map(str, covariates.columns))
+        raw: Any = covariates
+    else:
+        raw = np.asarray(covariates)
+        if raw.ndim != 2:
+            raise AttributionError("covariates must be a two-dimensional table of design columns.")
+        if raw.shape[0] != len(index):
+            raise AttributionError(f"covariates have {raw.shape[0]} rows but X has {len(index)}.")
+        names = tuple(f"covariate_{column}" for column in range(raw.shape[1]))
+    try:
+        matrix = np.asarray(raw, dtype=float)
+    except (TypeError, ValueError) as exc:
+        raise AttributionError(
+            "covariates must be numeric design columns; code categorical covariates as indicator columns."
+        ) from exc
+    if matrix.shape[1] == 0:
+        raise AttributionError("covariates must contain at least one design column.")
+    if len(set(names)) != len(names):
+        raise AttributionError(f"covariate column names must be unique; got {list(names)}.")
+    if not np.isfinite(matrix).all():
+        raise AttributionError("covariates contain missing or non-finite values.")
+    return _CovariateAdjustment(matrix, names, _validate_covariate_reference(reference, names, matrix))
+
+
+def _validate_covariate_reference(
+    reference: Sequence[float] | pd.Series | Mapping[str, float] | None,
+    names: tuple[str, ...],
+    matrix: np.ndarray,
+) -> np.ndarray:
+    if reference is None:
+        return matrix.mean(axis=0)
+    try:
+        if isinstance(reference, (pd.Series, Mapping)):
+            keys = [str(key) for key in reference.keys()]
+            if len(keys) != len(names) or set(keys) != set(names):
+                raise AttributionError(
+                    f"covariate_reference names {keys} but the covariate columns are {list(names)}."
+                )
+            lookup = {str(key): value for key, value in reference.items()}
+            values = np.asarray([lookup[name] for name in names], dtype=float)
+        else:
+            values = np.asarray(reference, dtype=float)
+            if values.ndim != 1 or values.shape[0] != len(names):
+                raise AttributionError(
+                    f"covariate_reference must hold one value per covariate column ({len(names)})."
+                )
+    except (TypeError, ValueError) as exc:
+        if isinstance(exc, AttributionError):
+            raise
+        raise AttributionError("covariate_reference values must be numeric.") from exc
+    if not np.isfinite(values).all():
+        raise AttributionError("covariate_reference contains a non-finite value.")
+    return values
+
+
+def _cell_codes(
+    metadata: pd.DataFrame,
+    group_col: str,
+    stage_col: str,
+    groups: tuple[str, str],
+    stages: tuple[str, ...],
+) -> np.ndarray:
+    """Each row's group × stage cell, coded group-major, stage-minor (the order of every mean array)."""
+
+    group_values = metadata[group_col].astype(str).to_numpy()
+    stage_values = metadata[stage_col].astype(str).to_numpy()
+    codes = np.empty(len(metadata), dtype=int)
+    for gi, group in enumerate(groups):
+        for si, stage in enumerate(stages):
+            codes[(group_values == group) & (stage_values == stage)] = gi * len(stages) + si
+    return codes
+
+
+def _adjusted_means(
+    values: np.ndarray,
+    covariates: np.ndarray,
+    cells: np.ndarray,
+    adjustment: _CovariateAdjustment,
+    groups: tuple[str, str],
+    stages: tuple[str, ...],
+) -> np.ndarray:
+    """Least-squares cell means of ``values ~ cells + covariates`` at the reference covariate row.
+
+    The covariate coefficients are estimated within cells (drop-first cell
+    indicators as the conditioning design), so each mean is the cell's
+    arithmetic mean moved along them from the cell's covariate mean to the
+    reference row. Raises ``ValueError`` when the covariates are collinear
+    within cells.
+    """
+
+    labels = [f"{group}|{stage}" for group in groups for stage in stages]
+    conditioning = (cells[:, None] == np.arange(1, len(labels))[None, :]).astype(float)
+    design = NuisanceDesign(conditioning, covariates, tuple(labels[1:]), adjustment.names)
+    gamma, _ = fit_nuisance_coefficients(values, design)
+    result = np.empty((len(groups), len(stages), values.shape[1]), dtype=float)
+    for code in range(len(labels)):
+        rows = cells == code
+        shift = (covariates[rows].mean(axis=0) - adjustment.reference) @ gamma
+        result[code // len(stages), code % len(stages)] = values[rows].mean(axis=0) - shift
     return result
 
 
@@ -1045,7 +1268,8 @@ def _bootstrap(
     top_k: int,
     tolerance: float,
     principal_component_id: str,
-) -> tuple[BootstrapSummary, ...]:
+    adjustment: _CovariateAdjustment | None = None,
+) -> tuple[tuple[BootstrapSummary, ...], int]:
     """Stratified bootstrap stability for every transition and the principal block.
 
     Each replicate recomputes the group-by-stage means, rebuilds the transitions
@@ -1056,6 +1280,12 @@ def _bootstrap(
     needed. A replicate whose net displacement falls at or below ``tolerance``
     contributes no contrast and counts as invalid, exactly like a replicate with
     a zero transition.
+
+    With an ``adjustment`` the draws are the same, and each replicate's means
+    are the adjusted means of its resampled rows: the covariate coefficients
+    are refitted on them and evaluated at the fixed reference row. A resample
+    whose covariates are collinear within cells contributes no contrast to any
+    block; the second return value counts those replicates.
     """
 
     del scales  # Bootstrap stability is summarized in the fixed input units.
@@ -1077,7 +1307,7 @@ def _bootstrap(
             )
             for block_id in block_ids
             for component in ("observed", "pls_captured", "residual")
-        )
+        ), 0
     group_values = metadata[group_col].astype(str).to_numpy()
     stage_values = metadata[stage_col].astype(str).to_numpy()
     strata = [
@@ -1087,11 +1317,36 @@ def _bootstrap(
     ]
     rng = np.random.default_rng(seed)
     per_component: dict[tuple[str, str], list[np.ndarray]] = {}
+    rank_deficient = 0
+    if adjustment is not None:
+        values = X.to_numpy(dtype=float)
+        # Drawn rows are concatenated in stratum order, so their cell codes are fixed.
+        drawn_cells = np.repeat(np.arange(len(strata)), [len(stratum) for stratum in strata])
     for _ in range(replicates):
         sampled = np.empty((len(groups), len(stages), X.shape[1]), dtype=float)
+        drawn: list[np.ndarray] = []
         for cell_index, source_indices in enumerate(strata):
             selected = rng.choice(source_indices, size=len(source_indices), replace=True)
-            sampled[cell_index // len(stages), cell_index % len(stages)] = X.iloc[selected].mean(axis=0).to_numpy()
+            if adjustment is None:
+                sampled[cell_index // len(stages), cell_index % len(stages)] = (
+                    X.iloc[selected].mean(axis=0).to_numpy()
+                )
+            else:
+                drawn.append(selected)
+        if adjustment is not None:
+            rows = np.concatenate(drawn)
+            try:
+                sampled = _adjusted_means(
+                    values[rows], adjustment.matrix[rows], drawn_cells, adjustment, groups, stages
+                )
+            except ValueError:
+                rank_deficient += 1
+                for block_id in block_ids:
+                    for component_name in ("observed", "pls_captured", "residual"):
+                        per_component.setdefault((block_id, component_name), []).append(
+                            np.full(len(feature_names), np.nan)
+                        )
+                continue
         reconstructed = _reconstruct_means(sampled, model, feature_names)
         transitions = _build_transitions(sampled, reconstructed, groups, stages, tolerance)
         # Per-replicate degeneracy flags are not summarized — stability is the
@@ -1161,7 +1416,7 @@ def _bootstrap(
                     nonzero_sign_replicates=nonzero_counts,
                 )
             )
-    return tuple(summaries)
+    return tuple(summaries), rank_deficient
 
 
 def _validate_bootstrap_settings(replicates: int, top_k: int, tolerance: float) -> None:
@@ -1463,6 +1718,7 @@ def _array_value(values: np.ndarray, index: int) -> float:
 
 
 __all__ = [
+    "ADJUSTMENT_BOUNDARY",
     "AggregateEffect",
     "AttributionConfig",
     "AttributionError",
