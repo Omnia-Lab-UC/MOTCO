@@ -1,0 +1,2 @@
+2026-11-02T16:59:26-03:00
+2026-11-02T17:08:00-03:00 stopped (BLAS oversubscription, load 112 on 16 cores); resumed at s_z 15 with one BLAS thread per worker

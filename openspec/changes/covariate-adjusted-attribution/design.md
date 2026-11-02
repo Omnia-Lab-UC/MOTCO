@@ -269,3 +269,32 @@ The API change is additive. `analyze_orientation_attribution` keeps its defaults
 
 - The calibrated `s_z`. It is fixed by D11's procedure and recorded, and does not change the specs.
 - Whether item 12 reuses this check's metric code. That is decided in item 12's proposal.
+
+## Smoke and run plan (2026-11-02)
+
+**Calibration.** `results/adjusted-attribution-2026-11-02/calibration/calibration.json` holds ten iterations. Iterations 0–8 (declared rule, `s_z` 10–50) ended `stop_exhausted` (D11). After the amendment (D10), iteration 9 (rule version 2, `s_z = 10`, R = 20 × 99 × B = 50 at the anchor and e = 1.0) met every criterion and was adopted: anchor contamination gap 0.485, projection gap 0.563 at the anchor and 0.547 at e = 1.0, oracle truth precision at e = 1.0 0.975. Its readings equal iteration 0's, so pinning BLAS to one thread changed only the speed. Selected ranks: 2 (14 units), 3 (19), 4 (3), 5 (3), 6 (1).
+
+**Smoke.** `results/adjusted-attribution-2026-11-02/smoke/`: R = 20 × 99 permutations × B = 50 over the three cells at `s_z = 10`, 60 units, 14 workers, 1 min 43 s. Zero consistency failures and zero rank-deficient bootstrap replicates. The decision is indicative, as it must be at this size, and reads `diagnose_adjusted_attribution` on one criterion:
+
+| reading (observed principal block) | anchor | e = 0.5 | e = 1.0 | bound |
+|---|---|---|---|---|
+| gate: contamination gap − 2·SE | 0.374 | — | — | ≥ 0.25 |
+| gate: \|projection gap\| − 2·SE | 0.499 | 0.503 | 0.472 | ≥ 0.2 |
+| gate: oracle truth precision | — | — | 0.975 | ≥ 0.5 |
+| contamination, adjusted − oracle + 2·SE | 0.045 | 0.002 | 0.008 | ≤ 0.05 |
+| residual confounding, \|adjusted − oracle\| + 2·SE | 0.036 | 0.018 | 0.023 | ≤ 0.10 × unadjusted (0.056 / 0.057 / 0.055) |
+| truth precision, adjusted − oracle − 2·SE | — | **−0.110** | −0.010 | ≥ −0.05 |
+| sign stability, adjusted − oracle − 2·SE | — | −0.013 | −0.024 | ≥ −0.05 |
+| top-k frequency, adjusted − oracle − 2·SE | — | −0.073 | −0.055 | ≥ −0.10 |
+
+The failing reading has mean +0.010 (the adjusted arm at or above the oracle) and a paired SE of 0.060 at R = 20; at R = 500 the same spread gives an SE of about 0.012 and a reading of about −0.014. It is a small-sample reading of an indicative decision, not a finding. The paper-grade run decides.
+
+**Timing.** Two units at 999 permutations × B = 200, run serially with one BLAS thread on this machine (AMD Ryzen AI 7 PRO 350, 8 cores and 16 threads), took 7.4 s and 8.4 s (`timing/timing.json`). The 1,500 paper-grade units are therefore about 3.5 core-hours serial-equivalent. In the smoke, 14 workers on 8 physical cores ran at about 0.58 units per second at 99 permutations, so the paper-grade wall time is estimated at 40–75 minutes.
+
+**Where it runs.** 3.5 core-hours is under D11's 12-core-hour rule, which would have kept the run local. The user offered the server on 2026-11-02 ("you can also use the server"), so it runs on `ing` as the earlier paper-grade checks did, which keeps the workstation free and runs from a clean cluster checkout. The procedure, following `results/adni-design-2026-11-02/run/PROVENANCE.txt`:
+1. Commit the calibration, smoke, `scripts/adjusted_attribution_array.sbatch` (modelled on `scripts/corrected_permutation_array.sbatch`; `bash -n` passes) and this plan; push the branch.
+2. On `ing`, create a clean worktree `/home1/tgonza/MOTCO-adjusted-attribution` of the branch at that commit, check that its tree hash equals the workstation's, symlink `.venv` from `/home1/tgonza/MOTCO`, `mkdir logs`, and run `tests/test_adjusted_attribution.py` and `tests/test_adjusted_attribution_check.py` there with `PYTHONPATH` on the worktree's `src`.
+3. Pre-create `settings.json` (`run --shard 0/50 --limit 0`), run one timing task (`--limit 1`) to catch a stalled node, then submit `--array=0-49` (30 units per task) on `512x1024`, excluding `n11` and any node short of memory, with `--export=ALL,AA_OUT=<worktree>/results/adjusted-attribution-2026-11-02/run,N_SHARDS=50,AA_CALIBRATION=results/adjusted-attribution-2026-11-02/calibration/calibration.json,PYTHONPATH=<worktree>/src`. Watch shard mtimes; resubmit any stalled task.
+4. After every task completes `0:0`, run `merge` and `decide` on `ing`, copy back `settings.json`, the decision, the summary and metric CSVs, `merge.json`, `decide.json` and `sacct.txt`, and write `PROVENANCE.txt` (commands, jobs, tree hash, settings hash, versions, file sha256s, core-hours).
+
+**Approval.** Approved by the user on 2026-11-02, on `ing` ("you can also use the server").

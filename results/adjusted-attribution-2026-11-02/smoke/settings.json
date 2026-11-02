@@ -1,0 +1,156 @@
+{
+ "hash": "2a35036714c36773e520cdd1a4a5e1e26c23cb79101aa580cdd3055def61a9d6",
+ "settings": {
+  "adopted_calibration": {
+   "entry_sha256": "7d8987f21c3da76232c11f02b19aa5f255142f29d6a159b3efe81f7ca0b08176",
+   "iteration": 9,
+   "s_z": 10.0
+  },
+  "alpha": 0.05,
+  "arms": {
+   "adjusted": "analyze_trajectories with the six covariates, attribution and residual_correction df",
+   "oracle": "the primitive on X - z (x) (v / sigma): the exact injection removed in analysed coordinates",
+   "unadjusted": "the primitive on the analysed features (descriptive)"
+  },
+  "attribution": {
+   "bootstrap_replicates": 50,
+   "bootstrap_seed": "derived per replicate from the base seed (shared by every arm and cell)",
+   "top_k": 20,
+   "zero_tolerance": 1e-12
+  },
+  "base_seed": 2033,
+  "cells": [
+   [
+    "anchor",
+    0.0
+   ],
+   [
+    "orientation",
+    0.5
+   ],
+   [
+    "orientation",
+    1.0
+   ]
+  ],
+  "check": "adjusted_attribution",
+  "covariates": {
+   "categorical": {
+    "levels": [
+     "c0",
+     "c1",
+     "c2"
+    ],
+    "logit_scale": 0.5,
+    "logits": "k * logit_scale * eta",
+    "role": "drawn (the D10 RNG stream is kept); neither declared nor injected"
+   },
+   "declared": [
+    "z",
+    "x1",
+    "x2",
+    "x3",
+    "x4",
+    "x5"
+   ],
+   "noise_numeric": {
+    "count": 5,
+    "distribution": "iid N(0, 1), not injected"
+   },
+   "numeric": {
+    "a_g": 0.5,
+    "a_gs": 2.0,
+    "a_s": 1.0,
+    "noise_sd": 1.0
+   }
+  },
+  "cv": {
+   "cv1_splits": 3,
+   "cv2_splits": 4,
+   "max_components": 20,
+   "n_repeats": 5,
+   "random_state": 1203
+  },
+  "generator": {
+   "baseline_continuity": 0.0,
+   "delta_expr": 2.0,
+   "delta_methyl": 2.0,
+   "delta_protein": 2.0,
+   "group_effect_size": 0.0,
+   "group_stage_sizes": [
+    [
+     11,
+     10,
+     28
+    ],
+    [
+     9,
+     10,
+     12
+    ]
+   ],
+   "magnitude_kind": "joint",
+   "n_stages": 3,
+   "p_dmp": 0.1,
+   "trajectory_mode": "magnitude"
+  },
+  "injection": {
+   "feature_fraction": 0.2,
+   "s_c": 0.0,
+   "s_z": 10.0,
+   "scale": "pooled feature SD on the analysed scale"
+  },
+  "layers": [
+   "methylation",
+   "expression"
+  ],
+  "methylation_units": "mvalue",
+  "min_components": 2,
+  "orientation_estimator": "net_displacement",
+  "permutations": 99,
+  "replicates": 20,
+  "residual_correction": "df",
+  "rule": {
+   "criteria": "contamination: mean(adjusted - oracle) + k*SE <= contamination at every cell; residual confounding: |mean projection difference (adjusted - oracle)| + k*SE <= residual_confounding_ratio * |mean projection difference (unadjusted - oracle)| at every cell; truth precision, sign stability and top-k frequency: mean(adjusted - oracle) - k*SE >= their margin at both orientation cells",
+   "descriptive": "the unadjusted arm's criteria, the PLS-captured and residual components, the transition blocks and the readings conditional on angle rejection (adjusted arm, p <= alpha); none changes the verdict",
+   "gates": "contamination: mean(unadjusted - oracle) - k*SE >= contamination_gate at the anchor; projection: |mean projection difference (unadjusted - oracle)| - k*SE >= projection_gate at every cell; recoverability: oracle mean truth precision at orientation e = 1.0 >= recoverability_gate",
+   "indicative": "fewer than 999 permutations, 200 bootstrap replicates or 500 available replicates in any cell",
+   "margins": {
+    "contamination": 0.05,
+    "contamination_gate": 0.25,
+    "projection_gate": 0.2,
+    "recoverability_gate": 0.5,
+    "residual_confounding_ratio": 0.1,
+    "sign_stability": -0.05,
+    "top_k_frequency": -0.1,
+    "truth_precision": -0.05
+   },
+   "reading": "observed component of the principal-orientation block",
+   "se_multiplier": 2.0,
+   "verdicts": [
+    "adjusted_attribution_validated",
+    "diagnose_adjusted_attribution",
+    "construction_uninformative"
+   ],
+   "version": 2
+  },
+  "script_version": 1,
+  "table": {
+   "group_stage_sizes": [
+    [
+     11,
+     10,
+     28
+    ],
+    [
+     9,
+     10,
+     12
+    ]
+   ],
+   "name": "astrocyte",
+   "sha256": "34a744c28a062a9d9a1b17b793cba353a753fcac76b0f13b883565dfa9d212d3",
+   "source": "sead_sexdiff results/motco_analysis/cohort_30/result.json (MOTCO 0.10.0)"
+  }
+ }
+}

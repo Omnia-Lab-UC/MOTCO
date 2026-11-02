@@ -1,0 +1,1 @@
+{"s_z": 10.0, "contamination": {"bound": 0.25, "cells": {"anchor": {"mean": 0.485, "n": 20, "met": true}, "orientation@1": {"mean": 0.0, "n": 20, "met": false}}, "met": false}, "recoverability": {"bound": 0.5, "cell": "orientation@1", "oracle_truth_precision": 0.975, "met": true}, "met": false, "outcome": "raise"}

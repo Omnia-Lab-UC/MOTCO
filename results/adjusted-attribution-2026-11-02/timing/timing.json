@@ -1,0 +1,23 @@
+{
+ "date": "2026-11-02",
+ "machine": "AMD Ryzen AI 7 PRO 350 (8 cores, 16 threads), local",
+ "blas_threads": 1,
+ "workers": 1,
+ "permutations": 999,
+ "bootstrap_replicates": 200,
+ "commit": "5d56dec",
+ "units": [
+  {
+   "key": "[\"anchor\", 0.0, 0]",
+   "runtime_seconds": 7.43,
+   "selected_lv": 3,
+   "valid_replicates_principal_observed": 200
+  },
+  {
+   "key": "[\"orientation\", 0.5, 0]",
+   "runtime_seconds": 8.41,
+   "selected_lv": 3,
+   "valid_replicates_principal_observed": 200
+  }
+ ]
+}
