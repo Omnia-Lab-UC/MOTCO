@@ -1,0 +1,281 @@
+{
+ "hash": "f093c6edc83051fc7ea47e0cf7f79e8df5bc1a3a1e9a23d765608be3119ce507",
+ "settings": {
+  "alpha": 0.05,
+  "arms": {
+   "adjusted": {
+    "covariates": true,
+    "role": "every unit (the case study's primary as issued)"
+   },
+   "unadjusted": {
+    "covariates": false,
+    "role": "calibration only (descriptive non-vacuity criterion)"
+   }
+  },
+  "base_seed": 2032,
+  "calibration": {
+   "alpha": 0.05,
+   "auroc_band": [
+    0.55,
+    0.65
+   ],
+   "criteria": {
+    "adjusted_auroc": "adjusted-arm mean held-out CV stage AUROC at the anchor inside auroc_band",
+    "adjusted_rho_phase": "adjusted-arm median |Spearman| of the first latent component with phase at the anchor >= rho_threshold",
+    "unadjusted_rejects": "unadjusted-arm anchor rejection rate (p <= alpha) above alpha on at least one statistic"
+   },
+   "rho_threshold": 0.4
+  },
+  "check": "adni_design",
+  "controls": {
+   "anchor": 0.0,
+   "translation": 1.0
+  },
+  "covariates": {
+   "categorical": {
+    "levels": [
+     "c0",
+     "c1",
+     "c2"
+    ],
+    "logit_scale": 0.5,
+    "logits": "k * logit_scale * eta",
+    "role": "declared as a factor (drop-first category[c1], category[c2]); not injected (s_c = 0)"
+   },
+   "categorical_declared": [
+    "category"
+   ],
+   "declared": [
+    "z",
+    "category",
+    "phase",
+    "x1",
+    "x2"
+   ],
+   "noise_numeric": {
+    "count": 2,
+    "distribution": "iid N(0, 1), not injected"
+   },
+   "numeric": {
+    "a_g": 0.5,
+    "a_gs": 2.0,
+    "a_s": 1.0,
+    "noise_sd": 1.0
+   },
+   "phase": {
+    "column": "numeric 0/1 (one design column; the LS-mean reference row sits at the pooled proportion)",
+    "distribution": "Bernoulli per group x stage cell at the table's shares",
+    "shares": [
+     [
+      0.6033755274261603,
+      0.6225806451612903,
+      0.424
+     ],
+     [
+      0.5605381165919282,
+      0.5066964285714286,
+      0.4810126582278481
+     ]
+    ]
+   }
+  },
+  "cv": {
+   "cv1_splits": 3,
+   "cv2_splits": 4,
+   "max_components": 20,
+   "n_repeats": 5,
+   "random_state": 1203
+  },
+  "effects": {
+   "magnitude": [
+    0.1,
+    0.25,
+    0.5,
+    1.0
+   ],
+   "orientation": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ],
+   "shape": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ]
+  },
+  "generator": {
+   "baseline_continuity": 0.0,
+   "delta_expr": 0.02,
+   "delta_methyl": 0.02,
+   "delta_protein": 0.02,
+   "group_effect_size": 0.0,
+   "group_stage_sizes": [
+    [
+     237,
+     310,
+     125
+    ],
+    [
+     223,
+     448,
+     158
+    ]
+   ],
+   "magnitude_kind": "joint",
+   "n_stages": 3,
+   "p_dmp": 0.1,
+   "trajectory_mode": "magnitude"
+  },
+  "injection": {
+   "feature_fraction": 0.2,
+   "phase": {
+    "block": "expression",
+    "direction": "dense, iid N(0, 1) per feature of the block, drawn once from the base seed",
+    "effect": "X_f += s_p * sd_f * d_f * phase, after the z injection",
+    "scale": "pooled feature SD of the block as received (after the z injection)"
+   },
+   "s_c": 0.0,
+   "s_p": 1.75,
+   "s_z": 0.1,
+   "scale": "pooled feature SD on the analysed scale"
+  },
+  "k": 2.0,
+  "layers": [
+   "methylation",
+   "expression"
+  ],
+  "methylation_units": "mvalue",
+  "min_components": 2,
+  "orientation_estimator": "net_displacement",
+  "permutations": 99,
+  "replicates": 20,
+  "rule": {
+   "alpha": 0.05,
+   "indicative": "fewer than 999 permutations, or an unavailable size reading",
+   "k": 2.0,
+   "power": "per target pair (magnitude/delta, orientation/angle, shape/shape): informative_from = the smallest effect whose rate >= power_floor, else null; off-target and rank-stratified rates are descriptive",
+   "power_floor": 0.8,
+   "rank_strata": [
+    "2-3",
+    "4-7",
+    "8+"
+   ],
+   "size": "anchor and translation, every statistic: rate (p <= alpha) <= alpha + k*sqrt(alpha(1-alpha)/R), R the available replicates; size holds when all six readings hold",
+   "targets": [
+    [
+     "magnitude",
+     "delta"
+    ],
+    [
+     "orientation",
+     "angle"
+    ],
+    [
+     "shape",
+     "shape"
+    ]
+   ],
+   "verdict": "diagnose_design_excess when any size reading exceeds; else power_statement when a target statistic has an informative effect; else non_rejections_uninformative"
+  },
+  "script_version": 1,
+  "table": {
+   "group_stage_sizes": [
+    [
+     237,
+     310,
+     125
+    ],
+    [
+     223,
+     448,
+     158
+    ]
+   ],
+   "groups": [
+    "Female",
+    "Male"
+   ],
+   "name": "adni",
+   "phase_counts": [
+    [
+     143,
+     193,
+     53
+    ],
+    [
+     125,
+     227,
+     76
+    ]
+   ],
+   "phase_shares": [
+    [
+     0.6033755274261603,
+     0.6225806451612903,
+     0.424
+    ],
+    [
+     0.5605381165919282,
+     0.5066964285714286,
+     0.4810126582278481
+    ]
+   ],
+   "reference": {
+    "angle_null_q95": 35.44,
+    "cv_mean_auroc": 0.5995,
+    "cv_mean_auroc_range_cv_selected": [
+     0.58,
+     0.616
+    ],
+    "design_columns": [
+     "age",
+     "education",
+     "apoe4[1]",
+     "apoe4[2]",
+     "phase[ADNI2GO]",
+     "statin[1]"
+    ],
+    "first_component_spearman_phase": 0.542,
+    "p_values": {
+     "angle": 0.6879,
+     "delta": 0.1116,
+     "shape": 0.7105
+    },
+    "phase_offset": {
+     "nmr": {
+      "abs_corr_pc1_phase": 0.13,
+      "abs_d_gt_1": 0,
+      "median_abs_d": 0.21,
+      "n_features": 165
+     },
+     "p180": {
+      "abs_corr_pc1_phase": 0.73,
+      "abs_d_gt_1": 80,
+      "median_abs_d": 1.12,
+      "n_features": 133
+     }
+    },
+    "phase_pooled_share": 0.5443,
+    "pooled_relative_eigengap": 0.744,
+    "selected_lv": 8
+   },
+   "sha256": {
+    "covariates.csv": "06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd",
+    "metadata.csv": "9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221",
+    "result.json": "d4a5cbf90dda74763dea91b9f9be8df47439da0e5fd4c475a8546fe2a6f581f0"
+   },
+   "source": {
+    "phase_shares": "adni_sexdiff results/motco_input/metadata.csv + covariates.csv (ADNI2GO per sex x stage)",
+    "table": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0, 2026-10-27 to 31)"
+   },
+   "stages": [
+    "CN",
+    "MCI",
+    "AD"
+   ]
+  }
+ }
+}

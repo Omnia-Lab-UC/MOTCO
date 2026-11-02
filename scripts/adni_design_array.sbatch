@@ -10,7 +10,9 @@
 
 # ADNI-design operating characteristics — SLURM array template (one array for the paper-grade run).
 #
-# Usage:
+# Usage (from the checkout; logs/ must exist before sbatch, or SLURM cannot open the --output files and every
+# task fails with signal 53 — a fresh worktree has none):
+#   mkdir -p logs
 #   # pre-create settings.json so concurrent shards never race on it
 #   python scripts/adni_design_check.py run --shard 0/200 --limit 0 --out-dir /abs/path/out/run
 #   sbatch --array=0-199 --export=ALL,ADNI_OUT=/abs/path/out/run,N_SHARDS=200 scripts/adni_design_array.sbatch

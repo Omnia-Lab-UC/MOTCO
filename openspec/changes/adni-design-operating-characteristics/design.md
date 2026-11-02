@@ -215,3 +215,31 @@ Recorded beside ADNI's values, not judged:
 - **The untouched block.** Methylation reads median |d| 0.03 and PC1 |corr| 0.02 (ADNI's NMR 0.21 / 0.13).
 
 Every statement the check issues therefore describes the regime at rank 19, and the report must say so beside ADNI's 8.
+
+### Calibration, smoke and shard plan (2026-11-02)
+
+**Where it ran.** On the user's suggestion the smoke and the timing ran on `ing`, not the workstation; task 4.1's push and worktree moved ahead of this gate for that. A local smoke had been started and was stopped at 56 of 280 units (about 230 s per unit with 14 local shards contending); its partial records are not used. Branch `feat/adni-design-operating-characteristics` at `db2e30a` was pushed. The clean worktree `/home1/tgonza/MOTCO-adni-design` has tree `3ec28936ac309394c3a3a747bda1a1221fa9255b`, identical to the workstation. It has `.venv` symlinked from `/home1/tgonza/MOTCO` and `PYTHONPATH` on its `src` (MOTCO 0.13.0 imported from the worktree). On n1, `tests/test_adni_design_check.py`, `tests/test_case_study_type_i_check.py` and `tests/test_corrected_permutation_check.py` passed there (98 passed). A first submission failed because the fresh worktree had no `logs/`, so SLURM could not open the output files (every task exited with signal 53); the template's usage now says to create it first.
+
+**Smoke** (`results/adni-design-2026-11-02/smoke/`): all 14 cells at R = 20 × 99 permutations at the calibrated defaults, job 931824 (140 shards; 102 tasks on n1, 38 on n4), then merge and decide (job 931825). 280 of 280 units, 0 failures. The decision is `diagnose_design_excess`, **indicative** (99 permutations, R = 20): translation `angle` rejected 3 of 20 (0.150) against the R = 20 bound 0.1475, and every other reading holds. Rates (`delta` / `angle` / `shape`):
+
+| cell | rates | CV rank | AUROC |
+|---|---|---|---|
+| anchor | 0.10 / 0.00 / 0.10 | 19 (20) | 0.602 |
+| translation 1.0 | 0.05 / 0.15 / 0.00 | 19 (20) | 0.606 |
+| magnitude 0.1 / 0.25 / 0.5 / 1.0 | `delta` 0.05 / 0.10 / 0.15 / 0.65 | 19 (20) at each | 0.610–0.679 |
+| orientation 0.25 / 0.5 / 0.75 / 1.0 | `angle` 0.15 / 0.05 / 0.10 / 0.15 | 19, with 2–3 in 3–4 replicates at 0.75–1.0 | 0.571–0.593 |
+| shape 0.25 / 0.5 / 0.75 / 1.0 | `shape` 0.00 / 0.00 / 0.00 / 0.00 | 19 (19–20) | 0.591–0.600 |
+
+At this size it reads as a construction where magnitude/`delta` may reach the floor near e = 1.0 and orientation and shape have essentially no power. Only the paper-grade run can say.
+
+**Timing at 999 permutations** (scratch `/home1/tgonza/MOTCO-adni-design-scratch/timing999/`, job 931826, R = 2 on anchor, translation, magnitude 0.5, orientation 0.5 and 1.0, shape 0.5, all on n4): 37.4–41.0 s per unit (a rank-2 unit costs the same as rank 19). The double CV dominates, so the permutation count barely matters. Node packing does: the smoke's units took a median 110.8 s (q95 117.3 s) on n1 with 102 tasks packed on it, against 44.9 s (q95 47.3 s) on n4 with 38. Python startup (imports from the NFS-hosted venv) took 5–13 minutes per task when 100+ tasks started together.
+
+**Shard plan.**
+
+- **Shards.** 175 shards of exactly 40 units (7,000 = 14 cells × 500 replicates), partition `512x1024`, n11 excluded, one CPU and 4 GB each, `scripts/adni_design_array.sbatch` from the worktree with `logs/` created and `run/settings.json` pre-created.
+- **Shard length.** At the packed-node cost a shard takes about 40 × 117 s = 78 min plus up to 13 min of startup. At ten times the unpacked 999-permutation timing (400 s per unit) it takes 4.4 h, inside the 8 h limit.
+- **Wall-clock.** About 320 cores were free off n11 at submission time, so all 175 tasks start at once: about 1.5 h.
+- **Planned cost.** About 200 core-hours: 7,000 × 90 s ≈ 175 h, plus about 25 h of startup. The range is 105 h (every unit at the unpacked 45 s) to 265 h (every unit at the packed 117 s, startup 13 min). This is at the design's 250 core-hour threshold for offering R = 300 only at its upper end.
+- **Replicates.** R = 300 would save about 40 % (bound 0.0752, power SE 0.023 at 0.80). The rules do not change with R. The recommendation is R = 500: the point estimates of the power curves near the floor need it.
+
+**Approval (2026-11-02):** the user approved the paper-grade array at the calibrated strengths (δ = 0.02, `s_z` = 0.1, `s_p` = 1.75) with R = 500 × 999 permutations, 175 shards on `ing`, about 200 core-hours, having been shown that the construction's CV rank sits at the cap (19) against ADNI's 8.

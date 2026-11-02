@@ -1,0 +1,15 @@
+{
+ "verdict": "diagnose_design_excess",
+ "indicative": true,
+ "indicative_reasons": {
+  "below_default_permutations": 99,
+  "unavailable_size_readings": []
+ },
+ "statements": {},
+ "size": "Size exceeds at the ADNI design: translation `angle` 0.150 (bound 0.1475, R = 20) above the one-sided bound. All six readings: anchor `delta` 0.100 (bound 0.1475, R = 20); anchor `angle` 0.000 (bound 0.1475, R = 20); anchor `shape` 0.100 (bound 0.1475, R = 20); translation `delta` 0.050 (bound 0.1475, R = 20); translation `angle` 0.150 (bound 0.1475, R = 20); translation `shape` 0.000 (bound 0.1475, R = 20).",
+ "informative_from": {
+  "delta": null,
+  "angle": null,
+  "shape": null
+ }
+}
