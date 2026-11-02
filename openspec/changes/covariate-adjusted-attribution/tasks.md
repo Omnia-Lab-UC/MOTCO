@@ -83,8 +83,8 @@
 
 ## 4. The validation script
 
-- [ ] 4.1 Make `covariate_type_i_check.build_replicate` also return the generated dataset under a new key, `"dataset"`, which no record writer reads (design D7). Verify that these pass unchanged: `tests/test_covariate_type_i_check.py`, `tests/test_case_study_type_i_check.py`, `tests/test_case_study_diagnosis.py`, `tests/test_corrected_permutation_check.py` and `tests/test_adni_design_check.py`.
-- [ ] 4.2 Write the settings and construction of `scripts/adjusted_attribution_check.py` (design D7, D12). It imports `case_study_type_i_check as cs` and `covariate_type_i_check as d10`, and covers:
+- [x] 4.1 Make `covariate_type_i_check.build_replicate` also return the generated dataset under a new key, `"dataset"`, which no record writer reads (design D7). Verify that these pass unchanged: `tests/test_covariate_type_i_check.py`, `tests/test_case_study_type_i_check.py`, `tests/test_case_study_diagnosis.py`, `tests/test_corrected_permutation_check.py` and `tests/test_adni_design_check.py`.
+- [x] 4.2 Write the settings and construction of `scripts/adjusted_attribution_check.py` (design D7, D12). It imports `case_study_type_i_check as cs` and `covariate_type_i_check as d10`, and covers:
   - the astrocyte table, δ = 2.0, base seed 2033, `s_z` (default 10), five noise covariates, the three cells, R 500, 999 permutations, B 200 and top-k 20;
   - the bootstrap seed `_seed(base, "bootstrap", replicate)`;
   - `cs.check_headroom`, the hashed `settings.json`, and refusal of a resume under other settings.
@@ -94,7 +94,7 @@
   - the seeds depend only on the base seed and the replicate, are shared across a replicate's cells, and differ from the committed families' at the same replicate;
   - a resume under another `s_z`, base seed, permutation count, B or top-k is refused;
   - an over-headroom cell refuses to start.
-- [ ] 4.3 Write the unit evaluation (design D8, D9). It consists of:
+- [x] 4.3 Write the unit evaluation (design D8, D9). It consists of:
   - the `adjusted` arm through `analyze_trajectories`;
   - the oracle features `X̃ − z ⊗ (v / σ)` and the `oracle` and `unadjusted` arms through the primitive, with the same model, bootstrap seed, B and top-k;
   - the two consistency checks;
@@ -108,9 +108,9 @@
   - the metrics on hand-built contrast vectors match hand counts;
   - resume skips recorded units;
   - two shards cover every unit exactly once.
-- [ ] 4.4 Write `calibrate` (design D11). Each iteration runs R = 20 × 99 permutations × B = 50 at the anchor and orientation e = 1.0, computes the contamination and recoverability criteria, and appends to `calibration.json`. `s_z` steps by 5 until contamination is met, and the step stops on a recoverability failure. Verify with tests on synthetic records: met, unmet, stop-on-recoverability, and iterations appended rather than overwritten.
-- [ ] 4.5 Write `merge`. It produces `adjusted_attribution_metrics.csv` (per unit × arm × component × block) and `adjusted_attribution_summary.csv` (per cell × arm × component × block: mean and SE of every metric and of every paired difference against the oracle). Verify with tests: means and paired SEs on synthetic records match a hand computation, and the merge is idempotent.
-- [ ] 4.6 Write the pure `adjusted_attribution_decision` and `decide` (design D10). They cover:
+- [x] 4.4 Write `calibrate` (design D11). Each iteration runs R = 20 × 99 permutations × B = 50 at the anchor and orientation e = 1.0, computes the contamination and recoverability criteria, and appends to `calibration.json`. `s_z` steps by 5 until contamination is met, and the step stops on a recoverability failure. Verify with tests on synthetic records: met, unmet, stop-on-recoverability, and iterations appended rather than overwritten.
+- [x] 4.5 Write `merge`. It produces `adjusted_attribution_metrics.csv` (per unit × arm × component × block) and `adjusted_attribution_summary.csv` (per cell × arm × component × block: mean and SE of every metric and of every paired difference against the oracle). Verify with tests: means and paired SEs on synthetic records match a hand computation, and the merge is idempotent.
+- [x] 4.6 Write the pure `adjusted_attribution_decision` and `decide` (design D10). They cover:
   - both gates and the four criteria on the observed principal block, at 2 paired SEs;
   - the verdict with its consequence, the settings hash and the adopted calibration iteration;
   - the descriptive unadjusted arm, the captured and residual components, the transition blocks and the readings conditional on `angle` rejection;

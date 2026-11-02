@@ -228,7 +228,11 @@ def feature_directions(n_features: int, settings: Mapping[str, Any]) -> tuple[np
 
 
 def build_replicate(replicate: int, settings: Mapping[str, Any], reference: Any = None) -> dict[str, Any]:
-    """Generate the null dataset, draw the covariates and inject their effect."""
+    """Generate the null dataset, draw the covariates and inject their effect.
+
+    ``dataset`` is the generated (uninjected) dataset, for its truth; no record
+    writer reads it.
+    """
 
     from motco.simulations.preprocessing import apply_unit_transform
     from motco.simulations.reference import load_reference
@@ -266,7 +270,7 @@ def build_replicate(replicate: int, settings: Mapping[str, Any], reference: Any 
         blocks[name] = pd.DataFrame(values + effect * sd, index=frames[name].index, columns=frames[name].columns)
         offset += width
     metadata = metadata.assign(z=z, category=category)
-    return {"seeds": seeds, "metadata": metadata, "blocks": blocks, "group_labels": group_labels}
+    return {"seeds": seeds, "metadata": metadata, "blocks": blocks, "group_labels": group_labels, "dataset": dataset}
 
 
 def covariate_cell_summary(metadata: pd.DataFrame, group_labels: Sequence[str]) -> dict[str, Any]:
