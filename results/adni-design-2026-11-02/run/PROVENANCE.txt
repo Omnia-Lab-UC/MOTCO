@@ -1,0 +1,46 @@
+ADNI-design check, paper-grade run (openspec change adni-design-operating-characteristics, design D5, D11, D12)
+construction: table adni [[237, 310, 125], [223, 448, 158]] (n = 1,501), delta 0.02, s_z 0.1, s_p 1.75 (calibrated, calibration.json 2026-11-02), 14 cells (anchor, translation 1.0, magnitude [0.1, 0.25, 0.5, 1.0], orientation [0.25, 0.5, 0.75, 1.0], shape [0.25, 0.5, 0.75, 1.0])
+  (reps 500, perms 999, base seed 2032, alpha 0.05, k 2, power floor 0.80; declared covariates z, category (factor), phase, x1, x2 -> six design columns; phase offset on the expression block only; p_dmp 0.1, layers methylation+expression, min_components 2, net_displacement, harness CV knobs; one adjusted analysis per unit)
+approved: by the user on 2026-11-02 at R = 500 x 999, 175 shards (design.md, "Calibration, smoke and shard plan")
+submitted: 2026-11-02T15:23:28Z on ing, partition 512x1024, --exclude=n11, array 0-174 (175 shards of 40 units), job 932122
+command: sbatch --array=0-174 --export=ALL,ADNI_OUT=<worktree>/results/adni-design-2026-11-02/run,N_SHARDS=175,PYTHONPATH=<worktree>/src scripts/adni_design_array.sbatch
+  (logs/ created and settings.json pre-created with `run --shard 0/175 --limit 0` first)
+code: clean git worktree /home1/tgonza/MOTCO-adni-design of branch feat/adni-design-operating-characteristics at db2e30a (git tree 3ec28936ac309394c3a3a747bda1a1221fa9255b, identical to the workstation at that commit); PYTHONPATH on its src, .venv symlinked from /home1/tgonza/MOTCO; tests/test_adni_design_check.py, tests/test_case_study_type_i_check.py and tests/test_corrected_permutation_check.py passed there (98 passed). The branch's later commits change only documents, results and a comment in scripts/adni_design_array.sbatch; scripts/adni_design_check.py is byte-identical (sha256 below)
+settings hash: aa7964ab2d89282cff57db4f1aa1463be8ec9080f909291e0d8b7c953966196f (equals adni_design_decision.json's settings_hash)
+versions: python 3.11.16 motco 0.13.0 /home1/tgonza/MOTCO-adni-design/src/motco/__init__.py numpy 2.3.5 sklearn 1.8.0 scipy 1.16.3 pandas 2.3.3
+
+completed: first task started 2026-11-02T15:23:29Z, first ended 15:51:33Z, last ended 16:48:36Z; 175/175 tasks COMPLETED 0:0 on n1 (100), n4 (64), n3 (11)
+units: 7000/7000, missing 0, failures 0
+core-hours: 174.58 elapsed (sacct CPUTimeRAW, one CPU per task, BLAS threads 1); the units' own timers sum to 152.74 h (median 87.2 s per unit, q05 43.6 s, q95 115.7 s, max 120.4 s; the spread is node packing, n1 carried 100 tasks)
+merged and decided on ing by the afterany job 932123 (2026-11-02T16:48:36Z-16:51:15Z on n1):
+  python scripts/adni_design_check.py merge --out-dir <worktree>/results/adni-design-2026-11-02/run > merge.json
+  python scripts/adni_design_check.py decide --out-dir <worktree>/results/adni-design-2026-11-02/run > decide.json
+decision (adni_design_decision.json): non_rejections_uninformative, indicative false
+
+sha256 of the files that define the measurement (identical on ing at db2e30a and on the workstation):
+afee25430f699c8964be4f6739815ca05768c2a677fcc12abe420a05a071929d  scripts/adni_design_check.py
+3890346ddbc6b44ea5ccdfc8cf9c16cf9e2c6f00bb0be331e8a86ad5b02baf85  scripts/case_study_type_i_check.py
+cc2d08531a2b9e7d9471e88da86813bf7f6d95d1e1488836a6f2e741804ec748  scripts/covariate_type_i_check.py
+24f43e5e499dfc32c2f938af44ee44861dc145403de18ca5c2cb0724417a8563  scripts/adni_design_array.sbatch (at db2e30a; the branch head adds a usage comment only)
+433b54c0114ca65753b4b0cc0cb662d9b12365103e538e4a2f0fcf382d11ce6f  src/motco/analysis.py
+177c23667c294c55c50a3e5ab8600d9fb34e01208c49bb0433361bfe5950e0ef  src/motco/stats/permutation.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+29cd217a3aabfadbcbe86167dd0b8a9f4cf01eca63c0e5f9a0683a0378483a19  src/motco/stats/design.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+0baeaff6d7d410c0f27f32ad07cda4a756eb48ad3cbf19994d05902266624d5e  src/motco/simulations/semisynthetic.py
+2cbf5c4d8fd6c3fa5639b3cc1d08c3244d267349c0eec3b12d1aa131a3b2f8b0  src/motco/simulations/generator.py
+
+sha256 of the committed tables (copied back and checked):
+532369910d876d3874fc082fdfd9d88b88d067d8f390027a4636f8ccb6e1c4d5  adni_design_pvalues.csv
+4754876a69ba4a68560ae01dab45443374bda3c0af4c029f1d628e611967657f  adni_design_rates.csv
+62c659298b6430c74276365763b73fd17b634105f970c6515d311c3d21a3c907  adni_design_rank_strata.csv
+6968432ecaf1d5bdfa8fea5308cd74c1e9f1c3436eaac4bda4cc1c79ae07b229  size_readings.csv
+4cb482e7e16b19278467d6929f6905d71a8aef332ae55fc07ac86a3c1eec3ea1  adni_design_decision.json
+227ad9ba939b90edc75501a43e93393e68e07aa5b0f8b2b5338945076ef866a7  merge.json
+b50db155b81bc6e81f9482329efb15788922891223f8c17cb58bfb256330b24e  decide.json
+71fa229b043d329232bb373eb89bb08585500ffdd0bb2b28427b39444b63b9bd  settings.json
+
+stays on ing (/home1/tgonza/MOTCO-adni-design/results/adni-design-2026-11-02/run/):
+  records/ (175 shard files, 15 MB)
+  adni_design_replicates.csv (1.66 MB; sha256 29a95fee4bad54add65522f0dd29c14bdb4cd1a5ce3f768f034d456761caae12)
+  the SLURM logs under /home1/tgonza/MOTCO-adni-design/logs/

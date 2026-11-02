@@ -243,3 +243,21 @@ At this size it reads as a construction where magnitude/`delta` may reach the fl
 - **Replicates.** R = 300 would save about 40 % (bound 0.0752, power SE 0.023 at 0.80). The rules do not change with R. The recommendation is R = 500: the point estimates of the power curves near the floor need it.
 
 **Approval (2026-11-02):** the user approved the paper-grade array at the calibrated strengths (δ = 0.02, `s_z` = 0.1, `s_p` = 1.75) with R = 500 × 999 permutations, 175 shards on `ing`, about 200 core-hours, having been shown that the construction's CV rank sits at the cap (19) against ADNI's 8.
+
+### Paper-grade run (2026-11-02)
+
+- **Job.** Job 932122 on `ing` (175 shards × 40 units, partition `512x1024`, n11 excluded) from the worktree at
+  `db2e30a`. It ran from 15:23Z to 16:48Z: 175 / 175 tasks `COMPLETED 0:0`, 7,000 / 7,000 units, 0 failures.
+- **Cost.** 174.6 elapsed core-hours, against the plan's 200 (range 105–265). The units' own timers sum to 152.7 h,
+  median 87 s per unit; n1 carried 100 tasks.
+- **Merge and decide.** Done by the afterany job 932123. The decision's settings hash `aa7964ab…` equals
+  `settings.json`'s, and the verdict is not indicative. Provenance is in `results/adni-design-2026-11-02/run/PROVENANCE.txt`.
+- **Verdict: `non_rejections_uninformative`.**
+  - Size holds: anchor 0.034 / 0.060 / 0.040, translation 0.034 / 0.054 / 0.068 (`delta` / `angle` / `shape`),
+    bound 0.0695.
+  - No target statistic reaches the 0.80 floor. Magnitude/`delta` reads 0.034 / 0.056 / 0.134 / 0.530 at e = 0.1 /
+    0.25 / 0.5 / 1.0. Orientation/`angle` reads 0.056–0.076, and shape/`shape` 0.034–0.062.
+  - The CV rank is 19 in 70–100 % of units per cell (352–500 of 500).
+- **Calibration realized at the run's anchor.** AUROC 0.606, first-component |ρ| with phase 0.578, offset median |d|
+  1.126: the placement held at R = 500.
+- **Report.** `docs/reports/adni-design-2026-11-02.md`.
