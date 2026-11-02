@@ -329,3 +329,147 @@ def test_exact_cell_structure_gives_full_sign_stability() -> None:
     assert len(nonzero) > 0
     assert (nonzero["sign_stability"] == 1.0).all()
     assert (nonzero["valid_bootstrap_replicates"] == 20).all()
+
+
+# ── The compact record ───────────────────────────────────────────────────────
+
+
+def _diagnostics(data: dict[str, Any], **kwargs):
+    from motco.simulations.attribution_diagnostics import TruthDrivers, run_attribution_diagnostics
+    from motco.simulations.evaluation import AttributionDiagnosticSettings
+
+    X = data["X"]
+    return run_attribution_diagnostics(
+        model=_model(X, data["metadata"]),
+        features=X,
+        original_scales=None,
+        settings=AttributionDiagnosticSettings(enabled=True, bootstrap_replicates=6, bootstrap_seed=1, top_k=3),
+        group_col="group",
+        stage_col="stage",
+        selected_components=2,
+        feature_order_signature=None,
+        metadata=data["metadata"],
+        groups=GROUPS,
+        stages=STAGES,
+        truth=TruthDrivers(
+            feature_names=tuple(X.columns),
+            global_mask=np.zeros(X.shape[1], dtype=bool),
+            per_transition={},
+            available=False,
+            definition="unavailable: test",
+        ),
+        **kwargs,
+    )
+
+
+def test_compact_record_carries_the_adjustment_only_with_covariates() -> None:
+    data = _confounded()
+    plain, _ = _diagnostics(data)
+    assert "adjustment" not in plain
+    adjusted, result = _diagnostics(data, covariates=data["covariates"])
+    assert adjusted["adjustment"] == {
+        "mean_source": "covariate_adjusted",
+        "design_columns": ["z", "w"],
+        "reference_row": pytest.approx(data["covariates"].mean().to_dict()),
+        "rank_deficient_replicates": 0,
+        "bootstrap_replicates": 6,
+    }
+    assert result.config.mean_source == "covariate_adjusted"
+    keys = list(adjusted)
+    assert keys[keys.index("units") + 1] == "adjustment"
+    assert [key for key in keys if key != "adjustment"] == list(plain)
+
+
+# ── The analysis ─────────────────────────────────────────────────────────────
+
+
+def _analysis_inputs(*, complete_case: bool = False):
+    from tests.test_analysis import make_dataset, with_covariates
+
+    metadata, blocks = with_covariates(n_per_cell=10 if complete_case else 8)
+    kwargs: dict[str, Any] = {"covariate_cols": ["age", "pmi", "education_level"]}
+    if complete_case:
+        metadata.loc[[3, 17, 40], "pmi"] = np.nan
+        kwargs["missing_covariates"] = "complete_case"
+    return make_dataset(metadata, blocks, **kwargs)
+
+
+def _analysis_params(*, attribution: bool = True, **overrides: Any):
+    from motco.analysis import TrajectoryAnalysisParams
+    from motco.simulations.evaluation import AttributionDiagnosticSettings
+    from tests.test_analysis import SMALL_CV
+
+    settings = AttributionDiagnosticSettings(enabled=attribution, bootstrap_replicates=8, bootstrap_seed=3, top_k=5)
+    return TrajectoryAnalysisParams(permutations=19, seed=3, attribution=settings, **{**SMALL_CV, **overrides})
+
+
+@pytest.fixture(scope="module", params=[False, True], ids=["all-samples", "complete-case"])
+def adjusted_analysis(request):
+    from motco.analysis import analyze_trajectories
+
+    dataset = _analysis_inputs(complete_case=request.param)
+    return dataset, analyze_trajectories(dataset, _analysis_params())
+
+
+def test_attribution_means_project_to_the_stage_means(adjusted_analysis) -> None:
+    dataset, result = adjusted_analysis
+    assert result.attribution is not None
+    if dataset.dropped_sample_ids:
+        assert result.record["covariates"]["n_dropped"] == 3
+    model = result.latent_artifacts.model
+    features = list(result.latent_artifacts.features.columns)
+    projected = np.asarray(model.transform(result.attribution.means[features].to_numpy()))
+    assert list(result.attribution.means["group"]) == list(result.stage_means["group"])
+    assert list(result.attribution.means["stage"]) == list(result.stage_means["stage"])
+    stage_means = result.stage_means.drop(columns=["group", "stage"]).to_numpy()
+    np.testing.assert_allclose(projected, stage_means, rtol=1e-8, atol=1e-8 * np.abs(stage_means).max())
+
+
+def test_adjustment_block_reference_row_is_the_covariate_blocks(adjusted_analysis) -> None:
+    _, result = adjusted_analysis
+    adjustment = result.record["attribution"]["adjustment"]
+    covariates = result.record["covariates"]
+    assert adjustment["mean_source"] == "covariate_adjusted"
+    assert adjustment["design_columns"] == covariates["design_columns"]
+    assert adjustment["reference_row"] == covariates["reference_row"]
+    assert adjustment["bootstrap_replicates"] == 8
+    assert isinstance(adjustment["rank_deficient_replicates"], int)
+
+
+def test_attribution_leaves_the_measurement_unchanged(adjusted_analysis) -> None:
+    from motco.analysis import analyze_trajectories
+
+    dataset, with_attribution = adjusted_analysis
+    without = analyze_trajectories(dataset, _analysis_params(attribution=False))
+    assert np.array_equal(with_attribution.latent_scores.to_numpy(), without.latent_scores.to_numpy())
+    pd.testing.assert_frame_equal(with_attribution.stage_means, without.stage_means)
+    for key in ("statistics", "p_values", "null_summary"):
+        assert with_attribution.record[key] == without.record[key], key
+    assert with_attribution.record["latent"]["selected_lv"] == without.record["latent"]["selected_lv"]
+    assert without.record["attribution"]["status"] == "not_requested"
+
+
+def test_exposed_measurement_reproduces_the_latent_scores(adjusted_analysis) -> None:
+    _, result = adjusted_analysis
+    artifacts = result.latent_artifacts
+    assert artifacts is not None
+    scores = result.latent_scores.to_numpy()
+    transformed = np.asarray(artifacts.model.transform(artifacts.features.to_numpy()))
+    np.testing.assert_allclose(transformed, scores, rtol=0, atol=1e-10 * np.abs(scores).max())
+    assert artifacts.original_scales.shape == (artifacts.features.shape[1],)
+
+
+def test_exposed_measurement_is_not_written(adjusted_analysis, tmp_path) -> None:
+    from dataclasses import replace
+
+    from motco.analysis import write_analysis_outputs
+
+    _, result = adjusted_analysis
+    with_field = write_analysis_outputs(result, tmp_path / "with")
+    without_field = write_analysis_outputs(replace(result, latent_artifacts=None), tmp_path / "without")
+    assert sorted(with_field) == sorted(without_field)
+    for key, path in with_field.items():
+        assert path.read_bytes() == without_field[key].read_bytes(), key
+    written = sorted(path.relative_to(tmp_path / "with").as_posix() for path in (tmp_path / "with").rglob("*"))
+    assert all(name.endswith((".json", ".csv")) or name == "attribution" for name in written)
+    assert "latent_artifacts" not in result.record and "latent_artifacts" not in result.to_json()

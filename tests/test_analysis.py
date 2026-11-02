@@ -576,7 +576,7 @@ def test_complete_case_that_empties_a_cell_is_rejected() -> None:
         make_dataset(metadata, blocks, covariate_cols=["pmi"], missing_covariates="complete_case")
 
 
-def test_attribution_with_covariates_is_rejected_before_fitting(monkeypatch) -> None:
+def test_attribution_with_latent_adjustment_is_rejected_before_fitting(monkeypatch) -> None:
     import motco.analysis as analysis
 
     def forbidden(*args, **kwargs):
@@ -584,11 +584,26 @@ def test_attribution_with_covariates_is_rejected_before_fitting(monkeypatch) -> 
 
     monkeypatch.setattr(analysis, "fit_pls_latent_space", forbidden)
     metadata, blocks = with_covariates()
-    with pytest.raises(TrajectoryAnalysisError, match="Attribution is not available with covariates"):
+    with pytest.raises(TrajectoryAnalysisError, match="Attribution is not available with latent adjustment"):
         analyze_trajectories(
             make_dataset(metadata, blocks, covariate_cols=COVARIATES),
-            TrajectoryAnalysisParams(attribution=AttributionDiagnosticSettings(enabled=True)),
+            TrajectoryAnalysisParams(
+                attribution=AttributionDiagnosticSettings(enabled=True), covariate_latent_adjustment="stage"
+            ),
         )
+
+
+def test_attribution_with_covariates_runs_on_adjusted_means() -> None:
+    metadata, blocks = with_covariates()
+    out = analyze_trajectories(
+        make_dataset(metadata, blocks, covariate_cols=COVARIATES),
+        TrajectoryAnalysisParams(
+            attribution=AttributionDiagnosticSettings(enabled=True, bootstrap_replicates=3, top_k=5), **SMALL_CV
+        ),
+    )
+    assert out.attribution is not None
+    assert out.attribution.config.mean_source == "covariate_adjusted"
+    assert out.record["attribution"]["adjustment"]["design_columns"] == out.record["covariates"]["design_columns"]
 
 
 def test_collinear_covariate_is_rejected() -> None:

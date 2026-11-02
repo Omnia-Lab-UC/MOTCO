@@ -53,10 +53,10 @@
 
 ## 3. The compact record, the analysis and the CLI
 
-- [ ] 3.1 Pass `covariates` and `covariate_reference` through `run_attribution_diagnostics` (and `compute_attribution_diagnostics`). Add the `adjustment` block (`mean_source`, `design_columns`, `reference_row`, `rank_deficient_replicates`, `bootstrap_replicates`) only when they are given, and leave `ATTRIBUTION_SCHEMA_VERSION` at 2 (design D3, D4). Verify:
+- [x] 3.1 Pass `covariates` and `covariate_reference` through `run_attribution_diagnostics` (and `compute_attribution_diagnostics`). Add the `adjustment` block (`mean_source`, `design_columns`, `reference_row`, `rank_deficient_replicates`, `bootstrap_replicates`) only when they are given, and leave `ATTRIBUTION_SCHEMA_VERSION` at 2 (design D3, D4). Verify:
   - a test shows the block present with covariates and absent without;
   - `tests/test_attribution_diagnostics.py` and `tests/test_evaluation_attribution.py` pass unchanged.
-- [ ] 3.2 Make three changes in `src/motco/analysis.py` (design D5, D6):
+- [x] 3.2 Make three changes in `src/motco/analysis.py` (design D5, D6):
   - replace the covariates guard with a latent-adjustment guard, raised before fitting;
   - pass the `CovariateDesign` (matrix with `column_names`, and `reference_row`) to `_run_attribution`;
   - add `TrajectoryAnalysisResult.latent_artifacts` (in memory; excluded from the record, `to_json` and `write_analysis_outputs`).
@@ -69,17 +69,17 @@
   - the written file set is the same with and without the field.
 
   `tests/test_analysis_identity.py` and `tests/test_attribution_identity.py` must pass unchanged.
-- [ ] 3.3 Print `Attribution: covariate-adjusted means at the reference row; <k> of <B> bootstrap replicates rank-deficient` in `motco analyze` when the attribution record carries `adjustment` (design D5). Verify with new cases in `tests/test_analysis_cli.py`:
+- [x] 3.3 Print `Attribution: covariate-adjusted means at the reference row; <k> of <B> bootstrap replicates rank-deficient` in `motco analyze` when the attribution record carries `adjustment` (design D5). Verify with new cases in `tests/test_analysis_cli.py`:
   - a covariate-adjusted run with `--attribution --bootstrap-replicates 20 --bootstrap-seed 3` exits zero, `attribution/configuration.csv` states `covariate_adjusted`, `result.json` holds the adjustment block, and stdout holds the line;
   - `--latent-adjustment stage --attribution` exits non-zero with the latent-adjustment message;
   - a run without covariates prints no adjustment line.
-- [ ] 3.4 Update the documentation:
+- [x] 3.4 Update the documentation:
   - in `docs/api/analysis.md`, replace "Attribution is not available with covariates" with the adjusted-attribution behaviour, the adjustment block, the latent-adjustment rejection, `latent_artifacts` (in memory only) and the validation status "pending the adjusted-attribution check";
   - regenerate the `motco analyze --help` block in `docs/api/cli.md` if it changed;
   - in the `analysis.py` paragraph of `AGENTS.md`, state that attribution with covariates uses adjusted means and the refitted bootstrap, that it is rejected with latent adjustment, and that `latent_artifacts` exists.
 
   Verify that `uv run mkdocs build --strict` passes as in 2.3, and read the three documents against the specs.
-- [ ] 3.5 Bump `src/motco/__init__.py` to 0.14.0 before any paper-grade unit runs (design D12). Verify that `python -c "import motco; print(motco.__version__)"` prints 0.14.0 and that the pre-commit gate passes.
+- [x] 3.5 Bump `src/motco/__init__.py` to 0.14.0 before any paper-grade unit runs (design D12). Verify that `python -c "import motco; print(motco.__version__)"` prints 0.14.0 and that the pre-commit gate passes.
 
 ## 4. The validation script
 
