@@ -1420,7 +1420,7 @@ def build_specificity_n1200(ctx: BuildContext) -> FigureResult:
     frame, uses = specificity_n1200(ctx.root)
     spec = FIGURES["specificity_n1200"]
     note = uses[0].measurement.short() if uses[0].measurement is not None else ""
-    design = "n = 1,200 · 4 stages · 3 blocks · net displacement" + (f" · {note}" if note else "")
+    design = "n = 1,200 · 4 stages · 3 blocks · net displacement" + (f"\n{note}" if note else "")
     return FigureResult([("specificity_n1200", draw_specificity(frame, ctx, spec, uses, design=design))], uses, frame)
 
 
