@@ -195,7 +195,9 @@ def test_oracle_removes_the_injection_exactly() -> None:
 def test_stage_means_mismatch_raises_and_writes_nothing(tmp_path, monkeypatch) -> None:
     settings = _settings()
     check.ensure_settings(tmp_path, settings)
-    monkeypatch.setattr(check, "model_transform", lambda model, frame: np.asarray(model.transform(frame.to_numpy())) + 1.0)
+    monkeypatch.setattr(
+        check, "model_transform", lambda model, frame: np.asarray(model.transform(frame.to_numpy())) + 1.0
+    )
     with pytest.raises(check.ConsistencyError, match="stage_means"):
         check.run_shard(tmp_path, settings, 0, 1, limit=1)
     assert check.shard_path(tmp_path, 0, 1).read_text() == ""
@@ -336,12 +338,20 @@ def _calibration_settings() -> dict:
     return check.calibration_settings(_args("--s-z", "10", command="calibrate"), 10.0)
 
 
-def _calibration_rows(contamination: dict[str, float], precision: float) -> list[dict]:
+def _calibration_rows(gaps: dict[tuple[str, float], tuple[float, float]], precision: float) -> list[dict]:
+    """Rows whose unadjusted − oracle (contamination, projection) gaps per cell are ``gaps``."""
+
     rows = []
-    for (mode, effect), gap in contamination.items():
+    for (mode, effect), (contamination, projection) in gaps.items():
         for replicate in range(4):
-            for arm, value in (("unadjusted", 0.1 + gap), ("oracle", 0.1)):
-                row = _metric_row(arm, replicate, contamination=value, truth_precision=precision)
+            for arm, shift in (("unadjusted", 1.0), ("oracle", 0.0)):
+                row = _metric_row(
+                    arm,
+                    replicate,
+                    contamination=0.1 + shift * contamination,
+                    projection=0.05 + shift * projection,
+                    truth_precision=precision,
+                )
                 rows.append({**row, "mode": mode, "effect": effect})
     return rows
 
@@ -354,25 +364,31 @@ def test_calibration_settings_run_the_anchor_and_the_largest_orientation() -> No
 
 
 @pytest.mark.parametrize(
-    ("gaps", "precision", "contamination_met", "recoverability_met"),
+    ("gaps", "precision", "confounding_met", "recoverability_met"),
     [
-        ({("anchor", 0.0): 0.3, ("orientation", 1.0): 0.26}, 0.7, True, True),
-        ({("anchor", 0.0): 0.3, ("orientation", 1.0): 0.1}, 0.7, False, True),
-        ({("anchor", 0.0): 0.3, ("orientation", 1.0): 0.3}, 0.4, True, False),
+        ({("anchor", 0.0): (0.3, 0.5), ("orientation", 1.0): (0.0, 0.25)}, 0.7, True, True),
+        ({("anchor", 0.0): (0.3, 0.5), ("orientation", 1.0): (0.0, -0.4)}, 0.7, True, True),
+        ({("anchor", 0.0): (0.2, 0.5), ("orientation", 1.0): (0.5, 0.5)}, 0.7, False, True),
+        ({("anchor", 0.0): (0.3, 0.5), ("orientation", 1.0): (0.5, 0.1)}, 0.7, False, True),
+        ({("anchor", 0.0): (0.3, 0.5), ("orientation", 1.0): (0.0, 0.5)}, 0.4, True, False),
     ],
-    ids=["met", "unmet", "unrecoverable"],
+    ids=["met", "met-negative-projection", "anchor-contamination", "orientation-projection", "unrecoverable"],
 )
-def test_calibration_criteria(gaps, precision, contamination_met, recoverability_met) -> None:
+def test_calibration_criteria(gaps, precision, confounding_met, recoverability_met) -> None:
     criteria = check.calibration_criteria(_calibration_rows(gaps, precision), _calibration_settings())
-    assert criteria["contamination"]["met"] is contamination_met
+    assert criteria["rule_version"] == 2
+    assert criteria["confounding"]["met"] is confounding_met
     assert criteria["recoverability"]["met"] is recoverability_met
     assert criteria["recoverability"]["cell"] == "orientation@1"
-    assert criteria["contamination"]["cells"]["anchor"]["mean"] == pytest.approx(0.3)
+    assert set(criteria["confounding"]["contamination"]) == {"anchor"}
+    assert set(criteria["confounding"]["projection"]) == {"anchor", "orientation@1"}
+    anchor_gap = gaps[("anchor", 0.0)][0]
+    assert criteria["confounding"]["contamination"]["anchor"]["mean"] == pytest.approx(anchor_gap)
 
 
-def _entry(contamination: bool, recoverability: bool) -> dict:
-    return {"contamination": {"met": contamination}, "recoverability": {"met": recoverability},
-            "met": contamination and recoverability}
+def _entry(confounding: bool, recoverability: bool) -> dict:
+    return {"confounding": {"met": confounding}, "recoverability": {"met": recoverability},
+            "met": confounding and recoverability}
 
 
 def test_calibration_step() -> None:
@@ -502,9 +518,29 @@ def test_diagnose_names_contamination_at_the_weak_orientation() -> None:
 
 
 def test_weak_confounding_is_uninformative() -> None:
-    verdict = _verdict({(("orientation", 1.0), "unadjusted", "contamination_minus_oracle"): (0.10, 0.01)})
+    verdict = _verdict({(("anchor", 0.0), "unadjusted", "contamination_minus_oracle"): (0.10, 0.01)})
     assert verdict["verdict"] == "construction_uninformative"
-    assert verdict["failing"] == [{"criterion": "contamination_gate", "cell": "orientation@1", "verdict": "fails"}]
+    assert verdict["failing"] == [{"criterion": "contamination_gate", "cell": "anchor", "verdict": "fails"}]
+
+
+def test_contamination_gate_reads_the_anchor_only() -> None:
+    verdict = _verdict({(("orientation", 1.0), "unadjusted", "contamination_minus_oracle"): (0.0, 0.0)})
+    assert verdict["verdict"] == "adjusted_attribution_validated"
+    assert [gate["cell"] for gate in verdict["gates"] if gate["criterion"] == "contamination_gate"] == ["anchor"]
+
+
+def test_weak_projection_is_uninformative() -> None:
+    verdict = _verdict({(("orientation", 1.0), "unadjusted", "projection_minus_oracle"): (-0.15, 0.01)})
+    assert verdict["verdict"] == "construction_uninformative"
+    assert verdict["failing"] == [{"criterion": "projection_gate", "cell": "orientation@1", "verdict": "fails"}]
+    reading = _reading(verdict, "projection_gate", "orientation@1")
+    assert reading["value"] == pytest.approx(0.13)
+
+
+def test_projection_gate_reads_the_size_of_the_confounding() -> None:
+    verdict = _verdict({(("orientation", 0.5), "unadjusted", "projection_minus_oracle"): (-0.4, 0.01)})
+    assert _reading(verdict, "projection_gate", "orientation@0.5")["verdict"] == "holds"
+    assert verdict["verdict"] == "adjusted_attribution_validated"
 
 
 def test_unrecoverable_drivers_are_uninformative_whatever_the_criteria() -> None:

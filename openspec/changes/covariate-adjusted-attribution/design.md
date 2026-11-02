@@ -194,8 +194,15 @@ All bounds are one-sided at 2 paired standard errors per cell, over the cell's R
 | truth precision, adjusted − oracle | ≥ −0.05 | one feature in twenty |
 | bootstrap sign stability, adjusted − oracle | ≥ −0.05 | as precision |
 | top-k frequency, adjusted − oracle | ≥ −0.10 | two features in twenty. The adjusted arm estimates six extra coefficients on 68 residual df, which widens per-feature bootstrap spread more than the sign. |
-| gate: contamination, unadjusted − oracle | ≥ 0.25 at every cell | the confounder must visibly reach the unadjusted top-k, or nothing is being removed |
+| gate: contamination, unadjusted − oracle | ≥ 0.25 at the anchor (amended; declared at every cell) | the confounder must visibly reach the unadjusted top-k, or nothing is being removed |
+| gate: \|projection on ŵ, unadjusted − oracle\| − 2·SE | ≥ 0.2 at every cell (added by the amendment) | the confounder must reach the unadjusted contrast in every cell the criteria read |
 | gate: oracle truth precision at e = 1.0 | ≥ 0.5 | the planted drivers must be recoverable at all, or non-inferiority to the oracle is vacuous |
+
+**Amendment of the gates, 2026-11-02 (approved by the user, recorded before any smoke or paper-grade unit).** Calibration under the declared rule ended `stop_exhausted` (D11, iterations 0–8): at orientation e = 1.0 the unadjusted − oracle contamination was 0.0 at every `s_z` from 10 to 50. A diagnostic (`results/adjusted-attribution-2026-11-02/calibration/probe/`, six replicates per row, indicative) showed why. At e = 1.0 the planted drivers are 302 of the 498 features, and 61 of the 100 injected features are among them, so only about 39 injected features can count as contaminants; their best rank in the unadjusted contrast was 30th–90th at δ = 2.0. Weakening the stage effect to δ = 0.25 did not change that (0.0–0.07). Meanwhile the unadjusted − oracle projection on ŵ was about 0.5 in every cell, against about 0 after adjustment, so the confounding reaches the contrast; it just does not reach the top-20. Under the declared gate the verdict was known in advance to be `construction_uninformative`. The amendment, chosen by the user over stopping with validation pending or running as declared:
+- the contamination gate reads the anchor only, where no orientation competes;
+- a projection gate, |mean projection difference (unadjusted − oracle)| − 2·SE ≥ 0.2, reads every cell, so the residual-confounding criterion is never judged where there is no confounding to remove;
+- every criterion and its margin is unchanged, including the contamination criterion at every cell; δ = 2.0 and the `s_z` start of 10 are unchanged;
+- the script's rule is version 2, recorded in `settings.json` and in every later calibration iteration.
 
 The verdicts and their consequences are in the spec. In short:
 - `adjusted_attribution_validated` lets item 12 start on 0.14.0;
@@ -207,9 +214,25 @@ A verdict below 999 permutations, B = 200 or R = 500 is indicative.
 ### D11. Calibration, timing and where it runs
 
 Calibration runs R = 20 × 99 permutations × B = 50 at the anchor and orientation e = 1.0, starting from `s_z = 10`, the corrected-permutation power profile's value.
-- `s_z` is raised in steps of 5 until the contamination criterion is met in both cells, and every iteration goes to `calibration.json`.
+- `s_z` is raised in steps of 5 until the confounding criterion is met, and every iteration goes to `calibration.json`. Under rule version 2 that criterion is the anchor's contamination gap of at least 0.25 and an absolute projection gap of at least 0.2 in both cells (means, no SE); under the declared rule it was the contamination gap of at least 0.25 in both cells.
 - `s_z` enters every arm's pooled scale identically, so the arms stay paired at any value. An injected feature's clean signal shrinks in standardized units as `s_z` grows, in all three arms alike.
-- If the oracle recoverability criterion fails at a strength that meets contamination, no further `s_z` is tried. The check stops, the user decides, and the decision is recorded here.
+- If the oracle recoverability criterion fails at a strength that meets the confounding criterion, no further `s_z` is tried. The check stops, the user decides, and the decision is recorded here.
+
+**Calibration under the declared rule, 2026-11-02.** Iterations 0–8 of `results/adjusted-attribution-2026-11-02/calibration/calibration.json`, at `s_z` 10, 15, …, 50, read:
+
+| `s_z` | contamination gap, anchor | contamination gap, e = 1.0 | oracle truth precision, e = 1.0 |
+|---|---|---|---|
+| 10 | 0.485 | 0.000 | 0.975 |
+| 15 | 0.4225 | 0.000 | 0.975 |
+| 20 | 0.3525 | 0.000 | 0.970 |
+| 25 | 0.280 | 0.000 | 0.970 |
+| 30 | 0.2675 | 0.000 | 0.9725 |
+| 35 | 0.2375 | 0.000 | 0.975 |
+| 40 | 0.205 | 0.000 | 0.9775 |
+| 45 | 0.1825 | 0.000 | 0.985 |
+| 50 | 0.165 | 0.000 | 0.985 |
+
+The outcome was `stop_exhausted`, and the risk below was wrong: raising `s_z` lowered the anchor's gap and never opened one at e = 1.0, because in standardized units an injected feature converges to `z`'s own cell pattern as `s_z` grows. Iteration 0 ran with BLAS unpinned (12 workers, load 112 on 16 cores, 7.7 min); it was stopped and resumed at `s_z = 15` with one BLAS thread per worker (75 s per iteration). The user amended the gates (D10). Calibration then reruns once under rule version 2 from `s_z = 10`.
 
 **Timing estimate.** About 14 s per adjusted analysis at δ = 2.0. Three attributions at B = 200 and p = 498 add an estimated 1–3 s. Over 1,500 units that is about 6–7 core-hours.
 
@@ -230,7 +253,7 @@ The version is bumped to 0.14.0 before any paper-grade unit, so the records name
 ## Risks / Trade-offs
 
 - **[The oracle cannot recover the planted drivers at n = 80, so the recoverability gate fails.]** → Calibration surfaces this before any paper-grade unit and stops for the user. A larger table would no longer be the case-study configuration, so it is the user's call, not a silent adjustment.
-- **[At e = 1.0 a strong orientation crowds the injected features out of the unadjusted top-k, so the contamination gate fails at that cell only.]** → Calibration checks both cells. Raising `s_z` restores the gap. The projection criterion does not depend on the top-k.
+- **[At e = 1.0 a strong orientation crowds the injected features out of the unadjusted top-k, so the contamination gate fails at that cell only.]** → It happened, and raising `s_z` did not restore the gap (D11, calibration under the declared rule). The gates were amended on 2026-11-02 (D10): contamination is gated at the anchor, and a projection gate, which does not depend on the top-k, reads every cell.
 - **[The adjusted contrast is noisier than the oracle's, so its normalized contrast is attenuated.]** → The criteria are non-inferiority margins, not equality. No per-feature t-test is used (D9).
 - **[Real covariates include factors whose rare levels make resamples rank-deficient.]** → Such replicates are invalid, counted, recorded and printed, and the valid counts say how many contributed. The validation uses numeric covariates only, so this is unit-tested, not measured, and the report states it as a limitation.
 - **[The additive linear covariate model is misspecified on real data.]** → The interpretation boundary states the model. Interactions stay out of scope, as in the trajectory models.

@@ -128,6 +128,8 @@
 ## 5. Calibration, smoke, timing and approval
 
 - [ ] 5.1 Run `calibrate` locally into `results/adjusted-attribution-<date>/calibration/`, and record every iteration. If the recoverability criterion fails, stop and present the iteration to the user before anything else. Verify that `calibration.json` names an iteration meeting both criteria, or that the user's decision is recorded in `design.md`.
+
+  Under the declared rule calibration ended `stop_exhausted` on 2026-11-02 (iterations 0–8: no contamination at orientation e = 1.0 at any `s_z`). The user amended the gates (design D10; rule version 2: contamination gated at the anchor, a projection gate at every cell). Record the diagnostic under `calibration/probe/`, update the script, its tests and the spec, and rerun `calibrate` once under rule version 2 from `s_z = 10`, appending to the same `calibration.json`.
 - [ ] 5.2 Run the smoke at the calibrated `s_z`: R = 20 × 99 permutations × B = 50 over the three cells into `smoke/`, then `merge` and `decide`. Time two units at 999 permutations × B = 200. Verify: zero consistency failures, an indicative decision file, and the 999 × 200 units completing end to end.
 - [ ] 5.3 Append a dated "Smoke and run plan" section to `design.md`. It records the calibration outcome, the smoke metrics, the per-unit timing, the planned core-hours, and local workers versus `ing` under D11's 12-core-hour rule; for `ing`, also `scripts/adjusted_attribution_array.sbatch` modelled on `scripts/corrected_permutation_array.sbatch`, with `bash -n` passing. Present it to the user and obtain approval. Verify that the section and the recorded approval exist in `design.md`.
 

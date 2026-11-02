@@ -51,9 +51,13 @@ valid and rank-deficient bootstrap counts.
 **Decision** (pure, :func:`adjusted_attribution_decision`), read on the
 observed principal-orientation contrast at 2 paired standard errors:
 
-- gates: unadjusted − oracle contamination ≥ 0.25 at every cell, and oracle
-  truth precision ≥ 0.5 at orientation e = 1.0 — else
-  ``construction_uninformative``;
+- gates (rule version 2, amended 2026-11-02): unadjusted − oracle
+  contamination ≥ 0.25 at the anchor, |unadjusted − oracle projection| ≥ 0.2
+  at every cell, and oracle truth precision ≥ 0.5 at orientation e = 1.0 —
+  else ``construction_uninformative``. The contamination gate was declared at
+  every cell; at the orientation cells the planted drivers crowd every
+  injected feature out of the unadjusted top-k, so it moved to the anchor and
+  the projection gate shows the confounding reaches the contrast there;
 - criteria: adjusted − oracle contamination ≤ 0.05 and residual confounding
   ≤ 0.10 × the unadjusted arm's at every cell; truth precision and sign
   stability ≥ −0.05 and top-k frequency ≥ −0.10 against the oracle at both
@@ -67,8 +71,9 @@ B = 200 or 500 replicates per cell is indicative.
 
 **Calibration** (``calibrate``): R = 20 × 99 permutations × B = 50 at the
 anchor and orientation e = 1.0, starting at ``--s-z`` (10) and stepping by 5
-until the contamination criterion is met in both cells; a strength that meets
-it but fails recoverability stops the check for the user's decision. Every
+until the confounding criterion is met (the anchor's contamination gap and
+both cells' projection gap reach their gate margins); a strength that meets it
+but fails recoverability stops the check for the user's decision. Every
 iteration is appended to ``calibration.json``.
 
 Outputs (``--out-dir``): ``settings.json``; ``records/shard_<i>_of_<N>.jsonl``
@@ -78,7 +83,14 @@ block × component) and ``adjusted_attribution_summary.csv`` (per cell × arm ×
 block × component: mean and SE of every metric and of every paired difference
 against the oracle); after ``decide``: ``adjusted_attribution_decision.json``.
 
+With ``--workers`` above 1, pin BLAS to one thread per process
+(``OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1``), as the
+cluster arrays do; otherwise every worker spawns a full thread pool and the
+machine is oversubscribed.
+
 Examples:
+
+    export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 
     # calibration (appends every iteration to calibration.json)
     python scripts/adjusted_attribution_check.py calibrate --out-dir results/aa/calibration --workers 4
@@ -154,8 +166,13 @@ MARGINS: dict[str, float] = {
     "sign_stability": -0.05,
     "top_k_frequency": -0.10,
     "contamination_gate": 0.25,
+    "projection_gate": 0.2,
     "recoverability_gate": 0.5,
 }
+#: 2 = the gates amended 2026-11-02 (design D10): the contamination gate at the anchor only, plus a
+#: projection gate at every cell, because the planted drivers crowd every injected feature out of the
+#: unadjusted top-k at the orientation cells (calibration.json iterations 0-8, stop_exhausted).
+RULE_VERSION = 2
 METRICS: tuple[str, ...] = (
     "truth_precision",
     "contamination",
@@ -245,8 +262,10 @@ def build_settings(args: argparse.Namespace) -> dict[str, Any]:
         "reading": "observed component of the principal-orientation block",
         "se_multiplier": SE_MULTIPLIER,
         "margins": dict(MARGINS),
+        "version": RULE_VERSION,
         "gates": (
-            "contamination: mean(unadjusted - oracle) - k*SE >= contamination_gate at every cell; "
+            "contamination: mean(unadjusted - oracle) - k*SE >= contamination_gate at the anchor; projection: "
+            "|mean projection difference (unadjusted - oracle)| - k*SE >= projection_gate at every cell; "
             "recoverability: oracle mean truth precision at orientation e = 1.0 >= recoverability_gate"
         ),
         "criteria": (
@@ -900,7 +919,22 @@ def criteria_readings(
             k=k,
         )
         for cell in all_cells
+        if cell[0] == ANCHOR
     ]
+    for cell in all_cells:
+        gate = _entry(
+            "projection_gate",
+            cell,
+            row(cell, "unadjusted", "projection_minus_oracle"),
+            direction="lower",
+            bound=float(margins["projection_gate"]),
+            k=k,
+        )
+        if gate["mean"] is not None and gate["se"] is not None:
+            # The confounding's sign follows the group order; its size is what the gate reads.
+            gate["value"] = abs(gate["mean"]) - k * gate["se"]
+            gate["verdict"] = "holds" if gate["value"] >= gate["bound"] else "fails"
+        gates.append(gate)
     top = max(orientation_cells, key=lambda cell: cell[1])
     oracle_precision = row(top, "oracle", "truth_precision")
     recoverable = None if oracle_precision is None or oracle_precision["mean"] in (None, "") else float(
@@ -1102,27 +1136,51 @@ def decide(out_dir: Path, settings: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def calibration_criteria(rows: Sequence[Mapping[str, Any]], settings: Mapping[str, Any]) -> dict[str, Any]:
-    """Contamination (mean unadjusted − oracle ≥ the gate margin in both cells) and recoverability."""
+    """Confounding and recoverability on the calibration cells' means.
+
+    Confounding (rule version 2) is met when the unadjusted − oracle
+    contamination at the anchor reaches the contamination gate margin and the
+    |unadjusted − oracle projection| reaches the projection gate margin in both
+    cells; recoverability when the oracle's truth precision at the largest
+    orientation reaches its margin.
+    """
 
     summary = _lookup(summary_rows(rows))
     margins = settings["rule"]["margins"]
+
+    def mean_of(mode: str, effect: float, quantity: str) -> tuple[float | None, int]:
+        row = summary.get((mode, float(effect), "unadjusted", PRINCIPAL, "observed", quantity))
+        return (None if row is None or row["mean"] is None else float(row["mean"])), (0 if row is None else row["n"])
+
     contamination = {}
+    projection = {}
     for mode, effect in cells(settings):
-        row = summary.get((mode, float(effect), "unadjusted", PRINCIPAL, "observed", "contamination_minus_oracle"))
-        mean = None if row is None else row["mean"]
-        contamination[cell_label(mode, effect)] = {
+        label = cell_label(mode, effect)
+        if mode == ANCHOR:
+            mean, n = mean_of(mode, effect, "contamination_minus_oracle")
+            contamination[label] = {
+                "mean": mean,
+                "n": n,
+                "met": mean is not None and mean >= float(margins["contamination_gate"]),
+            }
+        mean, n = mean_of(mode, effect, "projection_minus_oracle")
+        projection[label] = {
             "mean": mean,
-            "n": 0 if row is None else row["n"],
-            "met": mean is not None and float(mean) >= float(margins["contamination_gate"]),
+            "n": n,
+            "met": mean is not None and abs(mean) >= float(margins["projection_gate"]),
         }
     top = max((cell for cell in cells(settings) if cell[0] != ANCHOR), key=lambda cell: cell[1])
     precision = summary.get((top[0], float(top[1]), "oracle", PRINCIPAL, "observed", "truth_precision"))
     precision_mean = None if precision is None else precision["mean"]
+    met = all(entry["met"] for entry in (*contamination.values(), *projection.values()))
     return {
-        "contamination": {
-            "bound": float(margins["contamination_gate"]),
-            "cells": contamination,
-            "met": all(entry["met"] for entry in contamination.values()),
+        "rule_version": RULE_VERSION,
+        "confounding": {
+            "contamination_bound": float(margins["contamination_gate"]),
+            "projection_bound": float(margins["projection_gate"]),
+            "contamination": contamination,
+            "projection": projection,
+            "met": met,
         },
         "recoverability": {
             "bound": float(margins["recoverability_gate"]),
@@ -1144,7 +1202,7 @@ def calibration_entry(records: Mapping[str, Mapping[str, Any]], settings: Mappin
         "cells": [cell_label(*cell) for cell in cells(settings)],
         "units": len(records),
         **criteria,
-        "met": bool(criteria["contamination"]["met"] and criteria["recoverability"]["met"]),
+        "met": bool(criteria["confounding"]["met"] and criteria["recoverability"]["met"]),
         "selected_rank": cs.rank_distribution(record["analysis"]["selected_lv"] for record in records.values()),
     }
 
@@ -1188,14 +1246,14 @@ def calibrate_once(settings: Mapping[str, Any], *, workers: int = 1) -> dict[str
 def calibration_step(entry: Mapping[str, Any], s_z: float, max_s_z: float) -> tuple[str, float | None]:
     """What follows an iteration: ``adopt``, ``stop_recoverability``, ``stop_exhausted`` or ``raise``."""
 
-    if entry["contamination"]["met"]:
+    if entry["confounding"]["met"]:
         return ("adopt", None) if entry["recoverability"]["met"] else ("stop_recoverability", None)
     following = s_z + S_Z_STEP
     return ("raise", following) if following <= max_s_z + 1e-9 else ("stop_exhausted", None)
 
 
 def calibrate(args: argparse.Namespace, run_once: Any = calibrate_once) -> dict[str, Any]:
-    """Iterate ``s_z`` upward by 5 until contamination is met; stop on a recoverability failure."""
+    """Iterate ``s_z`` upward by 5 until confounding is met; stop on a recoverability failure."""
 
     s_z = float(args.s_z)
     while True:
@@ -1203,7 +1261,7 @@ def calibrate(args: argparse.Namespace, run_once: Any = calibrate_once) -> dict[
         outcome, following = calibration_step(entry, s_z, float(args.max_s_z))
         entry["outcome"] = outcome
         record_calibration(args.out_dir, entry)
-        print(json.dumps({key: entry[key] for key in ("s_z", "contamination", "recoverability", "met", "outcome")}),
+        print(json.dumps({key: entry[key] for key in ("s_z", "confounding", "recoverability", "met", "outcome")}),
               file=sys.stderr, flush=True)
         if outcome != "raise":
             return entry

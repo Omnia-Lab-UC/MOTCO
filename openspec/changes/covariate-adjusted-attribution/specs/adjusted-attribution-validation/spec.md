@@ -32,12 +32,12 @@ The check SHALL build the case-study construction: the Phase 6 replicate on the 
 
 ### Requirement: Calibration places the construction where attribution can be judged
 
-Before any paper-grade unit, calibration units SHALL be run at the anchor and at orientation e = 1.0. The injection strength `s_z` SHALL be the only calibrated quantity. It SHALL be raised until the covariate measurably contaminates unadjusted attribution. Every iteration SHALL be recorded. If the oracle cannot recover the planted drivers, the check SHALL stop for the user's decision.
+Before any paper-grade unit, calibration units SHALL be run at the anchor and at orientation e = 1.0. The injection strength `s_z` SHALL be the only calibrated quantity. It SHALL be raised until the covariate measurably confounds unadjusted attribution. Every iteration SHALL be recorded, with the version of the rule it was judged under. If the oracle cannot recover the planted drivers, the check SHALL stop for the user's decision.
 
-#### Scenario: Contamination criterion
+#### Scenario: Confounding criterion
 
 - **WHEN** a calibration iteration completes
-- **THEN** it records, per cell, the mean paired difference in top-k contamination between the unadjusted and oracle arms, and the criterion is met when that difference is at least 0.25 in both cells
+- **THEN** it records the mean paired difference in top-k contamination between the unadjusted and oracle arms at the anchor, and the mean paired difference in the contrast's projection on the injection direction in both cells, and the criterion is met when the contamination difference is at least 0.25 and the absolute projection difference is at least 0.2 in both cells
 
 #### Scenario: Recoverability criterion stops the check
 
@@ -126,18 +126,37 @@ On the observed principal-orientation contrast, the adjusted arm SHALL hold thre
 - **WHEN** the adjusted arm's mean top-k frequency is 0.10 below the oracle's with a paired SE of 0.01 at e = 0.5
 - **THEN** the stability criterion fails at that cell and the failure names top-k frequency
 
-### Requirement: The check must be informative before it can validate
+### Requirement: The check must show the covariate confounds unadjusted attribution
 
-At paper grade the decision SHALL first test two gates:
-- the covariate contaminates unadjusted attribution: at every cell, mean top-k contamination (unadjusted − oracle) − 2·SE ≥ 0.25;
-- the planted drivers are recoverable: the oracle's mean truth precision at orientation e = 1.0 is ≥ 0.5.
+At paper grade the decision SHALL first test two confounding gates:
+- at the anchor, mean top-k contamination (unadjusted − oracle) − 2·SE ≥ 0.25;
+- at every cell, |mean projection on the injection direction (unadjusted − oracle)| − 2·SE ≥ 0.2.
 
-A failed gate SHALL make the verdict uninformative, whatever the criteria read.
+A failed gate SHALL make the verdict `construction_uninformative`, whatever the criteria read.
 
 #### Scenario: Weak confounding is uninformative
 
-- **WHEN** the unadjusted arm's contamination exceeds the oracle's by only 0.10 at orientation e = 1.0
-- **THEN** the verdict is `construction_uninformative` and names the contamination gate and the cell
+- **WHEN** the unadjusted arm's contamination exceeds the oracle's by only 0.10 at the anchor
+- **THEN** the verdict is `construction_uninformative` and names the contamination gate and the anchor
+
+#### Scenario: Confounding that misses the contrast is uninformative
+
+- **WHEN** the unadjusted arm's projection on the injection direction differs from the oracle's by −0.15 with a paired SE of 0.01 at orientation e = 1.0
+- **THEN** the verdict is `construction_uninformative` and names the projection gate and the cell (0.13 < 0.2)
+
+#### Scenario: The contamination gate does not read the orientation cells
+
+- **WHEN** the unadjusted and oracle arms have equal top-k contamination at both orientation cells and every other gate and criterion holds
+- **THEN** the verdict is `adjusted_attribution_validated`
+
+### Requirement: The check must show the planted drivers are recoverable
+
+At paper grade the decision SHALL also test that the oracle's mean top-k truth precision at orientation e = 1.0 is at least 0.5. A failed gate SHALL make the verdict `construction_uninformative`, whatever the criteria read.
+
+#### Scenario: Unrecoverable drivers are uninformative
+
+- **WHEN** the oracle's mean truth precision at orientation e = 1.0 is 0.4 and the adjusted arm fails the contamination criterion at the anchor
+- **THEN** the verdict is `construction_uninformative` and names the recoverability gate, not the contamination criterion
 
 ### Requirement: The decision issues one verdict with its consequence
 
