@@ -1,0 +1,384 @@
+{
+  "set": {
+    "git_revision": "849534f82550efbb92caac137540ffb7173cf4f3",
+    "worktree_clean": true,
+    "motco_version": "0.14.0",
+    "matplotlib_version": "3.10.9",
+    "rendered_at": "2026-11-02T20:23:34-03:00",
+    "seed": 0,
+    "footer": true,
+    "titles": false,
+    "dpi": 300,
+    "canvas_in": [
+      13.333,
+      7.5
+    ],
+    "palette": {
+      "surface": "#fcfcfb",
+      "ink": [
+        "#1d1d1b",
+        "#57564f",
+        "#8a8980"
+      ],
+      "statistics": {
+        "delta": "#5a4fcf",
+        "angle": "#e0712c",
+        "shape": "#1a9b7f"
+      },
+      "heatmap_ramp": [
+        "#eef0f2",
+        "#2b3440"
+      ],
+      "validation": {
+        "date": "2026-11-02",
+        "tool": "dataviz skill scripts/validate_palette.js",
+        "arguments": "--mode light --pairs all",
+        "surface": "#fcfcfb",
+        "colors": {
+          "delta": "#5a4fcf",
+          "angle": "#e0712c",
+          "shape": "#1a9b7f"
+        },
+        "result": "pass",
+        "lightness_band": "pass (all inside L 0.43-0.77)",
+        "chroma_floor": "pass (all >= 0.1)",
+        "worst_cvd_delta_e": {
+          "value": 10.1,
+          "pair": [
+            "shape",
+            "angle"
+          ],
+          "deficiency": "protan"
+        },
+        "worst_normal_delta_e": {
+          "value": 24.7,
+          "pair": [
+            "shape",
+            "angle"
+          ]
+        },
+        "contrast": "pass (all >= 3:1 against the surface)",
+        "rejected_triplets": "three (lightness band; CVD dE 4.3; warn band 6-8)"
+      }
+    }
+  },
+  "figures": [
+    {
+      "id": "mode_geometry",
+      "title": "What each trajectory mode does",
+      "message": "Each simulated mode changes group B's trajectory in one geometric way, read by one statistic: magnitude scales it (size δ), orientation rotates it (θ), shape bends it (shape), and translation moves it without changing any of the three.",
+      "files": [
+        "mode_geometry.png",
+        "mode_geometry.pdf"
+      ],
+      "sources": [],
+      "caveats": [
+        "Constructed coordinates, not data or a fitted space.",
+        "Magnitude scales by 1.6 and orientation rotates by 35° about stage 1; shape moves the interior stage only, so it needs at least three stages."
+      ]
+    },
+    {
+      "id": "mode_simulated",
+      "title": "The four modes as the generator realizes them",
+      "message": "The numpy generator realizes each mode on a shared baseline: group B's stage-mean path is scaled, rotated, bent or shifted against group A's, and coincides with it at zero effect.",
+      "files": [
+        "mode_simulated.png",
+        "mode_simulated.pdf",
+        "mode_simulated_anchor.png",
+        "mode_simulated_anchor.pdf",
+        "mode_simulated_magnitude.png",
+        "mode_simulated_magnitude.pdf",
+        "mode_simulated_orientation.png",
+        "mode_simulated_orientation.pdf",
+        "mode_simulated_shape.png",
+        "mode_simulated_shape.pdf",
+        "mode_simulated_translation.png",
+        "mode_simulated_translation.pdf"
+      ],
+      "sources": [
+        {
+          "path": "src/motco/simulations/data/intersim_reference.npz",
+          "sha256": "747cf93603fd16c4385b778e04cc676e989d5efb64c22ee65bcb91a2a761022c",
+          "run": "numpy generator reference data",
+          "measurement": "generator input (no measurement)"
+        }
+      ],
+      "caveats": [
+        "Display projection: per panel, the first two principal axes of the six group × stage means of the concatenated standardized blocks; translation's offset is orthogonal to the stage geometry, so its panel's second axis is the group offset. It is not the measurement space (the double-CV PLS latent space).",
+        "One dataset per mode from generate_showcase_datasets (seed given in the manifest, n = 1,000, 3 stages, e = 1.0, surgery_censoring='clamp' as in the showcase); the modes share group A's baseline draw but are not otherwise identical.",
+        "Axes are flipped so group A runs from stage 1 toward positive values (translation: B above A); the sign carries nothing.",
+        "Rendered with seed 0 and n = 1,000 per dataset."
+      ]
+    },
+    {
+      "id": "size_atlas",
+      "title": "Size holds from n = 80 to n = 1,501",
+      "message": "Every zero-effect anchor and translation control at every committed design, from n = 80 to n = 1,501 and with up to six covariate columns, rejects at or below its own α + k·SE bound.",
+      "files": [
+        "size_atlas.png",
+        "size_atlas.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_geometry/report/anchor_decision.csv",
+          "sha256": "7b332f7933a960da569bc79681837d575c5b1a85e039c277cc908f3a8f1773ad",
+          "run": "design-guidance-slice-2026-10-29 · core_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/stage_effect_geometry/report/anchor_decision.csv",
+          "sha256": "b77ba6c3cf6bdd3b1cba0e4b7ed9f2eb3473567fadf50786a75cd40658b28007",
+          "run": "design-guidance-slice-2026-10-29 · stage_effect_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/net-displacement-type-i-2026-10-13/phase5/report/anchor_decision.csv",
+          "sha256": "8ed00c900e3cfbbc05dbc671679af5ce0b329f8d26dfc3faed89415518116867",
+          "run": "net-displacement-type-i-2026-10-13 · phase5",
+          "measurement": "PLS, CV rank ≥ 2 by floor check (0/152 ranks change) · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/rank-floor-2026-10-23/delta0.1/rank_floor_rates.csv",
+          "sha256": "e904f49f7172030e5281151570eb692a32bc652d37985cdabdbe770fc96a3fa9",
+          "run": "rank-floor-2026-10-23 · delta0.1 (floor_2 arm)",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/rank-floor-2026-10-23/delta0.05/rank_floor_rates.csv",
+          "sha256": "6f10f96fb3f0d0bb5e49fd20e27ed71a1071f03c09d008d74772278ba6f42d33",
+          "run": "rank-floor-2026-10-23 · delta0.05 (floor_2 arm)",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/corrected-permutation-2026-10-30/size_readings.csv",
+          "sha256": "12c399fad186e5b8cf8ea72d7bc44336248fdf90945c125ff882a9eacd1a0b48",
+          "run": "corrected-permutation-2026-10-30 (df arm)",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · 6 covariate columns · df-corrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/adni-design-2026-11-02/run/size_readings.csv",
+          "sha256": "6968432ecaf1d5bdfa8fea5308cd74c1e9f1c3436eaac4bda4cc1c79ae07b229",
+          "run": "adni-design-2026-11-02 · run",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · 6 covariate columns · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/rank-floor-equivalence-2026-11-02/summary.json",
+          "sha256": "b34a03bd104e58f7e3f82f3e7e2ff96f0b7c693e1589ab90989ec3a10a97b36c",
+          "run": "rank-floor-equivalence-2026-11-02",
+          "measurement": "latent-space fits at floor 1 and floor 2 on rebuilt datasets; no RRPP"
+        }
+      ],
+      "caveats": [
+        "Bounds are those the sources record: α + 2·SE at R = 500 (0.0695) except the corrected-permutation readings, judged per reading at α + 3·SE (0.0792).",
+        "The harness tables record no verdict for translation; its bound is the anchor's form at its own R and its verdict is derived against it.",
+        "Production arm per source: floor 2 (rank-floor check), df (corrected permutation), adjusted (ADNI), the net-displacement CV column (n = 1,200).",
+        "Excluded: case-study-type-i (superseded by the df configuration) and covariate-type-i (pre-floor), whose uncorrected excess is what covariates_null shows; the latent-adjustment arms (a sensitivity analysis); the PC1 columns; the Phase 6 Type I profile (pre-floor, no equivalence check; the same table at the current measurement appears through the rank-floor and corrected-permutation rows)."
+      ]
+    },
+    {
+      "id": "specificity_n1200",
+      "title": "At n = 1,200 every statistic detects its mode",
+      "message": "At n = 1,200 each mode is detected by its target statistic; magnitude moves size alone, while rotating or bending a trajectory also changes its size (and rotation its shape).",
+      "files": [
+        "specificity_n1200.png",
+        "specificity_n1200.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/net-displacement-power-2026-10-14/phase5/report/design_point_operating.csv",
+          "sha256": "fea36a75cf7ee89c1dd471ec17ed4cca21220a29f0ad31c99e7be3266c1d007f",
+          "run": "net-displacement-power-2026-10-14 · phase5",
+          "measurement": "PLS, CV rank ≥ 2 by floor check (0/152 ranks change) · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/rank-floor-equivalence-2026-11-02/summary.json",
+          "sha256": "b34a03bd104e58f7e3f82f3e7e2ff96f0b7c693e1589ab90989ec3a10a97b36c",
+          "run": "rank-floor-equivalence-2026-11-02",
+          "measurement": "latent-space fits at floor 1 and floor 2 on rebuilt datasets; no RRPP"
+        }
+      ],
+      "caveats": [
+        "Phase 5 net-displacement power run (2026-10-14), net-displacement column; rows at e = 1.0, the anchor at e = 0.",
+        "Magnitude e = 1.0 here is not comparable with e = 0.1 at n = 80; the message is the off-diagonal pattern."
+      ]
+    },
+    {
+      "id": "specificity_n80",
+      "title": "At n = 80 the statistics mix",
+      "message": "At n = 80 (the SEA-AD scale) only magnitude stays specific: orientation moves all three statistics about equally and shape moves size more than shape, so one significant statistic does not name the mode.",
+      "files": [
+        "specificity_n80.png",
+        "specificity_n80.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_operating.csv",
+          "sha256": "fdddea103dc7b9b0096d064209d3f681a8f65caec7964eebc59155bf547bb449",
+          "run": "design-guidance-slice-2026-10-29 · core_magnitude",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_operating.csv",
+          "sha256": "2035f49033ebb8b62b8354388958be36887609d3bd43907a7119632e4c502300",
+          "run": "design-guidance-slice-2026-10-29 · core_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        }
+      ],
+      "caveats": [
+        "Design-guidance slice core profiles at n = 80, 3 stages, methylation + expression; magnitude at e = 0.1, orientation, shape and translation at e = 1.0, the anchor at e = 0.",
+        "Same colour scale (0 to 1) as specificity_n1200."
+      ]
+    },
+    {
+      "id": "power_vs_n",
+      "title": "Power against sample size",
+      "message": "Power rises with n for every statistic and with the third block: size (δ) is well powered by n = 200 at e = 0.1, shape needs n ≈ 500 with two blocks, and orientation stays below 0.75 even at n = 500.",
+      "files": [
+        "power_vs_n.png",
+        "power_vs_n.pdf",
+        "power_vs_n_delta.png",
+        "power_vs_n_delta.pdf",
+        "power_vs_n_angle.png",
+        "power_vs_n_angle.pdf",
+        "power_vs_n_shape.png",
+        "power_vs_n_shape.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/design-guidance-slice-2026-10-29/figures/design_guidance_power.csv",
+          "sha256": "0a0f32b16f993342d7f455e76c2394fc47ad5371bb2d0fbecaa534a134b0ffae",
+          "run": "design-guidance-slice-2026-10-29 · figures",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        }
+      ],
+      "caveats": [
+        "Design-guidance slice (2026-10-29), 3 stages, 500 × 999 per cell; ±1 Monte Carlo SE.",
+        "Orientation responds little to e at this rank (2–3); see the detail figure."
+      ]
+    },
+    {
+      "id": "power_vs_stage_signal",
+      "title": "A weak stage signal inflates the rank",
+      "message": "As the joint stage effect weakens from δ = 2 to 0.25, the CV-selected rank inflates (median 2 to 11) and size and shape lose their power while the stage stays almost perfectly classified; orientation peaks at intermediate δ.",
+      "files": [
+        "power_vs_stage_signal.png",
+        "power_vs_stage_signal.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/design-guidance-slice-2026-10-29/stage_effect_magnitude/report/design_point_operating.csv",
+          "sha256": "48be214acf21cc32cedebd8a9ce909f0822ec92b87eeb1bdf46a337bfb2d7659",
+          "run": "design-guidance-slice-2026-10-29 · stage_effect_magnitude",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/stage_effect_magnitude/report/design_point_stage_signal.csv",
+          "sha256": "dfb9fc38b239dc0a54a241de6fa1c58d8721de7842c355cdda5c10340b5d9ef4",
+          "run": "design-guidance-slice-2026-10-29 · stage_effect_magnitude",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/stage_effect_geometry/report/design_point_operating.csv",
+          "sha256": "11c98e237ea4277c8f51eb4c45126963c217aa03c407032882a629c0ed5ebe32",
+          "run": "design-guidance-slice-2026-10-29 · stage_effect_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/stage_effect_geometry/report/design_point_stage_signal.csv",
+          "sha256": "4300ab66f091ba4f0b515a681f301a71ea2c48c81c0a98d82b4b1213b41507be",
+          "run": "design-guidance-slice-2026-10-29 · stage_effect_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_operating.csv",
+          "sha256": "fdddea103dc7b9b0096d064209d3f681a8f65caec7964eebc59155bf547bb449",
+          "run": "design-guidance-slice-2026-10-29 · core_magnitude",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_stage_signal.csv",
+          "sha256": "fa511270b76b2a9fc8f66bf796c5122dd5bad423a0ca4a469a20a26d91cfff59",
+          "run": "design-guidance-slice-2026-10-29 · core_magnitude",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_operating.csv",
+          "sha256": "2035f49033ebb8b62b8354388958be36887609d3bd43907a7119632e4c502300",
+          "run": "design-guidance-slice-2026-10-29 · core_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_stage_signal.csv",
+          "sha256": "d49e3b6862fd5266f0da3cfc74be653c62287e7e64f91bb7f4a6ecd2e47ee865",
+          "run": "design-guidance-slice-2026-10-29 · core_geometry",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · uncorrected RRPP · 500 × 999"
+        }
+      ],
+      "caveats": [
+        "n = 200, 3 stages, two blocks; δ = 0.25–1.0 from the slice's stage-effect arm, δ = 2 from the slice core at the same design.",
+        "Stage AUROC is the median held-out CV AUROC of the rank-selection fits; it stays near 1 in this range (the pilot's δ = 0.05 and 0.1 reach 0.55–0.73, bracketing SEA-AD)."
+      ]
+    },
+    {
+      "id": "estimator_comparison",
+      "title": "Net displacement measures orientation better",
+      "message": "On identical datasets, net displacement doubles orientation power at n = 80 (0.300 → 0.648 at e = 1) and lifts it at n = 1,200 (0.840 → 0.924), while removing the shape mode's leak into θ.",
+      "files": [
+        "estimator_comparison.png",
+        "estimator_comparison.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/net-displacement-power-2026-10-14/phase6/report/design_point_operating.csv",
+          "sha256": "38a0e5424a21c3b3a70094c613cbcea96a1775d3f475a2bd25717816707a6f5a",
+          "run": "net-displacement-power-2026-10-14 · phase6",
+          "measurement": "n = 80 panel: PLS, CV rank ≥ 1 (pre-floor) · PC1 and net displacement on the same datasets · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/net-displacement-power-2026-10-14/phase5/report/design_point_operating.csv",
+          "sha256": "fea36a75cf7ee89c1dd471ec17ed4cca21220a29f0ad31c99e7be3266c1d007f",
+          "run": "net-displacement-power-2026-10-14 · phase5",
+          "measurement": "n = 1,200 panel: PLS, CV rank ≥ 2 by floor check (0/152 ranks change) · PC1 and net displacement on the same datasets · joint magnitude · uncorrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/rank-floor-equivalence-2026-11-02/summary.json",
+          "sha256": "b34a03bd104e58f7e3f82f3e7e2ff96f0b7c693e1589ab90989ec3a10a97b36c",
+          "run": "rank-floor-equivalence-2026-11-02",
+          "measurement": "latent-space fits at floor 1 and floor 2 on rebuilt datasets; no RRPP"
+        }
+      ],
+      "caveats": [
+        "Both designs predate the rank floor; the n = 1,200 panel carries the floor check's tag, the n = 80 panel stays pre-floor (the comparison is between estimators, not a current-measurement claim).",
+        "Points at e = 0 are the shared zero-effect anchor."
+      ]
+    },
+    {
+      "id": "covariates_null",
+      "title": "Covariates and the permutation null",
+      "message": "Each covariate column shrinks the residual df and inflates the uncorrected δ null (pooled 0.0545 at one column, 0.066 at six, above the 0.0597 bound); the df-corrected permutation holds it (0.0545 at six).",
+      "files": [
+        "covariates_null.png",
+        "covariates_null.pdf"
+      ],
+      "sources": [
+        {
+          "path": "results/case-study-diagnosis-2026-10-30/delta0.1/diagnosis_rates.csv",
+          "sha256": "42a5e3651ba2ab9ac0ad5c782c85de6c7fa70e614795eca4536f00e33bc47cb6",
+          "run": "case-study-diagnosis-2026-10-30 · delta0.1",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · 1 / 3 / 6 covariate columns · uncorrected vs df-corrected RRPP · 500 × 999"
+        },
+        {
+          "path": "results/case-study-diagnosis-2026-10-30/delta0.05/diagnosis_rates.csv",
+          "sha256": "787100d505f4d31de969f32b97b86f4727bc83bb80c86cf744c7841ab34c7c99",
+          "run": "case-study-diagnosis-2026-10-30 · delta0.05",
+          "measurement": "PLS, CV rank ≥ 2 · net displacement · joint magnitude · 1 / 3 / 6 covariate columns · uncorrected vs df-corrected RRPP · 500 × 999"
+        }
+      ],
+      "caveats": [
+        "Case-study diagnosis (2026-10-30), covariate-blind basis (z_noise arms), δ = 0.1 and 0.05 × anchor and translation; pooled over 2,000 replicates per point.",
+        "Faint points are the four individual readings (R = 500 each, bound 0.0695)."
+      ]
+    }
+  ],
+  "failed": []
+}

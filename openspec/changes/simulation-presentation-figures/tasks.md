@@ -41,9 +41,9 @@
 
 ## 8. Render, review and commit
 
-- [ ] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ scripts/presentation_figures.py scripts/rank_floor_equivalence_check.py`, `uv run mypy src/motco/`, `MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow"`) and confirm it passes.
-- [ ] 8.2 Render the full set from a clean worktree into `results/presentation-figures-<date>/`. Open every PNG at slide size and check for label collisions, overflow and legibility of the smallest text, splitting the size atlas if needed (design Risks). Verify that the manifest records `worktree_clean: true` and that every figure listed in the spec is present.
-- [ ] 8.3 Commit the rendered set, its manifest and its captions. Verify that `captions.md` reads as speaker notes for each figure: message, measurement and caveats.
+- [x] 8.1 Run the pre-commit gate (`uv run ruff check src/ tests/ scripts/presentation_figures.py scripts/rank_floor_equivalence_check.py`, `uv run mypy src/motco/`, `MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow"`) and confirm it passes.
+- [x] 8.2 Render the full set from a clean worktree into `results/presentation-figures-<date>/`. Open every PNG at slide size and check for label collisions, overflow and legibility of the smallest text, splitting the size atlas if needed (design Risks). Verify that the manifest records `worktree_clean: true` and that every figure listed in the spec is present.
+- [x] 8.3 Commit the rendered set, its manifest and its captions. Verify that `captions.md` reads as speaker notes for each figure: message, measurement and caveats.
 
 ## Workflow follow-up
 
