@@ -1,0 +1,19 @@
+rank-floor equivalence check at the Phase 5 design (openspec change simulation-presentation-figures, design D5)
+question: does the rank floor (min_components = 2) change the CV-selected rank of the pre-floor (min_components = 1) n = 1,200 runs? Equal final ranks mean identical latent scores, statistics and p-values, since the pooled PLS is refit once at the final rank
+config: examples/trajectory_power_study/net_displacement_power_phase5.json (sha256 bb5825717531740bffd75a295c0a587c8416af7f9fcbd36997b43474ce126ee9); its 19 baseline cells (power_primary 17, type_i_baseline 2) x replicate indices 0-7 = 152 datasets, rebuilt from the config's matched seeds (derive_replicate_seed); n = 1,200, 4 stages, 3 blocks, joint magnitude
+per dataset: integrate_semisynthetic_dataset with the cell's evaluation parameters at min_components = 1 and at 2; selected rank and mean CV AUROC recorded; no RRPP, no statistic computed
+
+run: a scratch copy of the logic now committed as scripts/rank_floor_equivalence_check.py, run once and not repeated
+  scratch script: floor_probe.py, sha256 7d9c4010539a2b16c5455f63de83511e59178bbfecab9160acf1df12bc2db2c6 (same tasks, order, seeds and fits; it re-enumerated the config inside each task and wrote JSON lines with per-fit seconds)
+  command: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python floor_probe.py 0,1,2,3,4,5,6,7 8 (replicates 0-7, 8 worker processes)
+  code: main checkout at b7df7c72d4c0484664f6ee6d984e31e4f8bb3b11; src/ identical to that revision (git diff b7df7c7 -- src/ empty; the worktree differed only in AGENTS.md and untracked files outside src/)
+  host: workstation, AMD Ryzen AI 7 PRO 350 (8 cores / 16 threads); Python 3.11.15, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3, motco 0.14.0
+  wall: 2026-11-02 18:35:13 -03:00 (process start) to 20:18:31 -03:00 (last line written), 1 h 43 min; per-fit time summed 6.94 h (floor 1) and 6.71 h (floor 2); other local jobs shared the machine for part of the run
+  output: floor_probe.jsonl, 152 lines, sha256 70ef2ecbff9a9713a2807a8831d78db37caf10f260ce2ccb75c45b02832af432 (kept in the session scratchpad, not committed)
+
+conversion: python scripts/rank_floor_equivalence_check.py --from-jsonl <scratchpad>/floor_probe.jsonl --out-dir results/rank-floor-equivalence-2026-11-02 (script sha256 1abeb775f6e6c5e1977113c6d44ede9c01194f65e4aa41d32fe7508e0e741da5, committed at 944b390)
+  rank_floor_equivalence.csv: 152 rows, 0 rank mismatches (equal to the scratch output: 152 lines, 0 mismatches)
+  summary.json: count 152, cells 19, mismatches 0, AUROC differences 0, ranks 2 (14) and 3 (138) at both floors, 95% upper bound 0.0195 (one-sided Clopper-Pearson; 3/152 = 0.0197 by the rule of three), verdict ranks_agree
+reproduction: the committed script's evaluate_task on the first task (power_primary-bd3b090ca775, magnitude e = 0.25, replicate 0) gave ranks 3/3 and mean CV AUROC 1.0/1.0, equal to the scratch line (1 min 7 s serial)
+
+reading: no sampled dataset selected rank 1 under floor 1, and no outer fold did either (equal mean CV AUROC), so the floor did not bind. presentation figures tag the n = 1,200 sources (net-displacement-power-2026-10-14/phase5, net-displacement-type-i-2026-10-13/phase5) as the current measurement, citing this check and its 152-dataset sample
