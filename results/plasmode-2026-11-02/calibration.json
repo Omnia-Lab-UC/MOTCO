@@ -1,0 +1,255 @@
+[
+ {
+  "effect": 0.5,
+  "rate": 0.0,
+  "rates": {
+   "delta": {
+    "n": 40,
+    "rejections": 2,
+    "rate": 0.05
+   },
+   "angle": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   },
+   "shape": {
+    "n": 40,
+    "rejections": 1,
+    "rate": 0.025
+   }
+  },
+  "units": 40,
+  "selected_rank": {
+   "2": 4,
+   "5": 35,
+   "10": 1
+  },
+  "cv_mean_auroc": {
+   "n": 40,
+   "mean": 0.6367569444444445,
+   "se": 0.00022783759464034173
+  },
+  "iteration": 0,
+  "calibration_hash": "b93224e71ce8699f1916f8d78dc74d0cfef6a7e5509f5dbfe96dead455f294ac",
+  "base_seed": 2034,
+  "stream": "calibration",
+  "replicates": 40,
+  "permutations": 99,
+  "adoption_rate": 0.9,
+  "export_files": {
+   "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+   "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+   "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+   "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+   "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+  },
+  "outcome": "climb",
+  "e_star": null,
+  "descriptive": null
+ },
+ {
+  "effect": 1.0,
+  "rate": 0.0,
+  "rates": {
+   "delta": {
+    "n": 40,
+    "rejections": 1,
+    "rate": 0.025
+   },
+   "angle": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   },
+   "shape": {
+    "n": 40,
+    "rejections": 1,
+    "rate": 0.025
+   }
+  },
+  "units": 40,
+  "selected_rank": {
+   "2": 11,
+   "5": 25,
+   "7": 2,
+   "10": 1,
+   "12": 1
+  },
+  "cv_mean_auroc": {
+   "n": 40,
+   "mean": 0.6391986111111111,
+   "se": 0.00029926103657514254
+  },
+  "iteration": 1,
+  "calibration_hash": "b93224e71ce8699f1916f8d78dc74d0cfef6a7e5509f5dbfe96dead455f294ac",
+  "base_seed": 2034,
+  "stream": "calibration",
+  "replicates": 40,
+  "permutations": 99,
+  "adoption_rate": 0.9,
+  "export_files": {
+   "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+   "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+   "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+   "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+   "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+  },
+  "outcome": "climb",
+  "e_star": null,
+  "descriptive": null
+ },
+ {
+  "effect": 1.5,
+  "rate": 0.0,
+  "rates": {
+   "delta": {
+    "n": 40,
+    "rejections": 2,
+    "rate": 0.05
+   },
+   "angle": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   },
+   "shape": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   }
+  },
+  "units": 40,
+  "selected_rank": {
+   "2": 12,
+   "5": 22,
+   "7": 4,
+   "8": 1,
+   "11": 1
+  },
+  "cv_mean_auroc": {
+   "n": 40,
+   "mean": 0.6407875000000001,
+   "se": 0.00039222161438739745
+  },
+  "iteration": 2,
+  "calibration_hash": "b93224e71ce8699f1916f8d78dc74d0cfef6a7e5509f5dbfe96dead455f294ac",
+  "base_seed": 2034,
+  "stream": "calibration",
+  "replicates": 40,
+  "permutations": 99,
+  "adoption_rate": 0.9,
+  "export_files": {
+   "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+   "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+   "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+   "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+   "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+  },
+  "outcome": "climb",
+  "e_star": null,
+  "descriptive": null
+ },
+ {
+  "effect": 2.0,
+  "rate": 0.0,
+  "rates": {
+   "delta": {
+    "n": 40,
+    "rejections": 1,
+    "rate": 0.025
+   },
+   "angle": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   },
+   "shape": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   }
+  },
+  "units": 40,
+  "selected_rank": {
+   "2": 9,
+   "5": 24,
+   "7": 4,
+   "8": 2,
+   "11": 1
+  },
+  "cv_mean_auroc": {
+   "n": 40,
+   "mean": 0.6426708333333333,
+   "se": 0.0004584008303058251
+  },
+  "iteration": 3,
+  "calibration_hash": "b93224e71ce8699f1916f8d78dc74d0cfef6a7e5509f5dbfe96dead455f294ac",
+  "base_seed": 2034,
+  "stream": "calibration",
+  "replicates": 40,
+  "permutations": 99,
+  "adoption_rate": 0.9,
+  "export_files": {
+   "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+   "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+   "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+   "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+   "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+  },
+  "outcome": "climb",
+  "e_star": null,
+  "descriptive": null
+ },
+ {
+  "effect": 3.0,
+  "rate": 0.0,
+  "rates": {
+   "delta": {
+    "n": 40,
+    "rejections": 1,
+    "rate": 0.025
+   },
+   "angle": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   },
+   "shape": {
+    "n": 40,
+    "rejections": 0,
+    "rate": 0.0
+   }
+  },
+  "units": 40,
+  "selected_rank": {
+   "2": 8,
+   "5": 24,
+   "7": 3,
+   "8": 4,
+   "11": 1
+  },
+  "cv_mean_auroc": {
+   "n": 40,
+   "mean": 0.6443236111111112,
+   "se": 0.0005049176006009745
+  },
+  "iteration": 4,
+  "calibration_hash": "b93224e71ce8699f1916f8d78dc74d0cfef6a7e5509f5dbfe96dead455f294ac",
+  "base_seed": 2034,
+  "stream": "calibration",
+  "replicates": 40,
+  "permutations": 99,
+  "adoption_rate": 0.9,
+  "export_files": {
+   "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+   "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+   "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+   "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+   "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+  },
+  "outcome": "cap_reached",
+  "e_star": 3.0,
+  "descriptive": 2.0
+ }
+]

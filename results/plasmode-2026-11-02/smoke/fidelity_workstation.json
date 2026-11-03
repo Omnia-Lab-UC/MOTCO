@@ -1,0 +1,45 @@
+{
+ "assignment": {
+  "labels_seed": 1337252410,
+  "replicate": 0,
+  "stream": "fidelity"
+ },
+ "check": "plasmode",
+ "component_selection": "cv",
+ "cv": {
+  "cv1_splits": 3,
+  "cv2_splits": 4,
+  "max_components": 20,
+  "n_repeats": 5,
+  "random_state": 1203
+ },
+ "cv_mean_auroc": 0.6355555555555557,
+ "cv_mean_auroc_rounded": 0.635556,
+ "cv_repeats_completed": 5,
+ "export_cohort": "cohort_30",
+ "export_files": {
+  "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+  "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+  "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+  "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+  "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+ },
+ "gate": {
+  "cv_mean_auroc": 0.635556,
+  "decimals": 6,
+  "selected_lv": 5
+ },
+ "label_free": "the latent space is stage-supervised and covariate-blind; no statistic is read",
+ "min_components": 2,
+ "passed": true,
+ "script_version": 1,
+ "selected_lv": 5,
+ "software": {
+  "motco": "0.14.0",
+  "numpy": "2.3.5",
+  "pandas": "2.3.3",
+  "python": "3.11.15",
+  "scipy": "1.16.3",
+  "sklearn": "1.8.0"
+ }
+}

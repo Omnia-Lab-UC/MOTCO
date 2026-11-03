@@ -1,0 +1,27 @@
+{
+ "check": "plasmode",
+ "expected": 40,
+ "false_recovery_reference": {
+  "arm": "adjusted",
+  "block": "principal",
+  "cell": "anchor",
+  "component": "observed",
+  "mean": 0.0025,
+  "n": 20,
+  "se": 0.0025,
+  "subset": "all"
+ },
+ "label_redraws": 0,
+ "local_files": {
+  "merged.jsonl": "e92db309cf0554d31fa5096f7b55efc818d1e4d132b26924edd8faa84e22a1c7",
+  "plasmode_metrics.csv": "f22314834677041bd2f8e94fa924895a9775ab82b0f7f8700e0bdca4768f6b36",
+  "plasmode_units.csv": "54f94950fe9c528ce5aaf2ff0c37431caed29a22e5481350f65966aad760d728"
+ },
+ "missing": [],
+ "settings_hash": "b37b168132501d0556a8a75e8cb094d91ec940039677f2bddaa049a39218a75f",
+ "units": 40,
+ "units_by_cell": {
+  "anchor": 20,
+  "e=1": 20
+ }
+}
