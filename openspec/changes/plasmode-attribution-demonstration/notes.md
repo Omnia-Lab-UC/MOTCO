@@ -70,3 +70,12 @@ To resume from any machine with `ssh ing`:
 1. `sacct -j 932620 -X -o JobID,State,ExitCode,Elapsed,NodeList`; units recorded: `cat /home1/tgonza/plasmode-2026-11-02/run/records/shard_*.jsonl | wc -l` (1,500 expected). A shard silent for > 25 min is stalled (memory or NFS; see the `ing` notes): `scancel` it and resubmit only its index with the same `--export` line (resume skips recorded units).
 2. On `ing`, in `/home1/tgonza/MOTCO-plasmode` with `PYTHONPATH=$PWD/src`: `.venv/bin/python scripts/plasmode_check.py merge --out-dir /home1/tgonza/plasmode-2026-11-02/run`, then `decide`.
 3. Copy `plasmode_summary.csv`, `merge.json`, `plasmode_decision.json` and `sacct` output into `results/plasmode-2026-11-02/`; write `PROVENANCE.txt` (records, `merged.jsonl`, `plasmode_units.csv`, `plasmode_metrics.csv` with sha256 from `merge.json`; MOTCO `dd5981f`; `sead_sexdiff` `2d427b0`; export hashes). Then tasks 9.3, 10.1 (report) and 10.2 (roadmap, `AGENTS.md`).
+
+## Paper-grade result (tasks 9.2–10.2, 2026-11-03)
+
+- Array 932620: 150/150 tasks `COMPLETED 0:0` (21:36–21:55 −03:00, 2026-11-02), 1,500/1,500 units, 73.1 elapsed core-hours; merged and decided on `ing` on 2026-11-03.
+- **Verdict `attribution_leg_failed`** (not indicative; settings hash `734bb538…` equals `settings.json`'s). Size holds at the anchor (`delta` / `angle` / `shape` 0.042 / 0.048 / 0.026 ≤ 0.0695); detection fails (`angle` 0.036 at `e*` = 3.0); on the 18 rejecting units planted-set precision (lower bound 0.176) and top-k frequency (0.050) fail, sign stability holds (0.950).
+- The branch was not rebased onto `main` after PR #74 merged, so `dd5981f` (the run's commit) stays on the branch; it merges cleanly with `main`.
+- `results/plasmode-2026-11-02/` gained the summary, merge, decision, `sacct.txt`, `PROVENANCE.txt` and `diagnostic/` (the label-free latent-capture diagnostic: a planted direction keeps 2.16 % of its norm in the rank-5 stage-PLS span, the pooled stage displacement 99.94 %).
+- Report `docs/reports/plasmode-2026-11-02.md`; roadmap (item 12, the Phase 6 Work bullet, the exit-gate line, item 10, "Current position"), `AGENTS.md` and `docs/api/analysis.md` updated.
+- `mkdocs build --strict` aborts on 8 warnings that `origin/main` has too (broken links to `results/` in `phase5-readiness.md`, `reports/phase5-magnitude-remeasurement-2026-10-08.md` and `reports/phase5-paper-grade-2026-09-10.md`); this change adds none.

@@ -138,6 +138,16 @@ non-inferior. The PLS-captured and residual views keep 3–15 % of the
 confounding, so read drivers from the observed component. See [the
 report](../reports/adjusted-attribution-2026-11-02.md).
 
+**On real blocks.** The plasmode demonstration on SEA-AD astrocytes
+(`scripts/plasmode_check.py`) planted an orientation difference on 20 of the
+10,000 RNA and ATAC features and returned **`attribution_leg_failed`**. Size
+held at the case study's configuration, but the plant was not detected at any
+strength up to 3 within-stage SDs: it lies almost entirely outside the
+stage-PLS latent space the statistics are measured in. Attribution's observed
+contrast recovered part of the planted set, unstably. A difference confined to
+a few features is therefore not something this analysis can detect or trace at
+n = 80. See [the report](../reports/plasmode-2026-11-02.md).
+
 **Not with latent adjustment.** Attribution together with
 `covariate_latent_adjustment` raises an error before any fitting: that basis
 is fitted on covariate-residualized features, and attribution on it is not

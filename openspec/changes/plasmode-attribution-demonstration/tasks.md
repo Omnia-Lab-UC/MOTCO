@@ -77,12 +77,12 @@
 ## 9. Calibration and paper-grade run
 
 - [x] 9.1 Run `calibrate` on the real export on the approved machine. Verify that `calibration.json` records every iteration and the adopted `e*` (or `cap_reached`), and that the settings name it.
-- [ ] 9.2 If the run goes to `ing`, write `scripts/plasmode_array.sbatch` with absolute paths and the node exclusions, copy the export, and verify its sha256 against the settings before submitting. Run the paper grade (3 cells × 500 at 999 × B = 200). Verify that every shard completes (`sacct` `COMPLETED 0:0`, or every local worker exits 0) and that every unit has a record.
-- [ ] 9.3 Run `merge` and `decide`. Copy the committed files into `results/plasmode-<date>/` (design D11), and write `PROVENANCE.txt` naming the uncommitted records and metrics with their sha256, the MOTCO commit, the `sead_sexdiff` commit and the export hashes. Verify that the decision is not indicative, and that its settings hash equals `settings.json`'s.
+- [x] 9.2 If the run goes to `ing`, write `scripts/plasmode_array.sbatch` with absolute paths and the node exclusions, copy the export, and verify its sha256 against the settings before submitting. Run the paper grade (3 cells × 500 at 999 × B = 200). Verify that every shard completes (`sacct` `COMPLETED 0:0`, or every local worker exits 0) and that every unit has a record.
+- [x] 9.3 Run `merge` and `decide`. Copy the committed files into `results/plasmode-<date>/` (design D11), and write `PROVENANCE.txt` naming the uncommitted records and metrics with their sha256, the MOTCO commit, the `sead_sexdiff` commit and the export hashes. Verify that the decision is not indicative, and that its settings hash equals `settings.json`'s.
 
 ## 10. Report and roadmap
 
-- [ ] 10.1 Write `docs/reports/plasmode-<date>.md` in the form of the adjusted-attribution report. It covers:
+- [x] 10.1 Write `docs/reports/plasmode-<date>.md` in the form of the adjusted-attribution report. It covers:
   - the construction and input contract, the null-making step and the plant, stating `e*` in SD units;
   - calibration;
   - each criterion with its value, bound, SE and R;
@@ -91,12 +91,14 @@
   - the limitations of design's Risks: a stylized plant, conditional size, optimism on rejecting units.
 
   Every number must be read from `results/plasmode-<date>/`. Verify each number against the committed files.
-- [ ] 10.2 Update `docs/roadmap.md`:
+- [x] 10.2 Update `docs/roadmap.md`:
   - item 12, done, with the verdict and the report link;
   - the Phase 6 Work bullet "For significant orientation …", whose withheld status is lifted or reported failed;
   - "Current position".
 
   Also update `AGENTS.md` with the run's verdict and results paths. Verify the pre-commit gate passes and `uv run mkdocs build --strict` succeeds.
+
+  Done 2026-11-03: the gate passes. `mkdocs build --strict` aborts on 8 warnings that `main` has too (broken `results/` links in older Phase 5 pages); this change adds none (notes.md).
 
 ## Workflow follow-up
 
