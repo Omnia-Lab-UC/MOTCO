@@ -14,7 +14,7 @@ cells: anchor, e* = 3.0 (calibration.json iteration 4, cap_reached, entry sha256
 arms: adjusted (analyze_trajectories with the six covariates and covariate-adjusted attribution; the primary arm) and unadjusted (descriptive: the attribution primitive on latent_artifacts without covariates, same bootstrap seed)
 fidelity gate: rank 5, mean held-out stage AUROC 0.635556, on the workstation (smoke/fidelity_workstation.json) and on ing (fidelity.json)
 calibration: job 932595 on n1 (40 CPUs, 2026-11-02, 18 min 49 s, COMPLETED 0:0; calibration_sacct.txt); angle rejected in 0/40 units at every ladder step
-approved: by the user on 2026-11-02, calibration first, then the paper grade as predeclared at the cap (openspec/changes/plasmode-attribution-demonstration/notes.md)
+approved: by the user on 2026-11-02, calibration first, then the paper grade as predeclared at the cap (openspec/changes/archive/2026-11-03-plasmode-attribution-demonstration/notes.md)
 code: worktree /home1/tgonza/MOTCO-plasmode (detached) of branch feat/plasmode-attribution-demonstration at dd5981f (git tree c0d285a3aa9c2fdc9d918d97582b1fe9463e066a, identical to the workstation's at that commit; no tracked modification); PYTHONPATH on its src, .venv symlinked from /home1/tgonza/MOTCO; scripts/plasmode_check.py unchanged since the calibration's commit f0b05f0
 versions: python 3.11.16 motco 0.14.0 numpy 2.3.5 pandas 2.3.3 scipy 1.16.3 sklearn 1.8.0
 settings hash: 734bb5384cebe4a6f764c47774817eee0fef219a2799c310b939ddb49f980164 (equals plasmode_decision.json's settings_hash; equal to the settings rebuilt on the workstation from the same fidelity.json and calibration.json)
