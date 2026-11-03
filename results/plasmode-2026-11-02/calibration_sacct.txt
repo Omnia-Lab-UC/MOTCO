@@ -1,0 +1,5 @@
+JobID             State ExitCode    Elapsed        NodeList  AllocCPUS     MaxRSS   TotalCPU 
+------------ ---------- -------- ---------- --------------- ---------- ---------- ---------- 
+932595        COMPLETED      0:0   00:18:49              n1         40              08:25:43 
+932595.batch  COMPLETED      0:0   00:18:49              n1         40   6701248K   08:25:43 
+932595.exte+  COMPLETED      0:0   00:18:49              n1         40          0  00:00.001 

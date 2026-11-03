@@ -1,0 +1,527 @@
+{
+  "check": "plasmode",
+  "settings_hash": "b37b168132501d0556a8a75e8cb094d91ec940039677f2bddaa049a39218a75f",
+  "adopted_calibration": null,
+  "strength": {
+    "descriptive": null,
+    "e_star": 1.0,
+    "outcome": null,
+    "source": "explicit"
+  },
+  "verdict": "attribution_leg_failed",
+  "consequence": "the Phase 6 G1 attribution leg is reported failed, naming the failing criteria; Phase 6 is not reopened and no case-study reading changes",
+  "failing": [
+    {
+      "criterion": "size",
+      "cell": "anchor",
+      "quantity": "delta",
+      "value": 0.2,
+      "bound": 0.14746794344808964,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "size",
+      "cell": "anchor",
+      "quantity": "angle",
+      "value": 0.15,
+      "bound": 0.14746794344808964,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "detection",
+      "cell": "e=1",
+      "quantity": "angle",
+      "value": 0.1,
+      "bound": 0.8,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "recovery",
+      "cell": "e=1",
+      "quantity": "planted_precision",
+      "value": -0.05,
+      "bound": 0.5,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "recovery",
+      "cell": "e=1",
+      "quantity": "sign_stability",
+      "value": 0.7995,
+      "bound": 0.9,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "recovery",
+      "cell": "e=1",
+      "quantity": "top_k_frequency",
+      "value": -0.002,
+      "bound": 0.5,
+      "verdict": "fails"
+    }
+  ],
+  "indicative": true,
+  "indicative_reasons": [
+    "fewer than 500 replicates: {'anchor': 20, 'e=1': 20}",
+    "99 permutations < 999",
+    "B = 50 < 200",
+    "e* was given explicitly, not adopted from calibration"
+  ],
+  "replicates": {
+    "anchor": 20,
+    "e=1": 20
+  },
+  "permutations": 99,
+  "bootstrap_replicates": 50,
+  "top_k": 20,
+  "alpha": 0.05,
+  "se_multiplier": 2.0,
+  "detection_floor": 0.8,
+  "thresholds": {
+    "planted_precision": 0.5,
+    "sign_stability": 0.9,
+    "top_k_frequency": 0.5
+  },
+  "criteria": {
+    "size": [
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "delta",
+        "n": 20,
+        "mean": 0.2,
+        "se": 0.0917662935482247,
+        "k": 0.0,
+        "bound": 0.14746794344808964,
+        "direction": "upper",
+        "value": 0.2,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "angle",
+        "n": 20,
+        "mean": 0.15,
+        "se": 0.08191780219091253,
+        "k": 0.0,
+        "bound": 0.14746794344808964,
+        "direction": "upper",
+        "value": 0.15,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "shape",
+        "n": 20,
+        "mean": 0.0,
+        "se": 0.0,
+        "k": 0.0,
+        "bound": 0.14746794344808964,
+        "direction": "upper",
+        "value": 0.0,
+        "verdict": "holds"
+      }
+    ],
+    "detection": [
+      {
+        "criterion": "detection",
+        "cell": "e=1",
+        "quantity": "angle",
+        "n": 20,
+        "mean": 0.1,
+        "se": 0.06882472016116853,
+        "k": 0.0,
+        "bound": 0.8,
+        "direction": "lower",
+        "value": 0.1,
+        "verdict": "fails"
+      }
+    ],
+    "recovery": [
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "planted_precision",
+        "n": 2,
+        "mean": 0.05,
+        "se": 0.05,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": -0.05,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "sign_stability",
+        "n": 2,
+        "mean": 0.8125000000000001,
+        "se": 0.006500000000000061,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.7995,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "top_k_frequency",
+        "n": 2,
+        "mean": 0.008,
+        "se": 0.005,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": -0.002,
+        "verdict": "fails"
+      }
+    ]
+  },
+  "descriptive": {
+    "unadjusted_arm": [
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "planted_precision",
+        "n": 2,
+        "mean": 0.025,
+        "se": 0.025,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": -0.025,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "sign_stability",
+        "n": 2,
+        "mean": 0.7934999999999999,
+        "se": 0.0035000000000000027,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.7864999999999999,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "top_k_frequency",
+        "n": 2,
+        "mean": 0.007,
+        "se": 0.005,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": -0.003,
+        "verdict": "fails"
+      }
+    ],
+    "components": {
+      "pls_captured": [
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "planted_precision",
+          "n": 2,
+          "mean": 0.0,
+          "se": 0.0,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "sign_stability",
+          "n": 2,
+          "mean": 0.7895000000000001,
+          "se": 0.038500000000000034,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.7125,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "top_k_frequency",
+          "n": 2,
+          "mean": 0.001,
+          "se": 0.001,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": -0.001,
+          "verdict": "fails"
+        }
+      ],
+      "residual": [
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "planted_precision",
+          "n": 2,
+          "mean": 0.0,
+          "se": 0.0,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "sign_stability",
+          "n": 2,
+          "mean": 0.8209999999999997,
+          "se": 0.014999999999999958,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.7909999999999998,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "top_k_frequency",
+          "n": 2,
+          "mean": 0.011,
+          "se": 0.0010000000000000009,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.008999999999999998,
+          "verdict": "fails"
+        }
+      ]
+    },
+    "transitions": {
+      "0->1": [
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "planted_precision",
+          "n": 2,
+          "mean": 0.0,
+          "se": 0.0,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "sign_stability",
+          "n": 2,
+          "mean": 0.7625,
+          "se": 0.03650000000000003,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.6894999999999999,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "top_k_frequency",
+          "n": 2,
+          "mean": 0.0035000000000000005,
+          "se": 0.0035,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": -0.0034999999999999996,
+          "verdict": "fails"
+        }
+      ],
+      "1->2": [
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "planted_precision",
+          "n": 2,
+          "mean": 0.0,
+          "se": 0.0,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "sign_stability",
+          "n": 2,
+          "mean": 0.8159999999999998,
+          "se": 0.005999999999999949,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.8039999999999999,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=1",
+          "quantity": "top_k_frequency",
+          "n": 2,
+          "mean": 0.0,
+          "se": 0.0,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0,
+          "verdict": "fails"
+        }
+      ]
+    },
+    "unconditional": [
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "planted_precision",
+        "n": 20,
+        "mean": 0.017499999999999998,
+        "se": 0.006564457728034959,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.004371084543930081,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "sign_stability",
+        "n": 20,
+        "mean": 0.79345,
+        "se": 0.009441084627698685,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.7745678307446027,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=1",
+        "quantity": "top_k_frequency",
+        "n": 20,
+        "mean": 0.008000000000000002,
+        "se": 0.001289634791224571,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.0054207304175508605,
+        "verdict": "fails"
+      }
+    ],
+    "e_star_rates": {
+      "delta": {
+        "n": 20,
+        "rate": 0.1,
+        "se": 0.06882472016116853
+      },
+      "angle": {
+        "n": 20,
+        "rate": 0.1,
+        "se": 0.06882472016116853
+      },
+      "shape": {
+        "n": 20,
+        "rate": 0.05,
+        "se": 0.04999999999999999
+      }
+    },
+    "descriptive_cell": null,
+    "false_recovery_reference": {
+      "n": 20,
+      "mean": 0.0025,
+      "se": 0.0025
+    },
+    "sign_agreement": {
+      "all": {
+        "n": 6,
+        "mean": 1.0,
+        "se": 0.0
+      },
+      "angle_rejects": {
+        "n": 1,
+        "mean": 1.0,
+        "se": null
+      }
+    },
+    "per_cell": {
+      "anchor": {
+        "selected_lv": {
+          "n": 20,
+          "mean": 5.0,
+          "se": 0.0
+        },
+        "cv_mean_auroc": {
+          "n": 20,
+          "mean": 0.6355555555555557,
+          "se": 0.0
+        },
+        "degenerate": {
+          "n": 20,
+          "mean": 0.05,
+          "se": 0.04999999999999999
+        },
+        "plant_cosine": {
+          "n": 20,
+          "mean": -0.0017772611229054775,
+          "se": 0.002868591623405954
+        },
+        "label_redraws": {
+          "n": 20,
+          "mean": 0.0,
+          "se": 0.0
+        }
+      },
+      "e=1": {
+        "selected_lv": {
+          "n": 20,
+          "mean": 4.6,
+          "se": 0.32767120876365013
+        },
+        "cv_mean_auroc": {
+          "n": 20,
+          "mean": 0.6389277777777778,
+          "se": 0.00043739103349215477
+        },
+        "degenerate": {
+          "n": 20,
+          "mean": 0.05,
+          "se": 0.04999999999999999
+        },
+        "plant_cosine": {
+          "n": 20,
+          "mean": -0.0017772611229054775,
+          "se": 0.002868591623405954
+        },
+        "label_redraws": {
+          "n": 20,
+          "mean": 0.0,
+          "se": 0.0
+        }
+      }
+    }
+  }
+}

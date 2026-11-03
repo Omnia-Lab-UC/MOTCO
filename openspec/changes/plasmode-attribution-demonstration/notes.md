@@ -58,3 +58,15 @@ Early signal (not a calibration reading): at replicate 0 of the paper stream, th
 | 3.0 | 1 | 0 | 0 | 5 ×24, 2 ×8, 7 ×3, 8 ×4, 11 |
 
 `run --calibration` settings name iteration 4 and the cells [0, 3.0, 2.0]. A label-free diagnostic (scratchpad `latent_capture.py`, forced rank 5 on the export) finds the pooled stage displacement 99.9 % inside the rank-5 stage-PLS span, but a random 20-feature plant only 2.2 % (median; q95 3.2 %), the share of any random direction (√(5/10,000)): the planted orientation is outside the measured subspace unless it reshapes the PLS fit, which the drift of the rank from 5 toward 2 suggests it starts to do. Revised paper-grade estimate: 1,500 × ~150–200 CPU-s ≈ 65–85 EPYC core-hours.
+
+## Paper grade in flight and how to resume (2026-11-02, 21:40 -03)
+
+The user approved the paper grade as predeclared (`e*` = 3.0 at the cap, descriptive 2.0). Array **932620** on `ing` (150 shards × 10 units, `scripts/plasmode_array.sbatch`, n11 excluded) started ~21:35 -03 from the worktree `/home1/tgonza/MOTCO-plasmode` at `dd5981f` (`plasmode_check.py` sha256 `ac8d933a…ffb4`, unchanged since `f0b05f0`). `settings.json` hash `734bb538…0164`, identical to the settings rebuilt on the workstation from the same `fidelity.json` and `calibration.json`.
+
+Committed so far in `results/plasmode-2026-11-02/`: `fidelity.json` (EPYC), `calibration.json`, `calibration_sacct.txt` (job 932595), `settings.json` (the paper grade's), and `smoke/` (indicative: settings, summary, merge, decision, and the workstation's `fidelity.json`).
+
+To resume from any machine with `ssh ing`:
+
+1. `sacct -j 932620 -X -o JobID,State,ExitCode,Elapsed,NodeList`; units recorded: `cat /home1/tgonza/plasmode-2026-11-02/run/records/shard_*.jsonl | wc -l` (1,500 expected). A shard silent for > 25 min is stalled (memory or NFS; see the `ing` notes): `scancel` it and resubmit only its index with the same `--export` line (resume skips recorded units).
+2. On `ing`, in `/home1/tgonza/MOTCO-plasmode` with `PYTHONPATH=$PWD/src`: `.venv/bin/python scripts/plasmode_check.py merge --out-dir /home1/tgonza/plasmode-2026-11-02/run`, then `decide`.
+3. Copy `plasmode_summary.csv`, `merge.json`, `plasmode_decision.json` and `sacct` output into `results/plasmode-2026-11-02/`; write `PROVENANCE.txt` (records, `merged.jsonl`, `plasmode_units.csv`, `plasmode_metrics.csv` with sha256 from `merge.json`; MOTCO `dd5981f`; `sead_sexdiff` `2d427b0`; export hashes). Then tasks 9.3, 10.1 (report) and 10.2 (roadmap, `AGENTS.md`).
