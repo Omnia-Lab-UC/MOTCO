@@ -1,0 +1,64 @@
+Plasmode attribution demonstration, paper-grade run (openspec change plasmode-attribution-demonstration, design D2-D11; roadmap item 12)
+substrate: sead_sexdiff results/motco_input/cohort_30 (SEA-AD MTG astrocytes, n = 80, table [[11, 10, 28], [9, 10, 12]], rna + atac blocks of 5,000 TMM log2-CPM features each, identity transform), read in place through the input contract; on ing from a copy at /home1/tgonza/plasmode-data/cohort_30 whose sha256 equal the workstation's
+covariates: age_at_death, pmi, rin, years_education, log10_n_rna, log10_n_atac (the last two derived in MOTCO as base-10 logarithms of n_rna and n_atac, as sead_sexdiff ANALYSIS_LOG10_COLUMNS does at 2d427b0); missing_covariates error
+sead_sexdiff: repository at 2d427b0 when the export was read; the export's manifest records it was written from ab3423a (dirty)
+export sha256 (settings.json export.files; identical on the workstation and on ing):
+32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493  atac.csv
+7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3  covariates.csv
+18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6  manifest.json
+e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6  metadata.csv
+186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2  rna.csv
+
+construction: sex labels permuted within stage (stream paper, base seed 2034; 0 draws equal to the real labels, 0 redraws); plant e * c(stage) * sigma_f * s_f in the Male donors on 10 rna + 10 atac features per replicate (sigma_f the pooled within-stage SD, c = 0, 0.5, 1); the real labels were never analysed
+cells: anchor, e* = 3.0 (calibration.json iteration 4, cap_reached, entry sha256 c4fe69db06b896e5f2172e2daa00e275fa666deb00834ddd52f91aa1c0ef5839) and the descriptive step 2.0; reps 500, perms 999, B 200, top-k 20; min_components 2, net_displacement, residual_correction df, harness CV knobs (random_state 1203)
+arms: adjusted (analyze_trajectories with the six covariates and covariate-adjusted attribution; the primary arm) and unadjusted (descriptive: the attribution primitive on latent_artifacts without covariates, same bootstrap seed)
+fidelity gate: rank 5, mean held-out stage AUROC 0.635556, on the workstation (smoke/fidelity_workstation.json) and on ing (fidelity.json)
+calibration: job 932595 on n1 (40 CPUs, 2026-11-02, 18 min 49 s, COMPLETED 0:0; calibration_sacct.txt); angle rejected in 0/40 units at every ladder step
+approved: by the user on 2026-11-02, calibration first, then the paper grade as predeclared at the cap (openspec/changes/plasmode-attribution-demonstration/notes.md)
+code: worktree /home1/tgonza/MOTCO-plasmode (detached) of branch feat/plasmode-attribution-demonstration at dd5981f (git tree c0d285a3aa9c2fdc9d918d97582b1fe9463e066a, identical to the workstation's at that commit; no tracked modification); PYTHONPATH on its src, .venv symlinked from /home1/tgonza/MOTCO; scripts/plasmode_check.py unchanged since the calibration's commit f0b05f0
+versions: python 3.11.16 motco 0.14.0 numpy 2.3.5 pandas 2.3.3 scipy 1.16.3 sklearn 1.8.0
+settings hash: 734bb5384cebe4a6f764c47774817eee0fef219a2799c310b939ddb49f980164 (equals plasmode_decision.json's settings_hash; equal to the settings rebuilt on the workstation from the same fidelity.json and calibration.json)
+
+submitted: 2026-11-02 on ing, partition 512x1024, --exclude=n11, array 0-149 (150 shards of 10 units), job 932620; settings.json pre-created with --limit 0
+command: sbatch --array=0-149 --export=ALL,PYTHONPATH=<worktree>/src,PM_EXPORT=/home1/tgonza/plasmode-data/cohort_30,PM_FIDELITY=/home1/tgonza/plasmode-2026-11-02/calibration/fidelity.json,PM_CALIBRATION=/home1/tgonza/plasmode-2026-11-02/calibration/calibration.json,PM_OUT=/home1/tgonza/plasmode-2026-11-02/run,N_SHARDS=150 scripts/plasmode_array.sbatch
+completed: first task started 2026-11-02T21:36:09-03:00, last ended 21:55:35-03:00; 150/150 tasks COMPLETED 0:0 on n1, n3 and n4 (sacct.txt)
+units: 1500/1500, missing 0, consistency failures 0 (a failure raises and stops its shard), every anchor unit at the fidelity gate's rank and AUROC
+core-hours: 73.12 elapsed (sum of task Elapsed, one CPU per task, BLAS threads 1); the units' own timers sum to 68.32 h (median 178.5 s per unit, max 346.6 s)
+merged and decided on ing (login node, 2026-11-03), from the worktree with PYTHONPATH on its src:
+  python scripts/plasmode_check.py merge --out-dir /home1/tgonza/plasmode-2026-11-02/run
+  python scripts/plasmode_check.py decide --out-dir /home1/tgonza/plasmode-2026-11-02/run
+decision (plasmode_decision.json): attribution_leg_failed, indicative false, 500 replicates per cell; failing: detection (angle at e = 3), recovery planted_precision and top_k_frequency (e = 3)
+
+uncommitted per-unit outputs, kept on ing in /home1/tgonza/plasmode-2026-11-02/run/ (no donor identifier or label vector in any of them):
+4951f344894c554d9317db266dae79ff52141eb9c7625727741303d5f1deb89d  records/shard_000_of_150.jsonl ... shard_149_of_150.jsonl, concatenated in name order (8.1 MB)
+a54480e34875daf3b6e17d67d46abbcbec2f9a6af7e9bc726f6517b4e2a344f8  merged.jsonl (7.1 MB)
+a01b65d99e8e2c52aeb67170c4b71b45ba8b48267db1cde0501899a8b4601e5e  plasmode_units.csv
+855d3bb7bdeb71ea44b3d218426fa5e34e4be47d9dfddfa1f58b1da08a0cacf7  plasmode_metrics.csv
+
+sha256 of the files that define the measurement (at dd5981f):
+ac8d933a97d818bf0734cec3f9d01fe54dbad2ed37aa56e4c1d49e7c4f19ffb4  scripts/plasmode_check.py
+37be748daf93dd26fc16f19631e8ad59c85dd086dd3ac3c6d2a5f4292ca2a91a  scripts/adjusted_attribution_check.py
+fcae01c889e246df9f8c8379eaaa6bc06e71f98bde3313c261a7f2d7860feb56  scripts/covariate_type_i_check.py
+b4c66d74e9c101211dbbcfc6f90c9a71004198f5084b3b3d13c7778143e4db83  scripts/plasmode_array.sbatch
+921122cd685e5b7100423ccca2bfe6e609e78427a1cb7cbc64c11e55ddfcabe1  scripts/plasmode_calibrate.sbatch
+00fd8721bb257a3417f683c3f2d07e1a1b879c217c5c97b37a5e76479580a6bb  src/motco/analysis.py
+17f8a7185e9d2eb07b49195bfb43eae9103c409b38d9f641d10646654b641fb8  src/motco/stats/attribution.py
+e8fbe4fb6ac35dba948e11bdfedbeccddbcb92c9c0ffea625c52cf61835c23fa  src/motco/stats/pls.py
+177c23667c294c55c50a3e5ab8600d9fb34e01208c49bb0433361bfe5950e0ef  src/motco/stats/permutation.py
+eed271237439c3b779da414530456288a4fcaa9aca1f3783995a83415c49eda1  src/motco/stats/trajectory.py
+af3825fcd76a00cec5075762de38a465ef3fe2c9c9e56f04513c8b67dd9dc11a  src/motco/simulations/attribution_diagnostics.py
+837f41351ca8bb35ef91f1146c48d5fa504aaac85079c417cf26e86992939ef9  src/motco/simulations/evaluation.py
+
+sha256 of the committed tables (copied back from ing; cmp-identical):
+7cc5dc85665a761c16aa6d0490220dd365c140c1f758d8bcf4aa372a6cd6d6ef  plasmode_decision.json
+452f962a727fcaf16f4fba0695deacedec5108d0064190be775c85499c245b73  plasmode_summary.csv
+9ab56f8ab552dfc02cb405f6c53b990d5c0f6252e93f9d37273333dc11e3da1f  merge.json
+16883b12067e774d309d819a7649ceaf959a65ec9abc1a48b2400bae35d5e89c  settings.json
+4f44f05fe5335bc31b91276cb7568fe95e8e1921d3b0b94f3982c2b4eaf554e5  fidelity.json
+e3542e60580f3ea3482c058908db151fc4eed0de5cc687e781f7aa76bc52f622  calibration.json
+ef228da9e48d0ba5643444f16a2352a4e76a40303616964e91cad4f16fce451c  sacct.txt
+6ef0beda5d5ef1752b6c6a30a1b372e82d213aec2f32a5356f12d00c7dbf8b98  calibration_sacct.txt
+
+label-free diagnostic (diagnostic/, run on the workstation 2026-11-03 at the branch's head, export as above):
+a1a23bca3037ab2745979de395a57b439438f0cf993184f6650e288a4ca90a74  diagnostic/latent_capture.py
+5f13671db1d7d1a5cbd5cbee4794c15f039945bcb496e46b913c7343478e4e9d  diagnostic/latent_capture.json

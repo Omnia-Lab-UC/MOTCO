@@ -1,0 +1,634 @@
+{
+  "check": "plasmode",
+  "settings_hash": "734bb5384cebe4a6f764c47774817eee0fef219a2799c310b939ddb49f980164",
+  "adopted_calibration": {
+    "descriptive": 2.0,
+    "e_star": 3.0,
+    "entry_sha256": "c4fe69db06b896e5f2172e2daa00e275fa666deb00834ddd52f91aa1c0ef5839",
+    "iteration": 4,
+    "outcome": "cap_reached",
+    "rate": 0.0
+  },
+  "strength": {
+    "descriptive": 2.0,
+    "e_star": 3.0,
+    "outcome": "cap_reached",
+    "source": "calibration"
+  },
+  "verdict": "attribution_leg_failed",
+  "consequence": "the Phase 6 G1 attribution leg is reported failed, naming the failing criteria; Phase 6 is not reopened and no case-study reading changes",
+  "failing": [
+    {
+      "criterion": "detection",
+      "cell": "e=3",
+      "quantity": "angle",
+      "value": 0.036,
+      "bound": 0.8,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "recovery",
+      "cell": "e=3",
+      "quantity": "planted_precision",
+      "value": 0.17592230758939428,
+      "bound": 0.5,
+      "verdict": "fails"
+    },
+    {
+      "criterion": "recovery",
+      "cell": "e=3",
+      "quantity": "top_k_frequency",
+      "value": 0.049592102337356614,
+      "bound": 0.5,
+      "verdict": "fails"
+    }
+  ],
+  "indicative": false,
+  "indicative_reasons": [],
+  "replicates": {
+    "anchor": 500,
+    "e=3": 500,
+    "e=2": 500
+  },
+  "permutations": 999,
+  "bootstrap_replicates": 200,
+  "top_k": 20,
+  "alpha": 0.05,
+  "se_multiplier": 2.0,
+  "detection_floor": 0.8,
+  "thresholds": {
+    "planted_precision": 0.5,
+    "sign_stability": 0.9,
+    "top_k_frequency": 0.5
+  },
+  "criteria": {
+    "size": [
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "delta",
+        "n": 500,
+        "mean": 0.042,
+        "se": 0.00897960280486092,
+        "k": 0.0,
+        "bound": 0.06949358868961793,
+        "direction": "upper",
+        "value": 0.042,
+        "verdict": "holds"
+      },
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "angle",
+        "n": 500,
+        "mean": 0.048,
+        "se": 0.009569490597759172,
+        "k": 0.0,
+        "bound": 0.06949358868961793,
+        "direction": "upper",
+        "value": 0.048,
+        "verdict": "holds"
+      },
+      {
+        "criterion": "size",
+        "cell": "anchor",
+        "quantity": "shape",
+        "n": 500,
+        "mean": 0.026,
+        "se": 0.007123868260853507,
+        "k": 0.0,
+        "bound": 0.06949358868961793,
+        "direction": "upper",
+        "value": 0.026,
+        "verdict": "holds"
+      }
+    ],
+    "detection": [
+      {
+        "criterion": "detection",
+        "cell": "e=3",
+        "quantity": "angle",
+        "n": 500,
+        "mean": 0.036,
+        "se": 0.008339490043664344,
+        "k": 0.0,
+        "bound": 0.8,
+        "direction": "lower",
+        "value": 0.036,
+        "verdict": "fails"
+      }
+    ],
+    "recovery": [
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "planted_precision",
+        "n": 18,
+        "mean": 0.30833333333333335,
+        "se": 0.06620551287196953,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.17592230758939428,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "sign_stability",
+        "n": 18,
+        "mean": 0.9629583333333334,
+        "se": 0.006601620480901361,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.9497550923715307,
+        "verdict": "holds"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "top_k_frequency",
+        "n": 18,
+        "mean": 0.06461111111111112,
+        "se": 0.007509504386877253,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.049592102337356614,
+        "verdict": "fails"
+      }
+    ]
+  },
+  "descriptive": {
+    "unadjusted_arm": [
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "planted_precision",
+        "n": 18,
+        "mean": 0.375,
+        "se": 0.07618883489128511,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.22262233021742978,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "sign_stability",
+        "n": 18,
+        "mean": 0.9596388888888888,
+        "se": 0.005182267016533059,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.9492743548558227,
+        "verdict": "holds"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "top_k_frequency",
+        "n": 18,
+        "mean": 0.08619444444444443,
+        "se": 0.009841213931650468,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.0665120165811435,
+        "verdict": "fails"
+      }
+    ],
+    "components": {
+      "pls_captured": [
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "planted_precision",
+          "n": 18,
+          "mean": 0.002777777777777778,
+          "se": 0.0027777777777777783,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": -0.0027777777777777788,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "sign_stability",
+          "n": 18,
+          "mean": 0.7866527777777778,
+          "se": 0.016455651169992265,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.7537414754377932,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "top_k_frequency",
+          "n": 18,
+          "mean": 0.002263888888888889,
+          "se": 0.0014475402031711108,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": -0.0006311915174533325,
+          "verdict": "fails"
+        }
+      ],
+      "residual": [
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "planted_precision",
+          "n": 18,
+          "mean": 0.44722222222222224,
+          "se": 0.04739491682539367,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.3524323885714349,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "sign_stability",
+          "n": 18,
+          "mean": 0.9455555555555555,
+          "se": 0.011277246518283275,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.923001062518989,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "top_k_frequency",
+          "n": 18,
+          "mean": 0.06990277777777779,
+          "se": 0.00819984105559153,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.053503095666594724,
+          "verdict": "fails"
+        }
+      ]
+    },
+    "transitions": {
+      "0->1": [
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "planted_precision",
+          "n": 18,
+          "mean": 0.025,
+          "se": 0.012294055101945544,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0004118897961089135,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "sign_stability",
+          "n": 18,
+          "mean": 0.9656250000000003,
+          "se": 0.005406372193450776,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.9548122556130987,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "top_k_frequency",
+          "n": 18,
+          "mean": 0.0044305555555555565,
+          "se": 0.0009639764703764099,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.002502602614802737,
+          "verdict": "fails"
+        }
+      ],
+      "1->2": [
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "planted_precision",
+          "n": 18,
+          "mean": 0.030555555555555558,
+          "se": 0.015199591975565486,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.00015637160442458567,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "sign_stability",
+          "n": 18,
+          "mean": 0.9628611111111111,
+          "se": 0.005244442367342005,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.952372226376427,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=3",
+          "quantity": "top_k_frequency",
+          "n": 18,
+          "mean": 0.004236111111111111,
+          "se": 0.001421771687473037,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.0013925677361650364,
+          "verdict": "fails"
+        }
+      ]
+    },
+    "unconditional": [
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "planted_precision",
+        "n": 500,
+        "mean": 0.3443,
+        "se": 0.008795438560922242,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.3267091228781555,
+        "verdict": "fails"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "sign_stability",
+        "n": 500,
+        "mean": 0.9573685000000001,
+        "se": 0.0012866318465346,
+        "k": 2.0,
+        "bound": 0.9,
+        "direction": "lower",
+        "value": 0.9547952363069309,
+        "verdict": "holds"
+      },
+      {
+        "criterion": "recovery",
+        "cell": "e=3",
+        "quantity": "top_k_frequency",
+        "n": 500,
+        "mean": 0.0601895,
+        "se": 0.001081781137920569,
+        "k": 2.0,
+        "bound": 0.5,
+        "direction": "lower",
+        "value": 0.058025937724158864,
+        "verdict": "fails"
+      }
+    ],
+    "e_star_rates": {
+      "delta": {
+        "n": 500,
+        "rate": 0.026,
+        "se": 0.007123868260853507
+      },
+      "angle": {
+        "n": 500,
+        "rate": 0.036,
+        "se": 0.008339490043664344
+      },
+      "shape": {
+        "n": 500,
+        "rate": 0.016,
+        "se": 0.0056170367814719555
+      }
+    },
+    "descriptive_cell": {
+      "cell": "e=2",
+      "rates": {
+        "delta": {
+          "n": 500,
+          "rate": 0.03,
+          "se": 0.007636532803997704
+        },
+        "angle": {
+          "n": 500,
+          "rate": 0.034,
+          "se": 0.008112930375552172
+        },
+        "shape": {
+          "n": 500,
+          "rate": 0.02,
+          "se": 0.006267260734501832
+        }
+      },
+      "recovery_angle_rejects": [
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "planted_precision",
+          "n": 17,
+          "mean": 0.1735294117647059,
+          "se": 0.04137295557833882,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.09078350060802827,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "sign_stability",
+          "n": 17,
+          "mean": 0.9132352941176469,
+          "se": 0.009025430538762933,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.8951844330401211,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "top_k_frequency",
+          "n": 17,
+          "mean": 0.03785294117647059,
+          "se": 0.0041426792947022,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.02956758258706619,
+          "verdict": "fails"
+        }
+      ],
+      "recovery_all": [
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "planted_precision",
+          "n": 500,
+          "mean": 0.1683,
+          "se": 0.005506438206631115,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.15728712358673777,
+          "verdict": "fails"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "sign_stability",
+          "n": 500,
+          "mean": 0.9175270000000001,
+          "se": 0.0016527779317813888,
+          "k": 2.0,
+          "bound": 0.9,
+          "direction": "lower",
+          "value": 0.9142214441364374,
+          "verdict": "holds"
+        },
+        {
+          "criterion": "recovery",
+          "cell": "e=2",
+          "quantity": "top_k_frequency",
+          "n": 500,
+          "mean": 0.032929,
+          "se": 0.0006490153000657525,
+          "k": 2.0,
+          "bound": 0.5,
+          "direction": "lower",
+          "value": 0.031630969399868494,
+          "verdict": "fails"
+        }
+      ]
+    },
+    "false_recovery_reference": {
+      "n": 500,
+      "mean": 0.0023000000000000004,
+      "se": 0.00046889201255606567
+    },
+    "sign_agreement": {
+      "all": {
+        "n": 478,
+        "mean": 1.0,
+        "se": 0.0
+      },
+      "angle_rejects": {
+        "n": 14,
+        "mean": 1.0,
+        "se": 0.0
+      }
+    },
+    "per_cell": {
+      "anchor": {
+        "selected_lv": {
+          "n": 500,
+          "mean": 5.0,
+          "se": 0.0
+        },
+        "cv_mean_auroc": {
+          "n": 500,
+          "mean": 0.6355555555555555,
+          "se": 4.9700408348379315e-18
+        },
+        "degenerate": {
+          "n": 500,
+          "mean": 0.106,
+          "se": 0.01378070446788779
+        },
+        "plant_cosine": {
+          "n": 500,
+          "mean": 0.00010312781417937022,
+          "se": 0.00046983169885374325
+        },
+        "label_redraws": {
+          "n": 500,
+          "mean": 0.0,
+          "se": 0.0
+        }
+      },
+      "e=3": {
+        "selected_lv": {
+          "n": 500,
+          "mean": 4.852,
+          "se": 0.0760510323338091
+        },
+        "cv_mean_auroc": {
+          "n": 500,
+          "mean": 0.6442156666666667,
+          "se": 0.00015627644289471445
+        },
+        "degenerate": {
+          "n": 500,
+          "mean": 0.094,
+          "se": 0.01306404756104917
+        },
+        "plant_cosine": {
+          "n": 500,
+          "mean": 0.00010312781417937022,
+          "se": 0.00046983169885374325
+        },
+        "label_redraws": {
+          "n": 500,
+          "mean": 0.0,
+          "se": 0.0
+        }
+      },
+      "e=2": {
+        "selected_lv": {
+          "n": 500,
+          "mean": 4.882,
+          "se": 0.07639256277475306
+        },
+        "cv_mean_auroc": {
+          "n": 500,
+          "mean": 0.6420447777777779,
+          "se": 0.0001244603970554142
+        },
+        "degenerate": {
+          "n": 500,
+          "mean": 0.094,
+          "se": 0.01306404756104917
+        },
+        "plant_cosine": {
+          "n": 500,
+          "mean": 0.00010312781417937022,
+          "se": 0.00046983169885374325
+        },
+        "label_redraws": {
+          "n": 500,
+          "mean": 0.0,
+          "se": 0.0
+        }
+      }
+    }
+  }
+}

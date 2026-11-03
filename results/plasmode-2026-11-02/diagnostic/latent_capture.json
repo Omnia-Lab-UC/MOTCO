@@ -1,0 +1,26 @@
+{
+ "export_files": {
+  "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+  "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+  "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+  "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+  "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+ },
+ "forced_rank": 5,
+ "n_features": 10000,
+ "plant_norm_at_e1": {
+  "median": 4.472487222612325,
+  "q05": 4.444302740669197,
+  "q95": 4.498145902464354
+ },
+ "plant_share_in_span": {
+  "median": 0.02164777212776395,
+  "q05": 0.011111183962564969,
+  "q95": 0.03203127622777293,
+  "random_direction_reference": 0.022360679774997897
+ },
+ "plants": 200,
+ "pooled_displacement_norm": 39.667613492553784,
+ "pooled_displacement_share_in_span": 0.9994318507042438,
+ "units": "analysed coordinates (pooled per-feature SD, ddof 0); the plant applies to the Male donors only"
+}
