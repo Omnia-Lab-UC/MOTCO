@@ -114,3 +114,29 @@ exactly (same summaries at δ = 0.10, 0.15 … 0.50). New steps:
 **Adopted: δ = 0.11, `first_in_band`** (median 0.617). The rule takes the first in-band step, not the closest: δ = 0.12
 (0.633) is nearer 0.636. SEA-AD's CV rank is 5; the adopted step's median rank is 3. Outputs in
 `results/latent-space-comparison-2026-11-04/calibration/`.
+
+## The run (task 7.3, 2026-11-04)
+
+- Settings written once on the login node at `d2c167b` (`run --calibration … --shard 0/200 --limit 0`; hash
+  `db7fedf3…`, weak δ 0.11 bound to the calibration's sha256), then array **933442**
+  (`--array=0-199%80 --exclude=n2,n11`, 21 units per shard): submitted 19:24:33, last task ended 20:01:35 (local);
+  200/200 `COMPLETED 0:0` on n1 (128), n3 (42), n4 (30); task wall 398–1077 s.
+- Merge and decide by `srun` on n1 (jobs 933655 at `d2c167b`, 933657 at `36f8fdc`). `36f8fdc` adds the population
+  `delta`/`angle`/`shape` medians to the capture table, needed to state the scaler route in the report with numbers;
+  the re-merge left `rate_table.csv`, `accounting.json` and `merged.jsonl` byte-identical (sha256 checked on the
+  cluster) and the reading unchanged.
+- Accounting: 4,200/4,200 units, 0 failed records, 0 duplicates, 37.05 recorded core-hours (projection 35, 42 with
+  margin); median unit 38.2 s, `concat` 16.0 s per unit. `merged.jsonl` sha256 `a144ef22…94bd` stays on the cluster.
+- **Reading: `document_tradeoff`** (every eligible arm `no_gain`). Report:
+  `docs/reports/latent-space-comparison-2026-11-04.md`; aggregates and `PROVENANCE.txt` under
+  `results/latent-space-comparison-2026-11-04/`.
+- While writing the report, a check of the merged records (on the cluster) showed that `population_latent` through the
+  sample scaler carries a `delta` and `shape` for the rigid stage-span rotation in every space, `concat` included. The
+  report states this from the committed capture table, and says the pilot does not explain why only `pls_cv` rejects
+  on it, and only at φ = 90.
+
+## Documentation and gate (task 7.5, 2026-11-04)
+
+Visibility-profile section in `docs/measurement-visibility.md`, roadmap item 14 and item 13's follow-up (c), and the
+`AGENTS.md` run summary. `mkdocs build`: the same 8 warnings as before the change. Pre-commit gate: ruff and mypy
+clean; 2213 passed, 1 skipped, 32 deselected (7 min 14 s).

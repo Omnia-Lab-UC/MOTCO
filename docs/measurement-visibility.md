@@ -93,7 +93,9 @@ features can carry both kinds of difference:
 - Moving them in a direction orthogonal to it is not.
 - A difference on features the program does not use is visible to the extent its
   direction correlates with the span, which for an unrelated feature set is about the
-  random share.
+  random share. A direction on a few such features keeps several times that share,
+  because the sample scaler rescales them, and is still not detected (see the
+  visibility profiles below).
 
 The three measured cases are all orthogonal directions. The relocation of
 stage-changing sites (the `orientation` and `shape` surgeries) points B's steps away
@@ -214,3 +216,51 @@ The pooled stage means keep 0.93–0.97 under every construction.
 The retrofit check found that an edit made in a replicate's own fitted basis and pulled
 back to the features has cosine 0.965–0.984 with the population stage-span plant. A
 basis-defined plant and the population-defined one nearly coincide.
+
+## Visibility profiles across alignment
+
+The 2026-11-04 latent-space comparison ([report](reports/latent-space-comparison-2026-11-04.md),
+100 replicates × 199 permutations per cell) measured five spaces on identical data. It
+moved a 45° stage-span rotation from inside the stage span (φ = 0) to orthogonal to it
+(φ = 90) at a fixed intended geometry (`span_alignment`). The designs had three stages on
+methylation + expression: n = 200 and the SEA-AD table at the generator's stage effect
+(δ = 2.0), and the SEA-AD table at a δ calibrated to SEA-AD's held-out stage AUROC
+(δ = 0.11, AUROC 0.617). The table gives the median `group_difference` capture and the
+`angle` rejection rate at φ = 0 / 30 / 60 / 90, at n = 200 and on the SEA-AD table.
+
+| space | capture, n = 200 | `angle`, n = 200 | capture, SEA-AD | `angle`, SEA-AD |
+|---|---|---|---|---|
+| `pls_cv` (production) | 0.97 / 0.82 / 0.40 / 0.008 | 1.00 / 1.00 / 0.79 / 0.08 | 0.93 / 0.79 / 0.41 / 0.026 | 0.96 / 0.73 / 0.43 / 0.11 |
+| `pca_matched` (PCA at the `pls_cv` rank) | 0.97 / 0.85 / 0.22 / 0.006 | 0.89 / 0.79 / 0.26 / 0.05 | 0.93 / 0.83 / 0.45 / 0.032 | 0.72 / 0.54 / 0.10 / 0.06 |
+| `pca_fixed` (PCA at rank 4) | 0.97 / 0.86 / 0.45 / 0.024 | 1.00 / 1.00 / 0.67 / 0.09 | 0.94 / 0.83 / 0.47 / 0.051 | 0.75 / 0.53 / 0.15 / 0.09 |
+| `pls_residual_pca` (`pls_cv` + 2 residual axes) | 0.97 / 0.83 / 0.41 / 0.024 | 1.00 / 1.00 / 0.54 / 0.17 | 0.93 / 0.81 / 0.45 / 0.075 | 0.93 / 0.79 / 0.35 / 0.18 |
+| `concat` (all 498 features) | 1 / 1 / 1 / 1 | 1.00 / 1.00 / 1.00 / 1.00 | 1 / 1 / 1 / 1 | 0.81 / 0.85 / 0.89 / 0.90 |
+
+- **Every low-dimensional space has the same profile.** Capture falls to the
+  random-direction share at φ = 90, and so does `angle` power. Neither a label-free basis
+  nor within-stage residual components recover an out-of-span rotation; only `concat`
+  does.
+- **Size holds in every space but one.** The anchor and translation controls read at most
+  0.08 (bound 0.0936) in every space except `concat`. Its `angle` is liberal at the
+  SEA-AD-like stage signal (0.21 and 0.22).
+- **Extra directions cost in-span power.** `pls_residual_pca` shares `pls_cv`'s
+  coordinates and adds two near-empty ones. Magnitude `delta` falls from 0.74 to 0.37
+  (n = 200) and from 0.23 to 0.07 (SEA-AD table), and a 22.5° in-span rotation's
+  `angle` from 0.84 to 0.41. `concat` and `pca_fixed` lose as much. `pca_matched` at rank
+  2 misses the stage program altogether: its leading axes keep 0.53–0.54 of the pooled
+  stage means, against `pls_cv`'s 0.93–0.97.
+- **Support at a fixed norm.** A 20-feature out-of-span direction keeps 0.108 (n = 200)
+  and 0.116 (SEA-AD table) of its energy in the `pls_cv` span, against 0.008 and 0.026
+  dense: differences +0.102 and +0.091, SE 0.002 and 0.003. Its `angle` power is the
+  same: −0.02 against SEs of 0.036 and 0.042. So blindness is a matter of direction for
+  detection, while capture depends somewhat on the support. Through `concat` the sparse
+  rotation reads 32–34° against an intended 45°, which shows the sample scaler shrinking
+  the 20 planted features.
+- **At SEA-AD's stage signal the span is mostly noise.** At δ = 0.11 the fitted stage-PLS
+  span keeps 0.10 of the population stage program (rank 3, random share 0.006), and no
+  space has power for any plant.
+
+The advisory reading was `document_tradeoff`: no space gains on the out-of-span rotation
+without losing what the production space sees. The production stage-PLS space stays the
+measurement, and its question stays the one stated at the top of this page.
+
