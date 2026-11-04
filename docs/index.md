@@ -19,6 +19,7 @@ MOTCO provides three statistical modules:
 - [GitHub repository](https://github.com/Omnia-Lab-UC/MOTCO)
 - [End-to-end example notebook](https://github.com/Omnia-Lab-UC/MOTCO/blob/main/examples/motco_example.ipynb)
 - [CLI reference](api/cli.md)
+- [Measurement visibility](measurement-visibility.md) — which group differences the stage-supervised PLS measurement can see
 
 ## Installation
 

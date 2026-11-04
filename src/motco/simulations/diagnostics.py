@@ -18,6 +18,14 @@ from motco.stats.trajectory import estimate_difference, get_observed_vectors
 DIAGNOSTIC_SCHEMA_VERSION = 1
 _PATH_TOLERANCE = 1e-15
 
+#: Checkpoint of the population means seen through the replicate's fitted PLS basis.
+POPULATION_LATENT_CHECKPOINT = "population_latent"
+
+#: A population group difference whose stage-varying part is at most this
+#: fraction of the configuration's scale is constant across stages (the anchor,
+#: a translation): its span-capture share is undefined and reported as null.
+_CONSTANT_DIFFERENCE_TOLERANCE = 1e-9
+
 
 @dataclass(frozen=True)
 class GeometryDiagnostic:
@@ -34,15 +42,43 @@ class GeometryDiagnostic:
 
 
 @dataclass(frozen=True)
+class SpanCapture:
+    """Shares of the population trajectories inside the fitted PLS span.
+
+    Measured in the fitted model's input coordinates with an orthonormal basis
+    of its rotations. ``group_difference`` is the share of
+    ``Σ_s ‖d_s‖²`` in the span, ``d_s`` the population B − A difference at
+    stage ``s`` minus its mean over stages (``None`` when the difference is the
+    same at every stage); ``pooled_stage`` the share of the centred average
+    stage means. ``random_share`` = ``rank / n_features`` is the expected share
+    of a random direction.
+    """
+
+    group_difference: float | None
+    pooled_stage: float | None
+    rank: int
+    n_features: int
+    random_share: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class RealizedGeometryDiagnostics:
-    """Nested checkpoint decomposition with construction attribution."""
+    """Nested checkpoint decomposition with construction attribution.
+
+    ``span_capture`` is present only when it was requested for a PLS
+    evaluation; without it the record is unchanged.
+    """
 
     schema_version: int
     requested: dict[str, Any]
     checkpoints: dict[str, dict[str, GeometryDiagnostic]]
+    span_capture: SpanCapture | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload: dict[str, Any] = {
             "schema_version": self.schema_version,
             "requested": self.requested,
             "checkpoints": {
@@ -50,6 +86,9 @@ class RealizedGeometryDiagnostics:
                 for checkpoint, scopes in self.checkpoints.items()
             },
         }
+        if self.span_capture is not None:
+            payload["span_capture"] = self.span_capture.to_dict()
+        return payload
 
 
 def calculate_realized_geometry(
@@ -62,6 +101,7 @@ def calculate_realized_geometry(
     stage_col: str = "stage",
     latent_checkpoint: str = "pls_latent",
     orientation_estimator: str = "pc1",
+    latent_model: Any | None = None,
 ) -> RealizedGeometryDiagnostics:
     """Calculate all applicable geometry checkpoints for one replicate.
 
@@ -70,6 +110,12 @@ def calculate_realized_geometry(
     ``latent_matrix``, when given, is measured under the checkpoint named
     ``latent_checkpoint``. Every checkpoint ``angle`` uses
     ``orientation_estimator``, so the checkpoints measure the tested estimand.
+
+    ``latent_model`` is the replicate's fitted PLS model, passed only when span
+    capture is requested. With population trajectories it adds the
+    ``population_latent`` checkpoint (the population means through the fitted
+    preprocessor and ``model.transform``) and the :class:`SpanCapture` shares.
+    Nothing is refitted.
     """
 
     def measure(means: pd.DataFrame | np.ndarray) -> GeometryDiagnostic:
@@ -122,6 +168,20 @@ def calculate_realized_geometry(
         )
         checkpoints[latent_checkpoint] = {"joint": measure(latent_means)}
 
+    span_capture: SpanCapture | None = None
+    if latent_model is not None and population is not None:
+        population_joint = concatenate_blocks(preprocessor.transform_population(population))
+        ordered = np.vstack(
+            [
+                np.asarray(population_joint.loc[(group, stage)], dtype=float)
+                for group in group_levels
+                for stage in stage_levels
+            ]
+        )
+        scores = np.asarray(latent_model.transform(ordered), dtype=float)
+        checkpoints[POPULATION_LATENT_CHECKPOINT] = {"joint": measure(scores)}
+        span_capture = measure_span_capture(latent_model, ordered, n_groups=len(group_levels))
+
     requested = {
         "trajectory_mode": dataset.truth.get("trajectory_mode"),
         "group_effect_size": dataset.truth.get("group_effect_size"),
@@ -131,7 +191,55 @@ def calculate_realized_geometry(
         schema_version=DIAGNOSTIC_SCHEMA_VERSION,
         requested=requested,
         checkpoints=checkpoints,
+        span_capture=span_capture,
     )
+
+
+def measure_span_capture(model: Any, means: np.ndarray, *, n_groups: int = 2) -> SpanCapture:
+    """Shares of population group-stage means inside a fitted PLS model's span.
+
+    ``means`` holds the group-stage means in the model's feature order, group
+    major and stage minor (the first two groups are compared, B − A). They are
+    mapped to the model's input coordinates, ``(x − x_mean) / x_std``, and
+    measured against an orthonormal basis of ``model.x_rotations_`` (QR). For a
+    single direction ``d`` the share equals the square of the plasmode
+    ``latent_capture.py`` norm share ``‖Qᵀd‖ / ‖d‖``.
+    """
+
+    rotations = np.asarray(model.x_rotations_, dtype=float)
+    basis, _ = np.linalg.qr(rotations)
+    inputs = (np.asarray(means, dtype=float) - np.asarray(model._x_mean)) / np.asarray(model._x_std)
+    n_features = int(rotations.shape[0])
+    rank = int(rotations.shape[1])
+    n_stages = inputs.shape[0] // n_groups
+    group_a = inputs[:n_stages]
+    group_b = inputs[n_stages : 2 * n_stages]
+    difference = group_b - group_a
+    varying = difference - difference.mean(axis=0)
+    pooled = (group_a + group_b) / 2.0
+    pooled = pooled - pooled.mean(axis=0)
+    scale = max(float(np.linalg.norm(difference)), float(np.linalg.norm(pooled)), np.finfo(float).tiny)
+    constant = float(np.linalg.norm(varying)) <= _CONSTANT_DIFFERENCE_TOLERANCE * scale
+    return SpanCapture(
+        group_difference=None if constant else span_share(varying, basis),
+        pooled_stage=span_share(pooled, basis) if float(np.linalg.norm(pooled)) > 0 else None,
+        rank=rank,
+        n_features=n_features,
+        random_share=rank / n_features,
+    )
+
+
+def span_share(vectors: np.ndarray, basis: np.ndarray) -> float:
+    """Share of ``Σ ‖v‖²`` over the rows of ``vectors`` inside ``span(basis)``.
+
+    ``basis`` has orthonormal columns. The result is clipped to ``[0, 1]``
+    against rounding.
+    """
+
+    rows = np.atleast_2d(np.asarray(vectors, dtype=float))
+    total = float(np.sum(rows**2))
+    inside = float(np.sum((rows @ basis) ** 2))
+    return float(min(max(inside / total, 0.0), 1.0))
 
 
 def geometry_from_means(

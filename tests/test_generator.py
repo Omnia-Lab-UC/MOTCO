@@ -143,6 +143,53 @@ def test_bad_indicator_shape_raises(reference):
         )
 
 
+def _shifted_run(reference, **shifts):
+    rng = np.random.default_rng(11)
+    ind_m = bernoulli_indicators(rng, reference.n_cpg, 3, 0.2)
+    ind_e, ind_p = derive_coupled_indicators(ind_m, reference)
+    return generate_omics(
+        cell_sizes=[30, 0, 25],
+        indicators_methyl=ind_m,
+        indicators_expr=ind_e,
+        indicators_protein=ind_p,
+        rng=rng,
+        reference=reference,
+        **shifts,
+    )
+
+
+def test_zero_cell_shift_is_byte_identical(reference):
+    plain = _shifted_run(reference)
+    zero = _shifted_run(
+        reference,
+        cell_shift_methyl=np.zeros((reference.n_cpg, 3)),
+        cell_shift_expr=np.zeros((reference.n_gene, 3)),
+        cell_shift_protein=np.zeros((reference.n_protein, 3)),
+    )
+    for layer in ("methylation", "expression", "proteomics"):
+        assert getattr(plain, layer).tobytes() == getattr(zero, layer).tobytes()
+
+
+def test_cell_shift_moves_samples_by_exactly_the_shift(reference):
+    shift_rng = np.random.default_rng(3)
+    shift_m = shift_rng.normal(size=(reference.n_cpg, 3))
+    shift_e = shift_rng.normal(size=(reference.n_gene, 3))
+    plain = _shifted_run(reference)
+    shifted = _shifted_run(reference, cell_shift_methyl=shift_m, cell_shift_expr=shift_e)
+    cells = plain.cell_ids
+    assert np.array_equal(cells, shifted.cell_ids)
+    # Methylation is shifted in M-values, before the inverse logit.
+    to_m = lambda beta: np.log(beta / (1.0 - beta))  # noqa: E731
+    np.testing.assert_allclose(to_m(shifted.methylation) - to_m(plain.methylation), shift_m.T[cells], atol=1e-8)
+    np.testing.assert_allclose(shifted.expression - plain.expression, shift_e.T[cells], atol=1e-10)
+    assert np.array_equal(shifted.proteomics, plain.proteomics)
+
+
+def test_bad_cell_shift_shape_raises(reference):
+    with pytest.raises(GeneratorError, match="cell shift must have shape"):
+        _shifted_run(reference, cell_shift_expr=np.zeros((reference.n_gene, 2)))
+
+
 @pytest.mark.slow
 def test_realism_matches_intersim_fixture(reference):
     """numpy delta=0 output matches the committed InterSIM fixture within tolerance."""

@@ -198,6 +198,7 @@ def _design_point_cells(config: StudyConfig, resolver) -> list[SimulationCell]:
 def _design_anchor_cell(config: StudyConfig, point: Mapping[str, Any]) -> SimulationCell:
     generator = replace(config.generator, trajectory_mode="none", group_effect_size=0.0)
     generator, evaluation = _apply_design_point(generator, config.evaluation, point)
+    generator = _without_construction(generator)
     return make_simulation_cell(
         phase=DESIGN_PHASE,
         generator_params=generator,
@@ -238,10 +239,12 @@ def _zero_effect_anchor_cell(
     to it.
     """
 
-    generator = replace(
-        config.generator,
-        trajectory_mode="none",
-        group_effect_size=0.0,
+    generator = _without_construction(
+        replace(
+            config.generator,
+            trajectory_mode="none",
+            group_effect_size=0.0,
+        )
     )
     return make_simulation_cell(
         phase="power_primary",
@@ -258,6 +261,17 @@ def _zero_effect_anchor_cell(
             **dict(extra_metadata or {}),
         },
     )
+
+
+def _without_construction(generator: Any) -> Any:
+    """A zero-effect generator with no construction and no span layers.
+
+    A zero effect generates the null dataset under every construction, so the
+    anchor of a stage-span profile is the very cell — one identifier, one
+    dataset — of its surgery sibling's anchor in the same seed family.
+    """
+
+    return replace(generator, construction=None, span_layers=None)
 
 
 def _negative_control_cells(config: StudyConfig) -> list[SimulationCell]:
@@ -346,7 +360,10 @@ def _require_surgery_headroom(cells: list[SimulationCell]) -> None:
 
     Cells that explicitly opt into ``surgery_censoring="clamp"`` are exempt —
     they have accepted partial surgeries, and their records carry the censored
-    flag for the summaries to surface.
+    flag for the summaries to surface. Stage-span cells draw from no feature
+    pool and have no headroom (``expected_surgery_headroom`` returns ``None``);
+    they are still validated here, so an infeasible stage-span edit fails at
+    enumeration.
 
     The headroom is read from each cell's *own* generator parameters, so a study
     sweeping ``generator.baseline_continuity`` is checked per continuity value:
@@ -412,7 +429,13 @@ def _require_distinct_primary_datasets(cells: list[SimulationCell]) -> None:
 
 
 #: Generator fields the group-B transform ignores once the requested effect is zero.
-_MODE_ONLY_FIELDS: tuple[str, ...] = ("trajectory_mode", "shape_kind", "magnitude_kind")
+_MODE_ONLY_FIELDS: tuple[str, ...] = (
+    "trajectory_mode",
+    "shape_kind",
+    "magnitude_kind",
+    "construction",
+    "span_layers",
+)
 
 
 def _generator_identity(cell: SimulationCell) -> tuple[Any, ...]:

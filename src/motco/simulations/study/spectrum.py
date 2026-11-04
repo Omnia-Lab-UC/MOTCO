@@ -29,6 +29,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from motco.simulations.diagnostics import POPULATION_LATENT_CHECKPOINT
 from motco.simulations.grid import SimulationReplicateResult
 from motco.stats.trajectory import pooled_relative_eigengap
 
@@ -780,6 +781,153 @@ def resolve_stage_signal_by_design_point(
     return pd.DataFrame(rows, columns=columns)
 
 
+#: Each effect mode's target statistic; the controls (``none``, ``translation``) have none.
+TARGET_STATISTICS: dict[str, str] = {"magnitude": "delta", "orientation": "angle", "shape": "shape"}
+
+_SPAN_QUANTILES: tuple[tuple[str, float], ...] = (
+    ("q10", 0.10),
+    ("median", 0.50),
+    ("q90", 0.90),
+)
+
+
+def record_span_capture(record: SimulationReplicateResult) -> Mapping[str, Any] | None:
+    """The record's ``span_capture`` block, or ``None`` when it was not requested."""
+
+    block = (record.realized_geometry or {}).get("span_capture")
+    return block if isinstance(block, Mapping) else None
+
+
+def summarize_span_capture(records: Sequence[SimulationReplicateResult]) -> pd.DataFrame:
+    """How much of each cell's population difference the fitted PLS span sees.
+
+    One row per cell whose completed records carry span capture: the design
+    coordinates (when the study declared a design grid), mode, effect,
+    construction, the median and 10th / 90th percentiles of the
+    ``group_difference`` and ``pooled_stage`` shares over the replicates that
+    report them, the median rank and random-direction share, and the median
+    ``population_latent`` target statistic beside the stage-span construction's
+    intended one. A share that is null in every replicate (the anchor, a
+    translation) reports zero available and empty summaries.
+
+    Returns an **empty frame** when no record carries span capture, so a study
+    without it reports nothing new.
+    """
+
+    groups: dict[str, list[SimulationReplicateResult]] = {}
+    axes: list[str] = []
+    for record in records:
+        if record.status != "completed" or record_span_capture(record) is None:
+            continue
+        groups.setdefault(record.cell_id, []).append(record)
+        for axis in record_design_point(record) or {}:
+            if axis not in axes:
+                axes.append(axis)
+    columns = axes + list(_SPAN_CAPTURE_COLUMNS)
+    if not groups:
+        return pd.DataFrame(columns=columns)
+
+    rows: list[dict[str, Any]] = []
+    for cell_id, group in groups.items():
+        first = group[0]
+        meta = dict(first.cell_metadata)
+        mode = _resolve_mode(meta, first.phase)
+        effect = meta.get("effect_size")
+        target = TARGET_STATISTICS.get(mode)
+        captures = [record_span_capture(record) or {} for record in group]
+        row: dict[str, Any] = {axis: None for axis in axes}
+        row.update(record_design_point(first) or {})
+        row.update(
+            {
+                "phase": first.phase,
+                "cell_id": cell_id,
+                "trajectory_mode": mode,
+                "effect_size": None if effect is None else float(effect),
+                "construction": (first.truth_metadata or {}).get("construction") or "surgery",
+                "n_replicates": len(group),
+            }
+        )
+        for share in ("group_difference", "pooled_stage"):
+            values = _finite([capture.get(share) for capture in captures])
+            row[f"n_{share}_available"] = len(values)
+            for name, q in _SPAN_QUANTILES:
+                row[f"{name}_{share}"] = float(np.quantile(values, q)) if values else None
+        ranks = _finite([capture.get("rank") for capture in captures])
+        randoms = _finite([capture.get("random_share") for capture in captures])
+        row["median_rank"] = float(np.median(ranks)) if ranks else None
+        row["median_random_share"] = float(np.median(randoms)) if randoms else None
+        row["target_statistic"] = target
+        latent = _finite(
+            [
+                ((record.realized_geometry.get("checkpoints") or {}).get(POPULATION_LATENT_CHECKPOINT) or {})
+                .get("joint", {})
+                .get(target)
+                for record in group
+            ]
+            if target is not None
+            else []
+        )
+        intended = _finite(
+            [
+                (((record.truth_metadata or {}).get("stage_span") or {}).get("intended_geometry") or {}).get(target)
+                for record in group
+            ]
+            if target is not None
+            else []
+        )
+        row["n_population_latent_available"] = len(latent)
+        row["median_population_latent_target"] = float(np.median(latent)) if latent else None
+        row["median_intended_target"] = float(np.median(intended)) if intended else None
+        rows.append(row)
+    frame = pd.DataFrame(rows, columns=columns)
+    order = sorted(
+        range(len(rows)),
+        key=lambda index: (
+            _sortable(tuple(rows[index].get(axis) for axis in axes)),
+            rows[index]["phase"],
+            rows[index]["trajectory_mode"],
+            math.inf if rows[index]["effect_size"] is None else rows[index]["effect_size"],
+            rows[index]["cell_id"],
+        ),
+    )
+    return frame.iloc[order].reset_index(drop=True)
+
+
+def _finite(values: Iterable[Any]) -> list[float]:
+    out = []
+    for value in values:
+        if value is None:
+            continue
+        number = float(value)
+        if math.isfinite(number):
+            out.append(number)
+    return out
+
+
+_SPAN_CAPTURE_COLUMNS: tuple[str, ...] = (
+    "phase",
+    "cell_id",
+    "trajectory_mode",
+    "effect_size",
+    "construction",
+    "n_replicates",
+    "n_group_difference_available",
+    "q10_group_difference",
+    "median_group_difference",
+    "q90_group_difference",
+    "n_pooled_stage_available",
+    "q10_pooled_stage",
+    "median_pooled_stage",
+    "q90_pooled_stage",
+    "median_rank",
+    "median_random_share",
+    "target_statistic",
+    "n_population_latent_available",
+    "median_population_latent_target",
+    "median_intended_target",
+)
+
+
 _STAGE_SIGNAL_COLUMNS: tuple[str, ...] = (
     "phase",
     "is_baseline",
@@ -904,8 +1052,10 @@ __all__ = [
     "DESIGN_PHASES",
     "DESIGN_POINT_KEY",
     "POWER_PHASES",
+    "POPULATION_LATENT_CHECKPOINT",
     "RANK_AXIS",
     "STRATIFIED_MODES",
+    "TARGET_STATISTICS",
     "group_eigengaps",
     "has_spectrum",
     "pooled_eigengap",
@@ -914,9 +1064,11 @@ __all__ = [
     "record_cv_auroc",
     "record_design_point",
     "record_forced_rank",
+    "record_span_capture",
     "resolve_operating_by_design_point",
     "resolve_orientation_by_continuity",
     "resolve_stage_signal_by_design_point",
     "stratify_power_by_eigengap",
     "summarize_config_spectrum",
+    "summarize_span_capture",
 ]

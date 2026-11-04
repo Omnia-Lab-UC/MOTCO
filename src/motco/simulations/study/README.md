@@ -270,6 +270,50 @@ the field while it is unset, so every config committed before it existed keeps
 its cell ids, signatures and matched seeds
 (`tests/test_committed_config_identity.py`).
 
+### Stage-span construction and span capture
+
+Three opt-in keys (0.15.0) select the generator's stage-span construction and
+the span-capture diagnostic:
+
+```json
+"generator":  { "...": "...", "construction": "stage_span", "span_layers": ["methylation", "expression"] },
+"evaluation": { "...": "...", "integration_params": { "layers": ["methylation", "expression"] }, "span_capture": true }
+```
+
+- `generator.construction` — `"surgery"` (the default; normalizes to unset) or
+  `"stage_span"` (see `docs/api/simulations.md`, *Stage-span construction*).
+  An unknown value is rejected at load. It is **not** an axis: the loader
+  rejects `generator.construction` under `axes` and `design_grid`.
+- `generator.span_layers` — the blocks the stage span is computed over (unset =
+  all three; accepted only beside `stage_span`). It may be an axis. At every
+  column — the baseline, each OFAT value and each design point — a stage-span
+  column's resolved span layers must equal its resolved measured blocks
+  (`evaluation.integration_params.layers`, unset = all three); the loader
+  rejects a mismatch naming the column and both block sets, and the harness
+  checks again before fitting.
+- `evaluation.span_capture` — `true` adds the `population_latent` checkpoint and
+  the `span_capture` shares to every PLS record (`false` = unset). It changes no
+  statistic.
+
+All three are hash-omitted and left out of a dumped config while unset, so every
+config that does not use them enumerates exactly as before. Mode-specific
+stage-span errors (an orientation effect above 2, fewer than three stages for
+`orientation`/`shape`) surface per cell at enumeration. Stage-span cells draw
+from no feature pool: the surgery headroom check skips them, so effects a
+surgery's pool could not supply enumerate, and `realized_surgery.csv` reports no
+surgery for them.
+
+**Sibling profiles, not a construction axis.** Constructions are compared as
+sibling profiles in one seed family, identical except that the stage-span
+sibling sets `construction` and `span_layers`. Every zero-effect cell (the
+anchors and the Type I baselines) clears both, so at each design column the
+stage-span profile's anchor is the very cell — same id, signature, matched seed
+and dataset — of its surgery sibling's anchor, as the design-guidance magnitude
+and geometry siblings share theirs. Read one sibling's anchor and use the
+others as reproduction checks (`scripts/anchor_reproduction.py --by-column`);
+never pool them. The committed pilot is
+`examples/trajectory_power_study/stage_span_pilot_{surgery,span}_{magnitude,geometry}.json`.
+
 See `examples/trajectory_power_study/smoke.json` for a complete,
 minimal example.
 
@@ -623,6 +667,26 @@ Every row of `design_point_operating.csv` also carries `component_selection`
 (`cv` / `forced`, or `mixed` — which cannot arise from a well-formed study and
 flags a configuration error), read from the records' integration metadata.
 
+### Span-capture reporting
+
+When the records carry span capture (`evaluation.span_capture: true`), the
+report writes `report/span_capture.csv`, one row per cell: the design
+coordinates (one column per design axis, when a grid is declared), `phase`,
+`cell_id`, `trajectory_mode`, `effect_size`, `construction` (`surgery` |
+`stage_span`, read from truth), `n_replicates`; for each share
+(`group_difference`, `pooled_stage`) the number of replicates reporting it and
+its `q10` / `median` / `q90`; `median_rank` and `median_random_share` (rank /
+features, the share of a random direction); the mode's `target_statistic`
+(`magnitude`→`delta`, `orientation`→`angle`, `shape`→`shape`, empty for the
+controls) with `n_population_latent_available`,
+`median_population_latent_target` (the population means through each
+replicate's fitted basis) and `median_intended_target` (the stage-span truth's
+intended value; empty for surgeries). `group_difference` is null at the anchor
+and under a translation — the difference is constant over stages — so those rows
+report zero available and empty summaries. Without span capture no file is
+written and every other output is unchanged. Tests:
+`tests/test_study_stage_span.py`.
+
 ### Retained-rank ladder reporting
 
 When the design grid declares `evaluation.integration_params.forced_components`
@@ -750,6 +814,29 @@ pairs, and the verdict (exit status) covers the paired columns only. The
 keying lesson from the pilot: columns are keyed by their design point, never by
 `generator_seed`, which every column shares at a replicate index within a seed
 family. Tests: `tests/test_anchor_reproduction.py`.
+
+`--by-cell` pairs every cell, not only the anchors, between runs whose design
+grids name different axes — the stage-span pilot's surgery siblings (axes
+`n_samples`, `group_stage_sizes`) against the design-guidance pilot (axes
+`n_samples`, `n_stages`, `layers`):
+
+```bash
+python scripts/anchor_reproduction.py --by-cell --project generator.n_samples \
+    --candidate-where 'generator.group_stage_sizes=null' \
+    --reference-where 'generator.n_stages=3' \
+    --reference-where 'evaluation.integration_params.layers=["methylation", "expression"]' \
+    --candidate results/stage-span-pilot-<date>/surgery_geometry/merged.jsonl \
+    --reference results/design-guidance-pilot-2026-10-28/core_geometry/merged.jsonl \
+    --out results/stage-span-pilot-<date>/reproduction/surgery_geometry_vs_design_guidance.csv
+```
+
+Each `power_primary`/`power_design` record is kept when its design point holds
+every `--*-where` value (`AXIS=JSON`), its design point is projected onto the
+`--project` axes, and the runs are joined on (projected column, mode, effect,
+replicate index); a key that still names two cells in one run is refused. The
+summary prints one line per (column, mode, effect), lists a cell the other run
+lacks with zero pairs, and the verdict covers the paired cells (no pair at all
+fails).
 
 ### Measurement columns and the anchor Type I rule
 

@@ -73,7 +73,11 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 The selected rank sits beside the `angle` result because orientation is only
 interpretable relative to the space it was measured in. The null summary shows
 how wide the observed statistic's own null was, and the relative eigengap in the
-spectrum indicates whether a group's orientation is resolvable at all.
+spectrum indicates whether a group's orientation is resolvable at all. The space
+sees a group difference only through its component inside the fitted span, so a
+non-rejection of `angle` or `shape` means no detectable difference inside the
+stage-supervised span, not the same direction or shape in feature space; see
+[Measurement visibility](../measurement-visibility.md).
 
 **The floor guarantees two dimensions, not a second axis with signal.** Under
 the unfloored rule a weak stage signal makes every candidate rank tie near an

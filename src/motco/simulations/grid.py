@@ -235,7 +235,15 @@ def enumerate_type_i_grid(
 ) -> SimulationGrid:
     """Enumerate a null Type I grid with baseline plus one-factor-at-a-time axes."""
 
-    null_generator = replace(baseline_generator_params, trajectory_mode="none", group_effect_size=0.0)
+    # A zero effect is the null dataset under every construction, so the null
+    # cells carry none (``construction``/``span_layers`` cleared).
+    null_generator = replace(
+        baseline_generator_params,
+        trajectory_mode="none",
+        group_effect_size=0.0,
+        construction=None,
+        span_layers=None,
+    )
     cells = [
         make_simulation_cell(
             phase="type_i_baseline",
@@ -257,6 +265,7 @@ def enumerate_type_i_grid(
                 axis,
                 value,
             )
+            generator_params = replace(generator_params, construction=None, span_layers=None)
             cells.append(
                 make_simulation_cell(
                     phase="type_i_ofat",
@@ -639,6 +648,8 @@ def summarize_realized_surgery(
         if keys is not None:
             realized_key, nominal_key = keys
             for record in group_records:
+                if (record.truth_metadata or {}).get("construction") == "stage_span":
+                    continue  # a stage-span cell performs no surgery
                 transform = dict((record.truth_metadata or {}).get("transform") or {})
                 if realized_key not in transform:
                     continue  # e.g. shape_kind='magnitude', or a zero effect
@@ -858,9 +869,18 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: committed cell id and signature even when unused; listing it here keeps an
 #: absent value byte-identical to the field never having existed. For
 #: ``orientation_estimator``, ``None`` is PC1, so the omission preserves the PC1
-#: identity (the harness default, net displacement, is hashed).
+#: identity (the harness default, net displacement, is hashed). ``construction``
+#: (``None`` = surgery), ``span_layers`` and ``span_capture`` (``None`` = off)
+#: are the stage-span change's opt-in settings.
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
-    {"group_stage_sizes", "orientation_estimator", "min_components"}
+    {
+        "group_stage_sizes",
+        "orientation_estimator",
+        "min_components",
+        "construction",
+        "span_layers",
+        "span_capture",
+    }
 )
 
 

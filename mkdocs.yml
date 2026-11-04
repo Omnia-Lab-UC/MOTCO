@@ -17,6 +17,7 @@ theme:
 nav:
   - Home: index.md
   - Scientific Roadmap: roadmap.md
+  - Measurement Visibility: measurement-visibility.md
   - Phase 5 Readiness: phase5-readiness.md
   - Study Reports:
     - Phase 5 latent-rank ladder (current): reports/latent-rank-ladder-2026-09-08.md

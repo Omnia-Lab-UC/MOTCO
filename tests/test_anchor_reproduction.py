@@ -249,3 +249,131 @@ def test_default_mode_writes_the_pre_change_csv_and_summary(tmp_path: Path, caps
         "  all comparable fields match: 6/6",
         f"Wrote {out}",
     ]
+
+
+# ── Cell-level pairing across different design-axis sets ────────────────────
+
+SIZES = "generator.group_stage_sizes"
+STAGES = "generator.n_stages"
+SPAN_POINTS = [{N: 200, SIZES: None}, {N: 80, SIZES: None}, {N: 600, SIZES: [[11, 10, 28], [9, 10, 12]]}]
+PILOT_POINTS = [{N: n, STAGES: k, LAYERS: layers} for n in (200, 80) for k in (3, 4) for layers in (TWO, None)]
+EFFECTS = (("none", 0.0), ("orientation", 0.25), ("orientation", 1.0))
+
+
+def _cell_record(prefix: str, point: dict, mode: str, effect: float, index: int, baseline: bool) -> dict:
+    """A record whose seeds and statistics depend on (n, mode, effect, replicate) only — not on the axis set."""
+
+    shift = {"none": 0, "orientation": 100}[mode] + int(effect * 10) + point[N]
+    record = _anchor(
+        f"{prefix}-{json.dumps(point, sort_keys=True)}-{mode}-{effect}",
+        "power_primary" if baseline else "power_design",
+        index,
+        permutations=199,
+        point=point,
+        seed_offset=shift,
+    )
+    record["pair_statistics"] = {s: value + shift for s, value in record["pair_statistics"].items()}
+    record["cell_metadata"].update(
+        {"trajectory_mode": mode, "effect_size": effect, "zero_effect_anchor": mode == "none"}
+    )
+    return record
+
+
+def _cell_run(prefix: str, points: list[dict], *, n_replicates: int, baseline: dict, effects=EFFECTS) -> list[dict]:
+    return [
+        _cell_record(prefix, point, mode, effect, i, point == baseline)
+        for point in points
+        for mode, effect in effects
+        for i in range(n_replicates)
+    ]
+
+
+def _by_cell(capsys, candidate: Path, reference: Path, out: Path, *extra: str) -> tuple[int, list[str]]:
+    return _run(
+        capsys,
+        "--by-cell",
+        "--project",
+        N,
+        "--candidate-where",
+        f"{SIZES}=null",
+        "--reference-where",
+        f"{STAGES}=3",
+        "--reference-where",
+        f"{LAYERS}={json.dumps(TWO)}",
+        "--candidate",
+        str(candidate),
+        "--reference",
+        str(reference),
+        "--out",
+        str(out),
+        *extra,
+    )
+
+
+def _cell_lines(lines: list[str]) -> list[str]:
+    return [line for line in lines if line.startswith("  cell ")]
+
+
+def test_by_cell_pairs_matching_cells_across_axis_sets(tmp_path: Path, capsys) -> None:
+    candidate = _write(tmp_path / "span.jsonl", _cell_run("span", SPAN_POINTS, n_replicates=4, baseline=SPAN_POINTS[0]))
+    reference = _write(
+        tmp_path / "pilot.jsonl", _cell_run("dg", PILOT_POINTS, n_replicates=3, baseline=PILOT_POINTS[0])
+    )
+    out = tmp_path / "cells.csv"
+    code, lines = _by_cell(capsys, candidate, reference, out)
+    assert code == 0
+    frame = pd.read_csv(out)
+    assert len(frame) == 2 * len(EFFECTS) * 3  # n = 200 and 80, three cells each, replicates 0-2
+    assert list(frame.columns[:6]) == ["design_column", N, "trajectory_mode", "effect_size", "replicate_index",
+                                       "cell_id_candidate"]
+    assert frame["all_match"].all() and frame["p_values_comparable"].all()
+    assert lines[0].startswith("candidate 24 records over 6 cell(s) vs reference 18 records over 6")
+    cells = _cell_lines(lines)
+    assert len(cells) == 6
+    assert all(line.endswith("all comparable fields match 3/3") for line in cells)
+    assert "  all comparable fields match: 18/18 (paired cells only)" in lines
+
+
+def test_by_cell_mismatch_fails_naming_the_cell(tmp_path: Path, capsys) -> None:
+    candidate = _write(tmp_path / "span.jsonl", _cell_run("span", SPAN_POINTS, n_replicates=3, baseline=SPAN_POINTS[0]))
+    altered = _cell_run("dg", PILOT_POINTS, n_replicates=3, baseline=PILOT_POINTS[0])
+    for record in altered:
+        meta = record["cell_metadata"]
+        if meta["design_point"][N] == 80 and meta["trajectory_mode"] == "orientation" and meta["effect_size"] == 1.0:
+            record["p_values"]["angle"] = 0.999
+    reference = _write(tmp_path / "pilot.jsonl", altered)
+    code, lines = _by_cell(capsys, candidate, reference, tmp_path / "cells.csv")
+    assert code == 1
+    failing = [line for line in _cell_lines(lines) if not line.endswith("all comparable fields match 3/3")]
+    assert len(failing) == 1
+    assert '{"generator.n_samples": 80} orientation@1' in failing[0]
+    assert failing[0].endswith("all comparable fields match 0/3")
+
+
+def test_by_cell_lists_missing_cells_with_zero_pairs(tmp_path: Path, capsys) -> None:
+    candidate = _write(tmp_path / "span.jsonl", _cell_run("span", SPAN_POINTS, n_replicates=3, baseline=SPAN_POINTS[0]))
+    reference = _write(
+        tmp_path / "pilot.jsonl",
+        _cell_run("dg", PILOT_POINTS, n_replicates=3, baseline=PILOT_POINTS[0], effects=EFFECTS[:2]),
+    )
+    code, lines = _by_cell(capsys, candidate, reference, tmp_path / "cells.csv")
+    assert code == 0  # the verdict covers the paired cells only
+    missing = [line for line in _cell_lines(lines) if "0 pairs" in line]
+    assert len(missing) == 2
+    assert all("orientation@1:" in line and "(candidate 3 records, reference 0 records)" in line for line in missing)
+
+
+def test_by_cell_refuses_crowded_cells_and_misplaced_options(tmp_path: Path, capsys) -> None:
+    candidate = _write(tmp_path / "span.jsonl", _cell_run("span", SPAN_POINTS, n_replicates=2, baseline=SPAN_POINTS[0]))
+    reference = _write(
+        tmp_path / "pilot.jsonl", _cell_run("dg", PILOT_POINTS, n_replicates=2, baseline=PILOT_POINTS[0])
+    )
+    with pytest.raises(SystemExit, match="several cells share"):
+        ar.main(["--by-cell", "--project", N, "--candidate", str(candidate), "--reference", str(reference),
+                 "--out", str(tmp_path / "o.csv")])
+    with pytest.raises(SystemExit):
+        ar.main(["--project", N, "--candidate", str(candidate), "--reference", str(reference),
+                 "--out", str(tmp_path / "o.csv")])
+    with pytest.raises(SystemExit):
+        ar.main(["--by-cell", "--candidate", str(candidate), "--reference", str(reference),
+                 "--out", str(tmp_path / "o.csv")])

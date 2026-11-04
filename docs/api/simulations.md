@@ -129,6 +129,55 @@ relied on the default and wants the old construction must pass `magnitude_kind="
 `examples/trajectory_power_study/` already pin `"all"`, so their cells, signatures and datasets are
 unchanged.
 
+### Stage-span construction
+
+The modes above are **feature-set surgeries** (the default, `construction=None`; `"surgery"`
+normalizes to it). `construction="stage_span"` is an opt-in, measurement-defined alternative: it
+edits group B's exact null population stage means inside the span of B's own stage configuration,
+so the planted difference lies where the stage-supervised PLS measurement looks. Use it to ask how
+sensitive the test is to a difference the measurement can see; the surgeries remain the
+biologically grounded constructions.
+
+```python
+SemiSyntheticTrajectoryParams(
+    seed=1,
+    trajectory_mode="orientation",
+    group_effect_size=0.5,          # a 45° rotation
+    construction="stage_span",
+    span_layers=("methylation", "expression"),  # must equal the measured blocks
+)
+```
+
+The edit is made over `span_layers` (default: all three blocks) in analysed units (methylation in
+M-values), each feature divided by its null population pooled SD: the within-cell variance (the
+reference covariance diagonal) plus the between-cell variance of the null means at the realized
+cell proportions. With `z_s` B's standardized stage means, centroid `c`, path length `L`, mean step
+`L̄ = L / (S − 1)` and `u` the unit net displacement:
+
+| Mode | Stage-span edit | Intended population geometry |
+|------|-----------------|------------------------------|
+| `magnitude` | `c + (1 + e)(z_s − c)` | path length ×(1 + e); `angle` = `shape` = 0 |
+| `orientation` | rigid rotation about `c` by θ = 90°·e in the plane of `u` and the next principal direction `v` (e ≤ 2) | net-displacement `angle` = θ; `delta` = `shape` = 0 |
+| `shape` | the stage the `shape` surgery perturbs moves e·L̄ off the chord between its neighbours, then the path is rescaled to `L` and recentred on `c` | `shape` > 0; `delta` = `angle` = 0 |
+| `translation` | every stage moves e·L̄ along `u` | all three statistics 0 (the in-span negative control) |
+
+The plant is mapped back to analysed units and added to group B's cell means before sampling
+(`generate_omics(..., cell_shift_*=)`); blocks outside `span_layers` are untouched. The construction
+draws no random numbers, so a stage-span dataset equals the `none` dataset at the same seed plus the
+plant: group A and B's sampling noise are shared with the surgery datasets of the same seed family.
+`orientation` and `shape` need a second in-span direction, so fewer than three stages, or a
+configuration whose second singular value is at most `1e-8` times its first, is an error;
+`span_layers` without `stage_span`, and unknown, duplicated or empty layers, are rejected.
+
+Truth metadata records `construction`, `span_layers`, the effect parameters under `transform`
+(`scale`, `rotation_degrees`, `shape_stage`/`displacement`/`rescale`, or `offset_length`) and a
+`stage_span` block with the configuration's `path_length` and `mean_step`, the
+`intended_geometry` (net-displacement `delta`, `angle`, `shape` and path lengths in the
+null-standardized coordinates) and the `plant_norm` per stage. The population trajectories include
+the plant. Stage-span cells draw from no feature pool, so they have no surgery headroom and no
+realized-surgery summary. While both settings are unset every dataset, truth record, cell id and
+signature is byte-identical to the generator before they existed.
+
 ## Evaluation harness
 
 The evaluation harness runs one `SemiSyntheticTrajectoryDataset` through MOTCO integration and trajectory testing. It is the per-replicate layer used before larger Type I error or power grids.
@@ -215,8 +264,30 @@ Generated semi-synthetic datasets also expose exact group-stage population means
 | `population_standardized` | each omic and joint | Exact means under the replicate's pooled fitted feature scaling |
 | `observed_standardized` | each omic and joint | Geometry actually presented to integration, including finite sampling |
 | `pls_latent` | joint | Geometry retained in the fitted production PLS representation |
+| `population_latent` | joint | Exact population means seen through the replicate's fitted PLS basis (only with `span_capture`) |
 
 Every applicable scope records both group path lengths, pairwise `delta`, `angle`, and `shape`, and explicit availability flags. Joint native-space geometry is intentionally omitted because the unstandardized omic blocks use incompatible units. Raw distances across feature and latent checkpoints are not scale-equivalent; use the decomposition to locate changes in behavior rather than subtracting distances across spaces.
+
+**Span capture.** `SimulationEvaluationParams(span_capture=True)` (opt-in; `False` normalizes to the
+hash-omitted `None`) asks a `pls` evaluation how much of the population trajectories its fitted basis
+sees. It reuses the evaluation's own fitted model and preprocessor — nothing is refitted, so the latent
+matrix, rank, statistics and p-values are identical with and without it — and adds the
+`population_latent` checkpoint above plus a `span_capture` block. The block is computed in the model's
+input coordinates with an orthonormal (QR) basis of its rotations:
+
+| Field | Meaning |
+|---|---|
+| `group_difference` | Share of Σ_s‖d_s‖² inside the span, d_s the population B − A difference at stage s minus its mean over stages; `null` when the difference is the same at every stage (the anchor, a translation), which none of the three statistics can see |
+| `pooled_stage` | Share of the centred average stage means inside the span |
+| `rank`, `n_features`, `random_share` | The fitted rank, the measured feature count and `rank / n_features`, the expected share of a random direction |
+
+The shares are energy (squared-norm) shares. For a single direction the plasmode check's
+`latent_capture.py` reported the norm share ‖Qᵀd‖/‖d‖, the square root of this one. Other integration
+methods, and datasets without population trajectories, record neither the checkpoint nor the block.
+
+**Stage-span guard.** A dataset generated with `construction="stage_span"` may only be measured on its
+span layers: the harness raises, before any preprocessing or fit, when `integration_params["layers"]`
+names other blocks, and the error names both block sets.
 
 See the [Phase 2 findings](../reports/realized-generator-geometry-2026-08-05.md) for the revised orientation and shape construction contracts and the matched-seed characterization command.
 
