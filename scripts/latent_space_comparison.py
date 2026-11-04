@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Latent-space comparison: five measurement spaces across alignment with the stage span (no R).
 
-The driver behind ``openspec/changes/latent-space-comparison/``. The stage-span
+The driver behind ``openspec/changes/archive/2026-11-04-latent-space-comparison/``. The stage-span
 pilot (2026-11-04) found that the production stage-supervised PLS space sees a
 group difference only through its component inside the fitted span. Ranking
 spaces on one construction is circular (a plant inside the span favours

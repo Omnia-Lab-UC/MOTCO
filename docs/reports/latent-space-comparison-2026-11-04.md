@@ -32,7 +32,7 @@ The stage-span pilot ([report](stage-span-pilot-2026-11-04.md)) established that
 - **Cluster:** partition `512x1024`, array 933442 (200 shards, throttle 80) on n1, n3 and n4; n2 and n11 excluded. BLAS pinned to one thread.
 - **Pre-flight:** the fast suite (2,212 passed), a local smoke of every design at 2 × 19 (84/84 units), and 28 units timed at 199 permutations.
 
-Details are in `PROVENANCE.txt` and `openspec/changes/latent-space-comparison/notes.md`.
+Details are in `PROVENANCE.txt` and `openspec/changes/archive/2026-11-04-latent-space-comparison/notes.md`.
 
 ## 2. Calibration of the weak design
 
