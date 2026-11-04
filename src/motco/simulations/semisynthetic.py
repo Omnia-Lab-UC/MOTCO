@@ -63,12 +63,50 @@ why the default fails loudly and truth metadata always records the nominal size,
 the realized size, and a ``censored`` flag. Silent clamping made distinct
 requested effects produce identical datasets and was reported as independent
 evidence; see ``docs/reports/geometry-audit-2026-09-01.md`` finding F2.
+
+**Stage-span construction (opt-in).** ``construction='stage_span'`` replaces
+the surgeries above with a measurement-defined sensitivity construction. It
+leaves both groups' indicators and effects at the baseline and instead edits
+group B's exact null population stage means inside the span of B's own stage
+configuration. The edit is made over ``span_layers`` (default: all three
+blocks) in analysed units (methylation M-values), each feature divided by its
+null population pooled SD — the within-cell variance (the reference covariance
+diagonal) plus the between-cell variance of the null means at the realized cell
+proportions, the population analogue of the pooled sample scaler. With ``z_s``
+B's standardized stage means, centroid ``c``, path length ``L``, mean step
+``L̄ = L / (S − 1)`` and ``u`` the unit net displacement:
+
+- ``magnitude``   -- ``c + (1 + e)(z_s − c)``: size ×(1 + e), as the joint surgery.
+- ``orientation`` -- a rigid rotation about ``c`` by ``θ = 90°·e`` (``e ≤ 2``)
+  in the plane of ``u`` and ``v``, the leading principal direction of the
+  configuration once its ``u`` components are removed: net-displacement
+  ``angle`` = θ, ``delta`` = ``shape`` = 0.
+- ``shape``       -- the stage the ``shape`` surgery perturbs moves ``e·L̄`` off
+  the chord between its neighbours (inside the span), then the configuration is
+  rescaled to path length ``L`` and recentred on ``c``: ``delta`` = ``angle`` = 0.
+- ``translation`` -- every stage moves ``e·L̄`` along ``u``: a constant offset
+  along the progression, the hardest in-span negative control.
+
+The plant is mapped back to analysed units and added to group B's cell means
+before sampling (``generate_omics(..., cell_shift_*=)``); blocks outside
+``span_layers`` are untouched. The construction draws no random numbers, so a
+stage-span dataset is the ``none`` dataset at the same seed plus the plant. It
+is circular by design — it plants where the stage-supervised measurement looks
+— and answers how sensitive the test is to a difference it can see, not how
+visible the biologically grounded surgeries are. ``orientation`` and ``shape``
+need a second in-span direction: fewer than three stages, or a configuration
+whose second singular value is at most ``1e-8`` times its first, is an error.
+Truth records the construction, the span layers, the effect parameters, the
+intended population geometry in the null-standardized coordinates and the
+plant's norm per stage; the population trajectories include the plant.
+``construction='surgery'`` normalizes to ``None``, the default, so every
+surgery dataset, cell id and signature is unchanged.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Literal, Sequence
+from typing import Any, Literal, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -81,18 +119,31 @@ from motco.simulations.generator import (
     omic_population_means,
 )
 from motco.simulations.reference import IntersimReference, load_reference
+from motco.stats.trajectory import estimate_difference
 
 OmicsLayer = Literal["methylation", "expression", "proteomics"]
 TrajectoryMode = Literal["none", "translation", "magnitude", "orientation", "shape"]
 ShapeKind = Literal["relocate", "magnitude"]
 MagnitudeKind = Literal["all", "extremes", "joint"]
 SurgeryCensoring = Literal["error", "clamp"]
+Construction = Literal["surgery", "stage_span"]
 
 _OMICS_LAYERS: tuple[OmicsLayer, ...] = ("methylation", "expression", "proteomics")
 _MODES = frozenset({"none", "translation", "magnitude", "orientation", "shape"})
 _SHAPE_KINDS = frozenset({"relocate", "magnitude"})
 _MAGNITUDE_KINDS = frozenset({"all", "extremes", "joint"})
 _SURGERY_CENSORINGS = frozenset({"error", "clamp"})
+_CONSTRUCTIONS = frozenset({"surgery", "stage_span"})
+
+#: Largest stage-span orientation effect: ``e = 2`` rotates the configuration by 180°.
+STAGE_SPAN_MAX_ORIENTATION_EFFECT = 2.0
+
+#: A stage-span configuration whose second singular value is at most this
+#: fraction of its first has no second in-span direction.
+STAGE_SPAN_RANK_TOLERANCE = 1e-8
+
+#: A pooled population SD below this keeps unit scale, as the sample scaler does.
+_SCALE_TOLERANCE = 1e-10
 
 
 class SemiSyntheticTrajectoryError(ValueError):
@@ -132,6 +183,13 @@ class SemiSyntheticTrajectoryParams:
     ``"clamp"`` only to reproduce a historical run or for exploratory work where
     a partial surgery is acceptable — under it the requested effect no longer
     labels the realized construction.
+    ``construction`` selects how the effect modes are realized: ``None`` (the
+    default; ``"surgery"`` normalizes to it) is the feature-set surgery,
+    ``"stage_span"`` the opt-in stage-span construction described in the module
+    docstring. ``span_layers`` names the blocks the stage span is computed over
+    (``None`` = all three, canonical order) and is accepted only under
+    ``stage_span``. Both are omitted from cell ids and signatures while
+    ``None``.
     """
 
     seed: int
@@ -151,6 +209,19 @@ class SemiSyntheticTrajectoryParams:
     surgery_censoring: SurgeryCensoring = "error"
     stage_sample_prop: tuple[float, ...] | None = None
     group_stage_sizes: tuple[tuple[int, ...], tuple[int, ...]] | None = None
+    construction: Construction | None = None
+    span_layers: tuple[OmicsLayer, ...] | None = None
+
+    def __post_init__(self) -> None:
+        if self.construction == "surgery":
+            object.__setattr__(self, "construction", None)
+        layers = self.span_layers
+        if layers is not None and not isinstance(layers, str | bytes) and isinstance(layers, Sequence):
+            names = tuple(str(layer) for layer in layers)
+            if set(names) <= set(_OMICS_LAYERS) and len(set(names)) == len(names):
+                # Canonical order, so equal span sets hash equally.
+                names = tuple(layer for layer in _OMICS_LAYERS if layer in names)
+            object.__setattr__(self, "span_layers", names)
 
 
 #: Proportional sizing fields that conflict with an explicit ``group_stage_sizes``.
@@ -205,16 +276,28 @@ def generate_semisynthetic_trajectory(
         group_a_sizes, group_b_sizes = _group_stage_sizes(stage_sizes, params)
 
     methyl_a = _baseline_methyl(rng, ref, params)
-    methyl_b, deltas_b, transform_meta = _transform_group_b(rng, ref, params, methyl_a)
     deltas_a = (params.delta_methyl, params.delta_expr, params.delta_protein)
+    transform_meta: dict[str, Any]
+    if params.construction == "stage_span":
+        # Draws nothing: B keeps A's indicators and effects, so the stream is the
+        # ``none`` stream and B's plant is added to its cell means below.
+        methyl_b, deltas_b, transform_meta = methyl_a.copy(), deltas_a, {}
+    else:
+        methyl_b, deltas_b, transform_meta = _transform_group_b(rng, ref, params, methyl_a)
 
     indicators_a = _derive_group(methyl_a, ref)
     indicators_b = _derive_group(methyl_b, ref)
 
+    plant: _StageSpanPlant | None = None
+    if params.construction == "stage_span":
+        plant = _stage_span_plant(ref, params, indicators_a, deltas_a, group_a_sizes, group_b_sizes)
+        transform_meta = plant.transform
+    shifts_b = plant.shifts if plant is not None else None
+
     gen_a = _generate_group(rng, ref, indicators_a, deltas_a, group_a_sizes)
-    gen_b = _generate_group(rng, ref, indicators_b, deltas_b, group_b_sizes)
+    gen_b = _generate_group(rng, ref, indicators_b, deltas_b, group_b_sizes, shifts=shifts_b)
     population_trajectories = _build_population_trajectories(
-        ref, params, indicators_a, indicators_b, deltas_a, deltas_b
+        ref, params, indicators_a, indicators_b, deltas_a, deltas_b, shifts_b=shifts_b
     )
 
     methylation, expression, proteomics, metadata = _assemble(
@@ -226,6 +309,8 @@ def generate_semisynthetic_trajectory(
             params.group_labels[0]: list(group_a_sizes),
             params.group_labels[1]: list(group_b_sizes),
         }
+    if plant is not None:
+        truth.update(plant.truth)
 
     return SemiSyntheticTrajectoryDataset(
         methylation=methylation,
@@ -270,6 +355,7 @@ def _validate_params(params: SemiSyntheticTrajectoryParams) -> None:
         )
     if params.n_stages < 2:
         raise SemiSyntheticTrajectoryError("n_stages must be at least 2.")
+    validate_construction(params)
     if params.trajectory_mode == "shape" and params.n_stages < 3:
         raise SemiSyntheticTrajectoryError("trajectory_mode='shape' requires at least three stages.")
     for name in ("delta_methyl", "delta_expr", "delta_protein"):
@@ -282,6 +368,68 @@ def _validate_params(params: SemiSyntheticTrajectoryParams) -> None:
             raise SemiSyntheticTrajectoryError("stage_sample_prop must sum to 1.")
     if params.group_stage_sizes is not None:
         _validate_group_stage_sizes(params)
+
+
+def validate_construction(params: SemiSyntheticTrajectoryParams) -> None:
+    """Reject an unknown construction, misplaced or malformed span layers, or an infeasible stage-span edit."""
+
+    construction = params.construction
+    if construction is not None and construction not in _CONSTRUCTIONS:
+        raise SemiSyntheticTrajectoryError(
+            f"Unknown construction: {construction!r}; expected one of {sorted(_CONSTRUCTIONS)}."
+        )
+    if construction != "stage_span":
+        if params.span_layers is not None:
+            raise SemiSyntheticTrajectoryError(
+                f"span_layers {_display_layers(params.span_layers)} is set but construction is not "
+                "'stage_span'; span_layers names the blocks of the stage-span construction only."
+            )
+        return
+    resolve_span_layers(params)
+    mode = params.trajectory_mode
+    if mode in ("orientation", "shape") and params.n_stages < 3:
+        raise SemiSyntheticTrajectoryError(
+            f"construction='stage_span' with trajectory_mode={mode!r} needs at least three stages: "
+            f"the stage span of a {params.n_stages}-stage configuration has no second direction."
+        )
+    if mode == "orientation" and params.group_effect_size > STAGE_SPAN_MAX_ORIENTATION_EFFECT:
+        raise SemiSyntheticTrajectoryError(
+            f"construction='stage_span' orientation rotates by 90°·e, so group_effect_size must be at most "
+            f"{STAGE_SPAN_MAX_ORIENTATION_EFFECT:g} (180°); got {params.group_effect_size}."
+        )
+
+
+def resolve_span_layers(params: SemiSyntheticTrajectoryParams) -> tuple[OmicsLayer, ...]:
+    """The blocks a stage-span construction is computed over, in canonical order.
+
+    ``None`` means all three blocks. A declared set must be non-empty, known
+    and duplicate-free; anything else is an error naming the value.
+    """
+
+    raw = params.span_layers
+    if raw is None:
+        return _OMICS_LAYERS
+    if isinstance(raw, str | bytes) or not isinstance(raw, Sequence):
+        raise SemiSyntheticTrajectoryError(
+            f"span_layers must be a list of layer names from {list(_OMICS_LAYERS)}; got {raw!r}."
+        )
+    names = [str(layer) for layer in raw]
+    if not names:
+        raise SemiSyntheticTrajectoryError(
+            f"span_layers must not be empty; allowed layers: {list(_OMICS_LAYERS)}."
+        )
+    unknown = sorted(set(names) - set(_OMICS_LAYERS))
+    if unknown:
+        raise SemiSyntheticTrajectoryError(
+            f"span_layers names unknown layer(s) {unknown}; allowed layers: {list(_OMICS_LAYERS)}."
+        )
+    if len(set(names)) != len(names):
+        raise SemiSyntheticTrajectoryError(f"span_layers repeats a layer: {names}.")
+    return tuple(layer for layer in _OMICS_LAYERS if layer in names)
+
+
+def _display_layers(layers: Any) -> Any:
+    return list(layers) if isinstance(layers, tuple | list) else layers
 
 
 def _validate_group_stage_sizes(params: SemiSyntheticTrajectoryParams) -> None:
@@ -624,6 +772,8 @@ def _generate_group(
     indicators: _GroupIndicators,
     deltas: tuple[float, float, float],
     cell_sizes: list[int],
+    *,
+    shifts: Mapping[OmicsLayer, np.ndarray] | None = None,
 ) -> GeneratedOmics:
     return generate_omics(
         cell_sizes=cell_sizes,
@@ -635,7 +785,17 @@ def _generate_group(
         delta_protein=deltas[2],
         rng=rng,
         reference=ref,
+        **_cell_shift_kwargs(shifts),
     )
+
+
+def _cell_shift_kwargs(shifts: Mapping[OmicsLayer, np.ndarray] | None) -> dict[str, np.ndarray | None]:
+    shifts = shifts or {}
+    return {
+        "cell_shift_methyl": shifts.get("methylation"),
+        "cell_shift_expr": shifts.get("expression"),
+        "cell_shift_protein": shifts.get("proteomics"),
+    }
 
 
 def _assemble(
@@ -733,10 +893,20 @@ def _build_population_trajectories(
     indicators_b: _GroupIndicators,
     deltas_a: tuple[float, float, float],
     deltas_b: tuple[float, float, float],
+    *,
+    shifts_b: Mapping[OmicsLayer, np.ndarray] | None = None,
 ) -> PopulationTrajectories:
-    """Build exact population trajectories using the generator's mean contract."""
+    """Build exact population trajectories using the generator's mean contract.
 
-    def means(indicators: _GroupIndicators, deltas: tuple[float, float, float]) -> dict[str, np.ndarray]:
+    ``shifts_b`` is group B's stage-span plant, if any, so its population means
+    are the ones its samples were drawn from.
+    """
+
+    def means(
+        indicators: _GroupIndicators,
+        deltas: tuple[float, float, float],
+        shifts: Mapping[OmicsLayer, np.ndarray] | None = None,
+    ) -> dict[str, np.ndarray]:
         return omic_population_means(
             indicators_methyl=indicators.methyl,
             indicators_expr=indicators.expr,
@@ -745,11 +915,12 @@ def _build_population_trajectories(
             delta_expr=deltas[1],
             delta_protein=deltas[2],
             reference=ref,
+            **_cell_shift_kwargs(shifts),
         )
 
     by_group = {
         params.group_labels[0]: means(indicators_a, deltas_a),
-        params.group_labels[1]: means(indicators_b, deltas_b),
+        params.group_labels[1]: means(indicators_b, deltas_b, shifts_b),
     }
     feature_names = {
         "methylation": ref.cpg_names,
@@ -765,6 +936,244 @@ def _build_population_trajectories(
         values = np.vstack([by_group[group][layer] for group in params.group_labels])
         layers[layer] = pd.DataFrame(values, index=index, columns=feature_names[layer])
     return PopulationTrajectories(layers=layers)
+
+
+# --------------------------------------------------------------------------- #
+# Stage-span construction
+# --------------------------------------------------------------------------- #
+
+
+@dataclass(frozen=True)
+class _StageSpanPlant:
+    """Group B's stage-span plant in analysed units, with its truth notes.
+
+    ``shifts`` maps each span layer to a ``(n_features, n_stages)`` mean shift
+    (methylation in M-values) and is empty for a null plant, so a null cell
+    samples exactly as ``none`` does.
+    """
+
+    shifts: dict[OmicsLayer, np.ndarray]
+    transform: dict[str, Any]
+    truth: dict[str, Any]
+
+
+def null_pooled_scale(
+    null_means: Mapping[str, np.ndarray],
+    stage_weights: Sequence[float] | np.ndarray,
+    *,
+    layers: Sequence[str],
+    reference: IntersimReference,
+) -> np.ndarray:
+    """Null population pooled SD per feature, concatenated over ``layers``.
+
+    ``null_means[layer]`` holds the null stage means (``(n_stages, n_features)``,
+    analysed units), shared by both groups, and ``stage_weights`` each stage's
+    share of all samples. The variance is the within-cell variance (the
+    reference covariance diagonal) plus the between-cell variance of the null
+    means at those weights — the population analogue of the pooled sample
+    scaler (``ddof = 0``). A feature whose SD is (numerically) zero keeps unit
+    scale, as the sample scaler does.
+    """
+
+    weights = np.asarray(stage_weights, dtype=float)
+    weights = weights / weights.sum()
+    within = {
+        "methylation": np.diag(reference.cov_M),
+        "expression": np.diag(reference.cov_expr),
+        "proteomics": np.diag(reference.cov_protein),
+    }
+    scales = []
+    for layer in layers:
+        means = np.asarray(null_means[layer], dtype=float)
+        pooled_mean = weights @ means
+        between = weights @ (means - pooled_mean) ** 2
+        scale = np.sqrt(within[layer] + between)
+        scale[scale < _SCALE_TOLERANCE] = 1.0
+        scales.append(scale)
+    return np.concatenate(scales)
+
+
+def _stage_span_plant(
+    ref: IntersimReference,
+    params: SemiSyntheticTrajectoryParams,
+    indicators: _GroupIndicators,
+    deltas: tuple[float, float, float],
+    a_sizes: Sequence[int],
+    b_sizes: Sequence[int],
+) -> _StageSpanPlant:
+    """Edit B's standardized null stage means and map the edit back to analysed units."""
+
+    layers = resolve_span_layers(params)
+    null_means = omic_population_means(
+        indicators_methyl=indicators.methyl,
+        indicators_expr=indicators.expr,
+        indicators_protein=indicators.protein,
+        delta_methyl=deltas[0],
+        delta_expr=deltas[1],
+        delta_protein=deltas[2],
+        reference=ref,
+    )
+    stage_weights = np.asarray(a_sizes, dtype=float) + np.asarray(b_sizes, dtype=float)
+    scale = null_pooled_scale(null_means, stage_weights, layers=layers, reference=ref)
+    configuration = np.hstack([null_means[layer] for layer in layers])
+    z = (configuration - stage_weights @ configuration / stage_weights.sum()) / scale
+
+    null = params.trajectory_mode == "none" or params.group_effect_size == 0
+    effect: dict[str, Any]
+    if null:
+        edited, effect = z, {}
+    else:
+        edited, effect = edit_stage_configuration(z, params.trajectory_mode, float(params.group_effect_size))
+    plant = edited - z
+
+    shifts: dict[OmicsLayer, np.ndarray] = {}
+    if not null:
+        offset = 0
+        plant_units = plant * scale
+        for layer in layers:
+            width = null_means[layer].shape[1]
+            shifts[layer] = plant_units[:, offset : offset + width].T.copy()
+            offset += width
+
+    label_a, label_b = params.group_labels
+    geometry = _intended_geometry(z, edited, (label_a, label_b))
+    transform = {} if null else {"construction": "stage_span", **effect}
+    truth = {
+        "construction": "stage_span",
+        "span_layers": list(layers),
+        "stage_span": {
+            "units": "null_standardized",
+            "path_length": _path_length(z),
+            "mean_step": _path_length(z) / (z.shape[0] - 1),
+            "intended_geometry": geometry,
+            "plant_norm": [float(norm) for norm in np.linalg.norm(plant, axis=1)],
+        },
+    }
+    return _StageSpanPlant(shifts=shifts, transform=transform, truth=truth)
+
+
+def edit_stage_configuration(
+    z: np.ndarray,
+    mode: str,
+    effect: float,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Apply one stage-span edit to a stage configuration ``z`` (stages × features).
+
+    Returns the edited configuration and the effect parameters, in the units of
+    ``z``. See the module docstring for the four edits; ``orientation`` and
+    ``shape`` raise when the configuration has no second in-span direction.
+    """
+
+    z = np.asarray(z, dtype=float)
+    n_stages = z.shape[0]
+    centroid = z.mean(axis=0)
+    centered = z - centroid
+    path_length = _path_length(z)
+    mean_step = path_length / (n_stages - 1)
+
+    if mode == "magnitude":
+        scale = 1.0 + effect
+        return centroid + scale * centered, {"scale": scale}
+
+    net = z[-1] - z[0]
+    net_norm = float(np.linalg.norm(net))
+    if net_norm <= STAGE_SPAN_RANK_TOLERANCE * max(path_length, np.finfo(float).tiny):
+        raise SemiSyntheticTrajectoryError(
+            f"construction='stage_span' {mode} needs a net displacement, but the stage configuration "
+            "returns to its first stage."
+        )
+    u = net / net_norm
+
+    if mode == "translation":
+        offset = effect * mean_step
+        return z + offset * u, {"offset_length": offset}
+
+    if mode not in ("orientation", "shape"):
+        raise SemiSyntheticTrajectoryError(f"Unknown stage-span trajectory_mode: {mode}")
+    if n_stages < 3:
+        raise SemiSyntheticTrajectoryError(
+            f"construction='stage_span' {mode} needs at least three stages: the stage span of a "
+            f"{n_stages}-stage configuration has no second direction."
+        )
+    singular = np.linalg.svd(centered, compute_uv=False)
+    if singular.size < 2 or singular[1] <= STAGE_SPAN_RANK_TOLERANCE * singular[0]:
+        raise SemiSyntheticTrajectoryError(
+            f"construction='stage_span' {mode}: the stage span has no second direction (second singular "
+            f"value {float(singular[1]) if singular.size > 1 else 0.0:.3g} against a first of "
+            f"{float(singular[0]):.3g})."
+        )
+
+    if mode == "orientation":
+        v = _leading_direction(centered - np.outer(centered @ u, u))
+        theta = np.deg2rad(90.0 * effect)
+        along_u = centered @ u
+        along_v = centered @ v
+        rotated = (
+            centered
+            + (np.cos(theta) - 1.0) * (np.outer(along_u, u) + np.outer(along_v, v))
+            + np.sin(theta) * (np.outer(along_u, v) - np.outer(along_v, u))
+        )
+        return centroid + rotated, {"rotation_degrees": float(90.0 * effect)}
+
+    interior = list(range(1, n_stages - 1))
+    stage = interior[len(interior) // 2]  # the stage the shape surgery perturbs
+    chord = z[stage + 1] - z[stage - 1]
+    chord_norm = float(np.linalg.norm(chord))
+    off_chord = z[stage] - z[stage - 1]
+    if chord_norm > 0:
+        chord_unit = chord / chord_norm
+        off_chord = off_chord - (off_chord @ chord_unit) * chord_unit
+    else:
+        chord_unit = np.zeros_like(chord)
+    if float(np.linalg.norm(off_chord)) > STAGE_SPAN_RANK_TOLERANCE * mean_step:
+        direction = off_chord / np.linalg.norm(off_chord)
+    else:
+        # The stage sits on its chord: bend along the configuration's leading
+        # in-span direction perpendicular to the chord.
+        direction = _leading_direction(centered - np.outer(centered @ chord_unit, chord_unit))
+    displacement = effect * mean_step
+    bent = z.copy()
+    bent[stage] = bent[stage] + displacement * direction
+    rescale = path_length / _path_length(bent)
+    edited = centroid + rescale * (bent - bent.mean(axis=0))
+    return edited, {"shape_stage": stage, "displacement": float(displacement), "rescale": float(rescale)}
+
+
+def _leading_direction(matrix: np.ndarray) -> np.ndarray:
+    """Unit leading right singular vector, signed so its largest stage score is positive."""
+
+    left, singular, right = np.linalg.svd(matrix, full_matrices=False)
+    if singular.size == 0 or singular[0] <= 0:
+        raise SemiSyntheticTrajectoryError("construction='stage_span': the stage span has no second direction.")
+    direction = right[0]
+    scores = left[:, 0]
+    if scores[int(np.argmax(np.abs(scores)))] < 0:
+        direction = -direction
+    return direction
+
+
+def _path_length(configuration: np.ndarray) -> float:
+    return float(np.linalg.norm(np.diff(configuration, axis=0), axis=1).sum())
+
+
+def _intended_geometry(z: np.ndarray, edited: np.ndarray, labels: tuple[str, str]) -> dict[str, Any]:
+    """Population ``delta`` / net-displacement ``angle`` / ``shape`` of B's edit against A."""
+
+    n_stages = z.shape[0]
+    ordered = np.vstack([z, edited])
+    identity = np.eye(2 * n_stages)
+    contrast = [list(range(n_stages)), list(range(n_stages, 2 * n_stages))]
+    deltas, angles, shapes = estimate_difference(
+        ordered, identity, identity, contrast, orientation_estimator="net_displacement"
+    )
+    angle = float(angles[0, 1])
+    return {
+        "orientation_estimator": "net_displacement",
+        "path_lengths": {labels[0]: _path_length(z), labels[1]: _path_length(edited)},
+        "delta": float(deltas[0, 1]),
+        "angle": angle if np.isfinite(angle) else None,
+        "shape": float(shapes[0, 1]) if n_stages >= 3 else None,
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -826,8 +1235,9 @@ def expected_surgery_headroom(
     """Expected destination-pool headroom for ``params``'s pool-limited surgery.
 
     Returns ``None`` for modes that perform no pool-limited surgery (``none``,
-    ``magnitude``, and ``shape`` with ``shape_kind='magnitude'``), and for a
-    zero effect, where the transform short-circuits to group A's baseline.
+    ``magnitude``, and ``shape`` with ``shape_kind='magnitude'``), for a
+    zero effect, where the transform short-circuits to group A's baseline, and
+    for the stage-span construction, which draws from no feature pool.
 
     Orientation and shape use the expected stage-active fraction under the
     baseline's Markov continuity ρ,
@@ -845,7 +1255,7 @@ def expected_surgery_headroom(
     _validate_params(params)
     mode = params.trajectory_mode
     effect = float(params.group_effect_size)
-    if mode not in POOL_LIMITED_MODES or effect == 0.0:
+    if params.construction == "stage_span" or mode not in POOL_LIMITED_MODES or effect == 0.0:
         return None
     if mode == "shape" and params.shape_kind != "relocate":
         return None
@@ -920,6 +1330,12 @@ def affected_omics_layers() -> tuple[OmicsLayer, ...]:
     """Canonical omic-layer order."""
 
     return _OMICS_LAYERS
+
+
+def list_constructions() -> Sequence[Construction]:
+    """All supported constructions (``surgery`` is the default)."""
+
+    return ("surgery", "stage_span")
 
 
 def list_trajectory_modes() -> Sequence[TrajectoryMode]:

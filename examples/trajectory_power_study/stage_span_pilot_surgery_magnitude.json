@@ -1,0 +1,139 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 200,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 2.0,
+    "delta_expr": 2.0,
+    "delta_protein": 2.0,
+    "magnitude_kind": "joint"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 199,
+    "n_jobs": 1,
+    "seed": 3,
+    "span_capture": true
+  },
+  "trajectory_modes": [
+    "magnitude"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "generator.n_samples": 200,
+        "generator.group_stage_sizes": null
+      },
+      {
+        "generator.n_samples": 80,
+        "generator.group_stage_sizes": null
+      },
+      {
+        "generator.n_samples": 600,
+        "generator.group_stage_sizes": [
+          [
+            11,
+            10,
+            28
+          ],
+          [
+            9,
+            10,
+            12
+          ]
+        ]
+      }
+    ]
+  },
+  "n_replicates": 100,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "stage-span-pilot-surgery-magnitude",
+    "phase": 5,
+    "intent": "Stage-span pilot, surgery magnitude profile: pilot-grade Type I, power and span capture of the delta / angle / shape RRPP tests under the surgery construction at n = 200, n = 80 and the SEA-AD table (three stages, methylation + expression), under the production measurement (pooled PLS with the stage-supervised double-CV rank, net-displacement orientation, rank floor 2, joint magnitude); 100 replicates x 199 permutations.",
+    "derives_from": "examples/trajectory_power_study/design_guidance_core_magnitude_pilot.json",
+    "sibling_profiles": [
+      "examples/trajectory_power_study/stage_span_pilot_span_magnitude.json",
+      "examples/trajectory_power_study/stage_span_pilot_surgery_geometry.json",
+      "examples/trajectory_power_study/stage_span_pilot_span_geometry.json"
+    ],
+    "notes": [
+      "Stage-span pilot (change stage-span-constructions, 0.15.0): four sibling profiles {surgery, stage-span} x {magnitude, geometry} that pair the feature-set surgeries with the stage-span construction on the same baseline programs and noise. The stage-span construction edits group B's exact null population stage means inside the span of B's own stage configuration (pooled-standardized over the span layers), so its plant lies where the stage-supervised PLS measurement looks; the surgeries are the biologically grounded default. Every profile turns on evaluation.span_capture, which adds the population_latent checkpoint and the span_capture shares (how much of each plant the fitted basis sees) without changing any statistic.",
+      "This is the surgery sibling: generator.construction and span_layers unset (the default surgery). At the n = 200 and n = 80 columns every cell evaluates the same dataset, with the same RRPP draws, as the matching cell of the 2026-10-28 design-guidance pilot (same seed family, base seed, generator and evaluation; span capture changes no statistic), so its records reproduce that pilot's statistics and p-values cell by cell (scripts/anchor_reproduction.py --by-cell).",
+      "Explicit design points over generator.n_samples and generator.group_stage_sizes, all at three stages measured on methylation + expression: n = 200 balanced (the baseline, served by the primary grid), n = 80 balanced, and the Phase 6 SEA-AD MTG table [[11, 10, 28], [9, 10, 12]] (80 donors, unequal cells), which keeps the default n_samples (600) because the size table conflicts with a non-default proportional setting. The table column is the case-study design under the design-guidance generator (stage delta 2.0), not the case-study configuration.",
+      "Modes magnitude at e = 0.02, 0.05 and 0.1 (the slice's grid).",
+      "Constructions are compared as sibling profiles, never as a design axis (design D7): every zero-effect cell clears construction and span_layers, so at each column the stage-span profile's anchor is the very cell (id, signature, matched seed, dataset) of its surgery sibling's anchor, and the four profiles' anchors evaluate the same datasets. The reading reads one anchor per column and uses the others as reproduction checks; it never pools them.",
+      "Cells and cost: 2 Type I baselines + 3 columns x (1 anchor + 3 mode-effect cells) = 14 cells, 1,400 work units at 100 replicates. The four profiles total 92 cells / 9,200 units (8,400 without the Type I baselines; the shared Type I null cell is the same cell in all four profiles). Planning figure about 60 core-hours for the four on ing at the design-guidance pilot's 26 core-seconds per unit with a 20% margin; the local smoke (task 10.1) sets the final figure.",
+      "acceptance: a type_i entry and the advisory anchor_decision (alpha 0.05, k = 2, delta/angle/shape; bound 0.0936 at R = 100), as in the design-guidance pilot. The advisory reading (scripts/stage_span_pilot_reading.py) reads the four reports: R1 stage-span translation at or below the bound, R2 median group_difference capture >= 0.90 in every stage-span magnitude/orientation/shape cell, R3 their off-target rates at or below the bound -> propose_paper_grade | revise_construction.",
+      "Production measurement named, not defaulted: orientation_estimator net_displacement, min_components 2 and magnitude_kind joint. This is a post-floor config pinned in tests/data/post_floor_config_identity.json. surgery_censoring stays at its default ('error'); stage-span cells draw from no feature pool and skip the headroom check. Do not pass --n-jobs; parallelize across shards."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "6:00:00",
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "out_dir": "results/stage-span-pilot-<date>/surgery_magnitude",
+      "timing_basis": "design-guidance pilot (2026-10-28, ing): 10.7 / 13.2 s per unit at n = 80 / 200 (3 stages, 2 blocks, 199 permutations) in the smoke, 26 core-seconds per unit over the run; span capture adds one transform and one QR per unit. Final figure from the local smoke (task 10.1)."
+    }
+  }
+}

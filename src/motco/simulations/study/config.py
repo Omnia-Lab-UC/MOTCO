@@ -11,10 +11,14 @@ from pathlib import Path
 from typing import Any
 
 from motco.simulations.evaluation import AttributionDiagnosticSettings, SimulationEvaluationParams
-from motco.simulations.grid import SimulationGridError, _split_axis
+from motco.simulations.grid import SimulationGridError, _apply_axis_value, _split_axis
+from motco.simulations.preprocessing import selected_layers
 from motco.simulations.semisynthetic import (
     _MAGNITUDE_KINDS,
+    SemiSyntheticTrajectoryError,
     SemiSyntheticTrajectoryParams,
+    resolve_span_layers,
+    validate_construction,
 )
 
 _TRAJECTORY_MODES = {"none", "translation", "magnitude", "orientation", "shape"}
@@ -28,6 +32,8 @@ _STATISTICS = {"delta", "angle", "shape"}
 _ATTRIBUTION_COMPONENTS = ("observed", "pls_captured", "residual")
 _N_JOBS_OVERRIDE_POLICIES = ("forbid", "warn")
 _DRIVER_AGREEMENT_DESCRIPTIVE = "descriptive"
+#: Constructions are compared as sibling profiles in one seed family, never as an axis.
+_CONSTRUCTION_AXIS = "generator.construction"
 _ROOT_KEYS = {
     "generator",
     "evaluation",
@@ -697,7 +703,9 @@ class StudyConfig:
                 raise StudyConfigError(f"effect_sizes must be non-negative; got {value}.")
         for axis in self.axes:
             _validate_axis_namespace(axis)
+        self._reject_construction_axis()
         self._validate_design_grid()
+        self._validate_span_layers()
         self._validate_rank_decision()
         self._validate_column_decision()
         if not (0 < self.alpha < 1):
@@ -725,6 +733,47 @@ class StudyConfig:
                         f"attribution.effect_sizes select effect(s) absent from effect_sizes: {missing}."
                     )
 
+
+    def _reject_construction_axis(self) -> None:
+        declared = [
+            label
+            for label, axes in (("axes", self.axes), ("design_grid", self.design_grid.axes))
+            if _CONSTRUCTION_AXIS in axes
+        ]
+        if declared:
+            raise StudyConfigError(
+                f"{declared[0]} declares {_CONSTRUCTION_AXIS!r}; constructions are compared as sibling profiles "
+                "in one seed family (identical except generator.construction and generator.span_layers), not as "
+                "an axis, so their anchors share one cell and one dataset."
+            )
+
+    def _validate_span_layers(self) -> None:
+        """A stage-span column must measure exactly its span layers, at every column."""
+
+        columns: list[tuple[str, Mapping[str, Any]]] = [("baseline", {})]
+        for axis, values in self.axes.items():
+            columns.extend((f"axes[{axis!r}]={_display_axis_value(axis, value)!r}", {axis: value}) for value in values)
+        columns.extend(
+            (f"design point {_display_point(point)}", point)
+            for point in self.design_points()
+            if not self.is_baseline_design_point(point)
+        )
+        for label, point in columns:
+            generator, evaluation = self.generator, self.evaluation
+            for axis, value in point.items():
+                generator, evaluation = _apply_axis_value(generator, evaluation, axis, value)
+            if generator.construction != "stage_span":
+                continue
+            try:
+                span = resolve_span_layers(generator)
+                measured = selected_layers(evaluation.integration_params)
+            except (SemiSyntheticTrajectoryError, ValueError) as exc:
+                raise StudyConfigError(f"{label}: {exc}") from exc
+            if span != measured:
+                raise StudyConfigError(
+                    f"{label}: a stage-span column must be measured on its span layers; generator.span_layers is "
+                    f"{list(span)} but evaluation.integration_params.layers measures {list(measured)}."
+                )
 
     def _validate_design_grid(self) -> None:
         grid = self.design_grid
@@ -991,7 +1040,14 @@ def _build_generator(raw: Mapping[str, Any]) -> SemiSyntheticTrajectoryParams:
             f"generator.magnitude_kind {magnitude_kind!r} is unknown; "
             f"expected one of {sorted(_MAGNITUDE_KINDS)}."
         )
-    return SemiSyntheticTrajectoryParams(**kwargs)
+    params = SemiSyntheticTrajectoryParams(**kwargs)
+    # Likewise the construction and its span layers (a mode-specific stage-span
+    # error still surfaces per cell at enumeration).
+    try:
+        validate_construction(params)
+    except SemiSyntheticTrajectoryError as exc:
+        raise StudyConfigError(f"generator: {exc}") from exc
+    return params
 
 
 def _build_evaluation(raw: Mapping[str, Any]) -> SimulationEvaluationParams:
@@ -1586,13 +1642,14 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
         "generator": {
             key: value
             for key, value in _dataclass_dict(config.generator).items()
-            if not (key == "group_stage_sizes" and value is None)
+            if not (key in _DUMP_OMIT_WHEN_NONE and value is None)
         },
         # PC1 is written ``"pc1"`` and the unfloored rank rule ``1``: a config
         # ``null`` names the evaluator's default.
         "evaluation": {
             key: _display_axis_value(f"evaluation.{key}", value)
             for key, value in _dataclass_dict(config.evaluation).items()
+            if not (key in _DUMP_OMIT_WHEN_NONE and value is None)
         },
         "trajectory_modes": list(config.trajectory_modes),
         "effect_sizes": list(config.effect_sizes),
@@ -1634,6 +1691,11 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
         ),
         "metadata": dict(config.metadata),
     }
+
+
+#: Unset optional parameters a dumped config leaves out, as the parameter
+#: signature does, so a config that never used them dumps unchanged.
+_DUMP_OMIT_WHEN_NONE = frozenset({"group_stage_sizes", "construction", "span_layers", "span_capture"})
 
 
 def _type_i_target_dict(target: TypeIControlTarget) -> dict[str, Any]:

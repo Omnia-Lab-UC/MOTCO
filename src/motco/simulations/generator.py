@@ -64,12 +64,17 @@ def omic_population_means(
     base_shift_methyl: np.ndarray | None = None,
     base_shift_expr: np.ndarray | None = None,
     base_shift_protein: np.ndarray | None = None,
+    cell_shift_methyl: np.ndarray | None = None,
+    cell_shift_expr: np.ndarray | None = None,
+    cell_shift_protein: np.ndarray | None = None,
 ) -> dict[str, np.ndarray]:
     """Return exact cell means in the units supplied to integration.
 
     Arrays have shape ``(n_cells, n_features)``. Methylation means are in
     pre-``rev_logit`` M-value units; expression and proteomics retain their
-    native generated units.
+    native generated units. ``cell_shift_*`` are optional per-cell mean shifts
+    shaped like the indicators, ``(n_features, n_cells)``, in the same units
+    (methylation in M-values); an absent shift leaves the means untouched.
     """
 
     ref = reference if reference is not None else load_reference()
@@ -78,9 +83,13 @@ def omic_population_means(
     rho_ep = np.zeros_like(ref.rho_expr_protein) if delta_protein == 0 else ref.rho_expr_protein
     base_protein = rho_ep * ref.mean_expr_with_mapped_protein + np.sqrt(1 - rho_ep**2) * ref.mean_protein
     return {
-        "methylation": _cell_means(ref.mean_M, delta_methyl, indicators_methyl, base_shift_methyl),
-        "expression": _cell_means(base_expr, delta_expr, indicators_expr, base_shift_expr),
-        "proteomics": _cell_means(base_protein, delta_protein, indicators_protein, base_shift_protein),
+        "methylation": _cell_means(
+            ref.mean_M, delta_methyl, indicators_methyl, base_shift_methyl, cell_shift_methyl
+        ),
+        "expression": _cell_means(base_expr, delta_expr, indicators_expr, base_shift_expr, cell_shift_expr),
+        "proteomics": _cell_means(
+            base_protein, delta_protein, indicators_protein, base_shift_protein, cell_shift_protein
+        ),
     }
 
 
@@ -212,11 +221,22 @@ def _cell_means(
     delta: float,
     indicators: np.ndarray,
     base_shift: np.ndarray | None = None,
+    cell_shift: np.ndarray | None = None,
 ) -> np.ndarray:
-    """Construct exact cell means with cells on rows and features on columns."""
+    """Construct exact cell means with cells on rows and features on columns.
+
+    ``cell_shift`` (``(n_features, n_cells)``, like ``indicators``) is added to
+    each cell's mean last; ``None`` takes the path used before it existed.
+    """
 
     shifted_base = base if base_shift is None else base + base_shift
-    return shifted_base[None, :] + delta * indicators.T
+    means = shifted_base[None, :] + delta * indicators.T
+    if cell_shift is None:
+        return means
+    shift = np.asarray(cell_shift, dtype=float)
+    if shift.shape != indicators.shape:
+        raise GeneratorError(f"cell shift must have shape {indicators.shape}; got {shift.shape}")
+    return means + shift.T
 
 
 def _resolve_cov(
@@ -248,6 +268,9 @@ def generate_omics(
     base_shift_methyl: np.ndarray | None = None,
     base_shift_expr: np.ndarray | None = None,
     base_shift_protein: np.ndarray | None = None,
+    cell_shift_methyl: np.ndarray | None = None,
+    cell_shift_expr: np.ndarray | None = None,
+    cell_shift_protein: np.ndarray | None = None,
 ) -> GeneratedOmics:
     """Generate aligned omics matrices from explicit per-cell indicators.
 
@@ -255,7 +278,10 @@ def generate_omics(
     mean ``base + delta * indicator`` and the reference covariance, exactly as
     InterSIM does. Methylation is shifted in M-value (logit) space and then
     passed through :func:`rev_logit`; expression and protein means carry the
-    InterSIM cross-omic blend.
+    InterSIM cross-omic blend. ``cell_shift_*`` add an optional per-cell mean
+    shift (``(n_features, n_cells)``; methylation in M-values, before
+    :func:`rev_logit`) and draw no random numbers, so at a fixed ``rng`` the
+    samples move by exactly the shift.
     """
 
     ref = reference if reference is not None else load_reference()
@@ -287,6 +313,9 @@ def generate_omics(
         base_shift_methyl=base_shift_methyl,
         base_shift_expr=base_shift_expr,
         base_shift_protein=base_shift_protein,
+        cell_shift_methyl=cell_shift_methyl,
+        cell_shift_expr=cell_shift_expr,
+        cell_shift_protein=cell_shift_protein,
     )
 
     # Methylation: additive shift in M-value space, then inverse-logit.

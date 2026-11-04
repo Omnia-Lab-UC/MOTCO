@@ -142,8 +142,20 @@ class SimulationEvaluationParams:
     # so floor-1 cell ids, signatures and records equal those produced before
     # the field existed. PLS only; the other integration methods ignore it.
     min_components: int | None = 2
+    # Opt-in span-capture diagnostic: with PLS integration, realized geometry
+    # gains the ``population_latent`` checkpoint and the ``span_capture`` shares,
+    # computed from the evaluation's own fitted model (no refit; statistics are
+    # unchanged). ``None`` (off) is hash-omitted and ``False`` normalizes to it,
+    # so an evaluation without it is byte-identical to before the field existed.
+    span_capture: bool | None = None
 
     def __post_init__(self) -> None:
+        if self.span_capture is not None and not isinstance(self.span_capture, bool | np.bool_):
+            raise SimulationEvaluationError(
+                f"SimulationEvaluationParams.span_capture must be true or false, got {self.span_capture!r}."
+            )
+        if self.span_capture is not None:
+            object.__setattr__(self, "span_capture", True if bool(self.span_capture) else None)
         floor = self.min_components
         if floor is not None:
             floor = _validate_min_components(floor, where="SimulationEvaluationParams.min_components")
@@ -346,6 +358,7 @@ def evaluate_semisynthetic_trajectory(
 
     params = params or SimulationEvaluationParams()
     _validate_evaluation_params(params)
+    _require_span_layers_measured(dataset, params.integration_params)
     start = perf_counter()
 
     preprocessor = fit_omics_preprocessor(dataset, _measured_layers(params.integration_params))
@@ -435,7 +448,16 @@ def evaluate_semisynthetic_trajectory(
         runtime_metadata["orientation_estimator"] = params.orientation_estimator
     if params.min_components is not None:
         runtime_metadata["min_components"] = params.min_components
+    if params.span_capture is not None:
+        runtime_metadata["span_capture"] = params.span_capture
     latent_checkpoint = _LATENT_CHECKPOINTS.get(params.integration_method)
+    # Span capture reads the PLS model the statistics were measured in; other
+    # integration methods have none and record nothing.
+    span_model = (
+        latent.artifacts.model
+        if params.span_capture and params.integration_method == "pls" and latent.artifacts is not None
+        else None
+    )
     realized_geometry = calculate_realized_geometry(
         dataset,
         preprocessor=preprocessor,
@@ -445,6 +467,7 @@ def evaluate_semisynthetic_trajectory(
         stage_col=params.stage_col,
         latent_checkpoint=latent_checkpoint or "pls_latent",
         orientation_estimator=params.resolved_orientation_estimator,
+        latent_model=span_model,
     ).to_dict()
     # The fitted estimator and standardized joint matrix live only inside this
     # call: attribution consumes them here, and only the compact JSON-safe
@@ -536,6 +559,7 @@ def integrate_semisynthetic_dataset(
     """
 
     _validate_dataset(dataset, params.group_col, params.stage_col)
+    _require_span_layers_measured(dataset, params.integration_params)
     layers = _measured_layers(params.integration_params)
     if preprocessor is None:
         preprocessor = fit_omics_preprocessor(dataset, layers)
@@ -636,6 +660,27 @@ def _measured_layers(integration_params: Mapping[str, Any]) -> tuple[OmicsLayer,
         return selected_layers(integration_params)
     except ValueError as exc:
         raise SimulationEvaluationError(str(exc)) from exc
+
+
+def _require_span_layers_measured(
+    dataset: SemiSyntheticTrajectoryDataset, integration_params: Mapping[str, Any]
+) -> None:
+    """Refuse a stage-span dataset measured on blocks other than its span layers.
+
+    The stage-span plant is pure only in the joint space of its span layers, so
+    measuring it on other blocks would read a different construction. Checked
+    from the dataset's truth, before any preprocessing or fit.
+    """
+
+    if dataset.truth.get("construction") != "stage_span":
+        return
+    span = tuple(str(layer) for layer in dataset.truth.get("span_layers") or OMIC_LAYERS)
+    measured = _measured_layers(integration_params)
+    if span != measured:
+        raise SimulationEvaluationError(
+            f"A stage-span dataset must be measured on its span layers {list(span)}, but this evaluation "
+            f"measures {list(measured)}; set integration_params['layers'] to the span layers."
+        )
 
 
 def _layers_metadata(integration_params: Mapping[str, Any]) -> dict[str, Any]:

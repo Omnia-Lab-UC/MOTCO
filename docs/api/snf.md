@@ -42,6 +42,11 @@ These are potential methods for a future graph-native test family; MOTCO does
 not currently implement them. For feature-space magnitude and orientation,
 linear representations such as PCA or PLS are easier to interpret because
 their loadings provide an explicit linear map back to the measured features.
+A linear space still sees only what lies inside its span: the production
+stage-supervised PLS space sees a group difference only through its component
+inside the span of the pooled stage means, so a rotation of the stage program
+onto other features can vanish from it. See
+[Measurement visibility](../measurement-visibility.md).
 
 ## Functions
 

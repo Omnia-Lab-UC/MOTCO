@@ -43,6 +43,7 @@ from motco.simulations.study.spectrum import (
     resolve_stage_signal_by_design_point,
     stratify_power_by_eigengap,
     summarize_config_spectrum,
+    summarize_span_capture,
 )
 from motco.simulations.study.summary import CombinedRuleSummary
 
@@ -66,7 +67,8 @@ class ReportFrames:
     before the axis existed. ``design_point_operating`` likewise is empty — and
     unwritten — unless the record set contains design-grid cells, and so is
     ``design_point_stage_signal``, the per-column held-out CV stage AUROC that
-    sits beside it.
+    sits beside it. ``span_capture`` is empty — and unwritten — unless the
+    records carry the opt-in span-capture diagnostic.
     """
 
     specificity_matrix: pd.DataFrame
@@ -78,6 +80,7 @@ class ReportFrames:
     continuity_resolved_orientation: pd.DataFrame = field(default_factory=pd.DataFrame)
     design_point_operating: pd.DataFrame = field(default_factory=pd.DataFrame)
     design_point_stage_signal: pd.DataFrame = field(default_factory=pd.DataFrame)
+    span_capture: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 @dataclass(frozen=True)
@@ -650,6 +653,7 @@ def build_report_frames(
         continuity_resolved_orientation=resolve_orientation_by_continuity(records, alpha=alpha),
         design_point_operating=resolve_operating_by_design_point(records, alpha=alpha),
         design_point_stage_signal=resolve_stage_signal_by_design_point(records),
+        span_capture=summarize_span_capture(records),
     )
 
 
@@ -691,6 +695,10 @@ def write_report_csvs(
     if not frames.design_point_stage_signal.empty:
         paths["design_point_stage_signal"] = out_dir / "design_point_stage_signal.csv"
         frames.design_point_stage_signal.to_csv(paths["design_point_stage_signal"], index=False)
+    # Written only when the records carry the opt-in span-capture diagnostic.
+    if not frames.span_capture.empty:
+        paths["span_capture"] = out_dir / "span_capture.csv"
+        frames.span_capture.to_csv(paths["span_capture"], index=False)
     return paths
 
 

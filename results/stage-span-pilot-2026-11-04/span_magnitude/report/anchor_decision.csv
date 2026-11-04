@@ -1,0 +1,43 @@
+generator.group_stage_sizes,generator.n_samples,is_baseline,role,phase,trajectory_mode,effect_size,statistic,rate,monte_carlo_se,n_available,bound,classification,point_verdict
+,200,True,anchor,,none,0.0,delta,0.02,0.014,100,0.09358898943540674,holds,excess
+,200,True,anchor,,none,0.0,angle,0.1,0.030000000000000002,100,0.09358898943540674,exceeds,excess
+,200,True,anchor,,none,0.0,shape,0.05,0.021794494717703367,100,0.09358898943540674,holds,excess
+,200,True,control,power_primary,magnitude,0.02,delta,0.21,0.0407308237088326,100,,,excess
+,200,True,control,power_primary,magnitude,0.02,angle,0.09,0.02861817604250837,100,,,excess
+,200,True,control,power_primary,magnitude,0.02,shape,0.05,0.021794494717703367,100,,,excess
+,200,True,control,power_primary,magnitude,0.05,delta,0.72,0.0448998886412873,100,,,excess
+,200,True,control,power_primary,magnitude,0.05,angle,0.09,0.02861817604250837,100,,,excess
+,200,True,control,power_primary,magnitude,0.05,shape,0.05,0.021794494717703367,100,,,excess
+,200,True,control,power_primary,magnitude,0.1,delta,0.94,0.023748684174075843,100,,,excess
+,200,True,control,power_primary,magnitude,0.1,angle,0.09,0.02861817604250837,100,,,excess
+,200,True,control,power_primary,magnitude,0.1,shape,0.04,0.019595917942265423,100,,,excess
+,200,True,control,type_i_baseline,none,,delta,0.02,0.014,100,,,excess
+,200,True,control,type_i_baseline,none,,angle,0.02,0.014,100,,,excess
+,200,True,control,type_i_baseline,none,,shape,0.01,0.0099498743710662,100,,,excess
+,200,True,control,type_i_baseline,translation,0.1,delta,0.01,0.0099498743710662,100,,,excess
+,200,True,control,type_i_baseline,translation,0.1,angle,0.03,0.01705872210923198,100,,,excess
+,200,True,control,type_i_baseline,translation,0.1,shape,0.01,0.0099498743710662,100,,,excess
+"((11, 10, 28), (9, 10, 12))",600,False,anchor,,none,0.0,delta,0.0,0.0,100,0.09358898943540674,holds,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,anchor,,none,0.0,angle,0.04,0.019595917942265423,100,0.09358898943540674,holds,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,anchor,,none,0.0,shape,0.01,0.0099498743710662,100,0.09358898943540674,holds,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.02,delta,0.03,0.01705872210923198,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.02,angle,0.04,0.019595917942265423,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.02,shape,0.01,0.0099498743710662,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.05,delta,0.18,0.03841874542459709,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.05,angle,0.04,0.019595917942265423,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.05,shape,0.01,0.0099498743710662,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.1,delta,0.49,0.04998999899979995,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.1,angle,0.04,0.019595917942265423,100,,,size_holds
+"((11, 10, 28), (9, 10, 12))",600,False,control,power_design,magnitude,0.1,shape,0.01,0.0099498743710662,100,,,size_holds
+,80,False,anchor,,none,0.0,delta,0.01,0.0099498743710662,100,0.09358898943540674,holds,size_holds
+,80,False,anchor,,none,0.0,angle,0.04,0.019595917942265423,100,0.09358898943540674,holds,size_holds
+,80,False,anchor,,none,0.0,shape,0.01,0.0099498743710662,100,0.09358898943540674,holds,size_holds
+,80,False,control,power_design,magnitude,0.02,delta,0.04,0.019595917942265423,100,,,size_holds
+,80,False,control,power_design,magnitude,0.02,angle,0.04,0.019595917942265423,100,,,size_holds
+,80,False,control,power_design,magnitude,0.02,shape,0.01,0.0099498743710662,100,,,size_holds
+,80,False,control,power_design,magnitude,0.05,delta,0.23,0.042083250825001625,100,,,size_holds
+,80,False,control,power_design,magnitude,0.05,angle,0.04,0.019595917942265423,100,,,size_holds
+,80,False,control,power_design,magnitude,0.05,shape,0.01,0.0099498743710662,100,,,size_holds
+,80,False,control,power_design,magnitude,0.1,delta,0.6,0.04898979485566356,100,,,size_holds
+,80,False,control,power_design,magnitude,0.1,angle,0.03,0.01705872210923198,100,,,size_holds
+,80,False,control,power_design,magnitude,0.1,shape,0.01,0.0099498743710662,100,,,size_holds

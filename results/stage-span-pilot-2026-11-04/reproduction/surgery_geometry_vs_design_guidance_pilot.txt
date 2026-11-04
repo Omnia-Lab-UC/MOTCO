@@ -1,0 +1,43 @@
+candidate 2000 records over 20 cell(s) vs reference 4000 records over 40; 2000 (column, mode, effect, replicate index) pairs over 20 paired cell(s)
+  cell {"generator.n_samples": 1000} none@0: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} orientation@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} orientation@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} orientation@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} shape@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} shape@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} shape@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} translation@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} translation@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} translation@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 200} none@0: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} orientation@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} orientation@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} orientation@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} shape@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} shape@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} shape@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} translation@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} translation@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} translation@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 500} none@0: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} orientation@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} orientation@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} orientation@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} shape@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} shape@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} shape@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} translation@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} translation@0.5: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} translation@1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 80} none@0: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} orientation@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} orientation@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} orientation@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} shape@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} shape@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} shape@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} translation@0.25: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} translation@0.5: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} translation@1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  all comparable fields match: 2000/2000 (paired cells only)
+Wrote results/stage-span-pilot-2026-11-04/reproduction/surgery_geometry_vs_design_guidance_pilot.csv
