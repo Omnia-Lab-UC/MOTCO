@@ -667,6 +667,9 @@ CAPTURE_COLUMNS = (
     "target_statistic",
     "population_latent_target_median",
     "intended_target",
+    "population_latent_delta_median",
+    "population_latent_angle_median",
+    "population_latent_shape_median",
 )
 
 
@@ -700,6 +703,13 @@ def capture_table(records: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
             for r in group
             if target is not None and (value := (r.get("intended_geometry") or {}).get(target)) is not None
         ]
+        # The population means through each replicate's own scaler and basis, every statistic.
+        population = {
+            statistic: [
+                float(value) for r in group if (value := (r.get("population_latent") or {}).get(statistic)) is not None
+            ]
+            for statistic in STATISTICS
+        }
         rows.append(
             {
                 "design": design,
@@ -721,6 +731,10 @@ def capture_table(records: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
                 "target_statistic": target,
                 "population_latent_target_median": _quantile(realized, 0.5),
                 "intended_target": _quantile(intended, 0.5),
+                **{
+                    f"population_latent_{statistic}_median": _quantile(values, 0.5)
+                    for statistic, values in population.items()
+                },
             }
         )
     return rows

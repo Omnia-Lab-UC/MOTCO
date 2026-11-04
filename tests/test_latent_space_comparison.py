@@ -245,6 +245,8 @@ def test_table_columns_and_failure_counts() -> None:
     row = next(r for r in captures if r["cell"] == "orient_e0.5_phi90" and r["arm"] == "pls_cv")
     assert row["target_statistic"] == "angle"
     assert row["population_latent_target_median"] == 40.0 and row["intended_target"] == 45.0
+    assert row["population_latent_angle_median"] == 40.0
+    assert row["population_latent_delta_median"] == 0.0 and row["population_latent_shape_median"] == 0.0
     assert row["n"] == 2 and row["retained_rank_median"] == 2.0
     anchor = next(r for r in captures if r["cell"] == "anchor" and r["arm"] == "concat")
     assert anchor["target_statistic"] is None and anchor["population_latent_target_median"] is None
