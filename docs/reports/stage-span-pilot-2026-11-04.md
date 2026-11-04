@@ -37,7 +37,7 @@ The production measurement sees a group difference only through its component in
   - a 2 × 19 smoke of all four profiles: 184/184 units;
   - eight units timed at 199 permutations: 13–18 s each.
 
-Details are in `PROVENANCE.txt` and `openspec/changes/stage-span-constructions/notes.md`.
+Details are in `PROVENANCE.txt` and `openspec/changes/archive/2026-11-04-stage-span-constructions/notes.md`.
 
 ## 2. Unit, failure and reproduction accounting
 

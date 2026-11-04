@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Latent retrofit check: an edit made in a replicate's own fitted PLS basis, pulled back and re-measured.
 
-Descriptive companion of the stage-span pilot (``openspec/changes/stage-span-constructions/``,
+Descriptive companion of the stage-span pilot (``openspec/changes/archive/2026-11-04-stage-span-constructions/``,
 design D12). For every replicate of a pilot profile's zero-effect anchor at one design column it
 
 1. rebuilds the anchor dataset from the profile's matched seeds and fits the

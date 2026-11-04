@@ -8,7 +8,7 @@ configs (sha256, first 16):
   examples/trajectory_power_study/stage_span_pilot_span_geometry.json      18e3a1f88fa49796
 code_revision: 7bd6bb9bf1454897d38ecbd0a52334dc3aba71c2 (branch feat/stage-span-constructions; pushed to the cluster clone as refs/heads/incoming/stage-span, clean detached worktree /home1/tgonza/MOTCO-stage-span, run with the main checkout's .venv and PYTHONPATH on the worktree's src; motco 0.15.0 imported from the worktree)
 host: cluster.ing.uc.cl (SLURM), partition 512x1024, every array task on n1 (n2 and n11 excluded: a job stuck completing on n2, NFS stalls and memory pressure on n11); python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
-pre-flight: workstation fast suite at the same tree (ruff, mypy, 2121 passed / 1 skipped); the change's nine test modules on ing from the worktree (135 passed, job via srun); the 2 x 19 smoke of all four profiles on the workstation (184/184 units, 0 failures; openspec/changes/stage-span-constructions/notes.md); 8 units timed at 199 permutations on n1 (job 933346: 13.0-17.8 s per unit)
+pre-flight: workstation fast suite at the same tree (ruff, mypy, 2121 passed / 1 skipped); the change's nine test modules on ing from the worktree (135 passed, job via srun); the 2 x 19 smoke of all four profiles on the workstation (184/184 units, 0 failures; openspec/changes/archive/2026-11-04-stage-span-constructions/notes.md); 8 units timed at 199 permutations on n1 (job 933346: 13.0-17.8 s per unit)
 blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; MPLBACKEND=Agg
 error_policy: record (from the sbatch template)
 launch (from /home1/tgonza/MOTCO-stage-span, W = that path, OUT = W/results/stage-span-pilot-2026-11-04):

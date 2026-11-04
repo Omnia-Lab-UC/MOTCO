@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Advisory reading of the stage-span pilot: propose the paper-grade follow-up or revise the construction.
 
-Reads the four pilot reports (``openspec/changes/stage-span-constructions/``, design
+Reads the four pilot reports (``openspec/changes/archive/2026-11-04-stage-span-constructions/``, design
 D11) — ``{surgery,span}_{magnitude,geometry}/report`` under ``--results-dir`` —
 and writes ``stage_span_pilot_reading.json``. From each report it reads
 ``design_point_operating.csv`` (rejection rates per design column, mode, effect
