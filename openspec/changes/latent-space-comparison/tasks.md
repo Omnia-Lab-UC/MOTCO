@@ -62,7 +62,7 @@
   - Add `scripts/latent_space_comparison_array.sbatch` (BLAS pinned to one thread, throttled array).
 
   Verify with tests for resume, a settings mismatch and the table columns on synthetic records.
-- [x] 4.3 Add `calibrate` (design D9): the δ ladder {0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5} with 40 anchor replicates of the SEA-AD table per step, `pls_cv` fits only, adopting the first step whose median held-out AUROC lies in [0.60, 0.67], else the closest step marked `band_missed`. Make `run` refuse to start without a calibration file or an explicit δ. Verify with tests of the adoption rule on synthetic AUROC sequences (in band, `band_missed`) and the refusal.
+- [x] 4.3 Add `calibrate` (design D9): the δ ladder {0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5} (amended to add 0.11–0.14 before any run unit, design D9) with 40 anchor replicates of the SEA-AD table per step, `pls_cv` fits only, adopting the first step whose median held-out AUROC lies in [0.60, 0.67], else the closest step marked `band_missed`. Make `run` refuse to start without a calibration file or an explicit δ. Verify with tests of the adoption rule on synthetic AUROC sequences (in band, `band_missed`) and the refusal.
 - [x] 4.4 Document the driver in its module docstring and in `AGENTS.md` (architecture, beside the other validation scripts). Verify that `uv run ruff check scripts/latent_space_comparison.py` passes.
 
 ## 5. Advisory reading

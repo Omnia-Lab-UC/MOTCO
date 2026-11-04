@@ -101,6 +101,11 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
 - **The ladder.** All three per-omic δ are set together, as in the design-guidance δ arm: {0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5}. Each step runs 40 anchor replicates of the SEA-AD table, `pls_cv` fit only.
 - **Adoption.** The first step whose median held-out AUROC lies in [0.60, 0.67] is adopted. Otherwise the closest to 0.636 is adopted, marked `band_missed`.
 - **The prior.** The rank-floor check read 0.58 at δ = 0.1 on this table, so a step near 0.15 is expected.
+- **Amendment (2026-11-04, after calibration job 933435 and before any run unit).** The original ladder put the band
+  between its first two steps (δ = 0.1: median AUROC 0.595; δ = 0.15: 0.710), so the rule would have adopted δ = 0.1
+  as `band_missed`. Steps 0.11, 0.12, 0.13 and 0.14 were added and calibration was run again on the amended ladder
+  {0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5}, under the same adoption rule. The calibration seeds do
+  not depend on δ, so the original steps reproduce. The first run is kept beside the adopted one.
 - **What the weak design measures.** At the adopted δ, stage-span plants are as weak as the program they reshape. So this design is descriptive: it shows how each space behaves when the stage axis is barely there, which is SEA-AD's regime. It does not enter C2 or C3.
 
 **D10. Designs and cells.**

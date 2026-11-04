@@ -40,7 +40,9 @@ seed hashes (design, cell, replicate); calibration draws from its own
 Subcommands:
 
 - ``calibrate`` — the weak design's δ (design D9): the ladder
-  {0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5}, all three per-omic δ together, 40
+  {0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5} (0.11–0.14
+  added on 2026-11-04, before any run unit, when the band fell between 0.1
+  and 0.15), all three per-omic δ together, 40
   anchor replicates of the SEA-AD table per step, ``pls_cv`` fits only. The
   first step whose median held-out stage AUROC lies in [0.60, 0.67] is
   adopted, else the step closest to 0.636, marked ``band_missed``. Writes
@@ -151,7 +153,9 @@ TARGET_STATISTIC: dict[str, str | None] = {
 }
 
 #: Calibration (design D9).
-CALIBRATION_LADDER: tuple[float, ...] = (0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5)
+#: Amended 2026-11-04 before any run unit: the original ladder (0.1, 0.15, 0.2, …)
+#: put the band between its first two steps (job 933435), so 0.11–0.14 were added.
+CALIBRATION_LADDER: tuple[float, ...] = (0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5)
 CALIBRATION_REPLICATES = 40
 CALIBRATION_BAND: tuple[float, float] = (0.60, 0.67)
 CALIBRATION_TARGET = 0.636  # SEA-AD astrocytes cohort_30, held-out stage AUROC

@@ -255,13 +255,24 @@ def test_table_columns_and_failure_counts() -> None:
 # ── 4.3 Calibration ──────────────────────────────────────────────────────────
 
 
+LADDER = (0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5)
+
+
 def _steps(aurocs):
-    return [{"delta": delta, "auroc_median": auroc} for delta, auroc in zip(lsc.CALIBRATION_LADDER, aurocs)]
+    return [{"delta": delta, "auroc_median": auroc} for delta, auroc in zip(LADDER, aurocs)]
+
+
+def test_the_amended_ladder() -> None:
+    assert lsc.CALIBRATION_LADDER == (0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5)
+    assert list(lsc.CALIBRATION_LADDER) == sorted(lsc.CALIBRATION_LADDER)
 
 
 def test_first_step_in_the_band_is_adopted() -> None:
     adopted = lsc.adopt_calibration(_steps([0.52, 0.58, 0.61, 0.64, 0.70, 0.80, 0.90]))
     assert adopted == {"delta": 0.2, "rule": "first_in_band", "auroc_median": 0.61}
+    # The ladder order decides, not the input order.
+    shuffled = lsc.adopt_calibration(list(reversed(_steps([0.52, 0.58, 0.61, 0.64, 0.70, 0.80, 0.90]))))
+    assert shuffled["delta"] == 0.2
 
 
 def test_the_closest_step_is_adopted_when_the_band_is_missed() -> None:
@@ -286,7 +297,8 @@ def test_run_refuses_to_start_without_a_strength(tmp_path) -> None:
 def test_run_reads_the_adopted_delta(tmp_path, monkeypatch) -> None:
     settings = lsc.calibration_settings(replicates=2)
 
-    curve = {0.1: 0.52, 0.15: 0.55, 0.2: 0.58, 0.25: 0.625, 0.3: 0.66, 0.4: 0.72, 0.5: 0.8}
+    curve = {0.1: 0.52, 0.11: 0.53, 0.12: 0.54, 0.13: 0.545, 0.14: 0.55, 0.15: 0.55, 0.2: 0.58, 0.25: 0.625,
+             0.3: 0.66, 0.4: 0.72, 0.5: 0.8}
 
     def fake_unit(delta, replicate, settings):
         return {"delta": delta, "replicate": replicate, "status": "completed", "auroc": curve[delta],

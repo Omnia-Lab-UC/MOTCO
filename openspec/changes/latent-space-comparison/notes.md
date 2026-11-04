@@ -67,3 +67,35 @@ locally). On `ing` EPYC, from the stage-span pilot's 17.8 s per single-arm unit 
 45.5 core-hours) plus `concat`'s RRPP (≈ 10–15 s), ≈ 30 s per unit: **≈ 35 core-hours, ≈ 42 with the usual 20 %
 margin** (the proposal estimated 50). Calibration: 7 steps × 40 fits × ≈ 15 s ≈ 1.2 core-hours (one 40-CPU job,
 a few minutes). Dropping `concat` from the weak design (the design's fallback) is not needed at this cost.
+
+## Calibration on `ing` (task 7.2, 2026-11-04)
+
+- Commit `93fb7a1` on `feat/latent-space-comparison`, pushed only to the cluster clone's side ref
+  `incoming/latent-space-comparison` (no GitHub push). Detached worktree `/home1/tgonza/MOTCO-lsc` at `93fb7a1`, clean,
+  `.venv` → `/home1/tgonza/MOTCO/.venv`, `PYTHONPATH` = the worktree's `src` (motco 0.16.0; numpy 2.3.5,
+  scikit-learn 1.8.0, scipy 1.16.3, as locally); the driver's, `evaluation.py`'s and `semisynthetic.py`'s sha256 equal
+  the local files'.
+- Job 933435 (one 40-CPU task, `--exclude=n2,n11`: n2 still held a job stuck in `completing`, n11 had 15 GB free and an
+  NFS-stall history): `COMPLETED 0:0` in 3 min 49 s on n1, TotalCPU 1 h 19 min, MaxRSS 5.3 GB; 280 fits, 0 failures,
+  1.26 core-hours recorded. Outputs copied to `results/latent-space-comparison-2026-11-04/calibration-original-ladder/`
+  (`calibration.json` sha256 `cd846d6a…ddfc`, settings hash `657de6a7…`).
+
+| δ | median AUROC | q25–q75 | median rank |
+|---|---:|---|---:|
+| 0.10 | 0.595 | 0.534–0.624 | 2.5 |
+| 0.15 | 0.710 | 0.653–0.735 | 4 |
+| 0.20 | 0.838 | 0.795–0.867 | 6 |
+| 0.25 | 0.922 | 0.901–0.947 | 7 |
+| 0.30 | 0.973 | 0.962–0.985 | 7 |
+| 0.40 | 0.999 | 0.997–0.999 | 7 |
+| 0.50 | 1.000 | 0.999–1.000 | 4.5 |
+
+**No step lands in [0.60, 0.67].** The band lies between the first two steps. The predeclared rule adopts the closest
+step, **δ = 0.10, `band_missed`** (0.595, 0.041 below 0.636; δ = 0.15 is 0.074 above). The prior was right about
+δ = 0.1 (the rank-floor check read 0.58 there) and wrong that a step near 0.15 would land in the band. SEA-AD's own CV
+rank is 5; the adopted step's median rank is 2.5. The smoke's 0.594 at δ = 0.15 came from two null datasets and was
+noise.
+
+**Amendment (2026-11-04, user decision, before any run unit).** Rather than adopt δ = 0.10 as `band_missed`, the
+ladder gained 0.11, 0.12, 0.13 and 0.14 (design D9), and calibration ran again on the amended ladder under the same
+rule. The first run stays in `calibration-original-ladder/`.
