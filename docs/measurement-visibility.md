@@ -7,6 +7,11 @@ which group differences that measurement can see, why a rotation of the stage pr
 onto other features can vanish from it, and what a non-rejection therefore means. Each
 claim links to the study that measured it.
 
+**The latent space defines the question.** A space fitted to the stages with both groups
+pooled asks: *does each group traverse the shared stage program the same way?* Its
+blindness to other differences is the scope of that question, not a defect of the
+tests. A different question needs a different space.
+
 ## The span principle
 
 The latent scores are a linear map of the standardized features, `t = (x − x̄) R / s`,
@@ -64,10 +69,22 @@ stage program both groups share:
   It moves the group main effect, which MOTCO does not test, so it is the negative
   control.
 
-A difference along features the stage program does not use is not visible, however
-large: a relocation of stage-changing sites (the `orientation` and `shape` surgeries),
-a sparse plant on a few random features (the plasmode), or any direction orthogonal to
-the pooled stage means.
+A difference whose **direction** is orthogonal to the span is not visible, however large.
+
+**Blindness is a direction, not a set of features.** The question is where the
+difference vector points relative to the span, not which features it touches. The same
+features can carry both kinds of difference:
+
+- Re-weighting stage-program features along the program is visible.
+- Moving them in a direction orthogonal to it is not.
+- A difference on features the program does not use is visible to the extent its
+  direction correlates with the span, which for an unrelated feature set is about the
+  random share.
+
+The three measured cases are all orthogonal directions. The relocation of
+stage-changing sites (the `orientation` and `shape` surgeries) points B's steps away
+from A's, and the rhombus places the difference outside the pooled span. A sparse plant
+on a few random features (the plasmode) points in an effectively random direction.
 
 ## The incidental routes, and their mixed signature
 
@@ -94,6 +111,10 @@ moved `delta` (0.12–0.92) and `shape` (0.19–1.00) as well as `angle`
 ([design-guidance pilot](reports/design-guidance-pilot-2026-10-28.md), §3.2).
 
 ## Measurement spaces that keep the rotation, and what they cost
+
+Every linear latent space is a projection of the standardized, concatenated features
+(`concat`). So it can only lose trajectory information relative to `concat`, never add
+it. Choosing a space chooses which directions of difference count.
 
 The orientation probe crossed five measurement spaces on matched datasets
 ([orientation probe](reports/orientation-measurement-probe-2026-10-12.md), §3–§6). At
@@ -132,8 +153,9 @@ Two opt-in tools of the simulation harness (0.15.0) measure visibility directly:
 ## What a non-rejection means
 
 A non-rejection of `angle` or `shape` means **no detectable difference inside the
-stage-supervised span**. It does not mean the groups follow the same direction, or have
-the same shape, in feature space. A rotation of the stage program onto other features,
+stage-supervised span**. It answers the space's question (whether the groups traverse
+the shared stage program the same way) and nothing wider. It does not mean the groups
+follow the same direction, or have the same shape, in feature space. A rotation of the stage program onto other features,
 or a sparse difference on features outside the program, can be large and leave every
 statistic at its null. The span-capture shares below are the evidence for each
 simulator construction. Report the selected rank beside any `angle` reading, as the
