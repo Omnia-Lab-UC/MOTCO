@@ -1,0 +1,16 @@
+trajectory_mode,statistic,effect_size,cell_id,phase,rejection_rate,monte_carlo_se,available_replicates,completed_replicates,censored_fraction,duplicate_construction
+magnitude,angle,0.02,power_primary-7e86ed6dcd6a,power_primary,0.09,0.02861817604250837,100,100,,False
+magnitude,angle,0.05,power_primary-25b8066af84f,power_primary,0.09,0.02861817604250837,100,100,,False
+magnitude,angle,0.1,power_primary-c2567db7cc67,power_primary,0.09,0.02861817604250837,100,100,,False
+magnitude,delta,0.02,power_primary-7e86ed6dcd6a,power_primary,0.21,0.0407308237088326,100,100,,False
+magnitude,delta,0.05,power_primary-25b8066af84f,power_primary,0.72,0.0448998886412873,100,100,,False
+magnitude,delta,0.1,power_primary-c2567db7cc67,power_primary,0.94,0.023748684174075843,100,100,,False
+magnitude,shape,0.02,power_primary-7e86ed6dcd6a,power_primary,0.05,0.021794494717703367,100,100,,False
+magnitude,shape,0.05,power_primary-25b8066af84f,power_primary,0.05,0.021794494717703367,100,100,,False
+magnitude,shape,0.1,power_primary-c2567db7cc67,power_primary,0.04,0.019595917942265423,100,100,,False
+none,angle,0.0,power_primary-1d8eafe622d6,power_primary,0.1,0.030000000000000002,100,100,,False
+none,delta,0.0,power_primary-1d8eafe622d6,power_primary,0.02,0.014,100,100,,False
+none,shape,0.0,power_primary-1d8eafe622d6,power_primary,0.05,0.021794494717703367,100,100,,False
+translation,angle,0.1,type_i_baseline-8d30d7de0d36,type_i_baseline,0.03,0.01705872210923198,100,100,0.0,False
+translation,delta,0.1,type_i_baseline-8d30d7de0d36,type_i_baseline,0.05,0.021794494717703367,100,100,0.0,False
+translation,shape,0.1,type_i_baseline-8d30d7de0d36,type_i_baseline,0.02,0.014,100,100,0.0,False

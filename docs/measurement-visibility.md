@@ -141,8 +141,34 @@ simulator construction. Report the selected rank beside any `angle` reading, as 
 
 ## Capture shares measured by the stage-span pilot
 
-*Pending the stage-span pilot run (change `stage-span-constructions`, task 10.6).* This
-section will hold, for every mode under both constructions at the pilot's three
-columns, the median `group_difference` and `pooled_stage` shares with their random
-reference, the stage-span plant's recovery through the fitted basis, and the retrofit
-check's comparison of basis-defined and population-defined plants.
+The 2026-11-04 pilot ([report](reports/stage-span-pilot-2026-11-04.md), 100 replicates
+per cell) measured every mode under both constructions. It ran at three stages on
+methylation + expression, at n = 200, n = 80 and the SEA-AD table. The table gives the
+median `group_difference` energy share. A random direction keeps rank / 498 = 0.004–0.006.
+
+| mode | effects | feature-set surgery | stage-span construction |
+|---|---|---|---|
+| `magnitude` | 0.02–0.1 | 0.934–0.970 | 0.934–0.970 |
+| `orientation` | 0.25, 0.5 | 0.002–0.008 | 0.924–0.971 |
+| `orientation` | 1.0 | 0.004–0.006 (0.215 on the SEA-AD table) | 0.849–0.946 |
+| `shape` | 0.25–1.0 | 0.004–0.011 | 0.917–0.969 |
+| `translation` | 0.25–1.0 | null (constant over stages) | null |
+
+The pooled stage means keep 0.93–0.97 under every construction.
+
+- **The surgeries' orientation and shape plants are invisible.** They sit at the
+  random-direction share, so their low `angle` and `shape` power measures visibility,
+  not the tests.
+- **Given a visible difference, the tests are sensitive.** The stage-span 45° rotation
+  and half-step bend are rejected in 0.95–1.00 of replicates at n = 80 and above. The
+  surgeries reach 0.06–0.40 at the same effects.
+- **Through the fitted basis the stage-span rotation reads close to its intended
+  value**: 45° reads 43.7–45.3°. The surgery's full relocation reads 4.4–4.8° at the
+  balanced columns, against a population 90°.
+- **The only partial exception is the kite route.** On the unequal SEA-AD table the
+  full relocation keeps 21.5 % and reaches `angle` power 0.67, registering as a mix
+  (`delta` 0.31, `shape` 0.52).
+
+The retrofit check found that an edit made in a replicate's own fitted basis and pulled
+back to the features has cosine 0.965–0.984 with the population stage-span plant. A
+basis-defined plant and the population-defined one nearly coincide.

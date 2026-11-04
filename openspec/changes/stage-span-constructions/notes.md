@@ -50,6 +50,34 @@ pass and one `estimate_difference` on 6 rows — negligible against the double C
 8 shards per magnitude profile (175 units, about 1.5 h) and 16 per geometry profile (200 units, about 1.7 h),
 48 array tasks in all.
 
-## 10.2 Cluster run
+## 10.2 Cluster run (2026-11-04)
 
-(filled when the run completes)
+- **Code:** commit `7bd6bb9` pushed to the cluster clone as `refs/heads/incoming/stage-span` (no GitHub push).
+  Run from the clean detached worktree `/home1/tgonza/MOTCO-stage-span`, with `.venv` symlinked to the main clone's
+  and `PYTHONPATH` on the worktree's `src`.
+- **Pre-flight on `ing`:** the change's nine test modules, 135 passed. Eight units timed at 199 permutations on n1
+  ran 13.0–17.8 s each (job 933346; the first attempt, 933345, failed at once because compute nodes cannot see the
+  login node's `/tmp`).
+- **Nodes:** n2 and n11 excluded at submission. n11 has a history of NFS stalls and had about 34 GB free; n2 held
+  another user's job stuck in `CG` for over an hour. SLURM placed all 48 tasks on n1.
+- **Jobs:** 933350 (surgery magnitude, 8 shards), 933351 (surgery geometry, 16), 933352 (stage-span magnitude, 8)
+  and 933353 (stage-span geometry, 16), each throttled to 8. The geometry throttles were raised to 16 once the
+  magnitude arrays had finished.
+- **Wall time and cost:** 18:13–20:20 UTC, 45.5 recorded core-hours (projection 66), median 16.9 s per unit.
+- **Outcome:** 9,200 / 9,200 records, 0 failed, 0 duplicates; 48/48 tasks `COMPLETED 0:0`.
+- **Monitoring:** a two-minute probe of shard line counts and modification times. The slowdown at about 50 minutes
+  was n1's shared load, not a stall: every shard file had been written within the previous 21 s.
+- **Merge, report and reproduction:** jobs 933399 and 933400. Aggregates were copied back with `rsync`; shards and
+  `merged.jsonl` stay on the cluster.
+
+## Outcome
+
+`stage_span_pilot_reading.json` returns `revise_construction`.
+
+- **R2** fails on stage-span orientation at e = 1.0 at n = 80 and on the SEA-AD table (capture 0.85).
+- **R3** fails on stage-span shape at e = 1.0: `delta` 0.17 at n = 200, `angle` 0.12 / 0.10 at the small columns.
+- **R1** fails once: translation at e = 0.25, n = 200, `angle` 0.10. That reading is inherited from the shared
+  n = 200 datasets, where the anchor also reads 0.10, as in the design-guidance pilot.
+
+At e ≤ 0.5 R2 and R3 hold everywhere. The report proposes capping the stage-span geometry effects at e ≤ 0.5 for
+the paper-grade follow-up: `docs/reports/stage-span-pilot-2026-11-04.md`, §7 and §9.

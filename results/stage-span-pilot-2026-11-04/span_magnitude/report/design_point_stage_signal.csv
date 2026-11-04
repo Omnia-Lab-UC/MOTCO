@@ -1,0 +1,13 @@
+generator.group_stage_sizes,generator.n_samples,phase,is_baseline,trajectory_mode,effect_size,n_cells,n_replicates,n_auroc_available,mean_cv_auroc,q33_cv_auroc,median_cv_auroc,q67_cv_auroc
+,80,power_design,False,magnitude,0.02,1,100,100,0.9997953296703297,1.0,1.0,1.0
+,80,power_design,False,magnitude,0.05,1,100,100,0.9998102869352868,1.0,1.0,1.0
+,80,power_design,False,magnitude,0.1,1,100,100,0.9998093711843713,1.0,1.0,1.0
+,80,power_design,False,none,0.0,1,100,100,0.9997991452991454,1.0,1.0,1.0
+,200,power_primary,True,magnitude,0.02,1,100,100,0.9999778019162211,1.0,1.0,1.0
+,200,power_primary,True,magnitude,0.05,1,100,100,0.9999807913695783,1.0,1.0,1.0
+,200,power_primary,True,magnitude,0.1,1,100,100,0.999981998291741,1.0,1.0,1.0
+,200,power_primary,True,none,0.0,1,100,100,0.9999760008169934,1.0,1.0,1.0
+"((11, 10, 28), (9, 10, 12))",600,power_design,False,magnitude,0.02,1,100,100,0.9998061111111111,1.0,1.0,1.0
+"((11, 10, 28), (9, 10, 12))",600,power_design,False,magnitude,0.05,1,100,100,0.9998244444444445,1.0,1.0,1.0
+"((11, 10, 28), (9, 10, 12))",600,power_design,False,magnitude,0.1,1,100,100,0.9998244444444445,1.0,1.0,1.0
+"((11, 10, 28), (9, 10, 12))",600,power_design,False,none,0.0,1,100,100,0.9998005555555555,1.0,1.0,1.0

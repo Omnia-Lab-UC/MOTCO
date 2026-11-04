@@ -1,0 +1,27 @@
+candidate 800 records over 8 cell(s) vs reference 2400 records over 24; 800 (column, mode, effect, replicate index) pairs over 8 paired cell(s)
+  cell {"generator.n_samples": 1000} magnitude@0.01: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} magnitude@0.02: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} magnitude@0.05: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} magnitude@0.1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} magnitude@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 1000} none@0: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 200} magnitude@0.01: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 200} magnitude@0.02: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} magnitude@0.05: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} magnitude@0.1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 200} magnitude@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 200} none@0: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 500} magnitude@0.01: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} magnitude@0.02: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} magnitude@0.05: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} magnitude@0.1: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} magnitude@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 500} none@0: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 80} magnitude@0.01: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 80} magnitude@0.02: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} magnitude@0.05: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} magnitude@0.1: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  cell {"generator.n_samples": 80} magnitude@0.25: 0 pairs (candidate 0 records, reference 100 records)
+  cell {"generator.n_samples": 80} none@0: 100 pairs (candidate 100, reference 100); seeds identical 100/100; rank identical 100/100; delta within rtol 1e-06 100/100; angle within rtol 1e-06 100/100; shape within rtol 1e-06 100/100; p-values identical 100/100; all comparable fields match 100/100
+  all comparable fields match: 800/800 (paired cells only)
+Wrote results/stage-span-pilot-2026-11-04/reproduction/surgery_magnitude_vs_design_guidance_pilot.csv

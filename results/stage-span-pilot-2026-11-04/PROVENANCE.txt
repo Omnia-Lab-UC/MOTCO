@@ -1,0 +1,35 @@
+# Stage-span pilot provenance — four sibling profiles {surgery, span} x {magnitude, geometry}
+date_utc: 2026-11-04T18:13:26 (submission) -> 2026-11-04T20:20:30 (last array task end); written 2026-11-04
+change: stage-span-constructions (MOTCO 0.15.0)
+configs (sha256, first 16):
+  examples/trajectory_power_study/stage_span_pilot_surgery_magnitude.json  1e62a7c52f0de1a4
+  examples/trajectory_power_study/stage_span_pilot_surgery_geometry.json   732de3404f76a1ba
+  examples/trajectory_power_study/stage_span_pilot_span_magnitude.json     d4fffa05dd9edb67
+  examples/trajectory_power_study/stage_span_pilot_span_geometry.json      18e3a1f88fa49796
+code_revision: 7bd6bb9bf1454897d38ecbd0a52334dc3aba71c2 (branch feat/stage-span-constructions; pushed to the cluster clone as refs/heads/incoming/stage-span, clean detached worktree /home1/tgonza/MOTCO-stage-span, run with the main checkout's .venv and PYTHONPATH on the worktree's src; motco 0.15.0 imported from the worktree)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, every array task on n1 (n2 and n11 excluded: a job stuck completing on n2, NFS stalls and memory pressure on n11); python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+pre-flight: workstation fast suite at the same tree (ruff, mypy, 2121 passed / 1 skipped); the change's nine test modules on ing from the worktree (135 passed, job via srun); the 2 x 19 smoke of all four profiles on the workstation (184/184 units, 0 failures; openspec/changes/stage-span-constructions/notes.md); 8 units timed at 199 permutations on n1 (job 933346: 13.0-17.8 s per unit)
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; MPLBACKEND=Agg
+error_policy: record (from the sbatch template)
+launch (from /home1/tgonza/MOTCO-stage-span, W = that path, OUT = W/results/stage-span-pilot-2026-11-04):
+  sbatch -p 512x1024 --exclude=n2,n11 --cpus-per-task=1 --mem=4G --time=6:00:00 --job-name=ss-pilot-<profile> --array=0-<N-1>%8 --export=ALL,STUDY_CONFIG=W/examples/trajectory_power_study/stage_span_pilot_<profile>.json,STUDY_OUT=OUT/<profile>,N_SHARDS=<N>,PYTHONPATH=W/src,OMP_NUM_THREADS=1,OPENBLAS_NUM_THREADS=1,MKL_NUM_THREADS=1,MPLBACKEND=Agg scripts/motco_study_array.sbatch
+  surgery_magnitude N=8 job 933350; surgery_geometry N=16 job 933351; span_magnitude N=8 job 933352; span_geometry N=16 job 933353
+  the geometry arrays' throttle was raised from 8 to 16 (scontrol ArrayTaskThrottle) once the magnitude arrays had finished; it changes nothing in the records (shards are keyed by the stable (cell_id, replicate_index) hash)
+units: 92 cells x 100 replicates = 9,200 (199 permutations per unit); 14 + 32 + 14 + 32 cells
+seed_family: base_seed 1028, family design-guidance (the design-guidance pilot's: the surgery siblings' n = 200 and n = 80 cells evaluate that pilot's datasets with the same RRPP draws; the Type I baseline cells draw seeds keyed on their own ids)
+outcome: array tasks 48/48 COMPLETED 0:0 (sacct.txt; the one FAILED line, job 933345, is a timing job that could not open its script and ran no unit); 9,200 records, 9,200 distinct (cell, replicate) of 9,200 expected; duplicates 0; failed records 0; signatures 14 / 32 / 14 / 32
+measurement in the records: orientation_estimator net_displacement 9,200; min_components 2 9,200; n_jobs 1 9,200; span_capture true 9,200
+selected ranks: surgery_magnitude {2: 817, 3: 583}; surgery_geometry {2: 1491, 3: 1655, 4: 11, 5: 40, 6: 2, 9: 1}; span_magnitude {2: 803, 3: 597}; span_geometry {2: 1114, 3: 2032, 4: 9, 5: 21, 6: 14, 7: 3, 8: 4, 9: 1, 11: 1, 12: 1}
+unit_timings: median 16.9 s (min 13.7, mean 17.8, max 26.0); 45.5 recorded core-hours (7.3 / 15.5 / 7.3 / 15.4)
+merged.jsonl sha256 (shards and merged records stay on the cluster, gitignored):
+  surgery_magnitude f7f13c59431ac4417508a0a9af8418a4bd8a36f325354f19b0e547caebf29c6c
+  surgery_geometry  c50ad6f090e352b8c4748ae613e9ca7494149188b608cef9a4bd33daadfa9437
+  span_magnitude    6e3aaf0db1063357350306ae33edc3df91bc8c9b61fc3a5678c137f7a77606dd
+  span_geometry     653bc42332da0cde1f9d1ff557c3f53cf45fe74f0de756ef52d25fce881382b6
+merge + report (job 933399, n1): python scripts/motco_study.py merge --out-dir results/stage-span-pilot-2026-11-04/<profile>; python scripts/motco_study.py report --config examples/trajectory_power_study/stage_span_pilot_<profile>.json --out-dir results/stage-span-pilot-2026-11-04/<profile> (gate disabled; anchor_decision.json and span_capture.csv written)
+reproduction (job 933400, n1; reproduction/):
+  python scripts/anchor_reproduction.py --by-column --candidate results/stage-span-pilot-2026-11-04/<surgery_magnitude|span_magnitude|span_geometry>/merged.jsonl --reference results/stage-span-pilot-2026-11-04/surgery_geometry/merged.jsonl --out reproduction/siblings_<profile>_vs_surgery_geometry.csv -> 300/300 pairs each, identical p-values
+  python scripts/anchor_reproduction.py --by-cell --project generator.n_samples --candidate-where 'generator.group_stage_sizes=null' --reference-where 'generator.n_stages=3' --reference-where 'evaluation.integration_params.layers=["methylation", "expression"]' --candidate results/stage-span-pilot-2026-11-04/surgery_<family>/merged.jsonl --reference /home1/tgonza/MOTCO-design-guidance/results/design-guidance-pilot-2026-10-28/core_<family>/merged.jsonl --out reproduction/surgery_<family>_vs_design_guidance_pilot.csv -> 800/800 (magnitude, 8 cells) and 2,000/2,000 (geometry, 20 cells) pairs, identical seeds, ranks, statistics and p-values
+retrofit (workstation, revision 7bd6bb9, 2026-11-04T18:23:56Z, 5 min 49 s with 7 workers): python scripts/latent_retrofit_check.py --config examples/trajectory_power_study/stage_span_pilot_surgery_geometry.json --column '{"generator.n_samples": 200}' --replicates 10 --permutations 199 --workers 7 --out-dir results/stage-span-pilot-2026-11-04/retrofit
+reading (workstation, revision 7bd6bb9): python scripts/stage_span_pilot_reading.py --results-dir results/stage-span-pilot-2026-11-04 -> stage_span_pilot_reading.json (rule version 1), verdict revise_construction
+findings report: docs/reports/stage-span-pilot-2026-11-04.md

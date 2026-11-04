@@ -85,16 +85,16 @@
 ## 10. Pilot run and report
 
 - [x] 10.1 Run a local smoke: each profile at 2 replicates × 19 permutations. Record per-unit timing and confirm that records carry `span_capture` and `population_latent`, and that the stage-span translation and anchors run without error. Verify that the core-hour projection is written into the run notes.
-- [ ] 10.2 Run the four profiles on `ing` from a clean worktree through `scripts/motco_study_array.sbatch` and `scripts/run_study_shard.py`, with a throttled array. Merge and report each. Verify 0 failures in the merged results and record the job ids and `sacct` output.
-- [ ] 10.3 Run the reproduction checks:
+- [x] 10.2 Run the four profiles on `ing` from a clean worktree through `scripts/motco_study_array.sbatch` and `scripts/run_study_shard.py`, with a throttled array. Merge and report each. Verify 0 failures in the merged results and record the job ids and `sacct` output.
+- [x] 10.3 Run the reproduction checks:
   - `scripts/anchor_reproduction.py --by-column` across the four siblings;
   - the cell-level pairing of the surgery siblings against the 2026-10-28 design-guidance pilot records at n = 200 and n = 80.
 
   Verify that the summaries report pair and mismatch counts; any mismatch is diagnosed before 10.5.
-- [ ] 10.4 Run `scripts/latent_retrofit_check.py` at the n = 200 column, replicates 0–9, 199 permutations. Verify that `summary.json` is written.
-- [ ] 10.5 Run `scripts/stage_span_pilot_reading.py`. Verify that `stage_span_pilot_reading.json` is written with a verdict.
-- [ ] 10.6 Commit aggregates only under `results/stage-span-pilot-<date>/`: reports, `span_capture.csv`, the reading, retrofit tables, reproduction summaries, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/stage-span-pilot-<date>.md` with the verdict, every mode's capture under both constructions, reproduction, retrofit recovery and the proposed paper-grade effect grid, and fill the pilot section of `docs/measurement-visibility.md`. Verify that `uv run mkdocs build` succeeds and the report's numbers match the committed aggregates.
-- [ ] 10.7 Update `docs/roadmap.md` (new Next-changes item 13 with the verdict, the "Not yet established" orientation entry, and the follow-ups: paper-grade profiles and the latent plasmode) and the `AGENTS.md` architecture summary of the run. Verify with the pre-commit gate.
+- [x] 10.4 Run `scripts/latent_retrofit_check.py` at the n = 200 column, replicates 0–9, 199 permutations. Verify that `summary.json` is written.
+- [x] 10.5 Run `scripts/stage_span_pilot_reading.py`. Verify that `stage_span_pilot_reading.json` is written with a verdict.
+- [x] 10.6 Commit aggregates only under `results/stage-span-pilot-<date>/`: reports, `span_capture.csv`, the reading, retrofit tables, reproduction summaries, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/stage-span-pilot-<date>.md` with the verdict, every mode's capture under both constructions, reproduction, retrofit recovery and the proposed paper-grade effect grid, and fill the pilot section of `docs/measurement-visibility.md`. Verify that `uv run mkdocs build` succeeds and the report's numbers match the committed aggregates.
+- [x] 10.7 Update `docs/roadmap.md` (new Next-changes item 13 with the verdict, the "Not yet established" orientation entry, and the follow-ups: paper-grade profiles and the latent plasmode) and the `AGENTS.md` architecture summary of the run. Verify with the pre-commit gate.
 
 ## Workflow follow-up
 
