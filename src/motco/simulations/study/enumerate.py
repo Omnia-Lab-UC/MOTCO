@@ -264,14 +264,14 @@ def _zero_effect_anchor_cell(
 
 
 def _without_construction(generator: Any) -> Any:
-    """A zero-effect generator with no construction and no span layers.
+    """A zero-effect generator with no construction, span layers or alignment.
 
     A zero effect generates the null dataset under every construction, so the
     anchor of a stage-span profile is the very cell — one identifier, one
     dataset — of its surgery sibling's anchor in the same seed family.
     """
 
-    return replace(generator, construction=None, span_layers=None)
+    return replace(generator, construction=None, span_layers=None, span_alignment=None, span_support=None)
 
 
 def _negative_control_cells(config: StudyConfig) -> list[SimulationCell]:
@@ -435,6 +435,8 @@ _MODE_ONLY_FIELDS: tuple[str, ...] = (
     "magnitude_kind",
     "construction",
     "span_layers",
+    "span_alignment",
+    "span_support",
 )
 
 

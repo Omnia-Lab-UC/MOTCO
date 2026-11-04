@@ -236,13 +236,15 @@ def enumerate_type_i_grid(
     """Enumerate a null Type I grid with baseline plus one-factor-at-a-time axes."""
 
     # A zero effect is the null dataset under every construction, so the null
-    # cells carry none (``construction``/``span_layers`` cleared).
+    # cells carry none (``construction``/``span_layers`` and the alignment cleared).
     null_generator = replace(
         baseline_generator_params,
         trajectory_mode="none",
         group_effect_size=0.0,
         construction=None,
         span_layers=None,
+        span_alignment=None,
+        span_support=None,
     )
     cells = [
         make_simulation_cell(
@@ -265,7 +267,9 @@ def enumerate_type_i_grid(
                 axis,
                 value,
             )
-            generator_params = replace(generator_params, construction=None, span_layers=None)
+            generator_params = replace(
+                generator_params, construction=None, span_layers=None, span_alignment=None, span_support=None
+            )
             cells.append(
                 make_simulation_cell(
                     phase="type_i_ofat",
@@ -871,7 +875,8 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: ``orientation_estimator``, ``None`` is PC1, so the omission preserves the PC1
 #: identity (the harness default, net displacement, is hashed). ``construction``
 #: (``None`` = surgery), ``span_layers`` and ``span_capture`` (``None`` = off)
-#: are the stage-span change's opt-in settings.
+#: are the stage-span change's opt-in settings; ``span_alignment`` and
+#: ``span_support`` the latent-space comparison's alignment axis.
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
     {
         "group_stage_sizes",
@@ -880,6 +885,8 @@ _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
         "construction",
         "span_layers",
         "span_capture",
+        "span_alignment",
+        "span_support",
     }
 )
 

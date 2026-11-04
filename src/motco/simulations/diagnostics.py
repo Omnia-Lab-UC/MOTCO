@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
-from typing import Any, Mapping
+from dataclasses import asdict, dataclass, field
+from typing import Any, Callable, Mapping
 
 import numpy as np
 import pandas as pd
@@ -18,7 +18,7 @@ from motco.stats.trajectory import estimate_difference, get_observed_vectors
 DIAGNOSTIC_SCHEMA_VERSION = 1
 _PATH_TOLERANCE = 1e-15
 
-#: Checkpoint of the population means seen through the replicate's fitted PLS basis.
+#: Checkpoint of the population means seen through the replicate's fitted linear map.
 POPULATION_LATENT_CHECKPOINT = "population_latent"
 
 #: A population group difference whose stage-varying part is at most this
@@ -41,12 +41,49 @@ class GeometryDiagnostic:
         return asdict(self)
 
 
+@dataclass(frozen=True, eq=False)
+class LinearLatentMap:
+    """The fitted linear map behind one latent space, from standardized joint rows.
+
+    ``center`` and ``scale`` take standardized joint rows ``x`` to the space's
+    input coordinates ``(x − center) / scale``; ``basis`` has orthonormal
+    columns spanning, in those coordinates, the directions the space keeps;
+    ``transform`` maps standardized joint rows to the latent coordinates the
+    statistics are measured in. Ephemeral, like the PLS artifacts: never
+    serialized.
+    """
+
+    method: str
+    center: np.ndarray
+    scale: np.ndarray
+    basis: np.ndarray
+    transform: Callable[[np.ndarray], np.ndarray] = field(repr=False)
+
+    @classmethod
+    def from_pls(cls, model: Any) -> "LinearLatentMap":
+        """The map of a fitted PLS model: its input scaling, ``qr(x_rotations_)`` and ``model.transform``."""
+
+        basis, _ = np.linalg.qr(np.asarray(model.x_rotations_, dtype=float))
+        return cls(
+            method="pls",
+            center=np.asarray(model._x_mean),
+            scale=np.asarray(model._x_std),
+            basis=basis,
+            transform=model.transform,
+        )
+
+    def inputs(self, rows: np.ndarray) -> np.ndarray:
+        """Standardized joint rows in the map's input coordinates."""
+
+        return (np.asarray(rows, dtype=float) - self.center) / self.scale
+
+
 @dataclass(frozen=True)
 class SpanCapture:
-    """Shares of the population trajectories inside the fitted PLS span.
+    """Shares of the population trajectories inside a fitted linear space's span.
 
-    Measured in the fitted model's input coordinates with an orthonormal basis
-    of its rotations. ``group_difference`` is the share of
+    Measured in the fitted map's input coordinates with an orthonormal basis
+    of the directions it keeps. ``group_difference`` is the share of
     ``Σ_s ‖d_s‖²`` in the span, ``d_s`` the population B − A difference at
     stage ``s`` minus its mean over stages (``None`` when the difference is the
     same at every stage); ``pooled_stage`` the share of the centred average
@@ -68,8 +105,8 @@ class SpanCapture:
 class RealizedGeometryDiagnostics:
     """Nested checkpoint decomposition with construction attribution.
 
-    ``span_capture`` is present only when it was requested for a PLS
-    evaluation; without it the record is unchanged.
+    ``span_capture`` is present only when it was requested for an evaluation
+    in a linear space; without it the record is unchanged.
     """
 
     schema_version: int
@@ -102,6 +139,7 @@ def calculate_realized_geometry(
     latent_checkpoint: str = "pls_latent",
     orientation_estimator: str = "pc1",
     latent_model: Any | None = None,
+    latent_map: LinearLatentMap | None = None,
 ) -> RealizedGeometryDiagnostics:
     """Calculate all applicable geometry checkpoints for one replicate.
 
@@ -111,16 +149,21 @@ def calculate_realized_geometry(
     ``latent_checkpoint``. Every checkpoint ``angle`` uses
     ``orientation_estimator``, so the checkpoints measure the tested estimand.
 
-    ``latent_model`` is the replicate's fitted PLS model, passed only when span
-    capture is requested. With population trajectories it adds the
-    ``population_latent`` checkpoint (the population means through the fitted
-    preprocessor and ``model.transform``) and the :class:`SpanCapture` shares.
-    Nothing is refitted.
+    ``latent_map`` is the replicate's fitted :class:`LinearLatentMap`, passed
+    only when span capture is requested (``latent_model``, a fitted PLS model,
+    is shorthand for its :meth:`LinearLatentMap.from_pls`). With population
+    trajectories it adds the ``population_latent`` checkpoint (the population
+    means through the fitted preprocessor and the map's ``transform``) and the
+    :class:`SpanCapture` shares. Nothing is refitted.
     """
 
     def measure(means: pd.DataFrame | np.ndarray) -> GeometryDiagnostic:
         return geometry_from_means(means, group_levels, stage_levels, orientation_estimator=orientation_estimator)
 
+    if latent_model is not None:
+        if latent_map is not None:
+            raise ValueError("Pass latent_map or latent_model, not both.")
+        latent_map = LinearLatentMap.from_pls(latent_model)
     layers = preprocessor.layers
 
     group_levels = sorted(pd.unique(dataset.metadata[group_col].astype(str)).tolist())
@@ -169,7 +212,7 @@ def calculate_realized_geometry(
         checkpoints[latent_checkpoint] = {"joint": measure(latent_means)}
 
     span_capture: SpanCapture | None = None
-    if latent_model is not None and population is not None:
+    if latent_map is not None and population is not None:
         population_joint = concatenate_blocks(preprocessor.transform_population(population))
         ordered = np.vstack(
             [
@@ -178,9 +221,9 @@ def calculate_realized_geometry(
                 for stage in stage_levels
             ]
         )
-        scores = np.asarray(latent_model.transform(ordered), dtype=float)
+        scores = np.asarray(latent_map.transform(ordered), dtype=float)
         checkpoints[POPULATION_LATENT_CHECKPOINT] = {"joint": measure(scores)}
-        span_capture = measure_span_capture(latent_model, ordered, n_groups=len(group_levels))
+        span_capture = measure_span_capture(latent_map, ordered, n_groups=len(group_levels))
 
     requested = {
         "trajectory_mode": dataset.truth.get("trajectory_mode"),
@@ -195,22 +238,25 @@ def calculate_realized_geometry(
     )
 
 
-def measure_span_capture(model: Any, means: np.ndarray, *, n_groups: int = 2) -> SpanCapture:
-    """Shares of population group-stage means inside a fitted PLS model's span.
+def measure_span_capture(latent_map: Any, means: np.ndarray, *, n_groups: int = 2) -> SpanCapture:
+    """Shares of population group-stage means inside a fitted linear space's span.
 
-    ``means`` holds the group-stage means in the model's feature order, group
-    major and stage minor (the first two groups are compared, B − A). They are
-    mapped to the model's input coordinates, ``(x − x_mean) / x_std``, and
-    measured against an orthonormal basis of ``model.x_rotations_`` (QR). For a
-    single direction ``d`` the share equals the square of the plasmode
+    ``latent_map`` is a :class:`LinearLatentMap` or a fitted PLS model (read
+    through :meth:`LinearLatentMap.from_pls`). ``means`` holds the group-stage
+    means in the map's feature order, group major and stage minor (the first
+    two groups are compared, B − A). They are mapped to the input coordinates,
+    ``(x − center) / scale``, and measured against the map's orthonormal
+    basis; for PLS that is ``(x − x_mean) / x_std`` and ``qr(x_rotations_)``.
+    For a single direction ``d`` the share equals the square of the plasmode
     ``latent_capture.py`` norm share ``‖Qᵀd‖ / ‖d‖``.
     """
 
-    rotations = np.asarray(model.x_rotations_, dtype=float)
-    basis, _ = np.linalg.qr(rotations)
-    inputs = (np.asarray(means, dtype=float) - np.asarray(model._x_mean)) / np.asarray(model._x_std)
-    n_features = int(rotations.shape[0])
-    rank = int(rotations.shape[1])
+    if not isinstance(latent_map, LinearLatentMap):
+        latent_map = LinearLatentMap.from_pls(latent_map)
+    basis = latent_map.basis
+    inputs = latent_map.inputs(means)
+    n_features = int(basis.shape[0])
+    rank = int(basis.shape[1])
     n_stages = inputs.shape[0] // n_groups
     group_a = inputs[:n_stages]
     group_b = inputs[n_stages : 2 * n_stages]

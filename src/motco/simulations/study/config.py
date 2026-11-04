@@ -1695,7 +1695,9 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
 
 #: Unset optional parameters a dumped config leaves out, as the parameter
 #: signature does, so a config that never used them dumps unchanged.
-_DUMP_OMIT_WHEN_NONE = frozenset({"group_stage_sizes", "construction", "span_layers", "span_capture"})
+_DUMP_OMIT_WHEN_NONE = frozenset(
+    {"group_stage_sizes", "construction", "span_layers", "span_capture", "span_alignment", "span_support"}
+)
 
 
 def _type_i_target_dict(target: TypeIControlTarget) -> dict[str, Any]:

@@ -178,6 +178,47 @@ the plant. Stage-span cells draw from no feature pool, so they have no surgery h
 realized-surgery summary. While both settings are unset every dataset, truth record, cell id and
 signature is byte-identical to the generator before they existed.
 
+**Alignment with the stage span.** `span_alignment` (φ, in degrees, 0–90) tilts the stage-span
+`orientation`'s rotation plane out of the stage span. The rotation is made in the plane of `u` and
+w_φ = cos φ·`v` + sin φ·`o`, where `o` is a unit direction on the span-layer features the null stage
+program does not use: those whose standardized null stage means are constant across stages (within
+`1e-10`), so `o` is orthogonal to every centred null stage mean without a projection.
+
+```python
+SemiSyntheticTrajectoryParams(
+    seed=1,
+    trajectory_mode="orientation",
+    group_effect_size=0.5,          # a 45° rotation
+    construction="stage_span",
+    span_layers=("methylation", "expression"),
+    span_alignment=90.0,            # the rotation plane leaves the stage span
+    span_support=20,                # o on 20 unused features (absent: all of them)
+)
+```
+
+- **Fixed geometry.** The intended population geometry is the same at every φ (net-displacement
+  `angle` θ, `delta` = `shape` = 0). Only where the difference points changes, so differences in
+  capture and power across φ are visibility, not effect size.
+- **The two ends.** φ = 0 normalizes to `None`, the in-span rotation, byte-identical to a dataset
+  without the setting. At φ = 90 with balanced cells, B − A minus its mean over stages is orthogonal
+  to the centred pooled stage means (the rhombus): the controlled analogue of the relocation surgery.
+- **Support.** `span_support` = k draws `o` on k unused features chosen uniformly; absent, `o` is
+  dense over all of them. `o` is normalized either way, so dense and sparse cells plant the same
+  energy.
+- **Stream.** `o` is drawn from `np.random.default_rng([seed, SPAN_ALIGNMENT_STREAM])`, never the
+  sampling stream, so the dataset is still the null dataset plus the plant, and `o` is the same for
+  every effect and every φ > 0 at a seed and support.
+- **Scope.** Both settings are accepted only under `stage_span` with `orientation` (or `none`). φ
+  outside [0, 90], a support without φ > 0, a non-positive support and a k larger than the unused
+  features are errors. Alignment applies to orientation only: at three stages a bend out of the plane
+  makes a different triangle, so the intended `shape` would change with φ; magnitude and translation
+  have no out-of-span version.
+
+Truth records `span_alignment` and `span_support` (top level), `span_alignment` under `transform`, and
+a `stage_span.out_of_span` block: the `span_layers`, the `support_size`, the number of
+`available_features` and a `direction_id` (a hash of the drawn support and the stream seed). Both
+settings are omitted from cell ids, signatures and dumped configs while unset.
+
 ## Evaluation harness
 
 The evaluation harness runs one `SemiSyntheticTrajectoryDataset` through MOTCO integration and trajectory testing. It is the per-replicate layer used before larger Type I error or power grids.
@@ -206,6 +247,28 @@ Supported integration methods:
 |--------|----------|
 | `concat` | Column-binds methylation, expression, and proteomics matrices after deterministic per-feature standardization by default |
 | `snf` | Builds per-omic affinity matrices, fuses them with SNF, and uses spectral embedding as the trajectory outcome matrix |
+
+**Diagnostic integration methods.** Three further spaces exist for comparing measurement designs. They
+are labelled `integration_role="diagnostic"`, are never production, and reject attribution and the
+`forced_components` override:
+
+| Method | Space | Rank |
+|--------|-------|------|
+| `pca` | Label-free principal-component scores of the standardized `concat` matrix | required `integration_params["n_components"]` |
+| `pls_within_group` | Stage-supervised PLS fitted within each group, the stacked bases orthonormalized into one | `components_per_group` (default `n_stages − 1`) per group |
+| `pls_residual_pca` | The production `pls` scores, followed by principal-component scores of the stage-residualized features orthogonal to the PLS span | the CV rank plus `residual_components` (default `n_stages − 1`) |
+
+`pls_residual_pca` fits the production `pls` space (CV rank, rank floor), then, in the model's input
+coordinates X_in = (X − x_mean) / x_std, subtracts the pooled stage means, projects the residuals off
+the span of the PLS rotations and appends X_in·W for their top `residual_components` right singular
+vectors W. Its first columns are exactly the `pls` latent matrix, so the arm differs from production only
+by the appended coordinates. The basis reads the features and stage labels, never the group labels, and
+is fitted once, never inside RRPP. `residual_components` must lie in
+[1, min(n_features − PLS rank, n_samples − n_stages)]. The metadata records `pls_rank`,
+`residual_components` and `retained_dimensionality`, and realized geometry measures the matrix as the
+`pls_residual_pca_latent` checkpoint. `pls_residual_pca_from_pls(dataset, pls, params)` builds the space
+from an existing `pls` integration of the same dataset without refitting the PLS model, so a comparison
+can share one fit between the production arm and this one.
 
 **Block selection.** `integration_params["layers"]` names the omic blocks the evaluation measures,
 for every integration method: e.g. `{"layers": ["methylation", "expression"]}`. All three blocks are
@@ -264,16 +327,27 @@ Generated semi-synthetic datasets also expose exact group-stage population means
 | `population_standardized` | each omic and joint | Exact means under the replicate's pooled fitted feature scaling |
 | `observed_standardized` | each omic and joint | Geometry actually presented to integration, including finite sampling |
 | `pls_latent` | joint | Geometry retained in the fitted production PLS representation |
-| `population_latent` | joint | Exact population means seen through the replicate's fitted PLS basis (only with `span_capture`) |
+| `population_latent` | joint | Exact population means seen through the replicate's fitted linear map (only with `span_capture`) |
 
 Every applicable scope records both group path lengths, pairwise `delta`, `angle`, and `shape`, and explicit availability flags. Joint native-space geometry is intentionally omitted because the unstandardized omic blocks use incompatible units. Raw distances across feature and latent checkpoints are not scale-equivalent; use the decomposition to locate changes in behavior rather than subtracting distances across spaces.
 
 **Span capture.** `SimulationEvaluationParams(span_capture=True)` (opt-in; `False` normalizes to the
-hash-omitted `None`) asks a `pls` evaluation how much of the population trajectories its fitted basis
-sees. It reuses the evaluation's own fitted model and preprocessor — nothing is refitted, so the latent
-matrix, rank, statistics and p-values are identical with and without it — and adds the
-`population_latent` checkpoint above plus a `span_capture` block. The block is computed in the model's
-input coordinates with an orthonormal (QR) basis of its rotations:
+hash-omitted `None`) asks an evaluation in a linear space how much of the population trajectories its
+fitted basis sees. It reuses the evaluation's own fitted map and preprocessor — nothing is refitted, so
+the latent matrix, rank, statistics and p-values are identical with and without it — and adds the
+`population_latent` checkpoint above plus a `span_capture` block. Every linear integration carries its
+fitted map (`LatentIntegrationResult.linear_map`, a `LinearLatentMap`: the input centre and scale, an
+orthonormal basis of the kept directions in those coordinates, and the map to latent coordinates), and
+the block is computed in its input coordinates against that basis:
+
+| Method | Input coordinates | Basis |
+|---|---|---|
+| `pls` | (x − x_mean) / x_std of the fitted model | QR of the rotations (as in 0.15.0, so PLS records are unchanged) |
+| `pca` | x − column mean | the retained principal axes |
+| `pls_residual_pca` | the PLS model's | QR of the rotations, then the residual axes |
+| `concat` (standardized) | x | the identity: every share is 1 and `rank` = `n_features` |
+
+The block's fields:
 
 | Field | Meaning |
 |---|---|
@@ -282,8 +356,9 @@ input coordinates with an orthonormal (QR) basis of its rotations:
 | `rank`, `n_features`, `random_share` | The fitted rank, the measured feature count and `rank / n_features`, the expected share of a random direction |
 
 The shares are energy (squared-norm) shares. For a single direction the plasmode check's
-`latent_capture.py` reported the norm share ‖Qᵀd‖/‖d‖, the square root of this one. Other integration
-methods, and datasets without population trajectories, record neither the checkpoint nor the block.
+`latent_capture.py` reported the norm share ‖Qᵀd‖/‖d‖, the square root of this one. `snf`,
+`pls_within_group` and the unstandardized `concat` carry no map, and they and datasets without population
+trajectories record neither the checkpoint nor the block.
 
 **Stage-span guard.** A dataset generated with `construction="stage_span"` may only be measured on its
 span layers: the harness raises, before any preprocessing or fit, when `integration_params["layers"]`

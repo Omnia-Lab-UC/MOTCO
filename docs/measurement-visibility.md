@@ -40,9 +40,23 @@ CpGs. The pooled step is `(a + b)/2`, the group difference is `b − a`, and
 These are the two diagonals of a rhombus, which are perpendicular. A basis built from the
 pooled step contains `a + b` and is orthogonal to `b − a`: in it, both groups' steps
 project onto the same vector, so the latent `angle` is 0 and the rotation has cancelled.
-With more stages the same happens stage by stage. Each equal-length rotated step
-differs from A's by a vector orthogonal to their pooled step, and the pooled stage means
-span the measurement space.
+
+**Three or more stages need a stronger condition.** With steps `a_s` and `b_s`, the
+difference at one stage must be orthogonal to the pooled step of *every* stage:
+
+```text
+(a_t + b_t) · (b_s − a_s) = (b_t · b_s − a_t · a_s) + (a_t · b_s − b_t · a_s) = 0  for all s, t.
+```
+
+The cancellation is exact when B's steps keep the lengths and mutual angles of A's (the
+first bracket is 0) and are orthogonal to every one of A's steps (the second is 0): B's
+program has moved onto features A's program does not use, which is what a relocation
+does. A rotation **within** A's own features does not satisfy it and is partly or wholly
+visible. The stage-span rotation, made in the plane of A's own configuration, is the
+wholly visible case: it keeps 0.85–0.97 of its energy in the span (see the pilot table
+below). The latent-space comparison's alignment axis (`span_alignment`) moves one rotation
+continuously between these two cases at a fixed intended geometry
+([Simulations](api/simulations.md#stage-span-construction)).
 
 The repository has measured the consequence three times:
 
@@ -114,7 +128,13 @@ moved `delta` (0.12–0.92) and `shape` (0.19–1.00) as well as `angle`
 
 Every linear latent space is a projection of the standardized, concatenated features
 (`concat`). So it can only lose trajectory information relative to `concat`, never add
-it. Choosing a space chooses which directions of difference count.
+it: a projection cannot see a difference `concat` does not contain. It can still have
+**more power** than `concat`, because it discards noise directions along with the
+differences it cannot see. In the orientation probe's Phase 6 design the shape
+construction at e = 1.0 was rejected on `shape` in 0.19 of replicates by `pls_cv` and in
+0.00 by `concat` ([orientation probe](reports/orientation-measurement-probe-2026-10-12.md),
+§3). Choosing a space chooses which directions of difference count, and how much noise
+is measured with them.
 
 The orientation probe crossed five measurement spaces on matched datasets
 ([orientation probe](reports/orientation-measurement-probe-2026-10-12.md), §3–§6). At
