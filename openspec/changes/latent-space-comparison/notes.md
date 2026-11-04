@@ -99,3 +99,18 @@ noise.
 **Amendment (2026-11-04, user decision, before any run unit).** Rather than adopt δ = 0.10 as `band_missed`, the
 ladder gained 0.11, 0.12, 0.13 and 0.14 (design D9), and calibration ran again on the amended ladder under the same
 rule. The first run stays in `calibration-original-ladder/`.
+
+**Amended calibration.** Job 933439 at `d2c167b` (one 40-CPU task on n1, `--exclude=n2,n11`): `COMPLETED 0:0` in 6 min
+22 s, TotalCPU 2 h 4 min, MaxRSS 5.3 GB; 440 fits, 0 failures, 1.97 core-hours recorded. Every original step reproduced
+exactly (same summaries at δ = 0.10, 0.15 … 0.50). New steps:
+
+| δ | median AUROC | q25–q75 | median rank |
+|---|---:|---|---:|
+| 0.11 | 0.617 | 0.549–0.645 | 3 |
+| 0.12 | 0.633 | 0.581–0.668 | 3 |
+| 0.13 | 0.660 | 0.607–0.692 | 4 |
+| 0.14 | 0.687 | 0.631–0.714 | 4 |
+
+**Adopted: δ = 0.11, `first_in_band`** (median 0.617). The rule takes the first in-band step, not the closest: δ = 0.12
+(0.633) is nearer 0.636. SEA-AD's CV rank is 5; the adopted step's median rank is 3. Outputs in
+`results/latent-space-comparison-2026-11-04/calibration/`.

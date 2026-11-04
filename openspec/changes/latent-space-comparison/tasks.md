@@ -86,7 +86,7 @@
 ## 7. Pilot run and report
 
 - [x] 7.1 Run a local smoke: every design at 2 replicates × 19 permutations, with δ given explicitly. Record per-unit and per-arm timing, and confirm that every arm's record carries span capture and `population_latent`. Verify that the core-hour projection is written into `notes.md`.
-- [ ] 7.2 Run `calibrate` on `ing` from a clean worktree. Verify that the calibration output records every step and the adopted δ (or `band_missed`), and commit it under `results/latent-space-comparison-<date>/calibration/`.
+- [x] 7.2 Run `calibrate` on `ing` from a clean worktree. Verify that the calibration output records every step and the adopted δ (or `band_missed`), and commit it under `results/latent-space-comparison-<date>/calibration/`.
 - [ ] 7.3 Run the comparison on `ing` through the sbatch array, then `merge` and `decide`. Verify 0 failed units in the accounting, and record the job ids and `sacct` output.
 - [ ] 7.4 Commit aggregates only under `results/latent-space-comparison-<date>/`: settings, calibration, rate and capture tables, accounting, the reading, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/latent-space-comparison-<date>.md` with the verdict, each arm's visibility profile against φ, size, protected power, the weak design and the sparse-versus-dense contrast. Verify that every number the report quotes can be read from the committed aggregates.
 - [ ] 7.5 Add the visibility-profile section to `docs/measurement-visibility.md` from the report. Add roadmap item 14 with the verdict and its follow-up, add follow-up (c) to item 13, and update the `AGENTS.md` architecture summary of the run. Verify with `uv run mkdocs build` and the pre-commit gate.
