@@ -154,7 +154,9 @@ def test_planted_span_scale_config_loads_and_enumerates(tmp_path: Path) -> None:
     planted = _load(tmp_path, planted_raw, "planted.json")
     assert planted.generator.span_scale == "planted"
     cells = enumerate_study(planted).cells
-    effect_cells = [cell for cell in cells if not cell.metadata.get("zero_effect_anchor") and "type_i" not in cell.phase]
+    effect_cells = [
+        cell for cell in cells if not cell.metadata.get("zero_effect_anchor") and "type_i" not in cell.phase
+    ]
     assert effect_cells and all(cell.generator_params.span_scale == "planted" for cell in effect_cells)
 
     null_scale = enumerate_study(_load(tmp_path, _raw("stage_span"), "null.json")).cells
