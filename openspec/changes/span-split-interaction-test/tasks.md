@@ -90,9 +90,9 @@
 ## 6. Runs and report
 
 - [x] 6.1 Run a local smoke of both profiles: the simulation profile at 2 replicates × 19 permutations per cell, and the plasmode profile at 2 replicates × 19 permutations on the local export, with BLAS pinned. Record per-unit timing by profile, and confirm the reproduction check runs, mismatching only because of the smoke's size. Verify that the core-hour projection is written into `notes.md`.
-- [ ] 6.2 Run the simulation profile on `ing` from a clean worktree through the sbatch array, then `merge`. Verify 0 failed units and a passed reproduction in the merge output, and record the job ids and `sacct` output.
-- [ ] 6.3 Run the plasmode profile on `ing` from the same worktree, then `merge`. Verify that the fidelity gate passed, 0 failed units and a passed reproduction, and record the job ids and `sacct` output.
-- [ ] 6.4 Run `decide`, then commit aggregates only under `results/span-split-<date>/`: settings, split and production tables, accounting, reproduction checks, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/span-split-<date>.md` with:
+- [x] 6.2 Run the simulation profile on `ing` from a clean worktree through the sbatch array, then `merge`. Verify 0 failed units and a passed reproduction in the merge output, and record the job ids and `sacct` output.
+- [x] 6.3 Run the plasmode profile on `ing` from the same worktree, then `merge`. Verify that the fidelity gate passed, 0 failed units and a passed reproduction, and record the job ids and `sacct` output.
+- [x] 6.4 Run `decide`, then commit aggregates only under `results/span-split-<date>/`: settings, split and production tables, accounting, reproduction checks, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/span-split-<date>.md` with:
   - the verdict and the three criteria;
   - localization across φ and modes, and the share against capture;
   - the span part against the production statistics, and the complement against the comparison's arms;
@@ -100,7 +100,7 @@
   - the SS diagnostic.
 
   Verify that every number the report quotes can be read from the committed aggregates.
-- [ ] 6.5 Add the split-test section to `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`): the parts, the fitted-span caveat with the weak-design capture, the reading of rejections and non-rejections with the plasmode power, the ratio's rationale with the diagnostic, and what the test does not provide. Add roadmap item 16 with the verdict and its follow-ups (threads 2 and 3), and summarize the run in `AGENTS.md`. Verify with `uv run mkdocs build` and the pre-commit gate.
+- [x] 6.5 Add the split-test section to `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`): the parts, the fitted-span caveat with the weak-design capture, the reading of rejections and non-rejections with the plasmode power, the ratio's rationale with the diagnostic, and what the test does not provide. Add roadmap item 16 with the verdict and its follow-ups (threads 2 and 3), and summarize the run in `AGENTS.md`. Verify with `uv run mkdocs build` and the pre-commit gate.
 
 ## Workflow follow-up
 

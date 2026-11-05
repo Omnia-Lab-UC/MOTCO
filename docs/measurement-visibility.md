@@ -230,7 +230,9 @@ follow the same direction, or have the same shape, in feature space. A rotation 
 or a sparse difference on features outside the program, can be large and leave every
 statistic at its null. The span-capture shares below are the evidence for each
 simulator construction. Report the selected rank beside any `angle` reading, as the
-[real-data analysis](api/analysis.md#what-is-measured-and-recorded) record does.
+[real-data analysis](api/analysis.md#what-is-measured-and-recorded) record does. The
+[split interaction test](#testing-outside-the-span-the-split-interaction-test) asks the
+wider question directly.
 
 ## Capture shares measured by the stage-span pilot
 
@@ -348,3 +350,79 @@ Target power of the stage-span plants (`angle` for the rotation, `shape` for the
   configuration's two in-plane directions nearly tie. It failed for 12 of the 1,000
   four-stage orientation units, which were reported as failures; those two cells read
   over 497 and 491 replicates.
+
+## Testing outside the span: the split interaction test
+
+The production statistics cannot see a difference outside the fitted span, and no
+measurement space sees it without losing in-span power (above). The split interaction
+test (`motco.stats.interaction.interaction_split_test`; `motco analyze --span-split-test`)
+asks the out-of-span question without a space. It takes the group × stage interaction
+energy of the standardized features, in the fitted PLS model's input coordinates, and
+splits it exactly into three parts, each tested by a trace pseudo-F under Freedman–Lane
+permutation:
+
+- **`total`**: is there a group × stage difference anywhere in the measured features?
+- **`span`**: is there one inside the fitted span, where `delta`, `angle` and `shape`
+  decompose it?
+- **`complement`**: is there one outside it, where they cannot see it?
+
+The basis is the fitted stage-PLS span. It never sees the group labels and is never
+refitted, so its draws are RRPP's at the same seed.
+
+**"Span" means the fitted span, not the population stage program.** At a strong stage
+signal the two nearly coincide: the fitted span keeps 0.90–0.97 of the pooled stage means.
+At a SEA-AD-like stage signal the fitted span keeps only 0.10 of the population program
+([comparison](reports/latent-space-comparison-2026-11-04.md), §9). There a difference
+along the true program can fall outside the fitted span.
+
+**Reading the parts.**
+
+- **A `complement` rejection** means the groups differ by stage with energy outside the
+  fitted span. It does not mean one group uses a different molecular program. Part of an
+  in-span difference can reach the complement: the 3–7 % of its energy the fitted span
+  misses, plus what the sample scaler moves there. A 45° in-span rotation is rejected by
+  the complement in 0.35 (n = 200) and 0.32 (SEA-AD table) of replicates. At a weak stage
+  signal the complement also contains whatever the fitted span missed of the program.
+- **A `span` rejection** means the difference has energy inside the fitted span. There
+  `delta`, `angle` and `shape` say how it differs; the span part only says that it does.
+  It is less powerful than the targeted statistics: magnitude 0.56 against `delta`'s
+  0.74, a half-step bend 0.72 against `shape`'s 1.00 (n = 200).
+- **A non-rejection of `complement` or `total`** is uninformative unless power has been
+  shown at the design and for the kind of difference. On the SEA-AD blocks, a planted
+  difference on 20 of 10,000 features at 2–3 within-stage SDs is rejected by no part
+  above the null rate (0.02–0.05), as by `angle`. An energy test spreads over every
+  coordinate, so a sparse difference does not register.
+- **The in-span share** (`span_share`) is descriptive. It must be read against the share
+  a null analysis gives at the same rank and design, never against 0. Components beyond
+  K − 1 follow the total covariance, where the noise's interaction energy also sits. At
+  the plasmode anchor (rank 5) the null share is 0.24; at a two-component span at n = 200
+  it is 0.006.
+
+**Why a ratio.** RRPP permutes the reduced model's residuals, whose mean square is RSS/n,
+not RSS/(n − r). An energy statistic carries that shrinkage into its null, and summed over
+thousands of coordinates the null concentrates, so a few percent of scale becomes many
+null standard deviations. The pseudo-F computes its numerator and denominator from the
+same permuted residuals, so the scale cancels. At the plasmode anchor the uncorrected
+interaction SS rejects the null complement in 0.268 of replicates; the pseudo-F on the
+same draws rejects in 0.012.
+
+**What it does not provide.** No geometry: the split test says whether and where the
+groups differ, never how. It does not replace `delta`, `angle` or `shape`, and it does not
+find sparse differences. A group-aware space refitted per permutation and a sparse
+per-feature interaction scan are roadmap item 16's follow-ups
+([roadmap](roadmap.md)).
+
+**Validation: `split_validated`** (2026-11-05, [report](reports/span-split-2026-11-05.md),
+500 × 999 at the controls, 100 × 999 elsewhere, on the latent-space comparison's and the
+plasmode's own units):
+
+- **Size** holds on three simulated designs (the 18 control rates read 0.032–0.058,
+  against a per-cell bound of 0.0695) and on the SEA-AD blocks at the case study's
+  configuration (total 0.040, span 0.050, complement 0.012).
+- **Out-of-span power.** The complement rejects the 45° out-of-span rotation in 1.00
+  (n = 200) and 0.68 (SEA-AD table) of replicates, where `angle` reads 0.08 and 0.10.
+- **Localization.** As the rotation tilts out of the span, the span part falls
+  (1.00 → 0.52) and the complement rises (0.35 → 1.00).
+- **At SEA-AD's stage signal** no part has power for any plant, and the complement holds
+  size there (0.05–0.06), where `concat`'s `angle` did not.
+
