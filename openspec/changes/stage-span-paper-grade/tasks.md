@@ -41,7 +41,7 @@
 ## 7. Local verification
 
 - [ ] 7.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`), and verify it passes
-- [ ] 7.2 Run a local smoke of all three profiles at 2 replicates × 19 permutations with BLAS pinned, and verify every unit completes, that the planted cells' truth reports converged fixed points, and record per-unit timings for the cost plan
+- [x] 7.2 Run a local smoke of all three profiles at 2 replicates × 19 permutations with BLAS pinned, and verify every unit completes, that the planted cells' truth reports converged fixed points, and record per-unit timings for the cost plan
 
 ## 8. Pre-flight on `ing`
 
@@ -54,7 +54,9 @@
 
 ## 9. Paper-grade run
 
-- [ ] 9.1 Time a few units of each profile on `ing` at 999 permutations, write the shard and throttle plan with the core-hour estimate, and get the user's approval before submitting
+> **Run record (2026-11-04).** Local smoke (2 × 19, 192 units): 192 completed, 0 failed, 0 duplicates; planted fixed points converged in ≤ 19 updates with residual < 1e-12; median capture 0.96 (geometry) and 0.97 (magnitude). Timing on `ing` (job 933792, 32 random units at 999 permutations, n1): 32 completed, mean 17.3 s, median 15.2 s, max 23.0 s → about 230 core-hours (276 with a 20 % margin), under the user's pre-approved cap of 450. Submitted from the detached worktree `/home1/tgonza/MOTCO-stage-span-paper-grade` at e41c1ae (profile sha256s matched the workstation; `motco` 0.17.0 imported from the worktree): 933810 span geometry (260 shards, throttle 64), 933811 span magnitude (110, 28), 933812 surgery geometry (110, 28), one CPU and 4 GB per task, `--exclude=n2,n11` (n2 in `completing` state, as when another user's job hung there earlier that day; n11 at 1.8 GB free memory with a history of NFS stalls). Output: `results/stage-span-paper-grade-2026-11-04/` in that worktree.
+
+- [x] 9.1 Time a few units of each profile on `ing` at 999 permutations, write the shard and throttle plan with the core-hour estimate, and get the user's approval before submitting
 - [ ] 9.2 Submit the three arrays with `scripts/motco_study_array.sbatch` (n2 and n11 excluded with the reason stated), monitor shard progress and stalls, and verify `sacct` shows every task `COMPLETED 0:0`
 - [ ] 9.3 Merge each profile and generate its `report/`, and verify the expected unit counts, no duplicates and no failed records
 
