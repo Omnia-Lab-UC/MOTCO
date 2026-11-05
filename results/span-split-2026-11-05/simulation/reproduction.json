@@ -1,0 +1,10 @@
+{
+ "differing": [],
+ "passed": true,
+ "permutations": 199,
+ "profile": "simulation",
+ "rows_compared": 126,
+ "shared_replicates": 100,
+ "source": "results/latent-space-comparison-2026-11-04/rate_table.csv",
+ "source_sha256": "909bc1adf722ec52468314081e8d36477aaeafd13e31058a2994f5233ce40f9e"
+}

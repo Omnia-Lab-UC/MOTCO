@@ -111,3 +111,24 @@ rejection (p < 0.05); the per-cell bound at R = 200 is 0.081:
   (`seaad`, both cells) and 0.065 / 0.105 (`seaad_weak` anchor / translation), against 0.035 or less for the pseudo-F.
 - **Decision:** the design stands; no basis revision is needed for size. Paper grade (R = 500, 999 draws) and the real
   noise of the plasmode (rank 5) remain to be measured by C1 and C2.
+
+## Paper-grade run (tasks 6.2–6.5, 2026-11-05)
+
+- **Launch.** Commit `b84d23c` pushed to the cluster clone's side ref `incoming/span-split` (not GitHub); clean detached
+  worktree `/home1/tgonza/MOTCO-span-split`, `.venv` symlinked, `PYTHONPATH` on its `src`; driver, module and analysis
+  sha256 equal to the workstation's; the export copy's five sha256 equal to the plasmode's settings. Fidelity job 934741
+  passed (rank 5, AUROC 0.635556). Arrays 934742 (simulation, 200 shards) and 934743 (plasmode, 150 shards), each
+  throttled to 64, n2 and n11 excluded at submission; n2 was re-allowed for pending tasks at 14:16 on the user's
+  question (its `completing` state was another user's stuck job, the node healthy), and no task landed on it.
+- **Incident.** The 51 simulation tasks first placed on n1 sat about 7 minutes in `D` on `rpc_wait_bit_killable`
+  after opening their shard files, while n1 answered small NFS reads in 45 ms; they resumed on their own. Startup
+  congestion with 128 tasks starting together; nothing was cancelled.
+- **Outcome.** 350/350 tasks `COMPLETED 0:0`; 6,600 + 1,500 units, 0 failed, 0 duplicates; 25.6 + 36.9 = 62.5 recorded
+  core-hours (median unit 11.1 s and 80.0 s on EPYC, faster than the laptop's 16.5 s and 134 s, so the projection of
+  113 was high). Both reproduction checks passed (126 and 9 rows). Merge and decide: job 935094.
+- **Decision: `split_validated`** (C1 0 of 18 above the bound, C2 0 of 3, C3 1.00 vs 0.08 and 0.68 vs 0.10).
+  Report `docs/reports/span-split-2026-11-05.md`; aggregates `results/span-split-2026-11-05/`.
+- **Descriptive notes the report carries.** The plasmode's complement is conservative on real noise (0.012); no part
+  sees the 20-feature plant (0.02–0.05); the null in-span share grows with the fitted rank (0.006 at rank 2, 0.24 at
+  rank 5), so the share is read against the null; the production `angle` at the `seaad` design reads 0.072 / 0.070
+  at the anchor / translation (R = 500), just above its per-cell bound, which this change does not judge.

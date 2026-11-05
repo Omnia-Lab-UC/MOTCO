@@ -1,0 +1,21 @@
+{
+ "complete_units": 6600,
+ "duplicate_records": 0,
+ "expected_units": 6600,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "missing_units": 0,
+ "profile": "simulation",
+ "recorded_core_hours": 25.643802372643485,
+ "settings_hash": "748fa87ad2b30ed4ef2d8a124777963da8e8dc0bbe3b8a397199543aec8675cd",
+ "stage_seconds_median": {
+  "evaluation": 0.41345793195068836,
+  "fit": 10.320723889395595,
+  "split": 0.16100354120135307
+ },
+ "unit_seconds": {
+  "max": 28.1413751617074,
+  "median": 11.101713714480866,
+  "q90": 22.89636268094182
+ }
+}
