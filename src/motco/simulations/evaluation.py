@@ -22,8 +22,9 @@ column-binds the omic blocks, leaving the data in rescaled *feature* space, not
 a constructed latent space. The viz down-projection (``viz.plot_trajectory_from_*``)
 is display-only and distinct from this measurement space.
 
-Two further **diagnostic** methods exist for measurement-design comparison
-(the orientation measurement probe) and are not production latent spaces:
+Three further **diagnostic** methods exist for measurement-design comparison
+(the orientation measurement probe and the latent-space comparison) and are
+not production latent spaces:
 
 - ``pca``: label-free principal-component scores of the ``concat`` matrix, at
   a required ``integration_params["n_components"]``.
@@ -31,6 +32,15 @@ Two further **diagnostic** methods exist for measurement-design comparison
   group (``components_per_group``, default ``n_stages - 1``), whose stacked
   weight vectors are orthonormalized into one basis spanning both groups'
   stage subspaces. The basis is fitted once per evaluation, never inside RRPP.
+- ``pls_residual_pca``: the production ``pls`` scores followed by
+  ``residual_components`` (default ``n_stages - 1``) principal-component
+  scores of the stage-residualized features, taken orthogonal to the PLS span
+  in the model's input coordinates. The basis uses the stage labels, never the
+  group labels, and is fitted once, never inside RRPP.
+
+Every linear space (``pls``, ``pca``, ``pls_residual_pca`` and the
+standardized ``concat``) carries its fitted :class:`LinearLatentMap` beside the
+latent matrix, so span capture reads each space through its own basis.
 """
 
 from __future__ import annotations
@@ -43,7 +53,7 @@ from typing import Any, Literal, Mapping, Sequence
 import numpy as np
 import pandas as pd
 
-from motco.simulations.diagnostics import calculate_realized_geometry
+from motco.simulations.diagnostics import LinearLatentMap, calculate_realized_geometry
 from motco.simulations.generator import logit
 from motco.simulations.preprocessing import (
     OMIC_LAYERS,
@@ -68,14 +78,16 @@ from motco.stats.pls import (
 from motco.stats.snf import SNF, get_affinity_matrix, get_spectral
 from motco.stats.trajectory import estimate_difference
 
-IntegrationMethod = Literal["concat", "snf", "pls", "pca", "pls_within_group"]
+IntegrationMethod = Literal["concat", "snf", "pls", "pca", "pls_within_group", "pls_residual_pca"]
 
 #: Integration methods the harness accepts.
-INTEGRATION_METHODS: frozenset[str] = frozenset({"concat", "snf", "pls", "pca", "pls_within_group"})
+INTEGRATION_METHODS: frozenset[str] = frozenset(
+    {"concat", "snf", "pls", "pca", "pls_within_group", "pls_residual_pca"}
+)
 
 #: Probe-only latent spaces: labelled ``integration_role="diagnostic"``, never
 #: production, and excluded from attribution and the forced-rank override.
-DIAGNOSTIC_INTEGRATION_METHODS: frozenset[str] = frozenset({"pca", "pls_within_group"})
+DIAGNOSTIC_INTEGRATION_METHODS: frozenset[str] = frozenset({"pca", "pls_within_group", "pls_residual_pca"})
 
 #: Methods whose latent matrix is measured as its own realized-geometry
 #: checkpoint, keyed to that checkpoint's name.
@@ -83,6 +95,7 @@ _LATENT_CHECKPOINTS: dict[str, str] = {
     "pls": "pls_latent",
     "pca": "pca_latent",
     "pls_within_group": "pls_within_group_latent",
+    "pls_residual_pca": "pls_residual_pca_latent",
 }
 
 #: Orientation estimators an evaluation may select. ``None`` (the default)
@@ -142,9 +155,10 @@ class SimulationEvaluationParams:
     # so floor-1 cell ids, signatures and records equal those produced before
     # the field existed. PLS only; the other integration methods ignore it.
     min_components: int | None = 2
-    # Opt-in span-capture diagnostic: with PLS integration, realized geometry
-    # gains the ``population_latent`` checkpoint and the ``span_capture`` shares,
-    # computed from the evaluation's own fitted model (no refit; statistics are
+    # Opt-in span-capture diagnostic: with a linear integration (``pls``, ``pca``,
+    # ``pls_residual_pca``, ``concat``), realized geometry gains the
+    # ``population_latent`` checkpoint and the ``span_capture`` shares, computed
+    # from the evaluation's own fitted linear map (no refit; statistics are
     # unchanged). ``None`` (off) is hash-omitted and ``False`` normalizes to it,
     # so an evaluation without it is byte-identical to before the field existed.
     span_capture: bool | None = None
@@ -285,13 +299,17 @@ class PLSIntegrationArtifacts:
 class LatentIntegrationResult:
     """Integrated latent/outcome matrix and metadata.
 
-    ``artifacts`` carries the ephemeral fitted objects for the PLS path and is
-    never serialized; only ``metadata`` reaches the persisted record.
+    ``artifacts`` carries the ephemeral fitted objects for the PLS path (the
+    attribution boundary) and ``linear_map`` the fitted
+    :class:`~motco.simulations.diagnostics.LinearLatentMap` of a linear space
+    (``pls``, ``pca``, ``pls_residual_pca``, the standardized ``concat``);
+    neither is serialized, and only ``metadata`` reaches the persisted record.
     """
 
     matrix: pd.DataFrame
     metadata: dict[str, Any]
     artifacts: PLSIntegrationArtifacts | None = None
+    linear_map: LinearLatentMap | None = field(default=None, repr=False, compare=False)
 
 
 @dataclass(frozen=True)
@@ -451,13 +469,10 @@ def evaluate_semisynthetic_trajectory(
     if params.span_capture is not None:
         runtime_metadata["span_capture"] = params.span_capture
     latent_checkpoint = _LATENT_CHECKPOINTS.get(params.integration_method)
-    # Span capture reads the PLS model the statistics were measured in; other
-    # integration methods have none and record nothing.
-    span_model = (
-        latent.artifacts.model
-        if params.span_capture and params.integration_method == "pls" and latent.artifacts is not None
-        else None
-    )
+    # Span capture reads the linear map the statistics were measured in; the
+    # nonlinear or unrecorded spaces (``snf``, ``pls_within_group``) have none
+    # and record nothing.
+    span_map = latent.linear_map if params.span_capture else None
     realized_geometry = calculate_realized_geometry(
         dataset,
         preprocessor=preprocessor,
@@ -467,7 +482,7 @@ def evaluate_semisynthetic_trajectory(
         stage_col=params.stage_col,
         latent_checkpoint=latent_checkpoint or "pls_latent",
         orientation_estimator=params.resolved_orientation_estimator,
-        latent_model=span_model,
+        latent_map=span_map,
     ).to_dict()
     # The fitted estimator and standardized joint matrix live only inside this
     # call: attribution consumes them here, and only the compact JSON-safe
@@ -594,6 +609,16 @@ def integrate_semisynthetic_dataset(
             stage_col=params.stage_col,
             observed_blocks=observed_blocks,
         )
+    if method == "pls_residual_pca":
+        pls = _pls_integration(
+            dataset,
+            params.integration_params,
+            stage_col=params.stage_col,
+            observed_blocks=observed_blocks,
+            preprocessor=preprocessor,
+            min_components=params.resolved_min_components,
+        )
+        return pls_residual_pca_from_pls(dataset, pls, params)
     raise SimulationEvaluationError(f"Unsupported integration_method: {method!r}.")
 
 
@@ -763,8 +788,19 @@ def _concat_integration(
     standardize = bool(integration_params.get("standardize", True))
     layers = _measured_layers(integration_params)
     layer_feature_counts = {layer: int(getattr(dataset, layer).shape[1]) for layer in layers}
+    linear_map: LinearLatentMap | None = None
     if standardize:
         latent = concatenate_blocks(observed_blocks)
+        # The standardized features are the coordinates: every direction is
+        # kept, so every span-capture share is 1.
+        n_features = int(latent.shape[1])
+        linear_map = LinearLatentMap(
+            method="concat",
+            center=np.zeros(n_features),
+            scale=np.ones(n_features),
+            basis=np.eye(n_features),
+            transform=lambda rows: np.array(rows, dtype=float),
+        )
     else:
         frames = []
         for layer in layers:
@@ -786,6 +822,7 @@ def _concat_integration(
             "n_features": int(latent.shape[1]),
             "layer_feature_counts": layer_feature_counts,
         },
+        linear_map=linear_map,
     )
 
 
@@ -1096,6 +1133,7 @@ def fit_pls_latent_space(
             methylation_units=methylation_units,
             latent_adjustment=adjustment,
         ),
+        linear_map=LinearLatentMap.from_pls(model),
     )
 
 
@@ -1120,9 +1158,12 @@ def _pca_integration(
         integration_params, "n_components", method="pca", maximum=min(n_samples, n_features)
     )
     values = X.to_numpy(dtype=float)
-    centered = values - values.mean(axis=0, keepdims=True)
-    U, singular_values, _ = np.linalg.svd(centered, full_matrices=False)
+    center = values.mean(axis=0, keepdims=True)
+    centered = values - center
+    U, singular_values, right = np.linalg.svd(centered, full_matrices=False)
     scores = U[:, :n_components] * singular_values[:n_components]
+    axes = right[:n_components].T.copy()
+    mean = center[0].copy()
     latent = pd.DataFrame(
         scores,
         index=dataset.metadata["sample_id"].astype(str).tolist(),
@@ -1141,6 +1182,124 @@ def _pca_integration(
             "n_features": int(latent.shape[1]),
             "layer_feature_counts": layer_feature_counts,
         },
+        # Scores are (x − mean)·V_k: the principal axes are the kept directions.
+        linear_map=LinearLatentMap(
+            method="pca",
+            center=mean,
+            scale=np.ones(n_features),
+            basis=axes,
+            transform=lambda rows: (np.asarray(rows, dtype=float) - mean) @ axes,
+        ),
+    )
+
+
+def pls_residual_pca_from_pls(
+    dataset: SemiSyntheticTrajectoryDataset,
+    pls: LatentIntegrationResult,
+    params: SimulationEvaluationParams,
+) -> LatentIntegrationResult:
+    """The diagnostic ``pls_residual_pca`` space built on an existing ``pls`` fit.
+
+    ``pls`` is a ``pls`` integration of ``dataset`` with the same measured
+    blocks and rank floor; it is reused, not refitted. In the model's input
+    coordinates ``X_in = (X − x_mean) / x_std`` the pooled stage means are
+    subtracted, the residuals are projected off the span of the PLS rotations,
+    and their top ``r`` right singular vectors ``W`` are appended:
+    the latent matrix is ``[pls scores, X_in·W]``. ``r`` is
+    ``params.integration_params["residual_components"]`` (default
+    ``n_stages − 1``), in ``[1, min(n_features − pls_rank, n_samples −
+    n_stages)]``. The basis reads the stage labels, never the group labels.
+    """
+
+    if params.integration_method != "pls_residual_pca":
+        raise SimulationEvaluationError(
+            f"pls_residual_pca_from_pls needs integration_method='pls_residual_pca', "
+            f"got {params.integration_method!r}."
+        )
+    if pls.metadata.get("integration_method") != "pls" or pls.artifacts is None:
+        raise SimulationEvaluationError(
+            "pls_residual_pca is built on a 'pls' integration with fitted artifacts; got "
+            f"{pls.metadata.get('integration_method')!r}."
+        )
+    if pls.artifacts.latent_adjustment is not None:
+        raise SimulationEvaluationError("pls_residual_pca is not defined on a covariate-adjusted PLS basis.")
+    pls_layers = pls.metadata.get("integration_params", {}).get("layers")
+    requested_layers = _layers_metadata(params.integration_params).get("layers")
+    if pls_layers != requested_layers:
+        raise SimulationEvaluationError(
+            f"The supplied pls integration measures layers {pls_layers}, but this evaluation requests "
+            f"{requested_layers}."
+        )
+    sample_ids = dataset.metadata["sample_id"].astype(str).tolist()
+    if pls.matrix.index.astype(str).tolist() != sample_ids:
+        raise SimulationEvaluationError("The supplied pls integration is not row-aligned to this dataset.")
+
+    model = pls.artifacts.model
+    values = pls.artifacts.features.to_numpy(dtype=float)
+    center = np.asarray(model._x_mean, dtype=float)
+    scale = np.asarray(model._x_std, dtype=float)
+    inputs = (values - center) / scale
+    stages = dataset.metadata[params.stage_col].astype(str).to_numpy()
+    stage_levels = _sort_levels(pd.unique(stages).tolist())
+    residuals = inputs.copy()
+    for level in stage_levels:
+        mask = stages == level
+        residuals[mask] -= inputs[mask].mean(axis=0)
+    pls_basis, _ = np.linalg.qr(np.asarray(model.x_rotations_, dtype=float))
+    residuals -= (residuals @ pls_basis) @ pls_basis.T
+
+    n_samples, n_features = values.shape
+    pls_rank = int(pls_basis.shape[1])
+    raw = params.integration_params.get("residual_components")
+    residual_components = _required_rank_param(
+        {"residual_components": len(stage_levels) - 1 if raw is None else raw},
+        "residual_components",
+        method="pls_residual_pca",
+        maximum=min(n_features - pls_rank, n_samples - len(stage_levels)),
+    )
+    _, _, right = np.linalg.svd(residuals, full_matrices=False)
+    axes = right[:residual_components].T.copy()
+    scores = np.hstack([pls.matrix.to_numpy(dtype=float), inputs @ axes])
+    latent = pd.DataFrame(
+        scores,
+        index=sample_ids,
+        columns=[*pls.matrix.columns, *(f"resid_{i}" for i in range(residual_components))],
+    )
+
+    def transform(rows: np.ndarray) -> np.ndarray:
+        rows = np.asarray(rows, dtype=float)
+        return np.hstack([np.asarray(model.transform(rows), dtype=float), ((rows - center) / scale) @ axes])
+
+    pls_metadata = pls.metadata
+    return LatentIntegrationResult(
+        matrix=latent,
+        metadata={
+            "integration_method": "pls_residual_pca",
+            "integration_role": "diagnostic",
+            "integration_metadata_version": INTEGRATION_METADATA_VERSION,
+            "integration_params": {
+                **pls_metadata["integration_params"],
+                "residual_components": residual_components,
+            },
+            "component_selection": pls_metadata["component_selection"],
+            "cv_mean_auroc": pls_metadata["cv_mean_auroc"],
+            "cv_repeats_completed": pls_metadata["cv_repeats_completed"],
+            "pls_rank": pls_rank,
+            "residual_components": residual_components,
+            "retained_dimensionality": pls_rank + residual_components,
+            "shape": tuple(latent.shape),
+            "n_samples": int(latent.shape[0]),
+            "n_features": int(latent.shape[1]),
+            "layer_feature_counts": dict(pls_metadata["layer_feature_counts"]),
+            "feature_order_signature": pls_metadata["feature_order_signature"],
+        },
+        linear_map=LinearLatentMap(
+            method="pls_residual_pca",
+            center=center,
+            scale=scale,
+            basis=np.hstack([pls_basis, axes]),
+            transform=transform,
+        ),
     )
 
 

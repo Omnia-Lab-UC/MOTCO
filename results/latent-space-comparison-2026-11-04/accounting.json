@@ -1,0 +1,23 @@
+{
+ "arm_seconds_median": {
+  "concat": 15.955354656092823,
+  "pca_fixed": 0.444048379547894,
+  "pca_matched": 0.4405368333682418,
+  "pls_cv": 0.4327131947502494,
+  "pls_residual_pca": 0.4479782357811928
+ },
+ "complete_units": 4200,
+ "duplicate_records": 0,
+ "expected_units": 4200,
+ "failed_records": 0,
+ "failures_by_arm_and_cell": {},
+ "missing_units": 0,
+ "recorded_core_hours": 37.05359424012904,
+ "records": 21000,
+ "settings_hash": "db7fedf3292c42c94d3e44bf869d11a04676919e66a060caf5dc7ac7dd8e6d20",
+ "unit_seconds": {
+  "max": 48.481043457984924,
+  "median": 38.16903396323323,
+  "q90": 44.01789464503527
+ }
+}

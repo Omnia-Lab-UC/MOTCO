@@ -101,10 +101,34 @@ intended population geometry in the null-standardized coordinates and the
 plant's norm per stage; the population trajectories include the plant.
 ``construction='surgery'`` normalizes to ``None``, the default, so every
 surgery dataset, cell id and signature is unchanged.
+
+**Alignment with the stage span (opt-in).** ``span_alignment`` (φ, degrees in
+``[0, 90]``) tilts the stage-span ``orientation``'s rotation plane from
+``(u, v)`` to ``(u, w_φ)``, ``w_φ = cos φ·v + sin φ·o``, where ``o`` is a unit
+direction on the span-layer features whose standardized null stage means are
+constant across stages (the features the null stage program does not use), so
+``o`` is orthogonal to the stage span without a projection. The intended
+geometry is the same at every φ (``angle`` θ, ``delta`` = ``shape`` = 0); only
+where the difference points changes. φ = 0 normalizes to ``None``, the in-span
+rotation; at φ = 90 with balanced cells B − A minus its stage mean is
+orthogonal to the centred pooled stage means (the rhombus), the controlled
+analogue of the relocation surgery. ``span_support`` = ``k`` restricts ``o`` to
+``k`` such features chosen uniformly (absent: all of them); ``o`` is normalized
+either way, so the plant's energy does not depend on its support. ``o`` comes
+from ``np.random.default_rng([seed, SPAN_ALIGNMENT_STREAM])``, never the
+sampling stream, so the dataset is still the null dataset plus the plant and
+``o`` is shared by every effect and φ > 0 at a seed and support. Both settings
+apply to ``orientation`` (and the null ``none``) under ``stage_span`` only; at
+three stages a bend out of the plane would change the intended ``shape``, and
+magnitude and translation have no out-of-span version. Truth records the
+alignment, the support and a ``stage_span.out_of_span`` block (support size,
+available features, span layers, a direction identifier).
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass, field
 from typing import Any, Literal, Mapping, Sequence
 
@@ -190,6 +214,13 @@ class SemiSyntheticTrajectoryParams:
     (``None`` = all three, canonical order) and is accepted only under
     ``stage_span``. Both are omitted from cell ids and signatures while
     ``None``.
+    ``span_alignment`` (φ, degrees in ``[0, 90]``) tilts the stage-span
+    orientation's rotation plane out of the stage span, and ``span_support``
+    (a positive integer ``k``, or ``None`` for every eligible feature) sets the
+    support of the out-of-span direction; see the module docstring. φ = 0
+    normalizes to ``None``. Both are accepted only under ``stage_span`` with
+    ``orientation`` or ``none`` and are omitted from cell ids and signatures
+    while ``None``.
     """
 
     seed: int
@@ -211,10 +242,17 @@ class SemiSyntheticTrajectoryParams:
     group_stage_sizes: tuple[tuple[int, ...], tuple[int, ...]] | None = None
     construction: Construction | None = None
     span_layers: tuple[OmicsLayer, ...] | None = None
+    span_alignment: float | None = None
+    span_support: int | None = None
 
     def __post_init__(self) -> None:
         if self.construction == "surgery":
             object.__setattr__(self, "construction", None)
+        alignment = self.span_alignment
+        if isinstance(alignment, int | float | np.integer | np.floating) and not isinstance(alignment, bool):
+            if alignment == 0:
+                # Zero alignment is the in-span rotation: the hash-omitted spelling.
+                object.__setattr__(self, "span_alignment", None)
         layers = self.span_layers
         if layers is not None and not isinstance(layers, str | bytes) and isinstance(layers, Sequence):
             names = tuple(str(layer) for layer in layers)
@@ -378,6 +416,7 @@ def validate_construction(params: SemiSyntheticTrajectoryParams) -> None:
         raise SemiSyntheticTrajectoryError(
             f"Unknown construction: {construction!r}; expected one of {sorted(_CONSTRUCTIONS)}."
         )
+    _validate_alignment(params)
     if construction != "stage_span":
         if params.span_layers is not None:
             raise SemiSyntheticTrajectoryError(
@@ -396,6 +435,42 @@ def validate_construction(params: SemiSyntheticTrajectoryParams) -> None:
         raise SemiSyntheticTrajectoryError(
             f"construction='stage_span' orientation rotates by 90°·e, so group_effect_size must be at most "
             f"{STAGE_SPAN_MAX_ORIENTATION_EFFECT:g} (180°); got {params.group_effect_size}."
+        )
+
+
+def _validate_alignment(params: SemiSyntheticTrajectoryParams) -> None:
+    """Reject a malformed or misplaced ``span_alignment`` / ``span_support``."""
+
+    alignment, support = params.span_alignment, params.span_support
+    if alignment is None and support is None:
+        return
+    if alignment is not None:
+        if isinstance(alignment, bool) or not isinstance(alignment, int | float | np.integer | np.floating):
+            raise SemiSyntheticTrajectoryError(
+                f"span_alignment must be an angle in degrees in [0, 90]; got {alignment!r}."
+            )
+        if not (0.0 <= float(alignment) <= 90.0):
+            raise SemiSyntheticTrajectoryError(
+                f"span_alignment must be an angle in degrees in [0, 90]; got {alignment!r}."
+            )
+    if support is not None:
+        if isinstance(support, bool) or not isinstance(support, int | np.integer) or int(support) < 1:
+            raise SemiSyntheticTrajectoryError(f"span_support must be a positive integer; got {support!r}.")
+        if alignment is None:
+            raise SemiSyntheticTrajectoryError(
+                f"span_support={support} is set but span_alignment is absent or 0; the support belongs to "
+                "the out-of-span direction of an alignment above 0."
+            )
+    setting = "span_alignment" if alignment is not None else "span_support"
+    if params.construction != "stage_span":
+        raise SemiSyntheticTrajectoryError(
+            f"{setting} is set but construction is not 'stage_span'; the alignment tilts the stage-span "
+            "orientation only."
+        )
+    if params.trajectory_mode not in ("orientation", "none"):
+        raise SemiSyntheticTrajectoryError(
+            f"{setting} is set with trajectory_mode={params.trajectory_mode!r}; the alignment applies to "
+            "'orientation' (and the null 'none') only."
         )
 
 
@@ -1018,12 +1093,22 @@ def _stage_span_plant(
     configuration = np.hstack([null_means[layer] for layer in layers])
     z = (configuration - stage_weights @ configuration / stage_weights.sum()) / scale
 
+    direction: OutOfSpanDirection | None = None
+    if params.span_alignment is not None:
+        direction = out_of_span_direction(z, seed=params.seed, support=params.span_support)
+
     null = params.trajectory_mode == "none" or params.group_effect_size == 0
     effect: dict[str, Any]
     if null:
         edited, effect = z, {}
     else:
-        edited, effect = edit_stage_configuration(z, params.trajectory_mode, float(params.group_effect_size))
+        edited, effect = edit_stage_configuration(
+            z,
+            params.trajectory_mode,
+            float(params.group_effect_size),
+            alignment_degrees=params.span_alignment,
+            out_of_span=direction.vector if direction is not None else None,
+        )
     plant = edited - z
 
     shifts: dict[OmicsLayer, np.ndarray] = {}
@@ -1038,7 +1123,7 @@ def _stage_span_plant(
     label_a, label_b = params.group_labels
     geometry = _intended_geometry(z, edited, (label_a, label_b))
     transform = {} if null else {"construction": "stage_span", **effect}
-    truth = {
+    truth: dict[str, Any] = {
         "construction": "stage_span",
         "span_layers": list(layers),
         "stage_span": {
@@ -1049,20 +1134,116 @@ def _stage_span_plant(
             "plant_norm": [float(norm) for norm in np.linalg.norm(plant, axis=1)],
         },
     }
+    if direction is not None and params.span_alignment is not None:
+        truth["span_alignment"] = float(params.span_alignment)
+        truth["span_support"] = None if params.span_support is None else int(params.span_support)
+        truth["stage_span"]["out_of_span"] = {
+            "span_layers": list(layers),
+            "support_size": direction.support_size,
+            "available_features": direction.available_features,
+            "direction_id": direction.direction_id,
+        }
     return _StageSpanPlant(shifts=shifts, transform=transform, truth=truth)
+
+
+#: Second entropy word of the out-of-span direction's stream,
+#: ``np.random.default_rng([seed, SPAN_ALIGNMENT_STREAM])``, kept apart from
+#: the sampling stream ``default_rng(seed)``.
+SPAN_ALIGNMENT_STREAM = 0xA116
+
+#: A span-layer feature whose standardized null stage means differ from their
+#: mean over stages by at most this much is unused by the null stage program.
+OUT_OF_SPAN_TOLERANCE = 1e-10
+
+
+@dataclass(frozen=True)
+class OutOfSpanDirection:
+    """A unit direction on span-layer features the null stage program does not use.
+
+    ``vector`` has one entry per span-layer feature (the columns of the
+    standardized configuration); ``support_size`` counts its nonzero entries,
+    ``available_features`` the unused features it was drawn from, and
+    ``direction_id`` hashes the drawn support and the stream seed, so it is
+    shared by every effect and alignment at one seed and support.
+    """
+
+    vector: np.ndarray
+    support_size: int
+    available_features: int
+    direction_id: str
+
+
+def out_of_span_direction(
+    z: np.ndarray,
+    *,
+    seed: int,
+    support: int | None = None,
+) -> OutOfSpanDirection:
+    """The out-of-span direction ``o`` of a stage configuration ``z`` (stages × features).
+
+    The candidates are the features whose standardized null stage means are
+    constant across stages (within :data:`OUT_OF_SPAN_TOLERANCE`), so ``o`` is
+    orthogonal to every centred stage mean without a projection. ``support`` =
+    ``k`` first picks ``k`` candidates uniformly; absent, every candidate is
+    used. The entries are standard normal on the support, then normalized. The
+    draws come from ``default_rng([seed, SPAN_ALIGNMENT_STREAM])`` and never
+    touch the sampling stream.
+    """
+
+    z = np.asarray(z, dtype=float)
+    centered = z - z.mean(axis=0)
+    unused = np.flatnonzero(np.max(np.abs(centered), axis=0) <= OUT_OF_SPAN_TOLERANCE)
+    available = int(unused.size)
+    rng = np.random.default_rng([int(seed), SPAN_ALIGNMENT_STREAM])
+    if support is None:
+        if available == 0:
+            raise SemiSyntheticTrajectoryError(
+                "span_alignment needs at least one span-layer feature whose null stage means do not vary; "
+                f"none of the {z.shape[1]} features qualifies."
+            )
+        chosen = unused
+    else:
+        if int(support) > available:
+            raise SemiSyntheticTrajectoryError(
+                f"span_support={int(support)} exceeds the {available} span-layer features whose null stage "
+                "means do not vary."
+            )
+        chosen = np.sort(rng.choice(unused, size=int(support), replace=False))
+    vector = np.zeros(z.shape[1])
+    vector[chosen] = rng.standard_normal(chosen.size)
+    vector /= np.linalg.norm(vector)
+    payload = json.dumps(
+        {"seed": int(seed), "stream": SPAN_ALIGNMENT_STREAM, "support": [int(index) for index in chosen]},
+        separators=(",", ":"),
+    ).encode()
+    return OutOfSpanDirection(
+        vector=vector,
+        support_size=int(chosen.size),
+        available_features=available,
+        direction_id=hashlib.sha256(payload).hexdigest()[:12],
+    )
 
 
 def edit_stage_configuration(
     z: np.ndarray,
     mode: str,
     effect: float,
+    *,
+    alignment_degrees: float | None = None,
+    out_of_span: np.ndarray | None = None,
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Apply one stage-span edit to a stage configuration ``z`` (stages × features).
 
     Returns the edited configuration and the effect parameters, in the units of
     ``z``. See the module docstring for the four edits; ``orientation`` and
     ``shape`` raise when the configuration has no second in-span direction.
+    ``alignment_degrees`` (φ) with ``out_of_span`` (a unit direction ``o``
+    orthogonal to the stage span) tilts the orientation's rotation plane from
+    ``(u, v)`` to ``(u, cos φ·v + sin φ·o)``; absent, the plane is ``(u, v)``.
     """
+
+    if alignment_degrees is not None and out_of_span is None:
+        raise SemiSyntheticTrajectoryError("alignment_degrees needs the out-of-span direction out_of_span.")
 
     z = np.asarray(z, dtype=float)
     n_stages = z.shape[0]
@@ -1105,6 +1286,11 @@ def edit_stage_configuration(
 
     if mode == "orientation":
         v = _leading_direction(centered - np.outer(centered @ u, u))
+        alignment: dict[str, Any] = {}
+        if alignment_degrees is not None:
+            phi = np.deg2rad(float(alignment_degrees))
+            v = np.cos(phi) * v + np.sin(phi) * np.asarray(out_of_span, dtype=float)
+            alignment = {"span_alignment": float(alignment_degrees)}
         theta = np.deg2rad(90.0 * effect)
         along_u = centered @ u
         along_v = centered @ v
@@ -1113,7 +1299,7 @@ def edit_stage_configuration(
             + (np.cos(theta) - 1.0) * (np.outer(along_u, u) + np.outer(along_v, v))
             + np.sin(theta) * (np.outer(along_u, v) - np.outer(along_v, u))
         )
-        return centroid + rotated, {"rotation_degrees": float(90.0 * effect)}
+        return centroid + rotated, {"rotation_degrees": float(90.0 * effect), **alignment}
 
     interior = list(range(1, n_stages - 1))
     stage = interior[len(interior) // 2]  # the stage the shape surgery perturbs

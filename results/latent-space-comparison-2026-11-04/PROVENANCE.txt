@@ -1,0 +1,27 @@
+# Latent-space comparison provenance — five measurement arms across alignment with the stage span
+date: 2026-11-04 (local -03); array 933442 submitted 19:24:33, first task started 19:24:33, last task ended 20:01:35
+change: latent-space-comparison (MOTCO 0.16.0)
+driver: scripts/latent_space_comparison.py (driver version 1, reading rule version 1); sbatch scripts/latent_space_comparison_array.sbatch
+code_revision:
+  calibration (original ladder, job 933435): 93fb7a165dbcbe458f4ac6f06aab752416855cde
+  calibration (amended ladder, job 933439) and run (array 933442): d2c167bb54b4e7d0ce7aeeb5f6c6082f52c5be0e
+  merge + decide (jobs 933655 at d2c167b, then 933657 at 36f8fdc): 36f8fdc only adds the population_latent delta/angle/shape medians to capture_table.csv; the re-merge left rate_table.csv, accounting.json and merged.jsonl byte-identical and the reading unchanged
+  every revision on feat/latent-space-comparison, pushed to the cluster clone as refs/heads/incoming/latent-space-comparison (not to GitHub); clean detached worktree /home1/tgonza/MOTCO-lsc, .venv -> /home1/tgonza/MOTCO/.venv, PYTHONPATH on the worktree's src (motco 0.16.0 imported from it)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, n2 and n11 excluded (n2 held a job stuck completing; n11 had 15 GB free and an NFS-stall history); python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3 (the workstation's versions)
+pre-flight: workstation fast suite at 93fb7a1 (ruff, mypy, 2212 passed / 1 skipped); local smoke, 3 designs x 14 cells x 2 replicates x 19 permutations (84/84 units, 0 failures, every record with span_capture and population_latent); 28 units timed at 199 permutations (median 33.8 s under 7 workers); openspec/changes/archive/2026-11-04-latent-space-comparison/notes.md
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the sbatch template and every srun/sbatch --wrap)
+calibration:
+  original ladder {0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5}: job 933435, one 40-CPU task on n1, 280 fits, 0 failures -> delta 0.1 band_missed (median held-out AUROC 0.595); calibration-original-ladder/
+  amended ladder (+0.11, 0.12, 0.13, 0.14; recorded in design D9 before any run unit): job 933439, one 40-CPU task on n1, 440 fits, 0 failures, original steps reproduced exactly -> delta 0.11 first_in_band (0.617); calibration/ (calibration.json sha256 2e440c506d6dfa32...)
+  python scripts/latent_space_comparison.py calibrate --out-dir /home1/tgonza/latent-space-comparison-2026-11-04/calibration --workers 40
+run settings: settings.json, hash db7fedf3292c42c9...; designs n200, seaad, seaad_weak (delta 0.11 from the calibration, its sha256 bound in the settings); 14 cells per design; arms pls_cv, pca_matched, pca_fixed, pls_residual_pca, concat; 100 replicates x 199 permutations; alpha 0.05; base seed 2035
+launch (from /home1/tgonza/MOTCO-lsc, R = /home1/tgonza/latent-space-comparison-2026-11-04):
+  PYTHONPATH=$PWD/src .venv/bin/python scripts/latent_space_comparison.py run --calibration R/calibration/calibration.json --out-dir R/run --shard 0/200 --limit 0   (settings written once, on the login node)
+  sbatch --array=0-199%80 --exclude=n2,n11 --export=ALL,PYTHONPATH=$PWD/src,LSC_CALIBRATION=R/calibration/calibration.json,LSC_OUT=R/run,N_SHARDS=200 scripts/latent_space_comparison_array.sbatch
+units: 3 designs x 14 cells x 100 replicates = 4,200 units x 5 arms = 21,000 records (21 units per shard, round-robin)
+outcome: array tasks 200/200 COMPLETED 0:0 (sacct.txt; task wall 398-1077 s, median 959 s; 128 tasks on n1, 42 on n3, 30 on n4); 4,200/4,200 complete units, 0 missing, 0 failed records, 0 duplicate records
+unit_timings (accounting.json): median 38.2 s per unit (q90 44.0, max 48.5); per arm median concat 16.0 s, others 0.43-0.45 s; 37.05 recorded core-hours (projection 35, 42 with margin)
+merged.jsonl sha256 (per-unit records stay on the cluster, not committed): a144ef22ccb9cc4f83a8dc12f6505c2ee928da7acc2d1af9d6324a54927094bd
+merge + decide (srun on n1): python scripts/latent_space_comparison.py merge --out-dir R/run; python scripts/latent_space_comparison.py decide --out-dir R/run -> verdict document_tradeoff
+committed aggregates: settings.json, calibration/, calibration-original-ladder/, rate_table.csv, capture_table.csv, accounting.json, latent_space_comparison_reading.json, sacct.txt, this file
+findings report: docs/reports/latent-space-comparison-2026-11-04.md
