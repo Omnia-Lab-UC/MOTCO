@@ -4,7 +4,7 @@
 
 ### Requirement: Study configurations accept the stage-span construction and span capture
 
-The study configuration SHALL accept `generator.construction`, `generator.span_layers`, `generator.span_scale` and `evaluation.span_capture` in its baseline blocks. `span_layers` may also be a design axis. The loader SHALL reject a stage-span configuration whose span layers differ from the measured blocks at any column, where absent means all three blocks, and SHALL reject `generator.construction` and `generator.span_scale` as design axes. Configurations that use none of the keys SHALL enumerate exactly as before.
+The study configuration SHALL accept `generator.construction`, `generator.span_layers`, `generator.span_scale` and `evaluation.span_capture` in its baseline blocks. `span_layers` may also be a design axis. The loader SHALL reject a stage-span configuration whose span layers (absent: all three blocks) differ from the measured blocks at any column, and `generator.construction` or `generator.span_scale` as a design axis. Configurations that use none of the keys SHALL enumerate exactly as before.
 
 #### Scenario: Stage-span configuration loads and enumerates
 - **WHEN** a configuration sets `generator.construction` to `stage_span`, `generator.span_layers` to methylation + expression, `evaluation.integration_params.layers` to the same blocks and `evaluation.span_capture` to `true`
