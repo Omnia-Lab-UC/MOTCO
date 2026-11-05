@@ -277,6 +277,11 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         raise SystemExit(
             "Error: --latent-adjustment requires declared covariates (--covariate or --categorical-covariate)."
         )
+    if args.span_split_test and args.latent_adjustment is not None:
+        raise SystemExit(
+            "Error: --span-split-test is not available with --latent-adjustment: the split interaction test is "
+            "defined on the covariate-blind basis."
+        )
 
     try:
         metadata = pd.read_csv(args.metadata)
@@ -319,6 +324,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             covariate_latent_adjustment=args.latent_adjustment,
             min_components=args.min_components,
             residual_correction=args.residual_correction,
+            span_split_test=args.span_split_test,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -370,6 +376,14 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         shown = "unavailable" if value is None else f"{value:.6g}"
         suffix = "" if p_value is None else f"  p = {p_value:.4g}"
         print(f"  {statistic:<6} {shown}{suffix}")
+    if "span_split" in record:
+        split = record["span_split"]
+        shown_p = ", ".join(
+            f"{part} {'unavailable' if values.get('p_value_f') is None else format(values['p_value_f'], '.4g')}"
+            for part, values in split["parts"].items()
+        )
+        share = "unavailable" if split["span_share"] is None else f"{split['span_share']:.4g}"
+        print(f"Split interaction test (pseudo-F p): {shown_p}; in-span share {share}")
     print("Outputs:")
     for written in paths.values():
         print(f"  {written}")
@@ -591,6 +605,10 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Rescale the reduced model's residuals before RRPP permutes them: df (kappa = "
                            "sqrt(n / (n - rank))) or leverage (1 / sqrt(1 - h_ii)). Moves only the null. "
                            "Default: off")
+    p_an.add_argument("--span-split-test", action="store_true",
+                      help="Also test the group x stage interaction of the standardized features inside the fitted "
+                           "PLS span and in its orthogonal complement (pseudo-F, RRPP draws at --seed). Not "
+                           "available with --latent-adjustment. Default: off")
     p_an.add_argument("--min-components", type=int, default=2,
                       help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
                            "(default: 2; 1 restores the unfloored 0.9.0 rule)")

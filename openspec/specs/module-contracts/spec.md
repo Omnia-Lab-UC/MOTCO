@@ -1,7 +1,7 @@
 # module-contracts Specification
 
 ## Purpose
-Defines the public import surface of the `motco.stats` subpackage: which symbols each of the `design`, `trajectory`, and `permutation` modules exports, that the flat `motco.stats` namespace keeps returning the same objects, and that the retired `sd` module stays unimportable.
+Defines the public import surface of the `motco.stats` subpackage: which symbols each of the `design`, `trajectory`, `permutation` and `interaction` modules exports, that the flat `motco.stats` namespace keeps returning the same objects, and that the retired `sd` module stays unimportable.
 
 ## Requirements
 
@@ -40,3 +40,14 @@ Defines the public import surface of the `motco.stats` subpackage: which symbols
 #### Scenario: Direct import from sd fails
 - **WHEN** a caller does `import motco.stats.sd`
 - **THEN** an `ImportError` or `ModuleNotFoundError` is raised
+
+### Requirement: interaction module exposes public symbols
+`motco.stats.interaction` SHALL export `interaction_split_test` and its result type, and the flat `motco.stats` namespace SHALL return the same function.
+
+#### Scenario: Direct import from interaction submodule
+- **WHEN** a caller does `from motco.stats.interaction import interaction_split_test`
+- **THEN** the import succeeds and the function is callable
+
+#### Scenario: Flat namespace returns the same object
+- **WHEN** a caller does `from motco.stats import interaction_split_test`
+- **THEN** the import succeeds and returns the same object as the direct submodule import

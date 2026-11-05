@@ -1,0 +1,4389 @@
+{
+ "alpha": 0.05,
+ "complete": true,
+ "consequence": "A case study may report the split interaction test, reading its parts as the measurement-visibility documentation states: span = the fitted span, a complement rejection = energy outside it, a non-rejection uninformative without power at the design.",
+ "criteria": {
+  "C1": {
+   "allowed_exceedances": 2,
+   "ceiling_at_median": 0.078,
+   "holds": true,
+   "m": 18,
+   "median_n_available": 500,
+   "n_above_ceiling": 0,
+   "n_unavailable": 0,
+   "name": "simulation size",
+   "observations": [
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 24,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 24,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 16,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.032,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 24,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 23,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.046,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 25,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.05,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 25,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.05,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 24,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 18,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.036,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 24,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 21,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.042,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 26,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.052,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 18,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.036,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 20,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.04,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "anchor",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 25,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.05,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 17,
+     "part": "total",
+     "profile": "simulation",
+     "rate": 0.034,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 18,
+     "part": "span",
+     "profile": "simulation",
+     "rate": 0.036,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.078,
+     "cell": "translation",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 29,
+     "part": "complement",
+     "profile": "simulation",
+     "rate": 0.058,
+     "status": "holds"
+    }
+   ],
+   "observed_exceedances": 0,
+   "p_exceed": 0.03026031344561755,
+   "rule": "count_and_ceiling"
+  },
+  "C2": {
+   "allowed_exceedances": 1,
+   "ceiling_at_median": 0.072,
+   "holds": true,
+   "m": 3,
+   "median_n_available": 500,
+   "n_above_ceiling": 0,
+   "n_unavailable": 0,
+   "name": "real-noise size",
+   "observations": [
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.072,
+     "cell": "anchor",
+     "n_available": 500,
+     "n_rejected": 20,
+     "part": "total",
+     "profile": "plasmode",
+     "rate": 0.04,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.072,
+     "cell": "anchor",
+     "n_available": 500,
+     "n_rejected": 25,
+     "part": "span",
+     "profile": "plasmode",
+     "rate": 0.05,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.072,
+     "cell": "anchor",
+     "n_available": 500,
+     "n_rejected": 6,
+     "part": "complement",
+     "profile": "plasmode",
+     "rate": 0.012,
+     "status": "holds"
+    }
+   ],
+   "observed_exceedances": 0,
+   "p_exceed": 0.03026031344561755,
+   "rule": "count_and_ceiling"
+  },
+  "C3": {
+   "checks": [
+    {
+     "cell": "orient_e0.5_phi90",
+     "complement": {
+      "count": 100,
+      "rate": 1.0,
+      "se": 0.0
+     },
+     "design": "n200",
+     "difference": 0.92,
+     "pass": true,
+     "pooled_se": 0.0271293,
+     "production_angle": {
+      "count": 100,
+      "rate": 0.08,
+      "se": 0.0271293
+     },
+     "threshold": 0.0542586
+    },
+    {
+     "cell": "orient_e0.5_phi90",
+     "complement": {
+      "count": 100,
+      "rate": 0.68,
+      "se": 0.0466476
+     },
+     "design": "seaad",
+     "difference": 0.5800000000000001,
+     "pass": true,
+     "pooled_se": 0.05546168574574703,
+     "production_angle": {
+      "count": 100,
+      "rate": 0.1,
+      "se": 0.03
+     },
+     "threshold": 0.11092337149149406
+    }
+   ],
+   "failing": [],
+   "name": "out-of-span gain",
+   "pass": true
+  }
+ },
+ "descriptive": {
+  "complement_against_comparison": [
+   {
+    "cell": "anchor",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.032,
+     "se": 0.00787096,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "translation",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.05,
+     "se": 0.00974679,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "magnitude",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.01,
+     "se": 0.00994987,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.44,
+     "se": 0.0496387,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.84,
+     "se": 0.0366606,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.11,
+     "se": 0.031289,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.41,
+     "se": 0.0491833,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.78,
+     "se": 0.0414246,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.22,
+     "se": 0.0414246,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.36,
+     "se": 0.048,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.82,
+     "se": 0.0384187,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.29,
+     "se": 0.0453762,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.36,
+     "se": 0.048,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.29,
+     "se": 0.0453762,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.35,
+     "se": 0.047697,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.78,
+     "se": 0.0414246,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.79,
+     "se": 0.0407308,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.08,
+     "se": 0.0271293,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 1.0,
+     "se": 0.0,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "shape_e0.25",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.03,
+     "se": 0.0170587,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "shape_e0.5",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.98,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.78,
+     "se": 0.0414246,
+     "source": "this run, simulation profile"
+    },
+    "design": "n200"
+   },
+   {
+    "cell": "anchor",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.036,
+     "se": 0.00833115,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "translation",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.052,
+     "se": 0.00992935,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "magnitude",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.09,
+     "se": 0.0286182,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.46,
+     "se": 0.0498397,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.1,
+     "se": 0.03,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.44,
+     "se": 0.0496387,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.15,
+     "se": 0.0357071,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.1,
+     "se": 0.03,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.49,
+     "se": 0.04999,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.27,
+     "se": 0.0443959,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.13,
+     "se": 0.0336303,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.31,
+     "se": 0.0462493,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.81,
+     "se": 0.0392301,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.96,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.32,
+     "se": 0.0466476,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.85,
+     "se": 0.0357071,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.73,
+     "se": 0.0443959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.78,
+     "se": 0.0414246,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.89,
+     "se": 0.031289,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.43,
+     "se": 0.0495076,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.72,
+     "se": 0.0448999,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.9,
+     "se": 0.03,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.11,
+     "se": 0.031289,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.68,
+     "se": 0.0466476,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "shape_e0.25",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "shape_e0.5",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.08,
+     "se": 0.0271293,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.49,
+     "se": 0.04999,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.09,
+     "se": 0.0286182,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.58,
+     "se": 0.0493559,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad"
+   },
+   {
+    "cell": "anchor",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.21,
+     "se": 0.0407308,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.05,
+     "se": 0.00974679,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "translation",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.22,
+     "se": 0.0414246,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 500,
+     "grade": "500 \u00d7 999",
+     "rate": 0.058,
+     "se": 0.0104533,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "magnitude",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.23,
+     "se": 0.0420833,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.19,
+     "se": 0.0392301,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.01,
+     "se": 0.00994987,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.22,
+     "se": 0.0414246,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.2,
+     "se": 0.04,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.05,
+     "se": 0.0217945,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.24,
+     "se": 0.0427083,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.08,
+     "se": 0.0271293,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.24,
+     "se": 0.0427083,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.24,
+     "se": 0.0427083,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.04,
+     "se": 0.0195959,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.2,
+     "se": 0.04,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.01,
+     "se": 0.00994987,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.23,
+     "se": 0.0420833,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.01,
+     "se": 0.00994987,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.07,
+     "se": 0.0255147,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "shape_e0.25",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.24,
+     "se": 0.0427083,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.03,
+     "se": 0.0170587,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "shape_e0.5",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.22,
+     "se": 0.0414246,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.02,
+     "se": 0.014,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "comparison_concat_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.26,
+     "se": 0.0438634,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "comparison_pls_cv_angle": {
+     "count": 100,
+     "grade": "100 \u00d7 199",
+     "rate": 0.01,
+     "se": 0.00994987,
+     "source": "latent-space comparison 2026-11-04"
+    },
+    "complement": {
+     "count": 100,
+     "grade": "100 \u00d7 999",
+     "rate": 0.06,
+     "se": 0.0237487,
+     "source": "this run, simulation profile"
+    },
+    "design": "seaad_weak"
+   }
+  ],
+  "localization": [
+   {
+    "cell": "anchor",
+    "complement": {
+     "count": 500,
+     "rate": 0.032,
+     "se": 0.00787096
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "cell": "translation",
+    "complement": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "cell": "magnitude",
+    "complement": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.56,
+     "se": 0.0496387
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.11,
+     "se": 0.031289
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.22,
+     "se": 0.0414246
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.81,
+     "se": 0.0392301
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.63,
+     "se": 0.0482804
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.83,
+     "se": 0.0375633
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.19,
+     "se": 0.0392301
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.35,
+     "se": 0.047697
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    },
+    "total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.52,
+     "se": 0.04996
+    },
+    "total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "cell": "shape_e0.25",
+    "complement": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "cell": "shape_e0.5",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.72,
+     "se": 0.0448999
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.16,
+     "se": 0.0366606
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.79,
+     "se": 0.0407308
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.9,
+     "se": 0.03
+    }
+   },
+   {
+    "cell": "anchor",
+    "complement": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    }
+   },
+   {
+    "cell": "translation",
+    "complement": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "cell": "magnitude",
+    "complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.45,
+     "se": 0.0497494
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.12,
+     "se": 0.0324962
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.15,
+     "se": 0.0357071
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 0.27,
+     "se": 0.0443959
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.49,
+     "se": 0.04999
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 0.31,
+     "se": 0.0462493
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.32,
+     "se": 0.0466476
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.75,
+     "se": 0.0433013
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.94,
+     "se": 0.0237487
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 0.72,
+     "se": 0.0448999
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.41,
+     "se": 0.0491833
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.66,
+     "se": 0.0473709
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 0.68,
+     "se": 0.0466476
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.19,
+     "se": 0.0392301
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.36,
+     "se": 0.048
+    }
+   },
+   {
+    "cell": "shape_e0.25",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.39,
+     "se": 0.048775
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "shape_e0.5",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "complement": {
+     "count": 100,
+     "rate": 0.58,
+     "se": 0.0493559
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.36,
+     "se": 0.048
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.16,
+     "se": 0.0366606
+    }
+   },
+   {
+    "cell": "anchor",
+    "complement": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    }
+   },
+   {
+    "cell": "translation",
+    "complement": {
+     "count": 500,
+     "rate": 0.058,
+     "se": 0.0104533
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    }
+   },
+   {
+    "cell": "magnitude",
+    "complement": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "cell": "shape_e0.25",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "shape_e0.5",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   }
+  ],
+  "plasmode_power": [
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "cell": "e=2",
+    "complement": {
+     "count": 500,
+     "rate": 0.022,
+     "se": 0.00655988
+    },
+    "delta": {
+     "count": 500,
+     "rate": 0.03,
+     "se": 0.00762889
+    },
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.02,
+     "se": 0.00626099
+    },
+    "source": "this run, plasmode profile",
+    "span": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "cell": "e=3",
+    "complement": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "delta": {
+     "count": 500,
+     "rate": 0.026,
+     "se": 0.00711674
+    },
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.016,
+     "se": 0.00561142
+    },
+    "source": "this run, plasmode profile",
+    "span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "total": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    }
+   }
+  ],
+  "share_against_capture": [
+   {
+    "cell": "anchor",
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.970915,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.00616252
+   },
+   {
+    "cell": "translation",
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.964842,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.170513
+   },
+   {
+    "cell": "magnitude",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.970365,
+    "pooled_stage_median": 0.970365,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0238463
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.971572,
+    "pooled_stage_median": 0.971663,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.551591
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.827512,
+    "pooled_stage_median": 0.971642,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.447887
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.385678,
+    "pooled_stage_median": 0.971452,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.171189
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.000483132,
+    "pooled_stage_median": 0.970098,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.00376361
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.970671,
+    "pooled_stage_median": 0.971191,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.832066
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.817997,
+    "pooled_stage_median": 0.972002,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.693724
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.394788,
+    "pooled_stage_median": 0.972434,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.30566
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.00796832,
+    "pooled_stage_median": 0.971766,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.00752393
+   },
+   {
+    "cell": "shape_e0.25",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.96933,
+    "pooled_stage_median": 0.970728,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.137638
+   },
+   {
+    "cell": "shape_e0.5",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.967662,
+    "pooled_stage_median": 0.970899,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.325497
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.107737,
+    "pooled_stage_median": 0.970817,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0682062
+   },
+   {
+    "cell": "anchor",
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.933114,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0621887
+   },
+   {
+    "cell": "translation",
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.904786,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.215225
+   },
+   {
+    "cell": "magnitude",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.93357,
+    "pooled_stage_median": 0.93357,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0387718
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.93104,
+    "pooled_stage_median": 0.931586,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.383213
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.805228,
+    "pooled_stage_median": 0.93176,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.316558
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.389968,
+    "pooled_stage_median": 0.931421,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.131212
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.00470447,
+    "pooled_stage_median": 0.93151,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0199325
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.926748,
+    "pooled_stage_median": 0.925583,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.673198
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.794166,
+    "pooled_stage_median": 0.927347,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.580426
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.411728,
+    "pooled_stage_median": 0.92889,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.28892
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.026044,
+    "pooled_stage_median": 0.928212,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.050079
+   },
+   {
+    "cell": "shape_e0.25",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.935904,
+    "pooled_stage_median": 0.930858,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.116647
+   },
+   {
+    "cell": "shape_e0.5",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.931668,
+    "pooled_stage_median": 0.930269,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.234735
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.11577,
+    "pooled_stage_median": 0.928433,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.0973471
+   },
+   {
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.0976296,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.291881
+   },
+   {
+    "cell": "translation",
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "group_difference_median": null,
+    "pooled_stage_median": 0.0738135,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.288381
+   },
+   {
+    "cell": "magnitude",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.1024,
+    "pooled_stage_median": 0.1024,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.291497
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0862246,
+    "pooled_stage_median": 0.0897531,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.30252
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0700934,
+    "pooled_stage_median": 0.0855145,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.29292
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0408003,
+    "pooled_stage_median": 0.0947679,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.30573
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.00422131,
+    "pooled_stage_median": 0.0904685,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.304776
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.082408,
+    "pooled_stage_median": 0.0805023,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.291286
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0672551,
+    "pooled_stage_median": 0.0790312,
+    "rank_median": 2.5,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.291325
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0387644,
+    "pooled_stage_median": 0.0876202,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.292755
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.00463647,
+    "pooled_stage_median": 0.0854494,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.297187
+   },
+   {
+    "cell": "shape_e0.25",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.102977,
+    "pooled_stage_median": 0.0806264,
+    "rank_median": 2.5,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.290989
+   },
+   {
+    "cell": "shape_e0.5",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.0949399,
+    "pooled_stage_median": 0.0846794,
+    "rank_median": 2.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.31157
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "group_difference_median": 0.00678312,
+    "pooled_stage_median": 0.0905294,
+    "rank_median": 3.0,
+    "source": "this run, simulation profile",
+    "span_share_median": 0.305051
+   }
+  ],
+  "span_against_production": [
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.064,
+     "se": 0.0109457
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.028,
+     "se": 0.0073778
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.008,
+     "se": 0.00398397
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.74,
+     "se": 0.0438634
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.56,
+     "se": 0.0496387
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.87,
+     "se": 0.0336303
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.81,
+     "se": 0.0392301
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.81,
+     "se": 0.0392301
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.82,
+     "se": 0.0384187
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.83,
+     "se": 0.0375633
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.82,
+     "se": 0.0384187
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.2,
+     "se": 0.04
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.51,
+     "se": 0.04999
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.52,
+     "se": 0.04996
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.72,
+     "se": 0.0448999
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.68,
+     "se": 0.0466476
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.96,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.79,
+     "se": 0.0407308
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.072,
+     "se": 0.0115599
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.012,
+     "se": 0.0048695
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.07,
+     "se": 0.0114105
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.004,
+     "se": 0.00282276
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.006,
+     "se": 0.00345369
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.21,
+     "se": 0.0407308
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.47,
+     "se": 0.0499099
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.45,
+     "se": 0.0497494
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.45,
+     "se": 0.0497494
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.49,
+     "se": 0.04999
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.49,
+     "se": 0.04999
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.96,
+     "se": 0.0195959
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.75,
+     "se": 0.0433013
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.41,
+     "se": 0.0491833
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.1,
+     "se": 0.03
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.2,
+     "se": 0.04
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.19,
+     "se": 0.0392301
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.7,
+     "se": 0.0458258
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.39,
+     "se": 0.048775
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.94,
+     "se": 0.0237487
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.13,
+     "se": 0.0336303
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.56,
+     "se": 0.0496387
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.36,
+     "se": 0.048
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.038,
+     "se": 0.00855056
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.026,
+     "se": 0.00711674
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "shape": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   }
+  ],
+  "ss_diagnostic": [
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.032,
+     "se": 0.00787096
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.032,
+     "se": 0.00787096
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "n200",
+    "f": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.056,
+     "se": 0.0102824
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.058,
+     "se": 0.0104533
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.054,
+     "se": 0.0101078
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.044,
+     "se": 0.00917213
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.064,
+     "se": 0.0109457
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.032,
+     "se": 0.00787096
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad",
+    "f": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.068,
+     "se": 0.0112584
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.044,
+     "se": 0.00917213
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.038,
+     "se": 0.00855056
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.082,
+     "se": 0.01227
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.038,
+     "se": 0.00855056
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.038,
+     "se": 0.00855056
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "translation",
+    "design": "seaad_weak",
+    "f": {
+     "count": 500,
+     "rate": 0.058,
+     "se": 0.0104533
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "simulation",
+    "source": "this run, simulation profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.098,
+     "se": 0.0132963
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_export",
+    "f": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    },
+    "grade": "500 \u00d7 999",
+    "part": "total",
+    "profile": "plasmode",
+    "source": "this run, plasmode profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.114,
+     "se": 0.014213
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_export",
+    "f": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "grade": "500 \u00d7 999",
+    "part": "span",
+    "profile": "plasmode",
+    "source": "this run, plasmode profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.074,
+     "se": 0.0117068
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "bound": 0.06949358868961793,
+    "cell": "anchor",
+    "design": "seaad_export",
+    "f": {
+     "count": 500,
+     "rate": 0.012,
+     "se": 0.0048695
+    },
+    "grade": "500 \u00d7 999",
+    "part": "complement",
+    "profile": "plasmode",
+    "source": "this run, plasmode profile",
+    "ss": {
+     "count": 500,
+     "rate": 0.268,
+     "se": 0.0198079
+    },
+    "ss_df": {
+     "count": 500,
+     "rate": 0.006,
+     "se": 0.00345369
+    }
+   }
+  ]
+ },
+ "failed_units": {
+  "plasmode": 0,
+  "simulation": 0
+ },
+ "failing": {},
+ "rejection": {
+  "plasmode": "p <= alpha",
+  "simulation": "p < alpha"
+ },
+ "reproduction": {
+  "plasmode": {
+   "passed": true,
+   "rows_compared": 9,
+   "source": "results/plasmode-2026-11-02/plasmode_summary.csv"
+  },
+  "simulation": {
+   "passed": true,
+   "rows_compared": 126,
+   "source": "results/latent-space-comparison-2026-11-04/rate_table.csv"
+  }
+ },
+ "rule_version": 1,
+ "se_multiplier": 2.0,
+ "settings_hashes": {
+  "plasmode": "eac35cf467cafd400e753fda405513c84493788ada84562494994385056bb793",
+  "simulation": "748fa87ad2b30ed4ef2d8a124777963da8e8dc0bbe3b8a397199543aec8675cd"
+ },
+ "verdict": "split_validated"
+}

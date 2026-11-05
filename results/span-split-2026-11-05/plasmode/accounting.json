@@ -1,0 +1,17 @@
+{
+ "complete_units": 1500,
+ "duplicate_records": 0,
+ "expected_units": 1500,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "missing_units": 0,
+ "profile": "plasmode",
+ "recorded_core_hours": 36.8709111301578,
+ "settings_hash": "eac35cf467cafd400e753fda405513c84493788ada84562494994385056bb793",
+ "stage_seconds_median": {},
+ "unit_seconds": {
+  "max": 210.7179806213826,
+  "median": 79.983621752006,
+  "q90": 121.13634538743645
+ }
+}

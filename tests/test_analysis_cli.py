@@ -351,3 +351,47 @@ def test_analyze_attribution_without_covariates_prints_no_adjustment(tmp_path: P
                        "--attribution", "--bootstrap-replicates", "5"))
     assert "covariate-adjusted" not in capsys.readouterr().out
     assert "adjustment" not in json.loads((out_dir / "result.json").read_text())["attribution"]
+
+
+def test_analyze_span_split_test(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--permutations", "99", "--seed", "1", "--residual-correction", "df", "--span-split-test"))
+    record = json.loads((out_dir / "result.json").read_text())
+    block = record["span_split"]
+    assert list(block["parts"]) == ["total", "span", "complement"]
+    assert [block["parts"][part]["dimension"] for part in block["parts"]] == [25, 2, 23]
+    assert block["residual_correction"] == "df" and block["permutations"] == 99
+    assert record["params"]["span_split_test"] is True
+    parts = block["parts"]
+    printed = capsys.readouterr().out
+    assert (
+        "Split interaction test (pseudo-F p): "
+        f"total {parts['total']['p_value_f']:.4g}, span {parts['span']['p_value_f']:.4g}, "
+        f"complement {parts['complement']['p_value_f']:.4g}; in-span share {block['span_share']:.4g}"
+    ) in printed
+
+
+def test_analyze_without_span_split_test_prints_no_line(tmp_path: Path, analyze_files,
+                                                         capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--permutations", "9", "--seed", "1"))
+    assert "Split interaction test" not in capsys.readouterr().out
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "span_split" not in record and "span_split_test" not in record["params"]
+
+
+def test_analyze_span_split_test_with_latent_adjustment_exits(tmp_path: Path, covariate_files,
+                                                              capsys: pytest.CaptureFixture) -> None:
+    args = _analyze_args(covariate_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                         "--covariate", "age_at_death", "--covariate", "pmi",
+                         "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                         "--latent-adjustment", "stage", "--span-split-test")
+    with pytest.raises(SystemExit, match="--span-split-test is not available with --latent-adjustment") as exc:
+        main(args)
+    assert exc.value.code != 0
+    assert "Traceback" not in capsys.readouterr().err
+    assert not (tmp_path / "out").exists()
