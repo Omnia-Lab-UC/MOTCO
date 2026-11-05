@@ -51,7 +51,7 @@
 - [x] 8.2 Run the leak check's two arms on the stage-span geometry profile (planted at 0.1/0.25/0.5 and null at 0.25/0.5/1.0; anchor, orientation, shape; 100 × 199), merge, and verify 0 failed units and that the null arm's rates equal the 2026-11-04 pilot's at its three columns
 - [x] 8.3 Run `stage_span_leak_check.py gate` and verify `preflight_gate.json`: if any condition fails, stop and report the tables and failing cells to the user before any paper-grade submission
   > **Pre-flight outcome (2026-11-05, run after the paper grade).** Jobs 934447 (planted, e 0.1/0.25/0.5) and 934448 (null, e 0.25/0.5/1.0), 100 × 199 on the five columns, revision b40fb91: 3,500 + 3,500 units, 0 failed, 0 duplicates. The null arm reproduces the 2026-11-04 pilot's rejection counts at its three columns (63/63). `preflight_gate.json`: **`gate_holds`** — G1 exact in every planted unit, G2 0 of 60 exceedances, G3 shrinks at every column (score-coordinate median B − A at shape e = 0.5: null −0.28 / −0.29 / −0.36 / −0.35 / −0.92 → planted +0.01 / −0.01 / −0.16 / +0.05 / −0.33 for n200 / n80 / seaad / three blocks / four stages).
-- [ ] 8.4 Add the score-coordinate section to `docs/measurement-visibility.md` (coordinates, size unaffected, specificity affected, the pre-flight's residual per column, orthonormal coordinates as the unvalidated candidate) and a roadmap item for that candidate in `docs/roadmap.md`, and verify `uv run mkdocs build --strict` passes
+- [x] 8.4 Add the score-coordinate section to `docs/measurement-visibility.md` (coordinates, size unaffected, specificity affected, the pre-flight's residual per column, orthonormal coordinates as the unvalidated candidate) and a roadmap item for that candidate in `docs/roadmap.md`, and verify `uv run mkdocs build --strict` passes
 
 ## 9. Paper-grade run
 
@@ -70,9 +70,11 @@
 
 ## 11. Report and record
 
-- [ ] 11.1 Copy the aggregates (three `report/` directories, the decision, the pre-flight tables and gate, reproduction summaries, `PROVENANCE.txt`, `sacct.txt`) to `results/stage-span-paper-grade-<date>/`, and verify no record JSONL is committed
-- [ ] 11.2 Write `docs/reports/stage-span-paper-grade-<date>.md` (verdict and criteria, power and `informative_from` per column, capture, visibility contrast, both leak arms and the score-coordinate residuals, reproduction, limitations), and verify every number traces to a committed aggregate
-- [ ] 11.3 Update `docs/roadmap.md` (item 13(a) done with its verdict, the "Not yet established" entry, the score-metric item), `AGENTS.md` (profiles, scripts, run summary) and `docs/measurement-visibility.md` (paper-grade numbers), and verify `uv run mkdocs build --strict` and the pre-commit gate pass
+- [x] 11.1 Copy the aggregates (three `report/` directories, the decision, the pre-flight tables and gate, reproduction summaries, `PROVENANCE.txt`, `sacct.txt`) to `results/stage-span-paper-grade-<date>/`, and verify no record JSONL is committed
+- [x] 11.2 Write `docs/reports/stage-span-paper-grade-<date>.md` (verdict and criteria, power and `informative_from` per column, capture, visibility contrast, both leak arms and the score-coordinate residuals, reproduction, limitations), and verify every number traces to a committed aggregate
+- [x] 11.3 Update `docs/roadmap.md` (item 13(a) done with its verdict, the "Not yet established" entry, the score-metric item), `AGENTS.md` (profiles, scripts, run summary) and `docs/measurement-visibility.md` (paper-grade numbers), and verify `uv run mkdocs build --strict` and the pre-commit gate pass
+
+> **Docs build (2026-11-05).** `uv run mkdocs build --strict` aborts with 8 warnings, all pre-existing links from `phase5-readiness.md` and the two Phase 5 reports to files outside `docs/`. `main` (dc59d2f) aborts with the same 8. This change adds no warning, and its new anchors (`#score-coordinates-the-span-is-seen-through-a-shear`, `#6-the-leak-decomposition`, `roadmap.md#next-changes`) resolve.
 
 ## Workflow follow-up
 
