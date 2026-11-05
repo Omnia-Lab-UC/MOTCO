@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from dataclasses import replace
+from typing import Any
 
 import numpy as np
 import pytest
@@ -116,34 +116,101 @@ def test_absent_span_scale_is_the_default() -> None:
 # --------------------------------------------------------------------------- #
 
 
-def _dataset_digest(dataset) -> str:
-    """Digest of the BLAS-free parts: indicators, metadata, population means and the truth without indicators."""
+def _blas_free_digest(dataset) -> str:
+    """Digest of the BLAS-free parts: indicators, metadata, A's population means and B's means outside the span.
+
+    The plant (B's span-layer means and the truth's geometry) goes through BLAS
+    products and SVDs whose last bits differ between BLAS builds, so it is pinned
+    below at a tolerance instead.
+    """
 
     digest = hashlib.sha256()
     for group in ("A", "B"):
         for layer in ("methylation", "expression", "proteomics"):
             digest.update(np.ascontiguousarray(dataset.truth["indicators"][group][layer], dtype=float).tobytes())
     digest.update(dataset.metadata.to_csv().encode())
-    for frame in dataset.population_trajectories.layers.values():
-        digest.update(frame.to_numpy().tobytes())
-    truth = {key: value for key, value in dataset.truth.items() if key != "indicators"}
-    digest.update(json.dumps(truth, sort_keys=True, default=str).encode())
+    population = dataset.population_trajectories.layers
+    for layer in ("methylation", "expression", "proteomics"):
+        digest.update(population[layer].loc["A"].to_numpy().tobytes())
+    digest.update(population["proteomics"].loc["B"].to_numpy().tobytes())
     return digest.hexdigest()[:16]
 
 
-# Captured at dc59d2f, before span_scale existed: the BLAS-free dataset digest
-# (truth included), the cell id and the signature prefix of a null-scale
-# stage-span PLS cell at n = 90, p_dmp 0.1, seed 17, methylation + expression.
-_PRE_CHANGE = {
-    ("magnitude", 0.1): ("c6afc1fa37b76f98", "power_primary-d6f52a79a876", "ba9329c8c7a08767"),
-    ("orientation", 0.5): ("7eed0b84df3cb06b", "power_primary-698f92231645", "7ffc0586f9d02c8e"),
-    ("shape", 0.5): ("d31c9e24e3dada0f", "power_primary-d9b75022e33e", "d3d8e96c90553b5d"),
-    ("translation", 0.5): ("b3f715ea3db3d013", "power_primary-75ec0c961942", "0a22ef6d81e64217"),
+# Captured at dc59d2f, before span_scale existed, and equal on this branch on the
+# same machine: a null-scale stage-span PLS cell at n = 90, p_dmp 0.1, seed 17,
+# methylation + expression. The digest, cell id and signature are exact; the
+# plant's floats are pinned at a tolerance (BLAS builds differ in the last bits).
+_PRE_CHANGE: dict[tuple[str, float], dict[str, Any]] = {
+    ("magnitude", 0.1): {
+        "digest": "aae127628e6d0366",
+        "cell_id": "power_primary-d6f52a79a876",
+        "signature": "ba9329c8c7a08767",
+        "path_length": 35.10519377957665,
+        "plant_norm": [0.9887658799573371, 1.0251421992601384, 0.9902283220949417],
+        "plant_norm_units": [1.616580753730954, 1.2110601416389977],
+        "geometry": [3.510519377957671, 1.2074182697257333e-06, 8.869288588377538e-16],
+        "transform": {"construction": "stage_span", "scale": 1.1},
+    },
+    ("orientation", 0.5): {
+        "digest": "aae127628e6d0366",
+        "cell_id": "power_primary-698f92231645",
+        "signature": "7ffc0586f9d02c8e",
+        "path_length": 35.10519377957665,
+        "plant_norm": [7.567686414951235, 7.846098709503322, 7.57887946248831],
+        "plant_norm_units": [12.367505131033974, 9.285689876385248],
+        "geometry": [0.0, 45.0, 9.859067850960391e-16],
+        "transform": {"construction": "stage_span", "rotation_degrees": 45.0},
+    },
+    ("shape", 0.5): {
+        "digest": "aae127628e6d0366",
+        "cell_id": "power_primary-d9b75022e33e",
+        "signature": "d3d8e96c90553b5d",
+        "path_length": 35.10519377957665,
+        "plant_norm": [2.685820097704474, 0.7919266395793162, 2.6911330336988684],
+        "plant_norm_units": [3.613722621650145, 2.7482249213390024],
+        "geometry": [7.105427357601002e-15, 8.537736462515939e-07, 0.21559138506459458],
+        "transform": {
+            "construction": "stage_span",
+            "displacement": 8.776298444894163,
+            "rescale": 0.6858234180473745,
+            "shape_stage": 1,
+        },
+    },
+    ("translation", 0.5): {
+        "digest": "aae127628e6d0366",
+        "cell_id": "power_primary-75ec0c961942",
+        "signature": "0a22ef6d81e64217",
+        "path_length": 35.10519377957665,
+        "plant_norm": [8.776298444894163, 8.776298444894163, 8.776298444894163],
+        "plant_norm_units": [14.141561521716046, 10.775880655433669],
+        "geometry": [0.0, 1.2074182697257333e-06, 9.20787621759241e-16],
+        "transform": {"construction": "stage_span", "offset_length": 8.776298444894163},
+    },
 }
+_TRUTH_KEYS = [
+    "baseline_continuity",
+    "construction",
+    "deltas",
+    "group_effect_size",
+    "group_labels",
+    "group_ratio",
+    "indicator_counts",
+    "magnitude_kind",
+    "n_stages",
+    "p_dmp",
+    "seed",
+    "shape_kind",
+    "span_layers",
+    "stage_assumption",
+    "stage_span",
+    "surgery_censoring",
+    "trajectory_mode",
+    "transform",
+]
 
 
 @pytest.mark.parametrize(("mode", "effect"), sorted(_PRE_CHANGE))
-def test_null_scale_stage_span_is_byte_identical_to_before(reference, mode, effect) -> None:
+def test_null_scale_stage_span_is_unchanged(reference, mode, effect) -> None:
     params = SemiSyntheticTrajectoryParams(
         seed=17,
         n_samples=90,
@@ -153,21 +220,42 @@ def test_null_scale_stage_span_is_byte_identical_to_before(reference, mode, effe
         trajectory_mode=mode,
         group_effect_size=effect,
     )
-    digest, cell_id, signature = _PRE_CHANGE[(mode, effect)]
+    pinned = _PRE_CHANGE[(mode, effect)]
     dataset = generate_semisynthetic_trajectory(params, reference=reference)
-    assert _dataset_digest(dataset) == digest
-    assert _cell(params).cell_id == cell_id
-    assert parameter_signature(_cell(params))[:16] == signature
+    assert _blas_free_digest(dataset) == pinned["digest"]
+    assert _cell(params).cell_id == pinned["cell_id"]
+    assert parameter_signature(_cell(params))[:16] == pinned["signature"]
+
+    assert sorted(key for key in dataset.truth if key != "indicators") == _TRUTH_KEYS
+    block = dataset.truth["stage_span"]
+    assert sorted(block) == ["intended_geometry", "mean_step", "path_length", "plant_norm", "units"]
+    assert block["path_length"] == pytest.approx(pinned["path_length"], rel=1e-10)
+    np.testing.assert_allclose(block["plant_norm"], pinned["plant_norm"], rtol=1e-9)
+    population = dataset.population_trajectories.layers
+    plant_units = [
+        float(np.linalg.norm(population[layer].loc["B"].to_numpy() - population[layer].loc["A"].to_numpy()))
+        for layer in TWO_BLOCKS
+    ]
+    np.testing.assert_allclose(plant_units, pinned["plant_norm_units"], rtol=1e-9)
+    geometry = block["intended_geometry"]
+    delta, angle, shape = pinned["geometry"]
+    assert geometry["delta"] == pytest.approx(delta, rel=1e-9, abs=1e-9)
+    assert geometry["angle"] == pytest.approx(angle, abs=1e-5)
+    assert geometry["shape"] == pytest.approx(shape, rel=1e-9, abs=1e-9)
+    transform = dataset.truth["transform"]
+    assert transform.keys() == pinned["transform"].keys()
+    for key, value in pinned["transform"].items():
+        assert transform[key] == (value if isinstance(value, str) else pytest.approx(value, rel=1e-9)), key
 
     explicit = replace(params, span_scale=None)
-    assert _cell(explicit).cell_id == cell_id
+    assert _cell(explicit).cell_id == pinned["cell_id"]
     assert "span_scale" not in _to_jsonable(params)
     assert "span_scale" not in dataset.truth
     assert dataset.truth["stage_span"]["units"] == "null_standardized"
     assert not {"scale_iterations", "scale_residual"} & set(dataset.truth["stage_span"])
 
     planted = replace(params, span_scale="planted")
-    assert _cell(planted).cell_id != cell_id
+    assert _cell(planted).cell_id != pinned["cell_id"]
     assert parameter_signature(_cell(planted)) != parameter_signature(_cell(params))
     assert _to_jsonable(planted)["span_scale"] == "planted"
 
