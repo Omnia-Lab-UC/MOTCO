@@ -124,3 +124,27 @@ inverse of the measured features.
 ::: motco.stats.permutation.RRPP
 
 ::: motco.stats.permutation.residual_correction_scale
+
+## Interaction test inside and outside a span
+
+`delta`, `angle` and `shape` see a group difference only through its component
+inside the latent span they are measured in. `interaction_split_test` asks
+whether the groups differ by stage at all, and where, without a latent space:
+it splits the group × stage interaction energy of the outcome exactly into the
+part inside a given orthonormal basis (`span`) and the part in its orthogonal
+complement (`complement`), beside the `total`. Each part is tested by a trace
+pseudo-F under Freedman–Lane permutation of the reduced model's residuals,
+with `RRPP`'s serial draws at the same seed and its residual corrections.
+
+The basis must stay fixed across permutations and be built without the group
+labels (for the production measurement, `qr(x_rotations_)` of the
+stage-supervised PLS model in its input coordinates). The pseudo-F is the
+statistic because its ratio cancels the residual scale the reduced model's
+degrees of freedom remove; the interaction-SS p-value is a diagnostic. See
+[Measurement visibility](../measurement-visibility.md) for how the parts are read.
+
+::: motco.stats.interaction.interaction_split_test
+
+::: motco.stats.interaction.InteractionSplitResult
+
+::: motco.stats.interaction.InteractionSplitPart

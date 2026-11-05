@@ -12,6 +12,8 @@ trajectory
     Trajectory estimation and geometric metrics.
 permutation
     RRPP permutation infrastructure.
+interaction
+    Group × stage interaction test split into a linear span and its orthogonal complement.
 attribution
     Feature attribution for two-group trajectories in a shared PLS space.
 """
@@ -34,6 +36,7 @@ from .attribution import (  # noqa: F401
     write_attribution_outputs,
 )
 from .design import build_ls_means, center_matrix, get_model_matrix  # noqa: F401
+from .interaction import InteractionSplitPart, InteractionSplitResult, interaction_split_test  # noqa: F401
 from .permutation import RRPP  # noqa: F401
 from .pls import calculate_vips, fit_plsda_model, fit_plsda_transform, plsda_doubleCV  # noqa: F401
 from .snf import SNF, get_affinity_matrix, get_spectral  # noqa: F401
@@ -83,6 +86,10 @@ __all__ = [
     "write_attribution_outputs",
     # permutation
     "RRPP",
+    # interaction
+    "InteractionSplitPart",
+    "InteractionSplitResult",
+    "interaction_split_test",
     # snf
     "SNF",
     "get_affinity_matrix",
