@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Split interaction test validation: size, out-of-span power and localization on two parent runs (no R).
 
-The driver behind ``openspec/changes/span-split-interaction-test/`` (spec
+The driver behind ``openspec/changes/archive/2026-11-05-span-split-interaction-test/`` (spec
 ``span-split-validation``, roadmap item 16). The production measurement sees a
 group difference only through its component inside the fitted stage-PLS span;
 :func:`motco.stats.interaction.interaction_split_test` tests the group × stage

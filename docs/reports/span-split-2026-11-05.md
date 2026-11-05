@@ -36,7 +36,7 @@ Each part is tested by a trace pseudo-F under Freedman–Lane permutation of the
   - a timing run at 999 permutations;
   - a 1,200-unit local null check. A 40-replicate pre-check had suggested a liberal complement at CV ranks above K − 1; the larger check did not reproduce it, and the design was kept (notes).
 
-Details are in `PROVENANCE.txt` and `openspec/changes/span-split-interaction-test/notes.md`.
+Details are in `PROVENANCE.txt` and `openspec/changes/archive/2026-11-05-span-split-interaction-test/notes.md`.
 
 ## 2. Accounting and reproduction
 
