@@ -20,10 +20,10 @@
 
 ## 4. Leak decomposition check
 
-- [ ] 4.1 Write `scripts/stage_span_leak_check.py` with `run` (`--config`, `--shard`, `--n-shards`, `--span-scale`, `--modes`, `--effects`, `--replicates`, `--permutations`, `--out-dir`) and `merge`, per design D7, writing `leak_units.csv`, `leak_cells.csv` and `summary.json`; verify with tests on a small synthetic profile that all six checkpoints are reported, that the null-scale checkpoint difference is 0 for the bend, that the planted-scale checkpoint difference is 0 under `planted`, and that rates use p < α
-- [ ] 4.2 Add a `gate` subcommand that reads the planted and null arms' merged tables and writes `preflight_gate.json` (exact scale route, no failed units, the bound rule on off-target rates, residual shrinkage at e = 0.5 per column), and verify with fixture tables that each condition can fail on its own and that the verdict names the failing cells
-- [ ] 4.3 Add `scripts/stage_span_leak_check_array.sbatch` (one CPU, BLAS pinned to one thread, `--export` of `PYTHONPATH`, `logs/` created beforehand), and verify it with `bash -n` and a dry render of its command line
-- [ ] 4.4 Reproduce the scratch result locally on one replicate of the pilot's n = 200 shape e = 1.0 cell, and verify the script's checkpoint values equal the scratch values (`pop_planted` −0.6524, `pop_lat` −0.4862 at replicate 0)
+- [x] 4.1 Write `scripts/stage_span_leak_check.py` with `run` (`--config`, `--shard`, `--n-shards`, `--span-scale`, `--modes`, `--effects`, `--replicates`, `--permutations`, `--out-dir`) and `merge`, per design D7, writing `leak_units.csv`, `leak_cells.csv` and `summary.json`; verify with tests on a small synthetic profile that all six checkpoints are reported, that the null-scale checkpoint difference is 0 for the bend, that the planted-scale checkpoint difference is 0 under `planted`, and that rates use p < α
+- [x] 4.2 Add a `gate` subcommand that reads the planted and null arms' merged tables and writes `preflight_gate.json` (exact scale route, no failed units, the bound rule on off-target rates, residual shrinkage at e = 0.5 per column), and verify with fixture tables that each condition can fail on its own and that the verdict names the failing cells
+- [x] 4.3 Add `scripts/stage_span_leak_check_array.sbatch` (one CPU, BLAS pinned to one thread, `--export` of `PYTHONPATH`, `logs/` created beforehand), and verify it with `bash -n` and a dry render of its command line
+- [x] 4.4 Reproduce the scratch result locally on one replicate of the pilot's n = 200 shape e = 1.0 cell, and verify the script's checkpoint values equal the scratch values (`pop_planted` −0.6524, `pop_lat` −0.4862 at replicate 0)
 
 ## 5. Paper-grade decision
 
