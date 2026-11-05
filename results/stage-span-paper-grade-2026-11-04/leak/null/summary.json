@@ -1,0 +1,30 @@
+{
+ "config_sha256_now": "6697d927854b3899476ff1e73c1785f6b286004940e5f6850881c7027ff5730b",
+ "core_hours": 12.878246606075813,
+ "failures": [],
+ "median_seconds": 11.826650314033031,
+ "n_duplicates": 0,
+ "n_expected": 3500,
+ "n_failed": 0,
+ "n_shards_found": 100,
+ "n_units": 3500,
+ "settings": {
+  "alpha": 0.05,
+  "columns": null,
+  "config": "/home1/tgonza/MOTCO-stage-span-paper-grade/examples/trajectory_power_study/stage_span_paper_grade_span_geometry.json",
+  "config_sha256": "6697d927854b3899476ff1e73c1785f6b286004940e5f6850881c7027ff5730b",
+  "effects": [
+   0.25,
+   0.5,
+   1.0
+  ],
+  "modes": [
+   "orientation",
+   "shape"
+  ],
+  "n_shards": 100,
+  "permutations": 199,
+  "replicates": 100,
+  "span_scale": "null"
+ }
+}

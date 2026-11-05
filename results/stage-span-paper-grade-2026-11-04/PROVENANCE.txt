@@ -1,0 +1,38 @@
+# Stage-span paper-grade provenance — three sibling profiles (planted-scale stage-span geometry and magnitude, surgery geometry)
+date_utc: 2026-11-05T01:20 (submission, 2026-11-04 22:20 -03) -> 2026-11-05T04:13 (last array task end, 01:13 -03); written 2026-11-05
+change: stage-span-paper-grade (MOTCO 0.17.0)
+configs (sha256, first 16):
+  examples/trajectory_power_study/stage_span_paper_grade_span_geometry.json     6697d927854b3899
+  examples/trajectory_power_study/stage_span_paper_grade_span_magnitude.json    4e2ef7d3905438f7
+  examples/trajectory_power_study/stage_span_paper_grade_surgery_geometry.json  e1cae479c0e42a9c
+code_revision: e41c1ae43b8ee5f720213cc7e8dbd14a8e03ea6e (branch feat/stage-span-paper-grade; pushed to the cluster clone as refs/heads/incoming/stage-span-paper-grade, clean detached worktree /home1/tgonza/MOTCO-stage-span-paper-grade, run with the main clone's .venv and PYTHONPATH on the worktree's src; motco 0.17.0 imported from the worktree; profile sha256s matched the workstation)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024, array tasks on n1 (276), n3 (154), n4 (50); n2 excluded (in `completing` state, as when another user's job hung there on 2026-11-04) and n11 excluded (1.8 GB free memory at submission, history of NFS stalls); python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+ordering (user decision, 2026-11-04): the workstation had to shut down before the leak check existed, so the paper grade was submitted without the pre-flight gate under a pre-approved cap of 450 projected core-hours; the leak check and its gate ran afterwards (2026-11-05) as a descriptive companion (leak/, from revision b40fb91, whose changes since e41c1ae touch only scripts, tests and docs)
+pre-flight: the change's generator, study, identity and stage-span suites on the workstation (258 passed); a 2 x 19 smoke of all three profiles on the workstation (192/192 units, 0 failed, 0 duplicates; planted fixed points converged in <= 19 updates, residual < 1e-12); 32 random units timed at 999 permutations on n1 (job 933792: mean 17.3 s, median 15.2 s, max 23.0 s -> about 230 core-hours projected)
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (exported at submit); STUDY_N_JOBS unset; MPLBACKEND=Agg for the report
+error_policy: record (from the sbatch template)
+launch (from W = /home1/tgonza/MOTCO-stage-span-paper-grade, OUT = W/results/stage-span-paper-grade-2026-11-04):
+  sbatch --partition=512x1024 --cpus-per-task=1 --mem=4G --time=12:00:00 --exclude=n2,n11 --job-name=sspg-<profile> --array=0-<N-1>%<T> --export=ALL,STUDY_CONFIG=W/examples/trajectory_power_study/stage_span_paper_grade_<profile>.json,STUDY_OUT=OUT/<profile>,N_SHARDS=<N>,PYTHONPATH=W/src,OMP_NUM_THREADS=1,OPENBLAS_NUM_THREADS=1,MKL_NUM_THREADS=1 scripts/motco_study_array.sbatch
+  span_geometry N=260 T=64 job 933810; span_magnitude N=110 T=28 job 933811; surgery_geometry N=110 T=28 job 933812
+units: 96 cells x 500 replicates = 48,000 (999 permutations per unit); 52 + 22 + 22 cells
+seed_family: base_seed 1028, family design-guidance (the anchors at n = 200 and n = 80 on two blocks and n = 200 on three blocks are the 2026-10-29 slice's; the surgery cells draw the 2026-11-04 stage-span pilot's SEA-AD cells' and the 2026-10-28 design-guidance pilot's four-stage cells' seeds; the Type I baseline cells draw seeds keyed on their own ids)
+outcome: array tasks 480/480 COMPLETED 0:0 (sacct.txt; its one FAILED line, job 934570, is the first reproduction attempt, which stopped at the first comparison's non-zero exit and was rerun as 934571); 48,000 records, 48,000 distinct (cell, replicate) of 48,000 expected; duplicates 0; signatures 52 / 22 / 22
+failed units: 12, all span_geometry at n = 200 / four stages, orientation (e = 0.25: replicates 311, 409, 481; e = 0.5: replicates 123, 266, 311, 368, 409, 425, 439, 477, 481), SemiSyntheticTrajectoryError: the planted fixed point did not converge (a two-step cycle; the configuration with the net displacement removed has two nearly tied singular values, 0.95-0.97); reported as failures by the user's decision (2026-11-05); a local scan of all 1,000 units of the two cells finds exactly these 12
+measurement in the records: orientation_estimator net_displacement 47,988; min_components 2 47,988; n_jobs 1 47,988; span_capture true 47,988 (completed records)
+planted fixed point: 30,988 planted-scale units, at most 67 updates (span_geometry) and 6 (span_magnitude)
+selected ranks: span_geometry {2: 11573, 3: 11039, 4: 3376}; span_magnitude {2: 6223, 3: 3760, 4: 1017}; surgery_geometry {2: 2336, 3: 5201, 4: 3255, 5: 192, 6: 7, 7: 6, 9: 3}
+unit_timings: span_geometry median 22.0 s (mean 22.3, max 34.4); span_magnitude median 11.0 s (mean 12.5, max 32.6); surgery_geometry median 8.2 s (mean 9.8, max 15.0); 229.0 recorded core-hours (160.9 / 38.1 / 30.0)
+merged.jsonl sha256 (shards and merged records stay on the cluster, gitignored):
+  span_geometry    4b68ae5b6a348a2d44267e8ad97bbcc437fd3bcefa727d9c0f6c7d6f6129846f
+  span_magnitude   6cebc078b6528b7c1d8eff27c77184e40ee8bd43e3a27cbf74275353d12abcf1
+  surgery_geometry 7b68c70bf53e68fb0f9dddb1837395bb5050db3ab275da2ad6d7407d129e1e16
+merge + report (job 934439, revision e41c1ae): python scripts/motco_study.py merge --out-dir OUT/<profile>; python scripts/motco_study.py report --config examples/trajectory_power_study/stage_span_paper_grade_<profile>.json --out-dir OUT/<profile>
+reproduction (job 934571, revision b40fb91; reproduction/), anchor-only record files for the cross-construction comparisons:
+  siblings_span_magnitude_vs_span_geometry  --by-column: 2,499/2,500 pairs match on every field; seeds, ranks and p-values identical 2,500/2,500; the miss is replicate 222 at n = 200, observed angle 0.000192 deg differing by 1.9e-9 deg (arccos precision near 0; p = 1.0 on both sides)
+  siblings_surgery_geometry_vs_span_geometry  --by-cell (projected on n_samples, group_stage_sizes, n_stages, layers; anchors only): 1,000/1,000
+  anchors_vs_design_guidance_slice  --by-cell (projected on n_samples, n_stages, layers; anchors only; 999 permutations on both sides): 1,499/1,500, p-values identical 1,500/1,500; the miss is the same replicate 222 anchor
+  surgery_seaad_vs_stage_span_pilot  --by-cell (SEA-AD table, 10 cells x replicates 0-99): 1,000/1,000 seeds, ranks and statistics (p-values not comparable: 199 permutations there)
+  surgery_four_stages_vs_design_guidance_pilot  --by-cell (n = 200, four stages, two blocks, 10 cells x replicates 0-99): 1,000/1,000
+  span_magnitude_vs_stage_span_pilot  --by-cell (n = 200, n = 80, SEA-AD, 12 cells x replicates 0-99): 1,200/1,200 seeds, ranks and statistics (the planted magnitude plant is the null-scale plant bit for bit)
+decision (workstation, rule committed at cbd3e57 before any rate was read; the incomplete-cell table's reading of n_replicates fixed at ec93edc, descriptive only): python scripts/stage_span_paper_grade_decision.py --results-dir results/stage-span-paper-grade-2026-11-04 -> stage_span_paper_grade_decision.json (rule version 1), verdict sensitivity_established
+findings report: docs/reports/stage-span-paper-grade-2026-11-04.md
