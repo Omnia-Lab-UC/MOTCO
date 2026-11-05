@@ -273,7 +273,7 @@ its cell ids, signatures and matched seeds
 ### Stage-span construction and span capture
 
 Three opt-in keys (0.15.0) select the generator's stage-span construction and
-the span-capture diagnostic:
+the span-capture diagnostic, and a fourth (0.17.0) its scale:
 
 ```json
 "generator":  { "...": "...", "construction": "stage_span", "span_layers": ["methylation", "expression"] },
@@ -294,8 +294,16 @@ the span-capture diagnostic:
 - `evaluation.span_capture` — `true` adds the `population_latent` checkpoint and
   the `span_capture` shares to every PLS record (`false` = unset). It changes no
   statistic.
+- `generator.span_scale` (0.17.0) — `"planted"` makes every stage-span edit
+  exact in coordinates divided by the planted population's pooled SD, the
+  scale the sample scaler estimates (a fixed point; see
+  `src/motco/simulations/semisynthetic.py`, *Planted scale*); `null` = unset,
+  the null-scale edit. Accepted only beside `stage_span` and not with
+  `span_alignment`. Like `construction` it is **not** an axis: the loader
+  rejects `generator.span_scale` under `axes` and `design_grid`, so scales are
+  compared as sibling profiles.
 
-All three are hash-omitted and left out of a dumped config while unset, so every
+All four are hash-omitted and left out of a dumped config while unset, so every
 config that does not use them enumerates exactly as before. Mode-specific
 stage-span errors (an orientation effect above 2, fewer than three stages for
 `orientation`/`shape`) surface per cell at enumeration. Stage-span cells draw
@@ -305,8 +313,9 @@ surgery for them.
 
 **Sibling profiles, not a construction axis.** Constructions are compared as
 sibling profiles in one seed family, identical except that the stage-span
-sibling sets `construction` and `span_layers`. Every zero-effect cell (the
-anchors and the Type I baselines) clears both, so at each design column the
+sibling sets `construction` and `span_layers` (and a planted-scale sibling
+`span_scale`). Every zero-effect cell (the anchors and the Type I baselines)
+clears all three, so at each design column the
 stage-span profile's anchor is the very cell — same id, signature, matched seed
 and dataset — of its surgery sibling's anchor, as the design-guidance magnitude
 and geometry siblings share theirs. Read one sibling's anchor and use the
