@@ -34,6 +34,11 @@ rescales the reduced model's residuals before RRPP permutes them, so the null
 keeps the residual variance the reduced model's degrees of freedom remove. It
 moves only the p-values and the null summary.
 
+``TrajectoryAnalysisParams.span_split_test`` additionally tests the group ×
+stage interaction of the standardized features inside the fitted PLS span and
+in its orthogonal complement (:func:`motco.stats.interaction.interaction_split_test`),
+recorded in a ``span_split`` block; every other output is unchanged.
+
 :func:`write_analysis_outputs` writes the result as plain JSON/CSV (record,
 latent scores, PLS loadings, latent stage means and, when requested, the
 attribution tables) — the fitted estimator is never pickled.
@@ -57,6 +62,7 @@ from motco.simulations.attribution_diagnostics import (
     run_attribution_diagnostics,
     unavailable_record,
 )
+from motco.simulations.diagnostics import LinearLatentMap
 from motco.simulations.evaluation import (
     EVALUATION_ORIENTATION_ESTIMATORS,
     AttributionDiagnosticSettings,
@@ -86,6 +92,7 @@ from motco.stats.design import (
     build_conditioning_matrix,
     build_covariate_matrix,
 )
+from motco.stats.interaction import interaction_split_test
 from motco.stats.permutation import RESIDUAL_CORRECTIONS, RRPP, residual_correction_scale
 from motco.stats.pls import NuisanceDesign
 from motco.stats.trajectory import estimate_betas, estimate_difference
@@ -389,6 +396,13 @@ class TrajectoryAnalysisParams:
     stage means are unchanged; only the null moves. An unknown value is
     rejected before any fitting, and the setting is omitted from
     :meth:`to_dict` while ``None``.
+
+    ``span_split_test`` (default ``False``) runs the split interaction test
+    (:func:`motco.stats.interaction.interaction_split_test`) on the
+    standardized features in the fitted PLS model's input coordinates, against
+    ``qr(x_rotations_)``, with the trajectory models (covariates included), the
+    seed, the permutations and the residual correction. It is omitted from
+    :meth:`to_dict` while false and is not available with latent adjustment.
     """
 
     permutations: int = 0
@@ -406,6 +420,7 @@ class TrajectoryAnalysisParams:
     covariate_latent_adjustment: str | None = None
     min_components: int | None = 2
     residual_correction: str | None = None
+    span_split_test: bool = False
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -451,6 +466,9 @@ class TrajectoryAnalysisParams:
         if self.residual_correction is None:
             # Absent means the 0.12.0 null: its resolved parameters stay byte-identical.
             data.pop("residual_correction")
+        if not self.span_split_test:
+            # Absent means the 0.17.0 analysis: its resolved parameters stay byte-identical.
+            data.pop("span_split_test")
         return data
 
     @property
@@ -528,6 +546,12 @@ def analyze_trajectories(
     ``params.residual_correction`` rescales the reduced model's residuals
     (covariates included) before RRPP permutes them; the record's
     ``measurement`` block then states the correction it applied.
+
+    ``params.span_split_test`` adds a ``span_split`` block after
+    ``measurement``: the group × stage interaction of the standardized
+    features, split into the fitted PLS span and its orthogonal complement and
+    tested with RRPP's serial draws at the analysis's seed. It is rejected with
+    latent adjustment before fitting.
     """
 
     params = params or TrajectoryAnalysisParams()
@@ -543,6 +567,12 @@ def analyze_trajectories(
             "covariate-residualized features, and attribution on it is not defined. Disable attribution or "
             "drop the latent adjustment."
         )
+    if params.covariate_latent_adjustment is not None and params.span_split_test:
+        raise TrajectoryAnalysisError(
+            f"The split interaction test (span_split_test) is not available with latent adjustment "
+            f"(covariate_latent_adjustment={params.covariate_latent_adjustment!r}): it is defined on the "
+            "covariate-blind basis. Drop one of the two settings."
+        )
     start = perf_counter()
     blocks = {block.name: block.values for block in dataset.blocks}
     order = [block.name for block in dataset.blocks]
@@ -554,14 +584,7 @@ def analyze_trajectories(
 
     groups = list(dataset.groups)
     stages = list(dataset.stages)
-    group_codes = {label: str(index) for index, label in enumerate(groups)}
-    stage_codes = {label: str(index) for index, label in enumerate(stages)}
-    working = pd.DataFrame(
-        {
-            _GROUP: dataset.metadata[dataset.group_col].astype(str).map(group_codes).to_numpy(),
-            _STAGE: dataset.metadata[dataset.stage_col].astype(str).map(stage_codes).to_numpy(),
-        }
-    )
+    working = _working_frame(dataset)
 
     integration_params: dict[str, Any] = {
         "cv1_splits": params.cv1_splits,
@@ -655,6 +678,9 @@ def analyze_trajectories(
     latent_scores.index.name = dataset.sample_col
     artifacts = latent.artifacts
     assert artifacts is not None  # the PLS core always returns its fitted artifacts
+    span_split_record = (
+        _span_split_record(artifacts, model_full, model_reduced, params) if params.span_split_test else None
+    )
     pls_loadings = _loadings_frame(artifacts.model, X.columns, list(latent.matrix.columns))
     betas = np.asarray(estimate_betas(model_full, latent.matrix.to_numpy(dtype=float)), dtype=float)
     stage_means = _stage_means_frame(
@@ -725,6 +751,7 @@ def analyze_trajectories(
             "shape_available": shape_available,
             "runtime_seconds": perf_counter() - start,
         },
+        **({"span_split": span_split_record} if span_split_record is not None else {}),
         "params": params.to_dict(),
         "software": _software_versions(),
         "attribution": attribution_record,
@@ -831,6 +858,57 @@ def _run_attribution(
         )
     except AttributionDiagnosticError as exc:
         raise TrajectoryAnalysisError(str(exc)) from exc
+
+
+def _working_frame(dataset: TrajectoryDataset) -> pd.DataFrame:
+    """Group and stage recoded to ordinal strings in declared order, the design's working frame."""
+
+    group_codes = {label: str(index) for index, label in enumerate(dataset.groups)}
+    stage_codes = {label: str(index) for index, label in enumerate(dataset.stages)}
+    return pd.DataFrame(
+        {
+            _GROUP: dataset.metadata[dataset.group_col].astype(str).map(group_codes).to_numpy(),
+            _STAGE: dataset.metadata[dataset.stage_col].astype(str).map(stage_codes).to_numpy(),
+        }
+    )
+
+
+def _span_split_inputs(artifacts: PLSIntegrationArtifacts) -> tuple[np.ndarray, np.ndarray]:
+    """The standardized features in the PLS model's input coordinates and ``qr(x_rotations_)``."""
+
+    linear_map = LinearLatentMap.from_pls(artifacts.model)
+    return linear_map.inputs(artifacts.features.to_numpy(dtype=float)), linear_map.basis
+
+
+def _span_split_record(
+    artifacts: PLSIntegrationArtifacts,
+    model_full: np.ndarray,
+    model_reduced: np.ndarray,
+    params: TrajectoryAnalysisParams,
+) -> dict[str, Any]:
+    """The split interaction test on the analysed features, as the record's ``span_split`` block.
+
+    The correction is applied only to a null that is drawn, as in RRPP; the
+    split test's draws are RRPP's only on its serial path (one job).
+    """
+
+    features, basis = _span_split_inputs(artifacts)
+    correction = params.residual_correction if params.permutations > 0 else None
+    try:
+        result = interaction_split_test(
+            features,
+            model_full,
+            model_reduced,
+            basis,
+            permutations=params.permutations,
+            seed=params.seed,
+            residual_correction=correction,
+        )
+    except ValueError as exc:
+        raise TrajectoryAnalysisError(f"Split interaction test: {exc}") from exc
+    payload = result.to_dict()
+    payload["draws_match_rrpp"] = params.n_jobs in (None, 1)
+    return payload
 
 
 def _covariate_adjusted_design(

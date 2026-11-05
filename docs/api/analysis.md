@@ -67,6 +67,7 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
 | `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
+| `span_split` | only with the [split interaction test](#split-interaction-test): per part (`total`, `span`, `complement`) the dimension, interaction and residual sums of squares, degrees of freedom, pseudo-F and, with permutations, the pseudo-F and interaction-SS p-values; the in-span share, the residual correction, permutations, seed and `draws_match_rrpp` |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
 | `attribution` | the compact attribution record, or a `not_requested` marker |
 
@@ -520,6 +521,59 @@ correction stays opt-in, and the default is the uncorrected null.
 
 Without the setting, every output is identical to MOTCO 0.12.0 except the
 runtime (`tests/test_analysis_identity.py`).
+
+## Split interaction test
+
+`delta`, `angle` and `shape` see a group difference only through its component
+inside the fitted stage-PLS span. The opt-in split interaction test asks the
+question the span cannot: do the groups differ by stage anywhere in the measured
+features, and is that difference inside the fitted span or outside it?
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, residual_correction="df", span_split_test=True)
+```
+
+```bash
+motco analyze ... --permutations 999 --seed 1 --residual-correction df --span-split-test
+```
+
+It runs `motco.stats.interaction.interaction_split_test` on the analysis's own
+inputs:
+
+- **Outcome.** The pooled-standardized joint features in the fitted PLS model's
+  input coordinates, the coordinates in which `qr(x_rotations_)` is orthonormal
+  and span capture is measured.
+- **Basis.** `qr(x_rotations_)`: `span` has the selected rank as its dimension
+  and `complement` the rest of the features.
+- **Models.** The full (group × stage) and reduced (group + stage) trajectory
+  models with the declared covariates, so the tested effect is the group ×
+  stage interaction RRPP tests.
+- **Null.** Freedman–Lane permutation of the reduced residuals with RRPP's
+  serial draws at the analysis's seed, the analysis's permutation count and its
+  residual correction.
+
+Per part the record's `span_split` block gives the dimension, the interaction
+sum of squares, the full model's residual sum of squares, df_int, df_res, the
+pseudo-F `(SS_int / df_int) / (RSS / df_res)` and, with permutations, the
+pseudo-F p-value (the test) and the interaction-SS p-value (a diagnostic).
+`span` + `complement` = `total` for both sums, and `span_share` is the observed
+share of the interaction energy inside the fitted span. `draws_match_rrpp` is
+true when RRPP ran serially (`n_jobs` 1), so the split test's draws are RRPP's;
+with more jobs RRPP draws a different sequence while the split test keeps the
+serial one. The CLI prints one line with the three pseudo-F p-values and the
+in-span share.
+
+- **Unchanged outputs.** Latent scores, rank, statistics, p-values, null
+  summary and stage means are identical with and without the setting; without
+  it every output equals MOTCO 0.17.0's (`tests/test_analysis_identity.py`,
+  `tests/test_analysis_span_split.py`).
+- **Latent adjustment.** The test is defined on the covariate-blind basis, so
+  requesting it with `covariate_latent_adjustment` (`--latent-adjustment`) is an
+  error before fitting.
+- **Reading.** "Span" is the span fitted to the sample, not the population stage
+  program. How a rejection or a non-rejection of each part is read, and the
+  validation status, are on the [measurement visibility](../measurement-visibility.md)
+  page.
 
 ## Example: SEA-AD-style design
 
