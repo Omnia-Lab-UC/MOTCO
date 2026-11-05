@@ -1,0 +1,190 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 200,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 2.0,
+    "delta_expr": 2.0,
+    "delta_protein": 2.0,
+    "magnitude_kind": "joint",
+    "construction": "stage_span",
+    "span_layers": [
+      "methylation",
+      "expression"
+    ],
+    "span_scale": "planted"
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3,
+    "span_capture": true
+  },
+  "trajectory_modes": [
+    "magnitude"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "generator.n_samples": 200,
+        "generator.group_stage_sizes": null,
+        "generator.n_stages": 3,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.span_layers": [
+          "methylation",
+          "expression"
+        ]
+      },
+      {
+        "generator.n_samples": 80,
+        "generator.group_stage_sizes": null,
+        "generator.n_stages": 3,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.span_layers": [
+          "methylation",
+          "expression"
+        ]
+      },
+      {
+        "generator.n_samples": 600,
+        "generator.group_stage_sizes": [
+          [
+            11,
+            10,
+            28
+          ],
+          [
+            9,
+            10,
+            12
+          ]
+        ],
+        "generator.n_stages": 3,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.span_layers": [
+          "methylation",
+          "expression"
+        ]
+      },
+      {
+        "generator.n_samples": 200,
+        "generator.group_stage_sizes": null,
+        "generator.n_stages": 3,
+        "evaluation.integration_params.layers": null,
+        "generator.span_layers": null
+      },
+      {
+        "generator.n_samples": 200,
+        "generator.group_stage_sizes": null,
+        "generator.n_stages": 4,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ],
+        "generator.span_layers": [
+          "methylation",
+          "expression"
+        ]
+      }
+    ]
+  },
+  "n_replicates": 500,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "stage-span-paper-grade-span-magnitude",
+    "phase": 5,
+    "intent": "Stage-span paper grade, stage-span magnitude profile: paper-grade Type I, power, specificity and span capture of the delta / angle / shape RRPP tests for the planted-scale stage-span magnitude edit at five columns, under the production measurement; 500 replicates x 999 permutations.",
+    "derives_from": "examples/trajectory_power_study/stage_span_pilot_span_magnitude.json",
+    "sibling_profiles": [
+      "examples/trajectory_power_study/stage_span_paper_grade_span_geometry.json",
+      "examples/trajectory_power_study/stage_span_paper_grade_surgery_geometry.json"
+    ],
+    "notes": [
+      "Stage-span paper grade (change stage-span-paper-grade, 0.17.0): three sibling profiles in the design-guidance seed family at base seed 1028 -- the planted-scale stage-span geometry and magnitude profiles at five columns and a surgery geometry profile at the two columns no earlier paper-grade run covers. Every profile turns on evaluation.span_capture.",
+      "generator.construction 'stage_span' with generator.span_scale 'planted': the stage-span edit is solved as a fixed point so it is exact in coordinates divided by the planted population pooled SD, the scale the measurement's sample scaler estimates (design D1). Span layers equal the measured blocks at every column.",
+      "Explicit design points over generator.n_samples, generator.group_stage_sizes, generator.n_stages, evaluation.integration_params.layers and generator.span_layers: n = 200 (the baseline) and n = 80 at three stages on methylation + expression; the SEA-AD MTG table [[11, 10, 28], [9, 10, 12]] at three stages on methylation + expression (default n_samples 600, as the size-table conflict rule requires); n = 200 at three stages on all three blocks (layers and span_layers null); n = 200 at four stages on methylation + expression.",
+      "Mode magnitude at e = 0.02, 0.05 and 0.1 (the pilot's and the slice's magnitude grid). Scaling about the centroid commutes with a per-feature scale, so the planted-scale magnitude plant is the null-scale plant bit for bit and these cells reproduce the stage-span pilot's magnitude datasets at n = 200, n = 80 and the SEA-AD table.",
+      "Scales and constructions are compared as sibling profiles, never as an axis: every zero-effect cell clears construction, span_layers and span_scale, so at each column the three profiles' anchors evaluate one dataset (the shared columns' anchors are also the 2026-10-29 design-guidance slice's, with identical p-values at 999 permutations).",
+      "acceptance: a type_i entry and the advisory anchor_decision (alpha 0.05, k = 2; bound 0.0695 at R = 500). The predeclared reading is scripts/stage_span_paper_grade_decision.py (P1 size, P2 capture, P3 specificity under the count-plus-ceiling bound rule) -> sensitivity_established | specificity_excess | capture_shortfall | size_excess.",
+      "Production measurement named, not defaulted: orientation_estimator net_displacement, min_components 2 and magnitude_kind joint. This is a post-floor config pinned in tests/data/post_floor_config_identity.json. Do not pass --n-jobs; parallelize across shards."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "12:00:00",
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "out_dir": "results/stage-span-paper-grade-<date>/span_magnitude",
+      "timing_basis": "scratch leak check (2026-11-04, ing job 933675): 18-28 s per unit at 199 permutations over the five columns; 999 permutations add RRPP time. Final figure from the local smoke (task 7.2) and the timing run on ing (task 9.1)."
+    }
+  }
+}

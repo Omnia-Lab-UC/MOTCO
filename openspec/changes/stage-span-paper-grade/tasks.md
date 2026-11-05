@@ -33,8 +33,8 @@
 
 ## 6. Paper-grade profiles
 
-- [ ] 6.1 Write `stage_span_paper_grade_span_geometry.json`, `stage_span_paper_grade_span_magnitude.json` and `stage_span_paper_grade_surgery_geometry.json` (design D4: explicit points, 500 × 999, `design-guidance` family at base seed 1028, span capture, `net_displacement`, `min_components` 2, `joint`, anchor decision acceptance, submission metadata naming the sbatch template), and verify each loads with `motco` study tooling
-- [ ] 6.2 Append the three profiles to `POST_FLOOR_CONFIGS`, regenerate `tests/data/post_floor_config_identity.json` with `tests/post_floor_fixture_capture.py`, and verify both pin tests pass
+- [x] 6.1 Write `stage_span_paper_grade_span_geometry.json`, `stage_span_paper_grade_span_magnitude.json` and `stage_span_paper_grade_surgery_geometry.json` (design D4: explicit points, 500 × 999, `design-guidance` family at base seed 1028, span capture, `net_displacement`, `min_components` 2, `joint`, anchor decision acceptance, submission metadata naming the sbatch template), and verify each loads with `motco` study tooling
+- [x] 6.2 Append the three profiles to `POST_FLOOR_CONFIGS`, regenerate `tests/data/post_floor_config_identity.json` with `tests/post_floor_fixture_capture.py`, and verify both pin tests pass
 - [ ] 6.3 Write `tests/test_stage_span_paper_grade_profiles.py`: production measurement named, columns and effects as in the spec, cell and unit counts pinned, sibling anchors drawing the same seeds and parameters, generator seeds equal to the slice's (shared columns), the stage-span pilot's (SEA-AD) and the design-guidance pilot's (four stages) at replicates 0–99, and planted magnitude equal to the pilot's stage-span magnitude; verify the module passes
 - [ ] 6.4 Add the profiles to `examples/trajectory_power_study/README.md` (purpose, columns, effects, cost, siblings), and verify the README's config list matches the directory
 
@@ -44,6 +44,8 @@
 - [ ] 7.2 Run a local smoke of all three profiles at 2 replicates × 19 permutations with BLAS pinned, and verify every unit completes, that the planted cells' truth reports converged fixed points, and record per-unit timings for the cost plan
 
 ## 8. Pre-flight on `ing`
+
+> **Reordered 2026-11-04 (user decision).** The workstation had to shut down before the leak check could be written, so the user chose to submit the paper grade (section 9) that night *without* the pre-flight gate, under the pre-approved cap of 450 projected core-hours. The leak check (section 4) and its two arms (8.2) run afterwards as a descriptive companion; 8.3's gate is read as a diagnostic, not as a condition for submission. The decision rule (section 5) is unchanged and predeclared.
 
 - [ ] 8.1 Push the branch, create a clean detached worktree on `ing` at the pushed commit (symlinked `.venv`, `logs/`, `PYTHONPATH`), check node memory and NFS state, and verify `motco.__file__` and the profile sha256 match the workstation
 - [ ] 8.2 Run the leak check's two arms on the stage-span geometry profile (planted at 0.1/0.25/0.5 and null at 0.25/0.5/1.0; anchor, orientation, shape; 100 × 199), merge, and verify 0 failed units and that the null arm's rates equal the 2026-11-04 pilot's at its three columns
