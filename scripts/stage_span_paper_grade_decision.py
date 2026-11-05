@@ -495,22 +495,28 @@ def informative_from(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
 
 
 def incomplete_cells(reports: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
-    """Cells where some replicates have no reading (failed units), per profile."""
+    """Cells where some replicates have no reading (failed units), per profile.
+
+    The report's ``n_replicates`` counts the completed records of a cell, so the
+    configured count is the profile's largest ``n_replicates``.
+    """
 
     rows = []
     for profile in PROFILES:
-        for key, entries in sorted(reports[profile]["rates"].items()):
-            worst = min(entries.values(), key=lambda entry: entry["n_available"])
-            if worst["n_available"] < worst["n_replicates"]:
+        rates = reports[profile]["rates"]
+        configured = max((entry["n_replicates"] for entries in rates.values() for entry in entries.values()), default=0)
+        for key, entries in sorted(rates.items()):
+            available = min(entry["n_available"] for entry in entries.values())
+            if available < configured:
                 rows.append(
                     {
                         "profile": profile,
                         "column": key[0],
                         "trajectory_mode": key[1],
                         "effect_size": key[2],
-                        "n_replicates": worst["n_replicates"],
-                        "n_available": worst["n_available"],
-                        "n_missing": worst["n_replicates"] - worst["n_available"],
+                        "n_replicates": configured,
+                        "n_available": available,
+                        "n_missing": configured - available,
                     }
                 )
     return rows

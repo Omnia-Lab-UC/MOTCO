@@ -35,12 +35,12 @@
 
 - [x] 6.1 Write `stage_span_paper_grade_span_geometry.json`, `stage_span_paper_grade_span_magnitude.json` and `stage_span_paper_grade_surgery_geometry.json` (design D4: explicit points, 500 × 999, `design-guidance` family at base seed 1028, span capture, `net_displacement`, `min_components` 2, `joint`, anchor decision acceptance, submission metadata naming the sbatch template), and verify each loads with `motco` study tooling
 - [x] 6.2 Append the three profiles to `POST_FLOOR_CONFIGS`, regenerate `tests/data/post_floor_config_identity.json` with `tests/post_floor_fixture_capture.py`, and verify both pin tests pass
-- [ ] 6.3 Write `tests/test_stage_span_paper_grade_profiles.py`: production measurement named, columns and effects as in the spec, cell and unit counts pinned, sibling anchors drawing the same seeds and parameters, generator seeds equal to the slice's (shared columns), the stage-span pilot's (SEA-AD) and the design-guidance pilot's (four stages) at replicates 0–99, and planted magnitude equal to the pilot's stage-span magnitude; verify the module passes
-- [ ] 6.4 Add the profiles to `examples/trajectory_power_study/README.md` (purpose, columns, effects, cost, siblings), and verify the README's config list matches the directory
+- [x] 6.3 Write `tests/test_stage_span_paper_grade_profiles.py`: production measurement named, columns and effects as in the spec, cell and unit counts pinned, sibling anchors drawing the same seeds and parameters, generator seeds equal to the slice's (shared columns), the stage-span pilot's (SEA-AD) and the design-guidance pilot's (four stages) at replicates 0–99, and planted magnitude equal to the pilot's stage-span magnitude; verify the module passes
+- [x] 6.4 Add the profiles to `examples/trajectory_power_study/README.md` (purpose, columns, effects, cost, siblings), and verify the README's config list matches the directory
 
 ## 7. Local verification
 
-- [ ] 7.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`), and verify it passes
+- [x] 7.1 Run the pre-commit gate (`uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short`), and verify it passes
 - [x] 7.2 Run a local smoke of all three profiles at 2 replicates × 19 permutations with BLAS pinned, and verify every unit completes, that the planted cells' truth reports converged fixed points, and record per-unit timings for the cost plan
 
 ## 8. Pre-flight on `ing`
@@ -63,9 +63,9 @@
 
 ## 10. Reproduction and decision
 
-- [ ] 10.1 Run `scripts/anchor_reproduction.py --by-column` across the three siblings and against the 2026-10-29 slice's anchors, and verify identical seeds, ranks, statistics and p-values at every shared column
-- [ ] 10.2 Run `scripts/anchor_reproduction.py --by-cell` for the surgery cells against the stage-span pilot (SEA-AD) and the design-guidance pilot (four stages), and the planted magnitude cells against the pilot's stage-span magnitude, at replicates 0–99, and verify identical seeds, ranks and statistics, with any missing source records reported as unavailable
-- [ ] 10.3 Run `scripts/stage_span_paper_grade_decision.py` on the merged reports, and verify `stage_span_paper_grade_decision.json` names its verdict, each criterion's m, p₂, allowed and observed counts and ceiling, and the descriptive tables
+- [x] 10.1 Run `scripts/anchor_reproduction.py --by-column` across the three siblings and against the 2026-10-29 slice's anchors, and verify identical seeds, ranks, statistics and p-values at every shared column
+- [x] 10.2 Run `scripts/anchor_reproduction.py --by-cell` for the surgery cells against the stage-span pilot (SEA-AD) and the design-guidance pilot (four stages), and the planted magnitude cells against the pilot's stage-span magnitude, at replicates 0–99, and verify identical seeds, ranks and statistics, with any missing source records reported as unavailable
+- [x] 10.3 Run `scripts/stage_span_paper_grade_decision.py` on the merged reports, and verify `stage_span_paper_grade_decision.json` names its verdict, each criterion's m, p₂, allowed and observed counts and ceiling, and the descriptive tables
 
 ## 11. Report and record
 

@@ -221,8 +221,12 @@ require every file in this directory to be in exactly one of them:
   seeds. The set is closed: the tests assert exactly 19.
 - **Post-floor** — every config committed since the floor: the four
   design-guidance pilot profiles, the two paper-grade slice profiles
-  (`design_guidance_core_{magnitude,geometry}_study.json`) and the two
-  stage-effect profiles (`design_guidance_stage_effect_{magnitude,geometry}_study.json`).
+  (`design_guidance_core_{magnitude,geometry}_study.json`), the two
+  stage-effect profiles (`design_guidance_stage_effect_{magnitude,geometry}_study.json`),
+  the four stage-span pilot siblings
+  (`stage_span_pilot_{surgery,span}_{magnitude,geometry}.json`) and the three
+  stage-span paper-grade siblings
+  (`stage_span_paper_grade_{span_geometry,span_magnitude,surgery_geometry}.json`).
   Each names its estimator and floor **explicitly and
   non-null** (`"net_displacement"` and `2` for the design-guidance profiles), so the
   measurement it ran under is stated rather than inherited from a default, and it
@@ -1109,3 +1113,71 @@ The stage-effect arm ran the same day on the user's decision (jobs 930041 and
 rank inflated to a median 11 at δ = 0.25, `delta` and `shape` lost their power
 below δ = 2.0, and `angle` at e = 1.0 was higher at δ = 0.5–1.0 than at 2.0.
 Findings: `docs/reports/design-guidance-slice-2026-10-29.md`.
+
+## Stage-span paper grade
+
+Three post-floor sibling profiles (change `stage-span-paper-grade`, 0.17.0)
+measure, at paper grade, how sensitive `delta`/`angle`/`shape` are to a
+difference the stage-supervised measurement can see. They are in the
+design-guidance seed family (`base_seed` 1028), at 500 × 999, with
+`evaluation.span_capture` on, under the production measurement
+(`"net_displacement"`, `min_components` 2, `"magnitude_kind": "joint"`):
+
+- `stage_span_paper_grade_span_geometry.json` — `construction: "stage_span"`
+  with `span_scale: "planted"` (the edit is exact under the planted pooled SD;
+  see the study README). `orientation`, `shape` and `translation` at e ∈ {0.1,
+  0.25, 0.5}, at five explicit columns: n = 200 (the baseline) and n = 80 at
+  three stages on methylation + expression; the SEA-AD table
+  `[[11, 10, 28], [9, 10, 12]]` (default `n_samples` 600); n = 200 on all three
+  blocks (`layers` and `span_layers` null); n = 200 at four stages. 2 Type I
+  baselines + 5 × (1 anchor + 9) = 52 cells, 26,000 units.
+- `stage_span_paper_grade_span_magnitude.json` — the same profile with
+  `magnitude` at e ∈ {0.02, 0.05, 0.1}: 22 cells, 11,000 units. The planted
+  magnitude plant equals the null-scale plant bit for bit, so these cells
+  reproduce the stage-span pilot's magnitude datasets.
+- `stage_span_paper_grade_surgery_geometry.json` — the surgeries
+  (`orientation`, `shape`, `translation` at e ∈ {0.25, 0.5, 1.0}) at the two
+  columns no earlier paper-grade run covers: the SEA-AD table (the baseline)
+  and n = 200 at four stages. 22 cells, 11,000 units. At the other three
+  columns the surgeries are the design-guidance slice's cells on the same
+  datasets.
+
+Scales and constructions are siblings, never axes: every zero-effect cell
+clears `construction`, `span_layers` and `span_scale`, so at each column the
+three profiles evaluate one anchor dataset (cell ids can differ, since an
+anchor records the modes it resolves), and the shared columns' anchors are the
+slice's, with identical p-values. The surgery cells draw the stage-span pilot's
+SEA-AD cells' and the design-guidance pilot's four-stage cells' seeds and
+parameters at replicates 0–99. Structure tests:
+`tests/test_stage_span_paper_grade_profiles.py`; identity pins:
+`tests/data/post_floor_config_identity.json`.
+
+**Reading.** `scripts/stage_span_paper_grade_decision.py --results-dir <run>`
+writes `stage_span_paper_grade_decision.json` (rule version 1): P1 size (the
+anchors and the stage-span translation), P2 median capture ≥ 0.90 in every
+stage-span magnitude/orientation/shape cell, P3 their off-target rates; P1 and
+P3 under the count-plus-ceiling bound rule (at most the 95th percentile of
+Binomial(m, p₂) rates above α + 2·SE, none above the Bonferroni ceiling) →
+`size_excess` | `capture_shortfall` | `specificity_excess` |
+`sensitivity_established`. `scripts/stage_span_leak_check.py` decomposes the
+off-target `delta` leak at six checkpoints (descriptive).
+
+**Cost.** 32 units timed on `ing` at 999 permutations averaged 17.3 s, so
+about 230 core-hours for the 48,000 units.
+
+```bash
+# On ing, from a clean worktree of the pushed branch (PYTHONPATH on its src).
+WT=$(pwd); RUN=$WT/results/stage-span-paper-grade-$(date -u +%F)
+for kind in span_geometry:260:64 span_magnitude:110:28 surgery_geometry:110:28; do
+  IFS=: read -r p n throttle <<< "$kind"
+  sbatch -p 512x1024 --cpus-per-task=1 --mem=4G --time=12:00:00 --exclude=n2,n11 \
+      --array=0-$((n-1))%$throttle --job-name=sspg-$p \
+      --export=ALL,STUDY_CONFIG=$WT/examples/trajectory_power_study/stage_span_paper_grade_$p.json,STUDY_OUT=$RUN/$p,N_SHARDS=$n,PYTHONPATH=$WT/src,OMP_NUM_THREADS=1,OPENBLAS_NUM_THREADS=1,MKL_NUM_THREADS=1 \
+      scripts/motco_study_array.sbatch
+done
+# After completion, per profile:
+python scripts/motco_study.py merge --out-dir $RUN/<profile>
+python scripts/motco_study.py report \
+    --config examples/trajectory_power_study/stage_span_paper_grade_<profile>.json --out-dir $RUN/<profile>
+python scripts/stage_span_paper_grade_decision.py --results-dir $RUN
+```

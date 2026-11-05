@@ -76,7 +76,8 @@ def _write_report(root: Path, profile: str, *, rejected=None, capture=None, avai
                         "trajectory_mode": mode,
                         "effect_size": effect,
                         "statistic": statistic,
-                        "n_replicates": R,
+                        # As in the study report: a cell's completed records.
+                        "n_replicates": n_available,
                         "n_available": n_available,
                         "n_rejected": count,
                         "rejection_rate": rate,
