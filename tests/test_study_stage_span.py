@@ -148,12 +148,89 @@ def test_construction_design_axis_is_rejected(tmp_path: Path) -> None:
         _load(tmp_path, raw)
 
 
+def test_planted_span_scale_config_loads_and_enumerates(tmp_path: Path) -> None:
+    planted_raw = _raw("stage_span")
+    planted_raw["generator"]["span_scale"] = "planted"
+    planted = _load(tmp_path, planted_raw, "planted.json")
+    assert planted.generator.span_scale == "planted"
+    cells = enumerate_study(planted).cells
+    effect_cells = [
+        cell for cell in cells if not cell.metadata.get("zero_effect_anchor") and "type_i" not in cell.phase
+    ]
+    assert effect_cells and all(cell.generator_params.span_scale == "planted" for cell in effect_cells)
+
+    null_scale = enumerate_study(_load(tmp_path, _raw("stage_span"), "null.json")).cells
+    by_id = {cell.cell_id for cell in null_scale}
+    assert not {cell.cell_id for cell in effect_cells} & by_id
+
+    dumped = tmp_path / "dumped.json"
+    dump_study_config(planted, dumped)
+    assert json.loads(dumped.read_text())["generator"]["span_scale"] == "planted"
+    again = enumerate_study(load_study_config(dumped)).cells
+    assert [cell.cell_id for cell in again] == [cell.cell_id for cell in cells]
+    assert [parameter_signature(cell) for cell in again] == [parameter_signature(cell) for cell in cells]
+
+
+def test_null_span_scale_enumerates_as_its_omission(tmp_path: Path) -> None:
+    explicit_raw = _raw("stage_span")
+    explicit_raw["generator"]["span_scale"] = None
+    explicit = _load(tmp_path, explicit_raw, "explicit.json")
+    omitted = _load(tmp_path, _raw("stage_span"), "omitted.json")
+    first, second = enumerate_study(explicit).cells, enumerate_study(omitted).cells
+    assert [cell.cell_id for cell in first] == [cell.cell_id for cell in second]
+    assert [parameter_signature(cell) for cell in first] == [parameter_signature(cell) for cell in second]
+    assert [derive_replicate_seed(cell, 1) for cell in first] == [derive_replicate_seed(cell, 1) for cell in second]
+    dumped = tmp_path / "dumped.json"
+    dump_study_config(explicit, dumped)
+    assert "span_scale" not in json.loads(dumped.read_text())["generator"]
+
+
+def test_span_scale_axis_is_rejected(tmp_path: Path) -> None:
+    raw = _raw("stage_span")
+    for point in raw["design_grid"]["points"]:
+        point["generator.span_scale"] = None
+    with pytest.raises(StudyConfigError, match="stage-span scales are compared as sibling profiles"):
+        _load(tmp_path, raw)
+    raw = _raw("stage_span", axes={"generator.span_scale": ["planted"]})
+    with pytest.raises(StudyConfigError, match="stage-span scales are compared as sibling profiles"):
+        _load(tmp_path, raw)
+
+
+def test_planted_anchors_are_the_surgery_anchors(tmp_path: Path) -> None:
+    planted_raw = _raw("stage_span")
+    planted_raw["generator"]["span_scale"] = "planted"
+    planted = _load(tmp_path, planted_raw, "planted.json")
+    surgery = _load(tmp_path, _raw(None), "surgery.json")
+    span, other = _anchors(planted), _anchors(surgery)
+    assert len(span) == 3 and span.keys() == other.keys()
+    for point, cell in span.items():
+        assert cell.cell_id == other[point].cell_id
+        assert parameter_signature(cell) == parameter_signature(other[point])
+        assert cell.generator_params.span_scale is None
+    # The Type I null cells clear the scale too (the translation negative control is
+    # an effect cell and keeps its construction).
+    null_planted = [
+        cell
+        for cell in enumerate_study(planted).cells
+        if cell.phase.startswith("type_i") and cell.generator_params.trajectory_mode == "none"
+    ]
+    null_surgery = [
+        cell
+        for cell in enumerate_study(surgery).cells
+        if cell.phase.startswith("type_i") and cell.generator_params.trajectory_mode == "none"
+    ]
+    assert null_planted and all(cell.generator_params.span_scale is None for cell in null_planted)
+    assert {cell.cell_id for cell in null_planted} == {cell.cell_id for cell in null_surgery}
+
+
 @pytest.mark.parametrize(
     ("generator", "match"),
     [
         ({"construction": "lattice"}, "Unknown construction"),
         ({"span_layers": TWO_BLOCKS}, "construction is not 'stage_span'"),
         ({"construction": "stage_span", "span_layers": ["lipids"]}, "unknown layer"),
+        ({"span_scale": "planted"}, r"span_scale='planted' is set but construction is not 'stage_span'"),
+        ({"construction": "stage_span", "span_layers": TWO_BLOCKS, "span_scale": "sample"}, "Unknown span_scale"),
     ],
 )
 def test_malformed_construction_settings_are_rejected_at_load(tmp_path, generator, match) -> None:

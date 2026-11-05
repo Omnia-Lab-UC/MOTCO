@@ -126,6 +126,55 @@ not as `angle` alone. In the design-guidance pilot, the orientation surgery at e
 moved `delta` (0.12–0.92) and `shape` (0.19–1.00) as well as `angle`
 ([design-guidance pilot](reports/design-guidance-pilot-2026-10-28.md), §3.2).
 
+## Score coordinates: the span is seen through a shear
+
+The statistics are not measured on an orthonormal projection onto the span. They are
+measured in the **PLS score coordinates** that scikit-learn's `transform` returns:
+
+```text
+T = X·R,   R = W·(PᵀW)⁻¹,
+```
+
+where `W` holds the weights and `P` the loadings. `PᵀW` is unit upper triangular, so `R`
+is `W` followed by a shear. The scores span the same subspace as an orthonormal basis of
+the weights, but the map is not an isometry of it. **Lengths and angles inside the span
+are not preserved**: two configurations equal in the standardized feature space are equal
+in score coordinates, but two of the same path length or shape need not stay so.
+
+- **Size is unaffected.** Under the null both groups share one population trajectory.
+  Any linear map keeps two equal configurations equal, and RRPP permutes inside the same
+  coordinates. The paper-grade anchors and translation controls read 0.002–0.062 against
+  0.0695 ([stage-span paper grade](reports/stage-span-paper-grade-2026-11-04.md), §5).
+- **Specificity is affected.** A difference that is pure in the standardized feature
+  space can move the other statistics in score coordinates. A bend that keeps B's path
+  length exactly can still lengthen or shorten it once the span is sheared, and so leak
+  into `delta`.
+- **The residual is measured.** The [paper-grade leak decomposition](reports/stage-span-paper-grade-2026-11-04.md#6-the-leak-decomposition)
+  measured the bend at e = 0.5 under the planted scale, where B's population path length
+  equals A's exactly. The table gives the median B − A path-length difference as a share
+  of A's path, on the same population rows and through the same fitted basis.
+
+| column | planted-scale coordinates | orthonormal span | PLS scores |
+|---|---|---|---|
+| n = 200, two blocks | −0.00 % | +0.05 % | +0.03 % |
+| n = 80, two blocks | −0.00 % | +0.11 % | −0.02 % |
+| SEA-AD table, two blocks | −0.00 % | −0.01 % | **−0.48 %** |
+| n = 200, three blocks | −0.00 % | +0.06 % | +0.10 % |
+| n = 200, four stages | −0.00 % | +0.06 % | **−0.59 %** |
+
+  The residual is largest on the unequal SEA-AD table and at four stages. The rotation
+  shows it more strongly: the 45°
+  stage-span rotation on the SEA-AD table reads −3.35 % in scores against +0.66 % in the
+  orthonormal span. At paper grade these residuals did not produce a `delta` leak (the
+  bend's `delta` reads 0.016–0.036), but they are the one remaining route that the
+  construction cannot remove.
+
+**Orthonormal span coordinates** (measuring on an orthonormal basis of the fitted span
+rather than on the scores) would remove this route. That changes the production
+measurement and is **not validated**: its size, power and reproduction of committed
+results are untested. It is held as its own roadmap item
+([roadmap](roadmap.md#next-changes), item 15).
+
 ## Measurement spaces that keep the rotation, and what they cost
 
 Every linear latent space is a projection of the standardized, concatenated features
@@ -264,3 +313,38 @@ The advisory reading was `document_tradeoff`: no space gains on the out-of-span 
 without losing what the production space sees. The production stage-PLS space stays the
 measurement, and its question stays the one stated at the top of this page.
 
+
+## Sensitivity given visibility at paper grade
+
+The 2026-11-04 paper grade ([report](reports/stage-span-paper-grade-2026-11-04.md), 500
+replicates × 999 permutations per cell) repeated the stage-span measurement under the
+planted scale (`span_scale: "planted"`, which makes each edit exact where the sample
+scaler looks) at five columns. Its predeclared decision is **`sensitivity_established`**:
+size holds at every column, every stage-span plant keeps at least 0.90 of its energy in
+the fitted span, and the off-target rates stay within the bound rule.
+
+Target power of the stage-span plants (`angle` for the rotation, `shape` for the bend,
+`delta` for the scaling), at the three effects of each mode:
+
+| column | orientation, 9° / 22.5° / 45° | shape, e = 0.1 / 0.25 / 0.5 | magnitude, e = 0.02 / 0.05 / 0.1 |
+|---|---|---|---|
+| n = 200, two blocks | 0.74 / 0.88 / 1.00 | 0.70 / 0.97 / 1.00 | 0.23 / 0.69 / 0.94 |
+| n = 80, two blocks | 0.40 / 0.41 / 0.99 | 0.21 / 0.72 / 0.97 | 0.04 / 0.24 / 0.62 |
+| SEA-AD table, two blocks | 0.38 / 0.38 / 0.96 | 0.21 / 0.68 / 0.97 | 0.06 / 0.19 / 0.54 |
+| n = 200, three blocks | 0.98 / 1.00 / 1.00 | 0.91 / 1.00 / 1.00 | 0.43 / 0.88 / 0.99 |
+| n = 200, four stages | 0.48 / 0.74 / 1.00 | 0.48 / 0.96 / 1.00 | 0.17 / 0.65 / 0.94 |
+
+- **Capture.** The plants keep 0.92–0.97 of their energy in the span (median per cell).
+  Through the fitted basis the rotation reads its intended angle to within 1.3° (SEA-AD,
+  45° reads 43.7°).
+- **The visibility contrast.** At e = 0.5 the surgeries reach `angle` 0.11–0.49 and
+  `shape` 0.08–0.67 at the same columns, keeping 0.2–0.8 % of their energy in the span
+  (three-block surgery capture was not measured).
+- **Remaining specificity.** The rotation's `shape` rises with the angle: at n = 200 it
+  reads 0.030 / 0.046 / 0.070 and at four stages 0.004 / 0.030 / 0.086, at or just above
+  the 0.0695 per-cell bound at 45°. The bound rule allows these (3 of 90 rates above it,
+  6 allowed, none above the ceiling), but this is the cell to watch in any larger effect.
+- **Excluded configurations.** The planted fixed point has no solution when the
+  configuration's two in-plane directions nearly tie. It failed for 12 of the 1,000
+  four-stage orientation units, which were reported as failures; those two cells read
+  over 497 and 491 replicates.

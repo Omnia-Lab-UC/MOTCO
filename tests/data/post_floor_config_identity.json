@@ -1,5 +1,5 @@
 {
- "capture_revision": "85b74bb07e6bf747ed2dbbc1c8a74a1aaf090fd6",
+ "capture_revision": "dcefd1770faa0943b35951b7bccb5c9c787644ce",
  "configs": {
   "design_guidance_arms_geometry_pilot.json": {
    "power_design-02154760d7d0": {
@@ -4865,6 +4865,780 @@
     "signature": "b4723aa78ea61b550757364227fa2f2ba92067db33bcac957ae9dfb93d75de18"
    }
   },
+  "stage_span_paper_grade_span_geometry.json": {
+   "power_design-0472b3b82856": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "7168f395b3f6bd5ac1492b38fa3b08eccc7a06eb3f342ab73eb49876f3370582"
+   },
+   "power_design-0485e03611f2": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "b3f78e72e2b0593d20eb5847c813d17c53277f26be02c288d8065c0af8e16ced"
+   },
+   "power_design-0d78ea56db61": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "3c8b7944cf9d8a3fbcd1ecc8485ed29e552105c951f8497d28b0bdfdcb0adf27"
+   },
+   "power_design-1e8b96cbb67e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "d76894b17ac6779780bc818fd729e016b60e02f2c8116642bdcf3462a650f85e"
+   },
+   "power_design-216f8630fc28": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "93bfb20c1ce5e7a572a5260c4750a06e3151640b23e583544a6c5df46d7736f7"
+   },
+   "power_design-2603de24937a": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "cd1e47403e3e63660a8b465a1573bbda80794ea89cd996f283c93697c4f1f71a"
+   },
+   "power_design-263e26432104": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "d43763227a792e20d5e11a255dcf03efd50fef94a1c7cea9bd6b6c3cea530193"
+   },
+   "power_design-35c687e66224": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "062a7058ea0d57cac85ae70adc367a6843254535960312f7bcdfb100f4d9b82a"
+   },
+   "power_design-39a8d28e6b71": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "67dc66ec90221734c0bbb68a904b7478847845edfa0ceda5f12a558952bd30fe"
+   },
+   "power_design-3bdc78a08675": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "51277067d30280fc709066b96a8fed047807d547f27ad195d1614e32e48dab52"
+   },
+   "power_design-3c8508daeca9": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "63d2ef0bb2fb5c75d05ef8c8af95347d9d53c0aab2776d3897d650a18d609a2a"
+   },
+   "power_design-3e3bea05ac19": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "b805dcfb0c1d3a777102759256722fb387bf4ae266e950c827dcb1d1ae0f2509"
+   },
+   "power_design-41d6a2bf5f6e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "a533cdbd97e5a81a85cd71b85982c4ca575b6e7df29e8a81990b80565aea21e6"
+   },
+   "power_design-4f62613462ff": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "8109a87df1ab459f4ff5262c3ccd611cf5175bba7ea6d2516e36ce7d5a41087a"
+   },
+   "power_design-509d3af6c9d9": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "fde2104e79235e2f50085ad52292b6b28dbb17d52a26fb829aa871aabaf7c4d7"
+   },
+   "power_design-64552c642eb9": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "70b331dff8be8cb00f0af2f6ebb0ddcbff9d82ee83e08097cdbe7cf0ce0b4e01"
+   },
+   "power_design-708f2ed7003f": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "577f78c54d189a739a217c60ddee99e434e23715f7e707351f8ce8a212d4e432"
+   },
+   "power_design-739249449c5e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "6cf28fbc5e4654a05c874670fcdece73ec74b01fabef72224ddb2aea8a30eb05"
+   },
+   "power_design-7a19b9f81404": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "8034237bdcf2218d6312438bbe47824a70f0d9424fed68463c07e62c7b110547"
+   },
+   "power_design-7e78363d1627": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "5d0b43734620e29bbdfd5f6e5a8de29651f21d27fa9b96801eb01217c2ffcc17"
+   },
+   "power_design-7fbdbffe5ab3": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "c3e538afd427ce04cdb638cd42d7d2168a5a0042edc056967204a56dcfbaa69a"
+   },
+   "power_design-8cdc9982dd5a": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "464b02ae834949a4ac2459607ed7c5c567f4e99f0f1ea7e8220e83ec31b8d9ae"
+   },
+   "power_design-91ce96833bad": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "3995cd6258766f1d5c054cd472baa5589d1b80ca5e15ae355dbb6ae44352000a"
+   },
+   "power_design-945d834ecdcd": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "852dc5ee997c0bdf3c1ddf5431e802b5801cd9f4767e1230b5c5da0fabf04d6e"
+   },
+   "power_design-974042b5932f": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "ad7007e6ec20ac944a8bff4d033a9f08bd718e4f5a50b99bbdb08f05262870ad"
+   },
+   "power_design-99c2f1c10f10": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "b4f942a368035453ad760ac833e72372679b1ed76e513b50745c4784f51b5950"
+   },
+   "power_design-9a57783b2038": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "d01319fb1bf2beaa0d3d2254fbf5daf9a52748719b408034f9146b36bc500c52"
+   },
+   "power_design-9cf3fc6c9e64": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "8edf64fae2f39c47ab6fb308730753f3a2513012da4d89ab918a1ea489675ccc"
+   },
+   "power_design-9f23ed0e977a": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "fd4b50676b72863ff6e5e2fdfe36b1a9f77f5a271841553b2326c04605f38ee9"
+   },
+   "power_design-9ffb474db7f0": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "0dfa259a1c502304d2b2213c6ee57bd4c8702a217d40f36df1b83c732a31f81c"
+   },
+   "power_design-a70dd4ce3360": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "202e5094ed67909fefa474bc3683f7f5895801c68c25723de0b98dcc4a5baa38"
+   },
+   "power_design-a84960243f68": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "bb7037c23dac370e27b8f1def2853af0ed27d093522b69997567bfc1f5548e49"
+   },
+   "power_design-b0251295d5bb": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "8a0bb3c8d19f2feb0cc575de5dbc92c6b62240ef4fa11a9a00336b068e04e570"
+   },
+   "power_design-d86c84e42b1d": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "1ba613b554c4a0632df5cd1ea0ed2873a3b2f6ad3f6320c8caec03c8a57ab313"
+   },
+   "power_design-dd64700cf6cf": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "3277a15f6ac92680df213907b8153d2ef7102a446398837590c6af41eb2f5be7"
+   },
+   "power_design-e1369358457e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "aa54ed8cd3890f06b407abdfb3aab3012f0a052b4499456338c3b650a1c3f477"
+   },
+   "power_design-e2f2a24f7393": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "fcbe3baa0b62a5400069843a3c8b3187dc5896947c6fccde33d720ac6bb33f10"
+   },
+   "power_design-eb630f83082d": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "6612422a0635afc99948c5eb265b285b73f91c3968277a0b17f15b1d5f3c09d6"
+   },
+   "power_design-ef1eef1d9983": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "18043a776a5e7dd5d64102262a5a4a564ad1bd47b1c020c9cb3c9a93e38d5478"
+   },
+   "power_design-f8c0f89e7056": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "1dc635fd00985b28ce86cbc5c72bfc5d5b18c92c0ab8b964ba5c5f640ea2b8d8"
+   },
+   "power_primary-22671cec3ee8": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "2eb8fe8a29ccdde904cda8e02da94e3d5a855635a2c73aeb009354ff084277bf"
+   },
+   "power_primary-334fcee13e47": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "69adb9f8a345162f0ed694ed25ca5d6626d68e3b8da3d95f15e0d25a0c72479d"
+   },
+   "power_primary-486e25b6ed28": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "a9cfcf34023b776a90c6f4b4120d37ddfd3d2049ccd020135f1be21b830ddd72"
+   },
+   "power_primary-4d075126072e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "07c764c752570f75e5a1cd8099e52acf0492b04d559daf603e380437bb8d0c1b"
+   },
+   "power_primary-5de306f922ea": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "ff936dc737aa018780d9927e0abbb13fd4250729fff18195d2c2747f9503d3e3"
+   },
+   "power_primary-79022fd6e4dd": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "fda7b7e277ba12d413b7f3e6923215a820bcc3dc093c7cce6999299dd8a82331"
+   },
+   "power_primary-b0d1cec6e573": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "209956064b4a5adaed05b44a4ed44ad8df64c9cd60bb8901525b9437535e692d"
+   },
+   "power_primary-b95c31a3f595": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "3fd80f44002802ff3b82ace3a0cc4d8534dfcafb832d2ce2722044d7c5c99391"
+   },
+   "power_primary-f0ba4e09f401": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "96979d252d9b2af1be81df02078decdeac4f91991fcef0c1969d97727ed9799f"
+   },
+   "power_primary-f8043f4e0885": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "7c0b8392836ce6d55b27c7c5167ef41d14df0cfea0a32444c831607bf4b72a0f"
+   },
+   "type_i_baseline-ba5aebfcc43a": {
+    "seeds": [
+     1875263559,
+     1121628331,
+     735394015
+    ],
+    "signature": "09b153ad21cc0f3323377bdb083a7f2325a8a2f064bfe9e65c70802dc00c2f86"
+   },
+   "type_i_baseline-ba90adbda656": {
+    "seeds": [
+     215676217,
+     496409524,
+     1976892369
+    ],
+    "signature": "abd4fc27b43462913158289079094ac26b0055490518d5b8ed256722df76397f"
+   }
+  },
+  "stage_span_paper_grade_span_magnitude.json": {
+   "power_design-0b98749b179d": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "135a15d193afaefb02b241d0667f6ff5e4b1fe13cff588f1ea59d05bf11306c3"
+   },
+   "power_design-0caf34aeccb3": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "ab4e83266f829b69b7fc48e456a121ff1307b9c3cc55921d03c8310a7f88957f"
+   },
+   "power_design-14ffe26a38e8": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "bfda4c8f394cb32b781cb6f19c3f4ef90b8d3b3c62d340171286926972f45bb1"
+   },
+   "power_design-23a37afafcab": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "94231f9cccf9b63f2d3be61c619d8501b89475511e65a8e804edeb0ac375fbf4"
+   },
+   "power_design-26e213e139b5": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "19ff3bba3685c2fe6bc8da14f29bc296f1ad31718a3adeafc2d500f1688e1511"
+   },
+   "power_design-3b28452f8067": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "c921850a8cee001a3f9a335e40753c63a8a47f5f4b4abcd94b4442cce6d6486a"
+   },
+   "power_design-541479927b74": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "66e357cdb42a34c1cebe39e05e8733146c7ccc19de280e6323c1f7f0c148d705"
+   },
+   "power_design-587ea647eb42": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "845866f1b7ed97f9e53fb23808de389adf0977af45001ea0d4f5ac88b0296724"
+   },
+   "power_design-7214528ce9e8": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "948d51cbe2948de0972eb52b35ede7d3b3ee7af93ed5e5d8edf4d1a4f3698435"
+   },
+   "power_design-7bb9715e310c": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "d49401bbe8e5c6b260ce1180efb6d482bbe46242a069e5de1de8752296ad79cd"
+   },
+   "power_design-7fd795b059a1": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "4e27cafd951c83db8eed3f0836141e77a616f460f3b424343b1007df0c2c95fa"
+   },
+   "power_design-84fb81bef1cc": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "aa5e284d028e6573792691dd7608b0932dafcc6e57e44704fe46c2dbfac16f48"
+   },
+   "power_design-c28b0ab961e4": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "226c016707f44c4472139f972b2fcc496de7bdca4b9ba03cf1301e02b1cc554a"
+   },
+   "power_design-c448697e9494": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "b2333e2c6b7a3cb24849bc56da22718916153c8802b50f51f9aebcad4895aada"
+   },
+   "power_design-eb4e99925a9d": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "5fcb028e2f5287c5a7d6dfca43af6b243e67f0fee7acbf18e2a190132dc3a4c3"
+   },
+   "power_design-ecb4e2ba5c1b": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "803b54417b492e4c0a2a04eecc12629d493ab34c199fb7b5d900a5e10d12e263"
+   },
+   "power_primary-6fb9996087bb": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "f3f8218033a6183c5bfcdbfae42fdcce61653ef72a1d8fffed7100dc4432f92b"
+   },
+   "power_primary-75b933094ba1": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "4858062f3815c36e9ba910871fe6b5b212cfb75659a1c67a72f21f87f169461e"
+   },
+   "power_primary-80795e3a752e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "0ef9207fc500268c4e950b57985ebbef2b2fbb31a92a8afdd7c5782cad9153e7"
+   },
+   "power_primary-c65236f5f713": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "7b7b2c39f73918cdd490e2101984e88bd724fe2903500d24d47c27b2fd984f91"
+   },
+   "type_i_baseline-ba90adbda656": {
+    "seeds": [
+     215676217,
+     496409524,
+     1976892369
+    ],
+    "signature": "abd4fc27b43462913158289079094ac26b0055490518d5b8ed256722df76397f"
+   },
+   "type_i_baseline-ed9491b35628": {
+    "seeds": [
+     2031309049,
+     1243519460,
+     2056538681
+    ],
+    "signature": "efa4e6d3d76f9bf9f97853e595e975578b02c43e51e222fca6dbab5c879c8002"
+   }
+  },
+  "stage_span_paper_grade_surgery_geometry.json": {
+   "power_design-1704bcfa9370": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "cb4b53fd1441f57af76237b6c6f91adee75adb0a12796292e2c26de3735e7729"
+   },
+   "power_design-1ad99a0885fd": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "9f43bfbcc0049bbbee3097127509abeb544ec3d318ee3741c3e267a587fa798e"
+   },
+   "power_design-213e6176de73": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "6bf04b9c561bb021eda64354f285e29a5c4238763ee1d724869ec495c04ef241"
+   },
+   "power_design-52ab7c58c5f5": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "77f3e2046c8389020d67e6e646b2380a7e663c0ab30d14ebbd8331789f3e3c4a"
+   },
+   "power_design-65c3628785a4": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "9864b75b3814b30de8f98e7ca684d36b0ed8bd61d0567f0cb121d5cd94ae101b"
+   },
+   "power_design-a1f6965d905a": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "45ef292057e81358cafb22660b22a01490873f8218f872fa8c3b9158400d9fee"
+   },
+   "power_design-a2f2ba96c25f": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "6ea0428e27411853bd8ac8fca2ba4e66e54d0e41c6167ab6640cddc562f9959f"
+   },
+   "power_design-a6cdbc381671": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "df858da91c7acbadb0a1ed1a951bab0e2cc9a33905bb6bb9c7a01d75cbac38c2"
+   },
+   "power_design-a9f17ae5d166": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "a4e31a3f0b44e551c87c1528c6568bd1652dd2cf3c251690793876b7cfe5984c"
+   },
+   "power_design-c5670cad5438": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "42092cb96624208367a1f7aec9b130c5d317833c332ce04c6ff60f0fb3abbce4"
+   },
+   "power_primary-0480206405cb": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "3307110d67ea35322b44797e362379c2e62513e711d8109d38a63a537dc92573"
+   },
+   "power_primary-10cb0d6f8edf": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "37e1cf98cb962ab7117de2e830cb9076b9ea7fcc3fe518e4f7a13458508dc9b6"
+   },
+   "power_primary-2eddb47ced43": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "a11f5668bebf63b1fd4e21e76d62dcd9d43d16720e942e298490de314eb79496"
+   },
+   "power_primary-457630d0e34a": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "1908ebead74ef5f58353cae37e36de8074d8b8e2907cdd135a789abdaec06834"
+   },
+   "power_primary-57d847a7e9c0": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "778537d6f74ed99e05ff9d2688053808c0578a7043ce120b209cc032279be555"
+   },
+   "power_primary-6352d4e40373": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "015786c33f48a2ef582b8f3e659a4b58f0fbe1f98af88f421f14e17fecd8f252"
+   },
+   "power_primary-66767c4ae4fd": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "68ce5d3661af11a2a4b328b0a96e5db83719594c5627176c68bed68566293559"
+   },
+   "power_primary-84bdc1fbfc40": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "c9ffbdc5c7b240be45bbf044da8d0b11f7f074229ebe67e9f804619030820ea4"
+   },
+   "power_primary-a298a0bae2f8": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "57f9a8b37be967a20c789792405c18faca0b98fc29cbffb8a0fe4aa589ebdd53"
+   },
+   "power_primary-ed628f88249e": {
+    "seeds": [
+     1476637963,
+     117078700,
+     750911083
+    ],
+    "signature": "6e7907d90746792b576d0854de9eca7cb24fdfa02cad68cf09a3ad1ccac7cb2d"
+   },
+   "type_i_baseline-207395bb6639": {
+    "seeds": [
+     927515289,
+     1699308384,
+     1454374438
+    ],
+    "signature": "998ab2389bf9de68188da85277a66c45d846c7cdbfdade229fa27f2bd5339add"
+   },
+   "type_i_baseline-682c84cbedfc": {
+    "seeds": [
+     397717488,
+     1808301211,
+     543543347
+    ],
+    "signature": "0e5fa97657cdf41e6c447e28918c2062b152882ff436e6760579d58e7b8b09ff"
+   }
+  },
   "stage_span_pilot_span_geometry.json": {
    "power_design-016f09ca59c4": {
     "seeds": [
@@ -5610,5 +6384,5 @@
    }
   }
  },
- "note": "Identity of every study config committed after the rank floor (minimum-latent-rank, 0.10.0), starting with the four design-guidance pilot profiles (design-guidance-grid), then the paper-grade slice and stage-effect profiles (design-guidance-paper-grade-slice), then the four stage-span pilot siblings (stage-span-constructions). Maps each config under examples/trajectory_power_study/ to {cell_id: {signature, seeds (replicates 0-2)}}. These configs name evaluation.orientation_estimator and evaluation.min_components explicitly and are not held to the historical PC1 / floor-1 pins. Checked by tests/test_post_floor_config_identity.py; regenerate with tests/post_floor_fixture_capture.py after appending a new config."
+ "note": "Identity of every study config committed after the rank floor (minimum-latent-rank, 0.10.0), starting with the four design-guidance pilot profiles (design-guidance-grid), then the paper-grade slice and stage-effect profiles (design-guidance-paper-grade-slice), then the four stage-span pilot siblings (stage-span-constructions), then the three stage-span paper-grade siblings (stage-span-paper-grade). Maps each config under examples/trajectory_power_study/ to {cell_id: {signature, seeds (replicates 0-2)}}. These configs name evaluation.orientation_estimator and evaluation.min_components explicitly and are not held to the historical PC1 / floor-1 pins. Checked by tests/test_post_floor_config_identity.py; regenerate with tests/post_floor_fixture_capture.py after appending a new config."
 }

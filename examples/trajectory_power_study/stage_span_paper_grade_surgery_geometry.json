@@ -1,0 +1,157 @@
+{
+  "generator": {
+    "seed": 2,
+    "trajectory_mode": "magnitude",
+    "n_samples": 600,
+    "n_stages": 3,
+    "group_effect_size": 0.0,
+    "group_ratio": 0.5,
+    "p_dmp": 0.1,
+    "baseline_continuity": 0.0,
+    "delta_methyl": 2.0,
+    "delta_expr": 2.0,
+    "delta_protein": 2.0,
+    "magnitude_kind": "joint",
+    "group_stage_sizes": [
+      [
+        11,
+        10,
+        28
+      ],
+      [
+        9,
+        10,
+        12
+      ]
+    ]
+  },
+  "evaluation": {
+    "integration_method": "pls",
+    "orientation_estimator": "net_displacement",
+    "min_components": 2,
+    "integration_params": {
+      "layers": [
+        "methylation",
+        "expression"
+      ],
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "n_repeats": 5,
+      "max_components": 20,
+      "random_state": 1203
+    },
+    "permutations": 999,
+    "n_jobs": 1,
+    "seed": 3,
+    "span_capture": true
+  },
+  "trajectory_modes": [
+    "orientation",
+    "shape",
+    "translation"
+  ],
+  "effect_sizes": [
+    0.0,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "axes": {},
+  "design_grid": {
+    "points": [
+      {
+        "generator.n_samples": 600,
+        "generator.group_stage_sizes": [
+          [
+            11,
+            10,
+            28
+          ],
+          [
+            9,
+            10,
+            12
+          ]
+        ],
+        "generator.n_stages": 3,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ]
+      },
+      {
+        "generator.n_samples": 200,
+        "generator.group_stage_sizes": null,
+        "generator.n_stages": 4,
+        "evaluation.integration_params.layers": [
+          "methylation",
+          "expression"
+        ]
+      }
+    ]
+  },
+  "n_replicates": 500,
+  "base_seed": 1028,
+  "alpha": 0.05,
+  "matched_seeds": {
+    "enabled": true,
+    "version": 1,
+    "primary_family": "design-guidance",
+    "shared_zero_effect_anchor": true
+  },
+  "attribution": {
+    "enabled": false
+  },
+  "acceptance": {
+    "type_i": [
+      {
+        "alpha": 0.05,
+        "se_tolerance": 2.0
+      }
+    ],
+    "power": [],
+    "specificity": [],
+    "gate": {
+      "enabled": false
+    },
+    "anchor_decision": {
+      "alpha": 0.05,
+      "se_multiplier": 2.0,
+      "statistics": [
+        "delta",
+        "angle",
+        "shape"
+      ]
+    }
+  },
+  "metadata": {
+    "name": "stage-span-paper-grade-surgery-geometry",
+    "phase": 5,
+    "intent": "Stage-span paper grade, surgery geometry profile: paper-grade power and span capture of the feature-set surgeries (orientation, shape, translation) at the two columns no earlier paper-grade run covers -- the SEA-AD table and n = 200 at four stages -- for the visibility contrast with the stage-span construction; 500 replicates x 999 permutations.",
+    "derives_from": "examples/trajectory_power_study/stage_span_pilot_surgery_geometry.json",
+    "sibling_profiles": [
+      "examples/trajectory_power_study/stage_span_paper_grade_span_geometry.json",
+      "examples/trajectory_power_study/stage_span_paper_grade_span_magnitude.json"
+    ],
+    "notes": [
+      "Stage-span paper grade (change stage-span-paper-grade, 0.17.0): the surgery sibling. construction, span_layers and span_scale are unset (the default feature-set surgery).",
+      "Two explicit design points, both on methylation + expression: the SEA-AD MTG table [[11, 10, 28], [9, 10, 12]] at three stages (the baseline, default n_samples 600) and n = 200 at four stages. At n = 200 and n = 80 on two blocks and n = 200 on three blocks the surgeries are the 2026-10-29 design-guidance slice's cells (500 x 999) on the same datasets, so they are not re-run (non-goal).",
+      "Modes orientation, shape and translation at e = 0.25, 0.5 and 1.0 (the slice's and the pilots' grid). Seeds depend only on the family and the replicate index, so these cells draw the 2026-11-04 stage-span pilot's SEA-AD surgery cells' and the 2026-10-28 design-guidance pilot's four-stage cells' seeds and parameters at replicates 0-99 (p-values not comparable: 199 permutations there).",
+      "The anchors are the stage-span profiles' anchor datasets at the same columns (here the SEA-AD anchor is in the primary phase, there in the design phase, so cell ids differ; the reproduction check pairs datasets and p-values, not cell ids).",
+      "acceptance: a type_i entry and the advisory anchor_decision (alpha 0.05, k = 2; bound 0.0695 at R = 500). The decision reads this profile's target power and capture descriptively (the visibility contrast); it judges nothing here.",
+      "Production measurement named, not defaulted: orientation_estimator net_displacement, min_components 2 and magnitude_kind joint. This is a post-floor config pinned in tests/data/post_floor_config_identity.json. Do not pass --n-jobs; parallelize across shards.",
+      "surgery_censoring stays at its default ('error'); the pilot's runs at these columns reported 0 censored surgeries."
+    ],
+    "submission": {
+      "template": "scripts/motco_study_array.sbatch",
+      "partition": "512x1024",
+      "cpus_per_task": 1,
+      "mem": "4G",
+      "time": "12:00:00",
+      "environment": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; STUDY_N_JOBS unset",
+      "error_policy": "record",
+      "out_dir": "results/stage-span-paper-grade-<date>/surgery_geometry",
+      "timing_basis": "scratch leak check (2026-11-04, ing job 933675): 18-28 s per unit at 199 permutations over the five columns; 999 permutations add RRPP time. Final figure from the local smoke (task 7.2) and the timing run on ing (task 9.1)."
+    }
+  }
+}

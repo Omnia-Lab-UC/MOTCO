@@ -123,6 +123,29 @@ three stages a bend out of the plane would change the intended ``shape``, and
 magnitude and translation have no out-of-span version. Truth records the
 alignment, the support and a ``stage_span.out_of_span`` block (support size,
 available features, span layers, a direction identifier).
+
+**Planted scale (opt-in).** The null pooled SD does not depend on the plant,
+but the measurement's sample scaler estimates the *planted* population's pooled
+SD, which does: under the null scale the bend and the rotation change B's path
+length where the scaler looks. ``span_scale='planted'`` makes the edit exact
+there. From the null SD, each update standardizes the null configuration by the
+current SD, edits it, maps the plant back to analysed units and takes the
+pooled SD of A's null and B's planted cell means (``planted_pooled_scale``: the
+within-cell variance plus the between-cell variance of all ``2 · S`` cell means
+at the realized sizes); it stops once no feature's SD moves by more than
+``1e-12`` (relative) and fails, naming the mode, the effect and the last
+change, after 200 updates. At the fixed point B's planted-standardized
+configuration is the mode's edit of A's, so ``delta`` (orientation, shape,
+translation), ``angle`` (shape, translation) and ``shape`` (orientation,
+translation) are preserved exactly in those coordinates. ``magnitude`` needs no
+iteration (scaling about the centroid commutes with a per-feature scale) and
+keeps the null-scale plant bit for bit. The dataset is still the null dataset
+plus the plant. Truth gains ``span_scale``, and the ``stage_span`` block reads
+``units: "planted_standardized"`` with ``scale_iterations`` and
+``scale_residual``; its geometry is computed in the planted coordinates. The
+setting applies under ``stage_span`` only and not with ``span_alignment``
+(whose out-of-span direction is drawn in null-standardized coordinates);
+absent, every dataset, truth record, cell id and signature is unchanged.
 """
 
 from __future__ import annotations
@@ -130,7 +153,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass, field
-from typing import Any, Literal, Mapping, Sequence
+from typing import Any, Callable, Literal, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -151,6 +174,7 @@ ShapeKind = Literal["relocate", "magnitude"]
 MagnitudeKind = Literal["all", "extremes", "joint"]
 SurgeryCensoring = Literal["error", "clamp"]
 Construction = Literal["surgery", "stage_span"]
+SpanScale = Literal["planted"]
 
 _OMICS_LAYERS: tuple[OmicsLayer, ...] = ("methylation", "expression", "proteomics")
 _MODES = frozenset({"none", "translation", "magnitude", "orientation", "shape"})
@@ -158,6 +182,7 @@ _SHAPE_KINDS = frozenset({"relocate", "magnitude"})
 _MAGNITUDE_KINDS = frozenset({"all", "extremes", "joint"})
 _SURGERY_CENSORINGS = frozenset({"error", "clamp"})
 _CONSTRUCTIONS = frozenset({"surgery", "stage_span"})
+_SPAN_SCALES = frozenset({"planted"})
 
 #: Largest stage-span orientation effect: ``e = 2`` rotates the configuration by 180°.
 STAGE_SPAN_MAX_ORIENTATION_EFFECT = 2.0
@@ -168,6 +193,13 @@ STAGE_SPAN_RANK_TOLERANCE = 1e-8
 
 #: A pooled population SD below this keeps unit scale, as the sample scaler does.
 _SCALE_TOLERANCE = 1e-10
+
+#: The planted-scale fixed point stops once no feature's pooled SD changes by
+#: more than this relative amount in one update.
+PLANTED_SCALE_TOLERANCE = 1e-12
+
+#: Updates the planted-scale fixed point may take before it is an error.
+PLANTED_SCALE_MAX_ITERATIONS = 200
 
 
 class SemiSyntheticTrajectoryError(ValueError):
@@ -221,6 +253,11 @@ class SemiSyntheticTrajectoryParams:
     normalizes to ``None``. Both are accepted only under ``stage_span`` with
     ``orientation`` or ``none`` and are omitted from cell ids and signatures
     while ``None``.
+    ``span_scale`` selects the scale the stage-span edit is exact in: ``None``
+    (the default) the null population pooled SD, ``"planted"`` the planted
+    population's pooled SD, solved as a fixed point; see the module docstring.
+    It is accepted only under ``stage_span``, not with ``span_alignment``, and
+    is omitted from cell ids and signatures while ``None``.
     """
 
     seed: int
@@ -244,6 +281,7 @@ class SemiSyntheticTrajectoryParams:
     span_layers: tuple[OmicsLayer, ...] | None = None
     span_alignment: float | None = None
     span_support: int | None = None
+    span_scale: SpanScale | None = None
 
     def __post_init__(self) -> None:
         if self.construction == "surgery":
@@ -417,6 +455,7 @@ def validate_construction(params: SemiSyntheticTrajectoryParams) -> None:
             f"Unknown construction: {construction!r}; expected one of {sorted(_CONSTRUCTIONS)}."
         )
     _validate_alignment(params)
+    _validate_span_scale(params)
     if construction != "stage_span":
         if params.span_layers is not None:
             raise SemiSyntheticTrajectoryError(
@@ -471,6 +510,28 @@ def _validate_alignment(params: SemiSyntheticTrajectoryParams) -> None:
         raise SemiSyntheticTrajectoryError(
             f"{setting} is set with trajectory_mode={params.trajectory_mode!r}; the alignment applies to "
             "'orientation' (and the null 'none') only."
+        )
+
+
+def _validate_span_scale(params: SemiSyntheticTrajectoryParams) -> None:
+    """Reject an unknown or misplaced ``span_scale``."""
+
+    scale = params.span_scale
+    if scale is None:
+        return
+    if not isinstance(scale, str) or scale not in _SPAN_SCALES:
+        raise SemiSyntheticTrajectoryError(
+            f"Unknown span_scale: {scale!r}; expected null or one of {sorted(_SPAN_SCALES)}."
+        )
+    if params.construction != "stage_span":
+        raise SemiSyntheticTrajectoryError(
+            f"span_scale={scale!r} is set but construction is not 'stage_span'; the scale belongs to the "
+            "stage-span edit only."
+        )
+    if params.span_alignment is not None:
+        raise SemiSyntheticTrajectoryError(
+            f"span_scale={scale!r} and span_alignment are not supported together: the out-of-span direction "
+            "is drawn in null-standardized coordinates."
         )
 
 
@@ -1052,11 +1113,7 @@ def null_pooled_scale(
 
     weights = np.asarray(stage_weights, dtype=float)
     weights = weights / weights.sum()
-    within = {
-        "methylation": np.diag(reference.cov_M),
-        "expression": np.diag(reference.cov_expr),
-        "proteomics": np.diag(reference.cov_protein),
-    }
+    within = _within_cell_variance(reference)
     scales = []
     for layer in layers:
         means = np.asarray(null_means[layer], dtype=float)
@@ -1066,6 +1123,49 @@ def null_pooled_scale(
         scale[scale < _SCALE_TOLERANCE] = 1.0
         scales.append(scale)
     return np.concatenate(scales)
+
+
+def planted_pooled_scale(
+    means_a: Mapping[str, np.ndarray],
+    means_b: Mapping[str, np.ndarray],
+    sizes_a: Sequence[float] | np.ndarray,
+    sizes_b: Sequence[float] | np.ndarray,
+    *,
+    layers: Sequence[str],
+    reference: IntersimReference,
+) -> np.ndarray:
+    """Population pooled SD per feature of two groups' cells, concatenated over ``layers``.
+
+    ``means_a[layer]`` and ``means_b[layer]`` hold each group's population
+    stage means (``(n_stages, n_features)``, analysed units) and ``sizes_a`` /
+    ``sizes_b`` its realized cell sizes. The variance is the within-cell
+    variance (the reference covariance diagonal) plus the between-cell variance
+    of all ``2 · n_stages`` cell means at those sizes (``ddof = 0``): the
+    population analogue of the pooled sample scaler on the planted data. With
+    B's means equal to A's it is :func:`null_pooled_scale`. A feature whose SD
+    is (numerically) zero keeps unit scale.
+    """
+
+    weights = np.concatenate([np.asarray(sizes_a, dtype=float), np.asarray(sizes_b, dtype=float)])
+    weights = weights / weights.sum()
+    within = _within_cell_variance(reference)
+    scales = []
+    for layer in layers:
+        means = np.vstack([np.asarray(means_a[layer], dtype=float), np.asarray(means_b[layer], dtype=float)])
+        pooled_mean = weights @ means
+        between = weights @ (means - pooled_mean) ** 2
+        scale = np.sqrt(within[layer] + between)
+        scale[scale < _SCALE_TOLERANCE] = 1.0
+        scales.append(scale)
+    return np.concatenate(scales)
+
+
+def _within_cell_variance(reference: IntersimReference) -> dict[str, np.ndarray]:
+    return {
+        "methylation": np.diag(reference.cov_M),
+        "expression": np.diag(reference.cov_expr),
+        "proteomics": np.diag(reference.cov_protein),
+    }
 
 
 def _stage_span_plant(
@@ -1091,30 +1191,45 @@ def _stage_span_plant(
     stage_weights = np.asarray(a_sizes, dtype=float) + np.asarray(b_sizes, dtype=float)
     scale = null_pooled_scale(null_means, stage_weights, layers=layers, reference=ref)
     configuration = np.hstack([null_means[layer] for layer in layers])
-    z = (configuration - stage_weights @ configuration / stage_weights.sum()) / scale
+    center = stage_weights @ configuration / stage_weights.sum()
+    z = (configuration - center) / scale
 
     direction: OutOfSpanDirection | None = None
     if params.span_alignment is not None:
         direction = out_of_span_direction(z, seed=params.seed, support=params.span_support)
 
     null = params.trajectory_mode == "none" or params.group_effect_size == 0
-    effect: dict[str, Any]
-    if null:
-        edited, effect = z, {}
-    else:
-        edited, effect = edit_stage_configuration(
-            z,
+
+    def solve(standardized: np.ndarray) -> tuple[np.ndarray, dict[str, Any]]:
+        if null:
+            return standardized, {}
+        return edit_stage_configuration(
+            standardized,
             params.trajectory_mode,
             float(params.group_effect_size),
             alignment_degrees=params.span_alignment,
             out_of_span=direction.vector if direction is not None else None,
         )
+
+    edited, effect = solve(z)
     plant = edited - z
+    plant_units = plant * scale
+
+    fixed_point: _PlantedScale | None = None
+    if params.span_scale == "planted":
+        fixed_point = _planted_scale_fixed_point(
+            configuration, center, scale, null_means, a_sizes, b_sizes, layers, ref, params, solve
+        )
+        effect, plant_units, scale = fixed_point.effect, fixed_point.plant_units, fixed_point.scale
+        # Truth in the planted coordinates of what is planted: the planted SD is
+        # exactly ``scale``, and B is A plus the plant there.
+        z = (configuration - center) / scale
+        plant = plant_units / scale
+        edited = z + plant
 
     shifts: dict[OmicsLayer, np.ndarray] = {}
     if not null:
         offset = 0
-        plant_units = plant * scale
         for layer in layers:
             width = null_means[layer].shape[1]
             shifts[layer] = plant_units[:, offset : offset + width].T.copy()
@@ -1127,13 +1242,17 @@ def _stage_span_plant(
         "construction": "stage_span",
         "span_layers": list(layers),
         "stage_span": {
-            "units": "null_standardized",
+            "units": "null_standardized" if fixed_point is None else "planted_standardized",
             "path_length": _path_length(z),
             "mean_step": _path_length(z) / (z.shape[0] - 1),
             "intended_geometry": geometry,
             "plant_norm": [float(norm) for norm in np.linalg.norm(plant, axis=1)],
         },
     }
+    if fixed_point is not None:
+        truth["span_scale"] = "planted"
+        truth["stage_span"]["scale_iterations"] = fixed_point.iterations
+        truth["stage_span"]["scale_residual"] = fixed_point.residual
     if direction is not None and params.span_alignment is not None:
         truth["span_alignment"] = float(params.span_alignment)
         truth["span_support"] = None if params.span_support is None else int(params.span_support)
@@ -1144,6 +1263,70 @@ def _stage_span_plant(
             "direction_id": direction.direction_id,
         }
     return _StageSpanPlant(shifts=shifts, transform=transform, truth=truth)
+
+
+@dataclass(frozen=True)
+class _PlantedScale:
+    """The planted-scale fixed point: the plant in analysed units and its exact planted SD."""
+
+    scale: np.ndarray
+    plant_units: np.ndarray
+    effect: dict[str, Any]
+    iterations: int
+    residual: float
+
+
+def _planted_scale_fixed_point(
+    configuration: np.ndarray,
+    center: np.ndarray,
+    initial_scale: np.ndarray,
+    null_means: Mapping[str, np.ndarray],
+    a_sizes: Sequence[int],
+    b_sizes: Sequence[int],
+    layers: Sequence[str],
+    ref: IntersimReference,
+    params: SemiSyntheticTrajectoryParams,
+    solve: Callable[[np.ndarray], tuple[np.ndarray, dict[str, Any]]],
+) -> _PlantedScale:
+    """Solve the stage-span edit under the planted population pooled SD.
+
+    From the null SD, each update standardizes the null configuration by the
+    current SD, edits it, maps the plant back to analysed units and takes the
+    pooled SD of A's null and B's planted cell means. It stops once no feature's
+    SD moves by more than :data:`PLANTED_SCALE_TOLERANCE` (relative) and returns
+    that last SD, the exact planted SD of the returned plant. ``magnitude`` keeps
+    its first plant: scaling about the centroid commutes with a per-feature
+    scale, so the plant in analysed units is the null-scale plant, bit for bit.
+    """
+
+    bounds = np.cumsum([0, *(null_means[layer].shape[1] for layer in layers)])
+    scale = initial_scale
+    first_units: np.ndarray | None = None
+    residual = float("inf")
+    for iteration in range(1, PLANTED_SCALE_MAX_ITERATIONS + 1):
+        standardized = (configuration - center) / scale
+        edited, effect = solve(standardized)
+        plant_units = (edited - standardized) * scale
+        if params.trajectory_mode == "magnitude":
+            if first_units is None:
+                first_units = plant_units
+            plant_units = first_units
+        means_b = {
+            layer: null_means[layer] + plant_units[:, bounds[index] : bounds[index + 1]]
+            for index, layer in enumerate(layers)
+        }
+        updated = planted_pooled_scale(null_means, means_b, a_sizes, b_sizes, layers=layers, reference=ref)
+        residual = float(np.max(np.abs(updated / scale - 1.0)))
+        scale = updated
+        if residual <= PLANTED_SCALE_TOLERANCE:
+            return _PlantedScale(
+                scale=scale, plant_units=plant_units, effect=effect, iterations=iteration, residual=residual
+            )
+    raise SemiSyntheticTrajectoryError(
+        f"construction='stage_span' span_scale='planted': the planted pooled SD did not converge for "
+        f"trajectory_mode={params.trajectory_mode!r} at group_effect_size={params.group_effect_size}; the last "
+        f"update still moved it by {residual:.3g} (relative) after {PLANTED_SCALE_MAX_ITERATIONS} iterations."
+    )
 
 
 #: Second entropy word of the out-of-span direction's stream,

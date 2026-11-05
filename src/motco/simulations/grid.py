@@ -236,7 +236,8 @@ def enumerate_type_i_grid(
     """Enumerate a null Type I grid with baseline plus one-factor-at-a-time axes."""
 
     # A zero effect is the null dataset under every construction, so the null
-    # cells carry none (``construction``/``span_layers`` and the alignment cleared).
+    # cells carry none (``construction``/``span_layers``, the alignment and the
+    # span scale cleared).
     null_generator = replace(
         baseline_generator_params,
         trajectory_mode="none",
@@ -245,6 +246,7 @@ def enumerate_type_i_grid(
         span_layers=None,
         span_alignment=None,
         span_support=None,
+        span_scale=None,
     )
     cells = [
         make_simulation_cell(
@@ -268,7 +270,12 @@ def enumerate_type_i_grid(
                 value,
             )
             generator_params = replace(
-                generator_params, construction=None, span_layers=None, span_alignment=None, span_support=None
+                generator_params,
+                construction=None,
+                span_layers=None,
+                span_alignment=None,
+                span_support=None,
+                span_scale=None,
             )
             cells.append(
                 make_simulation_cell(
@@ -876,7 +883,8 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: identity (the harness default, net displacement, is hashed). ``construction``
 #: (``None`` = surgery), ``span_layers`` and ``span_capture`` (``None`` = off)
 #: are the stage-span change's opt-in settings; ``span_alignment`` and
-#: ``span_support`` the latent-space comparison's alignment axis.
+#: ``span_support`` the latent-space comparison's alignment axis; ``span_scale``
+#: (``None`` = the null scale) the planted-scale stage-span plant.
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
     {
         "group_stage_sizes",
@@ -887,6 +895,7 @@ _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
         "span_capture",
         "span_alignment",
         "span_support",
+        "span_scale",
     }
 )
 

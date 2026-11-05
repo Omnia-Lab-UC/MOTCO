@@ -1,0 +1,21 @@
+evaluation.integration_params.layers,generator.group_stage_sizes,generator.n_samples,generator.n_stages,phase,is_baseline,trajectory_mode,effect_size,n_cells,n_replicates,n_auroc_available,mean_cv_auroc,q33_cv_auroc,median_cv_auroc,q67_cv_auroc
+"('methylation', 'expression')",,200,4,power_design,False,none,0.0,1,500,500,0.9999827298072365,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,orientation,0.25,1,500,500,0.9999775478033702,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,orientation,0.5,1,500,500,0.9999943453195099,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,orientation,1.0,1,500,500,1.0,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,shape,0.25,1,500,500,0.9999866344330159,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,shape,0.5,1,500,500,0.9999888280993546,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,shape,1.0,1,500,500,0.9999944264735384,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,translation,0.25,1,500,500,0.9999865717438086,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,translation,0.5,1,500,500,0.9999827640013496,1.0,1.0,1.0
+"('methylation', 'expression')",,200,4,power_design,False,translation,1.0,1,500,500,0.9999817743097349,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,none,0.0,1,500,500,0.999808,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,orientation,0.25,1,500,500,0.9998447777777778,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,orientation,0.5,1,500,500,0.9999428888888889,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,orientation,1.0,1,500,500,0.9999937777777778,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,shape,0.25,1,500,500,0.9997663333333333,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,shape,0.5,1,500,500,0.9998617777777777,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,shape,1.0,1,500,500,0.9998818888888888,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,translation,0.25,1,500,500,0.9997576666666668,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,translation,0.5,1,500,500,0.9997417777777777,1.0,1.0,1.0
+"('methylation', 'expression')","((11, 10, 28), (9, 10, 12))",600,3,power_primary,True,translation,1.0,1,500,500,0.9997061111111111,1.0,1.0,1.0

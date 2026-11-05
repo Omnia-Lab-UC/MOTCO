@@ -34,6 +34,7 @@ _N_JOBS_OVERRIDE_POLICIES = ("forbid", "warn")
 _DRIVER_AGREEMENT_DESCRIPTIVE = "descriptive"
 #: Constructions are compared as sibling profiles in one seed family, never as an axis.
 _CONSTRUCTION_AXIS = "generator.construction"
+_SPAN_SCALE_AXIS = "generator.span_scale"
 _ROOT_KEYS = {
     "generator",
     "evaluation",
@@ -745,6 +746,17 @@ class StudyConfig:
                 f"{declared[0]} declares {_CONSTRUCTION_AXIS!r}; constructions are compared as sibling profiles "
                 "in one seed family (identical except generator.construction and generator.span_layers), not as "
                 "an axis, so their anchors share one cell and one dataset."
+            )
+        declared = [
+            label
+            for label, axes in (("axes", self.axes), ("design_grid", self.design_grid.axes))
+            if _SPAN_SCALE_AXIS in axes
+        ]
+        if declared:
+            raise StudyConfigError(
+                f"{declared[0]} declares {_SPAN_SCALE_AXIS!r}; stage-span scales are compared as sibling profiles "
+                "in one seed family (identical except generator.span_scale), not as an axis, so their anchors "
+                "share one cell and one dataset."
             )
 
     def _validate_span_layers(self) -> None:
@@ -1696,7 +1708,15 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
 #: Unset optional parameters a dumped config leaves out, as the parameter
 #: signature does, so a config that never used them dumps unchanged.
 _DUMP_OMIT_WHEN_NONE = frozenset(
-    {"group_stage_sizes", "construction", "span_layers", "span_capture", "span_alignment", "span_support"}
+    {
+        "group_stage_sizes",
+        "construction",
+        "span_layers",
+        "span_capture",
+        "span_alignment",
+        "span_support",
+        "span_scale",
+    }
 )
 
 

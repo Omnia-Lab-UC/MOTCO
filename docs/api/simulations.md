@@ -219,6 +219,46 @@ a `stage_span.out_of_span` block: the `span_layers`, the `support_size`, the num
 `available_features` and a `direction_id` (a hash of the drawn support and the stream seed). Both
 settings are omitted from cell ids, signatures and dumped configs while unset.
 
+**Planted scale (0.17.0).** By default the stage-span edit is defined in coordinates divided by the
+**null** population pooled SD, which does not depend on the plant. The measurement's sample scaler
+estimates the **planted** population's pooled SD, which does, so under the null scale a bend shortens
+B's path where the scaler looks (−0.65 % to −1.06 % of A's path at e = 0.5 across the paper-grade
+columns). `span_scale="planted"` removes that route. The edit is solved as a fixed point under the
+planted pooled SD: `planted_pooled_scale` is the within-cell variance plus the between-cell variance of
+A's null and B's planted cell means at the realized sizes.
+
+```python
+SemiSyntheticTrajectoryParams(
+    seed=1,
+    trajectory_mode="shape",
+    group_effect_size=0.5,          # a half-step bend
+    construction="stage_span",
+    span_layers=("methylation", "expression"),
+    span_scale="planted",           # exact under the planted pooled SD
+)
+```
+
+- **Exactness.** At the fixed point B's planted-standardized configuration is the mode's edit of A's,
+  so the bend, the rotation and the translation keep `delta`, and the off-target statistics, exactly
+  in those coordinates.
+- **Convergence.** The iteration starts at the null SD and stops when no feature's SD moves by more than
+  `1e-12` (relative). After 200 updates it raises a `SemiSyntheticTrajectoryError` naming the mode,
+  the effect and the last change, rather than returning an inexact plant.
+  - It converged at every paper-grade column in at most 67 updates.
+  - It failed for 12 of 1,000 four-stage orientation units (e = 0.25, 0.5). In those, the configuration
+    with the net displacement removed has two nearly tied singular values, so the rotation plane swings
+    with the scale and the iteration cycles.
+- **Magnitude** needs no iteration: scaling about the centroid commutes with a per-feature scale, so
+  the plant is the null-scale plant bit for bit.
+- **Randomness.** The dataset is still the null dataset plus the plant.
+- **Scope.** Accepted only under `stage_span` and not with `span_alignment`, whose out-of-span
+  direction is drawn in null-standardized coordinates.
+
+Truth gains `span_scale`, and the `stage_span` block reads `units: "planted_standardized"` with
+`scale_iterations` and `scale_residual`; its geometry is in the planted coordinates. The setting is
+omitted from cell ids, signatures and dumped configs while unset. The study key
+`generator.span_scale` is refused as an axis: scales are compared as sibling profiles.
+
 ## Evaluation harness
 
 The evaluation harness runs one `SemiSyntheticTrajectoryDataset` through MOTCO integration and trajectory testing. It is the per-replicate layer used before larger Type I error or power grids.
