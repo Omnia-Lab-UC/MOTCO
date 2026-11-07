@@ -1,0 +1,1755 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../roadmap/">
+      
+      
+        <link rel="next" href="../phase5-readiness/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Measurement Visibility - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-the-stage-supervised-measurement-can-see" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Measurement Visibility
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-span-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The span principle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The span principle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-an-equal-length-rotation-cancels-the-rhombus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why an equal-length rotation cancels: the rhombus
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-differences-are-visible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which differences are visible
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-incidental-routes-and-their-mixed-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The incidental routes, and their mixed signature
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#score-coordinates-the-span-is-seen-through-a-shear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Score coordinates: the span is seen through a shear
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measurement-spaces-that-keep-the-rotation-and-what-they-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurement spaces that keep the rotation, and what they cost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measuring-visibility-span-capture-and-the-stage-span-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measuring visibility: span capture and the stage-span construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-non-rejection-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a non-rejection means
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capture-shares-measured-by-the-stage-span-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture shares measured by the stage-span pilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visibility-profiles-across-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visibility profiles across alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sensitivity-given-visibility-at-paper-grade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sensitivity given visibility at paper grade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-outside-the-span-the-split-interaction-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing outside the span: the split interaction test
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-span-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The span principle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The span principle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-an-equal-length-rotation-cancels-the-rhombus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why an equal-length rotation cancels: the rhombus
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-differences-are-visible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which differences are visible
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-incidental-routes-and-their-mixed-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The incidental routes, and their mixed signature
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#score-coordinates-the-span-is-seen-through-a-shear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Score coordinates: the span is seen through a shear
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measurement-spaces-that-keep-the-rotation-and-what-they-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurement spaces that keep the rotation, and what they cost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measuring-visibility-span-capture-and-the-stage-span-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measuring visibility: span capture and the stage-span construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-non-rejection-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a non-rejection means
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capture-shares-measured-by-the-stage-span-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture shares measured by the stage-span pilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visibility-profiles-across-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visibility profiles across alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sensitivity-given-visibility-at-paper-grade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sensitivity given visibility at paper grade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-outside-the-span-the-split-interaction-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing outside the span: the split interaction test
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="what-the-stage-supervised-measurement-can-see">What the stage-supervised measurement can see</h1>
+<p>MOTCO's production measurement fits one PLS-DA to the <strong>stage</strong> label on both groups
+pooled, chooses its rank by double cross-validation (floor 2), and measures <code>delta</code>,
+<code>angle</code> and <code>shape</code> on the group × stage means of the latent scores. This page states
+which group differences that measurement can see, why a rotation of the stage program
+onto other features can vanish from it, and what a non-rejection therefore means. Each
+claim links to the study that measured it.</p>
+<p><strong>The latent space defines the question.</strong> A space fitted to the stages with both groups
+pooled asks: <em>does each group traverse the shared stage program the same way?</em> Its
+blindness to other differences is the scope of that question, not a defect of the
+tests. A different question needs a different space.</p>
+<h2 id="the-span-principle">The span principle</h2>
+<p>The latent scores are a linear map of the standardized features, <code>t = (x − x̄) R / s</code>,
+with <code>R</code> the fitted rotations (one column per component). A mean difference <code>d</code> between
+the groups moves the latent stage means by <code>dᵀR</code>. Any part of <code>d</code> orthogonal to the
+span of <code>R</code> moves them by nothing. <strong>The measurement sees a group difference only
+through its component inside the fitted basis's span.</strong></p>
+<p>The basis is fitted to separate the stages, both groups pooled, so its span is built
+from the pooled stage means. At rank K − 1 with balanced cells it is close to the span
+of the centred pooled stage means. The plasmode diagnostic measured this on the SEA-AD
+export: the pooled stage displacement keeps 99.94 % of its norm inside the rank-5 span
+(<a href="../reports/plasmode-2026-11-02/">plasmode report</a>, §4).</p>
+<h3 id="why-an-equal-length-rotation-cancels-the-rhombus">Why an equal-length rotation cancels: the rhombus</h3>
+<p>Take two stages. Group A's step is <code>a</code> and group B's step is <code>b</code>, of equal length
+<code>‖a‖ = ‖b‖</code> but along different features: B's stage program has been rotated onto other
+features, which is what the <code>orientation</code> surgery does when it relocates stage-changing
+CpGs. The pooled step is <code>(a + b)/2</code>, the group difference is <code>b − a</code>, and</p>
+<pre><code class="language-text">(a + b) · (b − a) = ‖b‖² − ‖a‖² = 0.
+</code></pre>
+<p>These are the two diagonals of a rhombus, which are perpendicular. A basis built from the
+pooled step contains <code>a + b</code> and is orthogonal to <code>b − a</code>: in it, both groups' steps
+project onto the same vector, so the latent <code>angle</code> is 0 and the rotation has cancelled.</p>
+<p><strong>Three or more stages need a stronger condition.</strong> With steps <code>a_s</code> and <code>b_s</code>, the
+difference at one stage must be orthogonal to the pooled step of <em>every</em> stage:</p>
+<pre><code class="language-text">(a_t + b_t) · (b_s − a_s) = (b_t · b_s − a_t · a_s) + (a_t · b_s − b_t · a_s) = 0  for all s, t.
+</code></pre>
+<p>The cancellation is exact when B's steps keep the lengths and mutual angles of A's (the
+first bracket is 0) and are orthogonal to every one of A's steps (the second is 0): B's
+program has moved onto features A's program does not use, which is what a relocation
+does. A rotation <strong>within</strong> A's own features does not satisfy it and is partly or wholly
+visible. The stage-span rotation, made in the plane of A's own configuration, is the
+wholly visible case: it keeps 0.85–0.97 of its energy in the span (see the pilot table
+below). The latent-space comparison's alignment axis (<code>span_alignment</code>) moves one rotation
+continuously between these two cases at a fixed intended geometry
+(<a href="../api/simulations/#stage-span-construction">Simulations</a>).</p>
+<p>The repository has measured the consequence three times:</p>
+<ul>
+<li>The orientation probe's Phase 5 latent angle at full relocation was <strong>6.1°</strong>, against
+  a population angle of 90° (<a href="../reports/orientation-measurement-probe-2026-10-12/">orientation probe</a>,
+  §4; the test still rejected, because the anchor's latent angle was 0.3°).</li>
+<li>The plasmode's sparse plant kept <strong>2.2 %</strong> of its norm inside the rank-5 span, what a
+  random direction keeps (√(5/10,000) = 2.24 %) (<a href="../reports/plasmode-2026-11-02/">plasmode report</a>, §4).</li>
+<li>Orientation/<code>angle</code> power tracks the CV-selected rank rather than the effect size
+  (<a href="../reports/design-guidance-pilot-2026-10-28/">design-guidance pilot</a>, §3.2 and §3.4).</li>
+</ul>
+<h2 id="which-differences-are-visible">Which differences are visible</h2>
+<p>A difference is visible when it lies inside the span, which means it re-weights the
+stage program both groups share:</p>
+<ul>
+<li><strong>Scaling the program</strong> (<code>magnitude</code>): B's stage steps are a multiple of A's, so the
+  difference is parallel to the pooled steps and lies in the span. This is why
+  <code>delta</code> is the well-powered component in every operating study.</li>
+<li><strong>Rotating or bending the program inside its own span</strong>: the stage-span
+  construction (below) makes exactly these edits, and the measurement recovers them in
+  the target statistic.</li>
+<li><strong>A constant offset</strong> (<code>translation</code>) is invisible to all three statistics by design.
+  It moves the group main effect, which MOTCO does not test, so it is the negative
+  control.</li>
+</ul>
+<p>A difference whose <strong>direction</strong> is orthogonal to the span is not visible, however large.</p>
+<p><strong>Blindness is a direction, not a set of features.</strong> The question is where the
+difference vector points relative to the span, not which features it touches. The same
+features can carry both kinds of difference:</p>
+<ul>
+<li>Re-weighting stage-program features along the program is visible.</li>
+<li>Moving them in a direction orthogonal to it is not.</li>
+<li>A difference on features the program does not use is visible to the extent its
+  direction correlates with the span, which for an unrelated feature set is about the
+  random share. A direction on a few such features keeps several times that share,
+  because the sample scaler rescales them, and is still not detected (see the
+  visibility profiles below).</li>
+</ul>
+<p>The three measured cases are all orthogonal directions. The relocation of
+stage-changing sites (the <code>orientation</code> and <code>shape</code> surgeries) points B's steps away
+from A's, and the rhombus places the difference outside the pooled span. A sparse plant
+on a few random features (the plasmode) points in an effectively random direction.</p>
+<h2 id="the-incidental-routes-and-their-mixed-signature">The incidental routes, and their mixed signature</h2>
+<p>An out-of-span difference can still register when the measurement departs from the
+balanced rank-(K − 1) picture:</p>
+<ul>
+<li><strong>Rank above K − 1.</strong> When CV keeps more components, the extra ones follow
+  within-stage covariance and can pick up part of the group difference. In the Phase 6
+  study the latent angle at full relocation was 32.1° at rank ≤ 3 and 76.0° at rank &gt; 3,
+  with <code>angle</code> power 0.082 against 0.506 (<a href="../reports/orientation-measurement-probe-2026-10-12/">orientation probe</a>, §1).</li>
+<li><strong>Unequal cell sizes.</strong> The pooled means are weighted by the cells, so the rhombus
+  becomes a kite and the diagonals are no longer perpendicular. The SEA-AD table
+  <code>[[11, 10, 28], [9, 10, 12]]</code> is such a design.</li>
+<li><strong>Unequal feature scales.</strong> Standardization rescales each feature by its pooled SD,
+  so a relocation onto features of a different scale changes the steps' lengths.</li>
+<li><strong>Correlated noise.</strong> PLS weights tilt toward the noise covariance, so the span is not
+  exactly that of the stage means.</li>
+<li><strong>Nonlinear units.</strong> Methylation enters as M-values and drives expression through the
+  cascade, so relocated sites need not keep their step length.</li>
+</ul>
+<p>Through these routes a rotation registers as a <strong>mix</strong> of <code>delta</code>, <code>angle</code> and <code>shape</code>,
+not as <code>angle</code> alone. In the design-guidance pilot, the orientation surgery at e = 1.0
+moved <code>delta</code> (0.12–0.92) and <code>shape</code> (0.19–1.00) as well as <code>angle</code>
+(<a href="../reports/design-guidance-pilot-2026-10-28/">design-guidance pilot</a>, §3.2).</p>
+<h2 id="score-coordinates-the-span-is-seen-through-a-shear">Score coordinates: the span is seen through a shear</h2>
+<p>The statistics are not measured on an orthonormal projection onto the span. They are
+measured in the <strong>PLS score coordinates</strong> that scikit-learn's <code>transform</code> returns:</p>
+<pre><code class="language-text">T = X·R,   R = W·(PᵀW)⁻¹,
+</code></pre>
+<p>where <code>W</code> holds the weights and <code>P</code> the loadings. <code>PᵀW</code> is unit upper triangular, so <code>R</code>
+is <code>W</code> followed by a shear. The scores span the same subspace as an orthonormal basis of
+the weights, but the map is not an isometry of it. <strong>Lengths and angles inside the span
+are not preserved</strong>: two configurations equal in the standardized feature space are equal
+in score coordinates, but two of the same path length or shape need not stay so.</p>
+<ul>
+<li><strong>Size is unaffected.</strong> Under the null both groups share one population trajectory.
+  Any linear map keeps two equal configurations equal, and RRPP permutes inside the same
+  coordinates. The paper-grade anchors and translation controls read 0.002–0.062 against
+  0.0695 (<a href="../reports/stage-span-paper-grade-2026-11-04/">stage-span paper grade</a>, §5).</li>
+<li><strong>Specificity is affected.</strong> A difference that is pure in the standardized feature
+  space can move the other statistics in score coordinates. A bend that keeps B's path
+  length exactly can still lengthen or shorten it once the span is sheared, and so leak
+  into <code>delta</code>.</li>
+<li><strong>The residual is measured.</strong> The <a href="../reports/stage-span-paper-grade-2026-11-04/#6-the-leak-decomposition">paper-grade leak decomposition</a>
+  measured the bend at e = 0.5 under the planted scale, where B's population path length
+  equals A's exactly. The table gives the median B − A path-length difference as a share
+  of A's path, on the same population rows and through the same fitted basis.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>planted-scale coordinates</th>
+<th>orthonormal span</th>
+<th>PLS scores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200, two blocks</td>
+<td>−0.00 %</td>
+<td>+0.05 %</td>
+<td>+0.03 %</td>
+</tr>
+<tr>
+<td>n = 80, two blocks</td>
+<td>−0.00 %</td>
+<td>+0.11 %</td>
+<td>−0.02 %</td>
+</tr>
+<tr>
+<td>SEA-AD table, two blocks</td>
+<td>−0.00 %</td>
+<td>−0.01 %</td>
+<td><strong>−0.48 %</strong></td>
+</tr>
+<tr>
+<td>n = 200, three blocks</td>
+<td>−0.00 %</td>
+<td>+0.06 %</td>
+<td>+0.10 %</td>
+</tr>
+<tr>
+<td>n = 200, four stages</td>
+<td>−0.00 %</td>
+<td>+0.06 %</td>
+<td><strong>−0.59 %</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The residual is largest on the unequal SEA-AD table and at four stages. The rotation
+  shows it more strongly: the 45°
+  stage-span rotation on the SEA-AD table reads −3.35 % in scores against +0.66 % in the
+  orthonormal span. At paper grade these residuals did not produce a <code>delta</code> leak (the
+  bend's <code>delta</code> reads 0.016–0.036), but they are the one remaining route that the
+  construction cannot remove.</p>
+<p><strong>Orthonormal span coordinates</strong> (measuring on an orthonormal basis of the fitted span
+rather than on the scores) would remove this route. That changes the production
+measurement and is <strong>not validated</strong>: its size, power and reproduction of committed
+results are untested. It is held as its own roadmap item
+(<a href="../roadmap/#next-changes">roadmap</a>, item 15).</p>
+<h2 id="measurement-spaces-that-keep-the-rotation-and-what-they-cost">Measurement spaces that keep the rotation, and what they cost</h2>
+<p>Every linear latent space is a projection of the standardized, concatenated features
+(<code>concat</code>). So it can only lose trajectory information relative to <code>concat</code>, never add
+it: a projection cannot see a difference <code>concat</code> does not contain. It can still have
+<strong>more power</strong> than <code>concat</code>, because it discards noise directions along with the
+differences it cannot see. In the orientation probe's Phase 6 design the shape
+construction at e = 1.0 was rejected on <code>shape</code> in 0.19 of replicates by <code>pls_cv</code> and in
+0.00 by <code>concat</code> (<a href="../reports/orientation-measurement-probe-2026-10-12/">orientation probe</a>,
+§3). Choosing a space chooses which directions of difference count, and how much noise
+is measured with them.</p>
+<p>The orientation probe crossed five measurement spaces on matched datasets
+(<a href="../reports/orientation-measurement-probe-2026-10-12/">orientation probe</a>, §3–§6). At
+full relocation the population angle is 90°:</p>
+<table>
+<thead>
+<tr>
+<th>space</th>
+<th>Phase 6 latent angle</th>
+<th>Phase 5 latent angle</th>
+<th>cost recorded by the probe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv</code> (production, net displacement)</td>
+<td>56.7°</td>
+<td>6.1°</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pca</code> at rank 2(K − 1) (label-free)</td>
+<td>90.5°</td>
+<td>90.2°</td>
+<td>Phase 6 <code>shape</code> power 0.19 → 0.00; <code>angle</code> leaks into the shape cell (0.39 under PC1)</td>
+</tr>
+<tr>
+<td><code>pls_within_group</code> (two-sided, fixed basis)</td>
+<td>90.3°</td>
+<td>90.2°</td>
+<td>invalid without a refit per permutation: anchor <code>angle</code> 0.48–0.88; a refit multiplies the cost by the permutation count</td>
+</tr>
+</tbody>
+</table>
+<p>The label-free and two-sided spaces keep the full rotation because their bases are not
+built only from the pooled stage means. Neither replaces the production space: <code>pca</code>
+loses the shape test at small n, and the two-sided basis needs a refit inside every
+permutation to be valid. The stage-PLS space stays the production measurement.</p>
+<h2 id="measuring-visibility-span-capture-and-the-stage-span-construction">Measuring visibility: span capture and the stage-span construction</h2>
+<p>Two opt-in tools of the simulation harness (0.15.0) measure visibility directly:</p>
+<ul>
+<li><strong><code>span_capture</code></strong> (<code>SimulationEvaluationParams(span_capture=True)</code>, study key
+  <code>evaluation.span_capture</code>) records, for every replicate, the shares of the
+  population group difference (<code>group_difference</code>) and of the pooled stage means
+  (<code>pooled_stage</code>) inside the fitted basis's span, beside the random-direction share
+  <code>rank / n_features</code>. It also records the population means measured through the
+  fitted basis (<code>population_latent</code>). The shares are <strong>energy</strong> shares: for one
+  direction, the plasmode's 2.2 % norm share is an energy share of 0.05 %, equal to its
+  random reference 5/10,000. See <a href="../api/simulations/#realized-geometry-decomposition">Simulations</a>.</li>
+<li><strong>The stage-span construction</strong> (<code>construction="stage_span"</code>) plants group B's
+  difference inside the span of B's own stage configuration: a scaling, a rotation in
+  the configuration's own plane, a bend at fixed size and direction, or an offset along
+  the progression. It is circular by design, because it plants where the measurement
+  looks. It answers how sensitive the test is to a difference it can see, not how
+  visible the surgeries are. See <a href="../api/simulations/#stage-span-construction">Simulations</a>.</li>
+</ul>
+<h2 id="what-a-non-rejection-means">What a non-rejection means</h2>
+<p>A non-rejection of <code>angle</code> or <code>shape</code> means <strong>no detectable difference inside the
+stage-supervised span</strong>. It answers the space's question (whether the groups traverse
+the shared stage program the same way) and nothing wider. It does not mean the groups
+follow the same direction, or have the same shape, in feature space. A rotation of the stage program onto other features,
+or a sparse difference on features outside the program, can be large and leave every
+statistic at its null. The span-capture shares below are the evidence for each
+simulator construction. Report the selected rank beside any <code>angle</code> reading, as the
+<a href="../api/analysis/#what-is-measured-and-recorded">real-data analysis</a> record does. The
+<a href="#testing-outside-the-span-the-split-interaction-test">split interaction test</a> asks the
+wider question directly.</p>
+<h2 id="capture-shares-measured-by-the-stage-span-pilot">Capture shares measured by the stage-span pilot</h2>
+<p>The 2026-11-04 pilot (<a href="../reports/stage-span-pilot-2026-11-04/">report</a>, 100 replicates
+per cell) measured every mode under both constructions. It ran at three stages on
+methylation + expression, at n = 200, n = 80 and the SEA-AD table. The table gives the
+median <code>group_difference</code> energy share. A random direction keeps rank / 498 = 0.004–0.006.</p>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>effects</th>
+<th>feature-set surgery</th>
+<th>stage-span construction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>magnitude</code></td>
+<td>0.02–0.1</td>
+<td>0.934–0.970</td>
+<td>0.934–0.970</td>
+</tr>
+<tr>
+<td><code>orientation</code></td>
+<td>0.25, 0.5</td>
+<td>0.002–0.008</td>
+<td>0.924–0.971</td>
+</tr>
+<tr>
+<td><code>orientation</code></td>
+<td>1.0</td>
+<td>0.004–0.006 (0.215 on the SEA-AD table)</td>
+<td>0.849–0.946</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td>0.25–1.0</td>
+<td>0.004–0.011</td>
+<td>0.917–0.969</td>
+</tr>
+<tr>
+<td><code>translation</code></td>
+<td>0.25–1.0</td>
+<td>null (constant over stages)</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>The pooled stage means keep 0.93–0.97 under every construction.</p>
+<ul>
+<li><strong>The surgeries' orientation and shape plants are invisible.</strong> They sit at the
+  random-direction share, so their low <code>angle</code> and <code>shape</code> power measures visibility,
+  not the tests.</li>
+<li><strong>Given a visible difference, the tests are sensitive.</strong> The stage-span 45° rotation
+  and half-step bend are rejected in 0.95–1.00 of replicates at n = 80 and above. The
+  surgeries reach 0.06–0.40 at the same effects.</li>
+<li><strong>Through the fitted basis the stage-span rotation reads close to its intended
+  value</strong>: 45° reads 43.7–45.3°. The surgery's full relocation reads 4.4–4.8° at the
+  balanced columns, against a population 90°.</li>
+<li><strong>The only partial exception is the kite route.</strong> On the unequal SEA-AD table the
+  full relocation keeps 21.5 % and reaches <code>angle</code> power 0.67, registering as a mix
+  (<code>delta</code> 0.31, <code>shape</code> 0.52).</li>
+</ul>
+<p>The retrofit check found that an edit made in a replicate's own fitted basis and pulled
+back to the features has cosine 0.965–0.984 with the population stage-span plant. A
+basis-defined plant and the population-defined one nearly coincide.</p>
+<h2 id="visibility-profiles-across-alignment">Visibility profiles across alignment</h2>
+<p>The 2026-11-04 latent-space comparison (<a href="../reports/latent-space-comparison-2026-11-04/">report</a>,
+100 replicates × 199 permutations per cell) measured five spaces on identical data. It
+moved a 45° stage-span rotation from inside the stage span (φ = 0) to orthogonal to it
+(φ = 90) at a fixed intended geometry (<code>span_alignment</code>). The designs had three stages on
+methylation + expression: n = 200 and the SEA-AD table at the generator's stage effect
+(δ = 2.0), and the SEA-AD table at a δ calibrated to SEA-AD's held-out stage AUROC
+(δ = 0.11, AUROC 0.617). The table gives the median <code>group_difference</code> capture and the
+<code>angle</code> rejection rate at φ = 0 / 30 / 60 / 90, at n = 200 and on the SEA-AD table.</p>
+<table>
+<thead>
+<tr>
+<th>space</th>
+<th>capture, n = 200</th>
+<th><code>angle</code>, n = 200</th>
+<th>capture, SEA-AD</th>
+<th><code>angle</code>, SEA-AD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pls_cv</code> (production)</td>
+<td>0.97 / 0.82 / 0.40 / 0.008</td>
+<td>1.00 / 1.00 / 0.79 / 0.08</td>
+<td>0.93 / 0.79 / 0.41 / 0.026</td>
+<td>0.96 / 0.73 / 0.43 / 0.11</td>
+</tr>
+<tr>
+<td><code>pca_matched</code> (PCA at the <code>pls_cv</code> rank)</td>
+<td>0.97 / 0.85 / 0.22 / 0.006</td>
+<td>0.89 / 0.79 / 0.26 / 0.05</td>
+<td>0.93 / 0.83 / 0.45 / 0.032</td>
+<td>0.72 / 0.54 / 0.10 / 0.06</td>
+</tr>
+<tr>
+<td><code>pca_fixed</code> (PCA at rank 4)</td>
+<td>0.97 / 0.86 / 0.45 / 0.024</td>
+<td>1.00 / 1.00 / 0.67 / 0.09</td>
+<td>0.94 / 0.83 / 0.47 / 0.051</td>
+<td>0.75 / 0.53 / 0.15 / 0.09</td>
+</tr>
+<tr>
+<td><code>pls_residual_pca</code> (<code>pls_cv</code> + 2 residual axes)</td>
+<td>0.97 / 0.83 / 0.41 / 0.024</td>
+<td>1.00 / 1.00 / 0.54 / 0.17</td>
+<td>0.93 / 0.81 / 0.45 / 0.075</td>
+<td>0.93 / 0.79 / 0.35 / 0.18</td>
+</tr>
+<tr>
+<td><code>concat</code> (all 498 features)</td>
+<td>1 / 1 / 1 / 1</td>
+<td>1.00 / 1.00 / 1.00 / 1.00</td>
+<td>1 / 1 / 1 / 1</td>
+<td>0.81 / 0.85 / 0.89 / 0.90</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Every low-dimensional space has the same profile.</strong> Capture falls to the
+  random-direction share at φ = 90, and so does <code>angle</code> power. Neither a label-free basis
+  nor within-stage residual components recover an out-of-span rotation; only <code>concat</code>
+  does.</li>
+<li><strong>Size holds in every space but one.</strong> The anchor and translation controls read at most
+  0.08 (bound 0.0936) in every space except <code>concat</code>. Its <code>angle</code> is liberal at the
+  SEA-AD-like stage signal (0.21 and 0.22).</li>
+<li><strong>Extra directions cost in-span power.</strong> <code>pls_residual_pca</code> shares <code>pls_cv</code>'s
+  coordinates and adds two near-empty ones. Magnitude <code>delta</code> falls from 0.74 to 0.37
+  (n = 200) and from 0.23 to 0.07 (SEA-AD table), and a 22.5° in-span rotation's
+  <code>angle</code> from 0.84 to 0.41. <code>concat</code> and <code>pca_fixed</code> lose as much. <code>pca_matched</code> at rank
+  2 misses the stage program altogether: its leading axes keep 0.53–0.54 of the pooled
+  stage means, against <code>pls_cv</code>'s 0.93–0.97.</li>
+<li><strong>Support at a fixed norm.</strong> A 20-feature out-of-span direction keeps 0.108 (n = 200)
+  and 0.116 (SEA-AD table) of its energy in the <code>pls_cv</code> span, against 0.008 and 0.026
+  dense: differences +0.102 and +0.091, SE 0.002 and 0.003. Its <code>angle</code> power is the
+  same: −0.02 against SEs of 0.036 and 0.042. So blindness is a matter of direction for
+  detection, while capture depends somewhat on the support. Through <code>concat</code> the sparse
+  rotation reads 32–34° against an intended 45°, which shows the sample scaler shrinking
+  the 20 planted features.</li>
+<li><strong>At SEA-AD's stage signal the span is mostly noise.</strong> At δ = 0.11 the fitted stage-PLS
+  span keeps 0.10 of the population stage program (rank 3, random share 0.006), and no
+  space has power for any plant.</li>
+</ul>
+<p>The advisory reading was <code>document_tradeoff</code>: no space gains on the out-of-span rotation
+without losing what the production space sees. The production stage-PLS space stays the
+measurement, and its question stays the one stated at the top of this page.</p>
+<h2 id="sensitivity-given-visibility-at-paper-grade">Sensitivity given visibility at paper grade</h2>
+<p>The 2026-11-04 paper grade (<a href="../reports/stage-span-paper-grade-2026-11-04/">report</a>, 500
+replicates × 999 permutations per cell) repeated the stage-span measurement under the
+planted scale (<code>span_scale: "planted"</code>, which makes each edit exact where the sample
+scaler looks) at five columns. Its predeclared decision is <strong><code>sensitivity_established</code></strong>:
+size holds at every column, every stage-span plant keeps at least 0.90 of its energy in
+the fitted span, and the off-target rates stay within the bound rule.</p>
+<p>Target power of the stage-span plants (<code>angle</code> for the rotation, <code>shape</code> for the bend,
+<code>delta</code> for the scaling), at the three effects of each mode:</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>orientation, 9° / 22.5° / 45°</th>
+<th>shape, e = 0.1 / 0.25 / 0.5</th>
+<th>magnitude, e = 0.02 / 0.05 / 0.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200, two blocks</td>
+<td>0.74 / 0.88 / 1.00</td>
+<td>0.70 / 0.97 / 1.00</td>
+<td>0.23 / 0.69 / 0.94</td>
+</tr>
+<tr>
+<td>n = 80, two blocks</td>
+<td>0.40 / 0.41 / 0.99</td>
+<td>0.21 / 0.72 / 0.97</td>
+<td>0.04 / 0.24 / 0.62</td>
+</tr>
+<tr>
+<td>SEA-AD table, two blocks</td>
+<td>0.38 / 0.38 / 0.96</td>
+<td>0.21 / 0.68 / 0.97</td>
+<td>0.06 / 0.19 / 0.54</td>
+</tr>
+<tr>
+<td>n = 200, three blocks</td>
+<td>0.98 / 1.00 / 1.00</td>
+<td>0.91 / 1.00 / 1.00</td>
+<td>0.43 / 0.88 / 0.99</td>
+</tr>
+<tr>
+<td>n = 200, four stages</td>
+<td>0.48 / 0.74 / 1.00</td>
+<td>0.48 / 0.96 / 1.00</td>
+<td>0.17 / 0.65 / 0.94</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Capture.</strong> The plants keep 0.92–0.97 of their energy in the span (median per cell).
+  Through the fitted basis the rotation reads its intended angle to within 1.3° (SEA-AD,
+  45° reads 43.7°).</li>
+<li><strong>The visibility contrast.</strong> At e = 0.5 the surgeries reach <code>angle</code> 0.11–0.49 and
+  <code>shape</code> 0.08–0.67 at the same columns, keeping 0.2–0.8 % of their energy in the span
+  (three-block surgery capture was not measured).</li>
+<li><strong>Remaining specificity.</strong> The rotation's <code>shape</code> rises with the angle: at n = 200 it
+  reads 0.030 / 0.046 / 0.070 and at four stages 0.004 / 0.030 / 0.086, at or just above
+  the 0.0695 per-cell bound at 45°. The bound rule allows these (3 of 90 rates above it,
+  6 allowed, none above the ceiling), but this is the cell to watch in any larger effect.</li>
+<li><strong>Excluded configurations.</strong> The planted fixed point has no solution when the
+  configuration's two in-plane directions nearly tie. It failed for 12 of the 1,000
+  four-stage orientation units, which were reported as failures; those two cells read
+  over 497 and 491 replicates.</li>
+</ul>
+<h2 id="testing-outside-the-span-the-split-interaction-test">Testing outside the span: the split interaction test</h2>
+<p>The production statistics cannot see a difference outside the fitted span, and no
+measurement space sees it without losing in-span power (above). The split interaction
+test (<code>motco.stats.interaction.interaction_split_test</code>; <code>motco analyze --span-split-test</code>)
+asks the out-of-span question without a space. It takes the group × stage interaction
+energy of the standardized features, in the fitted PLS model's input coordinates, and
+splits it exactly into three parts, each tested by a trace pseudo-F under Freedman–Lane
+permutation:</p>
+<ul>
+<li><strong><code>total</code></strong>: is there a group × stage difference anywhere in the measured features?</li>
+<li><strong><code>span</code></strong>: is there one inside the fitted span, where <code>delta</code>, <code>angle</code> and <code>shape</code>
+  decompose it?</li>
+<li><strong><code>complement</code></strong>: is there one outside it, where they cannot see it?</li>
+</ul>
+<p>The basis is the fitted stage-PLS span. It never sees the group labels and is never
+refitted, so its draws are RRPP's at the same seed.</p>
+<p><strong>"Span" means the fitted span, not the population stage program.</strong> At a strong stage
+signal the two nearly coincide: the fitted span keeps 0.90–0.97 of the pooled stage means.
+At a SEA-AD-like stage signal the fitted span keeps only 0.10 of the population program
+(<a href="../reports/latent-space-comparison-2026-11-04/">comparison</a>, §9). There a difference
+along the true program can fall outside the fitted span.</p>
+<p><strong>Reading the parts.</strong></p>
+<ul>
+<li><strong>A <code>complement</code> rejection</strong> means the groups differ by stage with energy outside the
+  fitted span. It does not mean one group uses a different molecular program. Part of an
+  in-span difference can reach the complement: the 3–7 % of its energy the fitted span
+  misses, plus what the sample scaler moves there. A 45° in-span rotation is rejected by
+  the complement in 0.35 (n = 200) and 0.32 (SEA-AD table) of replicates. At a weak stage
+  signal the complement also contains whatever the fitted span missed of the program.</li>
+<li><strong>A <code>span</code> rejection</strong> means the difference has energy inside the fitted span. There
+  <code>delta</code>, <code>angle</code> and <code>shape</code> say how it differs; the span part only says that it does.
+  It is less powerful than the targeted statistics: magnitude 0.56 against <code>delta</code>'s
+  0.74, a half-step bend 0.72 against <code>shape</code>'s 1.00 (n = 200).</li>
+<li><strong>A non-rejection of <code>complement</code> or <code>total</code></strong> is uninformative unless power has been
+  shown at the design and for the kind of difference. On the SEA-AD blocks, a planted
+  difference on 20 of 10,000 features at 2–3 within-stage SDs is rejected by no part
+  above the null rate (0.02–0.05), as by <code>angle</code>. An energy test spreads over every
+  coordinate, so a sparse difference does not register.</li>
+<li><strong>The in-span share</strong> (<code>span_share</code>) is descriptive. It must be read against the share
+  a null analysis gives at the same rank and design, never against 0. Components beyond
+  K − 1 follow the total covariance, where the noise's interaction energy also sits. At
+  the plasmode anchor (rank 5) the null share is 0.24; at a two-component span at n = 200
+  it is 0.006.</li>
+</ul>
+<p><strong>Why a ratio.</strong> RRPP permutes the reduced model's residuals, whose mean square is RSS/n,
+not RSS/(n − r). An energy statistic carries that shrinkage into its null, and summed over
+thousands of coordinates the null concentrates, so a few percent of scale becomes many
+null standard deviations. The pseudo-F computes its numerator and denominator from the
+same permuted residuals, so the scale cancels. At the plasmode anchor the uncorrected
+interaction SS rejects the null complement in 0.268 of replicates; the pseudo-F on the
+same draws rejects in 0.012.</p>
+<p><strong>What it does not provide.</strong> No geometry: the split test says whether and where the
+groups differ, never how. It does not replace <code>delta</code>, <code>angle</code> or <code>shape</code>, and it does not
+find sparse differences. A group-aware space refitted per permutation and a sparse
+per-feature interaction scan are roadmap item 16's follow-ups
+(<a href="../roadmap/">roadmap</a>).</p>
+<p><strong>Validation: <code>split_validated</code></strong> (2026-11-05, <a href="../reports/span-split-2026-11-05/">report</a>,
+500 × 999 at the controls, 100 × 999 elsewhere, on the latent-space comparison's and the
+plasmode's own units):</p>
+<ul>
+<li><strong>Size</strong> holds on three simulated designs (the 18 control rates read 0.032–0.058,
+  against a per-cell bound of 0.0695) and on the SEA-AD blocks at the case study's
+  configuration (total 0.040, span 0.050, complement 0.012).</li>
+<li><strong>Out-of-span power.</strong> The complement rejects the 45° out-of-span rotation in 1.00
+  (n = 200) and 0.68 (SEA-AD table) of replicates, where <code>angle</code> reads 0.08 and 0.10.</li>
+<li><strong>Localization.</strong> As the rotation tilts out of the span, the span part falls
+  (1.00 → 0.52) and the complement rises (0.35 → 1.00).</li>
+<li><strong>At SEA-AD's stage signal</strong> no part has power for any plant, and the complement holds
+  size there (0.05–0.06), where <code>concat</code>'s <code>angle</code> did not.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

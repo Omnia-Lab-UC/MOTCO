@@ -1,0 +1,1437 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Stage-span pilot — findings report (2026-11-04) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stage-span-pilot-findings-report-2026-11-04" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stage-span pilot — findings report (2026-11-04)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-unit-failure-and-reproduction-accounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Unit, failure and reproduction accounting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-visibility-how-much-of-each-plant-the-fitted-span-sees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Visibility: how much of each plant the fitted span sees
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sensitivity-given-visibility-target-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Sensitivity given visibility: target power
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-specificity-the-stage-span-modes-move-their-target-the-surgeries-a-mix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Specificity: the stage-span modes move their target, the surgeries a mix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Size
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-latent-retrofit-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Latent retrofit check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-proposed-paper-grade-effect-grid-and-the-revision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Proposed paper-grade effect grid, and the revision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="stage-span-pilot-findings-report-2026-11-04">Stage-span pilot — findings report (2026-11-04)</h1>
+<p><strong>Change:</strong> <code>stage-span-constructions</code> (MOTCO 0.15.0). <strong>Reads:</strong> <code>results/stage-span-pilot-2026-11-04/</code> (<code>report/</code> per profile, <code>stage_span_pilot_reading.json</code>, <code>retrofit/</code>, <code>reproduction/</code>, <code>PROVENANCE.txt</code>, <code>sacct.txt</code>). <strong>Concept page:</strong> <a href="../../measurement-visibility/">measurement visibility</a>.</p>
+<p>The production measurement sees a group difference only through its component inside the stage-supervised PLS span (<a href="../../measurement-visibility/">measurement visibility</a>). The simulator's power curves therefore mixed two questions: how much of a planted difference the measurement can see, and how sensitive the test is to what it sees. This pilot separates them. It pairs the feature-set surgeries with a new <strong>stage-span construction</strong>, which plants group B's difference inside the span of B's own stage configuration, on the same baseline programs and noise. Every replicate records how much of the population difference the fitted basis sees (<code>span_capture</code>). The design is four sibling profiles: {surgery, stage-span} × {magnitude, geometry} at 100 replicates × 199 permutations. Each has three columns at three stages on methylation + expression: n = 200 (baseline), n = 80, and the SEA-AD table <code>[[11, 10, 28], [9, 10, 12]]</code>. All four run in the design-guidance seed family, so the surgery siblings reproduce the 2026-10-28 pilot cell for cell.</p>
+<p><strong>In one paragraph.</strong> <strong>Visibility, not sensitivity, limits the surgeries.</strong></p>
+<ul>
+<li><strong>Capture.</strong> The orientation and shape surgeries keep 0.2–1.1 % of their population difference's energy inside the fitted span. That is the share a random direction keeps (rank / 498 = 0.4–0.6 %). The one exception is the full relocation on the unequal SEA-AD table (21.5 %, the "kite" route). The stage-span plants keep 85–97 %. Both magnitude constructions keep 93–97 %.</li>
+<li><strong>Power given visibility.</strong> At e = 0.5 the stage-span orientation (a 45° rotation) rejects <code>angle</code> in 0.95–1.00 of replicates and the stage-span bend rejects <code>shape</code> in 0.98–1.00, at every column including n = 80. The surgeries reach 0.06–0.22 and 0.11–0.40 at the same effect. Seen through the fitted basis, the surgery's full relocation is 4.4° at n = 200, against a population 90°; the stage-span 90° rotation is 90.4°.</li>
+<li><strong>Magnitude.</strong> The two magnitude constructions give the same power to ±0.01 (pooled SE 0.02–0.07).</li>
+<li><strong>Reading.</strong> The predeclared reading returns <strong><code>revise_construction</code></strong>. Its failures sit at e = 1.0: the 90° rotation's capture falls to 0.85 at n = 80, and the full-strength bend leaks into <code>delta</code> (0.17 at n = 200). One further failure is a 0.10 <code>angle</code> reading at n = 200. That reading is inherited from those 100 replicates' shared noise: the shared anchor and every non-<code>angle</code> cell at that column read 0.07–0.10 under both constructions.</li>
+<li><strong>Proposal.</strong> The follow-up should cap the stage-span geometry effects at e ≤ 0.5. Below that every criterion except that inherited reading holds, and the paper grade's 500 replicates should settle it.</li>
+</ul>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>surgery magnitude</th>
+<th>surgery geometry</th>
+<th>stage-span magnitude</th>
+<th>stage-span geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>config</td>
+<td><code>stage_span_pilot_surgery_magnitude.json</code></td>
+<td><code>stage_span_pilot_surgery_geometry.json</code></td>
+<td><code>stage_span_pilot_span_magnitude.json</code></td>
+<td><code>stage_span_pilot_span_geometry.json</code></td>
+</tr>
+<tr>
+<td>config sha256 (first 16)</td>
+<td><code>1e62a7c52f0de1a4</code></td>
+<td><code>732de3404f76a1ba</code></td>
+<td><code>d4fffa05dd9edb67</code></td>
+<td><code>18e3a1f88fa49796</code></td>
+</tr>
+<tr>
+<td>construction</td>
+<td>surgery (unset)</td>
+<td>surgery (unset)</td>
+<td><code>stage_span</code>, span methylation + expression</td>
+<td>same</td>
+</tr>
+<tr>
+<td>modes × effects</td>
+<td><code>magnitude</code> × {0.02, 0.05, 0.1}</td>
+<td><code>orientation</code>, <code>shape</code>, <code>translation</code> × {0.25, 0.5, 1.0}</td>
+<td>as surgery magnitude</td>
+<td>as surgery geometry</td>
+</tr>
+<tr>
+<td>cells / units</td>
+<td>14 / 1,400</td>
+<td>32 / 3,200</td>
+<td>14 / 1,400</td>
+<td>32 / 3,200</td>
+</tr>
+<tr>
+<td>SLURM job (shards)</td>
+<td>933350 (8)</td>
+<td>933351 (16)</td>
+<td>933352 (8)</td>
+<td>933353 (16)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Shared settings (all four profiles):</strong></p>
+<ul>
+<li>100 replicates × 199 permutations; <code>base_seed</code> 1028 in the <code>design-guidance</code> family; <code>evaluation.seed</code> 3, which is also the RRPP seed.</li>
+<li>The generator of the design-guidance core profiles: <code>p_dmp</code> 0.1, ρ = 0, every per-omic δ 2.0, <code>joint</code> magnitude.</li>
+<li>The production measurement: pooled PLS with the stage-supervised double-CV rank floored at 2, <code>net_displacement</code>, with the Phase 6 CV knobs.</li>
+<li><code>evaluation.span_capture</code> on.</li>
+<li><strong>Code:</strong> revision <code>7bd6bb9</code> on <code>feat/stage-span-constructions</code>, in a clean detached worktree on <code>ing</code>.</li>
+<li><strong>Cluster:</strong> partition <code>512x1024</code>, every task on n1 (n2 and n11 excluded), one CPU and 4 GB per task, BLAS pinned to one thread.</li>
+<li><strong>Pre-flight:</strong></li>
+<li>the fast suite: 2,121 passed;</li>
+<li>the change's nine test modules on <code>ing</code>: 135 passed;</li>
+<li>a 2 × 19 smoke of all four profiles: 184/184 units;</li>
+<li>eight units timed at 199 permutations: 13–18 s each.</li>
+</ul>
+<p>Details are in <code>PROVENANCE.txt</code> and <code>openspec/changes/archive/2026-11-04-stage-span-constructions/notes.md</code>.</p>
+<h2 id="2-unit-failure-and-reproduction-accounting">2. Unit, failure and reproduction accounting</h2>
+<ul>
+<li><strong>Units.</strong> 9,200/9,200 records over 92 cells: no duplicates, no failed records, and all 48 array tasks <code>COMPLETED 0:0</code> (<code>sacct.txt</code>). Every record carries <code>orientation_estimator</code> net displacement, <code>min_components</code> 2, <code>n_jobs</code> 1, <code>span_capture</code> true and the <code>population_latent</code> checkpoint. The run used 45.5 recorded core-hours (median 16.9 s per unit) against a projection of 66.</li>
+<li><strong>Sibling anchors</strong> (<code>reproduction/siblings_*</code>, <code>--by-column</code>). The stage-span profiles' anchors are the surgery profiles' anchor cells, because every zero-effect cell clears the construction. All three comparisons against the surgery geometry anchor pair 300/300 (column, replicate) records with identical seeds, ranks, statistics and p-values.</li>
+<li><strong>The design-guidance pilot</strong> (<code>reproduction/surgery_*_vs_design_guidance_pilot*</code>, <code>--by-cell</code>). This check projects onto <code>n_samples</code> and filters the pilot to three stages and two blocks. The surgery siblings reproduce the 2026-10-28 pilot at every shared cell: 800/800 magnitude pairs (8 cells) and 2,000/2,000 geometry pairs (20 cells), with identical seeds, ranks, statistics and p-values. Span capture changed no statistic. The pilot's other columns and effects are listed with zero pairs.</li>
+</ul>
+<h2 id="3-visibility-how-much-of-each-plant-the-fitted-span-sees">3. Visibility: how much of each plant the fitted span sees</h2>
+<p>Median <code>group_difference</code> share over 100 replicates: the share of Σ_s‖d_s‖² inside the fitted span, with d_s the population B − A difference at stage s minus its stage mean. These are energy shares. A random direction keeps rank / 498 = 0.004 at rank 2 and 0.006 at rank 3 (<code>report/span_capture.csv</code>).</p>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>e</th>
+<th>surgery n = 200</th>
+<th>surgery n = 80</th>
+<th>surgery SEA-AD</th>
+<th>stage-span n = 200</th>
+<th>stage-span n = 80</th>
+<th>stage-span SEA-AD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magnitude</td>
+<td>0.02 / 0.05 / 0.1</td>
+<td>0.970</td>
+<td>0.938–0.939</td>
+<td>0.934–0.936</td>
+<td>0.970</td>
+<td>0.938–0.939</td>
+<td>0.934–0.936</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.25</td>
+<td>0.002</td>
+<td>0.003</td>
+<td>0.005</td>
+<td>0.971</td>
+<td>0.935</td>
+<td>0.934</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>0.5</td>
+<td>0.002</td>
+<td>0.003</td>
+<td>0.008</td>
+<td>0.969</td>
+<td>0.928</td>
+<td>0.924</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>1.0</td>
+<td>0.004</td>
+<td>0.006</td>
+<td><strong>0.215</strong></td>
+<td>0.946</td>
+<td><strong>0.849</strong></td>
+<td><strong>0.850</strong></td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.25</td>
+<td>0.004</td>
+<td>0.004</td>
+<td>0.004</td>
+<td>0.969</td>
+<td>0.934</td>
+<td>0.935</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>0.5</td>
+<td>0.004</td>
+<td>0.004</td>
+<td>0.006</td>
+<td>0.967</td>
+<td>0.929</td>
+<td>0.932</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>1.0</td>
+<td>0.010</td>
+<td>0.008</td>
+<td>0.011</td>
+<td>0.964</td>
+<td>0.917</td>
+<td>0.926</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The surgeries are invisible.</strong> The orientation surgery relocates stage-changing CpGs, and the shape surgery relocates one stage's. Both put their difference on features the pooled stage program does not use, so it lands outside the span at the random-direction share. The exception is the full relocation on the SEA-AD table (0.215, median rank 4): with unequal cells the pooled means are weighted and the rhombus becomes a kite.</li>
+<li><strong>The stage-span plants lie in the population span by construction</strong>, and the fitted span keeps 85–97 % of them. Capture falls with n (0.97 at n = 200, 0.93 at n = 80) and with the size of the rotation: a 90° rotation moves B's configuration furthest from the pooled stage means the basis is fitted to.</li>
+<li><strong>Magnitude</strong> scales the shared program, so both constructions sit inside the span (0.93–0.97). They are the same plant up to the cascade's per-feature pattern.</li>
+<li><strong>Pooled stage means</strong> keep 0.97 (n = 200) and 0.93–0.94 (n = 80, SEA-AD) of their energy in the span under every construction. Translation has no stage-varying difference, so its <code>group_difference</code> share is null in every replicate.</li>
+</ul>
+<p><strong>Seen through the fitted basis</strong> (<code>population_latent</code>, median target statistic). The stage-span rotation reads 22.0–22.5° / 43.7–45.3° / 86.2–90.4° against an intended 22.5° / 45° / 90°. The stage-span bend reads <code>shape</code> 0.125–0.126 / 0.221–0.224 / 0.359–0.365 against an intended 0.125–0.126 / 0.218–0.221 / 0.346–0.351. The surgery's relocation reads 1.1–1.9° at e = 0.25 and 2.0–3.8° at e = 0.5 at every column. At e = 1.0 it reads 4.4–4.8° at the balanced columns and 53.8° on the SEA-AD table. Its population angle is arccos(1 − e) in the methylation block: 41°, 60° and 90° (<a href="../orientation-measurement-probe-2026-10-12/">orientation probe</a> §1).</p>
+<h2 id="4-sensitivity-given-visibility-target-power">4. Sensitivity given visibility: target power</h2>
+<p>Rejection rate at α = 0.05 over 100 replicates (SE ≤ 0.05; <code>report/design_point_operating.csv</code>).</p>
+<table>
+<thead>
+<tr>
+<th>mode / statistic</th>
+<th>e</th>
+<th>surgery n = 200</th>
+<th>surgery n = 80</th>
+<th>surgery SEA-AD</th>
+<th>stage-span n = 200</th>
+<th>stage-span n = 80</th>
+<th>stage-span SEA-AD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orientation / <code>angle</code></td>
+<td>0.25</td>
+<td>0.17</td>
+<td>0.05</td>
+<td>0.09</td>
+<td>0.85</td>
+<td>0.43</td>
+<td>0.32</td>
+</tr>
+<tr>
+<td></td>
+<td>0.5</td>
+<td>0.22</td>
+<td>0.06</td>
+<td>0.11</td>
+<td>1.00</td>
+<td>0.99</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td></td>
+<td>1.0</td>
+<td>0.12</td>
+<td>0.15</td>
+<td>0.67</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>shape / <code>shape</code></td>
+<td>0.25</td>
+<td>0.24</td>
+<td>0.02</td>
+<td>0.04</td>
+<td>0.96</td>
+<td>0.74</td>
+<td>0.65</td>
+</tr>
+<tr>
+<td></td>
+<td>0.5</td>
+<td>0.40</td>
+<td>0.14</td>
+<td>0.11</td>
+<td>1.00</td>
+<td>0.98</td>
+<td>0.98</td>
+</tr>
+<tr>
+<td></td>
+<td>1.0</td>
+<td>0.55</td>
+<td>0.20</td>
+<td>0.17</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.99</td>
+</tr>
+<tr>
+<td>magnitude / <code>delta</code></td>
+<td>0.02</td>
+<td>0.21</td>
+<td>0.04</td>
+<td>0.02</td>
+<td>0.21</td>
+<td>0.04</td>
+<td>0.03</td>
+</tr>
+<tr>
+<td></td>
+<td>0.05</td>
+<td>0.72</td>
+<td>0.23</td>
+<td>0.19</td>
+<td>0.72</td>
+<td>0.23</td>
+<td>0.18</td>
+</tr>
+<tr>
+<td></td>
+<td>0.1</td>
+<td>0.94</td>
+<td>0.59</td>
+<td>0.50</td>
+<td>0.94</td>
+<td>0.60</td>
+<td>0.49</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>angle</code> and <code>shape</code> are not weak tests.</strong> Given a difference inside the span they detect a 45° rotation and a half-step bend at n = 80 in 0.98–0.99 of replicates.</li>
+<li><strong>Their low power under the surgeries is visibility.</strong> The surgeries' orientation power is flat or non-monotone in e at the balanced columns (0.17 / 0.22 / 0.12 at n = 200), the pattern the design-guidance pilot recorded. It follows the small out-of-span leak, not the effect. The SEA-AD table's 0.67 at e = 1.0 is the kite route, at capture 0.215.</li>
+<li><strong>Magnitude power is the same</strong> under the two constructions: the stage-span − surgery difference is −0.01 to +0.01 at every column and effect, against a pooled SE of 0.022–0.071 (<code>magnitude_delta_difference</code> in the reading).</li>
+</ul>
+<h2 id="5-specificity-the-stage-span-modes-move-their-target-the-surgeries-a-mix">5. Specificity: the stage-span modes move their target, the surgeries a mix</h2>
+<p>Off-target rates (same tables):</p>
+<ul>
+<li><strong>Stage-span orientation</strong> leaves <code>delta</code> at 0.00 and <code>shape</code> at 0.00–0.07 at every column and effect.</li>
+<li><strong>Stage-span shape</strong> leaves <code>angle</code> at 0.04–0.12 and <code>delta</code> at 0.00–0.08, except at e = 1.0 and n = 200, where <code>delta</code> reads 0.17. The full-strength bend (rescale factor ≈ 0.5) adds enough between-cell variance that the sample scaler departs from the null population scale, so the sample path length moves.</li>
+<li><strong>Stage-span magnitude</strong> moves only <code>delta</code>: <code>angle</code> 0.03–0.09 and <code>shape</code> 0.01–0.05, the same as the surgery's.</li>
+<li><strong>The surgeries register as a mix</strong>, as <a href="../../measurement-visibility/">measurement visibility</a> explains. The full relocation at n = 200 rejects <code>delta</code> 0.22, <code>angle</code> 0.12 and <code>shape</code> 0.21. On the SEA-AD table it rejects 0.31 / 0.67 / 0.52. The full shape surgery is detected more often by <code>delta</code> than by <code>shape</code>: 0.63 against 0.55 at n = 200, and 0.36 against 0.17 on the SEA-AD table.</li>
+</ul>
+<h2 id="6-size">6. Size</h2>
+<p><strong>The shared anchor</strong> (<code>anchor_decision.json</code>, identical in all four reports, bound 0.0936 at R = 100) reads <code>delta</code> / <code>angle</code> / <code>shape</code>:</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>0.02</td>
+<td>0.10</td>
+<td>0.05</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>0.01</td>
+<td>0.04</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>SEA-AD</td>
+<td>0.00</td>
+<td>0.04</td>
+<td>0.01</td>
+</tr>
+</tbody>
+</table>
+<p><code>anchor_decision</code> reads <code>excess</code> at n = 200 on <code>angle</code> in every profile, because it is the same cell evaluated on the same datasets. These are the design-guidance pilot's baseline anchor datasets at replicates 0–99: the pilot recorded the same 0.10 as one of its two chance-level excesses, and the reproduction above confirms identical p-values. The independent Type I-phase draw at n = 200 (<code>type_i_table.csv</code>, the same cell in all four profiles) reads 0.02 / 0.02 / 0.01. The paper-grade slice held the bound at this column at R = 500 (anchor ≤ 0.062).</p>
+<p><strong>At n = 200, every cell that does not target <code>angle</code> reads it at 0.07–0.10 under both constructions.</strong> That covers magnitude (0.09 at every effect), translation (0.05–0.10) and stage-span shape (0.09). Those cells share the anchor's noise stream at each replicate index, so an <code>angle</code> reading near the bound at this column is a property of these 100 replicates, not of a construction.</p>
+<p><strong>Translation</strong> (the negative control):</p>
+<table>
+<thead>
+<tr>
+<th>construction</th>
+<th>cells</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stage-span</td>
+<td>design-point cells</td>
+<td>0.00–0.02</td>
+<td>0.03–0.10</td>
+<td>0.00–0.04</td>
+</tr>
+<tr>
+<td>surgery</td>
+<td>design-point cells</td>
+<td>0.01–0.05</td>
+<td>0.02–0.07</td>
+<td>0.01–0.04</td>
+</tr>
+<tr>
+<td>stage-span</td>
+<td>Type I phase, e = 0.1 / 1.0 (fresh draws)</td>
+<td>0.01 / 0.01</td>
+<td>0.03 / 0.08</td>
+<td>0.01 / 0.00</td>
+</tr>
+<tr>
+<td>surgery</td>
+<td>Type I phase, e = 0.1 / 1.0 (fresh draws)</td>
+<td>0.05 / 0.01</td>
+<td>0.03 / 0.04</td>
+<td>0.02 / 0.01</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-the-reading">7. The reading</h2>
+<p><code>stage_span_pilot_reading.json</code> (rule version 1, bound α + 2·√(α(1 − α)/R) = 0.0936 at R = 100) returns <strong><code>revise_construction</code></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>criterion</th>
+<th>observations</th>
+<th>failures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1: stage-span translation at or below the bound, every column, effect and statistic</td>
+<td>27</td>
+<td>1: n = 200, e = 0.25, <code>angle</code> 0.10</td>
+</tr>
+<tr>
+<td>R2: median <code>group_difference</code> ≥ 0.90 in every stage-span magnitude, orientation and shape cell</td>
+<td>27</td>
+<td>2: orientation e = 1.0 at n = 80 (0.849) and SEA-AD (0.850)</td>
+</tr>
+<tr>
+<td>R3: off-target rates at or below the bound in those cells</td>
+<td>54</td>
+<td>3: shape e = 1.0 <code>delta</code> 0.17 (n = 200), <code>angle</code> 0.12 (n = 80) and 0.10 (SEA-AD)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to read the failures:</strong></p>
+<ul>
+<li><strong>R2's two failures and R3's <code>delta</code> 0.17 are real properties of the largest effects.</strong> A 90° rotation moves B's configuration away from the pooled stage means the basis is fitted to, and capture falls to 0.85 at n = 80. The full-strength bend's between-cell variance shifts the sample scale enough to move <code>delta</code> (§5).</li>
+<li><strong>R1's failure and R3's two <code>angle</code> readings at 0.10–0.12 are at chance level.</strong> At R = 100, each rate exceeds the bound with probability 0.028 when its true value is α, so 2.3 of R1's and R3's 81 bound tests are expected to exceed by chance. R1's failure sits at the n = 200 column, whose <code>angle</code> reads 0.07–0.10 in every non-target cell (§6).</li>
+<li><strong>Restricted to e ≤ 0.5:</strong></li>
+<li>R2 holds at every column (capture ≥ 0.924).</li>
+<li>R3 holds at every column (the largest off-target rate is 0.09, stage-span shape <code>angle</code> at n = 200).</li>
+<li>R1's only failure is the inherited n = 200 reading.</li>
+</ul>
+<p><strong>Descriptive tables</strong> in the reading: target power and capture for both constructions (§3–§4), the magnitude <code>delta</code> difference with its pooled SE (§4), and each profile's anchor size as read (§6).</p>
+<h2 id="8-latent-retrofit-check">8. Latent retrofit check</h2>
+<p><code>retrofit/</code> (<code>scripts/latent_retrofit_check.py</code>, the n = 200 column, replicates 0–9, 199 permutations): each replicate's own fitted basis, B's latent stage means edited by a 25 % scaling, a 30° rotation, a half-step bend and a half-step offset, each pulled back by the loadings and the minimum-norm preimage.</p>
+<ul>
+<li><strong>Frozen basis:</strong> every edit is recovered to 7.8 × 10⁻¹⁴ in the latent coordinates.</li>
+<li><strong>Refit from scratch:</strong> each edit is detected in its own statistic in 10/10 replicates (<code>delta</code>, <code>angle</code>, <code>shape</code> for magnitude, orientation, shape) and in no other (0/10). The offset is detected in no statistic, except <code>shape</code> in 1/10. Median ranks are 2 at the null fit and 2–3 at the refit.</li>
+<li><strong>Footprints:</strong> 105–170 effective features, 96–97 % of the energy on the truth's stage-active features, 63–67 % on methylation.</li>
+<li><strong>Agreement with the population plant:</strong> each footprint has cosine 0.965–0.984 with the stage-span construction's population plant for the same mode on the same replicate. The loadings preimage is the lower of the two in every mode.</li>
+</ul>
+<p>A basis-defined plant and the population-defined plant the construction uses nearly coincide. The circular alternative (design D1, planting in each replicate's own basis) would therefore have bought little, and it would have aligned the plant with that replicate's noise.</p>
+<h2 id="9-proposed-paper-grade-effect-grid-and-the-revision">9. Proposed paper-grade effect grid, and the revision</h2>
+<p>The reading is advisory, and the decision belongs to the follow-up change. The evidence supports one revision and one grid:</p>
+<ul>
+<li><strong>Revision.</strong> Cap the stage-span geometry effects at e ≤ 0.5: rotations of at most 45° and bends of at most half a mean step. This is where R2 and R3 hold at every column. The e = 1.0 failures are the construction leaving the regime it was built for. They are not evidence against the measurement, and the paper should not quote the stage-span 90° rotation as a clean orientation-only plant at n ≤ 80.</li>
+<li><strong>Grid.</strong></li>
+<li>Stage-span <code>orientation</code> and <code>shape</code> at e ∈ {0.1, 0.25, 0.5}: e = 0.5 already saturates at n ≥ 80, and the informative range is below it.</li>
+<li>Stage-span <code>translation</code> at {0.25, 0.5, 1.0}, as the control.</li>
+<li><code>magnitude</code> at {0.02, 0.05, 0.1} under one construction only: the two are equivalent here.</li>
+<li>Surgery siblings at the slice's {0.25, 0.5, 1.0}, as the visibility contrast.</li>
+<li>All at 500 × 999 in the same seed family, so that the n = 200 <code>angle</code> reading near the bound is measured at R = 500 (bound 0.0695), where the slice already held size at that column.</li>
+<li><strong>Columns.</strong> The pilot's three, plus the three-block and four-stage columns the proposal names, to see how capture moves with the span's dimension.</li>
+</ul>
+<p>The <strong>latent plasmode</strong> on the SEA-AD export (a stage-span plant on real noise, which needs a split-sample basis because real data has no population means) is a separate change. So is the paper-grade decision.</p>
+<h2 id="10-limitations">10. Limitations</h2>
+<ul>
+<li><strong>Pilot grade.</strong> At R = 100, rates near the bound are not resolved (SE 0.022 at α). The n = 200 column's datasets carry an <code>angle</code> excess that the slice did not reproduce at R = 500.</li>
+<li><strong>The stage-span construction is circular by design.</strong> It plants where the measurement looks. R2 is a premise check, not a finding, and the construction answers sensitivity given visibility, not how visible a biological difference is. It also bypasses the methylation → expression → protein cascade; the surgeries remain the biologically grounded constructions.</li>
+<li><strong>One generator regime.</strong> These results are at δ = 2.0, three stages, two blocks and ρ = 0. The design-guidance arm showed that a weaker stage signal inflates the CV rank, and a larger span may capture more of the surgeries.</li>
+<li><strong>The SEA-AD column is the case-study table under the design-guidance generator</strong>, not the case-study configuration (no covariates, saturated stage signal).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

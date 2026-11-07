@@ -1,0 +1,1270 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Operating characteristics at the ADNI design — 2026-11-02 - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#operating-characteristics-at-the-adni-design-2026-11-02" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Operating characteristics at the ADNI design — 2026-11-02
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase5-readiness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 latent-rank ladder (current)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 design-point pilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (gate decision)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (historical, superseded)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Construction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Construction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Size
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verdict-statements-and-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verdict, statements and consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-limitations-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Limitations and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="operating-characteristics-at-the-adni-design-2026-11-02">Operating characteristics at the ADNI design — 2026-11-02</h1>
+<blockquote>
+<p>This report measures size and power of the real-data analysis at the ADNI case study's design (openspec change
+<code>adni-design-operating-characteristics</code>, spec <code>adni-design-validation</code>; roadmap Next changes item 9). The case study
+(<code>adni_sexdiff</code>) reads its <code>angle</code> and <code>shape</code> non-rejections as uninformative under its reading rule 3, because no
+power statement existed at its design. This check supplies one.</p>
+<p>Every number below is read from <code>results/adni-design-2026-11-02/</code>:
+- <code>run/adni_design_decision.json</code>, <code>run/size_readings.csv</code>, <code>run/adni_design_rates.csv</code>,
+  <code>run/adni_design_rank_strata.csv</code>, <code>run/merge.json</code>, <code>run/decide.json</code>, <code>run/settings.json</code>, <code>run/PROVENANCE.txt</code>;
+- <code>calibration/calibration.json</code> (every calibration iteration);
+- the smoke <code>smoke/</code> (R = 20 × 99 permutations, indicative).</p>
+<p><code>run/records/</code> and the 1.66 MB <code>run/adni_design_replicates.csv</code> stay on <code>ing</code>; <code>run/PROVENANCE.txt</code> names them with
+their sha256. Rates are rejection rates at p ≤ 0.05 over R = 500 replicates at 999 permutations.</p>
+</blockquote>
+<p><strong>Run.</strong>
+- One SLURM array on <code>ing</code> (job 932122, partition <code>512x1024</code>, n11 excluded, 175 shards of 40 units), from the clean
+  worktree of <code>feat/adni-design-operating-characteristics</code> at <code>db2e30a</code>. Its git tree <code>3ec28936…</code> equals the
+  workstation's, and the change's tests passed there.
+- All 175 tasks ended <code>COMPLETED 0:0</code> between 15:23Z and 16:48Z on 2026-11-02. 7,000 of 7,000 units, 0 failures.
+- 174.6 elapsed core-hours (planned about 200, range 105–265); the units' own timers sum to 152.7 h.
+- The afterany job 932123 ran <code>merge</code> and <code>decide</code>. The decision file's settings hash <code>aa7964ab…</code> equals
+  <code>settings.json</code>'s.</p>
+<p><strong>Verdict: <code>non_rejections_uninformative</code></strong>, read verbatim from <code>adni_design_decision.json</code> (<code>"indicative": false</code>).
+- <code>"size"</code>: <code>"holds": true</code>, <code>"exceeding": []</code>. All six readings sit at or below the 0.0695 bound.
+- <code>"informative_from"</code> is null for <code>delta</code>, <code>angle</code> and <code>shape</code>: no target statistic reaches the 0.80 floor at any
+  effect.</p>
+<p><strong>In one paragraph.</strong>
+- <strong>The design.</strong> ADNI's sex × stage table (n = 1,501) was rebuilt with two blocks and six covariate columns of ADNI's
+  kinds: a confounded numeric, a factor in two drop-first columns, a phase-like binary nuisance injected into one block,
+  and two noise columns. The stage signal was calibrated to ADNI's held-out AUROC, and the run used a seed family no
+  committed check uses. Every unit ran the case study's primary as issued: <code>analyze_trajectories</code> with the six
+  covariates, the rank floor of 2 and net displacement.
+- <strong>Size.</strong> It holds at both controls. The six readings are 0.034–0.068 against 0.0695.
+- <strong>Power.</strong> None of the three statistics has useful power. Magnitude/<code>delta</code> reaches 0.530 at a doubled stage effect
+  in one group (e = 1.0). Orientation/<code>angle</code> and shape/<code>shape</code> stay at the null rate (0.034–0.076) at every effect.
+- <strong>Rank.</strong> The CV-selected rank sits at the cap, 19, in 95–100 % of units at every cell, against ADNI's 8.
+- <strong>Consequence.</strong> <code>adni_sexdiff</code> keeps its rule 3, now citing these measured rates, in its own change. The Phase 6
+  exit review (roadmap item 10) reads ADNI as a design without power for any of the three statistics.</p>
+<h2 id="1-construction">1. Construction</h2>
+<p><code>scripts/adni_design_check.py</code> composes the case-study construction by import (<code>case_study_type_i_check</code>, built on
+the D10 construction of <code>covariate_type_i_check</code>):</p>
+<ul>
+<li><strong>Generator.</strong> The semi-synthetic generator at ADNI's table <code>[[237, 310, 125], [223, 448, 158]]</code>, three stages,
+  methylation (367 CpGs) and expression (131 genes), joint magnitude, <code>p_dmp</code> 0.1, and one weakened per-omic stage
+  effect δ.</li>
+<li><strong>Covariates, in model order</strong> (six design columns, as <code>covariates.design_columns</code> records them):</li>
+<li><code>z</code>: D10's numeric covariate, confounded with group × stage and injected along a fixed direction over 20 % of the
+    joint features at <code>s_z</code> (ADNI's <code>age</code>).</li>
+<li><code>category[c1]</code>, <code>category[c2]</code>: D10's three-level covariate on the same linear predictor, declared as a factor and
+    not injected (ADNI's <code>apoe4[1]</code>, <code>apoe4[2]</code>).</li>
+<li><code>phase</code>: binary, drawn per sex × stage cell at ADNI's ADNI2GO shares (F 0.603 / 0.623 / 0.424, M 0.561 / 0.507 /
+    0.481; <code>adni_sexdiff</code> <code>results/motco_input/</code>). It is injected into the <strong>expression block only</strong> as a dense offset
+    <code>s_p · sd_f · d_f · phase</code>, with <code>d_f</code> i.i.d. N(0, 1) drawn once from the base seed. It enters the model as a
+    numeric 0/1 column (ADNI's <code>phase[ADNI2GO]</code>). The expression block's 131 features stand for p180's 133.</li>
+<li><code>x1</code>, <code>x2</code>: i.i.d. N(0, 1), never injected (ADNI's <code>education</code>, <code>statin[1]</code>).</li>
+<li><strong>Seeds.</strong> Every seed derives from base seed 2032 and the replicate index, so the 14 cells of a replicate share the
+  baseline draw, the covariates, the phase draw and the permutation draws, and differ only in the surgery.</li>
+<li><strong>Analysis.</strong> One <code>adjusted</code> analysis per unit: the six covariates in the trajectory model, <code>min_components = 2</code>,
+  net displacement, the harness CV knobs (3 × 4 folds, 5 repeats, <code>max_components</code> 20), 999 permutations and the
+  replicate's RRPP seed. There is no latent adjustment and no residual correction, as in ADNI's primary (κ ≈ 1.003 at
+  n = 1,501 would be immaterial).</li>
+<li><strong>Cells.</strong> The anchor; <code>translation</code> at e = 1.0; magnitude at e = 0.1, 0.25, 0.5, 1.0; orientation and shape at
+  e = 0.25, 0.5, 0.75, 1.0.</li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<p>Twelve iterations on anchor units (R = 20 × 99 permutations, two arms), all in <code>calibration/calibration.json</code>, met the
+three predeclared criteria at <strong>δ = 0.02, <code>s_z</code> = 0.1, <code>s_p</code> = 1.75</strong>. The iterations and why this one was chosen are
+tabulated in the change's <code>design.md</code> (Calibration). In short:</p>
+<ul>
+<li>At D10's <code>s_z</code> = 3 the first component followed <code>z</code> (|ρ| 0.94) and the AUROC sat at 0.77–0.88.</li>
+<li>At <code>s_z</code> = 0.3 the AUROC kept a floor near 0.645 that δ barely moved.</li>
+<li>At <code>s_z</code> = 0.1 the floor fell, and the phase offset steered the basis without adding stage signal: raising <code>s_p</code>
+  from 1.5 to 2.5 moved the AUROC from 0.602 to 0.604.</li>
+</ul>
+<p>The calibrated construction, as realized at the paper-grade run's 500 anchor units (<code>calibration_realized</code> in the
+decision), beside ADNI's primary:</p>
+<table>
+<thead>
+<tr>
+<th>quantity</th>
+<th>construction (anchor, R = 500)</th>
+<th>ADNI primary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>held-out CV stage AUROC, mean</td>
+<td>0.606 (q05–q95 0.576–0.633; band 0.55–0.65)</td>
+<td>0.600 (0.580–0.616 across CV-selected analyses)</td>
+</tr>
+<tr>
+<td>first latent component |Spearman| with phase, median</td>
+<td>0.578 (threshold 0.4)</td>
+<td>0.542</td>
+</tr>
+<tr>
+<td>first latent component |Spearman| with the confounded numeric, median</td>
+<td>0.078</td>
+<td>0.061 (<code>age</code>)</td>
+</tr>
+<tr>
+<td>CV-selected rank</td>
+<td>19 in 494 of 500 (2, 11, 18 in two each)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>pooled relative eigengap, median</td>
+<td>0.330</td>
+<td>0.744</td>
+</tr>
+<tr>
+<td><code>angle</code> null q95, median</td>
+<td>51.0°</td>
+<td>35.4°</td>
+</tr>
+<tr>
+<td>phase offset in the injected block: median |d|, PC1 |corr|</td>
+<td>1.126, 0.994</td>
+<td>p180: 1.12, 0.73</td>
+</tr>
+<tr>
+<td>phase offset in the other block</td>
+<td>0.031, 0.015</td>
+<td>NMR: 0.21, 0.13</td>
+</tr>
+</tbody>
+</table>
+<p>The construction matches ADNI on the calibrated quantities (AUROC, the basis following phase, the size of the offset)
+and differs on the latent geometry. The CV selects every component it is offered (rank 19 against 8). The stage means
+are less one-dimensional (eigengap 0.33 against 0.74), and the <code>angle</code> null is wider (51° against 35°). The offset is
+the injected block's whole first axis, where ADNI's p180 has other structure of its own.</p>
+<p>The paper-grade run has no unadjusted arm. At calibration the unadjusted arm rejected <code>delta</code> at 0.15 and <code>shape</code> at
+0.45 at the anchor, so the construction confounds (criterion 3).</p>
+<h2 id="2-size">2. Size</h2>
+<p><code>size_readings.csv</code>, bound α + 2·√(α(1 − α)/R) = 0.0695 at R = 500, so at most 34 rejections of 500 hold:</p>
+<table>
+<thead>
+<tr>
+<th>control</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor (e = 0)</td>
+<td>17 / 500 = 0.034</td>
+<td>30 / 500 = 0.060</td>
+<td>20 / 500 = 0.040</td>
+</tr>
+<tr>
+<td>translation (e = 1.0)</td>
+<td>17 / 500 = 0.034</td>
+<td>27 / 500 = 0.054</td>
+<td>34 / 500 = 0.068</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Every reading holds.</strong> Translation <code>shape</code> holds at the largest count the bound allows (34). Under the rule's
+  design (D8), a valid test fails at most one of six readings about 17 % of the time at exact α, so one reading near
+  the bound is expected.</li>
+<li><strong><code>delta</code> is conservative (0.034 at both controls).</strong> Six covariate columns at n = 1,501 cost almost nothing in
+  residual df, so the liberal <code>delta</code> the SEA-AD configuration showed at n = 80 (<code>residual_df_shrinkage</code>) does not
+  arise here.</li>
+<li><strong>The size sentence</strong>, verbatim: "Size holds at the ADNI design: all six readings at or below the one-sided bound".</li>
+</ul>
+<h2 id="3-power">3. Power</h2>
+<p><code>adni_design_rates.csv</code> (target pairs), SE the binomial standard error, R = 500 at every effect:</p>
+<table>
+<thead>
+<tr>
+<th>target</th>
+<th>e</th>
+<th>rate (SE)</th>
+<th>CV-selected rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magnitude / <code>delta</code></td>
+<td>0.1</td>
+<td>0.034 (0.008)</td>
+<td>19 in 497</td>
+</tr>
+<tr>
+<td></td>
+<td>0.25</td>
+<td>0.056 (0.010)</td>
+<td>19 in 498</td>
+</tr>
+<tr>
+<td></td>
+<td>0.5</td>
+<td>0.134 (0.015)</td>
+<td>19 in 500</td>
+</tr>
+<tr>
+<td></td>
+<td>1.0</td>
+<td>0.530 (0.022)</td>
+<td>19 in 500</td>
+</tr>
+<tr>
+<td>orientation / <code>angle</code></td>
+<td>0.25</td>
+<td>0.070 (0.011)</td>
+<td>19 in 488; 2–3 in 4</td>
+</tr>
+<tr>
+<td></td>
+<td>0.5</td>
+<td>0.056 (0.010)</td>
+<td>19 in 468; 2–3 in 12</td>
+</tr>
+<tr>
+<td></td>
+<td>0.75</td>
+<td>0.076 (0.012)</td>
+<td>19 in 418; 2–3 in 53</td>
+</tr>
+<tr>
+<td></td>
+<td>1.0</td>
+<td>0.058 (0.010)</td>
+<td>19 in 352; 2–3 in 96</td>
+</tr>
+<tr>
+<td>shape / <code>shape</code></td>
+<td>0.25</td>
+<td>0.062 (0.011)</td>
+<td>19 in 487</td>
+</tr>
+<tr>
+<td></td>
+<td>0.5</td>
+<td>0.048 (0.010)</td>
+<td>19 in 487</td>
+</tr>
+<tr>
+<td></td>
+<td>0.75</td>
+<td>0.034 (0.008)</td>
+<td>19 in 475</td>
+</tr>
+<tr>
+<td></td>
+<td>1.0</td>
+<td>0.046 (0.009)</td>
+<td>19 in 472</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Magnitude/<code>delta</code>.</strong> It is the only statistic whose rate rises with the effect, but it stays below the floor. At
+  e = 1.0 (group B's per-omic stage effect twice group A's) <code>delta</code> rejects 0.530. The magnitude surgery also raises
+  the stage AUROC, from 0.614 at e = 0.1 to 0.683 at e = 1.0 (<code>cv_mean_auroc_mean</code>).</li>
+<li><strong>Orientation/<code>angle</code> and shape/<code>shape</code>.</strong> Both sit at the null rate at every effect: 0.056–0.076 and 0.034–0.062.
+  These surgeries permute or relocate differential features whose stage effect is δ = 0.02. At an AUROC near 0.60 that
+  moves the group's stage means by too little for a test whose null <code>angle</code> q95 is about 51°.</li>
+<li><strong>Rank strata</strong> (<code>adni_design_rank_strata.csv</code>; descriptive). The orientation surgery pushes more units to rank 2–3
+  as e grows (4 → 96 of 500), but those units do not reject more often. At e = 1.0: 2 / 96 = 0.021 at rank 2–3,
+  1 / 8 at 4–7, 26 / 396 = 0.066 at 8+. At e = 0.75: 3 / 53 = 0.057 at 2–3, 35 / 444 = 0.079 at 8+. The Phase 6
+  pattern, where power rises above rank 3, does not appear, because there is no power to stratify. Magnitude sits at
+  rank 8+ in 499–500 units per effect. The strata's replicates sum to the pooled R in every cell.</li>
+<li><strong>Off-target rates</strong> (descriptive). They lie at 0.022–0.078: magnitude by <code>angle</code> 0.050–0.060 and by <code>shape</code>
+  0.028–0.042; orientation by <code>delta</code> 0.022–0.050 and by <code>shape</code> 0.030–0.058; shape by <code>delta</code> 0.030–0.044 and by
+  <code>angle</code> 0.050–0.078. Only one of the 24 off-target readings lies above 0.0695: shape e = 0.75 read by <code>angle</code>
+  (0.078), which does not enter the verdict.</li>
+</ul>
+<h2 id="4-verdict-statements-and-consequences">4. Verdict, statements and consequences</h2>
+<p><strong>Verdict: <code>non_rejections_uninformative</code>.</strong> Size holds at both controls and no target statistic has an informative
+effect. The decision file's <code>statements</code>, verbatim:</p>
+<ul>
+<li><strong><code>delta</code></strong>: "At the ADNI design <code>delta</code> reaches at most 0.530 (SE 0.022, R = 500) at e = 1 of the magnitude
+  construction, at CV-selected rank 19 (median 19); a non-rejection is uninformative up to the construction maximum
+  (e = 1; floor 0.80)."</li>
+<li><strong><code>angle</code></strong>: "At the ADNI design <code>angle</code> reaches at most 0.076 (SE 0.012, R = 500) at e = 0.75 of the orientation
+  construction, at CV-selected rank 2–19 (median 19); a non-rejection is uninformative up to the construction maximum
+  (e = 1; floor 0.80)."</li>
+<li><strong><code>shape</code></strong>: "At the ADNI design <code>shape</code> reaches at most 0.062 (SE 0.011, R = 500) at e = 0.25 of the shape
+  construction, at CV-selected rank 2–19 (median 19); a non-rejection is uninformative up to the construction maximum
+  (e = 1; floor 0.80)."</li>
+</ul>
+<p><strong>Consequences.</strong></p>
+<ul>
+<li><strong><code>adni_sexdiff</code>.</strong> It keeps reading rule 3 in its own change, now as a measurement rather than an absence of one.
+  Its <code>angle</code> and <code>shape</code> non-rejections are uninformative: at this design and stage signal neither statistic detects
+  the generator's strongest orientation or shape construction above the null rate. Its <code>delta</code> non-rejection (p 0.112)
+  is uninformative too, by the same rule: <code>delta</code> reaches 0.53 only at a doubled stage effect in one group.</li>
+<li>Size holds at both controls, and <code>delta</code> is conservative there (0.034).</li>
+<li>So the sensitivity arms' <code>delta</code> rejections near α (forced rank 6, p 0.047; <code>nmr_all_columns</code>, 0.045) are not
+    explained by a liberal null at this design. They remain the arm-setting dependences the case study reads them as.</li>
+<li><strong>MOTCO.</strong> The documentation states the measured rates beside the SEA-AD statement. Nothing under <code>src/motco/</code>
+  changes, and the version stays 0.13.0.</li>
+<li><strong>Roadmap item 10 (Phase 6 exit review).</strong> It reads both case studies as size-controlled designs without power for
+  orientation and shape. ADNI also has no useful power for size.</li>
+</ul>
+<h2 id="5-limitations-and-scope">5. Limitations and scope</h2>
+<ul>
+<li><strong>Structural analogue.</strong> The blocks are InterSIM omics, not metabolomics: 367 methylation and 131 expression
+  features (498) against p180's 133 and NMR's 165 (298). The block shares differ: methylation / expression 74 / 26 %
+  against NMR / p180 55 / 45 %. The
+  generator's latent geometry differs from ADNI's: the CV rank is at the cap (19 against 8), the eigengap is 0.33
+  against 0.74, and the phase offset is the injected block's whole first axis (0.99 against 0.73). No statement is made
+  about metabolite-level behaviour.</li>
+<li><strong>One table.</strong> Only the intersection cohort's table (n = 1,501) is measured. The CN / LMCI / AD arm (n = 1,130) is
+  inferred, not measured.</li>
+<li><strong>One strength.</strong> The run used one calibrated stage signal (δ = 0.02, <code>s_z</code> = 0.1, <code>s_p</code> = 1.75). The calibration
+  matched AUROC, the basis following phase and the offset size. It did not match the rank, which the design records but
+  does not tune to.</li>
+<li><strong>The covariate model.</strong> Covariates enter additively and linearly: one confounded numeric (<code>z</code>, weakly injected at
+  <code>s_z</code> = 0.1), one confounded factor (<code>category</code>, declared, not injected), one injected binary nuisance and two noise
+  columns.</li>
+<li><strong>The primary only.</strong> The latent-adjusted, residual-corrected and forced-rank arms, and ADNI's export variants, were
+  not run, so their operating characteristics at this design stay inferred.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
