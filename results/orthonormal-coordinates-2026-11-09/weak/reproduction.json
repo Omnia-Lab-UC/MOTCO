@@ -1,0 +1,96 @@
+{
+ "differing": [],
+ "passed": true,
+ "rows": [
+  {
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 17
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 17
+   },
+   "statistic": "delta"
+  },
+  {
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 19
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 19
+   },
+   "statistic": "angle"
+  },
+  {
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 25
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 25
+   },
+   "statistic": "shape"
+  },
+  {
+   "cell": "translation",
+   "committed": {
+    "count": 500,
+    "rejections": 18
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 18
+   },
+   "statistic": "delta"
+  },
+  {
+   "cell": "translation",
+   "committed": {
+    "count": 500,
+    "rejections": 13
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 13
+   },
+   "statistic": "angle"
+  },
+  {
+   "cell": "translation",
+   "committed": {
+    "count": 500,
+    "rejections": 26
+   },
+   "design": "seaad_weak",
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 26
+   },
+   "statistic": "shape"
+  }
+ ],
+ "rows_compared": 6,
+ "rule": "scores count and rejections (p < alpha) equal the span-split check's production_table.csv",
+ "source": {
+  "path": "results/span-split-2026-11-05/simulation/production_table.csv",
+  "sha256": "c0e09fbd1f968c58c4193f06997817d8b33c4e4b791a6e6e47ace70471aab5cb"
+ }
+}

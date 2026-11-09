@@ -1,0 +1,5 @@
+column,cell,trajectory_mode,effect_size,arm,n,median_population_delta,median_population_angle,median_population_shape,median_observed_delta,median_observed_angle,median_observed_shape
+seaad_weak,anchor,none,0.0,orthonormal,500,0,0,3.69925e-16,3.45232,46.232,0.354177
+seaad_weak,anchor,none,0.0,scores,500,0,0,3.1998e-16,2.54971,21.6222,0.229867
+seaad_weak,translation,translation,1.0,orthonormal,500,2.22045e-16,0,5.75018e-16,3.41813,45.2343,0.361683
+seaad_weak,translation,translation,1.0,scores,500,2.22045e-16,0,4.39179e-16,2.69648,21.787,0.242061
