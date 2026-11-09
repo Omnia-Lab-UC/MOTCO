@@ -1,0 +1,4 @@
+cell,effect,rate,se,count,rejections,failures,hits_median,max_f_median
+anchor,0,0.042,0.00897062,500,21,0,0,10.4649
+e=2,2,0.692,0.0206464,500,346,0,1,15.7045
+e=3,3,1,0,500,500,0,11,27.4898

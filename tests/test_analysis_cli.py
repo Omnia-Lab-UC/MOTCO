@@ -395,3 +395,62 @@ def test_analyze_span_split_test_with_latent_adjustment_exits(tmp_path: Path, co
     assert exc.value.code != 0
     assert "Traceback" not in capsys.readouterr().err
     assert not (tmp_path / "out").exists()
+
+
+def test_analyze_interaction_scan(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--permutations", "99", "--seed", "1", "--residual-correction", "df", "--interaction-scan"))
+    record = json.loads((out_dir / "result.json").read_text())
+    scan = record["interaction_scan"]
+    assert scan["n_features"] == 25 and scan["permutations"] == 99 and scan["residual_correction"] == "df"
+    assert record["params"]["interaction_scan"] is True
+    table = pd.read_csv(out_dir / "interaction_scan.csv")
+    assert table.shape[0] == 25
+    assert list(table.columns[:7]) == ["block", "feature", "ss_interaction", "rss", "f", "p_value_adjusted",
+                                       "degenerate"]
+    assert [column for column in table.columns if column.startswith("difference[")] == [
+        f"difference[{stage}]" for stage in STAGES
+    ]
+    printed = capsys.readouterr().out
+    assert (
+        f"Interaction scan (25 features): max F {scan['max_f']:.4g} ({scan['max_block']}/{scan['max_feature']}); "
+        f"global p = {scan['p_value_global']:.4g}; {len(scan['hits'])} feature(s) at adjusted p <= 0.05"
+    ) in printed
+    assert str(out_dir / "interaction_scan.csv") in printed
+
+
+def test_analyze_interaction_scan_with_latent_adjustment(tmp_path: Path, covariate_files,
+                                                         capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES),
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--latent-adjustment", "stage", "--permutations", "19", "--seed", "2", "--interaction-scan"))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert record["latent_adjustment"]["conditioning"] == "stage"
+    assert record["interaction_scan"]["permutations"] == 19
+    assert "Interaction scan (25 features): max F" in capsys.readouterr().out
+    assert (out_dir / "interaction_scan.csv").exists()
+
+
+def test_analyze_interaction_scan_without_permutations(tmp_path: Path, analyze_files,
+                                                       capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--interaction-scan"))
+    assert "no permutations, no p-values" in capsys.readouterr().out
+    assert "p_value_adjusted" not in pd.read_csv(out_dir / "interaction_scan.csv").columns
+
+
+def test_analyze_without_interaction_scan_prints_no_line(tmp_path: Path, analyze_files,
+                                                         capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--permutations", "9", "--seed", "1"))
+    assert "Interaction scan" not in capsys.readouterr().out
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "interaction_scan" not in record and "interaction_scan" not in record["params"]
+    assert not (out_dir / "interaction_scan.csv").exists()

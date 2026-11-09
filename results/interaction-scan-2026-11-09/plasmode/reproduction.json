@@ -1,0 +1,12 @@
+{
+ "differing": [],
+ "passed": true,
+ "profile": "plasmode",
+ "rows_compared": 18,
+ "rule": "p <= alpha",
+ "source_dir": "results/span-split-2026-11-05/plasmode",
+ "sources": {
+  "split_table.csv": "7a6a297ae2e6292c5f82528fb257ae2a2f3fc278eabb8babb80648ecd50f1cb7",
+  "trajectory_table.csv": "f8b083e20305f81d55e9477a83623dc8e3c09685e10db8c60697882709527cc6"
+ }
+}

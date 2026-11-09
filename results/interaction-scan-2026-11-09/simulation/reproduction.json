@@ -1,0 +1,12 @@
+{
+ "differing": [],
+ "passed": true,
+ "profile": "simulation",
+ "rows_compared": 252,
+ "rule": "p < alpha",
+ "source_dir": "results/span-split-2026-11-05/simulation",
+ "sources": {
+  "production_table.csv": "c0e09fbd1f968c58c4193f06997817d8b33c4e4b791a6e6e47ace70471aab5cb",
+  "split_table.csv": "30a0158d8c9ae578f05fb89aaa9177668a44ceacc09269667fd5c956c7852909"
+ }
+}
