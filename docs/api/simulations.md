@@ -370,9 +370,11 @@ params)` builds the orthonormal integration from an existing score-coordinate `p
 same dataset without refitting, equal to the fit from scratch, so one fit can be measured in both
 coordinate systems; it refuses an integration that is not `pls`, has no fitted artifacts or is already
 orthonormal, and `evaluate_semisynthetic_trajectory(..., latent=)` refuses a prebuilt integration whose
-coordinates differ from its parameters. The setting is opt-in and validated by
-`scripts/orthonormal_coordinates_check.py`; the production measurement and `motco analyze` use the
-scores.
+coordinates differ from its parameters. The setting is opt-in, and
+`scripts/orthonormal_coordinates_check.py` validated it on 2026-11-09. That run returned `power_loss`:
+size holds and the shear's off-target leak goes, but target power is lost at small, unequal and
+four-stage designs ([report](../reports/orthonormal-coordinates-2026-11-09.md)). The production
+measurement and `motco analyze` therefore use the scores, and the setting stays a diagnostic.
 
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
