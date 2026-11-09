@@ -450,8 +450,8 @@ same draws rejects in 0.012.
 
 **What it does not provide.** No geometry: the split test says whether and where the
 groups differ, never how. It does not replace `delta`, `angle` or `shape`, and it does not
-find sparse differences. A group-aware space refitted per permutation and a sparse
-per-feature interaction scan are roadmap item 16's follow-ups
+find sparse differences: the [per-feature interaction scan](#testing-feature-by-feature-the-interaction-scan)
+does. A group-aware space refitted per permutation is roadmap item 16's remaining follow-up
 ([roadmap](roadmap.md)).
 
 **Validation: `split_validated`** (2026-11-05, [report](reports/span-split-2026-11-05.md),
@@ -468,3 +468,76 @@ plasmode's own units):
 - **At SEA-AD's stage signal** no part has power for any plant, and the complement holds
   size there (0.05–0.06), where `concat`'s `angle` did not.
 
+## Testing feature by feature: the interaction scan
+
+Every test above pools the group difference over many dimensions: `delta`, `angle` and
+`shape` over the fitted span, the split test's parts over their coordinates. A difference
+confined to a few features does not register in any of them. The SEA-AD plasmode's
+20-feature plant was rejected at the null rate by all six. The per-feature interaction scan
+(`motco.stats.interaction.interaction_feature_scan`; `motco analyze --interaction-scan`)
+tests the group × stage interaction of each standardized feature on its own:
+
+- **Per feature**, the interaction F with the covariate-adjusted full and reduced
+  trajectory models, the effect RRPP and the split test test.
+- **Globally**, the permutation p-value of the largest F over the features.
+- **Feature by feature**, a Westfall–Young step-down max-T adjusted p-value, which controls
+  the familywise error rate over all scanned features. A **hit** is a feature with adjusted
+  p ≤ 0.05.
+
+The draws are RRPP's Freedman–Lane draws at the analysis's seed, with its residual
+correction. The scan uses neither the latent space nor the bootstrap, so latent adjustment
+and attribution leave it unchanged.
+
+**Reading a hit.** A hit says that this feature's covariate-adjusted group difference
+changes across stages, with the familywise error rate over all scanned features controlled
+at 0.05. The per-stage differences in `interaction_scan.csv` (the second group minus the
+first, at each declared stage, in standardized units) show how. A hit does not say that
+the feature drives a latent trajectory difference, and correlated neighbours of a
+differing feature can be hits too.
+
+**Reading a non-rejection.** A scan without hits is uninformative unless power has been
+shown at the design and effect. At the plasmode's design (n = 80, six covariates, 10,000
+features), a ramp to 2 within-stage SDs on 20 features is detected in 0.692 of replicates,
+and the median scan names one of the 20. A ramp to 3 SDs is detected in every replicate,
+and half the 20 are named.
+
+**Why the maximum, not the sum.** The split test's complement sums interaction energy over
+thousands of coordinates, and the noise in that sum grows with their number, so a few
+features' energy is lost. A maximum pays only for the search: its threshold grows like the
+logarithm of the feature count. The scan therefore targets differences on few features,
+and the complement targets differences spread over many. The simulation shows the division
+([report](reports/interaction-scan-2026-11-09.md), §6). The scan is weak where a difference
+spreads thinly: magnitude 0.09 against `delta`'s 0.74, and a weak bend on the SEA-AD table
+0.20 against `shape`'s 0.70. With 498 features the search is cheap, so the scan also matches
+or beats the complement on a 45° out-of-span rotation (1.00 / 0.96 against 1.00 / 0.68).
+The complement still wins at half that rotation on the SEA-AD table (0.31 against 0.16).
+
+**The scan, attribution and the split test make different claims.**
+
+- **Attribution** ranks features by their contribution to a latent difference that was
+  already detected, and makes no error-rate claim.
+- **The scan** tests each feature's interaction directly, under familywise control, without
+  a latent space. On the plasmode its 20 largest F hold 0.473 / 0.887 of the plant at
+  2 / 3 SDs, against attribution's 0.227 / 0.432. The plasmode's attribution verdict
+  (`attribution_leg_failed`) is unchanged: the scan is a new test with its own predeclared
+  rule, not a rescue of attribution's.
+- **The split test** says whether the groups differ by stage inside or outside the fitted
+  span; the scan says on which features.
+
+**What it does not provide.** No geometry: the scan names features whose stage pattern
+differs between the groups, never how the trajectories differ. It is not a driver analysis.
+Its F is the plain per-feature F, not a variance-moderated one. Its familywise threshold is
+common to all features, and on the SEA-AD export one block's null is heavier: ATAC gives
+0.618 of the null maxima with half the features, so the threshold leans on ATAC.
+
+**Validation: `scan_validated`** (2026-11-09, [report](reports/interaction-scan-2026-11-09.md),
+on the split-test validation's own units, which it reproduced exactly):
+
+- **Size** holds on three simulated designs (the six control rates read 0.048–0.058,
+  against a per-cell bound of 0.0695) and on the SEA-AD blocks at the case study's
+  configuration (0.042).
+- **Familywise control.** Under the plasmode's partial null, a feature outside the planted
+  set is a hit in 0.042 of replicates at 2 and at 3 SDs.
+- **Sparse gain.** At 3 SDs the scan rejects in 1.000 of replicates, against 0.016–0.048 for
+  `delta`, `angle`, `shape` and the three split parts on the same units. At 3 SDs, 0.995 of
+  its hits are planted features.

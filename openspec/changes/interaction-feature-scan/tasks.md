@@ -133,9 +133,9 @@
 ## 6. Runs and report
 
 - [x] 6.1 Run a local smoke of both profiles with BLAS pinned: 2 replicates × 19 permutations per cell in each, the plasmode profile on the local export. Record per-unit timing by profile and the scan's share of it, and confirm the reproduction check runs, mismatching only because of the smoke's size. Verify that the core-hour projection is written into `notes.md` before any cluster submission.
-- [ ] 6.2 Run the simulation profile on `ing` from a clean worktree through the sbatch array, then `merge`. Verify 0 failed units and a passed reproduction in the merge output, and record the job ids and `sacct` output.
-- [ ] 6.3 Run the plasmode profile on `ing` from the same worktree, then `merge`. Verify that the fidelity gate passed, 0 failed units and a passed reproduction, and record the job ids and `sacct` output.
-- [ ] 6.4 Run `decide`, then commit aggregates only under `results/interaction-scan-<date>/`: settings, scan, block-balance and false-hit tables, accounting, reproduction checks, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/interaction-scan-<date>.md` with:
+- [x] 6.2 Run the simulation profile on `ing` from a clean worktree through the sbatch array, then `merge`. Verify 0 failed units and a passed reproduction in the merge output, and record the job ids and `sacct` output.
+- [x] 6.3 Run the plasmode profile on `ing` from the same worktree, then `merge`. Verify that the fidelity gate passed, 0 failed units and a passed reproduction, and record the job ids and `sacct` output.
+- [x] 6.4 Run `decide`, then commit aggregates only under `results/interaction-scan-<date>/`: settings, scan, block-balance and false-hit tables, accounting, reproduction checks, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/interaction-scan-<date>.md` with:
   - the verdict and the four criteria;
   - plasmode power and recovery beside attribution's committed precision;
   - block balance;
@@ -143,7 +143,7 @@
   - simulation false hits.
 
   Verify that every number the report quotes can be read from the committed aggregates.
-- [ ] 6.5 Add the scan section to `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`): what a hit and a non-rejection mean with the measured power, why the maximum, the contrast with attribution and the split test, and what the scan does not provide. Record the verdict under roadmap item 16's thread 3 and summarize the run in `AGENTS.md`. Verify with `uv run mkdocs build` and the pre-commit gate.
+- [x] 6.5 Add the scan section to `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`): what a hit and a non-rejection mean with the measured power, why the maximum, the contrast with attribution and the split test, and what the scan does not provide. Record the verdict under roadmap item 16's thread 3 and summarize the run in `AGENTS.md`. Verify with `uv run mkdocs build` and the pre-commit gate.
 
 ## Workflow follow-up
 

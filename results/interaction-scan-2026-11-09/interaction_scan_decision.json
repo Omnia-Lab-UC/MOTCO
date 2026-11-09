@@ -1,0 +1,3678 @@
+{
+ "alpha": 0.05,
+ "complete": true,
+ "consequence": "A case study may report the per-feature interaction scan, read as the measurement-visibility documentation states: a hit names a feature whose covariate-adjusted group difference changes across stages, with the familywise error rate over the scanned features controlled at 0.05; a scan without hits is uninformative without power at the design and effect. No verdict reopens Phase 6 or changes its attribution leg: the plasmode's attribution_leg_failed stands, and the scan is a new test with its own claim.",
+ "criteria": {
+  "G": {
+   "cell": "e=3",
+   "comparator": "split_span",
+   "comparator_rate": {
+    "count": 500,
+    "rate": 0.048,
+    "se": 0.00955992
+   },
+   "difference": 0.952,
+   "existing": {
+    "angle": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "delta": {
+     "count": 500,
+     "rate": 0.026,
+     "se": 0.00711674
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.016,
+     "se": 0.00561142
+    },
+    "split_complement": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    }
+   },
+   "name": "sparse gain",
+   "pass": true,
+   "pooled_se": 0.00955992,
+   "scan": {
+    "count": 500,
+    "rate": 1.0,
+    "se": 0.0
+   },
+   "threshold": 0.01911984
+  },
+  "S1": {
+   "allowed_exceedances": 1,
+   "ceiling_at_median": 0.074,
+   "holds": true,
+   "m": 6,
+   "median_n_available": 500,
+   "n_above_ceiling": 0,
+   "n_unavailable": 0,
+   "name": "simulation size",
+   "observations": [
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "anchor",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 28,
+     "profile": "simulation",
+     "rate": 0.056,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "translation",
+     "design": "n200",
+     "n_available": 500,
+     "n_rejected": 26,
+     "profile": "simulation",
+     "rate": 0.052,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "anchor",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 27,
+     "profile": "simulation",
+     "rate": 0.054,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "translation",
+     "design": "seaad",
+     "n_available": 500,
+     "n_rejected": 24,
+     "profile": "simulation",
+     "rate": 0.048,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "anchor",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 28,
+     "profile": "simulation",
+     "rate": 0.056,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.074,
+     "cell": "translation",
+     "design": "seaad_weak",
+     "n_available": 500,
+     "n_rejected": 29,
+     "profile": "simulation",
+     "rate": 0.058,
+     "status": "holds"
+    }
+   ],
+   "observed_exceedances": 0,
+   "p_exceed": 0.03026031344561755,
+   "rule": "count_and_ceiling"
+  },
+  "S2": {
+   "allowed_exceedances": 0,
+   "ceiling_at_median": 0.066,
+   "holds": true,
+   "m": 1,
+   "median_n_available": 500,
+   "n_above_ceiling": 0,
+   "n_unavailable": 0,
+   "name": "real-noise size",
+   "observations": [
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.066,
+     "cell": "anchor",
+     "n_available": 500,
+     "n_rejected": 21,
+     "profile": "plasmode",
+     "rate": 0.042,
+     "status": "holds"
+    }
+   ],
+   "observed_exceedances": 0,
+   "p_exceed": 0.03026031344561755,
+   "rule": "count_and_ceiling"
+  },
+  "S3": {
+   "allowed_exceedances": 1,
+   "ceiling_at_median": 0.07,
+   "holds": true,
+   "m": 2,
+   "median_n_available": 500,
+   "n_above_ceiling": 0,
+   "n_unavailable": 0,
+   "name": "strong familywise control",
+   "observations": [
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.07,
+     "cell": "e=2",
+     "n_available": 500,
+     "n_rejected": 21,
+     "profile": "plasmode",
+     "quantity": "units with a hit outside the planted set",
+     "rate": 0.042,
+     "status": "holds"
+    },
+    {
+     "bound": 0.06949358868961793,
+     "ceiling": 0.07,
+     "cell": "e=3",
+     "n_available": 500,
+     "n_rejected": 21,
+     "profile": "plasmode",
+     "quantity": "units with a hit outside the planted set",
+     "rate": 0.042,
+     "status": "holds"
+    }
+   ],
+   "observed_exceedances": 0,
+   "p_exceed": 0.03026031344561755,
+   "rule": "count_and_ceiling"
+  }
+ },
+ "descriptive": {
+  "block_balance": [
+   {
+    "block": "expression",
+    "cell": "anchor",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.498761,
+    "null_max_share_se": 0.000770745,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "anchor",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.501239,
+    "null_max_share_se": 0.000770745,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "magnitude",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.502803,
+    "null_max_share_se": 0.00166064,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "magnitude",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.497197,
+    "null_max_share_se": 0.00166064,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi0",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.494154,
+    "null_max_share_se": 0.00183284,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi0",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.505846,
+    "null_max_share_se": 0.00183284,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi30",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.496056,
+    "null_max_share_se": 0.00165024,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi30",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.503944,
+    "null_max_share_se": 0.00165024,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi60",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.498078,
+    "null_max_share_se": 0.00173415,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi60",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.501922,
+    "null_max_share_se": 0.00173415,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi90",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.497407,
+    "null_max_share_se": 0.00162961,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi90",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.502593,
+    "null_max_share_se": 0.00162961,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi0",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.479119,
+    "null_max_share_se": 0.00173976,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi0",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.520881,
+    "null_max_share_se": 0.00173976,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi30",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.485976,
+    "null_max_share_se": 0.00194047,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi30",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.514024,
+    "null_max_share_se": 0.00194047,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi60",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493554,
+    "null_max_share_se": 0.00187631,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi60",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506446,
+    "null_max_share_se": 0.00187631,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.496046,
+    "null_max_share_se": 0.00178274,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.503954,
+    "null_max_share_se": 0.00178274,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.498018,
+    "null_max_share_se": 0.00194614,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.501982,
+    "null_max_share_se": 0.00194614,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.25",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.501672,
+    "null_max_share_se": 0.0019407,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.25",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.498328,
+    "null_max_share_se": 0.0019407,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.5",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.497447,
+    "null_max_share_se": 0.00188988,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.5",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.502553,
+    "null_max_share_se": 0.00188988,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "translation",
+    "design": "n200",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.499838,
+    "null_max_share_se": 0.000813162,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "translation",
+    "design": "n200",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.500162,
+    "null_max_share_se": 0.000813162,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "anchor",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.49435,
+    "null_max_share_se": 0.000929107,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "anchor",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.50565,
+    "null_max_share_se": 0.000929107,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "magnitude",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.496777,
+    "null_max_share_se": 0.00219041,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "magnitude",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.503223,
+    "null_max_share_se": 0.00219041,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.491251,
+    "null_max_share_se": 0.00226948,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.508749,
+    "null_max_share_se": 0.00226948,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.491301,
+    "null_max_share_se": 0.00235387,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.508699,
+    "null_max_share_se": 0.00235387,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.494515,
+    "null_max_share_se": 0.00217492,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.505485,
+    "null_max_share_se": 0.00217492,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.494434,
+    "null_max_share_se": 0.00220265,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.505566,
+    "null_max_share_se": 0.00220265,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.477227,
+    "null_max_share_se": 0.00203934,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.522773,
+    "null_max_share_se": 0.00203934,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.479299,
+    "null_max_share_se": 0.00208915,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.520701,
+    "null_max_share_se": 0.00208915,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.486176,
+    "null_max_share_se": 0.00199469,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.513824,
+    "null_max_share_se": 0.00199469,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.490591,
+    "null_max_share_se": 0.00217773,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.509409,
+    "null_max_share_se": 0.00217773,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.492843,
+    "null_max_share_se": 0.00188463,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.507157,
+    "null_max_share_se": 0.00188463,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.25",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.495696,
+    "null_max_share_se": 0.00199293,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.25",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.504304,
+    "null_max_share_se": 0.00199293,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.5",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.495526,
+    "null_max_share_se": 0.0021165,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.5",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.504474,
+    "null_max_share_se": 0.0021165,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "translation",
+    "design": "seaad",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.494332,
+    "null_max_share_se": 0.000967252,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "translation",
+    "design": "seaad",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.505668,
+    "null_max_share_se": 0.000967252,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.494338,
+    "null_max_share_se": 0.000974726,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "anchor",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.505662,
+    "null_max_share_se": 0.000974726,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "magnitude",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.494064,
+    "null_max_share_se": 0.00207607,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "magnitude",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.505936,
+    "null_max_share_se": 0.00207607,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.496206,
+    "null_max_share_se": 0.00237594,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi0",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.503794,
+    "null_max_share_se": 0.00237594,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.494044,
+    "null_max_share_se": 0.00219033,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi30",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.505956,
+    "null_max_share_se": 0.00219033,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493904,
+    "null_max_share_se": 0.00201922,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi60",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506096,
+    "null_max_share_se": 0.00201922,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.496186,
+    "null_max_share_se": 0.00210327,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.25_phi90",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.503814,
+    "null_max_share_se": 0.00210327,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.495916,
+    "null_max_share_se": 0.00214743,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi0",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.504084,
+    "null_max_share_se": 0.00214743,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493984,
+    "null_max_share_se": 0.00221857,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi30",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506016,
+    "null_max_share_se": 0.00221857,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493213,
+    "null_max_share_se": 0.00222215,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi60",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506787,
+    "null_max_share_se": 0.00222215,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.492312,
+    "null_max_share_se": 0.00235338,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.507688,
+    "null_max_share_se": 0.00235338,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.492052,
+    "null_max_share_se": 0.00212475,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "orient_e0.5_phi90_k20",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.507948,
+    "null_max_share_se": 0.00212475,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.25",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493343,
+    "null_max_share_se": 0.00222408,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.25",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506657,
+    "null_max_share_se": 0.00222408,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "shape_e0.5",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.493403,
+    "null_max_share_se": 0.00232751,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "shape_e0.5",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "100 \u00d7 999",
+    "null_max_share": 0.506597,
+    "null_max_share_se": 0.00232751,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "expression",
+    "cell": "translation",
+    "design": "seaad_weak",
+    "feature_share": 0.263052,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.494414,
+    "null_max_share_se": 0.000956474,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "methylation",
+    "cell": "translation",
+    "design": "seaad_weak",
+    "feature_share": 0.736948,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.505586,
+    "null_max_share_se": 0.000956474,
+    "profile": "simulation",
+    "source": "this run, simulation profile"
+   },
+   {
+    "block": "atac",
+    "cell": "anchor",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.617796,
+    "null_max_share_se": 0.000738,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   },
+   {
+    "block": "rna",
+    "cell": "anchor",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.382204,
+    "null_max_share_se": 0.000738,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   },
+   {
+    "block": "atac",
+    "cell": "e=2",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.617764,
+    "null_max_share_se": 0.000736058,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   },
+   {
+    "block": "rna",
+    "cell": "e=2",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.382236,
+    "null_max_share_se": 0.000736058,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   },
+   {
+    "block": "atac",
+    "cell": "e=3",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.617694,
+    "null_max_share_se": 0.000737336,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   },
+   {
+    "block": "rna",
+    "cell": "e=3",
+    "feature_share": 0.5,
+    "grade": "500 \u00d7 999",
+    "null_max_share": 0.382306,
+    "null_max_share_se": 0.000737336,
+    "profile": "plasmode",
+    "source": "this run, plasmode profile"
+   }
+  ],
+  "plasmode_power_and_recovery": [
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "attribution_planted_precision": [
+     {
+      "arm": "adjusted",
+      "component": "observed",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.1683,
+      "se": 0.005506438206631115,
+      "source": "plasmode 2026-11-02"
+     },
+     {
+      "arm": "adjusted",
+      "component": "pls_captured",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.0015,
+      "se": 0.00047534398471803046,
+      "source": "plasmode 2026-11-02"
+     },
+     {
+      "arm": "adjusted",
+      "component": "residual",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.22690000000000002,
+      "se": 0.006939675654985093,
+      "source": "plasmode 2026-11-02"
+     }
+    ],
+    "cell": "e=2",
+    "delta": {
+     "count": 500,
+     "rate": 0.03,
+     "se": 0.00762889
+    },
+    "false_hit_rate": 0.042,
+    "grade": "500 \u00d7 999",
+    "hit_precision": 0.965858,
+    "recall": 0.0594,
+    "scan": {
+     "count": 500,
+     "rate": 0.692,
+     "se": 0.0206464
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.02,
+     "se": 0.00626099
+    },
+    "source": "this run, plasmode profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.022,
+     "se": 0.00655988
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    },
+    "top_k_precision": 0.4733
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "attribution_planted_precision": [
+     {
+      "arm": "adjusted",
+      "component": "observed",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.3443,
+      "se": 0.008795438560922242,
+      "source": "plasmode 2026-11-02"
+     },
+     {
+      "arm": "adjusted",
+      "component": "pls_captured",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.0012,
+      "se": 0.0004212777586103966,
+      "source": "plasmode 2026-11-02"
+     },
+     {
+      "arm": "adjusted",
+      "component": "residual",
+      "grade": "500 \u00d7 999, B = 200",
+      "n": 500,
+      "planted_precision": 0.43229999999999996,
+      "se": 0.010364277906010917,
+      "source": "plasmode 2026-11-02"
+     }
+    ],
+    "cell": "e=3",
+    "delta": {
+     "count": 500,
+     "rate": 0.026,
+     "se": 0.00711674
+    },
+    "false_hit_rate": 0.042,
+    "grade": "500 \u00d7 999",
+    "hit_precision": 0.995164,
+    "recall": 0.525,
+    "scan": {
+     "count": 500,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.016,
+     "se": 0.00561142
+    },
+    "source": "this run, plasmode profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    },
+    "top_k_precision": 0.8873
+   }
+  ],
+  "simulation_false_hits": [
+   {
+    "cell": "anchor",
+    "count": 500,
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.056,
+    "se": 0.0102824,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "magnitude",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 337.0,
+    "rate": 0.03,
+    "se": 0.0170587,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 337.0,
+    "rate": 0.03,
+    "se": 0.0170587,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "count": 0,
+    "design": "n200",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "count": 0,
+    "design": "n200",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 52.5,
+    "rate": 0.02,
+    "se": 0.014,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 337.0,
+    "rate": 0.03,
+    "se": 0.0170587,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "count": 0,
+    "design": "n200",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "count": 0,
+    "design": "n200",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 52.5,
+    "rate": 0.02,
+    "se": 0.014,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 369.0,
+    "rate": 0.04,
+    "se": 0.0195959,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.25",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 337.0,
+    "rate": 0.03,
+    "se": 0.0170587,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.5",
+    "count": 100,
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 337.0,
+    "rate": 0.02,
+    "se": 0.014,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "translation",
+    "count": 500,
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.052,
+    "se": 0.00992935,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "anchor",
+    "count": 500,
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.054,
+    "se": 0.0101078,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "magnitude",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 336.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 336.0,
+    "rate": 0.01,
+    "se": 0.00994987,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "count": 0,
+    "design": "seaad",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "count": 0,
+    "design": "seaad",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 55.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 336.0,
+    "rate": 0.03,
+    "se": 0.0170587,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "count": 0,
+    "design": "seaad",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "count": 0,
+    "design": "seaad",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 55.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 370.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.25",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 336.0,
+    "rate": 0.01,
+    "se": 0.00994987,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.5",
+    "count": 100,
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 336.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "translation",
+    "count": 500,
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.048,
+    "se": 0.00955992,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "anchor",
+    "count": 500,
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.056,
+    "se": 0.0102824,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "magnitude",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 338.0,
+    "rate": 0.07,
+    "se": 0.0255147,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi0",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 338.0,
+    "rate": 0.08,
+    "se": 0.0271293,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi30",
+    "count": 0,
+    "design": "seaad_weak",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi60",
+    "count": 0,
+    "design": "seaad_weak",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.25_phi90",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 53.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi0",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 338.0,
+    "rate": 0.08,
+    "se": 0.0271293,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi30",
+    "count": 0,
+    "design": "seaad_weak",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi60",
+    "count": 0,
+    "design": "seaad_weak",
+    "grade": "0 \u00d7 999",
+    "n_population_null_median": 0.0,
+    "rate": null,
+    "se": null,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 53.0,
+    "rate": 0.0,
+    "se": 0.0,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "orient_e0.5_phi90_k20",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 371.0,
+    "rate": 0.07,
+    "se": 0.0255147,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.25",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 338.0,
+    "rate": 0.08,
+    "se": 0.0271293,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "shape_e0.5",
+    "count": 100,
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "n_population_null_median": 338.0,
+    "rate": 0.07,
+    "se": 0.0255147,
+    "source": "this run, simulation profile"
+   },
+   {
+    "cell": "translation",
+    "count": 500,
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "n_population_null_median": 498.0,
+    "rate": 0.058,
+    "se": 0.0104533,
+    "source": "this run, simulation profile"
+   }
+  ],
+  "simulation_localization": [
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.056,
+     "se": 0.0102824
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.032,
+     "se": 0.00787096
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.74,
+     "se": 0.0438634
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.56,
+     "se": 0.0496387
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.87,
+     "se": 0.0336303
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.11,
+     "se": 0.031289
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.81,
+     "se": 0.0392301
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.22,
+     "se": 0.0414246
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.81,
+     "se": 0.0392301
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.63,
+     "se": 0.0482804
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.82,
+     "se": 0.0384187
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.83,
+     "se": 0.0375633
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.76,
+     "se": 0.0427083
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.29,
+     "se": 0.0453762
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.19,
+     "se": 0.0392301
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.35,
+     "se": 0.047697
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.82,
+     "se": 0.0384187
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.93,
+     "se": 0.0255147
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.2,
+     "se": 0.04
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.51,
+     "se": 0.04999
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.52,
+     "se": 0.04996
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.68,
+     "se": 0.0466476
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.96,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.79,
+     "se": 0.0407308
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.9,
+     "se": 0.03
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.85,
+     "se": 0.0357071
+    },
+    "shape": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "n200",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.72,
+     "se": 0.0448999
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.16,
+     "se": 0.0366606
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.064,
+     "se": 0.0109457
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.028,
+     "se": 0.0073778
+    },
+    "design": "n200",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.008,
+     "se": 0.00398397
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.046,
+     "se": 0.00936846
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.072,
+     "se": 0.0115599
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.012,
+     "se": 0.0048695
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.054,
+     "se": 0.0101078
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.018,
+     "se": 0.00594575
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.21,
+     "se": 0.0407308
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.47,
+     "se": 0.0499099
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.45,
+     "se": 0.0497494
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.12,
+     "se": 0.0324962
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.45,
+     "se": 0.0497494
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.15,
+     "se": 0.0357071
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.49,
+     "se": 0.04999
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.52,
+     "se": 0.04996
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.27,
+     "se": 0.0443959
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.49,
+     "se": 0.04999
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.16,
+     "se": 0.0366606
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.31,
+     "se": 0.0462493
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.96,
+     "se": 0.0195959
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.32,
+     "se": 0.0466476
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.99,
+     "se": 0.00994987
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.8,
+     "se": 0.04
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.78,
+     "se": 0.0414246
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.75,
+     "se": 0.0433013
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.94,
+     "se": 0.0237487
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.72,
+     "se": 0.0448999
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.41,
+     "se": 0.0491833
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.66,
+     "se": 0.0473709
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.1,
+     "se": 0.03
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.96,
+     "se": 0.0195959
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.2,
+     "se": 0.04
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.68,
+     "se": 0.0466476
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.19,
+     "se": 0.0392301
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.36,
+     "se": 0.048
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.09,
+     "se": 0.0286182
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.13,
+     "se": 0.0336303
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 1.0,
+     "se": 0.0
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.56,
+     "se": 0.0496387
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.58,
+     "se": 0.0493559
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.36,
+     "se": 0.048
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.16,
+     "se": 0.0366606
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.2,
+     "se": 0.04
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.7,
+     "se": 0.0458258
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.39,
+     "se": 0.048775
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.0,
+     "se": 0.0
+    },
+    "design": "seaad",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.83,
+     "se": 0.0375633
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.94,
+     "se": 0.0237487
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.43,
+     "se": 0.0495076
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.07,
+     "se": 0.0114105
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.004,
+     "se": 0.00282276
+    },
+    "design": "seaad",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.006,
+     "se": 0.00345369
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.042,
+     "se": 0.00897062
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.048,
+     "se": 0.00955992
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.038,
+     "se": 0.00855056
+    },
+    "cell": "anchor",
+    "delta": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.056,
+     "se": 0.0102824
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.05,
+     "se": 0.00974679
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.04,
+     "se": 0.00876356
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "magnitude",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.25_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.25_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.25_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.25_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi0",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "cell": "orient_e0.5_phi30",
+    "delta": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "orient_e0.5_phi60",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.03,
+     "se": 0.0170587
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi90",
+    "delta": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.02,
+     "se": 0.014
+    },
+    "cell": "orient_e0.5_phi90_k20",
+    "delta": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "shape_e0.25",
+    "delta": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.08,
+     "se": 0.0271293
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 100,
+     "rate": 0.01,
+     "se": 0.00994987
+    },
+    "cell": "shape_e0.5",
+    "delta": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "design": "seaad_weak",
+    "grade": "100 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 100,
+     "rate": 0.07,
+     "se": 0.0255147
+    },
+    "shape": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 100,
+     "rate": 0.06,
+     "se": 0.0237487
+    },
+    "split_span": {
+     "count": 100,
+     "rate": 0.05,
+     "se": 0.0217945
+    },
+    "split_total": {
+     "count": 100,
+     "rate": 0.04,
+     "se": 0.0195959
+    }
+   },
+   {
+    "angle": {
+     "count": 500,
+     "rate": 0.026,
+     "se": 0.00711674
+    },
+    "cell": "translation",
+    "delta": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "design": "seaad_weak",
+    "grade": "500 \u00d7 999",
+    "rules": {
+     "existing": "p < alpha",
+     "scan": "p <= alpha"
+    },
+    "scan": {
+     "count": 500,
+     "rate": 0.058,
+     "se": 0.0104533
+    },
+    "shape": {
+     "count": 500,
+     "rate": 0.052,
+     "se": 0.00992935
+    },
+    "source": "this run, simulation profile",
+    "split_complement": {
+     "count": 500,
+     "rate": 0.058,
+     "se": 0.0104533
+    },
+    "split_span": {
+     "count": 500,
+     "rate": 0.036,
+     "se": 0.00833115
+    },
+    "split_total": {
+     "count": 500,
+     "rate": 0.034,
+     "se": 0.00810481
+    }
+   }
+  ]
+ },
+ "failed_units": {
+  "plasmode": 0,
+  "simulation": 0
+ },
+ "failing": {},
+ "reproduction": {
+  "plasmode": {
+   "passed": true,
+   "rows_compared": 18,
+   "rule": "p <= alpha",
+   "source_dir": "results/span-split-2026-11-05/plasmode"
+  },
+  "simulation": {
+   "passed": true,
+   "rows_compared": 252,
+   "rule": "p < alpha",
+   "source_dir": "results/span-split-2026-11-05/simulation"
+  }
+ },
+ "rule_version": 1,
+ "scan_rejection": "p <= alpha",
+ "se_multiplier": 2.0,
+ "settings_hashes": {
+  "plasmode": "bd2f29976344f76955d556a66c944b973d1fe35dc354a563dc98b3bc20eb7e9b",
+  "simulation": "2ea4cccc9e7734c1e9ce3972147a389f38d14d5db9de80b2b13e4fd7b488c780"
+ },
+ "verdict": "scan_validated"
+}

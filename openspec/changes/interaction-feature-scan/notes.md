@@ -78,3 +78,20 @@ split 3 ms, scan 1 ms).
   (plasmode, median 80 s) core-hours. Locally the units take 11.8 s and 82 s, about the same as that run on `ing`. The
   scan adds 6,600 × 0.08 s + 1,500 × 0.7 s ≈ 0.5 core-hours, and the plasmode's uncorrected split rerun is not
   repeated. **Projection about 63 core-hours; budget 75** with 20 % for node contention and NFS start-up.
+
+## Run (tasks 6.2–6.4, 2026-11-09)
+
+- `359f57f` pushed to GitHub and to the cluster clone (`refs/heads/incoming/interaction-scan`); clean detached worktree
+  `/home1/tgonza/MOTCO-interaction-scan` (149 change tests passed there via `srun`); fidelity gate passed on the cluster's
+  export copy; settings pre-created on the login node (simulation hash equal to the workstation's).
+- Arrays 936835 (simulation, 200 shards) and 936836 (plasmode, 150 shards), `%64` each, n11 excluded: 350/350 tasks
+  completed in 71 min, 8,100/8,100 units, 0 failed, 69.6 core-hours against the 63 projected (the plasmode units ran at a
+  median 86 s on packed nodes, q90 158 s). Plasmode throughput dipped at each wave boundary (the next 64 shards start
+  Python over NFS), as in earlier runs.
+- Both reproductions passed (252 + 18 rows) and `decide` returned **`scan_validated`** (`PROVENANCE.txt`, report).
+- The S3 false hits (21/500 at e = 2.0 and 3.0) are, replicate for replicate, the anchor's 21 global rejections: within
+  a replicate the labels and RRPP seed are shared and the plant moves 20 features, so the null features' maxima are the
+  anchor's (checked on the per-unit records).
+- **Lesson:** a finishing script piped to `ssh ing 'bash -s'` stops at its first `srun`, because `srun` forwards stdin to
+  its task and consumes the rest of the script. Merge and decide ran; `sacct.txt` was written by a second call. Use
+  `srun ... < /dev/null` or a script file on the cluster.
