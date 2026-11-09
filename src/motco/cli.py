@@ -325,6 +325,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             min_components=args.min_components,
             residual_correction=args.residual_correction,
             span_split_test=args.span_split_test,
+            interaction_scan=args.interaction_scan,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -384,6 +385,16 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         )
         share = "unavailable" if split["span_share"] is None else f"{split['span_share']:.4g}"
         print(f"Split interaction test (pseudo-F p): {shown_p}; in-span share {share}")
+    if "interaction_scan" in record:
+        scan = record["interaction_scan"]
+        maximum = f"max F {scan['max_f']:.4g} ({scan['max_block']}/{scan['max_feature']})"
+        if "p_value_global" in scan:
+            print(
+                f"Interaction scan ({scan['n_features']} features): {maximum}; global p = "
+                f"{scan['p_value_global']:.4g}; {len(scan['hits'])} feature(s) at adjusted p <= {scan['hit_alpha']:g}"
+            )
+        else:
+            print(f"Interaction scan ({scan['n_features']} features): {maximum}; no permutations, no p-values")
     print("Outputs:")
     for written in paths.values():
         print(f"  {written}")
@@ -609,6 +620,10 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Also test the group x stage interaction of the standardized features inside the fitted "
                            "PLS span and in its orthogonal complement (pseudo-F, RRPP draws at --seed). Not "
                            "available with --latent-adjustment. Default: off")
+    p_an.add_argument("--interaction-scan", action="store_true",
+                      help="Also test the group x stage interaction of every standardized feature on its own "
+                           "(per-feature F, the maximum's global p-value and step-down max-T adjusted p-values, "
+                           "RRPP draws at --seed); writes interaction_scan.csv. Default: off")
     p_an.add_argument("--min-components", type=int, default=2,
                       help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
                            "(default: 2; 1 restores the unfloored 0.9.0 rule)")

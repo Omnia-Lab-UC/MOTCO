@@ -39,9 +39,17 @@ stage interaction of the standardized features inside the fitted PLS span and
 in its orthogonal complement (:func:`motco.stats.interaction.interaction_split_test`),
 recorded in a ``span_split`` block; every other output is unchanged.
 
+``TrajectoryAnalysisParams.interaction_scan`` additionally tests the group ×
+stage interaction of every standardized feature on its own, combined by the
+maximum F with step-down max-T adjusted p-values
+(:func:`motco.stats.interaction.interaction_feature_scan`). It is recorded in
+an ``interaction_scan`` block and tabulated per feature with the
+covariate-adjusted group difference at each stage; every other output is
+unchanged.
+
 :func:`write_analysis_outputs` writes the result as plain JSON/CSV (record,
 latent scores, PLS loadings, latent stage means and, when requested, the
-attribution tables) — the fitted estimator is never pickled.
+attribution tables and the scan table) — the fitted estimator is never pickled.
 """
 
 from __future__ import annotations
@@ -92,7 +100,7 @@ from motco.stats.design import (
     build_conditioning_matrix,
     build_covariate_matrix,
 )
-from motco.stats.interaction import interaction_split_test
+from motco.stats.interaction import INTERACTION_SCAN_ALPHA, interaction_feature_scan, interaction_split_test
 from motco.stats.permutation import RESIDUAL_CORRECTIONS, RRPP, residual_correction_scale
 from motco.stats.pls import NuisanceDesign
 from motco.stats.trajectory import estimate_betas, estimate_difference
@@ -403,6 +411,14 @@ class TrajectoryAnalysisParams:
     ``qr(x_rotations_)``, with the trajectory models (covariates included), the
     seed, the permutations and the residual correction. It is omitted from
     :meth:`to_dict` while false and is not available with latent adjustment.
+
+    ``interaction_scan`` (default ``False``) runs the per-feature interaction
+    scan (:func:`motco.stats.interaction.interaction_feature_scan`) on the
+    standardized features with the trajectory models (covariates included),
+    the seed, the permutations and the residual correction. It uses neither
+    the latent basis nor the bootstrap, so it is available with latent
+    adjustment and with attribution, and it is omitted from :meth:`to_dict`
+    while false.
     """
 
     permutations: int = 0
@@ -421,6 +437,7 @@ class TrajectoryAnalysisParams:
     min_components: int | None = 2
     residual_correction: str | None = None
     span_split_test: bool = False
+    interaction_scan: bool = False
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -469,6 +486,9 @@ class TrajectoryAnalysisParams:
         if not self.span_split_test:
             # Absent means the 0.17.0 analysis: its resolved parameters stay byte-identical.
             data.pop("span_split_test")
+        if not self.interaction_scan:
+            # Absent means the 0.19.0 analysis: its resolved parameters stay byte-identical.
+            data.pop("interaction_scan")
         return data
 
     @property
@@ -494,6 +514,13 @@ class TrajectoryAnalysisResult:
     attribute or probe on exactly the analysed coordinates. It is held **in
     memory only**: it is never part of ``record``, :meth:`to_json` or
     :func:`write_analysis_outputs`, and the estimator is never serialized.
+
+    ``interaction_scan`` is the per-feature scan table when the scan ran, one
+    row per joint feature in the joint order: ``block``, ``feature``,
+    ``ss_interaction``, ``rss``, ``f``, ``p_value_adjusted`` (with
+    permutations), ``degenerate`` and ``difference[<stage>]`` per declared
+    stage (the second group minus the first, from the full model's LS means at
+    the covariate reference row, in standardized units).
     """
 
     record: dict[str, Any]
@@ -502,6 +529,7 @@ class TrajectoryAnalysisResult:
     stage_means: pd.DataFrame
     attribution: OrientationAttributionResult | None = None
     latent_artifacts: PLSIntegrationArtifacts | None = field(default=None, repr=False, compare=False)
+    interaction_scan: pd.DataFrame | None = field(default=None, repr=False, compare=False)
 
     def to_json(self, **kwargs: Any) -> str:
         return json.dumps(self.record, **kwargs)
@@ -552,6 +580,14 @@ def analyze_trajectories(
     features, split into the fitted PLS span and its orthogonal complement and
     tested with RRPP's serial draws at the analysis's seed. It is rejected with
     latent adjustment before fitting.
+
+    ``params.interaction_scan`` adds an ``interaction_scan`` block after
+    ``measurement`` and any ``span_split`` block, and the per-feature table
+    ``TrajectoryAnalysisResult.interaction_scan``: each standardized feature's
+    interaction F with the covariate-adjusted models, combined by the maximum
+    with step-down max-T adjusted p-values under RRPP's serial draws at the
+    analysis's seed. It reads the features and models only, so latent
+    adjustment and attribution leave it unchanged.
     """
 
     params = params or TrajectoryAnalysisParams()
@@ -681,6 +717,11 @@ def analyze_trajectories(
     span_split_record = (
         _span_split_record(artifacts, model_full, model_reduced, params) if params.span_split_test else None
     )
+    scan_record, scan_table = (
+        _interaction_scan_outputs(X, model_full, model_reduced, ls_means, design.contrast, stage_levels, params)
+        if params.interaction_scan
+        else (None, None)
+    )
     pls_loadings = _loadings_frame(artifacts.model, X.columns, list(latent.matrix.columns))
     betas = np.asarray(estimate_betas(model_full, latent.matrix.to_numpy(dtype=float)), dtype=float)
     stage_means = _stage_means_frame(
@@ -752,6 +793,7 @@ def analyze_trajectories(
             "runtime_seconds": perf_counter() - start,
         },
         **({"span_split": span_split_record} if span_split_record is not None else {}),
+        **({"interaction_scan": scan_record} if scan_record is not None else {}),
         "params": params.to_dict(),
         "software": _software_versions(),
         "attribution": attribution_record,
@@ -763,6 +805,7 @@ def analyze_trajectories(
         stage_means=stage_means,
         attribution=attribution_result,
         latent_artifacts=artifacts,
+        interaction_scan=scan_table,
     )
 
 
@@ -775,8 +818,9 @@ def write_analysis_outputs(
     """Write the analysis artifact to ``out_dir`` and return the written paths.
 
     Writes ``result.json``, ``latent_scores.csv``, ``pls_loadings.csv``,
-    ``stage_means.csv`` and, when attribution ran, its tables under
-    ``attribution/``. Refuses to touch a directory that already holds
+    ``stage_means.csv``, when attribution ran, its tables under
+    ``attribution/`` and, when the interaction scan ran,
+    ``interaction_scan.csv``. Refuses to touch a directory that already holds
     ``result.json`` unless ``overwrite`` is set.
     """
 
@@ -797,6 +841,9 @@ def write_analysis_outputs(
     if result.attribution is not None:
         for name, path in write_attribution_outputs(result.attribution, directory / "attribution").items():
             paths[f"attribution/{name}"] = path
+    if result.interaction_scan is not None:
+        paths["interaction_scan"] = directory / "interaction_scan.csv"
+        result.interaction_scan.to_csv(paths["interaction_scan"], index=False)
     return paths
 
 
@@ -909,6 +956,107 @@ def _span_split_record(
     payload = result.to_dict()
     payload["draws_match_rrpp"] = params.n_jobs in (None, 1)
     return payload
+
+
+def _interaction_scan_outputs(
+    X: pd.DataFrame,
+    model_full: np.ndarray,
+    model_reduced: np.ndarray,
+    ls_means: np.ndarray,
+    contrast: list[list[int]],
+    stage_levels: list[str],
+    params: TrajectoryAnalysisParams,
+) -> tuple[dict[str, Any], pd.DataFrame]:
+    """The per-feature interaction scan on the standardized features: the record block and the table.
+
+    The correction is applied only to a null that is drawn, as in RRPP; the
+    scan's draws are RRPP's only on its serial path (one job). The per-stage
+    differences are (LS row of the second group − LS row of the first) · β
+    with β the full model's coefficients on ``X``, the rows that give the
+    latent stage means.
+    """
+
+    correction = params.residual_correction if params.permutations > 0 else None
+    try:
+        scan = interaction_feature_scan(
+            X.to_numpy(dtype=float),
+            model_full,
+            model_reduced,
+            permutations=params.permutations,
+            seed=params.seed,
+            residual_correction=correction,
+        )
+    except ValueError as exc:
+        raise TrajectoryAnalysisError(f"Interaction scan: {exc}") from exc
+    blocks, features = _split_feature_names(X.columns)
+    block_names = list(dict.fromkeys(blocks))
+    block_of = np.asarray(blocks, dtype=object)
+    betas = np.asarray(estimate_betas(model_full, X.to_numpy(dtype=float)), dtype=float)
+    rows = np.asarray(ls_means, dtype=float)
+    differences = {
+        f"difference[{stage}]": (rows[contrast[1][index]] - rows[contrast[0][index]]) @ betas
+        for index, stage in enumerate(stage_levels)
+    }
+    columns: dict[str, Any] = {
+        "block": blocks,
+        "feature": features,
+        "ss_interaction": scan.ss_interaction,
+        "rss": scan.rss,
+        "f": scan.f,
+    }
+    if scan.p_value_adjusted is not None:
+        columns["p_value_adjusted"] = scan.p_value_adjusted
+    columns["degenerate"] = scan.degenerate
+    table = pd.DataFrame({**columns, **differences})
+
+    per_block: dict[str, dict[str, Any]] = {
+        name: {
+            "n_features": int(np.count_nonzero(block_of == name)),
+            "n_degenerate": int(np.count_nonzero(scan.degenerate[block_of == name])),
+        }
+        for name in block_names
+    }
+    record: dict[str, Any] = {
+        "n_features": scan.n_features,
+        "n_degenerate": scan.n_degenerate,
+        "df_interaction": scan.df_interaction,
+        "df_residual": scan.df_residual,
+        "max_f": scan.max_f,
+        "max_feature": features[scan.max_column],
+        "max_block": blocks[scan.max_column],
+    }
+    if scan.p_value_adjusted is not None:
+        assert scan.null_max_column is not None
+        hits = scan.hits(INTERACTION_SCAN_ALPHA)
+        null_blocks = block_of[scan.null_max_column]
+        for name in block_names:
+            per_block[name]["hits"] = int(np.count_nonzero(block_of[hits] == name))
+            per_block[name]["null_max_share"] = float(np.mean(null_blocks == name))
+        record["p_value_global"] = scan.p_value_global
+        record["hit_alpha"] = INTERACTION_SCAN_ALPHA
+        record["hits"] = [
+            {
+                "block": blocks[column],
+                "feature": features[column],
+                "f": float(scan.f[column]),
+                "p_value_adjusted": float(scan.p_value_adjusted[column]),
+            }
+            for column in hits
+        ]
+    record["blocks"] = per_block
+    record["permutations"] = params.permutations
+    record["seed"] = params.seed
+    record["residual_correction"] = correction
+    if scan.p_value_adjusted is not None:
+        record["draws_match_rrpp"] = params.n_jobs in (None, 1)
+    return record, table
+
+
+def _split_feature_names(columns: pd.Index) -> tuple[list[str], list[str]]:
+    """Block and original feature name of each joint ``block__feature`` column."""
+
+    split = [str(column).split("__", 1) for column in columns]
+    return [parts[0] for parts in split], [parts[1] for parts in split]
 
 
 def _covariate_adjusted_design(
@@ -1036,10 +1184,10 @@ def _methylation_units(transforms: Mapping[str, str]) -> str:
 
 def _loadings_frame(model: Any, columns: pd.Index, components: list[str]) -> pd.DataFrame:
     rotations = np.asarray(model.x_rotations_, dtype=float)
-    split = [str(column).split("__", 1) for column in columns]
+    blocks, features = _split_feature_names(columns)
     frame = pd.DataFrame(rotations, columns=components)
-    frame.insert(0, "feature", [parts[1] for parts in split])
-    frame.insert(0, "block", [parts[0] for parts in split])
+    frame.insert(0, "feature", features)
+    frame.insert(0, "block", blocks)
     return frame
 
 

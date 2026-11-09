@@ -148,3 +148,31 @@ degrees of freedom remove; the interaction-SS p-value is a diagnostic. See
 ::: motco.stats.interaction.InteractionSplitResult
 
 ::: motco.stats.interaction.InteractionSplitPart
+
+## Per-feature interaction scan
+
+The split test's `complement` sums interaction energy over every coordinate
+outside the span, so a difference confined to a few features is lost in the
+noise of the rest. `interaction_feature_scan` tests the same group × stage
+interaction one feature at a time: each outcome column gets the one-column F
+`(SS_int / df_int) / (RSS / df_res)`, and the features are combined by their
+maximum. A sum pays for every noise dimension; a maximum pays only for the
+search, so the scan targets differences on few features and the split test's
+complement differences spread over many.
+
+With permutations, the reduced model's residuals are permuted by Freedman–Lane
+with `RRPP`'s serial draws at the same seed and its residual corrections (a
+constant multiplier such as `df` cancels in every F). The global p-value is the
+permutation p-value of the largest F, and each feature gets a Westfall–Young
+step-down max-T adjusted p-value, which controls the familywise error rate over
+the scanned features; the top feature's adjusted p-value is the global one.
+Features with zero full-model residual variance (constant ones included) are
+degenerate: they get no F or p-value and never enter a maximum. A draw costs
+one `rank(F) × n` by `n × p` product, so 999 draws over 10,000 features take
+seconds. A hit is a feature whose covariate-adjusted group difference changes
+across stages; it does not say the feature drives a latent trajectory
+difference. See [Measurement visibility](../measurement-visibility.md).
+
+::: motco.stats.interaction.interaction_feature_scan
+
+::: motco.stats.interaction.InteractionScanResult

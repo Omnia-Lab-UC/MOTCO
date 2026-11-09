@@ -68,6 +68,7 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `blocks` | each block's name, feature count, transform and units |
 | `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
 | `span_split` | only with the [split interaction test](#split-interaction-test): per part (`total`, `span`, `complement`) the dimension, interaction and residual sums of squares, degrees of freedom, pseudo-F and, with permutations, the pseudo-F and interaction-SS p-values; the in-span share, the residual correction, permutations, seed and `draws_match_rrpp` |
+| `interaction_scan` | only with the [per-feature interaction scan](#per-feature-interaction-scan): feature and degenerate counts, df, the maximum F with its feature and block and, with permutations, the global p-value, the hits at adjusted p ≤ 0.05 (block, feature, F, adjusted p, by F), per block the hit count and the share of null maxima, and `draws_match_rrpp`; permutations, seed and residual correction |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
 | `attribution` | the compact attribution record, or a `not_requested` marker |
 
@@ -176,6 +177,8 @@ It is in memory only: it is not part of the record, and
 - `stage_means.csv`: `group`, `stage`, `pls_*`, the fitted latent LS-mean vectors
   in declared stage order. Pass these to `motco.viz.plot_trajectories`.
 - `attribution/*.csv`, when attribution ran.
+- `interaction_scan.csv`, when the [per-feature interaction scan](#per-feature-interaction-scan)
+  ran: one row per joint feature.
 
 It refuses to replace an existing `result.json` unless `overwrite=True`
 (CLI: `--overwrite`). The fitted scikit-learn estimator is not pickled, because
@@ -574,6 +577,67 @@ in-span share.
   program. How a rejection or a non-rejection of each part is read, and the
   validation status, are on the [measurement visibility](../measurement-visibility.md)
   page.
+
+## Per-feature interaction scan
+
+The split test's complement sums interaction energy over every coordinate
+outside the span, so a difference on a few features is lost in the noise of the
+rest. The opt-in scan tests the group × stage interaction of each feature on
+its own and combines the features by their maximum, so a difference confined to
+a few features can be detected and the features carrying it named.
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, residual_correction="df", interaction_scan=True)
+```
+
+```bash
+motco analyze ... --permutations 999 --seed 1 --residual-correction df --interaction-scan
+```
+
+It runs `motco.stats.interaction.interaction_feature_scan` on:
+
+- **Outcome.** The pooled-standardized joint features. Each feature's F
+  ignores its location and scale, so the standardization does not matter; the
+  declared unit transform (for example beta to M values) does.
+- **Models.** The full and reduced trajectory models with the declared
+  covariates, the effect RRPP and the split test test.
+- **Null.** Freedman–Lane permutation of the reduced residuals with RRPP's
+  serial draws at the analysis's seed, its permutation count and its residual
+  correction (`df` cancels in every F).
+
+The record's `interaction_scan` block gives the feature and degenerate counts,
+df_int and df_res, `max_f` with `max_feature` and `max_block` and, with
+permutations, `p_value_global` (the permutation p-value of the largest F), the
+`hits` (features with Westfall–Young step-down max-T adjusted p ≤ `hit_alpha` =
+0.05, ordered by F) and per block the features, degenerate features, hits and
+`null_max_share` (the share of draws whose largest null F fell in that block,
+beside the block's share of features). `draws_match_rrpp` is true when RRPP ran
+serially. The CLI prints one line with the maximum F and its feature, the
+global p-value and the hit count.
+
+`interaction_scan.csv` (`TrajectoryAnalysisResult.interaction_scan`) has one
+row per joint feature in joint order: `block`, `feature`, `ss_interaction`,
+`rss`, `f`, `p_value_adjusted` (with permutations), `degenerate` and
+`difference[<stage>]` per declared stage, the second group minus the first from
+the full model's LS means at the covariate reference row, in standardized units
+(the rows that give `stage_means.csv` in latent coordinates). Degenerate
+features (zero full-model residual variance, constant ones included) have no F
+or adjusted p-value and never enter the maximum.
+
+- **Unchanged outputs.** Latent scores, rank, statistics, p-values, null
+  summary, stage means, any `span_split` block and any attribution output are
+  identical with and without the setting; without it every output equals MOTCO
+  0.19.0's (`tests/test_analysis_identity.py`,
+  `tests/test_analysis_interaction_scan.py`).
+- **Latent adjustment and attribution.** The scan reads only the standardized
+  features and the trajectory models, so it is allowed with both and is
+  identical with and without latent adjustment.
+- **Reading.** A hit names a feature whose covariate-adjusted group difference
+  changes across stages, with the familywise error rate over all scanned
+  features controlled at 0.05; it does not say the feature drives a latent
+  trajectory difference, and a scan without hits is uninformative unless power
+  is shown. See [measurement visibility](../measurement-visibility.md) for the
+  reading and the validation status.
 
 ## Example: SEA-AD-style design
 
