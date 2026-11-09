@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Orthonormal span coordinates against the PLS scores: size, specificity and power on two parent runs (no R).
 
-The driver behind ``openspec/changes/orthonormal-span-coordinates/`` (spec
+The driver behind ``openspec/changes/archive/2026-11-09-orthonormal-span-coordinates/`` (spec
 ``orthonormal-coordinates-validation``, roadmap item 15). The production
 measurement computes ``delta``, ``angle`` and ``shape`` in PLS score
 coordinates ``X_in·R``, a sheared image of the fitted span; the harness's

@@ -93,9 +93,9 @@
 ## 5. Runs and report
 
 - [x] 5.1 Run a local smoke of both profiles at 2 replicates per cell, at 999 permutations for a few units and 19 for the rest, with BLAS pinned. Record per-unit timing by profile and arm, and confirm that `merge` and the reproduction check run, mismatching only because of the smoke's size. Verify that the core-hour projection and the proposed cap are written into `notes.md` and put to the user for approval before any array is submitted.
-- [ ] 5.2 Run both profiles on `ing` through the sbatch array from a clean worktree at a pushed revision, then `merge` each. Verify 0 inconsistent units, failures only where the paper grade had them (the four-stage orientation cells), and both reproductions passed. Record the job ids, `sacct` output and package versions.
-- [ ] 5.3 Run `decide`, then commit aggregates only under `results/orthonormal-coordinates-<date>/`: settings, rate and paired tables, accounting, reproduction, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/orthonormal-coordinates-<date>.md` with the verdict, O1–O3, both reproductions, the watched cells, the population residuals per arm and what follows from the verdict. Verify that every number the report quotes can be read from the committed aggregates.
-- [ ] 5.4 Update the score-coordinate section of `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`):
+- [x] 5.2 Run both profiles on `ing` through the sbatch array from a clean worktree at a pushed revision, then `merge` each. Verify 0 inconsistent units, failures only where the paper grade had them (the four-stage orientation cells), and both reproductions passed. Record the job ids, `sacct` output and package versions.
+- [x] 5.3 Run `decide`, then commit aggregates only under `results/orthonormal-coordinates-<date>/`: settings, rate and paired tables, accounting, reproduction, the decision, `PROVENANCE.txt` and `sacct.txt`. Write `docs/reports/orthonormal-coordinates-<date>.md` with the verdict, O1–O3, both reproductions, the watched cells, the population residuals per arm and what follows from the verdict. Verify that every number the report quotes can be read from the committed aggregates.
+- [x] 5.4 Update the score-coordinate section of `docs/measurement-visibility.md` (spec `latent-space-metric-compatibility`):
   - the opt-in setting;
   - basis invariance;
   - the verdict and its readings;
