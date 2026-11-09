@@ -1,0 +1,31 @@
+{
+ "complete_units": 32500,
+ "duplicate_records": 0,
+ "expected_units": 32500,
+ "failed_units": 12,
+ "failures_by_cell": {
+  "n200_four_stages/orientation_e0.25": 3,
+  "n200_four_stages/orientation_e0.5": 9
+ },
+ "inconsistent": [],
+ "inconsistent_units": 0,
+ "max_consistency_deviation": {
+  "orthonormal_basis": 1.9984014443252818e-15,
+  "same_span": 3.3795188869589765e-13
+ },
+ "missing_units": 0,
+ "profile": "paper_grade",
+ "recorded_core_hours": 173.27510799229404,
+ "settings_hash": "a4e1ed0df9697dbdc7b3ebddc0e9cbffea243344e099a8b2aec0504050c6c06e",
+ "stage_seconds_median": {
+  "fit": 16.595963453495642,
+  "generate": 0.30289332946995273,
+  "orthonormal": 0.7035315340035595,
+  "scores": 0.7062210435105953
+ },
+ "unit_seconds": {
+  "max": 38.690173303708434,
+  "median": 18.218379627505783,
+  "q90": 31.399412023462357
+ }
+}

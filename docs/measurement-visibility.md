@@ -169,10 +169,52 @@ in score coordinates, but two of the same path length or shape need not stay so.
   bend's `delta` reads 0.016–0.036), but they are the one remaining route that the
   construction cannot remove.
 
-**Orthonormal span coordinates** (measuring on an orthonormal basis of the fitted span
-rather than on the scores) would remove this route. That changes the production
-measurement and is **not validated**: its size, power and reproduction of committed
-results are untested. It is held as its own roadmap item
+### Orthonormal span coordinates: measured, not adopted
+
+**Orthonormal span coordinates** measure on `X_in·Q`, with `Q = qr(R)` an orthonormal
+basis of the fitted span (equal to `W` up to column signs), rather than on the scores.
+`delta`, `angle` and `shape` are invariant to any orthogonal map, so every orthonormal
+basis of the span gives the same statistics and p-values.
+
+MOTCO 0.19.0 offers them in the harness as the opt-in
+`SimulationEvaluationParams.latent_coordinates = "orthonormal"`. The setting keeps the
+fit, rank and permutation draws. It is not available in `motco analyze`, in study
+configurations or with attribution. Without it every output is unchanged.
+
+The [2026-11-09 validation](reports/orthonormal-coordinates-2026-11-09.md) measured
+both coordinate systems on the same units: the stage-span paper grade's 32,500 units and
+the weak design's 1,000 controls, with the same data, fit and draws, at 500 × 999. Its
+verdict is **`power_loss`**.
+
+- **Size holds.** The orthonormal coordinates read 0.000–0.066 at the 60 paper-grade
+  controls and 0.010–0.050 at the weak design's 6, none above its bound.
+- **The leak is removed.** The watched cells are the 45° rotation's off-target `shape`:
+  0.070 → 0.000 at n = 200 and 0.086 → 0.000 at four stages (paired p ≤ 6e-11). The
+  bend's planted-scale residual stays within 0.11 % of A's path, against −0.38 % and
+  −0.60 % in scores on the SEA-AD table and at four stages. No off-target rate rises, and
+  1 of 90 is above the bound (6 are allowed).
+- **Target power is lost.** 19 of 45 target cells lose, 16 of them beyond the Bonferroni
+  ceiling. All of them are at n = 80, on the SEA-AD table and at four stages, except two
+  at n = 200. The largest losses:
+  - the SEA-AD table's 45° rotation, `angle` 0.962 → 0.760;
+  - the 22.5° rotation at four stages, 0.744 → 0.519;
+  - the e = 0.25 bend at n = 80, `shape` 0.724 → 0.518;
+  - the e = 0.1 magnitude on the SEA-AD table, `delta` 0.542 → 0.416.
+
+  The three-block column loses nothing.
+- **Why the scores have more power is open.** The scores do not see a larger target
+  orientation or shape: the population `angle` and `shape` are equal in both
+  coordinate systems. They do stretch a planted magnitude by up to 5 %. Where the
+  orthonormal coordinates lose, their `angle` null is wider: at the SEA-AD anchor the
+  95th percentile is 34.6° against 26.1°.
+
+**Production and `motco analyze` stay on score coordinates.** The scores' shear is a
+measured trade-off. It lets a 45° rotation leak into `shape` at up to 0.086, and it buys
+up to 0.23 of target power at small, unequal or four-stage designs. An off-target `shape`
+or `delta` rejection beside a strong `angle` or `shape` rejection can be the shear's.
+
+Only an `adopt_orthonormal` verdict would have permitted a separate change to adopt
+orthonormal coordinates. This run did not return it
 ([roadmap](roadmap.md#next-changes), item 15).
 
 ## Measurement spaces that keep the rotation, and what they cost

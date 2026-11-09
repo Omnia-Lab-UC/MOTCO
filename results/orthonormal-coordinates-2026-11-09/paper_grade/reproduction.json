@@ -1,0 +1,16 @@
+{
+ "differing": [],
+ "passed": true,
+ "rows_compared": 195,
+ "rule": "scores n_available and n_rejected (p < alpha) equal the committed design_point_operating.csv",
+ "source": {
+  "operating:span_geometry": {
+   "path": "results/stage-span-paper-grade-2026-11-04/span_geometry/report/design_point_operating.csv",
+   "sha256": "2ec4c8adbafb3cfa0e6efa46b817f9320f8ac59f6574bf83cc4e983a1d42c70f"
+  },
+  "operating:span_magnitude": {
+   "path": "results/stage-span-paper-grade-2026-11-04/span_magnitude/report/design_point_operating.csv",
+   "sha256": "9e70f3ae2128efc17361494c47e1d12088990d025fac57e15e73692c076447eb"
+  }
+ }
+}

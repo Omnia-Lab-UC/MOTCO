@@ -349,6 +349,33 @@ names the evaluator's default and `1` the unfloored rule, as distinct values. Th
 dimensions, not a second axis with signal; it was validated by `scripts/rank_floor_check.py` (the 2026-10-23 run
 returned `adopt_floor` at both calibrated strengths, [report](../reports/rank-floor-2026-10-23.md)).
 
+**Latent coordinates.** `latent_coordinates` names the coordinate system the `pls` latent space is
+measured in. Absent (the default) it is the PLS scores X_in·R, R = `x_rotations_`, which are a sheared
+image of the fitted span (see [measurement visibility](../measurement-visibility.md)). Pass
+`latent_coordinates="orthonormal"` to measure X_in·Q instead, X_in = (X − x_mean) / x_std the final
+model's input coordinates and Q = qr(R), the basis span capture already uses. Q equals the PLS weights
+up to column signs, and `delta`, `angle` and `shape` are invariant to any orthogonal map of the latent
+coordinates, so every orthonormal basis of the span gives the same statistics and p-values. Only the
+coordinates change: the fitted model, the cross-validation and the selected or forced rank are those of
+the scores, and the span-capture shares are identical. The latent matrix, the `pls_latent` checkpoint,
+the configuration spectrum, every RRPP draw and the `population_latent` checkpoint are measured in the
+new coordinates. The setting is recorded as `integration_params.latent_coordinates` in the latent
+metadata and in `runtime_metadata["latent_coordinates"]`. It is rejected before any preprocessing or
+fit with any integration method other than `pls` and with attribution (attribution's PLS-captured
+reconstruction is defined only in score coordinates), and an unknown value is rejected naming the
+allowed values. `"scores"` normalizes to `None`, which is left out of every hash payload and record, so
+an evaluation without the setting is byte-identical to the harness before it existed
+(`tests/data/orthonormal_coordinates_prechange_fixture.json`). `pls_orthonormal_from_pls(dataset, pls,
+params)` builds the orthonormal integration from an existing score-coordinate `pls` integration of the
+same dataset without refitting, equal to the fit from scratch, so one fit can be measured in both
+coordinate systems; it refuses an integration that is not `pls`, has no fitted artifacts or is already
+orthonormal, and `evaluate_semisynthetic_trajectory(..., latent=)` refuses a prebuilt integration whose
+coordinates differ from its parameters. The setting is opt-in, and
+`scripts/orthonormal_coordinates_check.py` validated it on 2026-11-09. That run returned `power_loss`:
+size holds and the shear's off-target leak goes, but target power is lost at small, unequal and
+four-stage designs ([report](../reports/orthonormal-coordinates-2026-11-09.md)). The production
+measurement and `motco analyze` therefore use the scores, and the setting stays a diagnostic.
+
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
 ```text
@@ -382,7 +409,7 @@ the block is computed in its input coordinates against that basis:
 
 | Method | Input coordinates | Basis |
 |---|---|---|
-| `pls` | (x − x_mean) / x_std of the fitted model | QR of the rotations (as in 0.15.0, so PLS records are unchanged) |
+| `pls` | (x − x_mean) / x_std of the fitted model | QR of the rotations (as in 0.15.0, so PLS records are unchanged; the same basis in either `latent_coordinates`) |
 | `pca` | x − column mean | the retained principal axes |
 | `pls_residual_pca` | the PLS model's | QR of the rotations, then the residual axes |
 | `concat` (standardized) | x | the identity: every share is 1 and `rank` = `n_features` |

@@ -1,0 +1,2001 @@
+{
+ "capture_revision": "9bc8a3c92f55b3c2cc9d0918813e8e44fc460181",
+ "evaluations": {
+  "concat": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 498,
+      "n_points": 3,
+      "relative_eigengap": 0.10005016578021686,
+      "spectrum": [
+       0.5500250828901084,
+       0.44997491710989157,
+       1.5060156950987332e-31
+      ],
+      "total_variance": 402.38041249370985
+     },
+     "B": {
+      "n_dimensions": 498,
+      "n_points": 3,
+      "relative_eigengap": 0.31462021117355976,
+      "spectrum": [
+       0.6573101055867799,
+       0.3426898944132202,
+       5.863428591869491e-32
+      ],
+      "total_variance": 318.4771479800529
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.1641147667554669,
+     "q05": 0.1121187066889798,
+     "q50": 0.16907138614662515,
+     "q95": 0.19957546150252117,
+     "sd": 0.035410855430439085
+    },
+    "pooled": {
+     "n_dimensions": 498,
+     "n_points": 3,
+     "relative_eigengap": 0.1694699525620938,
+     "spectrum": [
+      0.5847349762810469,
+      0.4152650237189531,
+      3.2782027703974675e-32
+     ],
+     "total_variance": 334.3464744353802
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "integration_method": "concat",
+    "integration_params": {
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "standardize": true
+    },
+    "integration_role": "baseline",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 498,
+    "n_samples": 90,
+    "shape": [
+     90,
+     498
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 31.190014772767856,
+     "q50": 29.131772793023973,
+     "q90": 39.167370017228116,
+     "q95": 44.49879589984572,
+     "q99": 45.953599208495234,
+     "sd": 6.19974772197223
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 1.2548281766526241,
+     "q50": 0.9195328539308818,
+     "q90": 2.645204149650522,
+     "q95": 2.7420232464719434,
+     "q99": 3.1833053655362167,
+     "sd": 1.0417954040501944
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.04538724419828093,
+     "q50": 0.043575869965008514,
+     "q90": 0.08243534360176076,
+     "q95": 0.09596522189879257,
+     "q99": 0.10499848307672333,
+     "sd": 0.02690079938612267
+    }
+   },
+   "p_values": {
+    "angle": 0.3,
+    "delta": 0.45,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 32.77289753680421,
+    "delta": 1.4929423389503782,
+    "shape": 0.1700906128742115
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "population_latent": {
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1,
+    "span_capture": {
+     "group_difference": 1.0,
+     "n_features": 498,
+     "pooled_stage": 1.0,
+     "random_share": 1.0,
+     "rank": 498
+    }
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true,
+    "span_capture": true
+   }
+  },
+  "pca": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 3,
+      "n_points": 3,
+      "relative_eigengap": 0.10406998767868136,
+      "spectrum": [
+       0.5520349938393407,
+       0.4479650061606594,
+       7.819891575367223e-34
+      ],
+      "total_variance": 384.3931209317336
+     },
+     "B": {
+      "n_dimensions": 3,
+      "n_points": 3,
+      "relative_eigengap": 0.35239950089154864,
+      "spectrum": [
+       0.6761997504457743,
+       0.32380024955422565,
+       1.0357366287788897e-34
+      ],
+      "total_variance": 292.8022529610424
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.17581934686175452,
+     "q05": 0.12322232544182117,
+     "q50": 0.1910845623686419,
+     "q95": 0.21134634220092888,
+     "sd": 0.03740003197668728
+    },
+    "pooled": {
+     "n_dimensions": 3,
+     "n_points": 3,
+     "relative_eigengap": 0.16954042568357053,
+     "spectrum": [
+      0.5847702128417852,
+      0.4152297871582147,
+      5.668711267653451e-34
+     ],
+     "total_variance": 333.05510531828224
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "integration_metadata_version": 1,
+    "integration_method": "pca",
+    "integration_params": {
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "n_components": 3
+    },
+    "integration_role": "diagnostic",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 3,
+    "n_samples": 90,
+    "retained_dimensionality": 3,
+    "shape": [
+     90,
+     3
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 15.788104633889319,
+     "q50": 10.094158471093206,
+     "q90": 30.20079465108023,
+     "q95": 38.82046792239168,
+     "q99": 39.52035150619174,
+     "sd": 10.78135687615963
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 1.4330607427261144,
+     "q50": 1.2945099716265602,
+     "q90": 2.7577701486697506,
+     "q95": 2.8939019190429067,
+     "q99": 3.044256271102146,
+     "sd": 0.984291009388129
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.05268636404198727,
+     "q50": 0.048196488635834096,
+     "q90": 0.09057041536176111,
+     "q95": 0.11220424092823526,
+     "q99": 0.11366543513563947,
+     "sd": 0.03088179133102664
+    }
+   },
+   "p_values": {
+    "angle": 0.95,
+    "delta": 0.4,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 3.535399492860917,
+    "delta": 1.825756933851892,
+    "shape": 0.19245605565292348
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "pca_latent": {
+      "joint": {
+       "angle": 3.535399492860917,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.825756933851892,
+       "path_lengths": {
+        "A": 38.898743468051805,
+        "B": 37.07298653419991
+       },
+       "shape": 0.19245605565292348
+      }
+     },
+     "population_latent": {
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.01073085908177518,
+       "path_lengths": {
+        "A": 34.93453652833207,
+        "B": 34.92380566925029
+       },
+       "shape": 0.22738495112908816
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1,
+    "span_capture": {
+     "group_difference": 0.9275117510090191,
+     "n_features": 498,
+     "pooled_stage": 0.9185234195451385,
+     "random_share": 0.006024096385542169,
+     "rank": 3
+    }
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true,
+    "span_capture": true
+   }
+  },
+  "pls": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 2,
+      "n_points": 3,
+      "relative_eigengap": 0.07275836264889834,
+      "spectrum": [
+       0.5363791813244492,
+       0.4636208186755508
+      ],
+      "total_variance": 374.9117910045318
+     },
+     "B": {
+      "n_dimensions": 2,
+      "n_points": 3,
+      "relative_eigengap": 0.35355526455729824,
+      "spectrum": [
+       0.6767776322786492,
+       0.32322236772135093
+      ],
+      "total_variance": 294.74876169706295
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.1801148745291925,
+     "q05": 0.12287123701122327,
+     "q50": 0.19875286807486842,
+     "q95": 0.21639616844375478,
+     "sd": 0.03973125687611544
+    },
+    "pooled": {
+     "n_dimensions": 2,
+     "n_points": 3,
+     "relative_eigengap": 0.17355874643490388,
+     "spectrum": [
+      0.586779373217452,
+      0.4132206267825481
+     ],
+     "total_variance": 330.81210244826343
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "component_selection": "cv",
+    "cv_mean_auroc": 1.0,
+    "cv_repeats_completed": 1,
+    "feature_order_signature": "9737230af09717c9",
+    "integration_metadata_version": 1,
+    "integration_method": "pls",
+    "integration_params": {
+     "cv1_splits": 3,
+     "cv2_splits": 4,
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "max_components": 6,
+     "min_components": 2,
+     "n_repeats": 1,
+     "random_state": 1203,
+     "selected_lv": 2,
+     "stage_col": "stage"
+    },
+    "integration_role": "latent_space",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 2,
+    "n_samples": 90,
+    "selected_lv": 2,
+    "shape": [
+     90,
+     2
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 3.888388486537966,
+     "q50": 2.88680884675161,
+     "q90": 6.961385263132575,
+     "q95": 10.225438291356202,
+     "q99": 10.748962263773286,
+     "sd": 3.0402436077382204
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 1.147625636603667,
+     "q50": 1.1818308957610455,
+     "q90": 2.0703257770028527,
+     "q95": 2.2973127321220894,
+     "q99": 2.475509739696354,
+     "sd": 0.7624961520160414
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.04906314350998692,
+     "q50": 0.04142365739669981,
+     "q90": 0.07668183878684803,
+     "q95": 0.09656444787665576,
+     "q99": 0.11047146125707852,
+     "sd": 0.027334086094801834
+    }
+   },
+   "p_values": {
+    "angle": 0.95,
+    "delta": 0.35,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 0.3730643978139429,
+    "delta": 1.418076709212663,
+    "shape": 0.18336447715333978
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "pls_latent": {
+      "joint": {
+       "angle": 0.3730643978139429,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.418076709212663,
+       "path_lengths": {
+        "A": 38.65140034030811,
+        "B": 37.233323631095445
+       },
+       "shape": 0.18336447715333978
+      }
+     },
+     "population_latent": {
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.11164670018278855,
+       "path_lengths": {
+        "A": 34.673369764692175,
+        "B": 34.785016464874964
+       },
+       "shape": 0.22774569605904205
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1,
+    "span_capture": {
+     "group_difference": 0.9193637555569242,
+     "n_features": 498,
+     "pooled_stage": 0.9091671057792208,
+     "random_share": 0.004016064257028112,
+     "rank": 2
+    }
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true,
+    "span_capture": true
+   }
+  },
+  "pls_forced": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 3,
+      "n_points": 3,
+      "relative_eigengap": 0.14232716679285057,
+      "spectrum": [
+       0.5711635833964253,
+       0.4288364166035747,
+       0.0
+      ],
+      "total_variance": 405.3227720013714
+     },
+     "B": {
+      "n_dimensions": 3,
+      "n_points": 3,
+      "relative_eigengap": 0.402725598025163,
+      "spectrum": [
+       0.7013627990125815,
+       0.29863720098741847,
+       1.2282947293425848e-33
+      ],
+      "total_variance": 332.8225948224982
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.23080071278442818,
+     "q05": 0.18324331456252443,
+     "q50": 0.2208531692098899,
+     "q95": 0.3021513337619138,
+     "sd": 0.04156121520045675
+    },
+    "pooled": {
+     "n_dimensions": 3,
+     "n_points": 3,
+     "relative_eigengap": 0.2244389052370261,
+     "spectrum": [
+      0.6122194526185131,
+      0.387780547381487,
+      1.8561155637558547e-33
+     ],
+     "total_variance": 363.70126555030686
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "component_selection": "forced",
+    "cv_mean_auroc": null,
+    "cv_repeats_completed": 0,
+    "feature_order_signature": "9737230af09717c9",
+    "integration_metadata_version": 1,
+    "integration_method": "pls",
+    "integration_params": {
+     "forced_components": 3,
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "selected_lv": 3,
+     "stage_col": "stage"
+    },
+    "integration_role": "latent_space",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 3,
+    "n_samples": 90,
+    "selected_lv": 3,
+    "shape": [
+     90,
+     3
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 13.615152919746265,
+     "q50": 9.380192743815808,
+     "q90": 24.76241628214547,
+     "q95": 32.33421586238943,
+     "q99": 34.53258941452227,
+     "sd": 9.125444054197112
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 0.9910556150031135,
+     "q50": 0.7083517591547803,
+     "q90": 2.379922856646462,
+     "q95": 2.777322244424196,
+     "q99": 2.8738232310998795,
+     "sd": 0.9475327567833282
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.04378954221391655,
+     "q50": 0.03668847073859753,
+     "q90": 0.09314563158093461,
+     "q95": 0.12342421563020356,
+     "q99": 0.1237972080571545,
+     "sd": 0.03257930333705128
+    }
+   },
+   "p_values": {
+    "angle": 0.95,
+    "delta": 0.75,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 1.5093592707427566,
+    "delta": 0.27021568043679167,
+    "shape": 0.20289982195986925
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "pls_latent": {
+      "joint": {
+       "angle": 1.5093592707427566,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.27021568043679167,
+       "path_lengths": {
+        "A": 40.08330687331011,
+        "B": 39.813091192873316
+       },
+       "shape": 0.20289982195986925
+      }
+     },
+     "population_latent": {
+      "joint": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3159554506106943,
+       "path_lengths": {
+        "A": 38.758918433143286,
+        "B": 39.07487388375398
+       },
+       "shape": 0.22291396395758975
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1,
+    "span_capture": {
+     "group_difference": 0.9390495943710131,
+     "n_features": 498,
+     "pooled_stage": 0.938473653185359,
+     "random_share": 0.006024096385542169,
+     "rank": 3
+    }
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true,
+    "span_capture": true
+   }
+  },
+  "pls_residual_pca": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.07462779415463983,
+      "spectrum": [
+       0.5373138970773199,
+       0.4626861029226801,
+       1.0144682213046609e-34
+      ],
+      "total_variance": 378.11385318756186
+     },
+     "B": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.35132447471093314,
+      "spectrum": [
+       0.6756622373554665,
+       0.32433776264453335,
+       4.765935116740374e-34
+      ],
+      "total_variance": 297.5274133284314
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.17584805454664115,
+     "q05": 0.1346359689743529,
+     "q50": 0.1889586595994514,
+     "q95": 0.21732133021984124,
+     "sd": 0.0335560626846924
+    },
+    "pooled": {
+     "n_dimensions": 4,
+     "n_points": 3,
+     "relative_eigengap": 0.1733902309185777,
+     "spectrum": [
+      0.5866951154592889,
+      0.4133048845407112,
+      2.112244414188123e-36
+     ],
+     "total_variance": 330.860415619534
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "component_selection": "cv",
+    "cv_mean_auroc": 1.0,
+    "cv_repeats_completed": 1,
+    "feature_order_signature": "9737230af09717c9",
+    "integration_metadata_version": 1,
+    "integration_method": "pls_residual_pca",
+    "integration_params": {
+     "cv1_splits": 3,
+     "cv2_splits": 4,
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "max_components": 6,
+     "min_components": 2,
+     "n_repeats": 1,
+     "random_state": 1203,
+     "residual_components": 2,
+     "selected_lv": 2,
+     "stage_col": "stage"
+    },
+    "integration_role": "diagnostic",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 4,
+    "n_samples": 90,
+    "pls_rank": 2,
+    "residual_components": 2,
+    "retained_dimensionality": 4,
+    "shape": [
+     90,
+     4
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 18.112517542404678,
+     "q50": 18.711135376700156,
+     "q90": 30.574198759983076,
+     "q95": 40.45297064016808,
+     "q99": 41.746956583680294,
+     "sd": 10.593789872301626
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 1.3596317660730763,
+     "q50": 1.216397436466579,
+     "q90": 2.732483036530358,
+     "q95": 2.7985520187147954,
+     "q99": 2.8789281809564744,
+     "sd": 0.9578581112109665
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.0496039050666669,
+     "q50": 0.043914287595990656,
+     "q90": 0.08799695495136557,
+     "q95": 0.10887058464218204,
+     "q99": 0.10920906756303995,
+     "sd": 0.029166320139656872
+    }
+   },
+   "p_values": {
+    "angle": 0.7,
+    "delta": 0.45,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 11.692062055489707,
+    "delta": 1.434075589705614,
+    "shape": 0.18147600838704459
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "pls_residual_pca_latent": {
+      "joint": {
+       "angle": 11.692062055489707,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.434075589705614,
+       "path_lengths": {
+        "A": 38.81893394229081,
+        "B": 37.3848583525852
+       },
+       "shape": 0.18147600838704459
+      }
+     },
+     "population_latent": {
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.18332215858641376,
+       "path_lengths": {
+        "A": 35.47015728872128,
+        "B": 35.653479447307696
+       },
+       "shape": 0.22680004282929503
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1,
+    "span_capture": {
+     "group_difference": 0.9409856789370457,
+     "n_features": 498,
+     "pooled_stage": 0.9468918999182598,
+     "random_share": 0.008032128514056224,
+     "rank": 4
+    }
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true,
+    "span_capture": true
+   }
+  },
+  "pls_within_group": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.10071908251795603,
+      "spectrum": [
+       0.550359541258978,
+       0.449640458741022,
+       3.224869413338519e-36
+      ],
+      "total_variance": 402.13587334288746
+     },
+     "B": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.3146697857218337,
+      "spectrum": [
+       0.6573348928609168,
+       0.34266510713908316,
+       9.27551510135929e-34
+      ],
+      "total_variance": 318.4651385848169
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.17330292283235227,
+     "q05": 0.11462666658217013,
+     "q50": 0.18254420551794615,
+     "q95": 0.21106787713045247,
+     "sd": 0.03797213684621895
+    },
+    "pooled": {
+     "n_dimensions": 4,
+     "n_points": 3,
+     "relative_eigengap": 0.16948224407298002,
+     "spectrum": [
+      0.58474112203649,
+      0.41525887796350996,
+      2.528972845395209e-33
+     ],
+     "total_variance": 334.29923253548804
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "basis_rank": 4,
+    "components_per_group": 2,
+    "integration_metadata_version": 1,
+    "integration_method": "pls_within_group",
+    "integration_params": {
+     "components_per_group": 2,
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "stage_col": "stage"
+    },
+    "integration_role": "diagnostic",
+    "layer_feature_counts": {
+     "expression": 131,
+     "methylation": 367
+    },
+    "n_features": 4,
+    "n_samples": 90,
+    "retained_dimensionality": 4,
+    "shape": [
+     90,
+     4
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 9.61947527735724,
+     "q50": 8.710468942706811,
+     "q90": 14.918469336627846,
+     "q95": 20.788808052194188,
+     "q99": 21.73967741043232,
+     "sd": 5.212440081056368
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 1.1785976475304694,
+     "q50": 1.070935273839524,
+     "q90": 2.293774873571894,
+     "q95": 2.3817988715566623,
+     "q99": 2.390727177972137,
+     "sd": 0.8472372705742185
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.04695092640250765,
+     "q50": 0.046014332597384154,
+     "q90": 0.0756788068133567,
+     "q95": 0.08101627556154553,
+     "q99": 0.10595787265712191,
+     "sd": 0.02624775002693451
+    }
+   },
+   "p_values": {
+    "angle": 0.05,
+    "delta": 0.5,
+    "shape": 0.05
+   },
+   "pair_statistics": {
+    "angle": 32.727353361314556,
+    "delta": 1.47893920258619,
+    "shape": 0.17023241497986813
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "pls_within_group_latent": {
+      "joint": {
+       "angle": 32.727353361314556,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.47893920258619,
+       "path_lengths": {
+        "A": 39.81838239693057,
+        "B": 38.33944319434438
+       },
+       "shape": 0.17023241497986813
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true
+   }
+  },
+  "snf": {
+   "config_spectrum": {
+    "groups": {
+     "A": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.015756514674629296,
+      "spectrum": [
+       0.5078782573373146,
+       0.4921217426626853,
+       1.337482227911399e-34
+      ],
+      "total_variance": 0.13601405319644455
+     },
+     "B": {
+      "n_dimensions": 4,
+      "n_points": 3,
+      "relative_eigengap": 0.033900352973117165,
+      "spectrum": [
+       0.5169501764865585,
+       0.48304982351344133,
+       1.7395314055958556e-34
+      ],
+      "total_variance": 0.1342527691282307
+     }
+    },
+    "permutation_pooled_eigengap": {
+     "count": 19.0,
+     "mean": 0.0209111943228279,
+     "q05": 0.0036631063169519527,
+     "q50": 0.01326843792427046,
+     "q95": 0.06244176097540142,
+     "sd": 0.020770530427332776
+    },
+    "pooled": {
+     "n_dimensions": 4,
+     "n_points": 3,
+     "relative_eigengap": 0.002703229266595275,
+     "spectrum": [
+      0.5013516146332976,
+      0.4986483853667023,
+      5.133358432291014e-37
+     ],
+     "total_variance": 0.1325855772141289
+    },
+    "version": 1
+   },
+   "latent_matrix_metadata": {
+    "fused_shape": [
+     90,
+     90
+    ],
+    "integration_method": "snf",
+    "integration_params": {
+     "K": 20,
+     "eps": 0.5,
+     "k": 20,
+     "layers": [
+      "methylation",
+      "expression"
+     ],
+     "spectral_components": 4,
+     "t": 20
+    },
+    "integration_role": "latent_space",
+    "n_features": 4,
+    "n_samples": 90,
+    "shape": [
+     90,
+     4
+    ]
+   },
+   "null_summary": {
+    "angle": {
+     "count": 19.0,
+     "mean": 15.75877368891542,
+     "q50": 15.154915119833621,
+     "q90": 26.944725184772533,
+     "q95": 33.92591253793279,
+     "q99": 35.641426851843754,
+     "sd": 9.664520494741401
+    },
+    "delta": {
+     "count": 19.0,
+     "mean": 0.013134297553460909,
+     "q50": 0.00787407015432895,
+     "q90": 0.029763736509381637,
+     "q95": 0.03880200411526702,
+     "q99": 0.05392351742015832,
+     "sd": 0.014587412364699955
+    },
+    "shape": {
+     "count": 19.0,
+     "mean": 0.02310207938107749,
+     "q50": 0.016775204284990457,
+     "q90": 0.043743992223578186,
+     "q95": 0.04887840655756542,
+     "q99": 0.08074433353933937,
+     "sd": 0.01962434702335319
+    }
+   },
+   "p_values": {
+    "angle": 1.0,
+    "delta": 0.95,
+    "shape": 0.55
+   },
+   "pair_statistics": {
+    "angle": 1.5966330383973861,
+    "delta": 0.00040054785322629627,
+    "shape": 0.015687994417780272
+   },
+   "realized_geometry": {
+    "checkpoints": {
+     "observed_standardized": {
+      "expression": {
+       "angle": 35.511636891105404,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.1571605471326194,
+       "path_lengths": {
+        "A": 23.014042691310387,
+        "B": 23.171203238443006
+       },
+       "shape": 0.20731679981368728
+      },
+      "joint": {
+       "angle": 32.77289753680421,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.4929423389503782,
+       "path_lengths": {
+        "A": 39.83270706849169,
+        "B": 38.339764729541315
+       },
+       "shape": 0.1700906128742115
+      },
+      "methylation": {
+       "angle": 31.135027300137214,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 1.9698728023464724,
+       "path_lengths": {
+        "A": 32.5113433241092,
+        "B": 30.541470521762726
+       },
+       "shape": 0.15285964110719974
+      }
+     },
+     "population_native": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.3241320253640261,
+       "path_lengths": {
+        "A": 26.06551850567226,
+        "B": 26.389650531036285
+       },
+       "shape": 0.2247632409480735
+      },
+      "methylation": {
+       "angle": 8.537736462515939e-07,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.247442955336588,
+       "path_lengths": {
+        "A": 32.472798898166026,
+        "B": 32.720241853502614
+       },
+       "shape": 0.22591347831909023
+      }
+     },
+     "population_standardized": {
+      "expression": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.06095492739957464,
+       "path_lengths": {
+        "A": 22.66851425025949,
+        "B": 22.729469177659066
+       },
+       "shape": 0.22576243534334137
+      },
+      "joint": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.05144805412464848,
+       "path_lengths": {
+        "A": 36.51210689598233,
+        "B": 36.563554950106976
+       },
+       "shape": 0.22720084821514325
+      },
+      "methylation": {
+       "angle": 0.0,
+       "availability": {
+        "angle": true,
+        "delta": true,
+        "shape": true
+       },
+       "delta": 0.020974650221130986,
+       "path_lengths": {
+        "A": 28.61409850344604,
+        "B": 28.63507315366717
+       },
+       "shape": 0.22808915964529328
+      }
+     }
+    },
+    "requested": {
+     "group_effect_size": 0.5,
+     "trajectory_mode": "shape",
+     "transform": {
+      "construction": "stage_span",
+      "displacement": 8.951310439994707,
+      "rescale": 0.6911911182432328,
+      "shape_stage": 1
+     }
+    },
+    "schema_version": 1
+   },
+   "runtime_metadata": {
+    "min_components": 2,
+    "n_jobs": 1,
+    "orientation_estimator": "net_displacement",
+    "permutations": 19,
+    "progress": false,
+    "seed": 5,
+    "shape_available": true
+   }
+  }
+ },
+ "note": "Harness evaluations captured before latent_coordinates existed (orthonormal-span-coordinates)."
+}

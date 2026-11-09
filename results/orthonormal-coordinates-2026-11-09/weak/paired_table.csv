@@ -1,0 +1,7 @@
+profile,column,cell,trajectory_mode,effect_size,statistic,n_paired,rate_scores,rate_orthonormal,difference,b,c,p_two_sided,p_loss
+weak,seaad_weak,anchor,none,0,delta,500,0.034,0.012,-0.022,11,0,0.000976562,0.000488281
+weak,seaad_weak,anchor,none,0,angle,500,0.038,0.05,0.012,3,9,0.145996,0.980713
+weak,seaad_weak,anchor,none,0,shape,500,0.05,0.026,-0.024,18,6,0.0226558,0.0113279
+weak,seaad_weak,translation,translation,1,delta,500,0.036,0.01,-0.026,13,0,0.000244141,0.00012207
+weak,seaad_weak,translation,translation,1,angle,500,0.026,0.048,0.022,3,14,0.0127258,0.998825
+weak,seaad_weak,translation,translation,1,shape,500,0.052,0.02,-0.032,19,3,0.000855446,0.000427723

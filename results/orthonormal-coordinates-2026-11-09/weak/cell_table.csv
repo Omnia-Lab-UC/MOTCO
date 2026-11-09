@@ -1,0 +1,5 @@
+profile,column,cell,trajectory_mode,effect_size,arm,n,median_rank,median_cv_auroc,median_capture,median_population_share,median_population_difference,median_pooled_eigengap,median_angle_null_q95
+weak,seaad_weak,anchor,none,0,scores,500,2,0.595944,,0,0,0.725753,53.8122
+weak,seaad_weak,anchor,none,0,orthonormal,500,2,0.595944,,0,0,0.552644,100.019
+weak,seaad_weak,translation,translation,1,scores,500,2,0.56725,,0,0,0.77415,54.5216
+weak,seaad_weak,translation,translation,1,orthonormal,500,2,0.56725,,0,0,0.609982,101.182

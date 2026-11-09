@@ -1,0 +1,28 @@
+{
+ "complete_units": 1000,
+ "duplicate_records": 0,
+ "expected_units": 1000,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "inconsistent": [],
+ "inconsistent_units": 0,
+ "max_consistency_deviation": {
+  "orthonormal_basis": 1.2212453270876722e-15,
+  "same_span": 1.9184653865522705e-13
+ },
+ "missing_units": 0,
+ "profile": "weak",
+ "recorded_core_hours": 2.4751347174964353,
+ "settings_hash": "68e8ed58beced8432a322d946e0b33ba01b07dab7af9832737bd2ee223a1e760",
+ "stage_seconds_median": {
+  "fit": 7.920959623530507,
+  "generate": 0.19418362801661715,
+  "orthonormal": 0.3906064300099388,
+  "scores": 0.39342243649298325
+ },
+ "unit_seconds": {
+  "max": 9.33032867894508,
+  "median": 8.904698024503887,
+  "q90": 9.058614365686662
+ }
+}

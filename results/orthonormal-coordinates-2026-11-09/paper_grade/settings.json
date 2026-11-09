@@ -1,0 +1,110 @@
+{
+ "hash": "a4e1ed0df9697dbdc7b3ebddc0e9cbffea243344e099a8b2aec0504050c6c06e",
+ "settings": {
+  "alpha": 0.05,
+  "arms": [
+   "scores",
+   "orthonormal"
+  ],
+  "cells": [
+   [
+    "none",
+    0.0,
+    "span_geometry"
+   ],
+   [
+    "translation",
+    0.1,
+    "span_geometry"
+   ],
+   [
+    "translation",
+    0.25,
+    "span_geometry"
+   ],
+   [
+    "translation",
+    0.5,
+    "span_geometry"
+   ],
+   [
+    "orientation",
+    0.1,
+    "span_geometry"
+   ],
+   [
+    "orientation",
+    0.25,
+    "span_geometry"
+   ],
+   [
+    "orientation",
+    0.5,
+    "span_geometry"
+   ],
+   [
+    "shape",
+    0.1,
+    "span_geometry"
+   ],
+   [
+    "shape",
+    0.25,
+    "span_geometry"
+   ],
+   [
+    "shape",
+    0.5,
+    "span_geometry"
+   ],
+   [
+    "magnitude",
+    0.02,
+    "span_magnitude"
+   ],
+   [
+    "magnitude",
+    0.05,
+    "span_magnitude"
+   ],
+   [
+    "magnitude",
+    0.1,
+    "span_magnitude"
+   ]
+  ],
+  "columns": [
+   "n200",
+   "n80",
+   "seaad",
+   "n200_three_blocks",
+   "n200_four_stages"
+  ],
+  "consistency_tolerance": 1e-08,
+  "driver_version": 1,
+  "parents": {
+   "operating:span_geometry": {
+    "path": "results/stage-span-paper-grade-2026-11-04/span_geometry/report/design_point_operating.csv",
+    "sha256": "2ec4c8adbafb3cfa0e6efa46b817f9320f8ac59f6574bf83cc4e983a1d42c70f"
+   },
+   "operating:span_magnitude": {
+    "path": "results/stage-span-paper-grade-2026-11-04/span_magnitude/report/design_point_operating.csv",
+    "sha256": "9e70f3ae2128efc17361494c47e1d12088990d025fac57e15e73692c076447eb"
+   },
+   "profile:span_geometry": {
+    "path": "examples/trajectory_power_study/stage_span_paper_grade_span_geometry.json",
+    "sha256": "6697d927854b3899476ff1e73c1785f6b286004940e5f6850881c7027ff5730b"
+   },
+   "profile:span_magnitude": {
+    "path": "examples/trajectory_power_study/stage_span_paper_grade_span_magnitude.json",
+    "sha256": "4e2ef7d3905438f781c00256acbfef27c3365a6b70e8237cf6f64e510925ef62"
+   }
+  },
+  "permutations": 999,
+  "profile": "paper_grade",
+  "rejection": "p < alpha",
+  "replicates": 500,
+  "span_capture": true,
+  "span_scale": "planted"
+ }
+}

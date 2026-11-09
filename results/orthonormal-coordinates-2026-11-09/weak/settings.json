@@ -1,0 +1,233 @@
+{
+ "hash": "68e8ed58beced8432a322d946e0b33ba01b07dab7af9832737bd2ee223a1e760",
+ "settings": {
+  "alpha": 0.05,
+  "arms": [
+   "scores",
+   "orthonormal"
+  ],
+  "cells": [
+   "anchor",
+   "translation"
+  ],
+  "consistency_tolerance": 1e-08,
+  "design": "seaad_weak",
+  "driver_version": 1,
+  "parents": {
+   "comparison_calibration": {
+    "path": "results/latent-space-comparison-2026-11-04/calibration/calibration.json",
+    "sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110"
+   },
+   "span_split_production": {
+    "path": "results/span-split-2026-11-05/simulation/production_table.csv",
+    "sha256": "c0e09fbd1f968c58c4193f06997817d8b33c4e4b791a6e6e47ace70471aab5cb"
+   },
+   "span_split_settings": {
+    "path": "results/span-split-2026-11-05/simulation/settings.json",
+    "sha256": "77781a9355f4d6ca147b2b405e8ae24e222bcd1594e8fc99290c1ae2aaa3adc6"
+   }
+  },
+  "permutations": 999,
+  "profile": "weak",
+  "rejection": "p < alpha",
+  "replicates": 500,
+  "units": {
+   "alpha": 0.05,
+   "comparison": {
+    "alpha": 0.05,
+    "arms": [
+     "pls_cv"
+    ],
+    "base_seed": 2035,
+    "cells": [
+     [
+      "anchor",
+      "none",
+      0.0,
+      null,
+      null
+     ],
+     [
+      "translation",
+      "translation",
+      1.0,
+      null,
+      null
+     ],
+     [
+      "magnitude",
+      "magnitude",
+      0.05,
+      null,
+      null
+     ],
+     [
+      "orient_e0.25_phi0",
+      "orientation",
+      0.25,
+      0.0,
+      null
+     ],
+     [
+      "orient_e0.25_phi30",
+      "orientation",
+      0.25,
+      30.0,
+      null
+     ],
+     [
+      "orient_e0.25_phi60",
+      "orientation",
+      0.25,
+      60.0,
+      null
+     ],
+     [
+      "orient_e0.25_phi90",
+      "orientation",
+      0.25,
+      90.0,
+      null
+     ],
+     [
+      "orient_e0.5_phi0",
+      "orientation",
+      0.5,
+      0.0,
+      null
+     ],
+     [
+      "orient_e0.5_phi30",
+      "orientation",
+      0.5,
+      30.0,
+      null
+     ],
+     [
+      "orient_e0.5_phi60",
+      "orientation",
+      0.5,
+      60.0,
+      null
+     ],
+     [
+      "orient_e0.5_phi90",
+      "orientation",
+      0.5,
+      90.0,
+      null
+     ],
+     [
+      "shape_e0.25",
+      "shape",
+      0.25,
+      null,
+      null
+     ],
+     [
+      "shape_e0.5",
+      "shape",
+      0.5,
+      null,
+      null
+     ],
+     [
+      "orient_e0.5_phi90_k20",
+      "orientation",
+      0.5,
+      90.0,
+      20
+     ]
+    ],
+    "designs": {
+     "seaad_weak": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.11,
+       "delta_methyl": 0.11,
+       "delta_protein": 0.11,
+       "group_stage_sizes": [
+        [
+         11,
+         10,
+         28
+        ],
+        [
+         9,
+         10,
+         12
+        ]
+       ],
+       "magnitude_kind": "joint",
+       "n_stages": 3,
+       "p_dmp": 0.1,
+       "span_layers": [
+        "methylation",
+        "expression"
+       ]
+      },
+      "layers": [
+       "methylation",
+       "expression"
+      ]
+     }
+    },
+    "driver_version": 1,
+    "min_components": 2,
+    "orientation_estimator": "net_displacement",
+    "permutations": 999,
+    "pls_cv_params": {
+     "cv1_splits": 3,
+     "cv2_splits": 4,
+     "max_components": 20,
+     "n_repeats": 5,
+     "random_state": 1203
+    },
+    "replicates": 100,
+    "weak_delta": {
+     "auroc_median": 0.6169166666666668,
+     "calibration_sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110",
+     "rule": "first_in_band",
+     "source": "calibration",
+     "value": 0.11
+    }
+   },
+   "control_cells": [
+    "anchor",
+    "translation"
+   ],
+   "driver_version": 1,
+   "parent": {
+    "dir": "results/latent-space-comparison-2026-11-04",
+    "permutations": 199,
+    "rate_table_sha256": "909bc1adf722ec52468314081e8d36477aaeafd13e31058a2994f5233ce40f9e",
+    "settings_hash": "db7fedf3292c42c94d3e44bf869d11a04676919e66a060caf5dc7ac7dd8e6d20",
+    "shared_replicates": 100
+   },
+   "permutations": 999,
+   "profile": "simulation",
+   "rejection": "p < alpha",
+   "replicates": {
+    "control": 500,
+    "other": 0
+   },
+   "reproduction_permutations": 199,
+   "split": {
+    "basis": "qr(x_rotations_) of the unit's pls_cv fit",
+    "coordinates": "standardized features in the PLS input coordinates (x - _x_mean) / _x_std",
+    "models": "full group x stage and reduced group + stage trajectory models",
+    "parts": [
+     "total",
+     "span",
+     "complement"
+    ],
+    "statistics": {
+     "f": "pseudo-F, uncorrected",
+     "ss": "interaction SS, uncorrected",
+     "ss_df": "SS, df"
+    }
+   }
+  }
+ }
+}
