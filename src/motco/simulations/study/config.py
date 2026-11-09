@@ -1716,6 +1716,7 @@ _DUMP_OMIT_WHEN_NONE = frozenset(
         "span_alignment",
         "span_support",
         "span_scale",
+        "latent_coordinates",
     }
 )
 

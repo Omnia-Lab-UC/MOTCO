@@ -72,6 +72,26 @@ class LinearLatentMap:
             transform=model.transform,
         )
 
+    @classmethod
+    def from_pls_orthonormal(cls, model: Any) -> "LinearLatentMap":
+        """The map of a fitted PLS model in orthonormal span coordinates.
+
+        Same input scaling and basis as :meth:`from_pls`, but ``transform`` is
+        ``inputs(rows)·basis`` instead of the model's (sheared) scores, so the
+        latent coordinates keep the lengths and angles of the input space
+        within the span.
+        """
+
+        scores = cls.from_pls(model)
+        center, scale, basis = scores.center, scores.scale, scores.basis
+        return cls(
+            method="pls",
+            center=center,
+            scale=scale,
+            basis=basis,
+            transform=lambda rows: ((np.asarray(rows, dtype=float) - center) / scale) @ basis,
+        )
+
     def inputs(self, rows: np.ndarray) -> np.ndarray:
         """Standardized joint rows in the map's input coordinates."""
 
