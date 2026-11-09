@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Per-feature interaction scan validation: size, familywise control and sparse power on the split-test units.
 
-The driver behind ``openspec/changes/interaction-feature-scan/`` (spec
+The driver behind ``openspec/changes/archive/2026-11-09-interaction-feature-scan/`` (spec
 ``interaction-scan-validation``, roadmap item 16, thread 3). Every test MOTCO
 had pooled the group × stage difference over many dimensions, so none saw a
 difference on a few features: the plasmode's 20-feature plant was rejected at

@@ -35,7 +35,7 @@ Neither sees a difference confined to a few features. The SEA-AD plasmode plante
   - a local smoke of both profiles at 2 × 19;
   - a timing run at 999 permutations: the scan alone takes 0.72 s at 80 × 10,000, under 1 % of a plasmode unit.
 
-Details are in `PROVENANCE.txt` and `openspec/changes/interaction-feature-scan/notes.md`.
+Details are in `PROVENANCE.txt` and `openspec/changes/archive/2026-11-09-interaction-feature-scan/notes.md`.
 
 ## 2. Accounting and reproduction
 
