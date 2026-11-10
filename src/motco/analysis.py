@@ -47,6 +47,14 @@ fitted in the weighted metric, ``delta`` is measured in it, and a
 ``block_weighting`` record block names the kind and the weights. It is
 unvalidated until the production latent-space selection reads it.
 
+``TrajectoryAnalysisParams.sparsity`` (a :class:`SparsitySettings`: scope
+``"joint"`` or ``"block"`` and a ladder of keep fractions) fits the latent
+space with sparse stage-PLS-DA (:class:`motco.stats.sparse_pls.SparsePLSDA`),
+whose components each load on a budget of features, cross-validated over the
+rank and the ladder jointly; a ``sparsity`` record block names the scope, the
+ladder, the selected fraction and the support per component and block. It is
+unvalidated until the production latent-space selection reads it.
+
 ``TrajectoryAnalysisParams.interaction_scan`` additionally tests the group ×
 stage interaction of every standardized feature on its own, combined by the
 maximum F with step-down max-T adjusted p-values
@@ -113,6 +121,7 @@ from motco.stats.design import (
 from motco.stats.interaction import INTERACTION_SCAN_ALPHA, interaction_feature_scan, interaction_split_test
 from motco.stats.permutation import RESIDUAL_CORRECTIONS, RRPP, residual_correction_scale
 from motco.stats.pls import NuisanceDesign
+from motco.stats.sparse_pls import DEFAULT_KEEP_FRACTIONS, SPARSITY_SCOPES, SparsityDesign
 from motco.stats.trajectory import estimate_betas, estimate_difference
 
 UnitTransform = Literal["identity", "beta_to_mvalue"]
@@ -386,6 +395,40 @@ class TrajectoryDataset:
 
 
 @dataclass(frozen=True)
+class SparsitySettings:
+    """Sparse stage-PLS-DA for the latent space: a budget scope and a ladder of keep fractions.
+
+    ``scope`` is ``"joint"`` (one budget over all features) or ``"block"``
+    (one budget per declared block, so every block keeps its share whatever
+    its size). ``keep_fractions`` (default 1.0, 0.5, 0.2, 0.1, 0.05) are
+    fractions of the scope's feature count, distinct and in (0, 1]; they are
+    held fullest first. The cross-validation selects the rank and the
+    fraction jointly; on an exact tie it keeps the fuller budget, so it leaves
+    the ordinary fit only on strictly better held-out AUROC.
+    """
+
+    scope: str
+    keep_fractions: tuple[float, ...] = DEFAULT_KEEP_FRACTIONS
+
+    def __post_init__(self) -> None:
+        if self.scope not in SPARSITY_SCOPES:
+            raise TrajectoryAnalysisError(
+                f"Unknown sparsity scope {self.scope!r}; allowed: {list(SPARSITY_SCOPES)}."
+            )
+        try:
+            # The ladder is validated alone; the block sizes come from the declared blocks.
+            ladder = SparsityDesign("joint", self.keep_fractions).keep_fractions
+        except ValueError as exc:
+            raise TrajectoryAnalysisError(f"sparsity: {exc}") from exc
+        object.__setattr__(self, "keep_fractions", ladder)
+
+    def integration_param(self) -> dict[str, Any]:
+        """The core's ``integration_params["sparsity"]`` value."""
+
+        return {"scope": self.scope, "keep_fractions": list(self.keep_fractions)}
+
+
+@dataclass(frozen=True)
 class TrajectoryAnalysisParams:
     """Measurement settings; the defaults are the simulation harness's.
 
@@ -441,6 +484,18 @@ class TrajectoryAnalysisParams:
     mapping divides by the weights. An unknown kind is rejected before any
     fitting, and the setting is omitted from :meth:`to_dict` while ``None``.
     Unvalidated until the production latent-space selection reads it.
+
+    ``sparsity`` (``None`` or a :class:`SparsitySettings`) fits the latent
+    space with sparse stage-PLS-DA: every component loads on the selected
+    fraction of the features (``joint``) or of each declared block
+    (``block``), the rank and the fraction are cross-validated jointly, and
+    the final model is a :class:`motco.stats.sparse_pls.SparsePLSDA`.
+    Attribution, the split test and the interaction scan run unchanged on it,
+    and it composes with latent adjustment and block weighting; with
+    ``forced_components`` the ladder must hold one fraction. A malformed
+    setting is rejected before any fitting, and the setting is omitted from
+    :meth:`to_dict` while ``None``. Unvalidated until the production
+    latent-space selection reads it.
     """
 
     permutations: int = 0
@@ -461,6 +516,7 @@ class TrajectoryAnalysisParams:
     span_split_test: bool = False
     interaction_scan: bool = False
     block_weighting: str | None = None
+    sparsity: SparsitySettings | None = None
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -483,6 +539,17 @@ class TrajectoryAnalysisParams:
             raise TrajectoryAnalysisError(
                 f"Unknown block_weighting {self.block_weighting!r}; allowed: {list(BLOCK_WEIGHTINGS)} or None."
             )
+        if self.sparsity is not None:
+            if not isinstance(self.sparsity, SparsitySettings):
+                raise TrajectoryAnalysisError(
+                    f"sparsity must be a SparsitySettings or None, got {type(self.sparsity).__name__}."
+                )
+            if self.forced_components is not None and len(self.sparsity.keep_fractions) > 1:
+                raise TrajectoryAnalysisError(
+                    f"forced_components={self.forced_components} skips cross-validation, so the sparsity "
+                    f"ladder {list(self.sparsity.keep_fractions)} cannot be selected over; give a single "
+                    "keep fraction."
+                )
         if self.orientation_estimator not in EVALUATION_ORIENTATION_ESTIMATORS:
             raise TrajectoryAnalysisError(
                 f"Unknown orientation_estimator {self.orientation_estimator!r}; allowed: "
@@ -519,6 +586,9 @@ class TrajectoryAnalysisParams:
         if self.block_weighting is None:
             # Absent means unweighted blocks (0.20.0): its resolved parameters stay byte-identical.
             data.pop("block_weighting")
+        if self.sparsity is None:
+            # Absent means ordinary PLS-DA (0.21.0): its resolved parameters stay byte-identical.
+            data.pop("sparsity")
         return data
 
     @property
@@ -664,6 +734,8 @@ def analyze_trajectories(
         integration_params["forced_components"] = params.forced_components
     if params.block_weighting is not None:
         integration_params["block_weighting"] = params.block_weighting
+    if params.sparsity is not None:
+        integration_params["sparsity"] = params.sparsity.integration_param()
     nuisance = _latent_nuisance(working, covariates, params.covariate_latent_adjustment)
     sample_ids = dataset.sample_ids
     try:
@@ -792,6 +864,7 @@ def analyze_trajectories(
         "null_summary": null_summary,
         "config_spectrum": config_spectrum,
         "latent": latent.metadata,
+        **({"sparsity": latent.metadata["sparsity"]} if "sparsity" in latent.metadata else {}),
         "design": {
             "group_col": dataset.group_col,
             "stage_col": dataset.stage_col,
@@ -1322,6 +1395,7 @@ __all__ = [
     "ANALYSIS_SCHEMA_VERSION",
     "MISSING_COVARIATE_POLICIES",
     "OmicsBlock",
+    "SparsitySettings",
     "TrajectoryAnalysisError",
     "TrajectoryAnalysisParams",
     "TrajectoryAnalysisResult",

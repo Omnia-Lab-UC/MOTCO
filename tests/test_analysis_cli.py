@@ -468,6 +468,48 @@ def test_analyze_block_weighting_help_and_choices(capsys: pytest.CaptureFixture)
     assert "invalid choice: 'pareto'" in capsys.readouterr().err
 
 
+def test_analyze_sparsity_round_trip(tmp_path: Path, analyze_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--permutations", "9",
+                       "--seed", "1", "--sparsity", "block", "--sparsity-ladder", "1.0,0.2"))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert record["sparsity"]["scope"] == "block"
+    assert record["sparsity"]["keep_fractions"] == [1.0, 0.2]
+    assert record["params"]["sparsity"] == {"scope": "block", "keep_fractions": [1.0, 0.2]}
+    fraction = record["sparsity"]["selected_keep_fraction"]
+    assert fraction in (1.0, 0.2)
+    assert f"; block sparsity, keep fraction {fraction:g})" in capsys.readouterr().out
+
+
+def test_analyze_sparsity_default_ladder(tmp_path: Path, analyze_files) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--sparsity", "joint"))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert record["sparsity"]["keep_fractions"] == [1.0, 0.5, 0.2, 0.1, 0.05]
+
+
+def test_analyze_sparsity_ladder_requires_sparsity(tmp_path: Path, analyze_files) -> None:
+    with pytest.raises(SystemExit, match=r"--sparsity-ladder requires --sparsity"):
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--sparsity-ladder", "1.0,0.2"))
+    with pytest.raises(SystemExit, match=r"expects comma-separated fractions, got 'half'"):
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--sparsity", "joint", "--sparsity-ladder", "half"))
+    with pytest.raises(SystemExit, match=r"keep fraction 2\.0 is outside \(0, 1\]"):
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--sparsity", "joint", "--sparsity-ladder", "1.0,2.0"))
+    assert not (tmp_path / "out").exists()
+
+
+def test_analyze_without_sparsity_prints_and_records_nothing(tmp_path: Path, analyze_files,
+                                                             capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2"))
+    assert "keep fraction" not in capsys.readouterr().out
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "sparsity" not in record and "sparsity" not in record["params"]
+
+
 def test_analyze_interaction_scan_without_permutations(tmp_path: Path, analyze_files,
                                                        capsys: pytest.CaptureFixture) -> None:
     out_dir = tmp_path / "out"

@@ -6,7 +6,7 @@ The production latent space is stage-PLS-DA on every pooled-standardized feature
 
 ## What Changes
 
-- **A sparse PLS-DA estimator** (`motco.stats.sparse_pls.SparsePLSDA`) with the surface MOTCO reads off `PLSRegression` (`x_weights_`, `x_loadings_`, `y_loadings_`, `x_rotations_`, `x_scores_`, `_x_mean`, `_x_std`, `transform`, `inverse_transform`, `predict`), so the latent map, span capture, attribution, VIPs, the split test, the residual-PCA diagnostic and the orthonormal coordinates work unchanged. Per component it soft-thresholds the X weight vector to a budget of features (the sPLS-DA of Lê Cao et al.), in one of two scopes:
+- **A sparse PLS-DA estimator** (`motco.stats.sparse_pls.SparsePLSDA`, a `PLSRegression` subclass that reuses scikit-learn's PLS fit and changes only the weight step) with the surface MOTCO reads off `PLSRegression` (`x_weights_`, `x_loadings_`, `y_loadings_`, `x_rotations_`, `x_scores_`, `_x_mean`, `_x_std`, `transform`, `inverse_transform`, `predict`), so the latent map, span capture, attribution, VIPs, the split test, the residual-PCA diagnostic and the orthonormal coordinates work unchanged. Per component it soft-thresholds the X weight vector to a budget of features (the sPLS-DA of Lê Cao et al.), in one of two scopes:
   - `joint`: one budget over all features;
   - `block`: one budget per block, so every block keeps its share whatever its size (the per-block sparsity of multi-block sPLS-DA, without its between-block agreement term).
 

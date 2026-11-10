@@ -343,6 +343,32 @@ records, cell ids and signatures are byte-identical to 0.20.0; as an integration
 the study-config axis `evaluation.integration_params.block_weighting`. The setting is unvalidated: its
 size and power check is the `weighted` arm of the production latent-space selection.
 
+**Sparse stage-PLS.** `integration_params["sparsity"]` (0.22.0) fits the `pls` space with
+[`SparsePLSDA`](pls.md#sparse-pls-da), whose components each load on a budget of features. The value is
+`{"scope": "joint" | "block", "keep_fractions": [...]}`: `joint` counts one budget over all measured
+features, `block` one per measured block (every block keeps its share whatever its size); the optional
+ladder of keep fractions (distinct, in (0, 1], held fullest first) defaults to `1.0, 0.5, 0.2, 0.1, 0.05`,
+and a fraction keeps `max(1, round(f · p))` features per group. The double CV selects the rank and the
+fraction jointly (`plsda_doubleCV(..., sparsity=)`: ties to the smaller rank, then the fuller budget), the
+block membership is the measured blocks in concatenation order (`layer_feature_counts`, never parsed
+from column names), and the final model is fitted at the modal rank and the modal fraction (the fuller on
+ties) with the path's `scale`. The latent metadata records `integration_params.sparsity` (scope and
+ladder) and `integration_params.selected_keep_fraction`, and a top-level `sparsity` block adds, per
+component, the support size per block. It composes with the rank floor, the latent adjustment
+(residualized fit, raw projection), `latent_coordinates="orthonormal"` (the basis spans the sparse
+rotations) and block weighting (`scale=False`). A forced rank skips the CV, so it needs a one-element
+ladder (the model is fitted at it); a longer ladder is rejected before any preprocessing, naming both.
+`pls_residual_pca` builds its residual axes on the sparse PLS fit; `pls_residual_pca_from_pls`,
+`pls_orthonormal_from_pls`, span capture and attribution run unchanged on it, and a prebuilt latent or
+PLS fit with another sparsity setting is refused. Any other integration method, and a malformed value
+(not a mapping, an unknown key or scope, a fraction outside (0, 1], a repeated fraction, an empty
+ladder), is rejected before any preprocessing, naming the offence. Absent, nothing changes: no metadata
+entry is written, the production space is `PLSRegression` and records, cell ids and signatures are
+byte-identical to 0.21.0; as an integration parameter it is already the study-config axis
+`evaluation.integration_params.sparsity`. A ladder of `[1.0]` reproduces the production space exactly. The
+setting is unvalidated: its size and power check is the `sparse_block` arms of the production
+latent-space selection.
+
 **Orientation estimator.** `orientation_estimator` selects how each group's orientation is measured
 for the observed `angle`, every RRPP draw and every realized-geometry checkpoint `angle`. The default
 is `"net_displacement"` (the unit vector from the first to the last stage mean), adopted after the

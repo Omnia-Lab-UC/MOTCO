@@ -62,7 +62,8 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `statistics`, `p_values` | `delta`, `angle`, `shape` and their RRPP p-values (`shape` is `null` with two stages) |
 | `null_summary` | per statistic: retained draws, mean, sd, 50/90/95/99 % quantiles of the permutation null |
 | `config_spectrum` | eigenspectrum of the latent stage-mean configuration, pooled and per group, plus the permutation eigengap summary |
-| `latent` | `selected_lv`, `component_selection`, CV settings (`min_components` beside them when the floor is above 1, `block_weighting` when set), `cv_mean_auroc`, feature counts, `feature_order_signature` |
+| `latent` | `selected_lv`, `component_selection`, CV settings (`min_components` beside them when the floor is above 1, `block_weighting` when set, `sparsity` and `selected_keep_fraction` when set), `cv_mean_auroc`, feature counts, `feature_order_signature` |
+| `sparsity` | only with [sparse stage-PLS](#sparse-stage-pls): the scope, the ladder, the selected keep fraction and, per component, the support size per block |
 | `design` | group and ordered stage levels, cell sizes per group × stage, contrast, analysed sample count |
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
@@ -685,6 +686,55 @@ motco analyze ... --permutations 999 --seed 1 --block-weighting equal_variance
   `weighted` arm of the production latent-space selection, and the case study
   may not use it before that reading. An unknown kind is rejected before
   anything is fitted.
+
+## Sparse stage-PLS
+
+The production space loads every component on every feature. At a weak stage
+signal on many features the fitted span is mostly noise; the opt-in sparse
+stage-PLS-DA keeps the stage objective and the rank rule and adds one
+regularization, the number of features each component may load on, selected
+by the same held-out AUROC:
+
+```python
+from motco.analysis import SparsitySettings
+
+params = TrajectoryAnalysisParams(permutations=999, seed=1, sparsity=SparsitySettings("block"))
+```
+
+```bash
+motco analyze ... --permutations 999 --seed 1 --sparsity block --sparsity-ladder 1.0,0.5,0.2,0.1,0.05
+```
+
+- **Budget.** Every component's weight vector keeps the features with the
+  largest absolute weights, shrunk by the largest discarded one (the sPLS-DA
+  of Lê Cao et al.; [`SparsePLSDA`](pls.md#sparse-pls-da)). `joint` counts one
+  budget over all features; `block` one per declared block, so every block
+  keeps its share whatever its size. A keep fraction *f* keeps
+  `max(1, round(f · p))` features per group.
+- **Selection.** The cross-validation scores every pair of a candidate rank
+  and a fraction of the ladder (default `1.0, 0.5, 0.2, 0.1, 0.05`; distinct,
+  in (0, 1]) and keeps, on an exact tie, the smaller rank and then the fuller
+  budget, so it leaves the ordinary fit only on strictly better held-out
+  AUROC. The final model is fitted at the modal rank and the modal fraction.
+  A ladder of `1.0` alone reproduces the ordinary analysis exactly.
+  `forced_components` skips the cross-validation, so it needs a one-element
+  ladder.
+- **Record.** A `sparsity` block after `latent` names the scope, the ladder,
+  the selected fraction and each component's support per block;
+  `latent.integration_params` carries the scope, the ladder and the selected
+  fraction, and the CLI prints the fraction beside the selected rank.
+  `pls_loadings.csv` shows the features no component loads on at zero.
+- **Composition.** Attribution, the [split interaction test](#split-interaction-test),
+  the [per-feature scan](#per-feature-interaction-scan) (which never reads the
+  fit), [latent adjustment](#latent-adjustment) and [block weighting](#block-weighting)
+  run unchanged on a sparse space.
+- **Absent.** Nothing is written and every output equals MOTCO 0.21.0's
+  (`tests/test_analysis_identity.py`, `tests/test_analysis_sparsity.py`).
+- **Status.** The setting is **unvalidated until the production latent-space
+  selection reads it**: its size, specificity and power against production are
+  that selection's `sparse_block` arms, and the case study may not use it
+  before that reading. A malformed setting is rejected before anything is
+  fitted.
 
 ## Example: SEA-AD-style design
 

@@ -47,7 +47,7 @@ The fitted estimator SHALL expose the X weights, X loadings, Y loadings, X rotat
 The fit SHALL be deterministic (no random state) and SHALL agree with the committed reference fixture produced once by the reference implementation of sparse PLS-DA (regression mode, no per-feature rescaling): the support of every component's weight vector equal, and the weights and scores equal to 1e-6 up to column signs. No external software SHALL be needed at test time.
 
 #### Scenario: Reference fixture
-- **WHEN** the estimator is fitted on the fixture's rows at its rank and budgets
+- **WHEN** the estimator is fitted on the fixture's rows at its rank and budgets, iterated to the fixture's convergence tolerance
 - **THEN** every component's support equals the fixture's and the weights and scores agree to 1e-6 up to column signs
 
 ### Requirement: Malformed budgets are rejected before fitting

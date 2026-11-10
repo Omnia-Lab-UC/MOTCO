@@ -4,6 +4,8 @@ Modules
 -------
 pls
     Partial Least Squares (PLS-DA) utilities.
+sparse_pls
+    Sparse PLS-DA: components loading on a budget of features, jointly or per block.
 snf
     Similarity Network Fusion and spectral embedding.
 design
@@ -47,6 +49,7 @@ from .interaction import (  # noqa: F401
 from .permutation import RRPP  # noqa: F401
 from .pls import calculate_vips, fit_plsda_model, fit_plsda_transform, plsda_doubleCV  # noqa: F401
 from .snf import SNF, get_affinity_matrix, get_spectral  # noqa: F401
+from .sparse_pls import DEFAULT_KEEP_FRACTIONS, SPARSITY_SCOPES, SparsePLSDA, SparsityDesign  # noqa: F401
 from .trajectory import (  # noqa: F401
     configuration_spectra,
     configuration_spectrum,
@@ -63,6 +66,11 @@ __all__ = [
     "calculate_vips",
     "fit_plsda_model",
     "fit_plsda_transform",
+    # sparse_pls
+    "DEFAULT_KEEP_FRACTIONS",
+    "SPARSITY_SCOPES",
+    "SparsePLSDA",
+    "SparsityDesign",
     # design
     "build_ls_means",
     "center_matrix",

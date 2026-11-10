@@ -253,6 +253,7 @@ def _covariate_declarations(specs: list[tuple[str, bool]] | None) -> tuple[list[
 def cmd_analyze(args: argparse.Namespace) -> None:
     from motco.analysis import (
         OmicsBlock,
+        SparsitySettings,
         TrajectoryAnalysisParams,
         TrajectoryDataset,
         analyze_trajectories,
@@ -282,6 +283,16 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             "Error: --span-split-test is not available with --latent-adjustment: the split interaction test is "
             "defined on the covariate-blind basis."
         )
+    if args.sparsity_ladder is not None and args.sparsity is None:
+        raise SystemExit("Error: --sparsity-ladder requires --sparsity {joint,block}.")
+    ladder: tuple[Any, ...] | None = None
+    if args.sparsity_ladder is not None:
+        try:
+            ladder = tuple(float(value) for value in _split_labels(args.sparsity_ladder) or [])
+        except ValueError:
+            raise SystemExit(
+                f"Error: --sparsity-ladder expects comma-separated fractions, got {args.sparsity_ladder!r}."
+            ) from None
 
     try:
         metadata = pd.read_csv(args.metadata)
@@ -327,6 +338,13 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             span_split_test=args.span_split_test,
             interaction_scan=args.interaction_scan,
             block_weighting=args.block_weighting,
+            sparsity=(
+                None
+                if args.sparsity is None
+                else SparsitySettings(args.sparsity)
+                if ladder is None
+                else SparsitySettings(args.sparsity, ladder)
+            ),
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -336,9 +354,14 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     record = result.record
     latent = record["latent"]
     weighting = f"; block weighting {params.block_weighting}" if params.block_weighting is not None else ""
+    sparsity = (
+        f"; {record['sparsity']['scope']} sparsity, keep fraction {record['sparsity']['selected_keep_fraction']:g}"
+        if "sparsity" in record
+        else ""
+    )
     print(
         f"Latent space: PLS-DA, {latent['selected_lv']} component(s) "
-        f"({latent['component_selection']}; rank floor {params.resolved_min_components}{weighting}); "
+        f"({latent['component_selection']}; rank floor {params.resolved_min_components}{weighting}{sparsity}); "
         f"orientation estimator: {record['measurement']['orientation_estimator']}"
     )
     print(f"Groups: {record['design']['group_levels']}; stages: {record['design']['stage_levels']}")
@@ -634,6 +657,13 @@ def build_parser() -> argparse.ArgumentParser:
                            "fitted: equal_variance (1/sqrt(features), unit total variance per block) or mfa (unit "
                            "variance of each block's leading principal component). delta is then in the weighted "
                            "metric. Unvalidated. Default: off (unweighted)")
+    p_an.add_argument("--sparsity", type=str, default=None, choices=["joint", "block"],
+                      help="Fit sparse stage-PLS-DA: every component loads on a budget of features, over all "
+                           "features (joint) or per block (block); CV selects the rank and the keep fraction "
+                           "jointly. Unvalidated. Default: off (ordinary PLS-DA)")
+    p_an.add_argument("--sparsity-ladder", type=str, default=None, metavar="F1,F2,...",
+                      help="Keep fractions CV selects over, in (0, 1] (requires --sparsity; default: "
+                           "1.0,0.5,0.2,0.1,0.05)")
     p_an.add_argument("--orientation-estimator", type=str, default="net_displacement",
                       choices=["net_displacement", "pc1"], help="Orientation estimator (default: net_displacement)")
     p_an.add_argument("--attribution", action="store_true", help="Run frozen-model orientation attribution")
