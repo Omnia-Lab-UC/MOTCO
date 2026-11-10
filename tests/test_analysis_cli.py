@@ -422,6 +422,42 @@ def test_analyze_interaction_scan(tmp_path: Path, covariate_files, capsys: pytes
     assert str(out_dir / "interaction_scan.csv") in printed
 
 
+def test_analyze_interaction_scan_by_block(tmp_path: Path, covariate_files, capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(covariate_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--covariate", "age_at_death", "--covariate", "pmi",
+                       "--categorical-covariate", "education_level", "--missing-covariates", "complete_case",
+                       "--permutations", "99", "--seed", "1", "--residual-correction", "df", "--interaction-scan",
+                       "--interaction-scan-by-block"))
+    record = json.loads((out_dir / "result.json").read_text())
+    scan = record["interaction_scan"]
+    assert scan["combination"] == "block_bonferroni" and scan["n_blocks_tested"] == 2
+    assert record["params"]["interaction_scan_by_block"] is True
+    for values in scan["blocks"].values():
+        assert {"max_f", "max_feature", "p_value"} <= set(values)
+    table = pd.read_csv(out_dir / "interaction_scan.csv")
+    assert list(table.columns[:7]) == ["block", "feature", "ss_interaction", "rss", "f", "p_value_adjusted",
+                                       "degenerate"]
+    assert table["p_value_adjusted"].min() == pytest.approx(scan["p_value_global"])
+    printed = capsys.readouterr().out
+    assert (
+        f"Interaction scan (25 features; block_bonferroni over 2 block(s)): max F {scan['max_f']:.4g} "
+        f"({scan['max_block']}/{scan['max_feature']}); global p = {scan['p_value_global']:.4g}; "
+        f"{len(scan['hits'])} feature(s) at adjusted p <= 0.05"
+    ) in printed
+
+
+def test_analyze_interaction_scan_by_block_requires_the_scan(tmp_path: Path, analyze_files,
+                                                             capsys: pytest.CaptureFixture) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--interaction-scan-by-block"))
+    assert exc.value.code != 0
+    assert "--interaction-scan-by-block requires --interaction-scan" in str(exc.value.code)
+    assert "Traceback" not in capsys.readouterr().err
+    assert not (tmp_path / "out").exists()
+
+
 def test_analyze_interaction_scan_with_latent_adjustment(tmp_path: Path, covariate_files,
                                                          capsys: pytest.CaptureFixture) -> None:
     out_dir = tmp_path / "out"

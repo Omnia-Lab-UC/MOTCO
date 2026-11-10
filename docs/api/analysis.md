@@ -70,7 +70,7 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `block_weighting` | only with a [block weighting](#block-weighting): the kind and each block's name, fitted weight and feature count |
 | `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
 | `span_split` | only with the [split interaction test](#split-interaction-test): per part (`total`, `span`, `complement`) the dimension, interaction and residual sums of squares, degrees of freedom, pseudo-F and, with permutations, the pseudo-F and interaction-SS p-values; the in-span share, the residual correction, permutations, seed and `draws_match_rrpp` |
-| `interaction_scan` | only with the [per-feature interaction scan](#per-feature-interaction-scan): feature and degenerate counts, df, the maximum F with its feature and block and, with permutations, the global p-value, the hits at adjusted p ≤ 0.05 (block, feature, F, adjusted p, by F), per block the hit count and the share of null maxima, and `draws_match_rrpp`; permutations, seed and residual correction |
+| `interaction_scan` | only with the [per-feature interaction scan](#per-feature-interaction-scan): feature and degenerate counts, df, the maximum F with its feature and block and, with permutations, the global p-value, the hits at adjusted p ≤ 0.05 (block, feature, F, adjusted p, by F), per block the hit count and the share of null maxima, and `draws_match_rrpp`; permutations, seed and residual correction. [By block](#by-block) it also gives `combination`, `n_blocks_tested` and per block the maximum F with its feature and the block's own p-value |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
 | `attribution` | the compact attribution record, or a `not_requested` marker |
 
@@ -642,6 +642,52 @@ or adjusted p-value and never enter the maximum.
   trajectory difference, and a scan without hits is uninformative unless power
   is shown. See [measurement visibility](../measurement-visibility.md) for the
   reading and the validation status.
+
+### By block
+
+The joint scan's familywise bar is set by the block that most often gives the
+largest null F (on the SEA-AD export ATAC gave 0.62 of the null maxima with
+half the features). The opt-in by-block scan splits the familywise error
+equally between the declared blocks:
+
+```python
+params = TrajectoryAnalysisParams(
+    permutations=999, seed=1, residual_correction="df", interaction_scan=True, interaction_scan_by_block=True
+)
+```
+
+```bash
+motco analyze ... --permutations 999 --seed 1 --residual-correction df --interaction-scan --interaction-scan-by-block
+```
+
+It runs the same scan with the declared blocks as block labels
+(`combination="block_bonferroni"`, see the
+[primitive](sd.md#by-block)): the step-down within each block on the same
+draws, and each of the K blocks with a non-degenerate feature tested at α/K.
+
+- **Requires the scan.** `interaction_scan_by_block=True` without
+  `interaction_scan=True` is rejected before any fitting, naming both
+  (`motco analyze` exits with a clean error naming both flags). The setting is
+  omitted from the resolved parameters while false.
+- **Record.** The `interaction_scan` block gains `combination` and
+  `n_blocks_tested` after `max_block`, and each per-block entry gains `max_f`
+  and `max_feature` (`null` for a wholly degenerate block) and, with
+  permutations, `p_value`, the block's own global p-value before the factor K.
+  `p_value_global` and `hits` are the by-block ones; `max_f`, `max_feature`,
+  `max_block`, the per-block hit counts and `null_max_share` keep their
+  meaning. The CLI's scan line names the combination and K.
+- **Table.** `interaction_scan.csv` keeps its columns; `p_value_adjusted` holds
+  the by-block adjusted p-values, and the F and group differences are
+  unchanged.
+- **Unchanged outputs.** Every output other than the scan's p-values and hits
+  is identical between the joint and by-block scans, and without the setting
+  every output equals MOTCO 0.22.0's (`tests/test_analysis_scan_by_block.py`,
+  `tests/test_analysis_identity.py`).
+- **Reading.** A by-block hit keeps the familywise error over all scanned
+  features at 0.05, now split equally across the blocks, so each block has the
+  same chance of a false hit whatever its size or noise. Detection moves from
+  the block with more features or heavier-tailed noise to the others.
+  Validation status: see [measurement visibility](../measurement-visibility.md).
 
 ## Block weighting
 

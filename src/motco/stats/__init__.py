@@ -40,6 +40,7 @@ from .attribution import (  # noqa: F401
 )
 from .design import build_ls_means, center_matrix, get_model_matrix  # noqa: F401
 from .interaction import (  # noqa: F401
+    InteractionScanBlock,
     InteractionScanResult,
     InteractionSplitPart,
     InteractionSplitResult,
@@ -102,6 +103,7 @@ __all__ = [
     # permutation
     "RRPP",
     # interaction
+    "InteractionScanBlock",
     "InteractionScanResult",
     "InteractionSplitPart",
     "InteractionSplitResult",

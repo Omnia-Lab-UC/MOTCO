@@ -34,12 +34,21 @@ Westfall–Young step-down max-T adjusted p-value, which controls the
 familywise error rate over the scanned features. The draws, models and
 residual corrections are the split test's. A draw costs one ``rank(F) × n``
 by ``n × p`` product, and no permuted ``n × p`` outcome is formed.
+
+Given a block label per column, the scan instead shares the familywise error
+equally between the blocks (``block_bonferroni``): the step-down runs within
+each block on the same draws, and with K blocks holding a non-degenerate
+feature, a feature's adjusted p-value is K times its within-block value and
+the global p-value K times the smallest block global p-value (both capped at
+1). Each block is tested at α/K whatever its size or noise, so a block with
+many features, or with heavier-tailed null F, no longer sets every block's
+bar. One label on every column reproduces the joint scan.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Optional, Union
+from typing import Any, Hashable, Optional, Sequence, Union
 
 import numpy as np
 import pandas as pd
@@ -57,6 +66,9 @@ _NESTED_TOLERANCE = 1e-8
 
 #: Adjusted p-value at or below which the feature scan calls a feature a hit.
 INTERACTION_SCAN_ALPHA = 0.05
+
+#: How the feature scan combines its features: one maximum over all of them, or Bonferroni over blocks.
+INTERACTION_SCAN_COMBINATIONS: tuple[str, ...] = ("joint", "block_bonferroni")
 
 # Full-model RSS, relative to the centred sum of squares, at or below which a feature is degenerate.
 _DEGENERATE_TOLERANCE = 1e-12
@@ -139,6 +151,58 @@ class InteractionSplitResult:
 
 
 @dataclass(frozen=True, eq=False)
+class InteractionScanBlock:
+    """One block of a by-block feature scan.
+
+    ``columns`` are the block's outcome columns (ascending). ``max_f`` and
+    ``max_column`` are the largest F over its non-degenerate columns and the
+    column attaining it (ties to the lower column index); both are ``None``
+    when every column of the block is degenerate, and such a block is not
+    tested. With permutations, ``p_value`` is the block's own global p-value
+    ``(1 + #{draws whose largest null F over the block ≥ max_f}) / (1 +
+    permutations)``, before the factor K, and ``null_max_f`` holds each draw's
+    largest null F over the block.
+    """
+
+    name: str
+    columns: np.ndarray = field(repr=False)
+    n_degenerate: int
+    max_f: float | None
+    max_column: int | None
+    p_value: float | None = None
+    null_max_f: np.ndarray | None = field(default=None, repr=False)
+
+    @property
+    def n_features(self) -> int:
+        return int(self.columns.size)
+
+    @property
+    def tested(self) -> bool:
+        """Whether the block has a non-degenerate feature, and so counts in K."""
+
+        return self.max_column is not None
+
+    def to_dict(self, *, with_p_value: bool | None = None) -> dict[str, Any]:
+        """Name, counts, the maximum and, with permutations, the block's own global p-value.
+
+        ``with_p_value`` says whether the scan drew permutations (an untested block then has a
+        ``None`` p-value); by default it is read from the block's null maxima.
+        """
+
+        payload: dict[str, Any] = {
+            "name": self.name,
+            "n_features": self.n_features,
+            "n_degenerate": self.n_degenerate,
+            "max_f": self.max_f,
+            "max_column": self.max_column,
+        }
+        drawn = self.null_max_f is not None if with_p_value is None else with_p_value
+        if drawn:
+            payload["p_value"] = self.p_value
+        return payload
+
+
+@dataclass(frozen=True, eq=False)
 class InteractionScanResult:
     """The per-feature interaction scan: one F per outcome column and their maximum.
 
@@ -155,6 +219,16 @@ class InteractionScanResult:
     the column attaining it. ``null_f`` (draws × columns, ``NaN`` where
     degenerate) is kept only when requested. Without permutations all of these
     are ``None``.
+
+    ``combination`` is ``"joint"`` for a scan without block labels and
+    ``"block_bonferroni"`` with them. A by-block scan also has ``blocks``, one
+    :class:`InteractionScanBlock` per label in order of first appearance, and
+    ``n_blocks_tested`` (K, the blocks with a non-degenerate feature); its
+    ``p_value_adjusted`` is ``min(1, K · the within-block step-down value)``,
+    its ``p_value_global`` is ``min(1, K · the smallest block p-value)`` (the
+    smallest adjusted p-value), and ``null_block_max_f`` (draws × K, the tested
+    blocks in order) holds every draw's block maxima. ``max_f``,
+    ``max_column``, ``null_max_f`` and ``null_max_column`` stay the joint ones.
     """
 
     ss_interaction: np.ndarray
@@ -173,10 +247,20 @@ class InteractionScanResult:
     null_max_f: np.ndarray | None = field(default=None, repr=False)
     null_max_column: np.ndarray | None = field(default=None, repr=False)
     null_f: np.ndarray | None = field(default=None, repr=False)
+    combination: str = "joint"
+    blocks: tuple[InteractionScanBlock, ...] | None = field(default=None, repr=False)
+    n_blocks_tested: int | None = None
+    null_block_max_f: np.ndarray | None = field(default=None, repr=False)
 
     @property
     def n_features(self) -> int:
         return int(self.f.size)
+
+    @property
+    def block_names(self) -> tuple[str, ...] | None:
+        """The block names in order of first appearance, ``None`` for a joint scan."""
+
+        return None if self.blocks is None else tuple(block.name for block in self.blocks)
 
     @property
     def n_degenerate(self) -> int:
@@ -201,7 +285,10 @@ class InteractionScanResult:
         return columns[np.lexsort((columns, -self.f[columns]))]
 
     def to_dict(self) -> dict[str, Any]:
-        """Counts, df, the maximum and, with permutations, the global p-value and the hits by column index."""
+        """Counts, df, the maximum and, with permutations, the global p-value and the hits by column index.
+
+        A by-block scan adds ``combination``, ``n_blocks_tested`` and one entry per block.
+        """
 
         payload: dict[str, Any] = {
             "n_features": self.n_features,
@@ -215,6 +302,11 @@ class InteractionScanResult:
             "seed": self.seed,
             "residual_correction": self.residual_correction,
         }
+        if self.blocks is not None:
+            payload["combination"] = self.combination
+            payload["n_blocks_tested"] = self.n_blocks_tested
+            drawn = self.p_value_adjusted is not None
+            payload["blocks"] = [block.to_dict(with_p_value=drawn) for block in self.blocks]
         if self.p_value_adjusted is not None:
             assert self.p_value_global is not None
             payload["p_value_global"] = self.p_value_global
@@ -366,6 +458,7 @@ def interaction_feature_scan(
     seed: Optional[int] = None,
     residual_correction: Optional[str] = None,
     return_null: bool = False,
+    blocks: Optional[Sequence[Hashable]] = None,
 ) -> InteractionScanResult:
     """Test the group × stage interaction feature by feature, combined by the maximum F.
 
@@ -391,6 +484,17 @@ def interaction_feature_scan(
     and the adjusted p-value is the running maximum down the order. The top
     feature's adjusted p-value is the global p-value.
 
+    With ``blocks`` (one label per column), the familywise error is split
+    equally between the K blocks that hold a non-degenerate feature. Within
+    each block the same step-down runs on the block's features alone, on the
+    same draws and the same per-draw F, giving p⁽ᵏ⁾; a feature's adjusted
+    p-value is ``min(1, K · p⁽ᵏ⁾)``, block k's own global p-value p_k is its
+    top feature's p⁽ᵏ⁾, and the global p-value is ``min(1, K · min_k p_k)``.
+    Each block's step-down controls its familywise error, so testing each at
+    α/K controls it over all features by the union bound, whatever the
+    dependence between blocks. One label on every column gives the joint scan
+    exactly.
+
     Parameters
     ----------
     Y: Union[pd.DataFrame, np.ndarray]
@@ -410,6 +514,9 @@ def interaction_feature_scan(
         so it leaves every null F and p-value unchanged.
     return_null: bool
         Keep the draws × columns null F.
+    blocks: Optional[Sequence[Hashable]]
+        One block label per outcome column, for the by-block combination (``block_bonferroni``); the
+        blocks are named ``str(label)`` in order of first appearance. ``None`` runs the joint scan.
 
     Returns
     -------
@@ -420,7 +527,8 @@ def interaction_feature_scan(
     ValueError
         Before any draw, for inputs whose rows disagree, non-finite values, models that are not nested,
         a non-positive df_int or df_res, a negative permutation count, an unknown or undefined residual
-        correction, or an outcome whose every column is degenerate.
+        correction, block labels that do not give one label per column, or an outcome whose every column
+        is degenerate.
     """
 
     outcome = np.asarray(Y, dtype=float)
@@ -429,6 +537,7 @@ def interaction_feature_scan(
     named = (("Y", outcome), ("model_full", full), ("model_reduced", reduced))
     _check_two_dimensional(named)
     _check_rows(outcome, full, reduced)
+    labels = None if blocks is None else _block_labels(blocks, outcome.shape[1])
     _check_finite(named)
     _check_permutations(permutations)
     n, p = outcome.shape
@@ -455,6 +564,7 @@ def interaction_feature_scan(
     observed_sorted = f_values[order]
     max_column = int(order[0])
     max_f = float(observed_sorted[0])
+    layout = None if labels is None else _block_layout(labels, valid, f_values)
     if permutations == 0:
         return InteractionScanResult(
             ss_interaction=ss,
@@ -468,6 +578,7 @@ def interaction_feature_scan(
             permutations=int(permutations),
             seed=seed,
             residual_correction=residual_correction,
+            **({} if layout is None else _block_fields(layout, f_values, degenerate)),
         )
 
     permuted = residuals[:, order]
@@ -479,6 +590,7 @@ def interaction_feature_scan(
     null_max_f = np.empty(permutations)
     null_max_column = np.empty(permutations, dtype=np.int64)
     null_f = np.full((permutations, p), np.nan) if return_null else None
+    step_down = None if layout is None else _BlockStepDown(layout, order, f_values, permutations)
     rng = np.random.default_rng(seed)
     for draw in range(permutations):
         idx = rng.permutation(n)
@@ -487,15 +599,29 @@ def interaction_feature_scan(
         draw_f = _pseudo_f(draw_ss, draw_rss, df_interaction, df_residual)
         # 0 / 0 (a permuted column inside col(reduced)) carries no interaction.
         draw_f = np.where(np.isnan(draw_f), 0.0, draw_f)
-        suffix_max = np.maximum.accumulate(draw_f[::-1])[::-1]
-        exceed += suffix_max >= observed_sorted
+        if step_down is None:
+            suffix_max = np.maximum.accumulate(draw_f[::-1])[::-1]
+            exceed += suffix_max >= observed_sorted
+        else:
+            step_down.add(draw, draw_f)
         position = int(np.argmax(draw_f))
         null_max_f[draw] = draw_f[position]
         null_max_column[draw] = order[position]
         if null_f is not None:
             null_f[draw, order] = draw_f
     adjusted = np.full(p, np.nan)
-    adjusted[order] = np.maximum.accumulate((1.0 + exceed) / (1.0 + permutations))
+    block_fields: dict[str, Any] = {}
+    if step_down is None:
+        adjusted[order] = np.maximum.accumulate((1.0 + exceed) / (1.0 + permutations))
+        p_value_global = _p_value(null_max_f, max_f)
+    else:
+        assert layout is not None
+        within = step_down.within_block()
+        n_tested = len(layout.segments)
+        adjusted[layout.order] = np.minimum(1.0, n_tested * within)
+        block_p_values = [float(within[start]) for _, start, _ in layout.segments]
+        p_value_global = min(1.0, n_tested * min(block_p_values))
+        block_fields = _block_fields(layout, f_values, degenerate, block_p_values, step_down.null_block_max_f)
     return InteractionScanResult(
         ss_interaction=ss,
         rss=rss,
@@ -505,7 +631,7 @@ def interaction_feature_scan(
         df_residual=df_residual,
         max_f=max_f,
         max_column=max_column,
-        p_value_global=_p_value(null_max_f, max_f),
+        p_value_global=p_value_global,
         p_value_adjusted=adjusted,
         null_max_f=null_max_f,
         null_max_column=null_max_column,
@@ -513,7 +639,120 @@ def interaction_feature_scan(
         permutations=int(permutations),
         seed=seed,
         residual_correction=residual_correction,
+        **block_fields,
     )
+
+
+@dataclass(frozen=True)
+class _BlockLayout:
+    """Where every block's features sit in the by-block step-down order.
+
+    ``index`` is each column's block (its position in ``names``); ``order``
+    holds the non-degenerate columns by (block, F descending, column index);
+    ``segments`` gives, per tested block in block order, ``(block, start,
+    end)`` of its run in ``order``.
+    """
+
+    names: tuple[str, ...]
+    index: np.ndarray
+    order: np.ndarray
+    segments: tuple[tuple[int, int, int], ...]
+
+
+class _BlockStepDown:
+    """The within-block step-down counts and block maxima, accumulated draw by draw.
+
+    Each draw's F arrive in the joint step-down order and are gathered into
+    the block order, so both combinations read the same per-draw F.
+    """
+
+    def __init__(self, layout: _BlockLayout, order: np.ndarray, f_values: np.ndarray, permutations: int) -> None:
+        position_in_order = np.empty(f_values.size, dtype=np.int64)
+        position_in_order[order] = np.arange(order.size)
+        self.layout = layout
+        self.permutations = permutations
+        self.gather = position_in_order[layout.order]
+        self.observed = f_values[layout.order]
+        self.exceed = np.zeros(layout.order.size, dtype=np.int64)
+        self.null_block_max_f = np.empty((permutations, len(layout.segments)))
+
+    def add(self, draw: int, draw_f: np.ndarray) -> None:
+        by_block = draw_f[self.gather]
+        for slot, (_, start, end) in enumerate(self.layout.segments):
+            suffix_max = np.maximum.accumulate(by_block[start:end][::-1])[::-1]
+            self.exceed[start:end] += suffix_max >= self.observed[start:end]
+            self.null_block_max_f[draw, slot] = suffix_max[0]
+
+    def within_block(self) -> np.ndarray:
+        """Each feature's within-block step-down p-value p⁽ᵏ⁾, in the block order."""
+
+        raw = (1.0 + self.exceed) / (1.0 + self.permutations)
+        within = np.empty_like(raw)
+        for _, start, end in self.layout.segments:
+            within[start:end] = np.maximum.accumulate(raw[start:end])
+        return within
+
+
+def _block_labels(blocks: Sequence[Hashable], n_columns: int) -> list[Hashable]:
+    """The block labels as a list, which must give exactly one label per outcome column."""
+
+    if isinstance(blocks, (str, bytes)):
+        raise ValueError("blocks must be a sequence of one label per outcome column, not a single string.")
+    labels = list(blocks)
+    if len(labels) != n_columns:
+        raise ValueError(
+            f"blocks has {len(labels)} label(s) but Y has {n_columns} column(s) — give one label per outcome column."
+        )
+    return labels
+
+
+def _block_layout(labels: list[Hashable], valid: np.ndarray, f_values: np.ndarray) -> _BlockLayout:
+    positions: dict[Hashable, int] = {}
+    index = np.array([positions.setdefault(label, len(positions)) for label in labels], dtype=np.int64)
+    order = valid[np.lexsort((valid, -f_values[valid], index[valid]))]
+    ordered_blocks = index[order]
+    starts = np.flatnonzero(np.r_[True, ordered_blocks[1:] != ordered_blocks[:-1]])
+    ends = np.r_[starts[1:], order.size]
+    return _BlockLayout(
+        names=tuple(str(label) for label in positions),
+        index=index,
+        order=order,
+        segments=tuple((int(ordered_blocks[start]), int(start), int(end)) for start, end in zip(starts, ends)),
+    )
+
+
+def _block_fields(
+    layout: _BlockLayout,
+    f_values: np.ndarray,
+    degenerate: np.ndarray,
+    block_p_values: list[float] | None = None,
+    null_block_max_f: np.ndarray | None = None,
+) -> dict[str, Any]:
+    """The by-block result fields: one :class:`InteractionScanBlock` per block, K and the null block maxima."""
+
+    slots = {block: slot for slot, (block, _, _) in enumerate(layout.segments)}
+    entries = []
+    for block, name in enumerate(layout.names):
+        columns = np.flatnonzero(layout.index == block)
+        slot = slots.get(block)
+        top = None if slot is None else int(layout.order[layout.segments[slot][1]])
+        entries.append(
+            InteractionScanBlock(
+                name=name,
+                columns=columns,
+                n_degenerate=int(np.count_nonzero(degenerate[columns])),
+                max_f=None if top is None else float(f_values[top]),
+                max_column=top,
+                p_value=None if (slot is None or block_p_values is None) else block_p_values[slot],
+                null_max_f=None if (slot is None or null_block_max_f is None) else null_block_max_f[:, slot],
+            )
+        )
+    return {
+        "combination": "block_bonferroni",
+        "blocks": tuple(entries),
+        "n_blocks_tested": len(layout.segments),
+        "null_block_max_f": null_block_max_f,
+    }
 
 
 def _validate_shapes(outcome: np.ndarray, full: np.ndarray, reduced: np.ndarray, Q: np.ndarray) -> None:
@@ -658,7 +897,9 @@ def _p_value(null: np.ndarray, observed: float) -> float:
 
 __all__ = [
     "INTERACTION_SCAN_ALPHA",
+    "INTERACTION_SCAN_COMBINATIONS",
     "INTERACTION_SPLIT_PARTS",
+    "InteractionScanBlock",
     "InteractionScanResult",
     "InteractionSplitPart",
     "InteractionSplitResult",

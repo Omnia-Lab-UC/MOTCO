@@ -283,6 +283,11 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             "Error: --span-split-test is not available with --latent-adjustment: the split interaction test is "
             "defined on the covariate-blind basis."
         )
+    if args.interaction_scan_by_block and not args.interaction_scan:
+        raise SystemExit(
+            "Error: --interaction-scan-by-block requires --interaction-scan: the by-block combination is a way of "
+            "running the per-feature scan."
+        )
     if args.sparsity_ladder is not None and args.sparsity is None:
         raise SystemExit("Error: --sparsity-ladder requires --sparsity {joint,block}.")
     ladder: tuple[Any, ...] | None = None
@@ -337,6 +342,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             residual_correction=args.residual_correction,
             span_split_test=args.span_split_test,
             interaction_scan=args.interaction_scan,
+            interaction_scan_by_block=args.interaction_scan_by_block,
             block_weighting=args.block_weighting,
             sparsity=(
                 None
@@ -413,13 +419,16 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     if "interaction_scan" in record:
         scan = record["interaction_scan"]
         maximum = f"max F {scan['max_f']:.4g} ({scan['max_block']}/{scan['max_feature']})"
+        heading = f"Interaction scan ({scan['n_features']} features"
+        if "combination" in scan:
+            heading += f"; {scan['combination']} over {scan['n_blocks_tested']} block(s)"
         if "p_value_global" in scan:
             print(
-                f"Interaction scan ({scan['n_features']} features): {maximum}; global p = "
-                f"{scan['p_value_global']:.4g}; {len(scan['hits'])} feature(s) at adjusted p <= {scan['hit_alpha']:g}"
+                f"{heading}): {maximum}; global p = {scan['p_value_global']:.4g}; "
+                f"{len(scan['hits'])} feature(s) at adjusted p <= {scan['hit_alpha']:g}"
             )
         else:
-            print(f"Interaction scan ({scan['n_features']} features): {maximum}; no permutations, no p-values")
+            print(f"{heading}): {maximum}; no permutations, no p-values")
     print("Outputs:")
     for written in paths.values():
         print(f"  {written}")
@@ -649,6 +658,10 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Also test the group x stage interaction of every standardized feature on its own "
                            "(per-feature F, the maximum's global p-value and step-down max-T adjusted p-values, "
                            "RRPP draws at --seed); writes interaction_scan.csv. Default: off")
+    p_an.add_argument("--interaction-scan-by-block", action="store_true",
+                      help="Split the interaction scan's familywise error equally between the declared blocks "
+                           "(Bonferroni over within-block step-downs), so a large or heavy-tailed block does not "
+                           "set every block's bar. Requires --interaction-scan. Default: off (one joint maximum)")
     p_an.add_argument("--min-components", type=int, default=2,
                       help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
                            "(default: 2; 1 restores the unfloored 0.9.0 rule)")

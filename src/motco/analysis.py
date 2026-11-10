@@ -61,7 +61,10 @@ maximum F with step-down max-T adjusted p-values
 (:func:`motco.stats.interaction.interaction_feature_scan`). It is recorded in
 an ``interaction_scan`` block and tabulated per feature with the
 covariate-adjusted group difference at each stage; every other output is
-unchanged.
+unchanged. ``TrajectoryAnalysisParams.interaction_scan_by_block`` splits the
+scan's familywise error equally between the declared blocks (Bonferroni over
+within-block step-downs), so a large or heavy-tailed block no longer sets
+every block's bar; only the scan's p-values and hits move.
 
 :func:`write_analysis_outputs` writes the result as plain JSON/CSV (record,
 latent scores, PLS loadings, latent stage means and, when requested, the
@@ -93,6 +96,7 @@ from motco.simulations.evaluation import (
     LatentAdjustmentSummary,
     PLSIntegrationArtifacts,
     SimulationEvaluationError,
+    SimulationTrajectoryDesign,
     _config_spectrum_block,
     _empirical_p_value,
     _extract_null_distributions,
@@ -474,6 +478,16 @@ class TrajectoryAnalysisParams:
     while false. It reads the unweighted standardized features, so a block
     weighting leaves it unchanged.
 
+    ``interaction_scan_by_block`` (default ``False``) runs that scan with the
+    declared blocks as its block labels (``combination="block_bonferroni"``):
+    the step-down runs within each block on the same draws, and with K blocks
+    holding a non-degenerate feature each is tested at α/K, so every block has
+    the same chance of a false hit whatever its size or noise. The F, the
+    group differences and every non-scan output are unchanged; the global
+    p-value, the adjusted p-values and the hits are the by-block ones. It
+    requires ``interaction_scan`` (rejected before any fitting otherwise) and
+    is omitted from :meth:`to_dict` while false.
+
     ``block_weighting`` (``None``, ``"equal_variance"`` or ``"mfa"``)
     multiplies every standardized block by one label-blind scalar fitted on
     the pooled sample — 1/√p_b (unit total variance per block) or the inverse
@@ -517,6 +531,7 @@ class TrajectoryAnalysisParams:
     interaction_scan: bool = False
     block_weighting: str | None = None
     sparsity: SparsitySettings | None = None
+    interaction_scan_by_block: bool = False
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -534,6 +549,11 @@ class TrajectoryAnalysisParams:
             raise TrajectoryAnalysisError(
                 f"Unknown residual_correction {self.residual_correction!r}; allowed: "
                 f"{list(RESIDUAL_CORRECTIONS)} or None."
+            )
+        if self.interaction_scan_by_block and not self.interaction_scan:
+            raise TrajectoryAnalysisError(
+                "interaction_scan_by_block requires interaction_scan: the by-block combination is a way of "
+                "running the per-feature scan. Set interaction_scan=True or drop interaction_scan_by_block."
             )
         if self.block_weighting is not None and self.block_weighting not in BLOCK_WEIGHTINGS:
             raise TrajectoryAnalysisError(
@@ -589,6 +609,9 @@ class TrajectoryAnalysisParams:
         if self.sparsity is None:
             # Absent means ordinary PLS-DA (0.21.0): its resolved parameters stay byte-identical.
             data.pop("sparsity")
+        if not self.interaction_scan_by_block:
+            # Absent means the joint scan (0.22.0): its resolved parameters stay byte-identical.
+            data.pop("interaction_scan_by_block")
         return data
 
     @property
@@ -687,7 +710,10 @@ def analyze_trajectories(
     interaction F with the covariate-adjusted models, combined by the maximum
     with step-down max-T adjusted p-values under RRPP's serial draws at the
     analysis's seed. It reads the features and models only, so latent
-    adjustment and attribution leave it unchanged.
+    adjustment and attribution leave it unchanged. With
+    ``params.interaction_scan_by_block`` the declared blocks share the scan's
+    familywise error equally, and the block also names the combination, the
+    number of blocks tested and each block's maximum and own p-value.
     """
 
     params = params or TrajectoryAnalysisParams()
@@ -710,17 +736,15 @@ def analyze_trajectories(
             "covariate-blind basis. Drop one of the two settings."
         )
     start = perf_counter()
-    blocks = {block.name: block.values for block in dataset.blocks}
-    order = [block.name for block in dataset.blocks]
-    transforms = {block.name: block.transform for block in dataset.blocks}
-
-    scalers = fit_block_scalers(blocks, transforms, weighting=params.block_weighting)
-    standardized = transform_blocks(blocks, scalers, transforms)
-    X = concatenate_blocks(standardized, order).reset_index(drop=True)
-
-    groups = list(dataset.groups)
-    stages = list(dataset.stages)
-    working = _working_frame(dataset)
+    # The residualization design is checked before the trajectory models, so its rank error comes first.
+    nuisance = _latent_nuisance(_working_frame(dataset), covariates, params.covariate_latent_adjustment)
+    inputs = _trajectory_inputs(dataset, params)
+    blocks, order, transforms, scalers = inputs.blocks, inputs.order, inputs.transforms, inputs.scalers
+    X = inputs.features
+    working = inputs.working
+    design = inputs.design
+    group_levels, stage_levels = inputs.group_levels, inputs.stage_levels
+    model_full, model_reduced, ls_means = inputs.model_full, inputs.model_reduced, inputs.ls_means
 
     integration_params: dict[str, Any] = {
         "cv1_splits": params.cv1_splits,
@@ -736,7 +760,6 @@ def analyze_trajectories(
         integration_params["block_weighting"] = params.block_weighting
     if params.sparsity is not None:
         integration_params["sparsity"] = params.sparsity.integration_param()
-    nuisance = _latent_nuisance(working, covariates, params.covariate_latent_adjustment)
     sample_ids = dataset.sample_ids
     try:
         latent = fit_pls_latent_space(
@@ -752,19 +775,8 @@ def analyze_trajectories(
             nuisance=nuisance,
             min_components=params.resolved_min_components,
         )
-        design = build_simulation_trajectory_design(working, group_col=_GROUP, stage_col=_STAGE)
     except SimulationEvaluationError as exc:
         raise TrajectoryAnalysisError(str(exc)) from exc
-    group_levels = [groups[int(code)] for code in design.group_levels]
-    stage_levels = [stages[int(code)] for code in design.stage_levels]
-    if stage_levels != stages or group_levels != groups:
-        raise TrajectoryAnalysisError(
-            f"Internal level mapping mismatch: design levels {group_levels}/{stage_levels}, "
-            f"declared {groups}/{stages}."
-        )
-    model_full, model_reduced, ls_means = _covariate_adjusted_design(
-        design.model_full, design.model_reduced, design.ls_means, covariates
-    )
 
     observed_deltas, observed_angles, observed_shapes, observed_spectra = estimate_difference(
         Y=latent.matrix,
@@ -822,17 +834,7 @@ def analyze_trajectories(
         _span_split_record(artifacts, model_full, model_reduced, params) if params.span_split_test else None
     )
     scan_record, scan_table = (
-        _interaction_scan_outputs(
-            _unweighted_features(X, blocks, scalers, transforms, order),
-            model_full,
-            model_reduced,
-            ls_means,
-            design.contrast,
-            stage_levels,
-            params,
-        )
-        if params.interaction_scan
-        else (None, None)
+        _interaction_scan_outputs(_scan_inputs(inputs), params) if params.interaction_scan else (None, None)
     )
     pls_loadings = _loadings_frame(artifacts.model, X.columns, list(latent.matrix.columns))
     betas = np.asarray(estimate_betas(model_full, latent.matrix.to_numpy(dtype=float)), dtype=float)
@@ -1038,6 +1040,106 @@ def _working_frame(dataset: TrajectoryDataset) -> pd.DataFrame:
     )
 
 
+@dataclass(frozen=True)
+class _TrajectoryInputs:
+    """Everything the analysis builds before the latent fit.
+
+    ``features`` are the pooled-standardized joint features the latent space is
+    fitted on (block-weighted when a weighting is set); the models and LS-mean
+    rows carry the declared covariates.
+    """
+
+    blocks: dict[str, pd.DataFrame]
+    order: list[str]
+    transforms: dict[str, str]
+    scalers: dict[str, BlockScaler]
+    features: pd.DataFrame
+    working: pd.DataFrame
+    design: SimulationTrajectoryDesign
+    group_levels: list[str]
+    stage_levels: list[str]
+    model_full: np.ndarray
+    model_reduced: np.ndarray
+    ls_means: np.ndarray
+
+
+@dataclass(frozen=True)
+class _ScanInputs:
+    """The per-feature interaction scan's inputs: unweighted standardized features and the trajectory models."""
+
+    features: pd.DataFrame
+    model_full: np.ndarray
+    model_reduced: np.ndarray
+    ls_means: np.ndarray
+    contrast: list[list[int]]
+    stage_levels: list[str]
+
+
+def _trajectory_inputs(dataset: TrajectoryDataset, params: TrajectoryAnalysisParams) -> _TrajectoryInputs:
+    """Standardize and join the blocks and build the covariate-adjusted trajectory models, without the latent fit."""
+
+    blocks = {block.name: block.values for block in dataset.blocks}
+    order = [block.name for block in dataset.blocks]
+    transforms: dict[str, str] = {block.name: block.transform for block in dataset.blocks}
+    scalers = fit_block_scalers(blocks, transforms, weighting=params.block_weighting)
+    X = concatenate_blocks(transform_blocks(blocks, scalers, transforms), order).reset_index(drop=True)
+
+    groups = list(dataset.groups)
+    stages = list(dataset.stages)
+    working = _working_frame(dataset)
+    try:
+        design = build_simulation_trajectory_design(working, group_col=_GROUP, stage_col=_STAGE)
+    except SimulationEvaluationError as exc:
+        raise TrajectoryAnalysisError(str(exc)) from exc
+    group_levels = [groups[int(code)] for code in design.group_levels]
+    stage_levels = [stages[int(code)] for code in design.stage_levels]
+    if stage_levels != stages or group_levels != groups:
+        raise TrajectoryAnalysisError(
+            f"Internal level mapping mismatch: design levels {group_levels}/{stage_levels}, "
+            f"declared {groups}/{stages}."
+        )
+    model_full, model_reduced, ls_means = _covariate_adjusted_design(
+        design.model_full, design.model_reduced, design.ls_means, dataset.covariate_design
+    )
+    return _TrajectoryInputs(
+        blocks=blocks,
+        order=order,
+        transforms=transforms,
+        scalers=scalers,
+        features=X,
+        working=working,
+        design=design,
+        group_levels=group_levels,
+        stage_levels=stage_levels,
+        model_full=model_full,
+        model_reduced=model_reduced,
+        ls_means=ls_means,
+    )
+
+
+def _scan_inputs(inputs: _TrajectoryInputs) -> _ScanInputs:
+    return _ScanInputs(
+        features=_unweighted_features(inputs.features, inputs.blocks, inputs.scalers, inputs.transforms, inputs.order),
+        model_full=inputs.model_full,
+        model_reduced=inputs.model_reduced,
+        ls_means=inputs.ls_means,
+        contrast=inputs.design.contrast,
+        stage_levels=inputs.stage_levels,
+    )
+
+
+def _interaction_scan_inputs(dataset: TrajectoryDataset, params: TrajectoryAnalysisParams) -> _ScanInputs:
+    """The scan's inputs as :func:`analyze_trajectories` builds them, without fitting a latent space.
+
+    The unweighted pooled-standardized joint features (``block__feature``
+    columns), the covariate-adjusted full and reduced models, the LS-mean rows,
+    the contrast and the declared stage levels: a scan on them equals the
+    analysis's own scan at the same parameters.
+    """
+
+    return _scan_inputs(_trajectory_inputs(dataset, params))
+
+
 def _span_split_inputs(artifacts: PLSIntegrationArtifacts) -> tuple[np.ndarray, np.ndarray]:
     """The standardized features in the PLS model's input coordinates and ``qr(x_rotations_)``."""
 
@@ -1110,13 +1212,7 @@ def _block_weighting_record(
 
 
 def _interaction_scan_outputs(
-    X: pd.DataFrame,
-    model_full: np.ndarray,
-    model_reduced: np.ndarray,
-    ls_means: np.ndarray,
-    contrast: list[list[int]],
-    stage_levels: list[str],
-    params: TrajectoryAnalysisParams,
+    inputs: _ScanInputs, params: TrajectoryAnalysisParams
 ) -> tuple[dict[str, Any], pd.DataFrame]:
     """The per-feature interaction scan on the standardized features: the record block and the table.
 
@@ -1124,9 +1220,14 @@ def _interaction_scan_outputs(
     scan's draws are RRPP's only on its serial path (one job). The per-stage
     differences are (LS row of the second group − LS row of the first) · β
     with β the full model's coefficients on ``X``, the rows that give the
-    latent stage means.
+    latent stage means. With ``params.interaction_scan_by_block`` the blocks
+    of the joint feature names are the scan's block labels.
     """
 
+    X = inputs.features
+    model_full, model_reduced = inputs.model_full, inputs.model_reduced
+    contrast, stage_levels = inputs.contrast, inputs.stage_levels
+    blocks, features = _split_feature_names(X.columns)
     correction = params.residual_correction if params.permutations > 0 else None
     try:
         scan = interaction_feature_scan(
@@ -1136,14 +1237,14 @@ def _interaction_scan_outputs(
             permutations=params.permutations,
             seed=params.seed,
             residual_correction=correction,
+            blocks=blocks if params.interaction_scan_by_block else None,
         )
     except ValueError as exc:
         raise TrajectoryAnalysisError(f"Interaction scan: {exc}") from exc
-    blocks, features = _split_feature_names(X.columns)
     block_names = list(dict.fromkeys(blocks))
     block_of = np.asarray(blocks, dtype=object)
     betas = np.asarray(estimate_betas(model_full, X.to_numpy(dtype=float)), dtype=float)
-    rows = np.asarray(ls_means, dtype=float)
+    rows = np.asarray(inputs.ls_means, dtype=float)
     differences = {
         f"difference[{stage}]": (rows[contrast[1][index]] - rows[contrast[0][index]]) @ betas
         for index, stage in enumerate(stage_levels)
@@ -1176,6 +1277,12 @@ def _interaction_scan_outputs(
         "max_feature": features[scan.max_column],
         "max_block": blocks[scan.max_column],
     }
+    if scan.blocks is not None:
+        record["combination"] = scan.combination
+        record["n_blocks_tested"] = scan.n_blocks_tested
+        for entry in scan.blocks:
+            per_block[entry.name]["max_f"] = entry.max_f
+            per_block[entry.name]["max_feature"] = None if entry.max_column is None else features[entry.max_column]
     if scan.p_value_adjusted is not None:
         assert scan.null_max_column is not None
         hits = scan.hits(INTERACTION_SCAN_ALPHA)
@@ -1183,6 +1290,9 @@ def _interaction_scan_outputs(
         for name in block_names:
             per_block[name]["hits"] = int(np.count_nonzero(block_of[hits] == name))
             per_block[name]["null_max_share"] = float(np.mean(null_blocks == name))
+        for entry in scan.blocks or ():
+            # The block's own global p-value, before the factor K.
+            per_block[entry.name]["p_value"] = entry.p_value
         record["p_value_global"] = scan.p_value_global
         record["hit_alpha"] = INTERACTION_SCAN_ALPHA
         record["hits"] = [
