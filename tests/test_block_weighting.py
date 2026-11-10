@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -41,9 +40,6 @@ from tests.test_span_capture import _frozen_0150_span_capture, _population_rows
 TWO_BLOCKS = ("methylation", "expression")
 FAST_CV = {"layers": list(TWO_BLOCKS), "n_repeats": 1, "max_components": 6}
 
-#: sha256 of ``transform_blocks`` on :func:`_two_blocks` without a weighting, computed with the
-#: preprocessing module as it stood before block weighting existed (commit d933b32).
-PRECHANGE_TRANSFORM_DIGEST = "df501abc6760f83b91ee73c871d983c174282b3794ef3d1b4a7ebba247450f7d"
 
 PRECHANGE_FIXTURE = json.loads(
     (Path(__file__).parent / "data" / "orthonormal_coordinates_prechange_fixture.json").read_text()
@@ -166,15 +162,32 @@ def test_unknown_kind_is_rejected_before_any_block_is_transformed(monkeypatch, k
         fit_block_scalers(_two_blocks(), TRANSFORMS, weighting=kind)
 
 
+def _frozen_0200_standardize(blocks, transforms) -> dict[str, np.ndarray]:
+    """``fit_block_scalers`` + ``transform_blocks`` as released in 0.20.0, kept to pin the unweighted path.
+
+    A digest of the output is not portable (``log`` and BLAS differ in the last bit between machines),
+    so the pre-change computation runs beside the current one on the same machine.
+    """
+
+    standardized = {}
+    for name, matrix in blocks.items():
+        values = preprocessing_module.apply_unit_transform(
+            name, matrix.astype(float).to_numpy(dtype=float), transforms.get(name)
+        )
+        scale = values.std(axis=0)
+        scale[scale < 1e-10] = 1.0
+        standardized[name] = (values - values.mean(axis=0)) / scale
+    return standardized
+
+
 def test_unweighted_transform_is_byte_identical_to_the_prechange_output() -> None:
     blocks = _two_blocks()
     scalers = fit_block_scalers(blocks, TRANSFORMS)
     assert all(scaler.weight == 1.0 for scaler in scalers.values())
     out = transform_blocks(blocks, scalers, TRANSFORMS)
-    digest = hashlib.sha256()
+    expected = _frozen_0200_standardize(blocks, TRANSFORMS)
     for name in ("methylation", "expression"):
-        digest.update(np.ascontiguousarray(out[name].to_numpy(dtype=float)).tobytes())
-    assert digest.hexdigest() == PRECHANGE_TRANSFORM_DIGEST
+        assert out[name].to_numpy(dtype=float).tobytes() == expected[name].tobytes()
 
 
 def test_weights_are_label_blind_row_order_invariant() -> None:
