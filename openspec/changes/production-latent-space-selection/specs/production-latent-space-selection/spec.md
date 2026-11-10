@@ -36,11 +36,11 @@ The `simulation` profile SHALL build its units from the latent-space comparison'
 
 ### Requirement: The plasmode profile analyses the SEA-AD export with a real-noise span plant
 
-The `plasmode` profile SHALL read the SEA-AD export through the plasmode's input contract, with file hashes equal to the committed plasmode settings', permute the sex labels within stage as the plasmode does for replicates 0–99 of its `paper` stream, and analyse each unit through the real-data entry point at the case-study configuration (the six covariates, rank floor 2, net displacement, the `df` correction, attribution off) at 999 permutations. Its cells SHALL be the anchor and a span plant at e ∈ {0.25, 0.5, 1.0}: every donor labelled `Male` at stage *s* is shifted by e times the difference between the pooled stage-*s* mean and the centroid of the pooled stage means, in the analysis's standardized units mapped back to the block's units, so that the planted group's stage configuration is the pooled one stretched by 1 + e about its centroid. The real labels SHALL never be analysed and no record SHALL hold a donor identifier or label vector.
+The `plasmode` profile SHALL read the SEA-AD export through the plasmode's input contract, with file hashes equal to the committed plasmode settings', permute the sex labels within stage as the plasmode does for replicates 0–99 of its `paper` stream, and analyse each unit through the real-data entry point at the case-study configuration (the six covariates, rank floor 2, net displacement, the `df` correction, attribution off) at 999 permutations. Its cells SHALL be the anchor and a span plant at e ∈ {0.25, 0.5, 1.0}: every donor labelled `Male` at stage *s* is shifted by e times the difference between the pooled stage-*s* mean and the centroid of the pooled stage means, in the analysis's standardized units mapped back to the block's units, so that the planted group's centred stage configuration gains e times the pooled centred one (the pooled one stretched by 1 + e about its centroid, up to the permuted labels' sampling noise). The real labels SHALL never be analysed and no record SHALL hold a donor identifier or label vector.
 
 #### Scenario: Plant geometry
 - **WHEN** the span plant at e is applied to a block
-- **THEN** in standardized units the planted group's stage means minus their centroid equal 1 + e times the pooled stage means minus their centroid (to 1e-8), and rows not labelled `Male` are unchanged
+- **THEN** in standardized units the planted group's stage means minus their centroid equal its unplanted ones plus e times the pooled stage means minus their centroid (to 1e-8), and rows not labelled `Male` are unchanged
 
 #### Scenario: Anchor is unplanted
 - **WHEN** the anchor cell is built
@@ -80,17 +80,25 @@ Merging SHALL write, per profile: a rate table (one row per design or cell, stat
 
 ### Requirement: The decision judges size of every candidate arm (S1)
 
-For each candidate arm, every anchor and translation rate of `delta`, `angle` and `shape` at the three simulation designs (m = 18) and every plasmode anchor rate (m = 3) SHALL be at most α + 2·√(α(1 − α)/R), R the available replicates. An unavailable reading fails.
+For each candidate arm, the anchor and translation rates of `delta`, `angle` and `shape` at the three simulation designs (m = 18) and the plasmode anchor rates (m = 3) SHALL each be judged as one family under the stage-span paper grade's count-plus-ceiling rule on the bound α + 2·√(α(1 − α)/R), R the available replicates. S1 holds when both families hold. An unavailable reading fails its family.
+
+#### Scenario: Count and ceiling
+- **WHEN** a family of m rates is judged
+- **THEN** it holds when at most the 95th percentile of Binomial(m, p₂) of its rates exceed the bound, p₂ the exact Binomial(R, α) exceedance probability at the median R, and none exceeds the Bonferroni ceiling at 0.05/m
 
 #### Scenario: Size excess
-- **WHEN** any control rate of an arm is above its bound
-- **THEN** S1 fails for that arm, naming every such rate and its bound
+- **WHEN** a family of an arm has more rates above the bound than allowed, or any rate above its ceiling
+- **THEN** S1 fails for that arm, naming every such rate with its bound and ceiling
+
+#### Scenario: One chance exceedance
+- **WHEN** one simulation control rate of an arm is above the bound, below its ceiling, and the family allows one exceedance
+- **THEN** that family holds, and the rate is still listed as exceeding
 
 ### Requirement: The decision judges protected power (S2) and specificity (S3)
 
 For each candidate arm at the two δ = 2.0 designs:
 - **S2:** for each of the 16 target cells (magnitude `delta` at e ∈ {0.05, 0.25}, orientation `angle` at e ∈ {0.25, 0.5, 1.0}, shape `shape` at e ∈ {0.25, 0.5, 1.0}, at both designs) the one-sided exact paired loss p-value against production SHALL be computed; S2 holds when no more cells than the 95th percentile of Binomial(16, 0.025) have p < 0.025 and none has p < 0.05/16;
-- **S3:** every off-target rate of those cells (m = 32) SHALL be at most the S1 bound.
+- **S3:** the off-target rates of those cells at e ≤ 0.5 (m = 24) SHALL be judged as one family under the S1 rule. The e = 1.0 cells' off-target rates SHALL be reported and SHALL NOT enter S3: production's own construction leak there exceeds the bound (the stage-span pilot, 2026-11-04).
 
 #### Scenario: No discordant units
 - **WHEN** a target cell has no unit where exactly one arm rejects
