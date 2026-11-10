@@ -16,7 +16,7 @@ The analysis parameters SHALL accept a block weighting kind (`block_weighting`: 
 
 ### Requirement: Real-data analysis records block weighting
 
-When weighting is set, the record SHALL carry a `block_weighting` block after `block_units` with the kind and, per block, the weight and the feature count, and `latent.integration_params.block_weighting`. Neither SHALL appear while absent.
+When weighting is set, the record SHALL carry a `block_weighting` block after `blocks` with the kind and, per block, the weight and the feature count, and `latent.integration_params.block_weighting`. Neither SHALL appear while absent.
 
 #### Scenario: Record contents
 - **WHEN** a weighted analysis is recorded

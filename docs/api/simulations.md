@@ -320,6 +320,29 @@ records it as `integration_params.layers`. When the key is absent, all three blo
 the evaluation result is byte-identical to the harness before the key existed (no `layers` metadata
 entry is added).
 
+**Block weighting.** `integration_params["block_weighting"]` (`"equal_variance"` or `"mfa"`; 0.21.0)
+multiplies every pooled-standardized block by one label-blind scalar fitted once on the pooled sample
+with the scalers, so a block's weight in the joint measurement is declared rather than set by its
+feature count (unweighted, methylation's 367 features outweigh expression's 131 by 2.8 to 1 in total
+variance). `equal_variance` is 1/√p_b, constant features included, so every block of non-constant
+features has unit total variance; `mfa` is √n/σ₁(Z_b), the inverse standard deviation of the
+standardized block's leading principal component, so every block's dominant direction has unit
+variance (an `mfa` block with no variance is an error naming it). The weights live on the scalers
+(`BlockScaler.weight`, `fit_block_scalers(..., weighting=)`, `fit_omics_preprocessor(..., weighting=)`,
+`FittedOmicsPreprocessor.block_weighting`), so observed rows and analytic population means are weighted
+alike and every span-capture share and `population_latent` checkpoint is measured on the weighted
+inputs. Every PLS fit of a weighted `pls` space (the cross-validation's and the final one) uses
+`scale=False`, since `scale=True` would re-standardize each column and undo the weights; `delta` is then
+in the weighted metric, while `angle`, `shape` and the p-values are comparable with an unweighted
+evaluation. `concat`, `pca`, `pls_within_group` and `pls_residual_pca` measure the weighted blocks;
+`snf` and the unstandardized `concat` never read the standardized blocks and refuse the setting before
+any preprocessing, as does an unknown kind. A prebuilt preprocessor, latent integration or PLS fit with
+another weighting is refused, naming both. The kind is recorded as `integration_params.block_weighting`
+in the latent metadata only when set. Absent, every weight is 1 (multiplied exactly), and transforms,
+records, cell ids and signatures are byte-identical to 0.20.0; as an integration parameter it is already
+the study-config axis `evaluation.integration_params.block_weighting`. The setting is unvalidated: its
+size and power check is the `weighted` arm of the production latent-space selection.
+
 **Orientation estimator.** `orientation_estimator` selects how each group's orientation is measured
 for the observed `angle`, every RRPP draw and every realized-geometry checkpoint `angle`. The default
 is `"net_displacement"` (the unit vector from the first to the last stage mean), adopted after the

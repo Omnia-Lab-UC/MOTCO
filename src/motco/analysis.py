@@ -39,6 +39,14 @@ stage interaction of the standardized features inside the fitted PLS span and
 in its orthogonal complement (:func:`motco.stats.interaction.interaction_split_test`),
 recorded in a ``span_split`` block; every other output is unchanged.
 
+``TrajectoryAnalysisParams.block_weighting`` (``"equal_variance"`` or
+``"mfa"``) multiplies every standardized block by one label-blind scalar
+before the latent space is fitted, so a block's weight in the joint
+measurement is declared rather than set by its feature count; the space is
+fitted in the weighted metric, ``delta`` is measured in it, and a
+``block_weighting`` record block names the kind and the weights. It is
+unvalidated until the production latent-space selection reads it.
+
 ``TrajectoryAnalysisParams.interaction_scan`` additionally tests the group ×
 stage interaction of every standardized feature on its own, combined by the
 maximum F with step-down max-T adjusted p-values
@@ -56,7 +64,7 @@ from __future__ import annotations
 
 import json
 import platform
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Literal, Mapping, Sequence
@@ -88,7 +96,9 @@ from motco.simulations.evaluation import (
     fit_pls_latent_space,
 )
 from motco.simulations.preprocessing import (
+    BLOCK_WEIGHTINGS,
     UNIT_TRANSFORMS,
+    BlockScaler,
     concatenate_blocks,
     fit_block_scalers,
     transform_blocks,
@@ -418,7 +428,19 @@ class TrajectoryAnalysisParams:
     the seed, the permutations and the residual correction. It uses neither
     the latent basis nor the bootstrap, so it is available with latent
     adjustment and with attribution, and it is omitted from :meth:`to_dict`
-    while false.
+    while false. It reads the unweighted standardized features, so a block
+    weighting leaves it unchanged.
+
+    ``block_weighting`` (``None``, ``"equal_variance"`` or ``"mfa"``)
+    multiplies every standardized block by one label-blind scalar fitted on
+    the pooled sample — 1/√p_b (unit total variance per block) or the inverse
+    standard deviation of the block's leading principal component — and fits
+    the PLS space without per-feature rescaling, so the weights set the
+    metric. ``delta`` is in that metric; ``angle``, ``shape`` and the p-values
+    are comparable with an unweighted analysis. Attribution's original-unit
+    mapping divides by the weights. An unknown kind is rejected before any
+    fitting, and the setting is omitted from :meth:`to_dict` while ``None``.
+    Unvalidated until the production latent-space selection reads it.
     """
 
     permutations: int = 0
@@ -438,6 +460,7 @@ class TrajectoryAnalysisParams:
     residual_correction: str | None = None
     span_split_test: bool = False
     interaction_scan: bool = False
+    block_weighting: str | None = None
 
     def __post_init__(self) -> None:
         floor = self.min_components
@@ -455,6 +478,10 @@ class TrajectoryAnalysisParams:
             raise TrajectoryAnalysisError(
                 f"Unknown residual_correction {self.residual_correction!r}; allowed: "
                 f"{list(RESIDUAL_CORRECTIONS)} or None."
+            )
+        if self.block_weighting is not None and self.block_weighting not in BLOCK_WEIGHTINGS:
+            raise TrajectoryAnalysisError(
+                f"Unknown block_weighting {self.block_weighting!r}; allowed: {list(BLOCK_WEIGHTINGS)} or None."
             )
         if self.orientation_estimator not in EVALUATION_ORIENTATION_ESTIMATORS:
             raise TrajectoryAnalysisError(
@@ -489,6 +516,9 @@ class TrajectoryAnalysisParams:
         if not self.interaction_scan:
             # Absent means the 0.19.0 analysis: its resolved parameters stay byte-identical.
             data.pop("interaction_scan")
+        if self.block_weighting is None:
+            # Absent means unweighted blocks (0.20.0): its resolved parameters stay byte-identical.
+            data.pop("block_weighting")
         return data
 
     @property
@@ -614,7 +644,7 @@ def analyze_trajectories(
     order = [block.name for block in dataset.blocks]
     transforms = {block.name: block.transform for block in dataset.blocks}
 
-    scalers = fit_block_scalers(blocks, transforms)
+    scalers = fit_block_scalers(blocks, transforms, weighting=params.block_weighting)
     standardized = transform_blocks(blocks, scalers, transforms)
     X = concatenate_blocks(standardized, order).reset_index(drop=True)
 
@@ -632,6 +662,8 @@ def analyze_trajectories(
     }
     if params.forced_components is not None:
         integration_params["forced_components"] = params.forced_components
+    if params.block_weighting is not None:
+        integration_params["block_weighting"] = params.block_weighting
     nuisance = _latent_nuisance(working, covariates, params.covariate_latent_adjustment)
     sample_ids = dataset.sample_ids
     try:
@@ -718,7 +750,15 @@ def analyze_trajectories(
         _span_split_record(artifacts, model_full, model_reduced, params) if params.span_split_test else None
     )
     scan_record, scan_table = (
-        _interaction_scan_outputs(X, model_full, model_reduced, ls_means, design.contrast, stage_levels, params)
+        _interaction_scan_outputs(
+            _unweighted_features(X, blocks, scalers, transforms, order),
+            model_full,
+            model_reduced,
+            ls_means,
+            design.contrast,
+            stage_levels,
+            params,
+        )
         if params.interaction_scan
         else (None, None)
     )
@@ -781,6 +821,11 @@ def analyze_trajectories(
             }
             for block in dataset.blocks
         ],
+        **(
+            {"block_weighting": _block_weighting_record(params.block_weighting, dataset, scalers)}
+            if params.block_weighting is not None
+            else {}
+        ),
         "measurement": {
             "orientation_estimator": params.orientation_estimator,
             "selected_lv": latent.metadata["selected_lv"],
@@ -956,6 +1001,39 @@ def _span_split_record(
     payload = result.to_dict()
     payload["draws_match_rrpp"] = params.n_jobs in (None, 1)
     return payload
+
+
+def _unweighted_features(
+    X: pd.DataFrame,
+    blocks: Mapping[str, pd.DataFrame],
+    scalers: Mapping[str, BlockScaler],
+    transforms: Mapping[str, str],
+    order: list[str],
+) -> pd.DataFrame:
+    """The pooled-standardized joint features without the block weights (``X`` itself when unweighted)."""
+
+    if all(scaler.weight == 1.0 for scaler in scalers.values()):
+        return X
+    unit = {name: replace(scaler, weight=1.0) for name, scaler in scalers.items()}
+    return concatenate_blocks(transform_blocks(blocks, unit, transforms), order).reset_index(drop=True)
+
+
+def _block_weighting_record(
+    weighting: str, dataset: TrajectoryDataset, scalers: Mapping[str, BlockScaler]
+) -> dict[str, Any]:
+    """The ``block_weighting`` record block: the kind and every block's fitted weight and feature count."""
+
+    return {
+        "kind": weighting,
+        "blocks": [
+            {
+                "name": block.name,
+                "weight": float(scalers[block.name].weight),
+                "n_features": int(block.values.shape[1]),
+            }
+            for block in dataset.blocks
+        ],
+    }
 
 
 def _interaction_scan_outputs(

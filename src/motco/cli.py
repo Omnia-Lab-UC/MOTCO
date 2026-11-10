@@ -326,6 +326,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             residual_correction=args.residual_correction,
             span_split_test=args.span_split_test,
             interaction_scan=args.interaction_scan,
+            block_weighting=args.block_weighting,
         )
         result = analyze_trajectories(dataset, params)
         paths = write_analysis_outputs(result, args.out_dir, overwrite=args.overwrite)
@@ -334,9 +335,10 @@ def cmd_analyze(args: argparse.Namespace) -> None:
 
     record = result.record
     latent = record["latent"]
+    weighting = f"; block weighting {params.block_weighting}" if params.block_weighting is not None else ""
     print(
         f"Latent space: PLS-DA, {latent['selected_lv']} component(s) "
-        f"({latent['component_selection']}; rank floor {params.resolved_min_components}); "
+        f"({latent['component_selection']}; rank floor {params.resolved_min_components}{weighting}); "
         f"orientation estimator: {record['measurement']['orientation_estimator']}"
     )
     print(f"Groups: {record['design']['group_levels']}; stages: {record['design']['stage_levels']}")
@@ -627,6 +629,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_an.add_argument("--min-components", type=int, default=2,
                       help="Rank floor of the cross-validated latent space: CV considers ranks MIN..MAX-1 "
                            "(default: 2; 1 restores the unfloored 0.9.0 rule)")
+    p_an.add_argument("--block-weighting", type=str, default=None, choices=["equal_variance", "mfa"],
+                      help="Multiply every standardized block by one label-blind scalar before the latent space is "
+                           "fitted: equal_variance (1/sqrt(features), unit total variance per block) or mfa (unit "
+                           "variance of each block's leading principal component). delta is then in the weighted "
+                           "metric. Unvalidated. Default: off (unweighted)")
     p_an.add_argument("--orientation-estimator", type=str, default="net_displacement",
                       choices=["net_displacement", "pc1"], help="Orientation estimator (default: net_displacement)")
     p_an.add_argument("--attribution", action="store_true", help="Run frozen-model orientation attribution")

@@ -436,6 +436,38 @@ def test_analyze_interaction_scan_with_latent_adjustment(tmp_path: Path, covaria
     assert (out_dir / "interaction_scan.csv").exists()
 
 
+@pytest.mark.parametrize("kind", ["equal_variance", "mfa"])
+def test_analyze_block_weighting(tmp_path: Path, analyze_files, capsys: pytest.CaptureFixture, kind: str) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--permutations", "9",
+                       "--seed", "1", "--block-weighting", kind))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert record["block_weighting"]["kind"] == kind
+    assert [block["n_features"] for block in record["block_weighting"]["blocks"]] == [15, 10]
+    assert record["latent"]["integration_params"]["block_weighting"] == kind
+    assert record["params"]["block_weighting"] == kind
+    assert f"(cv; rank floor 2; block weighting {kind})" in capsys.readouterr().out
+
+
+def test_analyze_without_block_weighting_prints_and_records_nothing(tmp_path: Path, analyze_files,
+                                                                    capsys: pytest.CaptureFixture) -> None:
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2"))
+    assert "block weighting" not in capsys.readouterr().out
+    record = json.loads((out_dir / "result.json").read_text())
+    assert "block_weighting" not in record and "block_weighting" not in record["params"]
+
+
+def test_analyze_block_weighting_help_and_choices(capsys: pytest.CaptureFixture) -> None:
+    with pytest.raises(SystemExit):
+        main(["analyze", "--help"])
+    printed = capsys.readouterr().out
+    assert "--block-weighting {equal_variance,mfa}" in printed
+    with pytest.raises(SystemExit):
+        main(["analyze", "--block-weighting", "pareto"])
+    assert "invalid choice: 'pareto'" in capsys.readouterr().err
+
+
 def test_analyze_interaction_scan_without_permutations(tmp_path: Path, analyze_files,
                                                        capsys: pytest.CaptureFixture) -> None:
     out_dir = tmp_path / "out"

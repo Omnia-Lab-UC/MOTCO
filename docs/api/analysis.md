@@ -62,10 +62,11 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `statistics`, `p_values` | `delta`, `angle`, `shape` and their RRPP p-values (`shape` is `null` with two stages) |
 | `null_summary` | per statistic: retained draws, mean, sd, 50/90/95/99 % quantiles of the permutation null |
 | `config_spectrum` | eigenspectrum of the latent stage-mean configuration, pooled and per group, plus the permutation eigengap summary |
-| `latent` | `selected_lv`, `component_selection`, CV settings (`min_components` beside them when the floor is above 1), `cv_mean_auroc`, feature counts, `feature_order_signature` |
+| `latent` | `selected_lv`, `component_selection`, CV settings (`min_components` beside them when the floor is above 1, `block_weighting` when set), `cv_mean_auroc`, feature counts, `feature_order_signature` |
 | `design` | group and ordered stage levels, cell sizes per group × stage, contrast, analysed sample count |
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
+| `block_weighting` | only with a [block weighting](#block-weighting): the kind and each block's name, fitted weight and feature count |
 | `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
 | `span_split` | only with the [split interaction test](#split-interaction-test): per part (`total`, `span`, `complement`) the dimension, interaction and residual sums of squares, degrees of freedom, pseudo-F and, with permutations, the pseudo-F and interaction-SS p-values; the in-span share, the residual correction, permutations, seed and `draws_match_rrpp` |
 | `interaction_scan` | only with the [per-feature interaction scan](#per-feature-interaction-scan): feature and degenerate counts, df, the maximum F with its feature and block and, with permutations, the global p-value, the hits at adjusted p ≤ 0.05 (block, feature, F, adjusted p, by F), per block the hit count and the share of null maxima, and `draws_match_rrpp`; permutations, seed and residual correction |
@@ -629,15 +630,61 @@ or adjusted p-value and never enter the maximum.
   identical with and without the setting; without it every output equals MOTCO
   0.19.0's (`tests/test_analysis_identity.py`,
   `tests/test_analysis_interaction_scan.py`).
-- **Latent adjustment and attribution.** The scan reads only the standardized
-  features and the trajectory models, so it is allowed with both and is
-  identical with and without latent adjustment.
+- **Latent adjustment, attribution and block weighting.** The scan reads only
+  the standardized features and the trajectory models, so it is allowed with
+  all three and is identical with and without latent adjustment. It reads the
+  unweighted standardized features, so a block weighting leaves its record and
+  table unchanged.
 - **Reading.** A hit names a feature whose covariate-adjusted group difference
   changes across stages, with the familywise error rate over all scanned
   features controlled at 0.05; it does not say the feature drives a latent
   trajectory difference, and a scan without hits is uninformative unless power
   is shown. See [measurement visibility](../measurement-visibility.md) for the
   reading and the validation status.
+
+## Block weighting
+
+The joint features are z-scored one by one and concatenated, so unweighted a
+block's influence on every fitted space grows with its feature count. The
+opt-in block weighting multiplies every standardized block by one label-blind
+scalar, so that weight is a declared choice:
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, block_weighting="equal_variance")
+```
+
+```bash
+motco analyze ... --permutations 999 --seed 1 --block-weighting equal_variance
+```
+
+- **Kinds.** `equal_variance` multiplies block *b* by 1/√p_b (p_b its feature
+  count, constant features included), so every block has unit total variance
+  (the multi-block PLS block scaling). `mfa` multiplies it by the inverse
+  standard deviation of the standardized block's leading principal component,
+  so every block's dominant direction has unit variance (multiple factor
+  analysis). The `equal_variance` weight depends only on the declared block;
+  the `mfa` weight depends on the sample, so two cohorts weight differently.
+  Neither reads a group or stage label, and both are fitted once on the pooled
+  sample, like the standardization, so RRPP's null is unchanged in kind.
+- **Metric.** The PLS space is fitted without per-feature rescaling (every
+  fit, the cross-validation's included), so the weights set the metric. `delta`
+  is in the weighted metric and is not comparable with an unweighted
+  analysis's; `angle`, `shape` and the p-values are. The rank can differ,
+  because the weights change the space.
+- **Record.** A `block_weighting` block after `blocks` names the kind and
+  each block's weight and feature count, `latent.integration_params` names the
+  kind, and the CLI prints it beside the selected rank. Attribution's
+  original-unit mapping and `latent_artifacts.original_scales` divide by the
+  weights, so reconstructed features are in their original units. The
+  [split interaction test](#split-interaction-test) runs in the weighted metric
+  of the fitted space; the [per-feature scan](#per-feature-interaction-scan)
+  does not depend on it.
+- **Absent.** Nothing is written and every output equals MOTCO 0.20.0's
+  (`tests/test_analysis_identity.py`, `tests/test_analysis_block_weighting.py`).
+- **Status.** The setting is **unvalidated**: its size and power check is the
+  `weighted` arm of the production latent-space selection, and the case study
+  may not use it before that reading. An unknown kind is rejected before
+  anything is fitted.
 
 ## Example: SEA-AD-style design
 

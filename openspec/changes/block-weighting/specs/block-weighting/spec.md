@@ -10,7 +10,7 @@ Defines the opt-in, label-blind weighting of the pooled-standardized omic blocks
 
 When block weighting is requested, every feature of a block SHALL be multiplied, after pooled per-feature standardization, by one scalar fitted on the pooled sample without any group or stage label. Two kinds SHALL be offered:
 - `equal_variance`: the inverse square root of the block's feature count, so every block has unit total variance;
-- `mfa`: the inverse of the standardized block's leading singular value, so every block's dominant direction has unit variance.
+- `mfa`: the inverse standard deviation of the standardized block's leading principal component, so every block's dominant direction has unit variance.
 
 An unknown kind SHALL be rejected, naming the value and the allowed kinds, before any block is transformed.
 
@@ -20,7 +20,7 @@ An unknown kind SHALL be rejected, naming the value and the allowed kinds, befor
 
 #### Scenario: MFA
 - **WHEN** blocks are weighted with `mfa`
-- **THEN** the leading singular value of each transformed block is 1
+- **THEN** the leading principal component of each transformed block has unit variance
 
 #### Scenario: Unknown kind
 - **WHEN** a weighting other than `equal_variance` or `mfa` is requested
@@ -50,6 +50,10 @@ When weighting is set, every PLS fit of the production latent space — cross-va
 - **WHEN** a PLS latent space is fitted on weighted blocks
 - **THEN** its input scaling is unity and the fitted weights of a block are those of the weighted features, not of features rescaled to unit variance
 
-#### Scenario: Unit weights select production's rank
-- **WHEN** a PLS latent space is fitted in the weighted metric with every weight equal to 1
-- **THEN** the selected rank and the cross-validation table equal those of the production fit on the same rows
+#### Scenario: Unit weights reproduce production at a fixed rank
+- **WHEN** a PLS latent space is fitted at a fixed rank in the weighted metric with every weight equal to 1
+- **THEN** its weight vectors equal those of the production fit on the same rows and its scores equal production's divided by the uniform factor √((n − 1)/n)
+
+#### Scenario: Unit weights select production's rank on a pinned dataset
+- **WHEN** the cross-validation runs in the weighted metric with every weight equal to 1 on the pinned dataset
+- **THEN** the selected rank and the cross-validation table equal those of the production fit on the same rows (the cross-validation differs from production only by its per-fold rescaling, which need not vanish on other datasets)
