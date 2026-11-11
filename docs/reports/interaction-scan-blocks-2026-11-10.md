@@ -27,7 +27,7 @@ The by-block combination (`interaction_feature_scan(..., blocks=)`, `motco analy
 - **Compute.** The simulation profile ran on the workstation (AMD Ryzen 7 5800X, 8 workers). The two plasmode profiles ran on `ing` as arrays 937733 and 937734 (10 shards each, all on n4, n11 excluded, BLAS pinned to one thread), queued behind the production latent-space arrays. Job 937821 merged both and ran `decide`.
 - **Pre-flight:** a local smoke of all three profiles at 2 replicates per cell × 99 permutations, a serial timing at 999 permutations (projection 2.0 core-hours), and the change's test modules on `ing` (164 passed).
 
-Details are in `PROVENANCE.txt` and `openspec/changes/interaction-scan-block-maxima/notes.md`.
+Details are in `PROVENANCE.txt` and `openspec/changes/archive/2026-11-11-interaction-scan-block-maxima/notes.md`.
 
 ## 2. Accounting and reproduction
 
