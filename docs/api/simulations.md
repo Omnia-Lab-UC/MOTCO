@@ -340,8 +340,10 @@ any preprocessing, as does an unknown kind. A prebuilt preprocessor, latent inte
 another weighting is refused, naming both. The kind is recorded as `integration_params.block_weighting`
 in the latent metadata only when set. Absent, every weight is 1 (multiplied exactly), and transforms,
 records, cell ids and signatures are byte-identical to 0.20.0; as an integration parameter it is already
-the study-config axis `evaluation.integration_params.block_weighting`. The setting is unvalidated: its
-size and power check is the `weighted` arm of the production latent-space selection.
+the study-config axis `evaluation.integration_params.block_weighting`. The setting is measured and stays
+opt-in: the `weighted` arm of the production latent-space selection
+([report](../reports/production-latent-space-2026-11-10.md)) read `no_gain` (size, protected power and
+specificity hold; no gain at a weak stage signal or on the SEA-AD plasmode plant).
 
 **Sparse stage-PLS.** `integration_params["sparsity"]` (0.22.0) fits the `pls` space with
 [`SparsePLSDA`](pls.md#sparse-pls-da), whose components each load on a budget of features. The value is
@@ -366,8 +368,10 @@ ladder), is rejected before any preprocessing, naming the offence. Absent, nothi
 entry is written, the production space is `PLSRegression` and records, cell ids and signatures are
 byte-identical to 0.21.0; as an integration parameter it is already the study-config axis
 `evaluation.integration_params.sparsity`. A ladder of `[1.0]` reproduces the production space exactly. The
-setting is unvalidated: its size and power check is the `sparse_block` arms of the production
-latent-space selection.
+setting is measured and stays opt-in: the `sparse_block` arm of the production latent-space selection
+([report](../reports/production-latent-space-2026-11-10.md)) read `size_excess` (the SEA-AD plasmode
+anchor's `delta` 0.11 at 100 replicates, production's rate on the same replicates) and gained no
+Bonferroni-protected power at a weak stage signal or on the plasmode plant.
 
 **Orientation estimator.** `orientation_estimator` selects how each group's orientation is measured
 for the observed `angle`, every RRPP draw and every realized-geometry checkpoint `angle`. The default

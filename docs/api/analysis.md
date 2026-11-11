@@ -682,10 +682,15 @@ motco analyze ... --permutations 999 --seed 1 --block-weighting equal_variance
   does not depend on it.
 - **Absent.** Nothing is written and every output equals MOTCO 0.20.0's
   (`tests/test_analysis_identity.py`, `tests/test_analysis_block_weighting.py`).
-- **Status.** The setting is **unvalidated**: its size and power check is the
-  `weighted` arm of the production latent-space selection, and the case study
-  may not use it before that reading. An unknown kind is rejected before
-  anything is fitted.
+- **Status.** The setting is **measured and stays opt-in**. Its size and
+  power check, the `weighted` arm of the production latent-space selection
+  ([report](../reports/production-latent-space-2026-11-10.md)), read
+  `no_gain`: size, protected power and specificity hold, and it gains no
+  power at a weak stage signal or on the SEA-AD plasmode's stage-span plant.
+  A case study may declare it as a sensitivity analysis. On blocks with equal
+  feature counts the weights are equal, so the only change is the fit without
+  per-fold re-standardization. An unknown kind is rejected before anything is
+  fitted.
 
 ## Sparse stage-PLS
 
@@ -730,11 +735,15 @@ motco analyze ... --permutations 999 --seed 1 --sparsity block --sparsity-ladder
   run unchanged on a sparse space.
 - **Absent.** Nothing is written and every output equals MOTCO 0.21.0's
   (`tests/test_analysis_identity.py`, `tests/test_analysis_sparsity.py`).
-- **Status.** The setting is **unvalidated until the production latent-space
-  selection reads it**: its size, specificity and power against production are
-  that selection's `sparse_block` arms, and the case study may not use it
-  before that reading. A malformed setting is rejected before anything is
-  fitted.
+- **Status.** The setting is **measured and stays opt-in**. The production
+  latent-space selection's `sparse_block` arm
+  ([report](../reports/production-latent-space-2026-11-10.md)) read
+  `size_excess`: on the SEA-AD plasmode anchor `delta` reads 0.11 at 100
+  replicates, as production does on the same replicates, and it gains no
+  Bonferroni-protected power at a weak stage signal or on the plasmode plant
+  (best `delta` 0.51 → 0.62 at e = 0.5, p = 0.0096). It loses no protected
+  power and costs about seven to nine production fits. A malformed setting is
+  rejected before anything is fitted.
 
 ## Example: SEA-AD-style design
 
