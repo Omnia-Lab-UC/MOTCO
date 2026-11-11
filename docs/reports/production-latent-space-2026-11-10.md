@@ -33,7 +33,7 @@ The latent-space comparison ([report](latent-space-comparison-2026-11-04.md)) ke
   - **Units:** 400.
 - **Code.** Revision `d0a5ddb` on `proposal/production-latent-space` (MOTCO 0.22.0), run from a clean detached worktree on `ing`. Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0 and pandas 2.3.3, with BLAS pinned to one thread.
 - **Cluster.** Partition `512x1024`, n11 excluded: array 937293 (`simulation`, 300 shards of 10 units, at most 96 at once) and array 937294 (`plasmode`, 100 shards of 4 units, at most 64 at once).
-- **Pre-flight.** A workstation smoke of both profiles (68 units, 0 failed records) projected about 490 core-hours. The user approved the full ladder at 100 replicates with a cap of 650 core-hours (`openspec/changes/production-latent-space-selection/notes.md`).
+- **Pre-flight.** A workstation smoke of both profiles (68 units, 0 failed records) projected about 490 core-hours. The user approved the full ladder at 100 replicates with a cap of 650 core-hours (`openspec/changes/archive/2026-11-11-production-latent-space-selection/notes.md`).
 - **Amendments before any unit** (2026-11-10, `notes.md`): S3 reads the e ≤ 0.5 cells only, and S1 and S3 use the stage-span paper grade's count-plus-ceiling rule.
 
 Details are in `PROVENANCE.txt`.
