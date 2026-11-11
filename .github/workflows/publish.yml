@@ -29,6 +29,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.RELEASE_TAG }}
+          # Full history and tags: the release notes start after the previous tag.
+          fetch-depth: 0
+      # Before anything is uploaded, so a missing CHANGELOG.md entry stops the release.
+      - name: Release notes from CHANGELOG.md
+        run: python3 scripts/release_notes.py "$RELEASE_TAG" > release-notes.md
+      - name: Keep the release notes for the release job
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Install Python 3.11
@@ -45,7 +55,12 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Fetch the release notes
+        uses: actions/download-artifact@v4
+        with:
+          name: release-notes
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
+          body_path: release-notes.md
