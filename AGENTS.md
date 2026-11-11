@@ -55,7 +55,7 @@ Tests use `pytest` with configuration in `pyproject.toml`. Slow tests are marked
 
 ## Commit & Pull Request Guidelines
 
-Follow the existing Conventional Commit style: `feat:`, `fix:`, `docs:`, `chore:`, and `refactor:`. Keep commits focused and imperative, for example `fix: handle singular model matrix fallback`. Pull requests should include a short problem statement, summary of changes, commands run, linked issues or OpenSpec changes when relevant, and screenshots only for documentation or rendered output changes.
+Follow the existing Conventional Commit style: `feat:`, `fix:`, `docs:`, `chore:`, and `refactor:`. Keep commits focused and imperative, for example `fix: handle singular model matrix fallback`. Pull requests should include a short problem statement, summary of changes, commands run, linked issues or OpenSpec changes when relevant, and screenshots only for documentation or rendered output changes. A change that bumps `__version__` adds its entry to `CHANGELOG.md` in the same change, listing package changes only (validation runs go in their reports). Pushing a `v<version>` tag on `main` publishes that version to PyPI and creates its GitHub release (`.github/workflows/publish.yml`).
 
 ## Agent-Specific Instructions
 
