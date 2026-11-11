@@ -13,6 +13,30 @@ Once a latent space is constructed, MOTCO includes statistics to estimate differ
 
 This repository contains the core statistical routines in `src/motco/stats`, simulation helpers in `src/motco/simulations`, and a command‑line interface for common analysis tasks.
 
+## Install (with uv)
+
+Prerequisites: Python 3.11+ and [uv](https://github.com/astral-sh/uv) installed.
+
+```bash
+# Create and activate a virtual environment
+uv venv
+source .venv/bin/activate
+
+# Install MOTCO in editable mode (and dependencies)
+uv pip install -e .
+
+# Verify CLI is available
+motco --help
+```
+
+Alternatively, using pip:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
 ## Real data
 
 To analyse your own multi-omic data, use `motco analyze` (or `motco.analysis.analyze_trajectories`
@@ -76,121 +100,9 @@ install.packages("InterSIM", repos = c("https://cran.r-universe.dev", "https://c
 
 See `examples/motco_example.ipynb` for a full end-to-end walkthrough in Python.
 
-## Install (with uv)
-
-Prerequisites: Python 3.11+ and [uv](https://github.com/astral-sh/uv) installed.
-
-```bash
-# Create and activate a virtual environment
-uv venv
-source .venv/bin/activate
-
-# Install MOTCO in editable mode (and dependencies)
-uv pip install -e .
-
-# Verify CLI is available
-motco --help
-```
-
-Alternatively, using pip:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-```
-
-## Quick Example
-
-See `examples/motco_example.ipynb` for an end-to-end walkthrough using the bundled dataset, including construction of the latent/design inputs used by trajectory tests.
-
-Representative CLI commands:
-
-```bash
-# 1. Run PLS-DA double cross-validation and save the model-selection table
-motco plsr --data tests/data/evo_649_sm_example1.csv --label-col taxa \
-  --cv1-splits 7 --cv2-splits 8 --n-repeats 5 --max-components 2 \
-  --out-table results/plsr_table.csv
-
-# 2. Estimate group differences after preparing aligned Y/design/contrast files
-motco de \
-  --Y results/latent_space.csv \
-  --model-matrix results/model_matrix.csv \
-  --ls-means results/ls_means.csv \
-  --contrast contrast.json \
-  --out-json results/de_result.json \
-  --out-observed results/ls_mean_vectors.csv
-```
-
 ## Command Line Interface
 
-MOTCO exposes a single entry‑point `motco` with subcommands for PLSR/PLS‑DA, SNF, and Differential Effects (group differences).
-
-### 1) PLS‑DA with double cross‑validation
-
-```bash
-motco plsr \
-  --data path/to/table.csv \
-  --label-col diagnosis \
-  --cv1-splits 7 --cv2-splits 8 --n-repeats 30 --max-components 50 \
-  --out-table results/plsr_models.csv
-```
-
-Options:
-- Use `--data` for a single CSV containing predictors and a label column specified by `--label-col`.
-- Or provide separate matrices via `--x` and `--y` CSV files (mutually exclusive with `--data`).
-- If `--y` has a single column, it is treated as a label vector and will be one‑hot encoded internally; if it has multiple columns, it is treated as an already encoded class matrix.
-- Outputs a table with one row per outer CV repeat: `rep`, `LV` (modal n_LV across K outer folds), `AUROC` (mean across K outer folds), and `AUROC_std` (sample std across K outer folds). The actual trained models are kept in memory; export of models is not included in the CLI at this time. If `--out-table` is omitted, the table is printed to stdout.
-
-Input expectations:
-- CSV files with samples in rows, features in columns. For `--data`, include a label column with binary or multi‑class outcome; it will be one‑hot encoded internally.
-
-### 2) Similarity Network Fusion (SNF)
-
-```bash
-motco snf \
-  --input omics1.csv --input omics2.csv [--input omics3.csv ...] \
-  --K 20 --eps 0.5 --k 20 --t 20 \
-  --out-fused fused_affinity.csv \
-  --out-embedding spectral_embedding.csv
-```
-
-Notes:
-- Each `--input` CSV must contain the same samples in the same order (rows = samples).
-- `--K` and `--eps` are used when constructing per‑dataset affinity matrices; `--k` and `--t` control SNF neighborhood size and iterations.
-- The fused similarity matrix is saved to `--out-fused`. If `--out-embedding` is provided, a spectral embedding is also computed and saved. Use `--spectral-components` to control its dimensionality; the default is 10. If no output paths are provided, the fused matrix is printed to stdout.
-
-### 3) Differential Effects (group differences)
-
-Estimate differences in magnitude and direction between groups using least‑squares means, with optional permutation testing (RRPP).
-
-```bash
-motco de \
-  --Y latent_space.csv \
-  --model-matrix model_matrix.csv \
-  --ls-means ls_means.csv \
-  --contrast contrast.json \
-  --out-json de_result.json
-
-# With permutations (RRPP)
-motco de \
-  --Y latent_space.csv \
-  --model-full model_full.csv \
-  --model-reduced model_reduced.csv \
-  --ls-means ls_means.csv \
-  --contrast contrast.json \
-  --rrpp-permutations 999 \
-  --out-json rrpp_result.json
-```
-
-Where:
-- `latent_space.csv` is the outcome matrix `Y` (e.g., coordinates in a latent space; rows = samples, columns = dimensions).
-- `model_matrix.csv` is a design matrix (with intercept) aligned to `Y` rows. For RRPP, provide `--model-full` and `--model-reduced` (both with intercept).
-- `ls_means.csv` contains the least‑squares means to compare (rows = groups/cohorts, columns = same dimensions as `Y`).
-- `contrast.json` is a JSON array of index lists, where each inner list enumerates the cohort indices belonging to the same group. Example: `[[0,1],[2,3]]`.
-- Output JSON includes `deltas`, `angles`, and `shapes` as symmetric matrices (lists of lists). With `--rrpp-permutations > 0`, these are returned as lists of matrices per permutation: e.g., `deltas[perm_idx] -> matrix`.
-
-Important: trajectory design, estimation, and permutation utilities now live in focused submodules under `motco.stats`. See the Python API notes below for helpers to build model matrices and LS means directly from your `group` and `level` columns.
+`motco` has five subcommands: `analyze` (the real-data pipeline), and the building blocks `plsr` (PLS-DA with double cross-validation), `snf` (Similarity Network Fusion), `simulate` (a semi-synthetic dataset from the numpy generator) and `de` (trajectory differences with optional RRPP). Run `motco <subcommand> --help`, or see the [CLI reference](docs/api/cli.md) for every option, the input formats and the outputs.
 
 ## Python API (selected)
 

@@ -1,50 +1,11 @@
 # Simulations
 
-InterSIM bridge utilities and semi-synthetic trajectory generators for multi-omics simulation studies.
-
-## R dependency
-
-The bridge is optional and requires `Rscript` plus the R `InterSIM` package:
-
-```r
-install.packages(
-  "InterSIM",
-  repos = c("https://cran.r-universe.dev", "https://cloud.r-project.org")
-)
-```
-
-Check availability before running a simulation:
-
-```python
-from motco.simulations import check_intersim_available
-
-availability = check_intersim_available()
-if not availability.available:
-    print(availability.message)
-```
-
-## Example
-
-```python
-from motco.simulations import InterSIMParams, run_intersim
-
-result = run_intersim(
-    InterSIMParams(
-        seed=1203,
-        n_sample=100,
-        cluster_sample_prop=(0.3, 0.3, 0.4),
-        delta_methyl=1.0,
-        delta_expr=1.0,
-        delta_protein=1.0,
-        p_dmp=0.1,
-    )
-)
-
-methylation = result.methylation
-expression = result.expression
-proteomics = result.proteomics
-clusters = result.clusters
-```
+The numpy semi-synthetic generator, the evaluation harness that runs a generated dataset through
+MOTCO's measurement, and the grid and study orchestration behind the operating-characteristic studies.
+Generation needs no R at runtime: the generator samples from the cached InterSIM reference committed at
+`src/motco/simulations/data/intersim_reference.npz`. R and InterSIM are needed only to regenerate that
+cache and the fidelity fixtures; the Python bridge to R is kept as the
+[legacy InterSIM bridge](#legacy-intersim-bridge).
 
 ## Semi-synthetic trajectory generation
 
@@ -525,6 +486,57 @@ Each `SimulationCell` stores a stable `cell_id`, phase, `SemiSyntheticTrajectory
 Initial persistence is JSON Lines. Each row records cell and replicate IDs, deterministic seeds, a parameter signature, status, p-values, pair statistics, realized-geometry diagnostics, truth metadata, runtime metadata, cell metadata, and optional error details. The diagnostic schema version participates in the parameter signature. With `resume=True`, completed rows with matching parameter signatures are skipped. A matching cell/replicate with a different parameter signature raises unless `overwrite=True`; legacy rows remain readable but have no realized-geometry payload.
 
 `summarize_rejection_rates` groups completed replicate rows by cell and statistic, then reports available replicate count, rejection count, rejection rate, Monte Carlo standard error, and unavailable replicate count. Missing statistics, such as shape p-values for two-stage datasets, remain unavailable rather than being counted as non-significant.
+
+## Legacy InterSIM bridge
+
+`run_intersim` calls the R InterSIM package and returns its matrices. Nothing in MOTCO's generation,
+harness or studies uses it. The cached reference is exported by
+`src/motco/simulations/export_reference.R`, and the fidelity fixtures are regenerated as described in
+`src/motco/simulations/FIDELITY.md`.
+
+### R dependency
+
+The bridge is optional and requires `Rscript` plus the R `InterSIM` package:
+
+```r
+install.packages(
+  "InterSIM",
+  repos = c("https://cran.r-universe.dev", "https://cloud.r-project.org")
+)
+```
+
+Check availability before running a simulation:
+
+```python
+from motco.simulations import check_intersim_available
+
+availability = check_intersim_available()
+if not availability.available:
+    print(availability.message)
+```
+
+### Example
+
+```python
+from motco.simulations import InterSIMParams, run_intersim
+
+result = run_intersim(
+    InterSIMParams(
+        seed=1203,
+        n_sample=100,
+        cluster_sample_prop=(0.3, 0.3, 0.4),
+        delta_methyl=1.0,
+        delta_expr=1.0,
+        delta_protein=1.0,
+        p_dmp=0.1,
+    )
+)
+
+methylation = result.methylation
+expression = result.expression
+proteomics = result.proteomics
+clusters = result.clusters
+```
 
 ## API
 

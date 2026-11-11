@@ -3,12 +3,12 @@
 > **Addendum to the Phase 5 findings report.** This report re-measures the magnitude mode alone, under the
 > `joint` magnitude construction, and resolves the magnitude-specificity claim that the
 > [Phase 5 exit review](phase5-exit-review-2026-09-10.md) withheld. It follows the committed
-> [Phase 5 report template](../../examples/trajectory_power_study/phase5_report_template.md) section for
+> [Phase 5 report template](https://github.com/Omnia-Lab-UC/MOTCO/blob/main/examples/trajectory_power_study/phase5_report_template.md) section for
 > section; sections that concern orientation, shape, translation power or drivers are marked **not
 > applicable** because those cells were not re-run — matched seeds make them byte-identical to the committed
 > [Phase 5 records](phase5-paper-grade-2026-09-10.md), whose findings stand. Every number below is readable
 > out of a file under `results/phase5-magnitude-2026-10-08/report/` or stated in that run's
-> [`PROVENANCE.txt`](../../results/phase5-magnitude-2026-10-08/PROVENANCE.txt).
+> [`PROVENANCE.txt`](https://github.com/Omnia-Lab-UC/MOTCO/blob/main/results/phase5-magnitude-2026-10-08/PROVENANCE.txt).
 
 **Run:** `results/phase5-magnitude-2026-10-08/` · **Config:**
 `examples/trajectory_power_study/phase5_magnitude_remeasurement.json` (sha256 `fdaac1ed…028d4`, from
@@ -64,7 +64,7 @@ median and modal `selected_lv` 3 in all 9 cells, mean 2.908–2.976, range 2–3
 throughout). Small `e` does not move rank selection (2.916 at e = 0.0025 through 0.02, identical to the
 anchor's 2.916).
 
-[`PROVENANCE.txt`](../../results/phase5-magnitude-2026-10-08/PROVENANCE.txt) carries the full field list:
+[`PROVENANCE.txt`](https://github.com/Omnia-Lab-UC/MOTCO/blob/main/results/phase5-magnitude-2026-10-08/PROVENANCE.txt) carries the full field list:
 code revision `f1356b3` on a clean tree, the exact `sbatch` line with `STUDY_N_JOBS` unset, BLAS pinned to one
 thread, job 906705, both environments' package versions, the wall interval, per-unit timings, and the
 merge/report split. Two provenance points worth reading directly:
