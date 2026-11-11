@@ -1,0 +1,5 @@
+cell,effect,block,n,gains,losses,ties,mean_difference,p_sign
+e=2,2,atac,500,0,86,414,-0.184,1
+e=2,2,rna,500,296,0,204,0.894,7.85455e-90
+e=3,3,atac,500,0,273,227,-0.75,1
+e=3,3,rna,500,429,0,71,1.854,7.21326e-130

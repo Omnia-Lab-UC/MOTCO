@@ -173,6 +173,41 @@ seconds. A hit is a feature whose covariate-adjusted group difference changes
 across stages; it does not say the feature drives a latent trajectory
 difference. See [Measurement visibility](../measurement-visibility.md).
 
+### By block
+
+One maximum over every feature lets the block that most often gives the
+largest null F set every block's bar: a block with many features, or with a
+heavier-tailed null F, takes most of the familywise error. With `blocks=` (one
+label per column) the scan shares the familywise error equally between the
+blocks (`combination="block_bonferroni"`):
+
+- **Within each block** the same step-down runs on the block's features alone,
+  on the same draws and the same per-draw F, giving each feature its
+  within-block value p⁽ᵏ⁾ and each block its own global p-value p_k (its top
+  feature's p⁽ᵏ⁾).
+- **Across blocks** each of the K blocks holding a non-degenerate feature is
+  tested at α/K: a feature's adjusted p-value is `min(1, K · p⁽ᵏ⁾)` and the global
+  p-value `min(1, K · min_k p_k)`, the smallest adjusted p-value. The union bound
+  keeps the familywise error over all features at α whatever the dependence
+  between blocks.
+- **The result** adds `n_blocks_tested` (K), one `InteractionScanBlock` per label
+  in order of first appearance (`name`, `columns`, `n_degenerate`, `max_f`,
+  `max_column`, and with permutations `p_value` = p_k and `null_max_f`, every
+  draw's block maximum) and `null_block_max_f` (draws × K). `max_f`,
+  `max_column`, `null_max_f` and `null_max_column` stay the joint ones, and
+  `hits()` reads the by-block adjusted p-values. A block whose columns are all
+  degenerate has no maximum or p-value and does not count in K.
+- **Identity.** One label on every column gives the joint scan's p-values and
+  hits exactly; without labels the scan, its result and its serialization are
+  unchanged.
+
+A label list whose length is not the number of outcome columns is rejected
+before any draw, naming both lengths. A hit at α/K needs at most
+⌊(α/K)(1 + B)⌋ − 1 exceeding draws (24 of 999 at K = 2), so the split needs
+B ≫ K/α, not the B ≫ p/α a per-feature minP would.
+
 ::: motco.stats.interaction.interaction_feature_scan
 
 ::: motco.stats.interaction.InteractionScanResult
+
+::: motco.stats.interaction.InteractionScanBlock

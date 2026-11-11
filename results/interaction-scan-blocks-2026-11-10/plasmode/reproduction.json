@@ -1,0 +1,14 @@
+{
+ "arm": "joint",
+ "differing": [],
+ "passed": true,
+ "profile": "plasmode",
+ "rows_compared": 11,
+ "rule": "p <= alpha",
+ "source_dir": "results/interaction-scan-2026-11-09/plasmode",
+ "sources": {
+  "block_balance.csv": "07de78580d7d91f07ef9e0316b9ff74d5411ee16a2f620c0aa922b2518579034",
+  "recovery_table.csv": "b490b859ccfb0b27b10949070a817f125f0b7729893822e6c1d15d8d543ff43e",
+  "scan_table.csv": "f340b474ba6d22b7da1adcaf3b911b1291972eee7e50b9444b3857c0eba78e71"
+ }
+}

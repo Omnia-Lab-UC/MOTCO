@@ -1,0 +1,14 @@
+{
+ "arm": "joint",
+ "differing": [],
+ "passed": true,
+ "profile": "simulation",
+ "rows_compared": 168,
+ "rule": "p <= alpha",
+ "source_dir": "results/interaction-scan-2026-11-09/simulation",
+ "sources": {
+  "block_balance.csv": "9d2096d1bd3b3f9cd205cd7fe925286c0c6c190ce8b5b4ec0b6200715bd292a1",
+  "false_hit_table.csv": "5bf68c2d07732d729d0f5fa6c8d64d0b2b6d6abcd8eb3b26e21571620b7f8ab9",
+  "scan_table.csv": "09e17b61477dcb10fb374a9dad88796b24083cb7ff10aa9b805cf1f74cd949db"
+ }
+}

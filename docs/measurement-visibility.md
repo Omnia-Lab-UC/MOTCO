@@ -570,7 +570,8 @@ The complement still wins at half that rotation on the SEA-AD table (0.31 agains
 differs between the groups, never how the trajectories differ. It is not a driver analysis.
 Its F is the plain per-feature F, not a variance-moderated one. Its familywise threshold is
 common to all features, and on the SEA-AD export one block's null is heavier: ATAC gives
-0.618 of the null maxima with half the features, so the threshold leans on ATAC.
+0.618 of the null maxima with half the features, so the threshold leans on ATAC. The
+by-block scan ([below](#scanning-by-block)) gives each block its own share of the error.
 
 **Validation: `scan_validated`** (2026-11-09, [report](reports/interaction-scan-2026-11-09.md),
 on the split-test validation's own units, which it reproduced exactly):
@@ -583,3 +584,42 @@ on the split-test validation's own units, which it reproduced exactly):
 - **Sparse gain.** At 3 SDs the scan rejects in 1.000 of replicates, against 0.016–0.048 for
   `delta`, `angle`, `shape` and the three split parts on the same units. At 3 SDs, 0.995 of
   its hits are planted features.
+
+### Scanning by block
+
+One maximum over every feature lets the block that most often gives the largest null F
+set every block's bar. A block with many features, or with heavier-tailed noise, takes
+most of the familywise error, and a small block's features face a threshold set by the
+large block's search. The by-block scan (`motco analyze --interaction-scan-by-block`;
+[API](api/analysis.md#by-block)) runs the same step-down within each declared block, on
+the same draws, and tests each of the K blocks at 0.05/K.
+
+**Reading a by-block hit.** The claim is the joint scan's: this feature's covariate-adjusted
+group difference changes across stages, with the familywise error over all scanned
+features controlled at 0.05. What changes is who carries the error. Each block gets 0.05/K
+whatever its size or noise, so each block has about the same chance of a false hit.
+
+**When to use it.** When the blocks differ in size, or their noise is known to differ.
+With equal blocks it mostly moves detection from the heavier-tailed block to the other
+at the same total. Only K = 2 has been measured; with many small blocks each gets only
+0.05/K.
+
+**Validation: `by_block_validated`** (2026-11-10, [report](reports/interaction-scan-blocks-2026-11-10.md),
+on the interaction-scan validation's units, whose joint scan it reproduced exactly, plus an
+unequal export with RNA cut to 500 of its 5,000 features):
+
+- **Size and familywise control hold.** The six simulation controls read 0.046–0.058. On
+  real noise the global rate reads 0.040 (SEA-AD export) and 0.044 (unequal export), and a
+  feature outside the planted set is a hit in 0.040 and 0.044 of units.
+- **The error is shared.** At the unequal export's anchor the joint scan puts its false
+  hits almost all in ATAC (0.052 of units against RNA's 0.004); by block they read 0.030
+  and 0.016.
+- **No global power is lost, and the small block gains.** On the unequal export the global
+  rate at 2 SDs rises from 0.760 to 0.892. RNA recall rises from 0.069 to 0.158 (2 SDs) and
+  from 0.570 to 0.755 (3 SDs), while ATAC's falls from 0.076 to 0.058 and from 0.575 to
+  0.500. On the SEA-AD export the two blocks' mean recall is unchanged (0.059 at 2 SDs).
+- **Bonferroni costs little at K = 2.** The block maxima are weakly correlated (median
+  Spearman 0.18–0.20 on the exports), and a minP combination would have rejected at most 2
+  more units of 500.
+
+The joint scan stays the default; the by-block combination is opt-in.

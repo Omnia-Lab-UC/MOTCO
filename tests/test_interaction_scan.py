@@ -352,6 +352,212 @@ def test_high_dimensional_case_never_forms_a_permuted_outcome(monkeypatch, recor
     assert result.null_max_f.shape == (999,)
 
 
+# ── By-block combination ─────────────────────────────────────────────────────
+
+
+def _labels(p: int, sizes: tuple[int, ...] = (4, 8), names: tuple[str, ...] = ("rna", "atac")) -> list[str]:
+    """Contiguous block labels of the given sizes, which must sum to ``p``."""
+
+    assert sum(sizes) == p
+    return [name for name, size in zip(names, sizes) for _ in range(size)]
+
+
+def _block_step_down(f: np.ndarray, null_f: np.ndarray, degenerate: np.ndarray, labels: list[str]) -> np.ndarray:
+    """min(1, K × the direct step-down applied to each block alone), K the blocks with a non-degenerate column."""
+
+    by_block = {}
+    for name in dict.fromkeys(labels):
+        valid = np.array([c for c, label in enumerate(labels) if label == name and not degenerate[c]], dtype=int)
+        if valid.size:
+            by_block[name] = valid
+    expected = np.full(f.size, np.nan)
+    for valid in by_block.values():
+        within = _step_down(f, null_f, valid)
+        expected[valid] = np.minimum(1.0, len(by_block) * within[valid])
+    return expected
+
+
+def test_by_block_adjusted_p_values_match_a_brute_force_per_block_step_down():
+    for seed in range(3):
+        Y, full, reduced = _inputs(seed=seed + 20, p=12)
+        labels = _labels(12)
+        result = interaction_feature_scan(Y, full, reduced, permutations=40, seed=seed, return_null=True, blocks=labels)
+        expected = _block_step_down(result.f, result.null_f, result.degenerate, labels)
+        np.testing.assert_array_equal(result.p_value_adjusted, expected)
+        assert result.combination == "block_bonferroni" and result.n_blocks_tested == 2
+
+
+def test_by_block_handles_interleaved_labels_and_names_blocks_by_first_appearance():
+    Y, full, reduced = _inputs(seed=24, p=10)
+    labels = ["b", "a", "b", "c", "a", "a", "b", "c", "c", "a"]
+    result = interaction_feature_scan(Y, full, reduced, permutations=40, seed=3, return_null=True, blocks=labels)
+    assert result.block_names == ("b", "a", "c")
+    assert [block.columns.tolist() for block in result.blocks] == [[0, 2, 6], [1, 4, 5, 9], [3, 7, 8]]
+    expected = _block_step_down(result.f, result.null_f, result.degenerate, labels)
+    np.testing.assert_array_equal(result.p_value_adjusted, expected)
+    assert result.n_blocks_tested == 3
+
+
+def test_by_block_global_p_value_is_the_smallest_adjusted_p_value():
+    Y, full, reduced = _inputs(seed=25, p=16)
+    labels = _labels(16, (6, 10))
+    result = interaction_feature_scan(Y, full, reduced, permutations=99, seed=4, blocks=labels)
+    block_p = [block.p_value for block in result.blocks]
+    assert result.p_value_global == float(np.nanmin(result.p_value_adjusted))
+    assert result.p_value_global == min(1.0, 2 * min(block_p))
+    for block in result.blocks:
+        # The block's own p-value is its top feature's within-block value: K times it, capped, is that feature's.
+        assert result.p_value_adjusted[block.max_column] == min(1.0, 2 * block.p_value)
+        assert block.p_value == (1 + np.sum(block.null_max_f >= block.max_f)) / (1 + 99)
+
+
+def test_by_block_adjusted_p_values_are_monotone_in_f_within_a_block():
+    Y, full, reduced = _inputs(seed=26, p=20)
+    labels = _labels(20, (5, 15))
+    result = interaction_feature_scan(Y, full, reduced, permutations=99, seed=5, blocks=labels)
+    for block in result.blocks:
+        columns = block.columns[np.argsort(-result.f[block.columns], kind="stable")]
+        assert np.all(np.diff(result.p_value_adjusted[columns]) >= 0)
+
+
+def test_one_block_label_reproduces_the_joint_scan_exactly():
+    for seed in range(3):
+        Y, full, reduced = _inputs(seed=seed + 30, p=14)
+        joint = interaction_feature_scan(Y, full, reduced, permutations=60, seed=seed)
+        single = interaction_feature_scan(Y, full, reduced, permutations=60, seed=seed, blocks=["all"] * 14)
+        assert single.p_value_global == joint.p_value_global
+        np.testing.assert_array_equal(single.p_value_adjusted, joint.p_value_adjusted)
+        np.testing.assert_array_equal(single.hits(), joint.hits())
+        np.testing.assert_array_equal(single.null_max_f, joint.null_max_f)
+        assert single.n_blocks_tested == 1 and single.blocks[0].p_value == joint.p_value_global
+        np.testing.assert_array_equal(single.null_block_max_f[:, 0], joint.null_max_f)
+
+
+def test_by_block_keeps_every_joint_quantity():
+    Y, full, reduced = _inputs(seed=33, p=12)
+    joint = interaction_feature_scan(Y, full, reduced, permutations=50, seed=9, return_null=True)
+    by_block = interaction_feature_scan(Y, full, reduced, permutations=50, seed=9, return_null=True, blocks=_labels(12))
+    for name in ("ss_interaction", "rss", "f", "degenerate", "null_max_f", "null_max_column", "null_f"):
+        np.testing.assert_array_equal(getattr(by_block, name), getattr(joint, name))
+    assert (by_block.max_f, by_block.max_column) == (joint.max_f, joint.max_column)
+
+
+def test_joint_scan_has_no_block_fields():
+    Y, full, reduced = _inputs(seed=34)
+    result = interaction_feature_scan(Y, full, reduced, permutations=20, seed=1)
+    assert result.combination == "joint"
+    assert result.blocks is None and result.block_names is None
+    assert result.n_blocks_tested is None and result.null_block_max_f is None
+    assert {"combination", "n_blocks_tested", "blocks"}.isdisjoint(result.to_dict())
+
+
+def test_per_block_null_maxima_are_attained_by_a_column_of_the_block():
+    Y, full, reduced = _inputs(seed=35, p=12)
+    result = interaction_feature_scan(Y, full, reduced, permutations=50, seed=6, return_null=True, blocks=_labels(12))
+    assert result.null_block_max_f.shape == (50, 2)
+    for slot, block in enumerate(result.blocks):
+        assert block.null_max_f.shape == (50,)
+        np.testing.assert_array_equal(block.null_max_f, result.null_block_max_f[:, slot])
+        np.testing.assert_array_equal(block.null_max_f, np.nanmax(result.null_f[:, block.columns], axis=1))
+        assert block.max_f == float(np.nanmax(result.f[block.columns]))
+        assert block.max_column in set(block.columns.tolist())
+    np.testing.assert_array_equal(result.null_max_f, result.null_block_max_f.max(axis=1))
+
+
+def test_a_wholly_degenerate_block_is_not_tested():
+    Y, full, reduced = _inputs(seed=36, p=10)
+    constant = np.full((Y.shape[0], 3), 2.5)
+    outcome = np.hstack([Y[:, :4], constant, Y[:, 4:]])
+    labels = ["x"] * 4 + ["dead"] * 3 + ["y"] * 6
+    result = interaction_feature_scan(outcome, full, reduced, permutations=40, seed=2, return_null=True, blocks=labels)
+    dead = result.blocks[1]
+    assert result.block_names == ("x", "dead", "y")
+    assert dead.name == "dead" and not dead.tested and dead.n_degenerate == 3 and dead.n_features == 3
+    assert dead.max_f is None and dead.max_column is None and dead.p_value is None and dead.null_max_f is None
+    assert result.n_blocks_tested == 2 and result.null_block_max_f.shape == (40, 2)
+    assert np.all(np.isnan(result.p_value_adjusted[4:7]))
+    expected = _block_step_down(result.f, result.null_f, result.degenerate, labels)
+    np.testing.assert_array_equal(result.p_value_adjusted, expected)
+    assert result.to_dict()["blocks"][1] == {
+        "name": "dead",
+        "n_features": 3,
+        "n_degenerate": 3,
+        "max_f": None,
+        "max_column": None,
+        "p_value": None,
+    }
+
+
+def test_by_block_without_permutations_reports_the_block_maxima_only():
+    Y, full, reduced = _inputs(seed=37, p=12)
+    result = interaction_feature_scan(Y, full, reduced, blocks=_labels(12))
+    assert result.combination == "block_bonferroni" and result.n_blocks_tested == 2
+    assert result.p_value_global is None and result.p_value_adjusted is None and result.null_block_max_f is None
+    for block in result.blocks:
+        assert block.p_value is None and block.null_max_f is None
+        assert block.max_f == float(np.nanmax(result.f[block.columns]))
+    payload = result.to_dict()
+    assert payload["combination"] == "block_bonferroni" and payload["n_blocks_tested"] == 2
+    assert all("p_value" not in entry for entry in payload["blocks"])
+
+
+def test_by_block_serialization_adds_the_block_fields():
+    Y, full, reduced = _inputs(seed=38, p=12)
+    result = interaction_feature_scan(Y, full, reduced, permutations=99, seed=7, blocks=_labels(12))
+    payload = result.to_dict()
+    joint = interaction_feature_scan(Y, full, reduced, permutations=99, seed=7).to_dict()
+    assert set(payload) - set(joint) == {"combination", "n_blocks_tested", "blocks"}
+    assert [entry["name"] for entry in payload["blocks"]] == ["rna", "atac"]
+    for entry, block in zip(payload["blocks"], result.blocks):
+        assert entry == {
+            "name": block.name,
+            "n_features": block.n_features,
+            "n_degenerate": 0,
+            "max_f": block.max_f,
+            "max_column": block.max_column,
+            "p_value": block.p_value,
+        }
+    assert payload["p_value_global"] == result.p_value_global
+    assert [hit["column"] for hit in payload["hits"]] == result.hits().tolist()
+
+
+def test_by_block_hits_read_the_by_block_p_values():
+    rng = np.random.default_rng(40)
+    design, groups, stages = _design([[10, 10, 10], [10, 10, 10]])
+    full = np.asarray(design.model_full, dtype=float)
+    reduced = np.asarray(design.model_reduced, dtype=float)
+    Y = rng.normal(size=(60, 40))
+    Y[:, [3, 30]] += np.outer(groups * stages, [3.0, 3.0])
+    labels = _labels(40, (5, 35), ("small", "large"))
+    result = interaction_feature_scan(Y, full, reduced, permutations=199, seed=3, blocks=labels)
+    hits = result.hits()
+    assert set(hits.tolist()) >= {3, 30}
+    called = np.flatnonzero(result.p_value_adjusted <= 0.05)
+    np.testing.assert_array_equal(hits, called[np.lexsort((called, -result.f[called]))])
+
+
+@pytest.mark.parametrize("labels, message", [(["a"] * 9, "blocks has 9 label.*Y has 10 column"), ("rna", "single str")])
+def test_malformed_block_labels_are_rejected_before_any_draw(monkeypatch, labels, message):
+    Y, full, reduced = _inputs(p=10)
+
+    def no_draws(*args, **kwargs):  # pragma: no cover - must not be reached
+        raise AssertionError("a permutation was drawn")
+
+    monkeypatch.setattr(np.random, "default_rng", no_draws)
+    with pytest.raises(ValueError, match=message):
+        interaction_feature_scan(Y, full, reduced, permutations=10, seed=0, blocks=labels)
+
+
+def test_block_labels_accept_arrays_and_indexes():
+    Y, full, reduced = _inputs(seed=41, p=12)
+    labels = _labels(12)
+    listed = interaction_feature_scan(Y, full, reduced, permutations=30, seed=2, blocks=labels)
+    for other in (np.asarray(labels), pd.Index(labels), tuple(labels)):
+        result = interaction_feature_scan(Y, full, reduced, permutations=30, seed=2, blocks=other)
+        assert result.block_names == ("rna", "atac")
+        np.testing.assert_array_equal(result.p_value_adjusted, listed.p_value_adjusted)
+
+
 # ── Validation ───────────────────────────────────────────────────────────────
 
 
