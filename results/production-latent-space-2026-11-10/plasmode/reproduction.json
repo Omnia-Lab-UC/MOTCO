@@ -1,0 +1,18 @@
+{
+ "anchor_units": 100,
+ "differing": [],
+ "expected": {
+  "cv_mean_auroc": 0.635556,
+  "selected_lv": 5
+ },
+ "passed": true,
+ "profile": "plasmode",
+ "rule": "every anchor unit's pls_cv rank and held-out AUROC (6 decimals) equal the plasmode's fidelity values",
+ "source": {
+  "path": "results/plasmode-2026-11-02/settings.json",
+  "sha256": "16883b12067e774d309d819a7649ceaf959a65ec9abc1a48b2400bae35d5e89c"
+ },
+ "unavailable": [],
+ "units_checked": 100,
+ "units_passed": 100
+}

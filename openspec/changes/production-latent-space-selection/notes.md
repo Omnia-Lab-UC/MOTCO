@@ -101,3 +101,24 @@ core-hours reach 650 before the arrays drain, stop submitting, merge what exists
   hashes checked by the driver.
 - Wall time about 5–6 h at 96 + 64 concurrent tasks. Settings pre-created with `run --limit 0`; `logs/` exists in
   the worktree; out-dir outside the worktree; records stay on the cluster.
+
+## Run and verdict (task 4.2, 2026-11-10)
+
+Arrays 937293 (simulation, 300 × 10 units) and 937294 (plasmode, 100 × 4 units) on `ing` from the clean worktree at
+`d0a5ddb`: 3,400 units, 0 failed records, **509 recorded core-hours** (simulation 184, plasmode 325; cap 650). Both
+reproductions passed: the simulation's `pls_cv` rows equal the comparison's 63, and every plasmode anchor `pls_cv` arm
+selected rank 5 at AUROC 0.635556. Provenance and aggregates: `results/production-latent-space-2026-11-10/`.
+
+**Verdict `keep_production`.** `weighted` → `no_gain` (S1–S3 hold; the best gain p-values are 0.105 for the plasmode
+plant at e = 0.25, `delta` 0.30 against 0.24, and 0.125 for the weak design's e = 0.5 rotation, against 0.05/11).
+`sparse_block` and `weighted_sparse_block` → `size_excess`: the plasmode anchor's `delta` reads 0.11, above the
+family's ceiling at R = 100; both also fail G (`sparse_block`'s best, the plant at e = 0.5, 0.62 against 0.51,
+p = 0.0096). For every arm S2 loses no protected cell (0 of 16) and S3 has no exceedance (0 of 24); simulation size is
+at most 0.06.
+
+**The plasmode anchor's 0.11 is production's too, and it is the replicate subset.** Production's `pls_cv` arm reads
+`delta` 0.11 at the same 100 replicates; its p-values equal the 2026-11-02 plasmode's per-replicate records at all 100
+(seeds equal), and that run's replicates 0–99 hold 11 of its 21 rejections over 500 (0.042). The sparse arms share 5
+of their 11 rejections with production. The S1 failure therefore ties production on these permutations rather than
+measuring an excess of the sparse fit; the verdict does not depend on it, since every arm fails G. The report must say
+so.
