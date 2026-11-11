@@ -1609,10 +1609,8 @@ dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "pandas" },
-    { name = "pandas-stubs" },
     { name = "scikit-learn" },
     { name = "scipy" },
-    { name = "scipy-stubs" },
     { name = "tqdm" },
 ]
 
@@ -1624,9 +1622,11 @@ docs = [
 ]
 test = [
     { name = "mypy" },
+    { name = "pandas-stubs" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "scipy-stubs" },
 ]
 
 [package.dev-dependencies]
@@ -1644,13 +1644,13 @@ requires-dist = [
     { name = "mypy", marker = "extra == 'test'", specifier = ">=1.10" },
     { name = "numpy", specifier = ">=1.23" },
     { name = "pandas", specifier = ">=1.5" },
-    { name = "pandas-stubs", specifier = "~=2.3.3" },
+    { name = "pandas-stubs", marker = "extra == 'test'", specifier = "~=2.3.3" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=7.0" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=4.1" },
     { name = "ruff", marker = "extra == 'test'", specifier = ">=0.9" },
     { name = "scikit-learn", specifier = "==1.8.0" },
     { name = "scipy", specifier = ">=1.9" },
-    { name = "scipy-stubs", specifier = "~=1.16.3" },
+    { name = "scipy-stubs", marker = "extra == 'test'", specifier = "~=1.16.3" },
     { name = "tqdm", specifier = ">=4.0" },
 ]
 provides-extras = ["docs", "test"]
