@@ -27,7 +27,7 @@
 
 ## 5. Report and documentation
 
-- [ ] 5.1 Write `docs/reports/interaction-scan-blocks-<date>.md`: the verdict, every criterion, both reproductions, per-block balance and recall in both arms, the minP comparison and what follows from the verdict. Verify that every number it quotes can be read from the committed aggregates.
+- [x] 5.1 Write `docs/reports/interaction-scan-blocks-<date>.md`: the verdict, every criterion, both reproductions, per-block balance and recall in both arms, the minP comparison and what follows from the verdict. Verify that every number it quotes can be read from the committed aggregates.
 - [ ] 5.2 Add the by-block reading to the scan section of `docs/measurement-visibility.md` (design D7), the labels and result fields to `docs/api/sd.md`, the setting, record fields and flag to `docs/api/analysis.md`, the verdict to roadmap item 16's thread 3 follow-ups, and the setting and driver to `AGENTS.md`. Verify with `uv run mkdocs build` and the pre-commit gate.
 
 ## Workflow follow-up
