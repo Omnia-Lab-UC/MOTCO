@@ -9,7 +9,7 @@ parent `bc0d42c`, the merge of the orientation sign-anchor fix)
 `pivotality_rejection_split.csv`, `pivotality_standardized.csv`
 **Provenance:** `results/angle-pivotality-2026-09-01/PROVENANCE.txt`
 **Change:** `openspec/changes/diagnose-angle-null-pivotality`
-**Answers:** [Phase 5 readiness](../phase5-readiness.md) item 1 (blocking)
+**Answers:** [Phase 5 readiness](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md) item 1 (blocking)
 **Environment:** Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime
 
 ## Summary

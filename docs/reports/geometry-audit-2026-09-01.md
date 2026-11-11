@@ -11,7 +11,7 @@ before any conclusion was drawn.
 **Scope:** `stats/` (trajectory, permutation, design, pls, snf, attribution), `simulations/`
 (semisynthetic, generator, evaluation, preprocessing, diagnostics, specificity, pivotality, grid), all six
 reports under `docs/reports/`, the OpenSpec spec set, and the test suite
-**Affects:** [Phase 5 readiness](../phase5-readiness.md) items 1–5
+**Affects:** [Phase 5 readiness](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md) items 1–5
 **Environment:** Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime
 
 ## Summary
