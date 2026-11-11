@@ -9,7 +9,7 @@
 100 single-CPU shards, `--error-policy record`, no `--n-jobs`, BLAS pinned to one thread.
 **Environment:** Python 3.11.16, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3, motco 0.6.0,
 installed from the lockfile with uv 0.12.10; no R at runtime.
-**Answers:** readiness item 4 ([`phase5-readiness.md`](../phase5-readiness.md)) — the Phase 5 design point and
+**Answers:** readiness item 4 ([`phase5-readiness.md`](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md)) — the Phase 5 design point and
 the 0.80 orientation power floor. Every number below traces to a file under
 `results/phase5-design-point-2026-09-08/report/`; the JSONL records are gitignored as regenerable.
 

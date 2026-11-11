@@ -18,12 +18,52 @@ nav:
   - Home: index.md
   - Scientific Roadmap: roadmap.md
   - Measurement Visibility: measurement-visibility.md
-  - Phase 5 Readiness: phase5-readiness.md
   - Study Reports:
-    - Phase 5 latent-rank ladder (current): reports/latent-rank-ladder-2026-09-08.md
-    - Phase 5 design-point pilot: reports/phase5-design-point-pilot-2026-09-08.md
-    - Phase 4 medium PLS pilot (gate decision): reports/phase4-medium-pls-pilot-2026-08-27.md
-    - M-value/PLS specificity pilot (historical, superseded): reports/mvalue-pls-pilot-2026-07-30.md
+    - Measurement visibility:
+      - Production latent-space selection (2026-11-10): reports/production-latent-space-2026-11-10.md
+      - Interaction scan by block (2026-11-10): reports/interaction-scan-blocks-2026-11-10.md
+      - Orthonormal span coordinates (2026-11-09): reports/orthonormal-coordinates-2026-11-09.md
+      - Per-feature interaction scan (2026-11-09): reports/interaction-scan-2026-11-09.md
+      - Split interaction test (2026-11-05): reports/span-split-2026-11-05.md
+      - Stage-span paper grade (2026-11-04): reports/stage-span-paper-grade-2026-11-04.md
+      - Stage-span pilot (2026-11-04): reports/stage-span-pilot-2026-11-04.md
+      - Latent-space comparison (2026-11-04): reports/latent-space-comparison-2026-11-04.md
+    - Real-data case study (Phase 6):
+      - Phase 6 exit review (2026-11-02): reports/phase6-exit-review-2026-11-02.md
+      - Plasmode attribution demonstration (2026-11-02): reports/plasmode-2026-11-02.md
+      - Covariate-adjusted attribution (2026-11-02): reports/adjusted-attribution-2026-11-02.md
+      - Operating characteristics at the ADNI design (2026-11-02): reports/adni-design-2026-11-02.md
+      - Corrected-permutation check (2026-10-30): reports/corrected-permutation-2026-10-30.md
+      - Case-study configuration diagnosis (2026-10-30): reports/case-study-diagnosis-2026-10-30.md
+      - Case-study configuration Type I check (2026-10-29): reports/case-study-type-i-2026-10-29.md
+      - Rank-floor check (2026-10-23): reports/rank-floor-2026-10-23.md
+      - Latent-adjustment power comparison (2026-10-20): reports/latent-adjustment-power-2026-10-20.md
+      - Latent-adjustment Type I check (2026-10-20): reports/latent-adjustment-type-i-2026-10-20.md
+      - Covariate-adjustment Type I check (2026-10-16): reports/covariate-type-i-2026-10-16.md
+      - Small-n operating study at the SEA-AD design (2026-10-09): reports/phase6-small-n-2026-10-09.md
+    - Design guidance:
+      - Paper-grade slice (2026-10-29): reports/design-guidance-slice-2026-10-29.md
+      - Pilot (2026-10-28): reports/design-guidance-pilot-2026-10-28.md
+    - Orientation estimator:
+      - Net-displacement power comparison (2026-10-14): reports/net-displacement-power-2026-10-14.md
+      - Net-displacement Type I study (2026-10-13): reports/net-displacement-type-i-2026-10-13.md
+      - Orientation measurement probe (2026-10-12): reports/orientation-measurement-probe-2026-10-12.md
+    - Phase 5 paper-grade study:
+      - Magnitude re-measurement, joint construction (2026-10-08): reports/phase5-magnitude-remeasurement-2026-10-08.md
+      - Phase 5 exit review (2026-09-10): reports/phase5-exit-review-2026-09-10.md
+      - Paper-grade trajectory power study (2026-09-10): reports/phase5-paper-grade-2026-09-10.md
+      - Magnitude-construction diagnostic (2026-09-10): reports/magnitude-construction-diagnostic-2026-09-10.md
+      - Design-point pilot (2026-09-08): reports/phase5-design-point-pilot-2026-09-08.md
+      - Latent-rank ladder (2026-09-08): reports/latent-rank-ladder-2026-09-08.md
+    - Phases 1–4:
+      - Latent configuration spectrum (2026-09-02): reports/latent-config-spectrum-2026-09-02.md
+      - Geometry audit (2026-09-01): reports/geometry-audit-2026-09-01.md
+      - Angle-null pivotality (2026-09-01): reports/angle-null-pivotality-2026-09-01.md
+      - Orientation sign anchor (2026-08-28): reports/orientation-sign-anchor-2026-08-28.md
+      - Phase 4 medium PLS pilot (2026-08-27): reports/phase4-medium-pls-pilot-2026-08-27.md
+      - Realized generator geometry (2026-08-05): reports/realized-generator-geometry-2026-08-05.md
+      - Procrustes shape invariance audit (2026-08-04): reports/procrustes-shape-invariance-audit-2026-08-04.md
+      - M-value/PLS specificity pilot (2026-07-30): reports/mvalue-pls-pilot-2026-07-30.md
   - API Reference:
     - Real-Data Analysis: api/analysis.md
     - PLS-DA: api/pls.md

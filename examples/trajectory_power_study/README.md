@@ -605,7 +605,7 @@ choice), and paper-grade Monte Carlo precision.
 ### Report contract
 
 The `report_contract` block turns the readiness-item-5 rules into enforced or
-echoed outputs (`docs/phase5-readiness.md` §5):
+echoed outputs (§5 of the [Phase 5 readiness worklist](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md), closed 2026-09-10):
 
 - `report/driver_report.csv` — the declared component only, one row per
   (mode, effect, transition): precision/recall vs generator truth, mean

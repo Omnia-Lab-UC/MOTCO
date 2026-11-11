@@ -158,7 +158,7 @@ replicate** — that is, the statistic is not pivotal across replicates, so a re
 inflates the observed angle inflates its own null by at least as much. The pilot cannot confirm this because
 `include_null_distributions` was off, so the per-replicate null quantiles were not persisted. Confirming or
 refuting it is the first item of pre-Phase-5 work; see
-[Phase 5 readiness](../phase5-readiness.md).
+[Phase 5 readiness](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md).
 
 Until that is settled, the honest statement is: **orientation power is 0.65 and the cause is not yet
 identified.** It is not cross-talk (the off-diagonal localization below shows nothing projection-associated

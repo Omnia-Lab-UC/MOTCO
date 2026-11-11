@@ -11,7 +11,7 @@ each, 500 of 500 carrying the configuration-spectrum block)
 `eigengap_stratified_power.csv`, `config_spectrum.csv`, plus the pre-existing pivotality and study tables
 **Provenance:** `results/latent-spectrum-2026-09-02/PROVENANCE.txt`
 **Change:** `openspec/changes/record-latent-config-spectrum`
-**Answers:** [Phase 5 readiness](../phase5-readiness.md) items 1 (left-open gap), 3, and 4 (stratifying
+**Answers:** [Phase 5 readiness](https://github.com/Omnia-Lab-UC/MOTCO/blob/c440070dcb3c5bcc6ddd2227cf7adbef18573b6a/docs/phase5-readiness.md) items 1 (left-open gap), 3, and 4 (stratifying
 covariate); geometry audit plan item **P1**
 **Environment:** Python 3.11.15, numpy 2.3.5, pandas 2.3.3, scikit-learn 1.8.0, scipy 1.16.3; no R at runtime
 
