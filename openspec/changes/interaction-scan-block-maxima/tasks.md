@@ -22,8 +22,8 @@
 ## 4. Smoke and run
 
 - [x] 4.1 Run a local smoke of each profile (a few units per cell, 99 permutations) and write the timing projection to `notes.md`, replacing the proposal's estimate. Verify the projection is recorded with the revision it was timed at.
-- [ ] 4.2 Run the `simulation` profile on the workstation and the plasmode profiles on `ing` after the `production-latent-space-selection` arrays drain, from a clean worktree at a pushed revision carrying 0.23.0; merge each. Verify 0 unexplained failures and both reproductions passed, and record job ids, `sacct` output and package versions.
-- [ ] 4.3 Run `decide` and commit aggregates only under `results/interaction-scan-blocks-<date>/`: settings, the merged tables, accounting, reproduction, the decision, `PROVENANCE.txt` and `sacct.txt`. Verify that no per-unit record is committed.
+- [x] 4.2 Run the `simulation` profile on the workstation and the plasmode profiles on `ing` after the `production-latent-space-selection` arrays drain, from a clean worktree at a pushed revision carrying 0.23.0; merge each. Verify 0 unexplained failures and both reproductions passed, and record job ids, `sacct` output and package versions.
+- [x] 4.3 Run `decide` and commit aggregates only under `results/interaction-scan-blocks-<date>/`: settings, the merged tables, accounting, reproduction, the decision, `PROVENANCE.txt` and `sacct.txt`. Verify that no per-unit record is committed.
 
 ## 5. Report and documentation
 

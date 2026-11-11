@@ -43,3 +43,13 @@ On `ing` the parent run timed the joint scan at a median 0.067 s per simulation 
 
 - The plasmode profiles should take about 1.3 core-hours on `ing`, or under 3 at a 2× margin. The parent run took 47 core-hours.
 - The simulation profile takes about 6 minutes of wall-clock time on the workstation with 8 workers.
+
+## Run and verdict (tasks 4.2–4.3, 2026-11-10)
+
+From `fe87330` (MOTCO 0.23.0), clean worktrees. The `simulation` profile ran on the workstation (6,600 units, 8 workers, 16:39–16:51). The two plasmode profiles ran on `ing` as arrays 937733 (`plasmode`) and 937734 (`plasmode_unequal`), 10 shards each, queued `afterany` behind the production latent-space arrays 937293/937294 and run 21:57–22:09 on n4. Job 937821 merged both and ran `decide` (22:09–22:18, n3). Before submission, job 937718 ran the change's test modules on `ing` (164 passed); an earlier `srun` attempt (937684) hit its 40-minute limit.
+
+- 9,600 of 9,600 units, 0 failed, 0 duplicates; 2.89 recorded core-hours against the projection of 2.0.
+- Both reproductions passed exactly (simulation 168 rows, plasmode 11).
+- **Verdict `by_block_validated`**: S1 0 of 6 above the bound (0.046–0.058), S2 0 of 2 (0.040, 0.044), S3 0 of 4 (0.040, 0.044), P no loss (smallest p_loss 0.593), G p_sign 7.9e-90 (e = 2.0) and 7.2e-130 (e = 3.0).
+
+Provenance and aggregates: `results/interaction-scan-blocks-2026-11-10/`. Report: `docs/reports/interaction-scan-blocks-2026-11-10.md`.

@@ -1,0 +1,7 @@
+cell,effect,arm,rate,se,count,rejections,failures,hits_median
+anchor,0,joint,0.056,0.0102824,500,28,0,0
+anchor,0,by_block,0.044,0.00917213,500,22,0,0
+e=2,2,joint,0.76,0.0190997,500,380,0,1
+e=2,2,by_block,0.892,0.0138806,500,446,0,2
+e=3,3,joint,1,0,500,500,0,12
+e=3,3,by_block,1,0,500,500,0,13

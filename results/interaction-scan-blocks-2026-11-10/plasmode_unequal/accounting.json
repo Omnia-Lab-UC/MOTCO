@@ -1,0 +1,20 @@
+{
+ "complete_units": 1500,
+ "duplicate_records": 0,
+ "expected_units": 1500,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "missing_units": 0,
+ "profile": "plasmode_unequal",
+ "recorded_core_hours": 0.38186654053524965,
+ "settings_hash": "05af1eff412158c5b388aa3b17ece92299abe6c55c24a0a9b3783675b4a25aea",
+ "stage_seconds_median": {
+  "inputs": 0.01527492143213749,
+  "scans": 0.8833471741527319
+ },
+ "unit_seconds": {
+  "max": 1.0037928968667984,
+  "median": 0.9123640954494476,
+  "q90": 0.9462044648826122
+ }
+}

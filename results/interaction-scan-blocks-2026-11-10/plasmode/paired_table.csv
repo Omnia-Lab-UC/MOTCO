@@ -1,0 +1,4 @@
+cell,effect,n,both,joint_only,by_block_only,neither,p_loss,p_gain
+anchor,0,500,19,2,1,478,0.5,0.875
+e=2,2,500,337,9,9,145,0.592735,0.592735
+e=3,3,500,500,0,0,0,1,1

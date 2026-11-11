@@ -1,0 +1,5 @@
+cell,effect,arm,rate,se,count,rejections,failures
+e=2,2,joint,0.056,0.0102824,500,28,0
+e=2,2,by_block,0.044,0.00917213,500,22,0
+e=3,3,joint,0.056,0.0102824,500,28,0
+e=3,3,by_block,0.044,0.00917213,500,22,0

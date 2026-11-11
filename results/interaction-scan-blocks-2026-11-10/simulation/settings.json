@@ -1,0 +1,328 @@
+{
+ "hash": "995df835e8bc58ddec1a28f1fa7ae197ce6e3371c39ebae0e7a84f4065c8cb5b",
+ "settings": {
+  "alpha": 0.05,
+  "arms": [
+   "joint",
+   "by_block"
+  ],
+  "driver_version": 1,
+  "interaction_scan": {
+   "alpha": 0.05,
+   "driver_version": 1,
+   "parent": {
+    "dir": "results/span-split-2026-11-05/simulation",
+    "files": {
+     "production_table.csv": "c0e09fbd1f968c58c4193f06997817d8b33c4e4b791a6e6e47ace70471aab5cb",
+     "settings.json": "77781a9355f4d6ca147b2b405e8ae24e222bcd1594e8fc99290c1ae2aaa3adc6",
+     "split_table.csv": "30a0158d8c9ae578f05fb89aaa9177668a44ceacc09269667fd5c956c7852909"
+    },
+    "settings_hash": "748fa87ad2b30ed4ef2d8a124777963da8e8dc0bbe3b8a397199543aec8675cd"
+   },
+   "permutations": 999,
+   "population_null_tolerance": 1e-09,
+   "profile": "simulation",
+   "rejection": {
+    "parent": "p < alpha",
+    "scan": "p <= alpha"
+   },
+   "replicates": {
+    "control": 500,
+    "other": 100
+   },
+   "scan": {
+    "combination": "maximum F; Westfall-Young step-down max-T adjusted p-values",
+    "features": "the split test's features: standardized features in the PLS input coordinates",
+    "function": "motco.stats.interaction.interaction_feature_scan",
+    "hit_alpha": 0.05,
+    "models": "full group x stage and reduced group + stage trajectory models",
+    "rejection": "p <= alpha",
+    "residual_correction": null,
+    "seed": "the unit's RRPP seed",
+    "statistic": "per-feature interaction F (SS_int / df_int) / (RSS / df_res)",
+    "top_k": 20
+   },
+   "span_split": {
+    "alpha": 0.05,
+    "comparison": {
+     "alpha": 0.05,
+     "arms": [
+      "pls_cv"
+     ],
+     "base_seed": 2035,
+     "cells": [
+      [
+       "anchor",
+       "none",
+       0.0,
+       null,
+       null
+      ],
+      [
+       "translation",
+       "translation",
+       1.0,
+       null,
+       null
+      ],
+      [
+       "magnitude",
+       "magnitude",
+       0.05,
+       null,
+       null
+      ],
+      [
+       "orient_e0.25_phi0",
+       "orientation",
+       0.25,
+       0.0,
+       null
+      ],
+      [
+       "orient_e0.25_phi30",
+       "orientation",
+       0.25,
+       30.0,
+       null
+      ],
+      [
+       "orient_e0.25_phi60",
+       "orientation",
+       0.25,
+       60.0,
+       null
+      ],
+      [
+       "orient_e0.25_phi90",
+       "orientation",
+       0.25,
+       90.0,
+       null
+      ],
+      [
+       "orient_e0.5_phi0",
+       "orientation",
+       0.5,
+       0.0,
+       null
+      ],
+      [
+       "orient_e0.5_phi30",
+       "orientation",
+       0.5,
+       30.0,
+       null
+      ],
+      [
+       "orient_e0.5_phi60",
+       "orientation",
+       0.5,
+       60.0,
+       null
+      ],
+      [
+       "orient_e0.5_phi90",
+       "orientation",
+       0.5,
+       90.0,
+       null
+      ],
+      [
+       "shape_e0.25",
+       "shape",
+       0.25,
+       null,
+       null
+      ],
+      [
+       "shape_e0.5",
+       "shape",
+       0.5,
+       null,
+       null
+      ],
+      [
+       "orient_e0.5_phi90_k20",
+       "orientation",
+       0.5,
+       90.0,
+       20
+      ]
+     ],
+     "designs": {
+      "n200": {
+       "generator": {
+        "baseline_continuity": 0.0,
+        "construction": "stage_span",
+        "group_ratio": 0.5,
+        "magnitude_kind": "joint",
+        "n_samples": 200,
+        "n_stages": 3,
+        "p_dmp": 0.1,
+        "span_layers": [
+         "methylation",
+         "expression"
+        ]
+       },
+       "layers": [
+        "methylation",
+        "expression"
+       ]
+      },
+      "seaad": {
+       "generator": {
+        "baseline_continuity": 0.0,
+        "construction": "stage_span",
+        "group_stage_sizes": [
+         [
+          11,
+          10,
+          28
+         ],
+         [
+          9,
+          10,
+          12
+         ]
+        ],
+        "magnitude_kind": "joint",
+        "n_stages": 3,
+        "p_dmp": 0.1,
+        "span_layers": [
+         "methylation",
+         "expression"
+        ]
+       },
+       "layers": [
+        "methylation",
+        "expression"
+       ]
+      },
+      "seaad_weak": {
+       "generator": {
+        "baseline_continuity": 0.0,
+        "construction": "stage_span",
+        "delta_expr": 0.11,
+        "delta_methyl": 0.11,
+        "delta_protein": 0.11,
+        "group_stage_sizes": [
+         [
+          11,
+          10,
+          28
+         ],
+         [
+          9,
+          10,
+          12
+         ]
+        ],
+        "magnitude_kind": "joint",
+        "n_stages": 3,
+        "p_dmp": 0.1,
+        "span_layers": [
+         "methylation",
+         "expression"
+        ]
+       },
+       "layers": [
+        "methylation",
+        "expression"
+       ]
+      }
+     },
+     "driver_version": 1,
+     "min_components": 2,
+     "orientation_estimator": "net_displacement",
+     "permutations": 999,
+     "pls_cv_params": {
+      "cv1_splits": 3,
+      "cv2_splits": 4,
+      "max_components": 20,
+      "n_repeats": 5,
+      "random_state": 1203
+     },
+     "replicates": 100,
+     "weak_delta": {
+      "auroc_median": 0.6169166666666668,
+      "calibration_sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110",
+      "rule": "first_in_band",
+      "source": "calibration",
+      "value": 0.11
+     }
+    },
+    "control_cells": [
+     "anchor",
+     "translation"
+    ],
+    "driver_version": 1,
+    "parent": {
+     "dir": "results/latent-space-comparison-2026-11-04",
+     "permutations": 199,
+     "rate_table_sha256": "909bc1adf722ec52468314081e8d36477aaeafd13e31058a2994f5233ce40f9e",
+     "settings_hash": "db7fedf3292c42c94d3e44bf869d11a04676919e66a060caf5dc7ac7dd8e6d20",
+     "shared_replicates": 100
+    },
+    "permutations": 999,
+    "profile": "simulation",
+    "rejection": "p < alpha",
+    "replicates": {
+     "control": 500,
+     "other": 100
+    },
+    "reproduction_permutations": 199,
+    "split": {
+     "basis": "qr(x_rotations_) of the unit's pls_cv fit",
+     "coordinates": "standardized features in the PLS input coordinates (x - _x_mean) / _x_std",
+     "models": "full group x stage and reduced group + stage trajectory models",
+     "parts": [
+      "total",
+      "span",
+      "complement"
+     ],
+     "statistics": {
+      "f": "pseudo-F, uncorrected",
+      "ss": "interaction SS, uncorrected",
+      "ss_df": "SS, df"
+     }
+    }
+   }
+  },
+  "parent": {
+   "dir": "results/interaction-scan-2026-11-09/simulation",
+   "files": {
+    "block_balance.csv": "9d2096d1bd3b3f9cd205cd7fe925286c0c6c190ce8b5b4ec0b6200715bd292a1",
+    "false_hit_table.csv": "5bf68c2d07732d729d0f5fa6c8d64d0b2b6d6abcd8eb3b26e21571620b7f8ab9",
+    "scan_table.csv": "09e17b61477dcb10fb374a9dad88796b24083cb7ff10aa9b805cf1f74cd949db",
+    "settings.json": "e67db472b4808a12a18f4ffbbbedfe5591078e369339bed11d527b78aa8a360a"
+   },
+   "settings_hash": "2ea4cccc9e7734c1e9ce3972147a389f38d14d5db9de80b2b13e4fd7b488c780",
+   "source": "interaction-scan validation 2026-11-09"
+  },
+  "permutations": 999,
+  "population_null_tolerance": 1e-09,
+  "profile": "simulation",
+  "rejection": "p <= alpha",
+  "replicates": {
+   "control": 500,
+   "other": 100
+  },
+  "scan": {
+   "arms": {
+    "by_block": "the feature's block as its label: step-down within each block, Bonferroni over the K blocks with a non-degenerate feature (adjusted p = min(1, K * within-block p))",
+    "joint": "no block labels: maximum F, Westfall-Young step-down max-T adjusted p-values"
+   },
+   "features": "the harness's pooled-standardized features on the measured blocks (no latent fit)",
+   "function": "motco.stats.interaction.interaction_feature_scan",
+   "hit_alpha": 0.05,
+   "minp": "descriptive: each block maximum's tail probability under the block's own null maxima (the observed configuration counted as one of B + 1), the smallest compared with every draw's smallest",
+   "models": "full group x stage and reduced group + stage trajectory models",
+   "rejection": "p <= alpha",
+   "residual_correction": null,
+   "seed": "the unit's RRPP seed",
+   "statistic": "per-feature interaction F (SS_int / df_int) / (RSS / df_res)",
+   "top_k": 20
+  }
+ }
+}
