@@ -55,3 +55,14 @@ Defines the public import surface of the `motco.stats` subpackage: which symbols
 #### Scenario: The feature scan is exported from both paths
 - **WHEN** a caller does `from motco.stats.interaction import interaction_feature_scan` and `from motco.stats import interaction_feature_scan`
 - **THEN** both imports succeed and return the same callable object
+
+### Requirement: sparse_pls module exposes public symbols
+`motco.stats.sparse_pls` SHALL export `SparsePLSDA`, `SparsityDesign`, `SPARSITY_SCOPES` and `DEFAULT_KEEP_FRACTIONS`, and the flat `motco.stats` namespace SHALL return the same objects.
+
+#### Scenario: Direct import from the sparse_pls submodule
+- **WHEN** a caller does `from motco.stats.sparse_pls import SparsePLSDA`
+- **THEN** the import succeeds and the class is instantiable
+
+#### Scenario: Flat namespace returns the same object
+- **WHEN** a caller does `from motco.stats import SparsePLSDA`
+- **THEN** the import succeeds and returns the same object as the direct submodule import

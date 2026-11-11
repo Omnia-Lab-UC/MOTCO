@@ -1,0 +1,271 @@
+{
+ "hash": "d9b0927b69b827d985cbcbb559cb1012d37d9f47e51f65d47e514d26ac0062f2",
+ "settings": {
+  "alpha": 0.05,
+  "arms": {
+   "pls_cv": {
+    "block_weighting": null,
+    "sparsity": null
+   },
+   "sparse_block": {
+    "block_weighting": null,
+    "sparsity": {
+     "keep_fractions": [
+      1.0,
+      0.5,
+      0.2,
+      0.1,
+      0.05
+     ],
+     "scope": "block"
+    }
+   },
+   "weighted": {
+    "block_weighting": "equal_variance",
+    "sparsity": null
+   },
+   "weighted_sparse_block": {
+    "block_weighting": "equal_variance",
+    "sparsity": {
+     "keep_fractions": [
+      1.0,
+      0.5,
+      0.2,
+      0.1,
+      0.05
+     ],
+     "scope": "block"
+    }
+   }
+  },
+  "attribution": false,
+  "cells": [
+   [
+    "anchor",
+    0.0
+   ],
+   [
+    "span_e0.25",
+    0.25
+   ],
+   [
+    "span_e0.5",
+    0.5
+   ],
+   [
+    "span_e1",
+    1.0
+   ]
+  ],
+  "design": "plasmode",
+  "driver_version": 1,
+  "export": {
+   "cohort": "cohort_30",
+   "files": {
+    "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+    "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+    "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+    "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+    "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+   }
+  },
+  "fidelity": {
+   "cv_mean_auroc": 0.635556,
+   "selected_lv": 5
+  },
+  "parents": {
+   "plasmode_settings": {
+    "path": "results/plasmode-2026-11-02/settings.json",
+    "sha256": "16883b12067e774d309d819a7649ceaf959a65ec9abc1a48b2400bae35d5e89c"
+   }
+  },
+  "permutations": 999,
+  "plant": {
+   "geometry": "the planted group's centred stage configuration gains e times the pooled one",
+   "group": "Male",
+   "labels": "the plasmode's within-stage permutation of its paper stream, never the real labels",
+   "scaler": "the export's pooled per-feature mean and SD (ddof 0), the analysis's sample scaler",
+   "shift": "e * (pooled stage-s mean - mean of the pooled stage means), standardized, mapped back"
+  },
+  "plasmode": {
+   "adopted_calibration": {
+    "descriptive": 2.0,
+    "e_star": 3.0,
+    "entry_sha256": "c4fe69db06b896e5f2172e2daa00e275fa666deb00834ddd52f91aa1c0ef5839",
+    "iteration": 4,
+    "outcome": "cap_reached",
+    "rate": 0.0
+   },
+   "attribution": {
+    "bootstrap_replicates": 200,
+    "bootstrap_seed": "derived per replicate (shared by both arms and every cell)",
+    "top_k": 20,
+    "zero_tolerance": 1e-12
+   },
+   "base_seed": 2034,
+   "calibration_rule": {
+    "adoption_rate": 0.9,
+    "attribution": false,
+    "cap": 3.0,
+    "descriptive": "the ladder step below e*, or e*/2 at the lowest step",
+    "permutations": 99,
+    "replicates": 40
+   },
+   "cells": [
+    0.0,
+    3.0,
+    2.0
+   ],
+   "check": "plasmode",
+   "covariates": {
+    "declared": [
+     "age_at_death",
+     "pmi",
+     "rin",
+     "years_education",
+     "log10_n_rna",
+     "log10_n_atac"
+    ],
+    "derivation": "base-10 logarithm of the exported count",
+    "derivation_source": "sead_sexdiff src/sead_sexdiff/data.py ANALYSIS_LOG10_COLUMNS at 2d427b0",
+    "derived": {
+     "log10_n_atac": "n_atac",
+     "log10_n_rna": "n_rna"
+    },
+    "missing_policy": "error"
+   },
+   "cv": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "export": {
+    "blocks": {
+     "atac": 5000,
+     "rna": 5000
+    },
+    "cohort": "cohort_30",
+    "files": {
+     "atac.csv": "32ebd055a8f513c498c26146edc809471d24736e667a6405f0849b2ad027b493",
+     "covariates.csv": "7ed4b1bffd195c11fbdb6736576ac444ba6ddc8149a7e15d6b5f56f21ffdc4a3",
+     "manifest.json": "18f2289e0d4c84ed18f4a437ae569052544e9d150ed2726385273694b4a3b0b6",
+     "metadata.csv": "e2d8a4127eeee23ee9fc6effa63528fc7dfa5e8eec89ee2e0f8c8d7248a41fb6",
+     "rna.csv": "186198b9c52d057a0aaf36cb65b98baf62807a76511045545805aca7a29d1ca2"
+    },
+    "group_col": "sex",
+    "group_stage_sizes": [
+     [
+      11,
+      10,
+      28
+     ],
+     [
+      9,
+      10,
+      12
+     ]
+    ],
+    "groups": [
+     "Female",
+     "Male"
+    ],
+    "n_donors": 80,
+    "sample_col": "donor_id",
+    "stage_col": "stage",
+    "stage_order": [
+     "0",
+     "1",
+     "2"
+    ]
+   },
+   "fidelity": {
+    "cv_mean_auroc": 0.635556,
+    "selected_lv": 5
+   },
+   "fidelity_gate": {
+    "cv_mean_auroc": 0.635556,
+    "decimals": 6,
+    "selected_lv": 5
+   },
+   "ladder": [
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    3.0
+   ],
+   "min_components": 2,
+   "null": {
+    "guard": "a draw equal to the real labels is refused and redrawn from the next seed of the stream",
+    "kind": "group labels permuted within each stage; blocks and covariates stay on their donors' rows"
+   },
+   "orientation_estimator": "net_displacement",
+   "permutations": 999,
+   "plant": {
+    "group": "Male",
+    "per_block": 10,
+    "selection": "uniform without replacement per block, per replicate",
+    "shift": "e * c(stage) * sigma_f * s_f",
+    "sigma": "pooled within-stage SD of the export (ddof = number of stages)",
+    "signs": "uniform on {-1, +1}",
+    "stage_weights": {
+     "0": 0.0,
+     "1": 0.5,
+     "2": 1.0
+    }
+   },
+   "replicates": 500,
+   "residual_correction": "df",
+   "rule": {
+    "alpha": 0.05,
+    "descriptive": "the unadjusted arm, the PLS-captured and residual components, the transition blocks, the readings not conditioned on rejection, delta and shape at e*, and the descriptive cell; none changes the verdict",
+    "detection": "angle rate at e* >= detection_floor",
+    "detection_floor": 0.8,
+    "indicative": "fewer than 500 replicates in any cell, 999 permutations or 200 bootstrap replicates, or e* not adopted from calibration",
+    "recovery": "on the e* units whose angle rejects, adjusted arm, observed principal contrast: mean - k*SE >= threshold for planted_precision, sign_stability and top_k_frequency",
+    "se_multiplier": 2.0,
+    "size": "anchor rate of each of delta, angle and shape <= alpha + k*sqrt(alpha(1 - alpha)/R)",
+    "thresholds": {
+     "planted_precision": 0.5,
+     "sign_stability": 0.9,
+     "top_k_frequency": 0.5
+    },
+    "verdicts": [
+     "attribution_leg_lifted",
+     "attribution_leg_failed"
+    ],
+    "version": 1
+   },
+   "script_version": 1,
+   "seeds": {
+    "derivation": "sha256 of [check, base seed, stream, replicate, purpose]; never the strength",
+    "purposes": [
+     "labels",
+     "plant",
+     "rrpp",
+     "bootstrap"
+    ],
+    "streams": [
+     "paper",
+     "calibration",
+     "fidelity"
+    ]
+   },
+   "stream": "paper",
+   "strength": {
+    "descriptive": 2.0,
+    "e_star": 3.0,
+    "outcome": "cap_reached",
+    "source": "calibration"
+   }
+  },
+  "profile": "plasmode",
+  "rejection": "p <= alpha",
+  "replicates": {
+   "anchor": 100,
+   "plant": 100
+  }
+ }
+}

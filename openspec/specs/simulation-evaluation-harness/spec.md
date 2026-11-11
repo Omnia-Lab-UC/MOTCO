@@ -536,3 +536,51 @@ The harness SHALL let a caller build the orthonormal-coordinate integration from
 #### Scenario: Not a PLS fit
 - **WHEN** the prebuilt integration is not a `pls` integration with fitted artifacts, or already carries orthonormal coordinates
 - **THEN** the harness raises a validation error naming what it received
+
+### Requirement: Harness weights blocks on request
+
+The harness SHALL accept a block weighting kind in the integration parameters (`block_weighting`: absent, `equal_variance` or `mfa`). When set, the shared preprocessing weights every measured block by the kind's scalar before any integration method that reads the standardized blocks runs, the PLS space is fitted in the weighted metric, and the integration metadata records the kind. An unknown kind SHALL be rejected before any preprocessing, naming the value and the allowed kinds. Absent, nothing changes and no metadata entry is written.
+
+#### Scenario: Weighted evaluation
+- **WHEN** an evaluation requests `equal_variance` weighting on methylation and expression
+- **THEN** both transformed blocks have unit total variance, the latent space is fitted on them, and the integration metadata records `block_weighting: equal_variance`
+
+#### Scenario: Every method sees the weighted blocks
+- **WHEN** `concat`, `pca` or `pls` integration runs with a weighting
+- **THEN** each measures the weighted blocks, and the span-capture inputs and population checkpoints use the same weights
+
+#### Scenario: Methods the weights cannot reach
+- **WHEN** an evaluation requests a weighting with `snf` or with the unstandardized `concat` baseline
+- **THEN** it is rejected before any preprocessing, naming the method
+
+#### Scenario: Mismatched prebuilt inputs
+- **WHEN** a prebuilt preprocessor, latent integration or PLS fit carries a weighting other than the requested one
+- **THEN** it is refused, naming both
+
+#### Scenario: Unknown weighting
+- **WHEN** an evaluation requests an unknown weighting kind
+- **THEN** it is rejected before any preprocessing, naming the value and the allowed kinds
+
+#### Scenario: Absent weighting is byte-identical
+- **WHEN** an evaluation runs without the key
+- **THEN** its record, cell identifier and signature equal those from before the key existed
+
+### Requirement: The stage-PLS space takes a sparsity budget on request
+
+The harness SHALL accept a sparsity setting in the integration parameters (`sparsity`: absent, or a scope `joint` | `block` with a ladder of keep fractions). When set, the production PLS space is cross-validated over the rank and the ladder jointly, fitted at the selected pair with block membership taken from the measured blocks in concatenation order, and its metadata records the scope, the ladder, the selected fraction and the per-component, per-block support sizes. The setting SHALL compose with the rank floor, latent adjustment, latent coordinates and block weighting. A forced rank SHALL be accepted only with a one-element ladder, else rejected naming both. The setting SHALL be rejected before any preprocessing with an integration method other than `pls` or `pls_residual_pca`, and for a malformed value, naming the offence. Absent, nothing changes and no metadata entry is written.
+
+#### Scenario: Sparse evaluation
+- **WHEN** an evaluation requests scope `block` with the default ladder on methylation and expression
+- **THEN** the latent space is fitted at the selected rank and fraction, and the metadata records the scope, the ladder, the selected fraction and each component's support size per block
+
+#### Scenario: Forced rank needs a fixed budget
+- **WHEN** an evaluation requests a forced rank with a ladder of more than one fraction
+- **THEN** it is rejected before any fit, naming the forced rank and the ladder
+
+#### Scenario: Other methods reject the setting
+- **WHEN** `pca`, `concat`, `snf` or `pls_within_group` integration is requested with a sparsity setting
+- **THEN** the evaluation is rejected before any preprocessing, naming the method
+
+#### Scenario: Absent sparsity is byte-identical
+- **WHEN** an evaluation runs without the key
+- **THEN** its record, cell identifier and signature equal those from before the key existed

@@ -3,7 +3,9 @@
 This module provides:
 - `plsda_doubleCV`: double cross-validation over number of components
   for PLS-DA classification using AUROC as criterion, optionally residualizing
-  the predictors on nuisance covariates inside every training set.
+  the predictors on nuisance covariates inside every training set, and
+  optionally selecting a sparsity budget (:mod:`motco.stats.sparse_pls`)
+  jointly with the rank.
 - `NuisanceDesign`, `fit_nuisance_coefficients`, `residualize`: the per-fold
   covariate residualizer used by that option.
 - `calculate_vips`: compute Variable Importance in Projection (VIP) scores
@@ -24,6 +26,8 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import RepeatedStratifiedKFold, StratifiedKFold
 from sklearn.preprocessing import OneHotEncoder
 from tqdm import tqdm
+
+from .sparse_pls import SparsityDesign
 
 logger = logging.getLogger(__name__)
 
@@ -230,6 +234,7 @@ def plsda_doubleCV(
     nuisance: NuisanceDesign | None = None,
     strata: Union[np.ndarray, pd.Series, Sequence[str], None] = None,
     min_components: int = 1,
+    sparsity: SparsityDesign | None = None,
 ) -> PLSDAResult:
     """
     Run canonical double-nested cross-validation for PLS-DA.
@@ -294,6 +299,21 @@ def plsda_doubleCV(
         names both values before any fold is fitted. Default: 1 (the
         unfloored rule; the trajectory latent space applies its own floor,
         see :func:`motco.simulations.evaluation.fit_pls_latent_space`).
+    sparsity: SparsityDesign | None
+        Keyword-only. When given, every fit is a
+        :class:`~motco.stats.sparse_pls.SparsePLSDA` and the inner CV scores
+        every pair of a candidate rank and a keep fraction of the design's
+        ladder, ordered rank ascending then fraction descending, so the
+        first-occurrence ``argmax`` breaks an exact tie of mean inner AUROC
+        toward the smaller rank and, within it, toward the fuller budget. The
+        outer fold is evaluated at the selected pair; each repeat aggregates
+        the rank by mode (smaller on ties) and the fraction by mode (fuller on
+        ties) and refits a sparse model at that pair. The design's feature
+        groups must cover the columns of ``X`` (a joint design without groups
+        is completed with one group); otherwise a ``ValueError`` is raised
+        before any fold is fitted. A ladder of ``[1.0]`` reproduces the run
+        without sparsity exactly (the full budget is ``PLSRegression``).
+        Default: None (ordinary PLS-DA; byte-identical output, no new column).
 
     Returns
     -------
@@ -307,6 +327,10 @@ def plsda_doubleCV(
         - ``"models"``: list of length ``n_repeats``. Each entry is a
           PLSRegression refit on the full input (X, one-hot(y)) with the
           corresponding row's modal n_LV.
+
+        With ``sparsity`` given, the table gains a ``"keep_fraction"`` column
+        after ``"LV"`` (float, the repeat's modal fraction) and every model is
+        a ``SparsePLSDA`` at the row's rank and fraction.
 
         With ``nuisance`` given, a third key ``"nuisance_min_training_df"``
         holds the smallest residual degrees of freedom of any training-set
@@ -341,6 +365,11 @@ def plsda_doubleCV(
             "min_components..max_components-1."
         )
     min_components = int(min_components)
+    design: SparsityDesign | None = None
+    if sparsity is not None:
+        if not isinstance(sparsity, SparsityDesign):
+            raise ValueError(f"sparsity must be a SparsityDesign or None, got {type(sparsity).__name__}.")
+        design = sparsity.resolve(_X_arr.shape[1])
     if not np.all(np.isfinite(_X_arr)):
         raise ValueError("X contains NaN or Inf values.")
     if nuisance is not None and nuisance.n_samples != _n_x:
@@ -358,18 +387,25 @@ def plsda_doubleCV(
     )
     cv1 = StratifiedKFold(n_splits=cv1_splits)
 
-    n_lv_candidates = list(range(min_components, max_components))
-    n_candidates = len(n_lv_candidates)
+    # Candidates are (rank, keep fraction) pairs, rank ascending then fraction
+    # fullest first; without sparsity the fraction is None (ordinary PLS).
+    fractions: tuple[float | None, ...] = (None,) if design is None else design.keep_fractions
+    candidates: list[tuple[int, float | None]] = [
+        (n_lv, fraction) for n_lv in range(min_components, max_components) for fraction in fractions
+    ]
+    n_candidates = len(candidates)
 
     rep_means: list[float] = []
     rep_stds: list[float] = []
     rep_lvs: list[int] = []
+    rep_fractions: list[float] = []
 
     outer_aurocs: list[float] = []
     outer_n_lv: list[int] = []
+    outer_fractions: list[float] = []
     fold_in_repeat = 0
     training_dfs: list[int] = []
-    auroc = partial(_plsda_auroc, scale=scale)
+    auroc = partial(_candidate_auroc, scale=scale, sparsity=design)
 
     cv2_iter = tqdm(
         cv2.split(X, folds_on),
@@ -411,7 +447,7 @@ def plsda_doubleCV(
                 )
                 training_dfs.append(train_df)
             args = zip(
-                n_lv_candidates,
+                candidates,
                 repeat(X_train),
                 repeat(yd_train),
                 repeat(X_val),
@@ -419,25 +455,28 @@ def plsda_doubleCV(
             )
             fold_aurocs: list[float]
             if n_jobs == 1:
-                fold_aurocs = [auroc(*a) for a in args]  # type: ignore[misc]
+                fold_aurocs = [auroc(*a) for a in args]
             else:
                 n_workers = (
                     (multiprocessing.cpu_count() or 1) if n_jobs == -1 else max(1, n_jobs)
                 )
                 with multiprocessing.Pool(processes=n_workers) as pool:
-                    fold_aurocs = pool.starmap(auroc, args)  # type: ignore[arg-type]
+                    fold_aurocs = pool.starmap(auroc, args)
             inner_aurocs[v_idx, :] = fold_aurocs
 
-        mean_per_n_lv = inner_aurocs.mean(axis=0)
-        # np.argmax returns the first occurrence on ties → parsimony. Select
-        # by value so the floor is a property of the candidate set.
-        n_lv_star = n_lv_candidates[int(np.argmax(mean_per_n_lv))]
+        mean_per_candidate = inner_aurocs.mean(axis=0)
+        # np.argmax returns the first occurrence on ties → parsimony (the
+        # smaller rank, then the fuller budget). Select by value so the floor
+        # is a property of the candidate set.
+        candidate_star = candidates[int(np.argmax(mean_per_candidate))]
 
         outer_score = float(
-            auroc(n_lv_star, X_rest_fit, yd_rest, X_test_fit, yd_test)  # type: ignore[arg-type]
+            auroc(candidate_star, X_rest_fit, yd_rest, X_test_fit, yd_test)
         )
         outer_aurocs.append(outer_score)
-        outer_n_lv.append(n_lv_star)
+        outer_n_lv.append(candidate_star[0])
+        if candidate_star[1] is not None:
+            outer_fractions.append(candidate_star[1])
 
         fold_in_repeat += 1
         if fold_in_repeat == cv2_splits:
@@ -451,8 +490,11 @@ def plsda_doubleCV(
             rep_means.append(mean_auroc)
             rep_stds.append(std_auroc)
             rep_lvs.append(mode_lv)
+            if design is not None:
+                rep_fractions.append(_modal_fraction_fullest(outer_fractions))
             outer_aurocs = []
             outer_n_lv = []
+            outer_fractions = []
             fold_in_repeat = 0
 
     model_table = pd.DataFrame(
@@ -467,6 +509,8 @@ def plsda_doubleCV(
     model_table["LV"] = model_table["LV"].astype(int)
     model_table["AUROC"] = model_table["AUROC"].astype(float)
     model_table["AUROC_std"] = model_table["AUROC_std"].astype(float)
+    if design is not None:
+        model_table.insert(2, "keep_fraction", np.asarray(rep_fractions, dtype=float))
 
     X_full = _X_arr
     if nuisance is not None:
@@ -477,15 +521,57 @@ def plsda_doubleCV(
         X_full = residualize(_X_arr, nuisance.covariates, full_coefficients)
 
     best_models: list[PLSRegression] = []
-    for lv in rep_lvs:
-        model = PLSRegression(
-            n_components=lv, scale=scale, max_iter=1000
-        ).fit(X_full, yd_arr)
+    rep_pairs = zip(rep_lvs, rep_fractions) if design is not None else zip(rep_lvs, repeat(None))
+    for lv, fraction in rep_pairs:
+        model = _plsda_estimator(lv, scale=scale, sparsity=design, keep_fraction=fraction).fit(X_full, yd_arr)
         best_models.append(model)
 
     if nuisance is not None:
         return {"models": best_models, "table": model_table, "nuisance_min_training_df": min(training_dfs)}
     return {"models": best_models, "table": model_table}
+
+
+def _modal_fraction_fullest(values: list[float]) -> float:
+    """Return the most frequent keep fraction; ties broken by the fuller budget (larger value)."""
+    if not values:
+        raise ValueError("values must be non-empty")
+    counts: dict[float, int] = {}
+    for v in values:
+        counts[v] = counts.get(v, 0) + 1
+    max_count = max(counts.values())
+    return max(v for v, c in counts.items() if c == max_count)
+
+
+def _plsda_estimator(
+    n_components: int,
+    *,
+    scale: bool,
+    sparsity: SparsityDesign | None = None,
+    keep_fraction: float | None = None,
+) -> PLSRegression:
+    """An unfitted PLS-DA estimator: ``PLSRegression`` or, with a sparsity design, ``SparsePLSDA``."""
+    if sparsity is None:
+        return PLSRegression(n_components=n_components, scale=scale, max_iter=1000)
+    if keep_fraction is None:
+        raise ValueError("A sparse PLS-DA estimator needs a keep fraction.")
+    return sparsity.estimator(n_components, keep_fraction, scale=scale)
+
+
+def _candidate_auroc(
+    candidate: tuple[int, float | None],
+    X_train: pd.DataFrame,
+    Y_train: Union[pd.Series, pd.DataFrame],
+    X_test: pd.DataFrame,
+    Y_test: Union[pd.Series, pd.DataFrame],
+    *,
+    scale: bool,
+    sparsity: SparsityDesign | None,
+) -> float:
+    """Held-out AUROC of one (rank, keep fraction) candidate; picklable for the parallel inner loop."""
+    n_components, keep_fraction = candidate
+    return _plsda_auroc(  # type: ignore[return-value]
+        n_components, X_train, Y_train, X_test, Y_test, scale=scale, sparsity=sparsity, keep_fraction=keep_fraction
+    )
 
 
 def _modal_int_with_parsimony(values: list[int]) -> int:
@@ -508,6 +594,8 @@ def _plsda_auroc(
     return_full: bool = False,
     *,
     scale: bool = True,
+    sparsity: SparsityDesign | None = None,
+    keep_fraction: float | None = None,
 ) -> Union[float, dict[str, Union[PLSRegression, float]]]:
     """
     Estimate a partial least squares regression and return the AUROC value
@@ -531,6 +619,10 @@ def _plsda_auroc(
     scale: bool
         Keyword-only. Whether the PLS fit rescales the predictors to unit
         variance. Default: True.
+    sparsity, keep_fraction:
+        Keyword-only. With a sparsity design, the model is a ``SparsePLSDA``
+        at ``keep_fraction`` of the design's ladder. Default: None (ordinary
+        PLS-DA).
 
     Returns
     -------
@@ -540,7 +632,7 @@ def _plsda_auroc(
                             float]]]
         Return the auroc score, and optionally the regression model.
     """
-    pls = PLSRegression(n_components=n_components, scale=scale, max_iter=1000).fit(
+    pls = _plsda_estimator(n_components, scale=scale, sparsity=sparsity, keep_fraction=keep_fraction).fit(
         X=X_train, y=Y_train
     )
     y_pred = pls.predict(X_test)
@@ -558,6 +650,8 @@ def fit_plsda_model(
     n_components: int,
     *,
     scale: bool = True,
+    sparsity: SparsityDesign | None = None,
+    keep_fraction: float | None = None,
 ) -> PLSRegression:
     """Fit a PLS-DA model on the full dataset and return the fitted estimator.
 
@@ -578,6 +672,10 @@ def fit_plsda_model(
         Whether ``PLSRegression`` rescales each feature to unit variance before
         fitting (the default). Pass ``False`` to fit in the metric ``X`` is
         already in.
+    sparsity, keep_fraction:
+        Keyword-only. With a sparsity design (resolved against the columns of
+        ``X``), the model is a :class:`~motco.stats.sparse_pls.SparsePLSDA` at
+        ``keep_fraction``. Default: None (ordinary PLS-DA).
 
     Returns
     -------
@@ -588,7 +686,8 @@ def fit_plsda_model(
     X_arr = np.asarray(X, dtype=float)
     encoder = OneHotEncoder(sparse_output=False)
     y_enc = encoder.fit_transform(np.asarray(y).reshape(-1, 1))
-    return PLSRegression(n_components=n_components, scale=scale, max_iter=1000).fit(X_arr, y_enc)
+    design = None if sparsity is None else sparsity.resolve(X_arr.shape[1])
+    return _plsda_estimator(n_components, scale=scale, sparsity=design, keep_fraction=keep_fraction).fit(X_arr, y_enc)
 
 
 def fit_plsda_transform(

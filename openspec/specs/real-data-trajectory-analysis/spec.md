@@ -551,3 +551,59 @@ Each row of the scan table SHALL give the group difference at each stage, in dec
 #### Scenario: Flag combined with latent adjustment
 - **WHEN** `motco analyze` runs with `--interaction-scan` and `--latent-adjustment stage` on a dataset with covariates
 - **THEN** the analysis runs and the scan line is printed
+
+### Requirement: Real-data analysis offers block weighting
+
+The analysis parameters SHALL accept a block weighting kind (`block_weighting`: absent, `equal_variance` or `mfa`). When set, every declared block is weighted after standardization by the kind's scalar, the latent space is fitted in the weighted metric, and the weight enters the original-scale mapping used by attribution and exposed in the in-memory measurement, so reconstructed features are in their original units. An unknown kind SHALL be rejected before any fitting. The setting SHALL be omitted from the resolved parameters while absent.
+
+#### Scenario: Weighted analysis
+- **WHEN** an analysis declares two blocks of unequal feature counts and requests `equal_variance`
+- **THEN** the latent space is fitted on blocks of unit total variance and the attribution's reconstructed features are in original units
+
+#### Scenario: Absent weighting
+- **WHEN** no weighting is requested
+- **THEN** every output equals the pre-change output, and the resolved parameters carry no weighting key
+
+### Requirement: Real-data analysis records block weighting
+
+When weighting is set, the record SHALL carry a `block_weighting` block after `blocks` with the kind and, per block, the weight and the feature count, and `latent.integration_params.block_weighting`. Neither SHALL appear while absent.
+
+#### Scenario: Record contents
+- **WHEN** a weighted analysis is recorded
+- **THEN** `block_weighting` names the kind and lists every block's weight and feature count, and the latent block's integration parameters name the kind
+
+### Requirement: motco analyze exposes block weighting
+
+`motco analyze` SHALL accept `--block-weighting {equal_variance,mfa}` and print the kind beside the selected rank when given.
+
+#### Scenario: CLI round trip
+- **WHEN** `motco analyze --block-weighting mfa` runs
+- **THEN** the written record's `block_weighting.kind` is `mfa`
+
+### Requirement: Real-data analysis offers sparse stage-PLS
+
+The analysis parameters SHALL accept a sparsity setting (scope `joint` | `block`; a ladder of keep fractions in (0, 1], distinct, defaulting to 1.0, 0.5, 0.2, 0.1, 0.05). When set, the latent space is the sparse stage-PLS-DA cross-validated over the rank and the ladder jointly, with block membership from the declared blocks, and attribution, the split interaction test and the interaction scan run unchanged on it. A malformed setting SHALL be rejected before any fitting, and the setting SHALL be omitted from the resolved parameters while absent.
+
+#### Scenario: Sparse analysis
+- **WHEN** an analysis declares two blocks and requests scope `block`
+- **THEN** every component of the fitted space loads on the selected fraction of each block, and the written loadings show the dropped features at zero
+
+#### Scenario: Absent sparsity
+- **WHEN** no sparsity is requested
+- **THEN** every output equals the pre-change output, and the resolved parameters carry no sparsity key
+
+### Requirement: Real-data analysis records the sparsity setting
+
+When set, the record SHALL carry `latent.integration_params.sparsity` and a `sparsity` block after `latent` with the scope, the ladder, the selected keep fraction and, per component, the support size per block. Neither SHALL appear while absent.
+
+#### Scenario: Record contents
+- **WHEN** a sparse analysis is recorded
+- **THEN** the `sparsity` block names the scope, lists the ladder, the selected fraction and each component's support per block
+
+### Requirement: motco analyze exposes sparse stage-PLS
+
+`motco analyze` SHALL accept `--sparsity {joint,block}` and an optional `--sparsity-ladder` (comma-separated fractions), print the selected fraction beside the selected rank when given, and reject `--sparsity-ladder` without `--sparsity`.
+
+#### Scenario: CLI round trip
+- **WHEN** `motco analyze --sparsity block --sparsity-ladder 1.0,0.2` runs
+- **THEN** the written record's `sparsity.scope` is `block` and its ladder is 1.0, 0.2

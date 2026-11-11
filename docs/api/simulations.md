@@ -320,6 +320,59 @@ records it as `integration_params.layers`. When the key is absent, all three blo
 the evaluation result is byte-identical to the harness before the key existed (no `layers` metadata
 entry is added).
 
+**Block weighting.** `integration_params["block_weighting"]` (`"equal_variance"` or `"mfa"`; 0.21.0)
+multiplies every pooled-standardized block by one label-blind scalar fitted once on the pooled sample
+with the scalers, so a block's weight in the joint measurement is declared rather than set by its
+feature count (unweighted, methylation's 367 features outweigh expression's 131 by 2.8 to 1 in total
+variance). `equal_variance` is 1/√p_b, constant features included, so every block of non-constant
+features has unit total variance; `mfa` is √n/σ₁(Z_b), the inverse standard deviation of the
+standardized block's leading principal component, so every block's dominant direction has unit
+variance (an `mfa` block with no variance is an error naming it). The weights live on the scalers
+(`BlockScaler.weight`, `fit_block_scalers(..., weighting=)`, `fit_omics_preprocessor(..., weighting=)`,
+`FittedOmicsPreprocessor.block_weighting`), so observed rows and analytic population means are weighted
+alike and every span-capture share and `population_latent` checkpoint is measured on the weighted
+inputs. Every PLS fit of a weighted `pls` space (the cross-validation's and the final one) uses
+`scale=False`, since `scale=True` would re-standardize each column and undo the weights; `delta` is then
+in the weighted metric, while `angle`, `shape` and the p-values are comparable with an unweighted
+evaluation. `concat`, `pca`, `pls_within_group` and `pls_residual_pca` measure the weighted blocks;
+`snf` and the unstandardized `concat` never read the standardized blocks and refuse the setting before
+any preprocessing, as does an unknown kind. A prebuilt preprocessor, latent integration or PLS fit with
+another weighting is refused, naming both. The kind is recorded as `integration_params.block_weighting`
+in the latent metadata only when set. Absent, every weight is 1 (multiplied exactly), and transforms,
+records, cell ids and signatures are byte-identical to 0.20.0; as an integration parameter it is already
+the study-config axis `evaluation.integration_params.block_weighting`. The setting is measured and stays
+opt-in: the `weighted` arm of the production latent-space selection
+([report](../reports/production-latent-space-2026-11-10.md)) read `no_gain` (size, protected power and
+specificity hold; no gain at a weak stage signal or on the SEA-AD plasmode plant).
+
+**Sparse stage-PLS.** `integration_params["sparsity"]` (0.22.0) fits the `pls` space with
+[`SparsePLSDA`](pls.md#sparse-pls-da), whose components each load on a budget of features. The value is
+`{"scope": "joint" | "block", "keep_fractions": [...]}`: `joint` counts one budget over all measured
+features, `block` one per measured block (every block keeps its share whatever its size); the optional
+ladder of keep fractions (distinct, in (0, 1], held fullest first) defaults to `1.0, 0.5, 0.2, 0.1, 0.05`,
+and a fraction keeps `max(1, round(f · p))` features per group. The double CV selects the rank and the
+fraction jointly (`plsda_doubleCV(..., sparsity=)`: ties to the smaller rank, then the fuller budget), the
+block membership is the measured blocks in concatenation order (`layer_feature_counts`, never parsed
+from column names), and the final model is fitted at the modal rank and the modal fraction (the fuller on
+ties) with the path's `scale`. The latent metadata records `integration_params.sparsity` (scope and
+ladder) and `integration_params.selected_keep_fraction`, and a top-level `sparsity` block adds, per
+component, the support size per block. It composes with the rank floor, the latent adjustment
+(residualized fit, raw projection), `latent_coordinates="orthonormal"` (the basis spans the sparse
+rotations) and block weighting (`scale=False`). A forced rank skips the CV, so it needs a one-element
+ladder (the model is fitted at it); a longer ladder is rejected before any preprocessing, naming both.
+`pls_residual_pca` builds its residual axes on the sparse PLS fit; `pls_residual_pca_from_pls`,
+`pls_orthonormal_from_pls`, span capture and attribution run unchanged on it, and a prebuilt latent or
+PLS fit with another sparsity setting is refused. Any other integration method, and a malformed value
+(not a mapping, an unknown key or scope, a fraction outside (0, 1], a repeated fraction, an empty
+ladder), is rejected before any preprocessing, naming the offence. Absent, nothing changes: no metadata
+entry is written, the production space is `PLSRegression` and records, cell ids and signatures are
+byte-identical to 0.21.0; as an integration parameter it is already the study-config axis
+`evaluation.integration_params.sparsity`. A ladder of `[1.0]` reproduces the production space exactly. The
+setting is measured and stays opt-in: the `sparse_block` arm of the production latent-space selection
+([report](../reports/production-latent-space-2026-11-10.md)) read `size_excess` (the SEA-AD plasmode
+anchor's `delta` 0.11 at 100 replicates, production's rate on the same replicates) and gained no
+Bonferroni-protected power at a weak stage signal or on the plasmode plant.
+
 **Orientation estimator.** `orientation_estimator` selects how each group's orientation is measured
 for the observed `angle`, every RRPP draw and every realized-geometry checkpoint `angle`. The default
 is `"net_displacement"` (the unit vector from the first to the last stage mean), adopted after the

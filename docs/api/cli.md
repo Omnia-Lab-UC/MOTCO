@@ -184,6 +184,8 @@ usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      [--n-jobs N_JOBS] [--forced-components FORCED_COMPONENTS]
                      [--residual-correction {df,leverage}]
                      [--min-components MIN_COMPONENTS]
+                     [--block-weighting {equal_variance,mfa}]
+                     [--sparsity {joint,block}] [--sparsity-ladder F1,F2,...]
                      [--orientation-estimator {net_displacement,pc1}]
                      [--attribution]
                      [--bootstrap-replicates BOOTSTRAP_REPLICATES]
@@ -224,6 +226,18 @@ options:
   --min-components N         Rank floor of the cross-validated latent space: CV considers
                              ranks N..MAX-1 (default: 2; 1 restores the unfloored 0.9.0 rule);
                              a value below 1 exits non-zero
+  --block-weighting {equal_variance,mfa}
+                             Multiply every standardized block by one label-blind scalar before the
+                             latent space is fitted: equal_variance (1/sqrt(features), unit total
+                             variance per block) or mfa (unit variance of each block's leading
+                             principal component). delta is then in the weighted metric.
+                             Unvalidated. Default: off (unweighted)
+  --sparsity {joint,block}   Fit sparse stage-PLS-DA: every component loads on a budget of features,
+                             over all features (joint) or per block (block); CV selects the rank and
+                             the keep fraction jointly. Unvalidated. Default: off (ordinary PLS-DA)
+  --sparsity-ladder F1,F2,...
+                             Keep fractions CV selects over, in (0, 1] (requires --sparsity;
+                             default: 1.0,0.5,0.2,0.1,0.05)
   --orientation-estimator {net_displacement,pc1}
                              Orientation estimator (default: net_displacement)
   --attribution              Run frozen-model orientation attribution
@@ -243,7 +257,15 @@ with covariates it also prints each covariate's kind and the number of samples
 complete-case deletion dropped, and with `--latent-adjustment` the conditioning
 and the residual degrees of freedom of the residualization, and with
 `--residual-correction` the correction it applied to the RRPP null (κ for `df`,
-the leverage and multiplier range for `leverage`). Covariates are
+the leverage and multiplier range for `leverage`). With `--block-weighting` the
+kind is printed beside the rank floor and recorded in a `block_weighting` block;
+see [Block weighting](analysis.md#block-weighting) for the metric it implies and
+its validation status. With `--sparsity` the scope and the selected keep
+fraction are printed beside the rank floor and recorded in a `sparsity` block;
+`--sparsity-ladder` without `--sparsity`, or a ladder that is not
+comma-separated fractions in (0, 1], exits non-zero before anything is fitted.
+See [Sparse stage-PLS](analysis.md#sparse-stage-pls) for its validation status.
+Covariates are
 declared in flag order across `--covariate` and `--categorical-covariate`.
 `--latent-adjustment` without a covariate flag exits non-zero before any data
 are read; see [Latent adjustment](analysis.md#latent-adjustment) for what it

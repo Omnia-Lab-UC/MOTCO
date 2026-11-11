@@ -1,0 +1,256 @@
+{
+ "hash": "1102caa7203f8976c22cfb3d57a984e54d08c6254407881d9222383fec2ef7e2",
+ "settings": {
+  "added_cells": [
+   "magnitude_e0.25",
+   "orient_e1.0_phi0",
+   "shape_e1.0"
+  ],
+  "alpha": 0.05,
+  "arms": {
+   "pls_cv": {
+    "block_weighting": null,
+    "sparsity": null
+   },
+   "sparse_block": {
+    "block_weighting": null,
+    "sparsity": {
+     "keep_fractions": [
+      1.0,
+      0.5,
+      0.2,
+      0.1,
+      0.05
+     ],
+     "scope": "block"
+    }
+   },
+   "weighted": {
+    "block_weighting": "equal_variance",
+    "sparsity": null
+   },
+   "weighted_sparse_block": {
+    "block_weighting": "equal_variance",
+    "sparsity": {
+     "keep_fractions": [
+      1.0,
+      0.5,
+      0.2,
+      0.1,
+      0.05
+     ],
+     "scope": "block"
+    }
+   }
+  },
+  "comparison": {
+   "alpha": 0.05,
+   "arms": [
+    "pls_cv"
+   ],
+   "base_seed": 2035,
+   "cells": [
+    [
+     "anchor",
+     "none",
+     0.0,
+     null,
+     null
+    ],
+    [
+     "translation",
+     "translation",
+     1.0,
+     null,
+     null
+    ],
+    [
+     "magnitude",
+     "magnitude",
+     0.05,
+     null,
+     null
+    ],
+    [
+     "orient_e0.25_phi0",
+     "orientation",
+     0.25,
+     0.0,
+     null
+    ],
+    [
+     "orient_e0.5_phi0",
+     "orientation",
+     0.5,
+     0.0,
+     null
+    ],
+    [
+     "shape_e0.25",
+     "shape",
+     0.25,
+     null,
+     null
+    ],
+    [
+     "shape_e0.5",
+     "shape",
+     0.5,
+     null,
+     null
+    ],
+    [
+     "magnitude_e0.25",
+     "magnitude",
+     0.25,
+     null,
+     null
+    ],
+    [
+     "orient_e1.0_phi0",
+     "orientation",
+     1.0,
+     0.0,
+     null
+    ],
+    [
+     "shape_e1.0",
+     "shape",
+     1.0,
+     null,
+     null
+    ]
+   ],
+   "designs": {
+    "n200": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "group_ratio": 0.5,
+      "magnitude_kind": "joint",
+      "n_samples": 200,
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ]
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ]
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad_weak": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 0.11,
+      "delta_methyl": 0.11,
+      "delta_protein": 0.11,
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ]
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    }
+   },
+   "driver_version": 1,
+   "min_components": 2,
+   "orientation_estimator": "net_displacement",
+   "permutations": 199,
+   "pls_cv_params": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "replicates": 100,
+   "weak_delta": {
+    "auroc_median": 0.6169166666666668,
+    "calibration_sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110",
+    "rule": "first_in_band",
+    "source": "calibration",
+    "value": 0.11
+   }
+  },
+  "driver_version": 1,
+  "parents": {
+   "comparison_calibration": {
+    "path": "results/latent-space-comparison-2026-11-04/calibration/calibration.json",
+    "sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110"
+   },
+   "comparison_rate_table": {
+    "path": "results/latent-space-comparison-2026-11-04/rate_table.csv",
+    "sha256": "909bc1adf722ec52468314081e8d36477aaeafd13e31058a2994f5233ce40f9e"
+   },
+   "comparison_settings": {
+    "path": "results/latent-space-comparison-2026-11-04/settings.json",
+    "sha256": "754ded6ce781a512e3670c23684235c4bebf7a5f58de7a2463bc24bf0ba17255"
+   }
+  },
+  "permutations": 199,
+  "profile": "simulation",
+  "rejection": "p < alpha",
+  "replicates": 100,
+  "shared_cells": [
+   "anchor",
+   "translation",
+   "magnitude",
+   "orient_e0.25_phi0",
+   "orient_e0.5_phi0",
+   "shape_e0.25",
+   "shape_e0.5"
+  ],
+  "span_capture": true
+ }
+}

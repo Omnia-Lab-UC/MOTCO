@@ -1,0 +1,32 @@
+{
+ "arm_seconds_median": {
+  "pls_cv": 133.83281552419066,
+  "sparse_block": 1261.1009489241987,
+  "weighted": 133.73342481907457,
+  "weighted_sparse_block": 1268.4522593291476
+ },
+ "arm_seconds_total_hours": {
+  "pls_cv": 14.65834356658877,
+  "sparse_block": 148.81879524258954,
+  "weighted": 14.394589986696083,
+  "weighted_sparse_block": 147.06868443569746
+ },
+ "complete_units": 400,
+ "duplicate_records": 0,
+ "expected_units": 400,
+ "failed_records": 0,
+ "failures_by_arm_and_cell": {},
+ "fidelity_failed_units": [],
+ "fidelity_failures": 0,
+ "generate_seconds_median": 0.014157784171402454,
+ "missing_units": 0,
+ "profile": "plasmode",
+ "recorded_core_hours": 324.9979416278198,
+ "records": 1600,
+ "settings_hash": "d9b0927b69b827d985cbcbb559cb1012d37d9f47e51f65d47e514d26ac0062f2",
+ "unit_seconds": {
+  "max": 9714.035130128264,
+  "median": 2852.2370699234307,
+  "q90": 3191.936420846544
+ }
+}

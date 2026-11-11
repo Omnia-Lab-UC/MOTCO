@@ -1,0 +1,17 @@
+design,cell,trajectory_mode,effect_size,arm,n,rank_median,rank_q10,rank_q90,keep_fraction_median,keep_fraction_q10,keep_fraction_q90,cv_mean_auroc_median,cv_mean_auroc_q10,cv_mean_auroc_q90,pooled_stage_median,pooled_stage_q10,pooled_stage_q90,group_difference_median,target_statistic,population_target_median,support_rna_median,support_atac_median
+plasmode,anchor,none,0,pls_cv,100,5,5,5,,,,0.635556,0.635556,0.635556,,,,,,,,
+plasmode,anchor,none,0,weighted,100,7,7,7,,,,0.638444,0.638444,0.638444,,,,,,,,
+plasmode,anchor,none,0,sparse_block,100,4,4,4,0.05,0.05,0.05,0.629056,0.629056,0.629056,,,,,,,250,250
+plasmode,anchor,none,0,weighted_sparse_block,100,4,4,4,0.05,0.05,0.05,0.641056,0.641056,0.641056,,,,,,,250,250
+plasmode,span_e0.25,magnitude,0.25,pls_cv,100,7,5,10.1,,,,0.835194,0.820167,0.854128,,,,,delta,,,
+plasmode,span_e0.25,magnitude,0.25,weighted,100,7,5,9,,,,0.835083,0.820389,0.854211,,,,,delta,,,
+plasmode,span_e0.25,magnitude,0.25,sparse_block,100,5,4,9.1,0.2,0.05,1,0.831722,0.817222,0.851072,,,,,delta,,1000,1000
+plasmode,span_e0.25,magnitude,0.25,weighted_sparse_block,100,7,4,10,0.5,0.05,1,0.836278,0.82055,0.854233,,,,,delta,,2500,2500
+plasmode,span_e0.5,magnitude,0.5,pls_cv,100,7,5.9,9,,,,0.909667,0.889106,0.932139,,,,,delta,,,
+plasmode,span_e0.5,magnitude,0.5,weighted,100,7,6,9,,,,0.910556,0.888256,0.931317,,,,,delta,,,
+plasmode,span_e0.5,magnitude,0.5,sparse_block,100,6,4,8,0.5,0.19,1,0.908583,0.887144,0.928561,,,,,delta,,2500,2500
+plasmode,span_e0.5,magnitude,0.5,weighted_sparse_block,100,6,4,9.1,0.5,0.2,1,0.910361,0.888311,0.933228,,,,,delta,,2500,2500
+plasmode,span_e1,magnitude,1,pls_cv,100,5,4,7,,,,0.9395,0.922483,0.958922,,,,,delta,,,
+plasmode,span_e1,magnitude,1,weighted,100,5,4.9,7,,,,0.940583,0.922717,0.95905,,,,,delta,,,
+plasmode,span_e1,magnitude,1,sparse_block,100,5,4,6,0.5,0.2,1,0.940194,0.924506,0.959339,,,,,delta,,2500,2500
+plasmode,span_e1,magnitude,1,weighted_sparse_block,100,5,4,6,0.5,0.2,1,0.942583,0.925983,0.959878,,,,,delta,,2500,2500

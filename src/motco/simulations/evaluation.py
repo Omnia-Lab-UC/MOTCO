@@ -62,12 +62,14 @@ from motco.simulations.preprocessing import (
     concatenate_blocks,
     fit_omics_preprocessor,
     selected_layers,
+    validate_block_weighting,
 )
 from motco.simulations.semisynthetic import OmicsLayer, SemiSyntheticTrajectoryDataset
 from motco.stats.design import _sort_levels, build_ls_means, get_model_matrix
 from motco.stats.permutation import RRPP
 from motco.stats.pls import (
     NuisanceDesign,
+    _modal_fraction_fullest,
     _modal_int_with_parsimony,
     fit_nuisance_coefficients,
     fit_plsda_model,
@@ -76,6 +78,7 @@ from motco.stats.pls import (
     residualize,
 )
 from motco.stats.snf import SNF, get_affinity_matrix, get_spectral
+from motco.stats.sparse_pls import DEFAULT_KEEP_FRACTIONS, SPARSITY_SCOPES, SparsityDesign
 from motco.stats.trajectory import estimate_difference
 
 IntegrationMethod = Literal["concat", "snf", "pls", "pca", "pls_within_group", "pls_residual_pca"]
@@ -88,6 +91,9 @@ INTEGRATION_METHODS: frozenset[str] = frozenset(
 #: Probe-only latent spaces: labelled ``integration_role="diagnostic"``, never
 #: production, and excluded from attribution and the forced-rank override.
 DIAGNOSTIC_INTEGRATION_METHODS: frozenset[str] = frozenset({"pca", "pls_within_group", "pls_residual_pca"})
+
+#: Methods whose PLS space may be fitted sparse (``integration_params["sparsity"]``).
+SPARSITY_INTEGRATION_METHODS: frozenset[str] = frozenset({"pls", "pls_residual_pca"})
 
 #: Methods whose latent matrix is measured as its own realized-geometry
 #: checkpoint, keyed to that checkpoint's name.
@@ -406,7 +412,8 @@ def evaluate_semisynthetic_trajectory(
     _require_span_layers_measured(dataset, params.integration_params)
     start = perf_counter()
 
-    preprocessor = fit_omics_preprocessor(dataset, _measured_layers(params.integration_params))
+    weighting = _block_weighting(params.integration_params)
+    preprocessor = fit_omics_preprocessor(dataset, _measured_layers(params.integration_params), weighting=weighting)
     observed_blocks = preprocessor.transform_dataset(dataset)
     if latent is None:
         latent = integrate_semisynthetic_dataset(
@@ -424,6 +431,16 @@ def evaluate_semisynthetic_trajectory(
         raise SimulationEvaluationError(
             f"Supplied latent integration is in {_integration_coordinates(latent)!r} coordinates, "
             f"not latent_coordinates={params.resolved_latent_coordinates!r}."
+        )
+    elif _integration_block_weighting(latent) != weighting:
+        raise SimulationEvaluationError(
+            f"Supplied latent integration was built with block_weighting={_integration_block_weighting(latent)!r}, "
+            f"not the requested {weighting!r}."
+        )
+    elif _integration_sparsity(latent) != _sparsity_record(params.integration_params):
+        raise SimulationEvaluationError(
+            f"Supplied latent integration was built with sparsity={_integration_sparsity(latent)!r}, "
+            f"not the requested {_sparsity_record(params.integration_params)!r}."
         )
     design = build_simulation_trajectory_design(
         dataset.metadata,
@@ -608,14 +625,17 @@ def integrate_semisynthetic_dataset(
     """
 
     _validate_latent_coordinates(params)
+    weighting = _validate_block_weighting(params.integration_method, params.integration_params)
+    _validate_sparsity(params.integration_method, params.integration_params)
     _validate_dataset(dataset, params.group_col, params.stage_col)
     _require_span_layers_measured(dataset, params.integration_params)
     layers = _measured_layers(params.integration_params)
     if preprocessor is None:
-        preprocessor = fit_omics_preprocessor(dataset, layers)
+        preprocessor = fit_omics_preprocessor(dataset, layers, weighting=weighting)
     else:
         try:
             preprocessor.require_layers(layers)
+            preprocessor.require_block_weighting(weighting)
         except ValueError as exc:
             raise SimulationEvaluationError(str(exc)) from exc
     if observed_blocks is None:
@@ -711,6 +731,8 @@ def _validate_evaluation_params(params: SimulationEvaluationParams) -> None:
     if params.n_jobs == 0:
         raise SimulationEvaluationError("n_jobs must be None, -1, or a non-zero integer.")
     _measured_layers(params.integration_params)
+    _validate_block_weighting(params.integration_method, params.integration_params)
+    _validate_sparsity(params.integration_method, params.integration_params)
     _validate_attribution_settings(params.attribution, params.integration_method)
     _validate_latent_coordinates(params)
 
@@ -741,6 +763,147 @@ def _integration_coordinates(latent: LatentIntegrationResult) -> str:
     """The coordinate system a built integration is measured in (``"scores"`` unless recorded)."""
 
     return str(latent.metadata.get("integration_params", {}).get("latent_coordinates") or "scores")
+
+
+def _block_weighting(integration_params: Mapping[str, Any]) -> str | None:
+    """The requested block weighting (``integration_params["block_weighting"]``), or ``None``."""
+
+    try:
+        return validate_block_weighting(integration_params.get("block_weighting"))
+    except ValueError as exc:
+        raise SimulationEvaluationError(f"integration_params['block_weighting']: {exc}") from exc
+
+
+def _validate_block_weighting(integration_method: str, integration_params: Mapping[str, Any]) -> str | None:
+    """Resolve the block weighting, refusing a method the weights cannot reach, before any preprocessing.
+
+    The weights multiply the pooled-standardized blocks, so ``snf`` (affinities
+    from the unstandardized blocks, one block at a time) and the unstandardized
+    ``concat`` baseline never see them.
+    """
+
+    weighting = _block_weighting(integration_params)
+    if weighting is None:
+        return None
+    if integration_method == "snf":
+        raise SimulationEvaluationError(
+            f"integration_params['block_weighting']={weighting!r} cannot be used with integration_method='snf': "
+            "SNF builds its affinities from the unstandardized blocks one block at a time, so a block weight "
+            "never reaches it."
+        )
+    if integration_method == "concat" and not bool(integration_params.get("standardize", True)):
+        raise SimulationEvaluationError(
+            f"integration_params['block_weighting']={weighting!r} cannot be used with the unstandardized "
+            "concat baseline (standardize=False): the weights multiply the pooled-standardized blocks."
+        )
+    return weighting
+
+
+def _integration_block_weighting(latent: LatentIntegrationResult) -> str | None:
+    """The block weighting a built integration was fitted with (``None`` unless recorded)."""
+
+    return latent.metadata.get("integration_params", {}).get("block_weighting")
+
+
+def _require_pls_block_weighting(pls: LatentIntegrationResult, params: SimulationEvaluationParams) -> None:
+    """Refuse a supplied ``pls`` integration fitted with another block weighting than ``params`` requests."""
+
+    requested = _block_weighting(params.integration_params)
+    if _integration_block_weighting(pls) != requested:
+        raise SimulationEvaluationError(
+            f"The supplied pls integration was fitted with block_weighting={_integration_block_weighting(pls)!r}, "
+            f"but this evaluation requests {requested!r}."
+        )
+
+
+def _weighting_metadata(integration_params: Mapping[str, Any]) -> dict[str, Any]:
+    """The ``block_weighting`` metadata entry — present only when a weighting was requested."""
+
+    weighting = _block_weighting(integration_params)
+    return {} if weighting is None else {"block_weighting": weighting}
+
+
+def _sparsity_setting(integration_params: Mapping[str, Any]) -> tuple[str, tuple[float, ...]] | None:
+    """The requested sparsity (``integration_params["sparsity"]``) as ``(scope, ladder)``, or ``None``.
+
+    The value is ``{"scope": "joint" | "block", "keep_fractions": [...]}``;
+    ``keep_fractions`` is optional (the default ladder) and is held fullest
+    first. A malformed value is rejected naming the offence.
+    """
+
+    value = integration_params.get("sparsity")
+    if value is None:
+        return None
+    if not isinstance(value, Mapping):
+        raise SimulationEvaluationError(
+            "integration_params['sparsity'] must be a mapping {'scope': 'joint' | 'block', "
+            f"'keep_fractions': [...]}}, got {value!r}."
+        )
+    unknown = sorted(str(key) for key in value if key not in ("scope", "keep_fractions"))
+    if unknown:
+        raise SimulationEvaluationError(
+            f"integration_params['sparsity'] has unknown key(s) {unknown}; allowed: 'scope', 'keep_fractions'."
+        )
+    scope = value.get("scope")
+    if scope not in SPARSITY_SCOPES:
+        raise SimulationEvaluationError(
+            f"integration_params['sparsity']: unknown scope {scope!r}; allowed: {list(SPARSITY_SCOPES)}."
+        )
+    fractions = value.get("keep_fractions")
+    try:
+        # The ladder is validated alone; block membership comes from the measured blocks.
+        ladder = SparsityDesign("joint", DEFAULT_KEEP_FRACTIONS if fractions is None else fractions).keep_fractions
+    except ValueError as exc:
+        raise SimulationEvaluationError(f"integration_params['sparsity']: {exc}") from exc
+    return str(scope), ladder
+
+
+def _sparsity_record(integration_params: Mapping[str, Any]) -> dict[str, Any] | None:
+    """The requested sparsity as recorded (``{"scope", "keep_fractions"}``), or ``None``."""
+
+    setting = _sparsity_setting(integration_params)
+    return None if setting is None else {"scope": setting[0], "keep_fractions": list(setting[1])}
+
+
+def _validate_sparsity(integration_method: str, integration_params: Mapping[str, Any]) -> None:
+    """Refuse a sparsity setting outside the PLS spaces, malformed, or beside a forced rank it cannot fix."""
+
+    setting = _sparsity_setting(integration_params)
+    if setting is None:
+        return
+    if integration_method not in SPARSITY_INTEGRATION_METHODS:
+        raise SimulationEvaluationError(
+            f"integration_params['sparsity'] is specific to integration_method 'pls' or 'pls_residual_pca'; "
+            f"got it with {integration_method!r}."
+        )
+    _require_fixed_budget(integration_params.get("forced_components"), setting[1])
+
+
+def _require_fixed_budget(forced_components: Any, ladder: Sequence[float]) -> None:
+    """A forced rank skips the cross-validation, so nothing can select among more than one fraction."""
+
+    if forced_components is not None and len(ladder) > 1:
+        raise SimulationEvaluationError(
+            f"integration_params['forced_components']={forced_components!r} skips cross-validation, so the "
+            f"sparsity ladder {list(ladder)} cannot be selected over; give a single keep fraction."
+        )
+
+
+def _integration_sparsity(latent: LatentIntegrationResult) -> dict[str, Any] | None:
+    """The sparsity a built integration was fitted with (``None`` unless recorded)."""
+
+    return latent.metadata.get("integration_params", {}).get("sparsity")
+
+
+def _require_pls_sparsity(pls: LatentIntegrationResult, params: SimulationEvaluationParams) -> None:
+    """Refuse a supplied ``pls`` integration fitted with another sparsity than ``params`` requests."""
+
+    requested = _sparsity_record(params.integration_params)
+    if _integration_sparsity(pls) != requested:
+        raise SimulationEvaluationError(
+            f"The supplied pls integration was fitted with sparsity={_integration_sparsity(pls)!r}, "
+            f"but this evaluation requests {requested!r}."
+        )
 
 
 def _measured_layers(integration_params: Mapping[str, Any]) -> tuple[OmicsLayer, ...]:
@@ -881,7 +1044,11 @@ def _concat_integration(
         metadata={
             "integration_method": "concat",
             "integration_role": "baseline",
-            "integration_params": {"standardize": standardize, **_layers_metadata(integration_params)},
+            "integration_params": {
+                "standardize": standardize,
+                **_layers_metadata(integration_params),
+                **_weighting_metadata(integration_params),
+            },
             "shape": tuple(latent.shape),
             "n_samples": int(latent.shape[0]),
             "n_features": int(latent.shape[1]),
@@ -1042,6 +1209,31 @@ def fit_pls_latent_space(
     artifacts carry a :class:`LatentAdjustmentSummary`. Without ``nuisance``
     nothing changes.
 
+    ``integration_params["block_weighting"]`` (``"equal_variance"`` or
+    ``"mfa"``) declares that ``X`` holds weighted blocks
+    (:func:`motco.simulations.preprocessing.fit_block_scalers`): every PLS fit
+    — the cross-validation's and the final one — then uses ``scale=False``,
+    since ``scale=True`` would re-standardize each column and undo the
+    weights, and the metadata records ``integration_params["block_weighting"]``.
+    The caller weights the blocks and passes ``original_scales`` divided by
+    the weights. Absent, nothing changes.
+
+    ``integration_params["sparsity"]`` (``{"scope": "joint" | "block",
+    "keep_fractions": [...]}``, the ladder defaulting to 1.0, 0.5, 0.2, 0.1,
+    0.05) fits a sparse stage-PLS-DA
+    (:class:`motco.stats.sparse_pls.SparsePLSDA`): the cross-validation
+    selects the rank and the keep fraction jointly
+    (``plsda_doubleCV(..., sparsity=)``), the block membership is
+    ``layer_feature_counts`` in its order (it must cover the columns of
+    ``X``), and the final model is fitted at the modal rank and the modal
+    fraction (the fuller on ties) with the path's ``scale``. The metadata
+    records ``integration_params["sparsity"]`` (scope and ladder) and
+    ``integration_params["selected_keep_fraction"]``, and a top-level
+    ``sparsity`` block adds the per-component support size per block. A
+    forced rank needs a one-element ladder (the model is fitted at it). It
+    composes with ``nuisance``, ``coordinates`` and block weighting. Absent,
+    nothing changes.
+
     ``coordinates`` (default ``"scores"``) names the coordinate system of the
     returned matrix. ``"orthonormal"`` replaces the scores ``X_in·R`` of the
     final model by ``X_in·Q``, ``X_in = (X − x_mean) / x_std`` the model's
@@ -1071,9 +1263,12 @@ def fit_pls_latent_space(
     min_stage_count = int(stage_counts.min())
     max_feasible_components = min(n_features, n_samples)
 
+    weighting = _block_weighting(integration_params)
     X_fit = X
-    scale = True
-    cv_nuisance: dict[str, Any] = {}
+    # Weighted blocks are fitted in their own metric: ``scale=True`` would
+    # re-standardize every column and undo the block weights exactly.
+    scale = weighting is None
+    cv_options: dict[str, Any] = {} if scale else {"scale": False}
     full_residual_df = 0
     if nuisance is not None:
         if nuisance.n_samples != n_samples:
@@ -1087,13 +1282,29 @@ def fit_pls_latent_space(
         X_fit = residualize(X, nuisance.covariates, coefficients)
         scale = False
         # Stratify the folds on the conditioning cells so every training set can estimate them.
-        cv_nuisance = {"scale": False, "nuisance": nuisance, "strata": nuisance.cells()}
+        cv_options = {"scale": False, "nuisance": nuisance, "strata": nuisance.cells()}
+
+    setting = _sparsity_setting(integration_params)
+    sparsity: SparsityDesign | None = None
+    if setting is not None:
+        groups = tuple(int(count) for count in layer_feature_counts.values())
+        if sum(groups) != n_features:
+            raise SimulationEvaluationError(
+                f"PLS integration: layer_feature_counts {dict(layer_feature_counts)} cover {sum(groups)} "
+                f"features, but X has {n_features}; the sparsity budget needs the block membership."
+            )
+        sparsity = SparsityDesign(setting[0], setting[1], groups)
+        cv_options["sparsity"] = sparsity
 
     forced_components = _forced_components(integration_params, maximum=max_feasible_components)
+    selected_fraction: float | None = None
     cv_params: dict[str, Any]
     if forced_components is not None:
         # Diagnostic path: no cross-validation runs, so none of its knobs are
         # resolved or recorded.
+        if sparsity is not None:
+            _require_fixed_budget(forced_components, sparsity.keep_fractions)
+            selected_fraction = sparsity.keep_fractions[0]
         selected_lv = forced_components
         mean_auroc = None
         cv_repeats_completed = 0
@@ -1140,12 +1351,16 @@ def fit_pls_latent_space(
                 n_jobs=n_jobs,
                 progress=False,
                 min_components=min_components,
-                **cv_nuisance,
+                **cv_options,
             )
         except ValueError as exc:
             raise SimulationEvaluationError(f"PLS integration cross-validation failed: {exc}") from exc
 
         selected_lv = _modal_int_with_parsimony([int(v) for v in cv_result["table"]["LV"].tolist()])
+        if sparsity is not None:
+            selected_fraction = _modal_fraction_fullest(
+                [float(v) for v in cv_result["table"]["keep_fraction"].tolist()]
+            )
         mean_auroc = float(cv_result["table"]["AUROC"].mean())
         cv_repeats_completed = int(cv_result["table"].shape[0])
         cv_params = {
@@ -1158,6 +1373,13 @@ def fit_pls_latent_space(
         if min_components > 1:
             # A floor of 1 is the pre-floor rule: its metadata stays byte-identical.
             cv_params["min_components"] = min_components
+    if weighting is not None:
+        # Absent means unweighted blocks: the metadata stays byte-identical.
+        cv_params["block_weighting"] = weighting
+    if sparsity is not None:
+        # Absent means ordinary PLS-DA: the metadata stays byte-identical.
+        cv_params["sparsity"] = sparsity.to_dict()
+        cv_params["selected_keep_fraction"] = selected_fraction
 
     # One final pooled fit. Its training scores (under orthonormal coordinates,
     # its training inputs on qr(x_rotations_)) are the trajectory measurement
@@ -1165,7 +1387,22 @@ def fit_pls_latent_space(
     # necessarily share one coordinate system; no second fit or second component
     # selection ever happens. With a nuisance design the basis is fitted on the
     # residualized features and the raw features are projected onto it.
-    model = fit_plsda_model(X_fit, y, n_components=selected_lv, scale=scale)
+    model = fit_plsda_model(
+        X_fit, y, n_components=selected_lv, scale=scale, sparsity=sparsity, keep_fraction=selected_fraction
+    )
+    sparsity_metadata: dict[str, Any] = {}
+    if sparsity is not None:
+        names = list(layer_feature_counts)
+        sparsity_metadata = {
+            "sparsity": {
+                **sparsity.to_dict(),
+                "selected_keep_fraction": selected_fraction,
+                "support": [
+                    dict(zip(names, (int(v) for v in row)))
+                    for row in model.support_sizes(sparsity.feature_groups)
+                ],
+            }
+        }
     adjustment: LatentAdjustmentSummary | None = None
     adjustment_params: dict[str, Any] = {}
     if nuisance is not None:
@@ -1177,6 +1414,7 @@ def fit_pls_latent_space(
             cv_min_training_df=(
                 None if forced_components is not None else int(cv_result["nuisance_min_training_df"])
             ),
+            **({} if weighting is None else {"feature_scale": "pooled_standardized_block_weighted"}),
         )
         adjustment_params = {"latent_adjustment": nuisance.kind}
     else:
@@ -1203,6 +1441,7 @@ def fit_pls_latent_space(
             "cv_mean_auroc": mean_auroc,
             "cv_repeats_completed": cv_repeats_completed,
             "selected_lv": selected_lv,
+            **sparsity_metadata,
             "shape": tuple(latent.shape),
             "n_samples": int(latent.shape[0]),
             "n_features": int(latent.shape[1]),
@@ -1260,6 +1499,8 @@ def pls_orthonormal_from_pls(
             f"The supplied pls integration measures layers {pls_layers}, but this evaluation requests "
             f"{requested_layers}."
         )
+    _require_pls_block_weighting(pls, params)
+    _require_pls_sparsity(pls, params)
     if pls.matrix.index.astype(str).tolist() != dataset.metadata["sample_id"].astype(str).tolist():
         raise SimulationEvaluationError("The supplied pls integration is not row-aligned to this dataset.")
     return _orthonormal_coordinates(pls)
@@ -1326,7 +1567,11 @@ def _pca_integration(
             "integration_method": "pca",
             "integration_role": "diagnostic",
             "integration_metadata_version": INTEGRATION_METADATA_VERSION,
-            "integration_params": {"n_components": n_components, **_layers_metadata(integration_params)},
+            "integration_params": {
+                "n_components": n_components,
+                **_layers_metadata(integration_params),
+                **_weighting_metadata(integration_params),
+            },
             "retained_dimensionality": n_components,
             "shape": tuple(latent.shape),
             "n_samples": int(latent.shape[0]),
@@ -1386,6 +1631,8 @@ def pls_residual_pca_from_pls(
             f"The supplied pls integration measures layers {pls_layers}, but this evaluation requests "
             f"{requested_layers}."
         )
+    _require_pls_block_weighting(pls, params)
+    _require_pls_sparsity(pls, params)
     sample_ids = dataset.metadata["sample_id"].astype(str).tolist()
     if pls.matrix.index.astype(str).tolist() != sample_ids:
         raise SimulationEvaluationError("The supplied pls integration is not row-aligned to this dataset.")
@@ -1441,6 +1688,7 @@ def pls_residual_pca_from_pls(
             "cv_mean_auroc": pls_metadata["cv_mean_auroc"],
             "cv_repeats_completed": pls_metadata["cv_repeats_completed"],
             "pls_rank": pls_rank,
+            **({"sparsity": pls_metadata["sparsity"]} if "sparsity" in pls_metadata else {}),
             "residual_components": residual_components,
             "retained_dimensionality": pls_rank + residual_components,
             "shape": tuple(latent.shape),
@@ -1510,6 +1758,7 @@ def _pls_within_group_integration(
                 "stage_col": stage_col,
                 "components_per_group": components_per_group,
                 **_layers_metadata(integration_params),
+                **_weighting_metadata(integration_params),
             },
             "components_per_group": components_per_group,
             "basis_rank": rank,
@@ -1609,10 +1858,12 @@ def _joint_original_scales(
 
     ``order`` is the block order the joint matrix was concatenated in.
     Methylation scales are M-value scales, matching the fitted preprocessing
-    contract; the unit basis is labeled wherever these are used.
+    contract; the unit basis is labeled wherever these are used. A block's
+    scale is divided by its weight (exactly the scale when unweighted), so a
+    difference in the joint matrix times this scale is in original units.
     """
 
-    scales = np.concatenate([scalers[name].scale for name in order])
+    scales = np.concatenate([scalers[name].scale / scalers[name].weight for name in order])
     if scales.shape[0] != len(columns):
         raise SimulationEvaluationError(
             f"Fitted scales ({scales.shape[0]}) do not align to the joint feature matrix ({len(columns)})."

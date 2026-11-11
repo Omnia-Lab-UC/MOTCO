@@ -1,0 +1,32 @@
+{
+ "arm_seconds_median": {
+  "pls_cv": 13.248748306476045,
+  "sparse_block": 91.46175287698861,
+  "weighted": 13.167267276527127,
+  "weighted_sparse_block": 90.70190451803501
+ },
+ "arm_seconds_total_hours": {
+  "pls_cv": 12.003842256253556,
+  "sparse_block": 79.86993965407999,
+  "weighted": 11.926622353769167,
+  "weighted_sparse_block": 79.94011484384465
+ },
+ "complete_units": 3000,
+ "duplicate_records": 0,
+ "expected_units": 3000,
+ "failed_records": 0,
+ "failures_by_arm_and_cell": {},
+ "fidelity_failed_units": [],
+ "fidelity_failures": 0,
+ "generate_seconds_median": 0.2817653445235919,
+ "missing_units": 0,
+ "profile": "simulation",
+ "recorded_core_hours": 184.02115116989123,
+ "records": 12000,
+ "settings_hash": "1102caa7203f8976c22cfb3d57a984e54d08c6254407881d9222383fec2ef7e2",
+ "unit_seconds": {
+  "max": 362.45365280099213,
+  "median": 208.52961683948524,
+  "q90": 270.2983636482095
+ }
+}

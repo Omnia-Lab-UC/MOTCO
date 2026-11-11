@@ -393,6 +393,48 @@ Target power of the stage-span plants (`angle` for the rotation, `shape` for the
   four-stage orientation units, which were reported as failures; those two cells read
   over 497 and 491 replicates.
 
+## Which stage-supervised space: weighting and sparsity
+
+The latent-space comparison kept the stage-PLS span as the production measurement. It also
+showed how little of the stage program that span keeps at SEA-AD's stage signal (0.10 at
+the weak design). Two opt-in settings change the fitted span without changing its stage
+objective:
+
+- **Block weighting** (`block_weighting: equal_variance`; [API](api/analysis.md#block-weighting))
+  multiplies each standardized block by 1/√p_b. Unweighted, a block's share of the joint
+  variance, and so of every stage-PLS direction, grows with its feature count; weighted,
+  each block has unit total variance. The fit then runs without per-feature rescaling, so
+  `delta` is in the weighted metric. When the blocks have equal feature counts the weights
+  are equal, and the only change is that sklearn no longer re-standardizes each CV fold.
+- **Sparse stage-PLS** (`sparsity: {scope: block}`; [API](api/analysis.md#sparse-stage-pls))
+  lets each component load on a budget of features per block, chosen with the rank by the
+  same held-out AUROC. A budget can drop features that carry only noise, at the price of
+  any stage signal they carry.
+
+Neither setting can see outside the stage span; both can only change which stage-supervised
+span is fitted. The production latent-space selection (2026-11-10,
+[report](reports/production-latent-space-2026-11-10.md)) compared them with production on
+matched units: the latent-space comparison's three designs and the SEA-AD plasmode export
+with a stage-span plant on real noise. Its predeclared decision is **`keep_production`**:
+
+- **No gain where production has none.** At the weak design every arm rejects at
+  0.01–0.07 and keeps 0.08–0.10 of the stage program at the anchor. On the plasmode
+  plant the largest gain, `sparse_block` at e = 0.5 (`delta` 0.51 → 0.62), misses the
+  Bonferroni threshold. `weighted` reads `no_gain`.
+- **Size.** Every arm holds size in simulation (0.00–0.06). On the plasmode anchor the
+  sparse arms read `delta` 0.11, above the ceiling at 100 replicates, and production reads
+  0.11 on the same replicates. The decision counts it as `size_excess` for the sparse arms;
+  the paper grade would have resolved it.
+- **A gain at a strong stage signal.** At δ = 2.0 every candidate rejects more often than
+  production where production is below saturation: `angle` 0.46 → 0.90–1.00 for the
+  SEA-AD table's 22.5° rotation. Production's CV picks rank 3 in those cells and the
+  candidates rank 2, while every arm keeps 0.92–0.98 of the stage program. The gain
+  follows the selected rank, not a better view of the program.
+
+Both settings stay opt-in. A case study may declare block weighting as a sensitivity
+analysis, with `delta` in the weighted metric. Sparse stage-PLS costs seven to nine
+production fits and has shown no gain that would justify it.
+
 ## Testing outside the span: the split interaction test
 
 The production statistics cannot see a difference outside the fitted span, and no
