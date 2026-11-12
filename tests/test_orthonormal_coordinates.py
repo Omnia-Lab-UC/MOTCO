@@ -101,7 +101,7 @@ def test_scores_normalize_to_absent() -> None:
 
 def test_unknown_value_is_rejected() -> None:
     with pytest.raises(
-        SimulationEvaluationError, match=r"Unknown latent_coordinates 'whitened'; allowed: \['scores', 'orthonormal'\]"
+        SimulationEvaluationError, match=r"Unknown latent_coordinates 'whitened'; allowed: \['scores', 'orthonormal', "
     ):
         SimulationEvaluationParams(latent_coordinates="whitened")
 

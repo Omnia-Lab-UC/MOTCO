@@ -390,6 +390,49 @@ size holds and the shear's off-target leak goes, but target power is lost at sma
 four-stage designs ([report](../reports/orthonormal-coordinates-2026-11-09.md)). The production
 measurement and `motco analyze` therefore use the scores, and the setting stays a diagnostic.
 
+**Predictive-subspace coordinates.** The CV rank A does two jobs: it regularizes the stage fit, and it is
+the number of dimensions the statistics are measured in. Three further values of `latent_coordinates`
+keep the fit and measure in fewer dimensions. The stage labels are one-hot, so the final model's Y
+loadings Q (K × A) have rank K − 1 whatever A is, and the fitted stage indicators T·Qᵀ move only along
+the row space of Q. With V an orthonormal basis of that row space (numerical rank at 1e-10 of the
+largest singular value; `predictive_directions(model)`), the predictive subspace is span(V) in score
+space and span(R·V) in the model's input space, of dimension r = min(A, K − 1):
+
+| Value | Latent matrix | Columns |
+| --- | --- | --- |
+| `"predictive"` | T·V, the scores projected on the subspace | r (`pred_<i>`) |
+| `"predictive_orthonormal"` | X_in·qr(R·V), the input coordinates on an orthonormal basis of it | r (`pred_<i>`) |
+| `"predictive_fitted"` | T·Qᵀ, the fitted stage indicators in the model's centred, scaled response units | K of rank r (`fitted_<i>`) |
+
+- **One fit, one subspace.** The fitted model, the cross-validation and the selected or forced rank are
+  those of the scores; the step is a column map of the final fit, so it follows a forced rank, block
+  weighting, sparsity and the latent adjustment (where T is the raw features projected on the basis).
+  The three values share the basis qr(R·V), so their span-capture shares are equal, and at most the
+  scores'. The fitted stage indicators recomputed from the subspace equal the model's.
+- **Equal to the scores at A ≤ K − 1.** V is then square and orthogonal, so `"predictive"` gives the
+  scores' statistics and p-values.
+- **What is measured there.** The latent matrix, the `pls_latent` checkpoint, the configuration spectrum,
+  every RRPP draw and the `population_latent` checkpoint (through `LinearLatentMap.from_pls_predictive`).
+  The latent metadata gains `integration_params.latent_coordinates` and `measured_dimension` (r), its
+  `shape` and `n_features` describe the measured matrix, and `runtime_metadata["latent_coordinates"]`
+  names the value. A fit whose Y loadings have rank below r is an error naming the rank.
+- **Rejections**, all before any preprocessing or fit: any integration method other than `pls`,
+  attribution, and fewer than three stages (the subspace would have one dimension, where `angle` is 0°
+  or 180° by construction), each naming the value.
+- **Absent, nothing changes.** `None` is hash-omitted, so every committed cell id, signature and record
+  is unchanged (`tests/test_predictive_coordinates.py`).
+- **Prebuilt fit.** `pls_coordinates_from_pls(dataset, pls, params)` builds the integration of any
+  value other than the scores from an existing score-coordinate `pls` integration of the same dataset
+  without refitting, equal to the fit from scratch, so one fit can be measured four ways;
+  `pls_orthonormal_from_pls` is its orthonormal case. Both refuse an integration that is not `pls`, has
+  no fitted artifacts or is not in score coordinates.
+- **Status.** Measured and not adopted. `scripts/predictive_subspace_check.py`, the paired pilot of the
+  three values against production, read **`keep_production`** on 2026-11-12
+  ([report](../reports/predictive-subspace-2026-11-12.md)). In simulation they hold size, lose no protected
+  power and gain strongly. On the SEA-AD plasmode's real noise all three exceed size (`delta` 0.13, `shape`
+  0.08, against production's 0.042 and 0.026). Production and `motco analyze` measure in the scores, and the
+  values stay diagnostics.
+
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
 ```text

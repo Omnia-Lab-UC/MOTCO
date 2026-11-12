@@ -17,4 +17,4 @@ __all__ = [
     "plot_trajectory_from_plsr",
 ]
 
-__version__ = "0.23.0"
+__version__ = "0.24.0"

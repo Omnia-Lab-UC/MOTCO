@@ -8,6 +8,15 @@ Every opt-in option listed below leaves all outputs byte-identical while it is u
 
 ## [Unreleased]
 
+## 0.24.0 - 2026-11-12
+
+### Added
+
+- `SimulationEvaluationParams.latent_coordinates` takes three predictive-subspace values: `predictive`, `predictive_orthonormal` and `predictive_fitted`. Each measures the final PLS model on the row space of its Y loadings, which has `min(rank, n_stages − 1)` dimensions. The values are the scores projected on that subspace, the input coordinates on an orthonormal basis of it, and the fitted stage indicators. The fit, the cross-validation and the rank are unchanged. The values are rejected with integration methods other than `pls`, with attribution and with fewer than three stages.
+- `pls_coordinates_from_pls` builds any non-score coordinate system from an existing score-coordinate `pls` integration without refitting. `pls_orthonormal_from_pls` is now its orthonormal case.
+- `LinearLatentMap.from_pls_predictive`, `predictive_directions` and `PREDICTIVE_COORDINATES` in `motco.simulations.diagnostics`.
+- `TrajectoryAnalysisParams.latent_coordinates` takes the same three values in `motco.analysis`. The record gains `measurement.latent_coordinates`, which gives the value and the measured dimension. The field is rejected with attribution, with the split interaction test and with fewer than three stages. It has no CLI flag.
+
 ## [0.23.0] - 2026-11-11
 
 ### Added

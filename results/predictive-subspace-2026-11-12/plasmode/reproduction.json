@@ -1,0 +1,244 @@
+{
+ "checks": {
+  "fidelity": {
+   "anchor_units": 500,
+   "check": "fidelity",
+   "differing": [],
+   "expected": {
+    "cv_mean_auroc": 0.635556,
+    "selected_lv": 5
+   },
+   "passed": true,
+   "rule": "every anchor unit's pls_cv rank and held-out AUROC (6 decimals) equal the plasmode's fidelity values",
+   "source": {
+    "path": "results/plasmode-2026-11-02/settings.json",
+    "sha256": "16883b12067e774d309d819a7649ceaf959a65ec9abc1a48b2400bae35d5e89c"
+   },
+   "unavailable": [],
+   "units_checked": 500,
+   "units_passed": 500
+  },
+  "plasmode_anchor": {
+   "check": "plasmode_anchor",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 21
+     },
+     "key": [
+      "plasmode",
+      "anchor",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 21
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 24
+     },
+     "key": [
+      "plasmode",
+      "anchor",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 24
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 13
+     },
+     "key": [
+      "plasmode",
+      "anchor",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 13
+     }
+    }
+   ],
+   "rows_compared": 3,
+   "rows_matching": 3,
+   "rule": "pls_cv anchor count and rejections (p <= alpha) equal plasmode_summary.csv's reject_* rows",
+   "source": {
+    "path": "results/plasmode-2026-11-02/plasmode_summary.csv",
+    "sha256": "452f962a727fcaf16f4fba0695deacedec5108d0064190be775c85499c245b73"
+   }
+  },
+  "production_plant": {
+   "check": "production_plant",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 24
+     },
+     "key": [
+      "plasmode",
+      "span_e0.25",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 24
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 4
+     },
+     "key": [
+      "plasmode",
+      "span_e0.25",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 4
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 9
+     },
+     "key": [
+      "plasmode",
+      "span_e0.25",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 9
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 51
+     },
+     "key": [
+      "plasmode",
+      "span_e0.5",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 51
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 9
+     },
+     "key": [
+      "plasmode",
+      "span_e0.5",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 9
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 4
+     },
+     "key": [
+      "plasmode",
+      "span_e0.5",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 4
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 100
+     },
+     "key": [
+      "plasmode",
+      "span_e1",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 100
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 15
+     },
+     "key": [
+      "plasmode",
+      "span_e1",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 15
+     }
+    },
+    {
+     "committed": {
+      "count": 100,
+      "rejections": 6
+     },
+     "key": [
+      "plasmode",
+      "span_e1",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 100,
+      "rejections": 6
+     }
+    }
+   ],
+   "rows_compared": 9,
+   "rows_matching": 9,
+   "rule": "pls_cv plant count and rejections (p <= alpha) equal the production selection's rate_table.csv",
+   "source": {
+    "path": "results/production-latent-space-2026-11-10/plasmode/rate_table.csv",
+    "sha256": "f0bd340f9ad3709696919e666d6934d77c84c3a0c37860cb0aa5fb6776710847"
+   }
+  }
+ },
+ "passed": true,
+ "profile": "plasmode"
+}

@@ -1,0 +1,11 @@
+design,cell,trajectory_mode,effect_size,arm,n,rank_median,rank_q10,rank_q90,measured_dimension_median,measured_dimension_q10,measured_dimension_q90,cv_mean_auroc_median,cv_mean_auroc_q10,cv_mean_auroc_q90,pooled_stage_median,pooled_stage_q10,pooled_stage_q90,group_difference_median,stage_r2_median,observed_delta_median,observed_angle_median,observed_shape_median,population_delta_median,population_angle_median,population_shape_median,angle_null_q95_median
+seaad_weak,anchor,none,0,pls_cv,500,2,2,6,2,2,6,0.595944,0.528056,0.670289,0.0976296,0.0526632,0.172302,,0.4222,2.54971,21.6222,0.229867,0,0,2.93655e-16,53.8122
+seaad_weak,anchor,none,0,predictive,500,2,2,6,2,2,2,0.595944,0.528056,0.670289,0.0964216,0.0526632,0.164191,,0.4222,1.8399,8.39761,0.175683,0,0,2.06068e-16,32.5526
+seaad_weak,anchor,none,0,predictive_orthonormal,500,2,2,6,2,2,2,0.595944,0.528056,0.670289,0.0964216,0.0526632,0.164191,,0.4222,1.79713,12.0526,0.224526,0,0,2.02836e-16,68.4683
+seaad_weak,anchor,none,0,predictive_fitted,500,2,2,6,2,2,2,0.595944,0.528056,0.670289,0.0964216,0.0526632,0.164191,,0.4222,0.337972,2.66729,0.122058,0,0,5.69187e-16,9.40334
+seaad_weak,anchor,none,0,forced_k_minus_1,500,2,2,2,2,2,2,,,,0.0683604,0.0432019,0.101492,,0.4222,2.91869,19.5657,0.270492,0,0,2.22562e-16,55.5679
+seaad_weak,translation,translation,1,pls_cv,500,2,2,5,2,2,5,0.56725,0.499278,0.643911,0.0738135,0.0394055,0.141863,,0.382976,2.69648,21.787,0.242061,4.44089e-16,0,5.36633e-16,54.5216
+seaad_weak,translation,translation,1,predictive,500,2,2,5,2,2,2,0.56725,0.499278,0.643911,0.0738135,0.0394055,0.132897,,0.382976,2.03436,10.0013,0.187533,4.44089e-16,0,4.72456e-16,37.8448
+seaad_weak,translation,translation,1,predictive_orthonormal,500,2,2,5,2,2,2,0.56725,0.499278,0.643911,0.0738135,0.0394055,0.132897,,0.382976,1.87316,14.466,0.262846,2.22045e-16,0,5.24369e-16,83.7837
+seaad_weak,translation,translation,1,predictive_fitted,500,2,2,5,2,2,2,0.56725,0.499278,0.643911,0.0738135,0.0394055,0.132897,,0.382976,0.346569,3.01885,0.125146,8.32667e-17,0,9.85734e-16,10.5948
+seaad_weak,translation,translation,1,forced_k_minus_1,500,2,2,2,2,2,2,,,,0.0525352,0.0323838,0.0807259,,0.382976,3.07775,20.6989,0.269162,3.33067e-16,0,5.28769e-16,57.7298

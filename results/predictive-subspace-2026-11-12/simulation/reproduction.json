@@ -1,0 +1,6 @@
+{
+ "checks": {},
+ "note": "a fresh seed family (base seed 2036): there is no committed run to reproduce",
+ "passed": true,
+ "profile": "simulation"
+}

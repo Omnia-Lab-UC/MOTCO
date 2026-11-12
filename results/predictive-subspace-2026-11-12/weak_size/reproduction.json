@@ -1,0 +1,116 @@
+{
+ "checks": {
+  "span_split_production": {
+   "check": "span_split_production",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "seaad_weak",
+      "anchor",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "seaad_weak",
+      "anchor",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 25
+     },
+     "key": [
+      "seaad_weak",
+      "anchor",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 25
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 18
+     },
+     "key": [
+      "seaad_weak",
+      "translation",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 18
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 13
+     },
+     "key": [
+      "seaad_weak",
+      "translation",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 13
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 26
+     },
+     "key": [
+      "seaad_weak",
+      "translation",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 26
+     }
+    }
+   ],
+   "rows_compared": 6,
+   "rows_matching": 6,
+   "rule": "pls_cv count and rejections (p < alpha) equal the span-split production_table.csv",
+   "source": {
+    "path": "results/span-split-2026-11-05/simulation/production_table.csv",
+    "sha256": "c0e09fbd1f968c58c4193f06997817d8b33c4e4b791a6e6e47ace70471aab5cb"
+   }
+  }
+ },
+ "passed": true,
+ "profile": "weak_size"
+}

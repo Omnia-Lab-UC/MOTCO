@@ -68,7 +68,7 @@ analysis, ignoring the floor; the record then says `component_selection: "forced
 | `covariates` | only when covariates are declared: names, kinds, factor levels and reference levels, design columns, the LS-mean reference row, missing policy, dropped samples, coefficients per latent component |
 | `blocks` | each block's name, feature count, transform and units |
 | `block_weighting` | only with a [block weighting](#block-weighting): the kind and each block's name, fitted weight and feature count |
-| `measurement` | orientation estimator, selected rank, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
+| `measurement` | orientation estimator, selected rank, the [predictive-subspace coordinates](#predictive-subspace-coordinates) and their measured dimension when set, permutations, seed, the [residual correction](#residual-correction) when one was applied, runtime |
 | `span_split` | only with the [split interaction test](#split-interaction-test): per part (`total`, `span`, `complement`) the dimension, interaction and residual sums of squares, degrees of freedom, pseudo-F and, with permutations, the pseudo-F and interaction-SS p-values; the in-span share, the residual correction, permutations, seed and `draws_match_rrpp` |
 | `interaction_scan` | only with the [per-feature interaction scan](#per-feature-interaction-scan): feature and degenerate counts, df, the maximum F with its feature and block and, with permutations, the global p-value, the hits at adjusted p ≤ 0.05 (block, feature, F, adjusted p, by F), per block the hit count and the share of null maxima, and `draws_match_rrpp`; permutations, seed and residual correction. [By block](#by-block) it also gives `combination`, `n_blocks_tested` and per block the maximum F with its feature and the block's own p-value |
 | `params`, `software` | resolved parameters; MOTCO, numpy, scipy, scikit-learn, pandas and Python versions |
@@ -107,7 +107,8 @@ integration_method="pls")` call the same block-scaling cores and the same
 floor included, they return
 the same latent matrix, statistics, p-values, selected rank, null summary and
 spectrum. `tests/test_analysis.py` checks this for the default estimator, PC1
-and a two-block layer selection.
+and a two-block layer selection, and `tests/test_analysis_predictive_coordinates.py`
+under each [predictive-subspace coordinate system](#predictive-subspace-coordinates).
 
 ## Attribution
 
@@ -790,6 +791,45 @@ motco analyze ... --permutations 999 --seed 1 --sparsity block --sparsity-ladder
   (best `delta` 0.51 → 0.62 at e = 0.5, p = 0.0096). It loses no protected
   power and costs about seven to nine production fits. A malformed setting is
   rejected before anything is fitted.
+
+## Predictive-subspace coordinates
+
+The cross-validated rank both regularizes the stage fit and sets the number of
+dimensions the statistics are measured in. The opt-in `latent_coordinates`
+keeps the fit and measures in the fitted model's predictive subspace, the
+`min(rank, n_stages − 1)` directions of its score space along which the
+fitted stage labels move (the row space of its Y loadings), as the
+[simulation harness](simulations.md) defines it:
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, latent_coordinates="predictive")
+```
+
+- **Values.** `"predictive"` (the scores projected on the subspace),
+  `"predictive_orthonormal"` (the standardized features on an orthonormal
+  basis of it) and `"predictive_fitted"` (the fitted stage indicators, one
+  column per stage). `"orthonormal"` and `"scores"` are not offered here.
+- **What moves.** The statistics, the permutation draws, `latent_scores.csv`
+  and `stage_means.csv` are in the measured coordinates. The selected rank,
+  the held-out AUROC and `pls_loadings.csv` are those of the fit, which is
+  unchanged.
+- **Record.** `measurement.latent_coordinates` gives the value and the
+  measured dimension beside the selected rank, and
+  `latent.integration_params.latent_coordinates` the value.
+- **Rejections**, all before any fitting: an unknown value, fewer than three
+  stages, attribution and the [split interaction test](#split-interaction-test)
+  (both are defined on the fitted span). Covariates, latent adjustment, the
+  residual correction, a forced rank, block weighting, sparsity and the
+  interaction scan compose with it.
+- **Absent.** Nothing is written and every output equals MOTCO 0.23.0's
+  (`tests/test_analysis_identity.py`).
+- **Status.** It has **no CLI flag**, and it is a diagnostic, not a test to
+  report. The predictive-subspace pilot read `keep_production` on 2026-11-12
+  ([report](../reports/predictive-subspace-2026-11-12.md)). On this entry
+  point's own case-study configuration, on the SEA-AD plasmode, the three
+  values reject `delta` at about 0.13 and `shape` at about 0.08 under
+  permuted labels, where the scores read 0.042 and 0.026. `motco analyze`
+  measures in the scores.
 
 ## Example: SEA-AD-style design
 

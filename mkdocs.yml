@@ -20,6 +20,7 @@ nav:
   - Measurement Visibility: measurement-visibility.md
   - Study Reports:
     - Measurement visibility:
+      - Predictive-subspace coordinates (2026-11-12): reports/predictive-subspace-2026-11-12.md
       - Production latent-space selection (2026-11-10): reports/production-latent-space-2026-11-10.md
       - Interaction scan by block (2026-11-10): reports/interaction-scan-blocks-2026-11-10.md
       - Orthonormal span coordinates (2026-11-09): reports/orthonormal-coordinates-2026-11-09.md

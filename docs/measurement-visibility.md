@@ -435,6 +435,73 @@ Both settings stay opt-in. A case study may declare block weighting as a sensiti
 analysis, with `delta` in the weighted metric. Sparse stage-PLS costs seven to nine
 production fits and has shown no gain that would justify it.
 
+## The measured dimension: fit rank against predictive subspace
+
+The production statistics are computed in as many dimensions as the cross-validation selects
+components. The rank A does two jobs: it regularizes the stage fit, and it sets the
+dimension of the measurement. Dimensions beyond the stage program cost power on what the span
+sees:
+
+- ranks above K − 1 lose `shape` power at the Phase 5 design
+  ([rank ladder](reports/latent-rank-ladder-2026-09-08.md));
+- two near-empty added components halve magnitude `delta` (the latent-space comparison,
+  0.74 → 0.37 at n = 200);
+- the production selection's candidates gained where they chose rank 2 and production's CV
+  chose 3.
+
+**The predictive subspace.** The stage labels are one-hot, so the fit's Y loadings have
+rank K − 1 whatever A is, and the fitted stage labels move only along K − 1 directions of
+the score space: the row space of the Y loadings. Measuring there keeps the fit, the CV and
+the rank, and drops the score directions that do not move the fitted labels. At A ≤ K − 1 it
+is the score measurement. MOTCO 0.24.0 offers three coordinate systems on that subspace as an
+opt-in setting, in the harness and in `motco.analysis` (`latent_coordinates`;
+[API](api/simulations.md), [analysis](api/analysis.md#predictive-subspace-coordinates)):
+
+- **`predictive`:** the scores projected on the subspace;
+- **`predictive_orthonormal`:** the input coordinates on an orthonormal basis of it;
+- **`predictive_fitted`:** the fitted stage indicators.
+
+**Why a lower fit rank is not the same thing.** Forcing the fit to K − 1 components truncates
+it, and the later components are what aim the K − 1 directions. In the predictive-subspace
+pilot ([report](reports/predictive-subspace-2026-11-12.md) §7) the forced rank-2 fit keeps
+0.34–0.48 of the pooled stage program in the stage-effect band, against 0.73–0.88 for
+production and 0.67–0.87 for the predictive subspace. It loses the power the subspace
+gains: the n = 200 rotation at δ = 0.5 and e = 0.1 reads 0.11, against production's 0.06
+and the predictive subspace's 0.94.
+
+**What the predictive subspace gives up.**
+
+- **What production sees through its extra components.** The Phase 6 feature-set orientation
+  surgery at e = 1.0 is read by production's extra components (`group_difference` capture
+  0.20 at a median rank of 4), and by the predictive subspace barely (capture 0.002).
+  Production reads its `angle` at 0.66 and the predictive arms at 0.48–0.49.
+- **The size of the difference in the band.** At n = 200 and δ = 0.25 the predictive arms
+  read a 45° rotation as 18–20° where the population reads 43–45° through the same map. At
+  δ = 2.0 they agree within about 4°.
+
+**The pilot's verdict: `keep_production`.** All three coordinate systems read `size_excess`.
+
+- **Size fails on real noise.** On the SEA-AD plasmode's anchor (500 permuted-label replicates,
+  the case-study configuration) they reject `delta` at 0.13–0.136 and `shape` at 0.076–0.078,
+  where production reads 0.042 and 0.026 on the same replicates. Size holds at every simulated
+  design, the weak one included at 500 replicates.
+- **No protected power is lost, and the gains are large.** All three gain in 10 of the 18
+  δ = 2.0 target cells at the Bonferroni threshold: the SEA-AD table's 22.5° rotation goes from
+  0.41 to 1.00. In the stage-effect band, where the CV rank grows to 4–11 while the held-out
+  AUROC stays at its ceiling, they gain in 29–30 of 36 target cells. On the plasmode's
+  real-noise plant `delta` goes from 0.51 to 0.79–0.82 at e = 0.5.
+- **Specificity depends on the metric.** `predictive` adds to production's rotation-into-`shape`
+  leak in the band, and `predictive_fitted` leaks at δ = 2.0. `predictive_orthonormal` passes
+  both families and removes most of production's own band leak: 0.80 → 0.41 and 0.57 → 0.04
+  at n = 200, δ = 0.5.
+- **The CV rank sits next to a leak.** One more fit component turns the 45° rotation's
+  off-target `shape` at δ = 2.0 from 0.03–0.04 into 0.92–0.99.
+
+Production and `motco analyze` therefore measure in the fitted span's scores. The predictive
+values stay opt-in diagnostics and are not tests a case study should report. Only a paper grade
+after a `propose_paper_grade` verdict could adopt another measurement, and that needs the
+real-noise excess understood first.
+
 ## Testing outside the span: the split interaction test
 
 The production statistics cannot see a difference outside the fitted span, and no
