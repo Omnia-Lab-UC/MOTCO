@@ -145,6 +145,7 @@ Each validation question has a driver under `scripts/` and a dated report. The d
 | `orthonormal_coordinates_check.py` | orthonormal span coordinates | `orthonormal-coordinates-2026-11-09` |
 | `interaction_scan_check.py`, `interaction_scan_blocks_check.py` | the interaction scan, joint and by block | `interaction-scan-2026-11-09`, `interaction-scan-blocks-2026-11-10` |
 | `production_latent_space_check.py` | weighting × sparsity against production | `production-latent-space-2026-11-10` |
+| `predictive_subspace_check.py` | predictive-subspace coordinates against production (three profiles, six arms on one fit) | pending (`predictive-subspace-<date>`) |
 | `orientation_measurement_probe.py`, `net_displacement_*.py` | the orientation estimator | `orientation-measurement-probe-2026-10-12`, `net-displacement-*` |
 
 Reports are under `docs/reports/`, aggregates under `results/<name>-<date>/`, verdicts in `docs/roadmap.md`. Tools: `scripts/anchor_reproduction.py` (pairs two runs' anchors; `--by-column`, `--by-cell`), `scripts/design_guidance_figure.py`, and `scripts/presentation_figures.py` (talk figures built only from committed aggregates under `results/`, with a source registry, provenance manifest and the pinned statistic colours `delta` `#5a4fcf`, `angle` `#e0712c`, `shape` `#1a9b7f`; `tests/test_presentation_figures.py`).
