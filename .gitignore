@@ -227,3 +227,8 @@ __marimo__/
 results/**/shard_*.jsonl
 results/**/merged.jsonl
 results/**/logs/
+# The rank-floor full runs' per-replicate tables (1.2–1.5 MB each) stay on ing and
+# `rank_floor_check.py merge` regenerates them (see each run's PROVENANCE.txt).
+# The smoke runs' copies are small and tracked.
+results/rank-floor-2026-10-23/delta*/rank_floor_pvalues.csv
+results/rank-floor-2026-10-23/delta*/rank_floor_replicates.csv
