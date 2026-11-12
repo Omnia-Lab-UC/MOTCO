@@ -26,6 +26,36 @@ POPULATION_LATENT_CHECKPOINT = "population_latent"
 #: a translation): its span-capture share is undefined and reported as null.
 _CONSTANT_DIFFERENCE_TOLERANCE = 1e-9
 
+#: Coordinate systems on the predictive subspace of a fitted PLS model (the row
+#: space of its response loadings): the scores projected on an orthonormal basis
+#: of that row space, the model's input coordinates on an orthonormal basis of
+#: the same subspace in input space, and the fitted response indicators.
+PREDICTIVE_COORDINATES: tuple[str, ...] = ("predictive", "predictive_orthonormal", "predictive_fitted")
+
+#: Singular values of the response loadings at or below this fraction of the
+#: largest are zero when the predictive subspace's rank is read.
+PREDICTIVE_RANK_TOLERANCE = 1e-10
+
+
+def predictive_directions(model: Any, *, tolerance: float = PREDICTIVE_RANK_TOLERANCE) -> np.ndarray:
+    """An orthonormal basis ``V`` (A × r) of the row space of a fitted PLS model's ``y_loadings_``.
+
+    ``y_loadings_`` (``Q``) is K × A. Its rows span the directions of the
+    A-dimensional score space along which the fitted responses ``T·Qᵀ`` move;
+    ``r`` is its numerical rank (singular values above ``tolerance`` times the
+    largest). For one-hot stage labels the centred response has rank K − 1, so
+    ``r`` is ``min(A, K − 1)`` on a non-degenerate fit, and
+    ``T·V·Vᵀ·Qᵀ = T·Qᵀ``: the part of a score row orthogonal to ``span(V)``
+    does not move the fitted responses.
+    """
+
+    loadings = np.asarray(model.y_loadings_, dtype=float)
+    _, singular_values, right = np.linalg.svd(loadings, full_matrices=False)
+    if singular_values.size == 0 or not singular_values[0] > 0:
+        return np.zeros((loadings.shape[1], 0))
+    rank = int(np.sum(singular_values > tolerance * singular_values[0]))
+    return right[:rank].T.copy()
+
 
 @dataclass(frozen=True)
 class GeometryDiagnostic:
@@ -91,6 +121,45 @@ class LinearLatentMap:
             basis=basis,
             transform=lambda rows: ((np.asarray(rows, dtype=float) - center) / scale) @ basis,
         )
+
+    @classmethod
+    def from_pls_predictive(
+        cls, model: Any, coordinates: str, directions: np.ndarray | None = None
+    ) -> "LinearLatentMap":
+        """The map of a fitted PLS model on its predictive subspace, in one of :data:`PREDICTIVE_COORDINATES`.
+
+        With ``R = x_rotations_``, ``Q = y_loadings_`` and ``V`` the model's
+        :func:`predictive_directions` (or ``directions``), the subspace is
+        ``span(R·V)`` in the model's input coordinates and ``basis`` is
+        ``qr(R·V)``, the same for the three coordinate systems, so their
+        span-capture shares are equal. ``transform`` measures in the named
+        system: ``"predictive"`` is the scores times ``V``,
+        ``"predictive_orthonormal"`` the inputs times ``basis``, and
+        ``"predictive_fitted"`` the scores times ``Qᵀ`` (the fitted responses in
+        the model's centred and scaled response units).
+        """
+
+        if coordinates not in PREDICTIVE_COORDINATES:
+            raise ValueError(
+                f"Unknown predictive coordinates {coordinates!r}; allowed: {list(PREDICTIVE_COORDINATES)}."
+            )
+        V = predictive_directions(model) if directions is None else np.asarray(directions, dtype=float)
+        basis, _ = np.linalg.qr(np.asarray(model.x_rotations_, dtype=float) @ V)
+        center = np.asarray(model._x_mean)
+        scale = np.asarray(model._x_std)
+        if coordinates == "predictive_orthonormal":
+            right = basis
+
+            def transform(rows: np.ndarray) -> np.ndarray:
+                return ((np.asarray(rows, dtype=float) - center) / scale) @ right
+
+        else:
+            right = V if coordinates == "predictive" else np.asarray(model.y_loadings_, dtype=float).T
+
+            def transform(rows: np.ndarray) -> np.ndarray:
+                return np.asarray(model.transform(np.asarray(rows, dtype=float)), dtype=float) @ right
+
+        return cls(method="pls", center=center, scale=scale, basis=basis, transform=transform)
 
     def inputs(self, rows: np.ndarray) -> np.ndarray:
         """Standardized joint rows in the map's input coordinates."""

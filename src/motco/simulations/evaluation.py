@@ -53,7 +53,12 @@ from typing import Any, Literal, Mapping, Sequence
 import numpy as np
 import pandas as pd
 
-from motco.simulations.diagnostics import LinearLatentMap, calculate_realized_geometry
+from motco.simulations.diagnostics import (
+    PREDICTIVE_COORDINATES,
+    LinearLatentMap,
+    calculate_realized_geometry,
+    predictive_directions,
+)
 from motco.simulations.generator import logit
 from motco.simulations.preprocessing import (
     OMIC_LAYERS,
@@ -111,8 +116,11 @@ EVALUATION_ORIENTATION_ESTIMATORS: tuple[str, ...] = ("pc1", "net_displacement")
 #: Coordinate systems the PLS latent space may be measured in. ``None`` (the
 #: default) means the PLS scores, and an explicit ``"scores"`` is normalized to
 #: ``None``; ``"orthonormal"`` is the model's input coordinates on an
-#: orthonormal basis of its rotations' span.
-LATENT_COORDINATES: tuple[str, ...] = ("scores", "orthonormal")
+#: orthonormal basis of its rotations' span; the three
+#: :data:`~motco.simulations.diagnostics.PREDICTIVE_COORDINATES` are coordinate
+#: systems on the model's predictive subspace (the row space of its response
+#: loadings, of dimension ``min(rank, n_stages − 1)``).
+LATENT_COORDINATES: tuple[str, ...] = ("scores", "orthonormal", *PREDICTIVE_COORDINATES)
 
 
 class SimulationEvaluationError(ValueError):
@@ -176,10 +184,15 @@ class SimulationEvaluationParams:
     span_capture: bool | None = None
     # Opt-in coordinates of the PLS measurement: ``"orthonormal"`` measures the
     # final model's input coordinates on ``qr(x_rotations_)`` instead of its
-    # (sheared) scores; the fit, the CV and the rank are unchanged. PLS only,
-    # and not with attribution. ``None`` (the scores) is hash-omitted and
-    # ``"scores"`` normalizes to it, so an evaluation without it is
-    # byte-identical to before the field existed.
+    # (sheared) scores; ``"predictive"``, ``"predictive_orthonormal"`` and
+    # ``"predictive_fitted"`` measure on the final model's predictive subspace
+    # (the row space of its Y loadings, ``min(rank, n_stages − 1)`` dimensions):
+    # the scores projected on it, the input coordinates on an orthonormal basis
+    # of it, and the fitted stage indicators. The fit, the CV and the rank are
+    # unchanged. PLS only, and not with attribution; the predictive values need
+    # three stages. ``None`` (the scores) is hash-omitted and ``"scores"``
+    # normalizes to it, so an evaluation without it is byte-identical to before
+    # the field existed.
     latent_coordinates: str | None = None
 
     def __post_init__(self) -> None:
@@ -410,6 +423,7 @@ def evaluate_semisynthetic_trajectory(
     params = params or SimulationEvaluationParams()
     _validate_evaluation_params(params)
     _require_span_layers_measured(dataset, params.integration_params)
+    _require_predictive_stages(dataset.metadata, params)
     start = perf_counter()
 
     weighting = _block_weighting(params.integration_params)
@@ -629,6 +643,7 @@ def integrate_semisynthetic_dataset(
     _validate_sparsity(params.integration_method, params.integration_params)
     _validate_dataset(dataset, params.group_col, params.stage_col)
     _require_span_layers_measured(dataset, params.integration_params)
+    _require_predictive_stages(dataset.metadata, params)
     layers = _measured_layers(params.integration_params)
     if preprocessor is None:
         preprocessor = fit_omics_preprocessor(dataset, layers, weighting=weighting)
@@ -738,7 +753,7 @@ def _validate_evaluation_params(params: SimulationEvaluationParams) -> None:
 
 
 def _validate_latent_coordinates(params: SimulationEvaluationParams) -> None:
-    """Refuse orthonormal coordinates outside ``pls`` or with attribution, before any fit."""
+    """Refuse non-score coordinates outside ``pls`` or with attribution, before any fit."""
 
     coordinates = params.latent_coordinates
     if coordinates is None:
@@ -756,6 +771,24 @@ def _validate_latent_coordinates(params: SimulationEvaluationParams) -> None:
         raise SimulationEvaluationError(
             f"latent_coordinates={coordinates!r} cannot be combined with attribution: attribution is defined "
             "only in score coordinates."
+        )
+
+
+def _require_predictive_stages(metadata: pd.DataFrame, params: SimulationEvaluationParams) -> None:
+    """Refuse a predictive coordinate system on fewer than three stages, before any preprocessing or fit.
+
+    With two stages the predictive subspace has one dimension, where ``angle``
+    is 0° or 180° by construction.
+    """
+
+    coordinates = params.latent_coordinates
+    if coordinates not in PREDICTIVE_COORDINATES or params.stage_col not in metadata.columns:
+        return
+    stages = sorted(pd.unique(metadata[params.stage_col].astype(str)).tolist())
+    if len(stages) < 3:
+        raise SimulationEvaluationError(
+            f"latent_coordinates={coordinates!r} needs at least three stages: its subspace has n_stages − 1 "
+            f"dimensions, and this dataset has {len(stages)} stage(s) {stages}."
         )
 
 
@@ -1244,6 +1277,20 @@ def fit_pls_latent_space(
     ``transform`` measures in the same coordinates
     (:func:`pls_orthonormal_from_pls`).
 
+    The three predictive values measure on the final model's predictive
+    subspace: with ``T`` its scores (the returned score matrix), ``R`` its
+    rotations, ``Q`` its Y loadings and ``V`` an orthonormal basis of the row
+    space of ``Q`` (:func:`~motco.simulations.diagnostics.predictive_directions`,
+    ``r = min(rank, n_stages − 1)`` columns), ``"predictive"`` is ``T·V``,
+    ``"predictive_orthonormal"`` is ``X_in·qr(R·V)`` and ``"predictive_fitted"``
+    is ``T·Qᵀ`` (``n_stages`` columns of rank ``r``). The fit, the CV and the
+    rank are unchanged; the metadata gains
+    ``integration_params["latent_coordinates"]`` and ``measured_dimension``
+    (``r``), ``shape`` and ``n_features`` describe the measured matrix, and the
+    linear map has basis ``qr(R·V)`` and a ``transform`` in the same
+    coordinates (:func:`pls_coordinates_from_pls`). They need three stages,
+    and a fit whose Y loadings have rank below ``r`` is an error naming it.
+
     This is the production measurement shared by the simulation harness and
     the real-data entry point (:mod:`motco.analysis`); it never reads a dataset.
     """
@@ -1259,6 +1306,11 @@ def fit_pls_latent_space(
         raise SimulationEvaluationError(
             "PLS integration requires at least two stages with >= 2 samples each; "
             f"got stage counts {stage_counts.to_dict()}."
+        )
+    if coordinates in PREDICTIVE_COORDINATES and len(stage_counts) < 3:
+        raise SimulationEvaluationError(
+            f"PLS integration: latent_coordinates={coordinates!r} needs at least three stages: its subspace has "
+            f"n_stages − 1 dimensions, and y has {len(stage_counts)} stage(s)."
         )
     min_stage_count = int(stage_counts.min())
     max_feasible_components = min(n_features, n_samples)
@@ -1459,7 +1511,58 @@ def fit_pls_latent_space(
     )
     if coordinates == "orthonormal":
         return _orthonormal_coordinates(result)
+    if coordinates in PREDICTIVE_COORDINATES:
+        return _predictive_coordinates(result, coordinates)
     return result
+
+
+def pls_coordinates_from_pls(
+    dataset: SemiSyntheticTrajectoryDataset,
+    pls: LatentIntegrationResult,
+    params: SimulationEvaluationParams,
+) -> LatentIntegrationResult:
+    """The ``pls`` space in ``params.latent_coordinates``, built on an existing score-coordinate fit.
+
+    ``pls`` is a ``pls`` integration of ``dataset`` in score coordinates, with
+    fitted artifacts and the same measured blocks, block weighting and
+    sparsity; it is reused, not refitted. ``params.latent_coordinates`` is any
+    value other than the scores (``"orthonormal"`` or a predictive value). The
+    result equals :func:`integrate_semisynthetic_dataset` with ``params``, so
+    one PLS fit can be measured in several coordinate systems.
+    """
+
+    coordinates = params.latent_coordinates
+    if params.integration_method != "pls" or coordinates is None:
+        raise SimulationEvaluationError(
+            "pls_coordinates_from_pls needs integration_method='pls' and a latent_coordinates value other than "
+            f"'scores', got {params.integration_method!r} and {params.resolved_latent_coordinates!r}."
+        )
+    _validate_latent_coordinates(params)
+    method = pls.metadata.get("integration_method")
+    if method != "pls" or pls.artifacts is None:
+        raise SimulationEvaluationError(
+            f"The {coordinates!r} coordinates are built on a 'pls' integration with fitted artifacts; got "
+            f"{method!r}{'' if pls.artifacts is not None else ' without artifacts'}."
+        )
+    if _integration_coordinates(pls) != "scores":
+        raise SimulationEvaluationError(
+            f"The supplied pls integration is already in {_integration_coordinates(pls)!r} coordinates."
+        )
+    pls_layers = pls.metadata.get("integration_params", {}).get("layers")
+    requested_layers = _layers_metadata(params.integration_params).get("layers")
+    if pls_layers != requested_layers:
+        raise SimulationEvaluationError(
+            f"The supplied pls integration measures layers {pls_layers}, but this evaluation requests "
+            f"{requested_layers}."
+        )
+    _require_pls_block_weighting(pls, params)
+    _require_pls_sparsity(pls, params)
+    if pls.matrix.index.astype(str).tolist() != dataset.metadata["sample_id"].astype(str).tolist():
+        raise SimulationEvaluationError("The supplied pls integration is not row-aligned to this dataset.")
+    _require_predictive_stages(dataset.metadata, params)
+    if coordinates == "orthonormal":
+        return _orthonormal_coordinates(pls)
+    return _predictive_coordinates(pls, coordinates)
 
 
 def pls_orthonormal_from_pls(
@@ -1481,29 +1584,7 @@ def pls_orthonormal_from_pls(
             "pls_orthonormal_from_pls needs integration_method='pls' and latent_coordinates='orthonormal', "
             f"got {params.integration_method!r} and {params.latent_coordinates!r}."
         )
-    _validate_latent_coordinates(params)
-    method = pls.metadata.get("integration_method")
-    if method != "pls" or pls.artifacts is None:
-        raise SimulationEvaluationError(
-            "The orthonormal coordinates are built on a 'pls' integration with fitted artifacts; got "
-            f"{method!r}{'' if pls.artifacts is not None else ' without artifacts'}."
-        )
-    if _integration_coordinates(pls) != "scores":
-        raise SimulationEvaluationError(
-            f"The supplied pls integration is already in {_integration_coordinates(pls)!r} coordinates."
-        )
-    pls_layers = pls.metadata.get("integration_params", {}).get("layers")
-    requested_layers = _layers_metadata(params.integration_params).get("layers")
-    if pls_layers != requested_layers:
-        raise SimulationEvaluationError(
-            f"The supplied pls integration measures layers {pls_layers}, but this evaluation requests "
-            f"{requested_layers}."
-        )
-    _require_pls_block_weighting(pls, params)
-    _require_pls_sparsity(pls, params)
-    if pls.matrix.index.astype(str).tolist() != dataset.metadata["sample_id"].astype(str).tolist():
-        raise SimulationEvaluationError("The supplied pls integration is not row-aligned to this dataset.")
-    return _orthonormal_coordinates(pls)
+    return pls_coordinates_from_pls(dataset, pls, params)
 
 
 def _orthonormal_coordinates(pls: LatentIntegrationResult) -> LatentIntegrationResult:
@@ -1527,6 +1608,49 @@ def _orthonormal_coordinates(pls: LatentIntegrationResult) -> LatentIntegrationR
         artifacts=pls.artifacts,
         linear_map=linear_map,
     )
+
+
+def _predictive_coordinates(pls: LatentIntegrationResult, coordinates: str) -> LatentIntegrationResult:
+    """A score-coordinate ``pls`` integration re-expressed on its model's predictive subspace.
+
+    ``predictive`` is ``T·V`` and ``predictive_fitted`` is ``T·Qᵀ`` with ``T``
+    the score matrix (on the latent-adjusted path, the raw features projected
+    on the basis); ``predictive_orthonormal`` is the artifacts' features in the
+    model's input coordinates times ``qr(R·V)``. The model, the artifacts and
+    every other metadata entry are kept.
+    """
+
+    if pls.artifacts is None:
+        raise SimulationEvaluationError(f"latent_coordinates={coordinates!r} needs the fitted PLS artifacts.")
+    model = pls.artifacts.model
+    loadings = np.asarray(model.y_loadings_, dtype=float)
+    n_stages, rank = loadings.shape
+    directions = predictive_directions(model)
+    dimension = int(directions.shape[1])
+    expected = min(rank, n_stages - 1)
+    if dimension < expected:
+        raise SimulationEvaluationError(
+            f"latent_coordinates={coordinates!r}: the Y loadings of the rank-{rank} fit on {n_stages} stages have "
+            f"rank {dimension}, below min(rank, n_stages − 1) = {expected}; the predictive subspace is degenerate."
+        )
+    linear_map = LinearLatentMap.from_pls_predictive(model, coordinates, directions)
+    scores = pls.matrix.to_numpy(dtype=float)
+    if coordinates == "predictive":
+        values = scores @ directions
+        columns = [f"pred_{i}" for i in range(dimension)]
+    elif coordinates == "predictive_orthonormal":
+        values = np.asarray(linear_map.transform(pls.artifacts.features.to_numpy(dtype=float)), dtype=float)
+        columns = [f"pred_{i}" for i in range(dimension)]
+    else:
+        values = scores @ loadings.T
+        columns = [f"fitted_{i}" for i in range(n_stages)]
+    matrix = pd.DataFrame(values, index=pls.matrix.index, columns=columns)
+    metadata = dict(pls.metadata)
+    metadata["integration_params"] = {**pls.metadata["integration_params"], "latent_coordinates": coordinates}
+    metadata["measured_dimension"] = dimension
+    metadata["shape"] = tuple(matrix.shape)
+    metadata["n_features"] = int(matrix.shape[1])
+    return LatentIntegrationResult(matrix=matrix, metadata=metadata, artifacts=pls.artifacts, linear_map=linear_map)
 
 
 def _pca_integration(

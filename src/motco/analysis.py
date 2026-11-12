@@ -89,7 +89,7 @@ from motco.simulations.attribution_diagnostics import (
     run_attribution_diagnostics,
     unavailable_record,
 )
-from motco.simulations.diagnostics import LinearLatentMap
+from motco.simulations.diagnostics import PREDICTIVE_COORDINATES, LinearLatentMap
 from motco.simulations.evaluation import (
     EVALUATION_ORIENTATION_ESTIMATORS,
     AttributionDiagnosticSettings,
@@ -510,6 +510,20 @@ class TrajectoryAnalysisParams:
     setting is rejected before any fitting, and the setting is omitted from
     :meth:`to_dict` while ``None``. Unvalidated until the production
     latent-space selection reads it.
+
+    ``latent_coordinates`` (``None``, ``"predictive"``,
+    ``"predictive_orthonormal"`` or ``"predictive_fitted"``) measures the
+    trajectories on the fitted model's predictive subspace, the row space of
+    its Y loadings (``min(rank, n_stages − 1)`` dimensions), as the simulation
+    harness defines it: the scores projected on it, the input coordinates on
+    an orthonormal basis of it, or the fitted stage indicators. The fit, the
+    cross-validation and the rank are unchanged; the statistics, the
+    permutation draws, the latent scores and the stage means are in the
+    measured coordinates, and the loadings are the fitted model's. It needs
+    three stages and is rejected with attribution and with the split
+    interaction test, all before any fitting; it is omitted from
+    :meth:`to_dict` while ``None``. It has no CLI flag: it is a pilot
+    measurement until the predictive-subspace validation reads it.
     """
 
     permutations: int = 0
@@ -532,8 +546,25 @@ class TrajectoryAnalysisParams:
     block_weighting: str | None = None
     sparsity: SparsitySettings | None = None
     interaction_scan_by_block: bool = False
+    latent_coordinates: str | None = None
 
     def __post_init__(self) -> None:
+        coordinates = self.latent_coordinates
+        if coordinates is not None:
+            if coordinates not in PREDICTIVE_COORDINATES:
+                raise TrajectoryAnalysisError(
+                    f"Unknown latent_coordinates {coordinates!r}; allowed: {list(PREDICTIVE_COORDINATES)} or None."
+                )
+            if self.attribution.enabled:
+                raise TrajectoryAnalysisError(
+                    f"latent_coordinates={coordinates!r} cannot be combined with attribution: attribution is "
+                    "defined on the fitted span's scores. Disable attribution or drop latent_coordinates."
+                )
+            if self.span_split_test:
+                raise TrajectoryAnalysisError(
+                    f"latent_coordinates={coordinates!r} cannot be combined with the split interaction test "
+                    "(span_split_test): its span part is the fitted span. Drop one of the two settings."
+                )
         floor = self.min_components
         if floor is not None:
             if isinstance(floor, bool) or not isinstance(floor, (int, np.integer)) or floor < 1:
@@ -612,6 +643,9 @@ class TrajectoryAnalysisParams:
         if not self.interaction_scan_by_block:
             # Absent means the joint scan (0.22.0): its resolved parameters stay byte-identical.
             data.pop("interaction_scan_by_block")
+        if self.latent_coordinates is None:
+            # Absent means the score measurement (0.23.0): its resolved parameters stay byte-identical.
+            data.pop("latent_coordinates")
         return data
 
     @property
@@ -714,9 +748,21 @@ def analyze_trajectories(
     ``params.interaction_scan_by_block`` the declared blocks share the scan's
     familywise error equally, and the block also names the combination, the
     number of blocks tested and each block's maximum and own p-value.
+
+    ``params.latent_coordinates`` measures on the fitted model's predictive
+    subspace: ``latent_scores`` and ``stage_means`` are in the measured
+    coordinates, ``pls_loadings`` stays the fitted model's, and the record's
+    ``measurement`` block gains ``latent_coordinates`` (the value and the
+    measured dimension).
     """
 
     params = params or TrajectoryAnalysisParams()
+    if params.latent_coordinates is not None and len(dataset.stage_order) < 3:
+        raise TrajectoryAnalysisError(
+            f"latent_coordinates={params.latent_coordinates!r} needs at least three stages: its subspace has "
+            f"n_stages − 1 dimensions, and this dataset has {len(dataset.stage_order)} stage(s) "
+            f"{list(dataset.stage_order)}."
+        )
     covariates = dataset.covariate_design
     if params.covariate_latent_adjustment is not None and covariates is None:
         raise TrajectoryAnalysisError(
@@ -774,6 +820,7 @@ def analyze_trajectories(
             methylation_units=_methylation_units(transforms),
             nuisance=nuisance,
             min_components=params.resolved_min_components,
+            **({} if params.latent_coordinates is None else {"coordinates": params.latent_coordinates}),
         )
     except SimulationEvaluationError as exc:
         raise TrajectoryAnalysisError(str(exc)) from exc
@@ -836,7 +883,9 @@ def analyze_trajectories(
     scan_record, scan_table = (
         _interaction_scan_outputs(_scan_inputs(inputs), params) if params.interaction_scan else (None, None)
     )
-    pls_loadings = _loadings_frame(artifacts.model, X.columns, list(latent.matrix.columns))
+    # The loadings are the fitted model's, one column per fitted component, whatever the measured coordinates.
+    fitted_components = [f"pls_{i}" for i in range(np.asarray(artifacts.model.x_rotations_).shape[1])]
+    pls_loadings = _loadings_frame(artifacts.model, X.columns, fitted_components)
     betas = np.asarray(estimate_betas(model_full, latent.matrix.to_numpy(dtype=float)), dtype=float)
     stage_means = _stage_means_frame(
         ls_means,
@@ -905,6 +954,16 @@ def analyze_trajectories(
             "orientation_estimator": params.orientation_estimator,
             "selected_lv": latent.metadata["selected_lv"],
             "component_selection": latent.metadata["component_selection"],
+            **(
+                {
+                    "latent_coordinates": {
+                        "value": params.latent_coordinates,
+                        "measured_dimension": latent.metadata["measured_dimension"],
+                    }
+                }
+                if params.latent_coordinates is not None
+                else {}
+            ),
             "permutations": params.permutations,
             "seed": params.seed,
             "n_jobs": params.n_jobs,
