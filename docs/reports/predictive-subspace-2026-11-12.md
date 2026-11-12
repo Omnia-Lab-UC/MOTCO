@@ -39,7 +39,7 @@ This pilot read the three against production on matched units under a decision f
   - **Units:** 800.
 - **Code.** Revision `fea0874` on `proposal/predictive-subspace-coordinates` (MOTCO 0.24.0), run from a clean detached worktree on `ing`. Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0 and pandas 2.3.3, with BLAS pinned to one thread.
 - **Cluster.** Partition `512x1024`, n4 and n11 excluded. Arrays 938116 (`plasmode`, 80 × 10 units), 938117 (`simulation`, 120 × 65) and 938118 (`weak_size`, 25 × 40).
-- **Pre-flight.** A workstation smoke of the three profiles (168 units, 0 failed, 0 inconsistent) projected about 178 core-hours as designed, or about 91 with the amendment. The user approved the amendment and a cap of 120 (`openspec/changes/predictive-subspace-coordinates/notes.md`).
+- **Pre-flight.** A workstation smoke of the three profiles (168 units, 0 failed, 0 inconsistent) projected about 178 core-hours as designed, or about 91 with the amendment. The user approved the amendment and a cap of 120 (`openspec/changes/archive/2026-11-12-predictive-subspace-coordinates/notes.md`).
 
 Details are in `PROVENANCE.txt`.
 
