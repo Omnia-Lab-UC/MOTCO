@@ -13,3 +13,7 @@
 /motco*.iml
 # Registers the machine-local .iml modules above, so it carries no shared config.
 /modules.xml
+# Machine-local R interpreter path; PyCharm deletes the file when the path is absent.
+/rSettings.xml
+# Per-file CSV separators, rewritten whenever a CSV is opened in the editor.
+/csv-editor.xml
