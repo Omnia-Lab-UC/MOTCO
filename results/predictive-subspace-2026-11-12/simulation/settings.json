@@ -1,0 +1,459 @@
+{
+ "hash": "c63936d3102f48fca07c428cce894c6ccab30c40c144981cbb69b5694d2e9de9",
+ "settings": {
+  "alpha": 0.05,
+  "arms": [
+   "pls_cv",
+   "predictive",
+   "predictive_orthonormal",
+   "predictive_fitted",
+   "forced_k_minus_1",
+   "predictive_rank_plus_one"
+  ],
+  "consistency_tolerance": 1e-08,
+  "design_cells": {
+   "n200": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "n200_delta0.25": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "n200_delta0.5": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "n200_delta1": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "seaad": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "seaad_delta0.5": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ],
+   "seaad_surgery": [
+    "surgery_orient_e1"
+   ],
+   "seaad_weak": [
+    "anchor",
+    "translation",
+    "magnitude_e0.05",
+    "magnitude_e0.1",
+    "magnitude_e0.25",
+    "orient_e0.1_phi0",
+    "orient_e0.25_phi0",
+    "orient_e0.5_phi0",
+    "shape_e0.1",
+    "shape_e0.25",
+    "shape_e0.5"
+   ]
+  },
+  "driver_version": 1,
+  "parents": {
+   "comparison_calibration": {
+    "path": "results/latent-space-comparison-2026-11-04/calibration/calibration.json",
+    "sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110"
+   },
+   "comparison_settings": {
+    "path": "results/latent-space-comparison-2026-11-04/settings.json",
+    "sha256": "754ded6ce781a512e3670c23684235c4bebf7a5f58de7a2463bc24bf0ba17255"
+   }
+  },
+  "permutations": 199,
+  "profile": "simulation",
+  "rejection": "p < alpha",
+  "replicates": 100,
+  "span_scale": "planted",
+  "stage_effects": {
+   "n200": 2.0,
+   "n200_delta0.25": 0.25,
+   "n200_delta0.5": 0.5,
+   "n200_delta1": 1.0,
+   "seaad": 2.0,
+   "seaad_delta0.5": 0.5,
+   "seaad_surgery": 2.0,
+   "seaad_weak": 0.11
+  },
+  "units": {
+   "alpha": 0.05,
+   "arms": [
+    "pls_cv"
+   ],
+   "base_seed": 2036,
+   "cells": [
+    [
+     "anchor",
+     "none",
+     0.0,
+     null,
+     null
+    ],
+    [
+     "translation",
+     "translation",
+     1.0,
+     null,
+     null
+    ],
+    [
+     "magnitude_e0.05",
+     "magnitude",
+     0.05,
+     null,
+     null
+    ],
+    [
+     "magnitude_e0.1",
+     "magnitude",
+     0.1,
+     null,
+     null
+    ],
+    [
+     "magnitude_e0.25",
+     "magnitude",
+     0.25,
+     null,
+     null
+    ],
+    [
+     "orient_e0.1_phi0",
+     "orientation",
+     0.1,
+     0.0,
+     null
+    ],
+    [
+     "orient_e0.25_phi0",
+     "orientation",
+     0.25,
+     0.0,
+     null
+    ],
+    [
+     "orient_e0.5_phi0",
+     "orientation",
+     0.5,
+     0.0,
+     null
+    ],
+    [
+     "shape_e0.1",
+     "shape",
+     0.1,
+     null,
+     null
+    ],
+    [
+     "shape_e0.25",
+     "shape",
+     0.25,
+     null,
+     null
+    ],
+    [
+     "shape_e0.5",
+     "shape",
+     0.5,
+     null,
+     null
+    ],
+    [
+     "surgery_orient_e1",
+     "orientation",
+     1.0,
+     null,
+     null
+    ]
+   ],
+   "designs": {
+    "n200": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "group_ratio": 0.5,
+      "magnitude_kind": "joint",
+      "n_samples": 200,
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "n200_delta0.25": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 0.25,
+      "delta_methyl": 0.25,
+      "delta_protein": 0.25,
+      "group_ratio": 0.5,
+      "magnitude_kind": "joint",
+      "n_samples": 200,
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "n200_delta0.5": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 0.5,
+      "delta_methyl": 0.5,
+      "delta_protein": 0.5,
+      "group_ratio": 0.5,
+      "magnitude_kind": "joint",
+      "n_samples": 200,
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "n200_delta1": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 1.0,
+      "delta_methyl": 1.0,
+      "delta_protein": 1.0,
+      "group_ratio": 0.5,
+      "magnitude_kind": "joint",
+      "n_samples": 200,
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad_delta0.5": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 0.5,
+      "delta_methyl": 0.5,
+      "delta_protein": 0.5,
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad_surgery": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    },
+    "seaad_weak": {
+     "generator": {
+      "baseline_continuity": 0.0,
+      "construction": "stage_span",
+      "delta_expr": 0.11,
+      "delta_methyl": 0.11,
+      "delta_protein": 0.11,
+      "group_stage_sizes": [
+       [
+        11,
+        10,
+        28
+       ],
+       [
+        9,
+        10,
+        12
+       ]
+      ],
+      "magnitude_kind": "joint",
+      "n_stages": 3,
+      "p_dmp": 0.1,
+      "span_layers": [
+       "methylation",
+       "expression"
+      ],
+      "span_scale": "planted"
+     },
+     "layers": [
+      "methylation",
+      "expression"
+     ]
+    }
+   },
+   "min_components": 2,
+   "orientation_estimator": "net_displacement",
+   "permutations": 199,
+   "pls_cv_params": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "replicates": 100,
+   "weak_delta": {
+    "auroc_median": 0.6169166666666668,
+    "calibration_sha256": "2e440c506d6dfa3274f49590230cfb2a95b3cdb4978e0c7e7fd42c6ce445d110",
+    "rule": "first_in_band",
+    "source": "calibration",
+    "value": 0.11
+   }
+  }
+ }
+}

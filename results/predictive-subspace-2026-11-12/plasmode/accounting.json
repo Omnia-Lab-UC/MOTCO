@@ -1,0 +1,35 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "forced_k_minus_1": 0.5780653635156341,
+  "pls_cv": 116.87966738350224,
+  "predictive": 0.6030650257889647,
+  "predictive_fitted": 0.6193948295258451,
+  "predictive_orthonormal": 0.6057864259928465
+ },
+ "arm_seconds_total_hours": {
+  "forced_k_minus_1": 0.12269352857749456,
+  "pls_cv": 24.58921805276998,
+  "predictive": 0.12812449804845125,
+  "predictive_fitted": 0.13198724289321237,
+  "predictive_orthonormal": 0.12882003312966037
+ },
+ "complete_units": 800,
+ "duplicate_records": 0,
+ "expected_units": 800,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "fit_seconds_median": null,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "profile": "plasmode",
+ "recorded_core_hours": 27.363511008849667,
+ "settings_hash": "44c0b3438c74366487b8f29c087a56d9793dee11720b3ba3fde7f05ec7ba14ca",
+ "unit_seconds": {
+  "max": 446.71660649962723,
+  "median": 119.61368255552952,
+  "q90": 158.5238166609779
+ }
+}

@@ -823,9 +823,13 @@ params = TrajectoryAnalysisParams(permutations=999, seed=1, latent_coordinates="
   interaction scan compose with it.
 - **Absent.** Nothing is written and every output equals MOTCO 0.23.0's
   (`tests/test_analysis_identity.py`).
-- **Status.** It has **no CLI flag** and stays a typed field for the
-  predictive-subspace pilot (`scripts/predictive_subspace_check.py`) until
-  its verdict; `motco analyze` measures in the scores.
+- **Status.** It has **no CLI flag**, and it is a diagnostic, not a test to
+  report. The predictive-subspace pilot read `keep_production` on 2026-11-12
+  ([report](../reports/predictive-subspace-2026-11-12.md)). On this entry
+  point's own case-study configuration, on the SEA-AD plasmode, the three
+  values reject `delta` at about 0.13 and `shape` at about 0.08 under
+  permuted labels, where the scores read 0.042 and 0.026. `motco analyze`
+  measures in the scores.
 
 ## Example: SEA-AD-style design
 

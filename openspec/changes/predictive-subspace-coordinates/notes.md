@@ -153,3 +153,14 @@ rank. The arm's record carries `fit: "forced_at_pls_cv_rank"` and `pls_cv`'s AUR
 predictive arm's rotations and Y loadings with production's. The plasmode settings record `predictive_arm_fit`.
 `tests/test_predictive_subspace_check.py` checks two things on the stand-in export: the forced arms equal a
 cross-validated analysis under the same setting, and a plasmode unit runs one CV.
+
+## Run and verdict (2026-11-12)
+
+Run on `ing` from `fea0874`: arrays 938116 (plasmode), 938117 (simulation) and 938118 (weak_size), with n4 and n11
+excluded. 9,600 of 9,600 units completed, with 0 failed, 0 inconsistent and 79.8 recorded core-hours (cap 120). Every
+reproduction passed exactly, and so did fidelity (500/500). **Verdict `keep_production`:** all three arms read
+`size_excess` on the plasmode anchor. Their `delta` is 0.13–0.136 and their `shape` 0.076–0.078 over 500 replicates,
+where production reads 0.042 and 0.026. Size holds in simulation. The arms lose no protected power, gain in 10 of the 18
+δ = 2.0 target cells, and gain strongly in the band. `predictive` fails S3 in the band, `predictive_fitted` at δ = 2.0,
+and `predictive_orthonormal` passes S3. Aggregates are in `results/predictive-subspace-2026-11-12/`; the report is
+`docs/reports/predictive-subspace-2026-11-12.md`.

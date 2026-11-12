@@ -1,0 +1,37 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "forced_k_minus_1": 0.4028893504291773,
+  "pls_cv": 0.4013345744460821,
+  "predictive": 0.3971957042813301,
+  "predictive_fitted": 0.3992936071008444,
+  "predictive_orthonormal": 0.3977858107537031,
+  "predictive_rank_plus_one": 0.4056860702112317
+ },
+ "arm_seconds_total_hours": {
+  "forced_k_minus_1": 0.8211579731977933,
+  "pls_cv": 0.8200795900306548,
+  "predictive": 0.8083254810394849,
+  "predictive_fitted": 0.8136435989083839,
+  "predictive_orthonormal": 0.8111535560625553,
+  "predictive_rank_plus_one": 0.8283167671122809
+ },
+ "complete_units": 7800,
+ "duplicate_records": 0,
+ "expected_units": 7800,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "fit_seconds_median": 17.867153755389154,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "profile": "simulation",
+ "recorded_core_hours": 46.255062087894636,
+ "settings_hash": "c63936d3102f48fca07c428cce894c6ccab30c40c144981cbb69b5694d2e9de9",
+ "unit_seconds": {
+  "max": 35.37116174958646,
+  "median": 20.55153579916805,
+  "q90": 27.626240322738887
+ }
+}

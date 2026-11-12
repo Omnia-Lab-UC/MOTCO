@@ -426,9 +426,12 @@ space and span(R·V) in the model's input space, of dimension r = min(A, K − 1
   without refitting, equal to the fit from scratch, so one fit can be measured four ways;
   `pls_orthonormal_from_pls` is its orthonormal case. Both refuse an integration that is not `pls`, has
   no fitted artifacts or is not in score coordinates.
-- **Status.** Opt-in, pending `scripts/predictive_subspace_check.py`, the paired pilot of the three
-  values against production. Production and `motco analyze` measure in the scores until a separate change
-  adopts another measurement.
+- **Status.** Measured and not adopted. `scripts/predictive_subspace_check.py`, the paired pilot of the
+  three values against production, read **`keep_production`** on 2026-11-12
+  ([report](../reports/predictive-subspace-2026-11-12.md)). In simulation they hold size, lose no protected
+  power and gain strongly. On the SEA-AD plasmode's real noise all three exceed size (`delta` 0.13, `shape`
+  0.08, against production's 0.042 and 0.026). Production and `motco analyze` measure in the scores, and the
+  values stay diagnostics.
 
 Set `permutations=0` for observed statistics only. When `permutations > 0`, the harness runs RRPP and computes upper-tail empirical p-values with plus-one correction:
 
