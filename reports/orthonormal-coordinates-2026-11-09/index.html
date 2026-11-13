@@ -1,0 +1,2848 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../interaction-scan-blocks-2026-11-10/">
+      
+      
+        <link rel="next" href="../interaction-scan-2026-11-09/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Orthonormal span coordinates (2026-11-09) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#orthonormal-span-coordinates-findings-report-2026-11-09" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Orthonormal span coordinates (2026-11-09)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement visibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Measurement visibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-size-excess-2026-11-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace size excess (2026-11-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-subspace-2026-11-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace coordinates (2026-11-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production-latent-space-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production latent-space selection (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-blocks-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interaction scan by block (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-where-the-power-is-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Where the power is lost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-specificity-the-watched-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Specificity: the watched cells
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-population-geometry-the-residuals-and-the-planted-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Population geometry: the residuals and the planted effect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-feature interaction scan (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../span-split-2026-11-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split interaction test (2026-11-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-paper-grade-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span paper grade (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-pilot-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span pilot (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-space-comparison-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-space comparison (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-data case study (Phase 6)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Real-data case study (Phase 6)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-exit-review-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 6 exit review (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plasmode-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plasmode attribution demonstration (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adjusted-attribution-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjusted attribution (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-design-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating characteristics at the ADNI design (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../corrected-permutation-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Corrected-permutation check (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-diagnosis-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration diagnosis (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-type-i-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration Type I check (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rank-floor-2026-10-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rank-floor check (2026-10-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-power-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment power comparison (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-type-i-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment Type I check (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../covariate-type-i-2026-10-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjustment Type I check (2026-10-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-small-n-2026-10-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Small-n operating study at the SEA-AD design (2026-10-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design guidance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design guidance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-slice-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade slice (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-pilot-2026-10-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pilot (2026-10-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation estimator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orientation estimator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-power-2026-10-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement power comparison (2026-10-14)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-type-i-2026-10-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement Type I study (2026-10-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-measurement-probe-2026-10-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation measurement probe (2026-10-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 paper-grade study
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 5 paper-grade study
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-magnitude-remeasurement-2026-10-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude re-measurement, joint construction (2026-10-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-exit-review-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 exit review (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-paper-grade-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade trajectory power study (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../magnitude-construction-diagnostic-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude-construction diagnostic (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design-point pilot (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-rank ladder (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phases 1–4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phases 1–4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-config-spectrum-2026-09-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent configuration spectrum (2026-09-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry-audit-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry audit (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../angle-null-pivotality-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angle-null pivotality (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-sign-anchor-2026-08-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation sign anchor (2026-08-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (2026-08-27)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realized-generator-geometry-2026-08-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realized generator geometry (2026-08-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../procrustes-shape-invariance-audit-2026-08-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procrustes shape invariance audit (2026-08-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (2026-07-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-where-the-power-is-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Where the power is lost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-specificity-the-watched-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Specificity: the watched cells
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-population-geometry-the-residuals-and-the-planted-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Population geometry: the residuals and the planted effect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="orthonormal-span-coordinates-findings-report-2026-11-09">Orthonormal span coordinates — findings report (2026-11-09)</h1>
+<p><strong>Change:</strong> <code>orthonormal-span-coordinates</code> (MOTCO 0.19.0). <strong>Reads:</strong> <code>results/orthonormal-coordinates-2026-11-09/</code> (<code>orthonormal_coordinates_decision.json</code>; <code>paper_grade/</code> and <code>weak/</code> rate, paired and cell tables, <code>accounting.json</code>, <code>reproduction.json</code>, <code>settings.json</code> and the post-hoc <code>population_geometry.csv</code>; <code>PROVENANCE.txt</code>, <code>sacct.txt</code>). <strong>Concept page:</strong> <a href="../../measurement-visibility/#score-coordinates-the-span-is-seen-through-a-shear">measurement visibility</a>.</p>
+<p>The production statistics are measured in PLS score coordinates, <code>T = X_in·R</code> with <code>R = W·(PᵀW)⁻¹</code>, a sheared image of the fitted span. The stage-span paper grade's leak decomposition (<a href="../stage-span-paper-grade-2026-11-04/#6-the-leak-decomposition">report</a>) found that the shear moves a planted bend's path length by −0.48 % on the SEA-AD table and −0.59 % at four stages. On an orthonormal basis of the same span the bend kept its length to within 0.11 %.</p>
+<p>MOTCO 0.19.0 adds the opt-in setting <code>SimulationEvaluationParams.latent_coordinates = "orthonormal"</code>. It measures on <code>X_in·Q</code>, <code>Q = qr(x_rotations_)</code>, with the same fit, rank and draws. <code>delta</code>, <code>angle</code> and <code>shape</code> do not change under any orthogonal map, so every orthonormal basis of the span gives the same statistics. This run compared the two coordinate systems on matched units under a decision fixed in advance (<code>design.md</code> D7).</p>
+<p><strong>In one paragraph.</strong> <strong>The verdict is <code>power_loss</code>.</strong> The orthonormal coordinates hold size and remove the score shear's off-target leak. But they lose target power at the small, unequal and four-stage designs, so production stays on the scores.</p>
+<ul>
+<li><strong>Size holds.</strong> The 60 paper-grade controls read 0.000–0.066 and the 6 weak-design controls 0.010–0.050. None is above its bound.</li>
+<li><strong>Specificity holds, and the leak goes.</strong> At the 45° rotation, off-target <code>shape</code> falls from 0.070 to 0.000 at n = 200 and from 0.086 to 0.000 at four stages. 9 of 90 off-target cells read lower with orthonormal coordinates, and none higher, at two-sided paired p &lt; 0.05.</li>
+<li><strong>Power is lost.</strong> 19 of 45 target cells lose, with one-sided paired p &lt; 0.025; 3 losses are allowed, and 16 are below the Bonferroni ceiling. The largest losses:</li>
+<li>the SEA-AD table's 45° rotation, <code>angle</code> 0.962 → 0.760;</li>
+<li>the 22.5° rotation at four stages, 0.744 → 0.519;</li>
+<li>the e = 0.25 bend, <code>shape</code> 0.724 → 0.518 at n = 80 and 0.678 → 0.482 on the SEA-AD table;</li>
+<li>the e = 0.1 magnitude on the SEA-AD table, <code>delta</code> 0.542 → 0.416.</li>
+</ul>
+<p>No target cell gains. The three-block column loses nothing.
+- <strong>The scores do not win by enlarging the planted effect, except for magnitude.</strong> The population-level target <code>angle</code> and <code>shape</code> are the same in both coordinate systems: 43.7°–45.2° for the 45° rotation, and 0.1255–0.1303 for the e = 0.25 bend. The scores' advantage there lies on the sampling side. Where the orthonormal coordinates lose, their <code>angle</code> null is wider: at the SEA-AD anchor its 95th percentile is 34.6° against the scores' 26.1°. For magnitude, the scores do stretch the planted size, by 1.6–5.0 %.</p>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<ul>
+<li><strong>The unit.</strong> Each unit generates one dataset and fits stage-supervised PLS once (double-CV rank, floor 2). The two arms share that fit:</li>
+<li><strong><code>scores</code>:</strong> the fit's production evaluation;</li>
+<li><strong><code>orthonormal</code>:</strong> <code>pls_orthonormal_from_pls</code>, the same fit in orthonormal coordinates, with no refit.</li>
+</ul>
+<p>Both arms run at the unit's RRPP seed with 999 permutations, serially, under net displacement, with span capture on. Each unit checks to 1e-8 that <code>QᵀQ = I</code> and that <code>T = Z·(QᵀR)</code>. A unit failing either check is inconsistent, and an inconsistent unit fails the decision's gate.
+- <strong><code>paper_grade</code> profile.</strong> It reuses the stage-span paper grade's units under the planted scale, through <code>stage_span_leak_check.column_cells</code> / <code>unit_params</code>, imported unchanged:
+  - <strong>Columns (5):</strong> n = 200, n = 80 and the SEA-AD table (all on two blocks), n = 200 on three blocks, and n = 200 at four stages.
+  - <strong>Cells (13):</strong> the anchor; translation, orientation and shape at e 0.1 / 0.25 / 0.5; magnitude at e 0.02 / 0.05 / 0.1.
+  - <strong>Size:</strong> 500 replicates per cell, 32,500 units.
+- <strong><code>weak</code> profile.</strong> The latent-space comparison's <code>seaad_weak</code> anchor and translation (e = 1.0), at δ = 0.11 from its committed calibration and 500 replicates: 1,000 units, the span-split check's units. It reads size only.
+- <strong>Rejection rule:</strong> p &lt; 0.05, as the parents count it.
+- <strong>Code.</strong> Revision <code>d776366</code> on <code>feat/orthonormal-span-coordinates</code>, run from a clean detached worktree on <code>ing</code>. Python 3.11.16, numpy 2.3.5, scipy 1.16.3 and scikit-learn 1.8.0, with BLAS pinned to one thread.
+- <strong>Cluster.</strong> Partition <code>512x1024</code>, n11 excluded:
+  - array 936125 (<code>paper_grade</code>): 650 shards, at most 96 at once;
+  - array 936126 (<code>weak</code>): 20 shards.
+- <strong>Pre-flight.</strong>
+  - The change's test modules and the identity suites passed on a compute node (95 tests).
+  - A smoke of both profiles ran.
+  - Timing at 999 permutations gave a projection of about 206 core-hours. The user approved a 300 core-hour cap before submission (<code>notes.md</code>).</p>
+<p>Details are in <code>PROVENANCE.txt</code>.</p>
+<h2 id="2-accounting-and-reproduction">2. Accounting and reproduction</h2>
+<ul>
+<li><strong>Units.</strong></li>
+<li><code>paper_grade</code>: 32,500 of 32,500 records, of which 12 failed with <code>SemiSyntheticTrajectoryError</code>: 9 in the four-stage orientation cell at e = 0.5 and 3 at e = 0.25. These are the planted-scale fixed point the stage-span paper grade also failed on, in the same cells and counts. A failed unit fails before the fit, so it is missing from both arms, and the pairing uses the 497 and 491 units available there.</li>
+<li><code>weak</code>: 1,000 of 1,000.</li>
+<li>Both profiles: 0 inconsistent units and 0 duplicates. All 670 array tasks ended <code>COMPLETED 0:0</code> (<code>sacct.txt</code>).</li>
+<li><strong>Consistency.</strong> The largest deviations were 2.0e-15 for the orthonormal basis and 3.4e-13 for the same span, against the 1e-8 tolerance.</li>
+<li><strong>Cost.</strong> 173.3 + 2.5 = 175.8 recorded core-hours. The median unit took 18.2 s (paper grade) and 8.9 s (weak); the PLS fit took 16.6 s, and each arm's RRPP pass 0.70 s. That compares with the 206 projected and the 300 cap.</li>
+<li><strong>Reproduction (the decision's gate): both passed exactly.</strong></li>
+<li><strong><code>paper_grade</code>:</strong> the <code>scores</code> arm's available and rejected counts equal the stage-span paper grade's committed <code>design_point_operating.csv</code> in all 195 rows (5 columns × 13 cells × 3 statistics).</li>
+<li><strong><code>weak</code>:</strong> the counts and rejections equal the span-split check's <code>production_table.csv</code> in all 6 rows.</li>
+<li><strong>So</strong> every <code>scores</code> rate below is the parents' rate. Every <code>orthonormal</code> rate pairs with it on the same datasets, fits and permutation draws.</li>
+</ul>
+<h2 id="3-the-decision">3. The decision</h2>
+<p><code>orthonormal_coordinates_decision.json</code> (rule version 1) returns <strong><code>power_loss</code></strong>. O1 and O2 apply the stage-span paper grade's count-plus-ceiling rule (<code>judge_rates</code>, imported unchanged) to the <code>orthonormal</code> arm.</p>
+<table>
+<thead>
+<tr>
+<th>criterion</th>
+<th>rule</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gate</td>
+<td>both reproductions pass and no unit is inconsistent</td>
+<td><strong>passed</strong></td>
+</tr>
+<tr>
+<td>O1 size</td>
+<td>anchor and translation, <code>delta</code>/<code>angle</code>/<code>shape</code>: m = 60 at the five columns (allowed 4 above the bound 0.0695, ceiling 0.084), and m = 6 at the weak design (allowed 1, ceiling 0.074)</td>
+<td><strong>holds</strong>: 0 of 60 (0.000–0.066) and 0 of 6 (0.010–0.050)</td>
+</tr>
+<tr>
+<td>O2 specificity</td>
+<td>off-target <code>delta</code>/<code>shape</code> of orientation, <code>delta</code>/<code>angle</code> of shape and <code>angle</code>/<code>shape</code> of magnitude, m = 90 (allowed 6, ceiling 0.084)</td>
+<td><strong>holds</strong>: 1 of 90 above the bound, the SEA-AD bend at e = 0.5 on <code>angle</code> at 0.072; range 0.000–0.072</td>
+</tr>
+<tr>
+<td>O3 power</td>
+<td>per target cell (m = 45), one-sided exact paired loss p = P(Binomial(b + c, ½) ≥ b). Holds if at most 3 cells fall below 0.025 (the 95th percentile of Binomial(45, 0.025)) and none below 0.05/45 = 0.0011</td>
+<td><strong>fails</strong>: 19 below 0.025, 16 of them below the ceiling</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The same families in the <code>scores</code> arm</strong> read 0.002–0.062 at the paper-grade controls and 0.026–0.052 at the weak design. They have 3 of 90 off-target rates above the bound: the 45° rotation's <code>shape</code> at 0.070 (n = 200) and 0.086 (four stages), and the SEA-AD bend's <code>angle</code> at 0.078. These are the paper grade's P3 readings.</li>
+<li><strong>The weak design's controls.</strong> With orthonormal coordinates <code>delta</code> is conservative there: 0.012 (anchor) and 0.010 (translation), against the scores' 0.034 and 0.036. <code>angle</code> reads 0.050 and 0.048, against 0.038 and 0.026.</li>
+</ul>
+<p><strong>Consequence</strong> (the decision's text): "Production stays on scores: the orthonormal coordinates lose target power against the scores at the failing cells. The report documents the trade-off and the setting stays an opt-in diagnostic."</p>
+<h2 id="4-where-the-power-is-lost">4. Where the power is lost</h2>
+<p>Each entry gives the <code>scores</code> → <code>orthonormal</code> rate over 500 paired units (497 and 491 in the four-stage orientation cells at e = 0.25 and 0.5). In brackets is b/c: b counts units only the scores reject, c units only the orthonormal coordinates reject. <strong>‡</strong> marks a loss below the ceiling 0.0011 and <strong>†</strong> a loss below 0.025 that is above the ceiling.</p>
+<p><strong>Orientation, <code>angle</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>e = 0.1</th>
+<th>e = 0.25</th>
+<th>e = 0.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>0.738 → 0.736 (3/2)</td>
+<td>0.880 → 0.720 (83/3) <strong>‡</strong></td>
+<td>1.000 → 1.000 (0/0)</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>0.400 → 0.396 (4/2)</td>
+<td>0.412 → 0.366 (28/5) <strong>‡</strong></td>
+<td>0.992 → 0.892 (50/0) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>SEA-AD table</td>
+<td>0.382 → 0.382 (1/1)</td>
+<td>0.376 → 0.350 (19/6) <strong>†</strong></td>
+<td>0.962 → 0.760 (103/2) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>three blocks</td>
+<td>0.984 → 0.984 (0/0)</td>
+<td>1.000 → 0.994 (3/0)</td>
+<td>1.000 → 1.000 (0/0)</td>
+</tr>
+<tr>
+<td>four stages</td>
+<td>0.478 → 0.464 (8/1) <strong>†</strong></td>
+<td>0.744 → 0.519 (117/5) <strong>‡</strong></td>
+<td>1.000 → 1.000 (0/0)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Shape, <code>shape</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>e = 0.1</th>
+<th>e = 0.25</th>
+<th>e = 0.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>0.704 → 0.672 (46/30)</td>
+<td>0.974 → 0.966 (16/12)</td>
+<td>1.000 → 0.998 (1/0)</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>0.210 → 0.174 (24/6) <strong>‡</strong></td>
+<td>0.724 → 0.518 (150/47) <strong>‡</strong></td>
+<td>0.972 → 0.898 (49/12) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>SEA-AD table</td>
+<td>0.208 → 0.170 (22/3) <strong>‡</strong></td>
+<td>0.678 → 0.482 (132/34) <strong>‡</strong></td>
+<td>0.968 → 0.846 (76/15) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>three blocks</td>
+<td>0.914 → 0.918 (2/4)</td>
+<td>1.000 → 0.998 (1/0)</td>
+<td>1.000 → 1.000 (0/0)</td>
+</tr>
+<tr>
+<td>four stages</td>
+<td>0.478 → 0.328 (82/7) <strong>‡</strong></td>
+<td>0.962 → 0.944 (28/19)</td>
+<td>1.000 → 1.000 (0/0)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Magnitude, <code>delta</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>e = 0.02</th>
+<th>e = 0.05</th>
+<th>e = 0.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>0.228 → 0.210 (15/6)</td>
+<td>0.694 → 0.656 (42/23) <strong>†</strong></td>
+<td>0.936 → 0.918 (25/16)</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>0.036 → 0.040 (3/5)</td>
+<td>0.236 → 0.212 (23/11)</td>
+<td>0.624 → 0.506 (95/36) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>SEA-AD table</td>
+<td>0.056 → 0.058 (4/5)</td>
+<td>0.188 → 0.170 (22/13)</td>
+<td>0.542 → 0.416 (95/32) <strong>‡</strong></td>
+</tr>
+<tr>
+<td>three blocks</td>
+<td>0.430 → 0.428 (2/1)</td>
+<td>0.878 → 0.872 (4/1)</td>
+<td>0.992 → 0.988 (2/0)</td>
+</tr>
+<tr>
+<td>four stages</td>
+<td>0.172 → 0.134 (21/2) <strong>‡</strong></td>
+<td>0.648 → 0.560 (98/54) <strong>‡</strong></td>
+<td>0.940 → 0.938 (28/27)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The losses sit where the stage program is hardest to resolve.</strong> They fall at n = 80, on the SEA-AD table and at four stages: 6, 6 and 5 of their 9 target cells. At n = 200 on two blocks there are 2, and on three blocks none. They are spread across the modes: 7 orientation, 7 shape and 5 magnitude cells.</li>
+<li><strong>The losses are one-sided.</strong> In the 45 target cells c exceeds b only three times, by at most 2 units (n = 80 and SEA-AD magnitude at e = 0.02, the three-block bend at e = 0.1).</li>
+<li><strong>They are not small.</strong> At 500 paired units the differences run up to 0.225 (four stages, 22.5°), 0.206 (n = 80, bend at e = 0.25) and 0.202 (SEA-AD, 45°).</li>
+</ul>
+<h2 id="5-specificity-the-watched-cells">5. Specificity: the watched cells</h2>
+<p>The watched cells are the 45° rotation's off-target <code>shape</code>. Before the run, they were the paper grade's two largest P3 readings that the shear could explain.</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th><code>scores</code></th>
+<th><code>orthonormal</code></th>
+<th>b / c</th>
+<th>two-sided paired p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>0.070</td>
+<td>0.000</td>
+<td>35 / 0</td>
+<td>5.8e-11</td>
+</tr>
+<tr>
+<td>four stages (491 units)</td>
+<td>0.086</td>
+<td>0.000</td>
+<td>42 / 0</td>
+<td>4.5e-13</td>
+</tr>
+</tbody>
+</table>
+<p>The orthonormal coordinates remove the shear's leak, and not only at the watched cells. Nine off-target cells read lower at two-sided p &lt; 0.05, with b/c in brackets:</p>
+<ul>
+<li><strong>The rotation's <code>shape</code>:</strong></li>
+<li>n = 200: 0.046 → 0.004 at e = 0.25 (21/0) and 0.070 → 0.000 at e = 0.5 (35/0);</li>
+<li>SEA-AD table: 0.022 → 0.002 at both effects (11/1);</li>
+<li>four stages: 0.030 → 0.000 at e = 0.25 (15/0) and 0.086 → 0.000 at e = 0.5 (42/0).</li>
+<li><strong>The rotation's <code>delta</code> at four stages:</strong> 0.020 → 0.000 at e = 0.5 (10/0).</li>
+<li><strong>The bend's <code>delta</code> at e = 0.5:</strong> 0.034 → 0.012 at n = 200 (11/0) and 0.026 → 0.008 at four stages (11/2).</li>
+</ul>
+<p>No off-target cell reads higher. The O2 exceedance, the SEA-AD bend's <code>angle</code> at e = 0.5, reads 0.078 in scores and 0.072 in orthonormal coordinates (two-sided p 0.45). It is not a leak the shear caused.</p>
+<h2 id="6-population-geometry-the-residuals-and-the-planted-effect">6. Population geometry: the residuals and the planted effect</h2>
+<p><strong>The bend's residual.</strong> For the planted-scale bend at e = 0.5, B's population path length equals A's. The table gives each arm's median <code>population_latent</code> B − A path-length difference, as a share of A's path (<code>cell_table.csv</code>, <code>median_population_share</code>):</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th><code>scores</code></th>
+<th><code>orthonormal</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>+0.06 %</td>
+<td>+0.06 %</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>−0.04 %</td>
+<td>+0.11 %</td>
+</tr>
+<tr>
+<td>SEA-AD table</td>
+<td><strong>−0.38 %</strong></td>
+<td>+0.02 %</td>
+</tr>
+<tr>
+<td>three blocks</td>
+<td>+0.09 %</td>
+<td>+0.06 %</td>
+</tr>
+<tr>
+<td>four stages</td>
+<td><strong>−0.60 %</strong></td>
+<td>+0.07 %</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The leak check's pattern reproduces at R = 500.</strong> The leak check, at R = 100 and 199 permutations, read −0.48 % and −0.59 % in scores against −0.01 % and +0.06 % on the orthonormal span. With orthonormal coordinates the residual stays within 0.11 % at every column.</li>
+<li><strong>The 45° rotation's residual on the SEA-AD table</strong> is −1.60 % in scores against +0.52 % with orthonormal coordinates. The leak check's 100 replicates read −3.35 % and +0.66 %. Its median moved with the replicate set, but its sign and its excess over the orthonormal coordinates did not.</li>
+</ul>
+<p><strong>The planted effect is not larger in scores, except for magnitude.</strong> <code>population_geometry.csv</code> is a post-hoc descriptive aggregate (<code>PROVENANCE.txt</code>). It gives the median population-level statistics per arm, beside the spectrum of the anchor (<code>cell_table.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>45° rotation, population <code>angle</code></th>
+<th>bend e = 0.25, population <code>shape</code></th>
+<th>magnitude e = 0.1, population <code>delta</code></th>
+<th>anchor <code>angle</code> null q95</th>
+<th>anchor pooled eigengap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 200</td>
+<td>44.98° / 44.97°</td>
+<td>0.1272 / 0.1272</td>
+<td>3.377 / 3.323 (+1.6 %)</td>
+<td>2.59° / 2.58°</td>
+<td>0.0881 / 0.0793</td>
+</tr>
+<tr>
+<td>n = 80</td>
+<td>45.15° / 44.86°</td>
+<td>0.1270 / 0.1272</td>
+<td>3.402 / 3.263 (+4.3 %)</td>
+<td>23.94° / 31.93°</td>
+<td>0.0955 / 0.0820</td>
+</tr>
+<tr>
+<td>SEA-AD table</td>
+<td>43.71° / 45.04°</td>
+<td>0.1255 / 0.1257</td>
+<td>3.561 / 3.391 (+5.0 %)</td>
+<td>26.08° / 34.61°</td>
+<td>0.1117 / 0.0984</td>
+</tr>
+<tr>
+<td>three blocks</td>
+<td>45.04° / 44.97°</td>
+<td>0.1274 / 0.1274</td>
+<td>4.172 / 4.169 (+0.1 %)</td>
+<td>1.55° / 1.55°</td>
+<td>0.0892 / 0.0878</td>
+</tr>
+<tr>
+<td>four stages</td>
+<td>44.81° / 45.06°</td>
+<td>0.1289 / 0.1303</td>
+<td>5.372 / 5.180 (+3.7 %)</td>
+<td>17.09° / 24.46°</td>
+<td>0.0562 / 0.0470</td>
+</tr>
+</tbody>
+</table>
+<p>Each pair reads <code>scores</code> / <code>orthonormal</code>. The percentage is the scores' excess.</p>
+<ul>
+<li><strong>Orientation and shape.</strong> The planted target is the same in both coordinate systems. On the SEA-AD table the scores' population angle is even the smaller (43.7° against 45.0°), yet the scores reject the rotation in 0.962 against 0.760. So the scores' advantage is not a stretched target.</li>
+<li><strong>Magnitude.</strong> The scores stretch the planted size by 1.6–5.0 % at the columns that lose magnitude power, and by 0.1 % on three blocks, which loses none. The shear's stretch accounts for at least part of the magnitude losses.</li>
+<li><strong>The null side.</strong> Where the orthonormal coordinates lose, their <code>angle</code> null is wider: its 95th percentile rises by 7–9° at n = 80, on the SEA-AD table and at four stages, and the pooled eigengap shrinks. At n = 200 and on three blocks both are nearly unchanged. At the weak design the null widens most, from 53.8° to 100.0° at the anchor. There the median observed null <code>angle</code> also rises, from 21.6° to 46.2° (<code>weak/population_geometry.csv</code>), and the orthonormal <code>angle</code> still holds size (0.050).</li>
+<li><strong>What the aggregates do not explain.</strong> At n = 200 the 22.5° rotation loses 0.880 → 0.720, yet the medians agree: the observed <code>angle</code> is 22.22° / 22.26° and the null q95 4.84° / 4.88°. The loss there lies in the tails of the per-unit null, which the committed medians do not resolve.</li>
+</ul>
+<h2 id="7-what-follows">7. What follows</h2>
+<ul>
+<li><strong>Production and <code>motco analyze</code> stay on score coordinates.</strong> The default flip and the <code>motco analyze</code> adoption were owed only to <code>adopt_orthonormal</code>. Neither is opened.</li>
+<li><strong><code>latent_coordinates = "orthonormal"</code> stays an opt-in diagnostic in the harness.</strong> It is not exposed in <code>motco analyze</code>, in study configurations or with attribution. Without it every output equals 0.18.0.</li>
+<li><strong>The score shear is a measured trade-off, not a defect to remove.</strong></li>
+<li><strong>The cost.</strong> In scores, the 45° rotation leaks into <code>shape</code> at 0.070–0.086 and the e = 0.5 bend into <code>delta</code> at 0.026–0.034. With orthonormal coordinates these read 0.000 and 0.008–0.012. Elsewhere the off-target rates are alike in both arms; the bend's <code>delta</code> peaks at 0.036 / 0.038 on three blocks at e = 0.1.</li>
+<li><strong>The gain.</strong> In exchange, the scores have up to 0.23 more target power at small n, unequal cells and four stages, with equal size.</li>
+<li><strong>Reading a rejection.</strong> An off-target <code>shape</code> or <code>delta</code> rejection beside a strong <code>angle</code> or <code>shape</code> rejection can be the shear's. At paper grade such a rate stayed within 0.086.</li>
+<li><strong>Roadmap item 15 is closed with this verdict.</strong> The change does not permit a production follow-up. Why the score metric narrows the null at weak or unbalanced designs is open. The aggregates show the association with the null width and the eigengap, but not the mechanism. Any future work on the measurement metric should take the scores' power, not the orthonormal span, as the benchmark.</li>
+</ul>
+<h2 id="8-limitations">8. Limitations</h2>
+<ul>
+<li><strong>One construction family.</strong> Every plant is the stage-span construction under the planted scale, exact in planted-standardized coordinates. A real difference may load differently on the shear's directions, so the size of the trade-off is specific to these plants.</li>
+<li><strong>Medians.</strong> The cell and population tables summarize each cell by medians. The n = 200 rotation loss (§6) shows that they can miss where a loss comes from.</li>
+<li><strong><code>population_geometry.csv</code> was written after the decision.</strong> It does not bear on the verdict, and it reads the same merged records the decision read.</li>
+<li><strong>The weak design reads size only.</strong> The latent-space comparison found no power there for any plant, so it was not measured.</li>
+<li><strong>Units that cannot be planted.</strong> The 12 four-stage orientation units that cannot be planted at the planted scale are missing from both arms. The four-stage orientation rates are therefore over 497 and 491 units.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

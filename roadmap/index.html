@@ -1,0 +1,2946 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../measurement-visibility/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Scientific Roadmap - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#motco-scientific-roadmap" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Scientific Roadmap
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current position
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current position">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Established
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-yet-established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not yet established
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-0-close-and-preserve-the-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 0 — Close and preserve the baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-shape-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Shape invariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-orientation-and-shape-constructions-before-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Orientation and shape constructions before integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-orientation-driver-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Orientation-driver attribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-medium-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Medium pilot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-paper-grade-operating-characteristic-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 — Paper-grade operating-characteristic study
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-real-data-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6 — Real-data case study
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-7-snf-native-trajectory-methodology-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7 — SNF-native trajectory methodology (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case studies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-engineering-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-cutting engineering work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicitly-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicitly deferred
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next changes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-hold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On hold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Done
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement visibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Measurement visibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/predictive-size-excess-2026-11-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace size excess (2026-11-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/predictive-subspace-2026-11-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace coordinates (2026-11-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/production-latent-space-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production latent-space selection (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/interaction-scan-blocks-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interaction scan by block (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/orthonormal-coordinates-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/interaction-scan-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-feature interaction scan (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/span-split-2026-11-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split interaction test (2026-11-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/stage-span-paper-grade-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span paper grade (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/stage-span-pilot-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span pilot (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-space-comparison-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-space comparison (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-data case study (Phase 6)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Real-data case study (Phase 6)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase6-exit-review-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 6 exit review (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/plasmode-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plasmode attribution demonstration (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/adjusted-attribution-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjusted attribution (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/adni-design-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating characteristics at the ADNI design (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/corrected-permutation-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Corrected-permutation check (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/case-study-diagnosis-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration diagnosis (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/case-study-type-i-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration Type I check (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/rank-floor-2026-10-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rank-floor check (2026-10-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-adjustment-power-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment power comparison (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-adjustment-type-i-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment Type I check (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/covariate-type-i-2026-10-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjustment Type I check (2026-10-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase6-small-n-2026-10-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Small-n operating study at the SEA-AD design (2026-10-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design guidance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design guidance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/design-guidance-slice-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade slice (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/design-guidance-pilot-2026-10-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pilot (2026-10-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation estimator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orientation estimator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/net-displacement-power-2026-10-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement power comparison (2026-10-14)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/net-displacement-type-i-2026-10-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement Type I study (2026-10-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/orientation-measurement-probe-2026-10-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation measurement probe (2026-10-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 paper-grade study
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 5 paper-grade study
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-magnitude-remeasurement-2026-10-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude re-measurement, joint construction (2026-10-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-exit-review-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 exit review (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-paper-grade-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade trajectory power study (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/magnitude-construction-diagnostic-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude-construction diagnostic (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design-point pilot (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-rank ladder (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phases 1–4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phases 1–4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/latent-config-spectrum-2026-09-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent configuration spectrum (2026-09-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/geometry-audit-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry audit (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/angle-null-pivotality-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angle-null pivotality (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/orientation-sign-anchor-2026-08-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation sign anchor (2026-08-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (2026-08-27)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/realized-generator-geometry-2026-08-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realized generator geometry (2026-08-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/procrustes-shape-invariance-audit-2026-08-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procrustes shape invariance audit (2026-08-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (2026-07-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current position
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current position">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Established
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-yet-established" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not yet established
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-0-close-and-preserve-the-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 0 — Close and preserve the baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-shape-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Shape invariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-orientation-and-shape-constructions-before-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Orientation and shape constructions before integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-orientation-driver-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Orientation-driver attribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-medium-pilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Medium pilot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-paper-grade-operating-characteristic-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 — Paper-grade operating-characteristic study
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-real-data-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6 — Real-data case study
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-7-snf-native-trajectory-methodology-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7 — SNF-native trajectory methodology (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case studies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-engineering-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-cutting engineering work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicitly-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicitly deferred
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next changes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-hold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On hold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Done
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="motco-scientific-roadmap">MOTCO Scientific Roadmap</h1>
+<h2 id="objective">Objective</h2>
+<p>Develop MOTCO into a scientifically defensible workflow that can:</p>
+<ol>
+<li>detect whether groups follow different multivariate molecular trajectories;</li>
+<li>distinguish progression magnitude and orientation reliably;</li>
+<li>treat shape with an explicitly validated interpretation; and</li>
+<li>identify stable feature and pathway drivers after a global trajectory difference is detected.</li>
+</ol>
+<p>The roadmap prioritizes interpretability and validation before larger simulations or additional integration methods. The evidence for each statement below is in its dated report under <a href="reports/"><code>reports/</code></a>; the <a href="../measurement-visibility/">measurement visibility</a> page explains what the production measurement can and cannot see.</p>
+<h2 id="current-position">Current position</h2>
+<h3 id="established">Established</h3>
+<ul>
+<li>Methylation is converted from B values to M values before standardization and PLS integration.</li>
+<li><strong>PLS is the production measurement space.</strong> One pooled, stage-supervised PLS-DA fit, its rank chosen by double cross-validation with a floor of 2 (item 4), and <code>delta</code> / <code>angle</code> / <code>shape</code> measured in its score coordinates. Block weighting and sparse stage-PLS (item 17, <code>keep_production</code>) and orthonormal span coordinates (item 15, <code>power_loss</code>) were measured against it and not adopted.</li>
+<li><strong>Magnitude is specific under the <code>joint</code> construction</strong> at paper grade: magnitude/<code>delta</code> 1.000 at the top effect, magnitude/<code>angle</code> 0.024 and magnitude/<code>shape</code> 0.000 (<a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>).</li>
+<li><strong>Shape invariance is audited and corrected.</strong> Production <code>shape</code> removes translation, uniform scale and any orthogonal transformation; reflections are aligned away at every ambient dimension (<code>unify-shape-reflection-policy</code>, resolving audit finding F3).</li>
+<li><strong>Orientation is measured by net displacement</strong>, the harness and <code>motco analyze</code> default since 2026-10-15. It holds size at paper grade and raises orientation/<code>angle</code> power from 0.300 to 0.648 at the Phase 6 design and from 0.840 to 0.924 at Phase 5, removing the shape → <code>angle</code> leak (<a href="../reports/net-displacement-power-2026-10-14/">report</a>).</li>
+<li><strong>Given a difference inside the stage-supervised span, the tests are sensitive</strong>: a 45° rotation and a half-step bend are rejected in 0.96–1.00 of replicates at five designs at 500 × 999 (item 13 (a), <code>sensitivity_established</code>).</li>
+<li><strong>Covariates in the trajectory model hold size</strong> at the Phase 6 design (item 2). At the case study's configuration (six covariate columns at n = 80) the Freedman–Lane null needs the opt-in <code>df</code> residual correction, which is validated (item 8, <code>adopt_df</code>).</li>
+<li><strong>Two tests cover what the span cannot see</strong>, each validated for size in simulation and on SEA-AD's real blocks: the split interaction test for differences outside the span (item 16, <code>split_validated</code>) and the per-feature interaction scan for sparse ones (<code>scan_validated</code>; by block, <code>by_block_validated</code>).</li>
+<li><strong>Covariate-adjusted orientation attribution</strong> is validated on semi-synthetic data at the case study's configuration (item 11, <code>adjusted_attribution_validated</code>).</li>
+<li>A controlled inverse-PLS study showed that latent interventions reconstruct reproducibly into feature space, with round-trip errors near machine precision; a 45° latent orientation change reconstructed as about 42° in feature space with negligible magnitude change. Latent orientation differences are different relative combinations of stage-associated molecular patterns, usually dense loading-aligned feature changes.</li>
+<li>SNF is not intrinsically unsuitable for integration, but its graph-spectral geometry is not naturally aligned with MOTCO's Euclidean path-length and angle statistics.</li>
+</ul>
+<h3 id="not-yet-established">Not yet established</h3>
+<ul>
+<li><strong>The feature-set surgeries are not geometrically pure, and the measurement barely sees them.</strong> Orientation's <code>shape</code> response (0.998 at paper grade) is construction-present cross-talk of a per-omic feature permutation, present <em>within</em> each omic block; its predeclared "projection-associated" label is <strong>refuted</strong> (<a href="../reports/magnitude-construction-diagnostic-2026-09-10/">diagnostic</a>, §1 and §4), and the paper must not repeat that framing. The surgeries' orientation and shape plants keep only the random-direction share of their energy in the stage-supervised span (0.2–1.1 %), so their low power measures visibility, not sensitivity (<a href="../reports/stage-span-pilot-2026-11-04/">stage-span pilot</a>).</li>
+<li><strong>The Phase 5 orientation claim is PC1's, and it is conditional.</strong> Under PC1 at n = 1,200, ρ = 0, orientation <code>angle</code> power is 0.840 ± 0.016 at paper grade (<a href="../reports/phase5-paper-grade-2026-09-10/">report</a>, §5); it straddles the 0.80 floor by eigengap tercile (0.754 / 0.886 / 0.880), and it saturates at 0.84–0.88 from e = 0.25, so the strictly monotone form of the power claim is unsupported. Under PC1 the <code>angle</code> null tracks its own observed statistic (slope 0.811) and is load-bearing rather than corrigible (<a href="../reports/angle-null-pivotality-2026-09-01/">report</a>). Under net displacement the eigengap no longer gates orientation power at the Phase 6 design; the CV-selected rank does, and it replaces the eigengap as the covariate reported beside any <code>angle</code> result (case studies below).</li>
+<li><strong>Cross-replicate driver stability</strong> has no design that holds the driver set fixed, so it is not claimable.</li>
+<li><strong>Specificity of the other magnitude constructions.</strong> The former default <code>all</code> (methylation δ alone) moves <code>angle</code> (0.276) and <code>shape</code> (0.742) far past the control bound at paper grade. Its off-target response is the geometry of concatenating one block that grew with two that did not (<a href="../reports/magnitude-construction-diagnostic-2026-09-10/">diagnostic</a>); <code>joint</code> is the remedy and the default since 2026-10-09, and the historical configs pin <code>all</code>. Specificity stays unestablished for <code>all</code>, <code>extremes</code> and <code>shape_kind='magnitude'</code>, so a magnitude result must name its construction. The acceptance-target reader's default two-sided rule records <code>joint</code>'s conservative controls as not met; the opt-in <code>bound: "upper"</code> agrees with the gate.</li>
+<li><strong>Power at the Phase 6 design</strong> (n = 80, three stages, two blocks). Only <code>delta</code> has useful power (0.542 at a 10 % joint size change, 0.956 at 25 %), and no statistic is mode-specific for orientation or shape (<a href="../reports/phase6-small-n-2026-10-09/">small-n report</a>). Under net displacement orientation/<code>angle</code> reaches 0.648 at the construction maximum (0.280 when CV keeps three or fewer components, 0.996 above) and 0.084–0.178 at e ≤ 0.75, so a non-rejection of <code>angle</code> at n = 80 stays uninformative.</li>
+<li><strong>Limits of the span measurement.</strong> The statistics are measured in sheared PLS score coordinates, which leave a path-length residual for the planted bend at e = 0.5 (−0.48 % of A's path on the SEA-AD table, −0.59 % at four stages); orthonormal coordinates remove it but lose target power (item 15), so the scores stay. The rotation's off-target <code>shape</code> rises to the per-cell bound at 45° (0.070 at n = 200, 0.086 at four stages). How much of a <em>real</em> difference the span sees is not established (item 13 (b)).</li>
+<li><strong>Real-noise evidence rests on one export.</strong> Every real-noise size and power reading comes from SEA-AD astrocytes at 80 donors on 10,000 features, where the anchor's replicates share one fit and the only in-span plant is a magnitude edit along the in-sample stage means. It is a fair size gate. It gave item 18 its verdict; in item 17 the arms it stopped had no gain either, and production read the same rate on those 100 replicates. Item 19 traced item 18's excess on it to the in-sample fit read under RRPP's unrestricted draws (<code>both_restore</code>): either within-stage draws or out-of-fold coordinates remove it, so a fix is an opt-in within-stage null still to be validated (open item 1). It does not rank measurement spaces, and no reading shows that its rates transfer to ADNI or ROSMAP (open item 2).</li>
+<li><strong>No real-data trajectory difference has been detected.</strong> Neither case study rejects any statistic (below). At ADNI's design the non-rejections are measured to be uninformative (item 9); at SEA-AD's they are bracketed to be uninformative. Orientation-driver attribution has therefore not run on a real-data claim, and on SEA-AD's real blocks a planted orientation on 20 of 10,000 features is not detected at up to 3 within-stage SDs, because it lies almost entirely outside the stage-PLS span (item 12). Neither the split test nor the interaction scan rejects on SEA-AD; at its stage signal no part of the split test has power for any plant, so those non-rejections are uninformative too.</li>
+</ul>
+<h2 id="phases">Phases</h2>
+<p>The original sequence ran from closing the baseline studies through the shape and construction audits, attribution, a medium pilot and the paper-grade study to a real-data case study, with SNF-native methods optional at the end.</p>
+<h3 id="phase-0-close-and-preserve-the-baseline">Phase 0 — Close and preserve the baseline</h3>
+<p><strong>Done 2026-08-05.</strong> The latent-space metric-compatibility and inverse-PLS studies are archived and their capability specifications are canonical. The production contract is recorded: pooled PLS-DA, M-value methylation, a fixed shared coordinate system and per-statistic interpretation boundaries. The July <a href="../reports/mvalue-pls-pilot-2026-07-30/">M-value/PLS pilot</a> predates the corrected shape estimator and the realized-geometry diagnostics; it is kept unchanged as historical evidence.</p>
+<h3 id="phase-1-shape-invariance">Phase 1 — Shape invariance</h3>
+<p><strong>Resolved 2026-08-04</strong> (<a href="../reports/procrustes-shape-invariance-audit-2026-08-04/">audit</a>). Translation, uniform scaling and proper rotation have documented expected outputs enforced by tests. The reflection policy was revisited on 2026-09-03 (<code>unify-shape-reflection-policy</code>): reflections are aligned away at every ambient dimension, and mirror pairs score zero at full rank and above.</p>
+<h3 id="phase-2-orientation-and-shape-constructions-before-integration">Phase 2 — Orientation and shape constructions before integration</h3>
+<p><strong>Resolved 2026-08-05</strong> (<a href="../reports/realized-generator-geometry-2026-08-05/">findings</a>). Every study mode has a documented realized geometry before PLS, and evaluations record analytic population, standardized population, observed standardized and PLS-latent checkpoints. Orientation is pure in native methylation but mixed after the biological cascade; both shape constructions are free or mixed bends, not shape-specific interventions.</p>
+<h3 id="phase-3-orientation-driver-attribution">Phase 3 — Orientation-driver attribution</h3>
+<p><strong>Implemented 2026-08-27</strong> (<code>add-orientation-driver-attribution</code>; extended 2026-09-04 by <code>align-orientation-attribution</code>; <a href="../api/attribution/">API</a>). One pooled preprocessing and PLS model stays fixed for both groups. Attribution reports the observed normalized feature contrast <code>q_observed = d_B/‖d_B‖ − d_A/‖d_A‖</code>, its PLS-reconstructed counterpart <code>q_PLS</code> and their residual, for adjacent transitions and for the signed principal orientations that decompose the principal-axis <code>angle</code> (with a relative-eigengap degeneracy flag). It adds bootstrap sign, rank and top-k stability within design strata, correlated-feature module and caller-supplied pathway summaries, and standardized and original-unit effects. Pooled VIP is context only. The exit gate, a reproducible driver report for a significant orientation result, is exercised in simulation from Phase 4 on and has never been exercised on a real-data claim (Phase 6).</p>
+<h3 id="phase-4-medium-pilot">Phase 4 — Medium pilot</h3>
+<p><strong>HOLD 2026-08-27</strong> (<a href="../reports/phase4-medium-pls-pilot-2026-08-27/">report</a>; 1,900 units at 100 × 199, n = 300, four stages). All 18 Type I controls passed, magnitude <code>delta</code> was 1.00 and specific, and shape <code>shape</code> was 0.94–1.00 and monotone. Orientation <code>angle</code> reached 0.65 against the 0.80 floor with a flat curve. A sign-anchor defect was found and fixed but did not explain the shortfall (<a href="../reports/orientation-sign-anchor-2026-08-28/">report</a>). The <a href="../reports/angle-null-pivotality-2026-09-01/">pivotality study</a> explained it: each replicate's <code>angle</code> critical value tracks its own observed angle, a load-bearing property rather than a defect. The <a href="../reports/latent-config-spectrum-2026-09-02/">configuration spectrum</a> records, on every replicate, the eigengap that makes it resolvable, and the <a href="../reports/geometry-audit-2026-09-01/">geometry audit</a> set the preconditions for Phase 5. Two findings carry forward: driver reports must use the observed contrast, because the PLS reconstruction keeps about 6 % of it (captured-component top-20 precision 0.15 against 1.00 observed); and a space supervised on stage is sized for stage separation, not for the group orientation contrast.</p>
+<h3 id="phase-5-paper-grade-operating-characteristic-study">Phase 5 — Paper-grade operating-characteristic study</h3>
+<p><strong>Closed 2026-09-10 as a conditional pass</strong> (<a href="../reports/phase5-exit-review-2026-09-10/">exit review</a>). The design point is ρ = 0, n = 1,200, four stages, <code>p_dmp</code> 0.1 (<a href="../reports/phase5-design-point-pilot-2026-09-08/">design-point pilot</a>), and the rank rule is stage-supervised double CV (<a href="../reports/latent-rank-ladder-2026-09-08/">latent-rank ladder</a>, <code>keep_cv</code>). The paper-grade run (9,500 units at 500 × 999, 0 failures; <a href="../reports/phase5-paper-grade-2026-09-10/">report</a>) met all three power diagonals and all 21 Type I checks and held the gate at HOLD on the two magnitude controls. The <a href="../reports/magnitude-construction-diagnostic-2026-09-10/">magnitude-construction diagnostic</a> traced that to the methylation-only <code>all</code> surgery, and the <code>joint</code> re-measurement lifted the magnitude claim on 2026-10-08 (<a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>; 4,500 units, gate PROCEED). Sample size and block count at three stages are measured at paper grade by the design-guidance slice (item 7).</p>
+<h3 id="phase-6-real-data-case-study">Phase 6 — Real-data case study</h3>
+<p><strong>Closed 2026-11-02 on a size-controlled null, with the attribution leg reported failed</strong> (<a href="../reports/phase6-exit-review-2026-11-02/">exit review</a>). The exit gate (collaborators trace each global trajectory claim to stable drivers and reproduce it from documented inputs) is recorded as not met as written. Reproduction is met; driver tracing is unexercised because neither case study has a claim, and the vacuous pass is refused. Covariate-adjusted attribution was then validated (item 11), but the plasmode on SEA-AD's real blocks did not detect a 20-feature planted orientation (item 12, <code>attribution_leg_failed</code>). Phase 6 is not reopened. The case studies are described below.</p>
+<h3 id="phase-7-snf-native-trajectory-methodology-optional">Phase 7 — SNF-native trajectory methodology (optional)</h3>
+<p><strong>Deferred; the question is closed rather than pending</strong> (<a href="../reports/phase5-exit-review-2026-09-10/">Phase 5 exit review</a>, §5). It awaits a decision to define graph-native path-length and angle statistics, which is independent of the PLS workflow. Candidate work: group-stage states on one pooled fused graph; diffusion or resistance path length as a magnitude analogue; transition profiles or diffusion flows as an orientation analogue; normalized stage-by-stage diffusion-distance matrices as a configuration analogue; a permutation scheme that rebuilds or conditions on the graph without breaking exchangeability; and validation on controlled nonlinear manifolds. <strong>Exit gate:</strong> an SNF-specific statistic has a graph-native estimand, calibrated Type I error, controlled power and no claim of preserving feature-space Euclidean geometry.</p>
+<h2 id="case-studies">Case studies</h2>
+<p><strong>SEA-AD</strong> middle temporal gyrus astrocytes, with microglia as a positive-control cell type, in <a href="https://github.com/Omnia-Lab-UC/sead_sexdiff">Omnia-Lab-UC/sead_sexdiff</a>. Donor-level RNA + ATAC pseudobulks (TMM log2-CPM, top 5,000 variable features per block, chrX/Y/M removed); sex is the group and ADNC is merged into three stages (Not AD + Low / Intermediate / High). The primary cohort has ≥ 30 nuclei (astrocytes n = 80: F 11/10/28, M 9/10/12); the ≥ 50-nuclei cohort is a sensitivity analysis. Six donor covariate columns, rank floor 2, <code>--residual-correction df</code>.</p>
+<p><strong>ADNI</strong> serum metabolomics in <a href="https://github.com/Omnia-Lab-UC/adni_sexdiff">Omnia-Lab-UC/adni_sexdiff</a>: sex × stage (CN / MCI / AD) on Biocrates p180 (133 features) and Nightingale NMR (165), n = 1,501 (F 237/310/125, M 223/448/158), five covariates (six design columns), 9,999 permutations.</p>
+<p><strong>How a case study runs MOTCO.</strong> Through <code>motco analyze</code> or <code>motco.analysis.analyze_trajectories</code> (<a href="../api/analysis/">API</a>), pinned to the release that contains every option it uses. That entry point is the harness's production measurement on caller-supplied blocks (a regression test checks it against the harness on identical data); it defaults to net displacement, requires an explicit stage order and records the selected rank, null summary and spectrum. Do not assemble the analysis from <code>motco plsr</code> + <code>motco de</code> or from the stats primitives: they are a different pipeline, and the primitives and <code>motco de</code> default to PC1. Carry the structural-analogue limitation (InterSIM blocks, 498 measured features).</p>
+<p><strong>Binding interpretability statement</strong> at the SEA-AD design (<a href="../reports/phase6-small-n-2026-10-09/">small-n report</a>; <code>angle</code> revised 2026-10-15 from the <a href="../reports/net-displacement-power-2026-10-14/">power comparison</a> §7):</p>
+<ul>
+<li><strong><code>delta</code>.</strong> A rejection is evidence that the trajectories differ; it is consistent with a size difference but does not exclude a direction or shape difference. A non-rejection argues only against size differences of about 25 % or more.</li>
+<li><strong><code>shape</code>.</strong> A rejection is evidence that the trajectories differ, but not of which kind. A non-rejection is uninformative at n = 80.</li>
+<li><strong><code>angle</code>.</strong> The angle between the groups' net displacement vectors (last stage mean − first stage mean) in the latent space, so it reads only the endpoint stages. A rejection is evidence that the groups' net directions of change differ: Type I is controlled (anchor 0.050), and the size, shape and location constructions stay within the bound (0.024–0.068). Translation sits at 0.058–0.068, near the bound, so a rejection alongside a location difference warrants care. A non-rejection is uninformative at n = 80.</li>
+<li><strong>Selected rank.</strong> The cohort's CV-selected PLS rank is the covariate reported beside any <code>angle</code> result.</li>
+</ul>
+<p><strong>Results to date.</strong></p>
+<ul>
+<li><strong>SEA-AD.</strong> No statistic is rejected in any of the 44 analyses: the four primaries, twelve forced ranks, sixteen preprocessing variants, eight latent-adjustment arms and four donor exclusions (re-issued under <code>df</code>, MOTCO 0.13.0, 2026-10-31). The primaries' <code>delta</code> / <code>angle</code> / <code>shape</code> p-values: astrocyte <code>cohort_30</code> (CV rank 5, AUROC 0.636) 0.501 / 0.449 / 0.331; astrocyte <code>cohort_50</code> (rank 2) 0.628 / 0.242 / 0.514; microglia <code>cohort_30</code> (rank 2) 0.705 / 0.456 / 0.991; microglia <code>cohort_50</code> (rank 4) 0.834 / 0.291 / 0.644. The split test's complement, its one confirmatory part, is rejected in none of the 40 analyses that carry it (0.18.0, 2026-11-06; <code>cohort_30</code> astrocyte p = 0.886, microglia 0.795). The interaction scan's global p-value, read at α = 0.05 under a multiplicity policy fixed before any real-label scan, rejects in neither <code>cohort_30</code> primary (0.20.0, 2026-11-10; astrocyte 0.962, microglia 0.956), and no feature is a hit in any primary. The positive control fails on the primary basis in <code>cohort_30</code> and holds on the <code>latent_adjusted</code> basis. The <code>stage</code> latent adjustment is inadmissible at this configuration (<code>residualized_basis</code>), so its <code>angle</code> and <code>shape</code> p-values are reported but not read.</li>
+<li><strong>ADNI.</strong> The primary selects CV rank 8 at a held-out stage AUROC of 0.600 and rejects nothing (<code>delta</code> p 0.112, <code>angle</code> 0.688, <code>shape</code> 0.711). Across the sensitivities only <code>delta</code> rejects, at forced rank 6 (0.047) and under the <code>nmr_all_columns</code> export (0.045); <code>adni_sexdiff</code> reads both as dependence on that arm's setting. At ADNI's design no statistic reaches the 0.80 power floor (item 9), so its non-rejections are uninformative.</li>
+</ul>
+<h2 id="cross-cutting-engineering-work">Cross-cutting engineering work</h2>
+<ul>
+<li>Preserve fitted preprocessing, PLS model, component count, feature order and loadings as a versioned analysis artifact. <code>motco analyze --out-dir</code> writes <code>result.json</code>, latent scores, PLS loadings and latent stage means, records units, the feature-order signature and software versions, and pickles no estimator.</li>
+<li>Record seeds, configurations, parameter signatures, software versions and failed replicates in every study.</li>
+<li>Keep fast deterministic invariance tests separate from slow operating-characteristic studies, and keep CI coverage for core geometry invariants and study-config validation.</li>
+<li>Prefer structured CSV/JSON outputs plus concise Markdown reports over findings that exist only in notebooks.</li>
+<li>Keep public documentation synchronized with methodological decisions and archived OpenSpec findings.</li>
+<li><strong>Preprocessing scope boundary</strong> (decided 2026-10-16): a step belongs in MOTCO only if it touches the model or the permutation null. Normalization stays upstream: it is omic-specific, and when it is blind to the labels it changes what is measured, not the validity of the test. Label-blind feature filtering stays upstream; supervised filtering (by group or stage) would bias the null unless repeated inside every permutation, so MOTCO documents it as forbidden. Imputation stays upstream; the finite-values contract stays, and missing covariates are handled only by the explicit <code>missing_covariates</code> policy. Block weighting is the one preprocessing step that belongs in MOTCO (item 5).</li>
+</ul>
+<h2 id="explicitly-deferred">Explicitly deferred</h2>
+<ul>
+<li>Expanding SNF use before graph-native metrics are defined</li>
+<li>Reading the pooled orientation power figure as applicable at any eigengap</li>
+<li>Claiming <code>angle</code> or <code>shape</code> specificity against the methylation-only <code>all</code> magnitude construction (its controls fail; the claim holds for <code>joint</code> only — <a href="../reports/phase5-magnitude-remeasurement-2026-10-08/">addendum</a>)</li>
+<li>Interpreting pooled VIP scores as orientation drivers</li>
+<li>Fitting separate, unaligned PLS spaces per group</li>
+<li>Claiming that a latent-space reconstruction is a unique or causal molecular inverse</li>
+<li>Optimizing performance before the statistic and construction contracts are settled</li>
+<li>Reading a non-rejection at an unmeasured design or stage signal as evidence that trajectories agree</li>
+</ul>
+<h2 id="next-changes">Next changes</h2>
+<h3 id="open">Open</h3>
+<p>Each is its own change; none is owed by Phase 6 (<a href="../reports/phase6-exit-review-2026-11-02/">exit review</a> §8). Open items 1–5 concern the measurement space and are ordered by how confident the results to date make their payoff (ordered 2026-11-12); open items 6–12 are independent follow-ups in no order of priority. Here and under On hold, a bare "item N" is the Done list's number and "open item N" is this list's.</p>
+<ol>
+<li><strong>The predictive subspace: K − 1 measured dimensions on the production fit</strong> (from item 17; run 2026-11-12 as <code>predictive-subspace-coordinates</code>, item 18; <a href="../reports/predictive-subspace-2026-11-12/">report</a>): <strong><code>keep_production</code></strong>. Production uses the CV rank both to regularize the stage fit and as the number of dimensions it measures. The pilot measured three coordinate systems on the fit's predictive subspace (the row space of its Y loadings, K − 1 dimensions) against production on 9,600 matched units, under a decision fixed in advance.<ul>
+<li><strong>Size fails on real noise.</strong> All three read <code>size_excess</code>: on the SEA-AD plasmode anchor (500 replicates) they reject <code>delta</code> at 0.13–0.136 and <code>shape</code> at 0.076–0.078, where production reads 0.042 and 0.026. Size holds at every simulated design, the weak one included at 500 × 999.</li>
+<li><strong>The gains are real on simulated noise.</strong> No protected power is lost. All three gain in 10 of the 18 δ = 2.0 target cells at the Bonferroni threshold (the SEA-AD table's 22.5° rotation 0.41 → 1.00) and in 29–30 of 36 band cells (n = 200, δ = 0.5, rotation e = 0.1: 0.06 → 0.94). On the plasmode plant <code>delta</code> goes from 0.51 to 0.79–0.82 at e = 0.5. The weak design does not move.</li>
+<li><strong>The metric decides specificity.</strong> <code>predictive</code> adds to production's band leak, and <code>predictive_fitted</code> leaks at δ = 2.0. <code>predictive_orthonormal</code> passes both families and removes most of production's own band leak.</li>
+<li><strong>What it gives up.</strong> The surgery cell's <code>angle</code> falls from 0.66 to 0.48 (<code>group_difference</code> capture 0.20 → 0.002). In the band the observed angle is about half the population's.</li>
+<li><strong>The CV rank sits next to a leak.</strong> One more component turns the δ = 2.0 rotation's off-target <code>shape</code> from 0.03–0.04 into 0.92–0.99.</li>
+<li><strong>A lower fit rank is the wrong lever.</strong> The forced K − 1 control keeps 0.34–0.48 of the stage program in the band, against 0.73–0.88 for production, and loses the gains.</li>
+<li><strong>The excess, diagnosed</strong> (2026-11-13, item 19; <a href="../reports/predictive-size-excess-2026-11-13/">report</a>): <strong><code>both_restore</code></strong>. Either repair alone brings the anchor within the pilot's size rule. Restricting RRPP's draws within stage removes the whole <code>delta</code> excess (68 → 31, 67 → 29, 65 → 28 of 500), but <code>shape</code> only falls from 38–39 to 32–33, one or two counts under the threshold. The out-of-fold fitted indicators read 8 / 7 / 17, with almost no stage signal out of fold. Under within-stage draws production gains about as much plant power (<code>delta</code> 0.51 → 0.63 at e = 0.5) as the predictive coordinates keep (0.64–0.66).</li>
+<li><strong>What remains open.</strong> The three values stay opt-in diagnostics. The excess is understood but not fixed. The fix the verdict opens is within-stage draws as an opt-in option of <code>RRPP</code>, the harness and <code>motco analyze</code>, byte-identical when unset. Its change reads their size and power on the pilot's simulated designs, the weak design and this anchor, <code>shape</code> included, and pairs every measurement space under the same draws. The question why no simulated design reproduces the excess stays with open item 2. The verdict is a veto from one design. The simulations show no gain at SEA-AD's stage signal, and the designs where the arms gain have no real-noise reading. ADNI's design is the one where production measures the most dimensions beyond K − 1 (rank 8 on the data, 19 in its simulation, against 2), and whether the arms gain or hold size there is unmeasured. Two things would reopen <code>predictive_orthonormal</code>, either with a rank rule for a fixed measured dimension: the within-stage option validated, or size held on an ADNI or ROSMAP anchor together with a gain at that design in simulation, under a rule that scopes admissibility by design and is declared before the reading.</li>
+</ul>
+</li>
+<li><strong>Real-noise readings on more than one cohort, and a latent plasmode</strong> (item 13 (b); widened 2026-11-12 after item 18). Every real-noise reading so far comes from one export, SEA-AD astrocytes at 80 donors on 10,000 features, and its anchor read <code>size_excess</code> in both selections run on it (items 17 and 18), though only item 18's verdict turned on it.<ul>
+<li><strong>What the SEA-AD plasmode is fair for.</strong> A size gate. The labels are permuted within stage, so the null is exact; every space is fitted without the group label and sees the same donors, labels and draws; and the configuration is the case study's.</li>
+<li><strong>What it cannot carry.</strong><ul>
+<li>It is one dataset at one design, the extreme one (125 features per donor). The anchor's replicates share one fit, so a rate there is conditional on that fit.</li>
+<li>Its in-span plant is a magnitude edit along the in-sample stage means (item 17), which rewards any space built on those means. The only other real-noise plant is item 12's sparse 20-feature orientation, almost entirely outside the span. No in-span rotation or bend exists on real noise, so the plasmode cannot rank measurement spaces on power.</li>
+<li>It reads only the global null, so specificity on real noise is unmeasured.</li>
+<li>Production's <code>df</code> correction came out of a size failure at this configuration (items 7 (c) and 8). No candidate has had such a repair, so a candidate's failure there may call for its own correction.</li>
+</ul>
+</li>
+<li><strong>Cohorts.</strong> ADNI and ROSMAP are the cohorts MOTCO was first intended for; SEA-AD came first because analyses were already under way on it. ADNI's export exists in <code>adni_sexdiff</code> (1,501 donors on 298 features, 0.2 features per donor). ROSMAP has no export yet; its blocks, staging and covariates are fixed when one is defined. Each cohort is read in place through a contract like SEA-AD's, with labels permuted within stage and no donor id or label vector committed.</li>
+<li><strong>What a large cohort adds.</strong> Subsampling donors within cells gives independent real-noise datasets at a chosen n (80, 200, 500), each with its own fit, where SEA-AD gives one. A held-out half gives reference stage means, so plants and the capture are defined against something other than the sample they are measured on.</li>
+<li><strong>Cells, per cohort.</strong> The anchor; magnitude, rotation and bend plants in the reference stage span; an out-of-span plant; and each plant's off-target statistics, the real-noise specificity reading.</li>
+<li><strong>The latent plasmode</strong> stays as first written: a stage-span plant on real noise with a split-sample basis, because real data has no population means, measuring how much of a real difference the span sees. ADNI's cells can be split (the smallest has 125 donors); SEA-AD's barely can (9).</li>
+<li><strong>First reading: the predictive subspace's size excess</strong> (item 18), <strong>diagnosed on the SEA-AD anchor as <code>both_restore</code></strong> (item 19, 2026-11-13). On the SEA-AD export the stage fit is mostly in-sample (stage R² 0.84 against a held-out AUROC of 0.636, and an out-of-fold share of 0.02), and a two-component fit is conservative on the same anchor (0.014 / 0.020 / 0.010). The guess was that the two predictive directions of the rank-5 fit hold the in-sample fit, and that its residuals are not exchangeable across stages. Both checks confirmed it there: RRPP's draws restricted within stage, and the predictive coordinates fitted out of fold, each bring the anchor within the size rule. In the predictive coordinates the largest stage (40 donors) has the narrowest residual dispersion, the reverse of the scores (descriptive). The guess predicts an excess that shrinks as donors per feature grow and is absent on ADNI; reading that prediction is this item's.</li>
+<li><strong>A covariate-free lead</strong> (item 19, descriptive). Without the six covariates in the trajectory model, production's <code>delta</code> rejects 0.082 on the same anchor (<code>df</code> kept), above the bound. The case study runs with the covariates; whether the reading holds beyond one fit is unread.</li>
+<li><strong>Why it is second.</strong> It pays off whatever it finds. It replaces the weak design's simulated capture (0.10, item 14) with real-noise ones, and it is where open items 1 and 4 read size before they say anything about a case study.</li>
+</ul>
+</li>
+<li><strong>Bias-corrected trajectory estimates in the full feature space</strong> (sketched 2026-11-12). An out-of-span difference is detected by the split test's complement (item 16) but not measured: no fixed low-dimensional space holds it (item 14), and the sample geometry of <code>concat</code> carries noise in every dimension. <code>delta</code> and <code>angle</code> are functions of the Gram matrix of the LS-mean vectors. Under one row covariance Σ the sample Gram exceeds the population one by tr(Σ)·L(XᵀX)⁻¹Lᵀ in expectation, up to p / n_cell on each squared norm without covariates. The full model's residuals estimate tr(Σ) without bias, so the excess is subtracted in closed form, with no basis, no group-aware fit and no refit.<ul>
+<li><strong>What it is for.</strong> Measurement, the payoff open item 5 seeks: an estimate of the angle and of the path-length difference in the full space or in the complement, with a bootstrap interval within design strata as attribution has. It is not a test. The permutation null carries the same excess, so rejection rates are not expected to change, and detection stays with the complement.</li>
+<li><strong>A check needing no cluster:</strong> on the latent-space comparison's φ cells, the corrected <code>angle</code> beside the uncorrected one, both against the population angle through <code>concat</code> (45.1° / 44.5° / 42.7° / 41.7° at φ = 0 / 30 / 60 / 90, n = 200); then its spread on the SEA-AD table and at the weak design, where a corrected squared norm can be negative.</li>
+<li><strong>Limits.</strong> The correction assumes one covariance for both groups; a per-group trace is the extension, and open item 8's generator field would test it. <code>shape</code> needs the corrected Gram to stay positive semi-definite. At 10,000 features on 80 donors the estimate may be too variable to report.</li>
+</ul>
+</li>
+<li><strong>Noise-aware stage supervision</strong> (sketched 2026-11-12). At SEA-AD's stage signal the fitted span keeps 0.10 of the pooled stage program (item 14), and neither weighting nor sparsity raises it (item 17: 0.098, 0.085 and 0.082). Both keep stage-PLS's objective, which maximizes covariance and so leans toward high-variance noise. Two group-blind, fixed alternatives account for the noise covariance:<ul>
+<li><strong>Shrinkage LDA</strong> (sklearn's <code>LinearDiscriminantAnalysis</code> with Ledoit–Wolf shrinkage) whitens by the within-stage covariance and gives K − 1 directions with no rank to select. They estimate the same stage-discriminant subspace as open item 1's predictive subspace under another regularizer (covariance shrinkage in place of the PLS fit rank), so this arm can pair against open item 1's coordinates on its driver. Open item 1's coordinates exceeded size on the SEA-AD plasmode while holding it in simulation, so this arm's real-noise size has to be read too.</li>
+<li><strong>Residual-factor removal</strong> projects the leading principal components of the stage-residualized features out before the stage-PLS fit. It is the inverse of <code>pls_residual_pca</code>, which appended them, and the unknown-covariate analogue of the latent adjustment (item 3).</li>
+<li><strong>A pre-check needing no cluster, and the gate:</strong> each variant's <code>pooled_stage</code> capture at the weak design's anchor against production's 0.100. If the capture does not rise, the item closes there.</li>
+<li><strong>Costs to read if it does.</strong> LDA's coordinates are whitened, so <code>delta</code> is in another metric, as under weighting. Removing residual factors removes any group difference lying along them, so the split test and the scan keep reading the unadjusted features. InterSIM's noise may lack the structured factors real blocks have, so on real noise the question waits for open item 2's split-sample capture.</li>
+<li><strong>Why it is fourth.</strong> Two changes to the stage-supervised fit have already left the capture where it was.</li>
+</ul>
+</li>
+<li><strong>A group-aware space refitted per permutation</strong> (thread 2 of item 16; sketched 2026-11-09, unblocked by item 17's <code>keep_production</code>, so it pairs against <code>pls_cv</code>). The question is a group-stratified stage space: stage-PLS fitted per group and merged into one basis, so each group's own stage program is in the span and a group-specific direction (the φ = 90 rotation every pooled space is blind to) becomes measurable, not only detectable.<ul>
+<li><strong>Why it must refit.</strong> The harness has the construction as the diagnostic <code>pls_within_group</code> (K − 1 components per group, stacked rotations orthonormalized by pivoted QR, pooled-centred projection). The orientation probe (2026-10-12) found it keeps the planted rotation (90.3° against 90°) but, fitted once on the real labels, inflates anchor <code>angle</code> to 0.48–0.88: the union span is chosen where each group's noise aligns with stage, and RRPP's draws never see the fitting step. Any basis fitted with group labels has this problem, so a valid version refits the basis inside every draw: Freedman–Lane on the reduced model's feature residuals with RRPP's serial draws (the split test's scheme), two stage-PLS fits per draw at a rank chosen label-blind from the pooled CV and shared by both groups, projection, then <code>delta</code> / <code>angle</code> / <code>shape</code>. At fixed rank a fit takes milliseconds, so 999 refits cost seconds.</li>
+<li><strong>The pilot, when proposed:</strong> five arms on the latent-space comparison's designs and cells (its φ ∈ {0, 30, 60, 90} cells were built for this): <code>pls_cv</code>, <code>within_group_fixed</code> (to show the size failure on these cells), <code>within_group_refit</code> (the candidate), <code>cell_pls_refit</code> (one PLS on the group × stage cells refitted per draw; one basis, no QR tolerance) and <code>within_group_crossfit</code> (added 2026-11-12). Read for size at anchor and translation, out-of-span power against the complement's 1.00 / 0.68, and in-span cost on magnitude <code>delta</code> (two added near-empty dimensions cost 0.74 → 0.37 at n = 200 in the comparison; the QR tolerance is a knob the null depends on).</li>
+<li><strong>The cross-fitted arm.</strong> The basis is fitted on half of each group × stage cell and the statistics are measured on the other half, in both directions, with the two p-values combined by a rule valid under dependence. A basis independent of the measured samples needs no refit, at the price of half the sample. It is a simulation arm only: SEA-AD's smallest cell has 9 donors.</li>
+<li><strong>The bar:</strong> match the complement at held size with no in-span loss beyond the comparison's 2-pooled-SE rule, else the complement stays the answer. Its payoff is measurement (a measured angle, group-specific attribution), not detection, which the complement already provides; at SEA-AD the pooled span keeps 0.10 of the stage program on 80 donors, so per-group bases on 40 are expected to add little on real data.</li>
+<li><strong>A cheap pre-check needing no cluster:</strong> the principal angles between the two per-group spans on null datasets, which measure how ill-conditioned the merged basis is.</li>
+<li><strong>Why it is fifth.</strong> The merged basis has up to twice the pooled rank, and item 14 measured what two added near-empty dimensions cost, so the in-span bar is the likely failure. Open item 3 seeks the same payoff without a basis and is read first.</li>
+</ul>
+</li>
+<li><strong>A moderated per-feature statistic</strong> for the interaction scan (from item 16).</li>
+<li><strong>Reading the SEA-AD scan by block</strong> in <code>sead_sexdiff</code> (pinning 0.23.0).</li>
+<li><strong>Group-specific dispersion</strong> (item 7 (b), change B): an opt-in generator field scaling group B's covariance and a null-only study, the covariance and correlation scaling rows of the originally planned simulation grid.</li>
+<li><strong>The <code>df</code> correction's follow-ups</strong> (item 8): whether <code>df</code> becomes the <code>motco analyze</code> default, a change that would re-issue the identity fixtures; and measuring size on the <code>cohort_50</code> tables (microglia n = 63, κ = 1.090), which is inferred today. Nothing rejects there, so no rejection depends on it.</li>
+<li><strong>Defaulting the null-dispersion materiality rule</strong> (item 6). It is opt-in so the committed Phase 5 <code>report/</code> keeps regenerating byte-identically; switching the default is a reporting change needing a recorded re-issue of the affected localization output.</li>
+<li><strong>The committed toy fixture</strong> (<code>examples/data/toy/</code>, deferred from <code>docs-sync-audit</code>, 2026-09-04). It predates the numpy generator: its <code>truth.json</code> records <code>intersim_metadata</code> and omits <code>n_stages</code>, <code>p_dmp</code> and <code>baseline_continuity</code>, and the current <code>motco simulate</code> at the same seed produces a different dataset. The choice is to regenerate it so the tutorial exercises the shipped code path, or to keep it pinned as a historical artifact. Regenerating touches the example data, <code>examples/motco_example.ipynb</code>, the <code>toy-dataset</code> spec scenarios and <code>tests/test_toy_dataset.py</code>.</li>
+<li><strong>Open measurement questions</strong>, each a possible change: why the score metric narrows the <code>angle</code> null at weak, unequal or four-stage designs (<a href="../reports/orthonormal-coordinates-2026-11-09/">report</a> §6–§7); a four-stage design where an out-of-span bend is defined (<a href="../reports/latent-space-comparison-2026-11-04/">report</a> §11); and <code>concat</code>'s p-padding question, which no comparison has measured (<code>concat</code> remains the ceiling reference only).</li>
+</ol>
+<h3 id="on-hold">On hold</h3>
+<p>Measurement-space candidates considered on 2026-11-12 and not proposed. Each entry gives the reason it waits and what would reopen it.</p>
+<ul>
+<li><strong>A stricter rank rule for the CV</strong> (from item 17; open item 1 as first written). Lowering the fit rank removes the components that aim the stage directions. In the 2026-11-12 probe (not a result; <code>openspec/changes/archive/2026-11-12-predictive-subspace-coordinates/notes.md</code>) a one-standard-error rule selected production's rank on every anchor and target unit at δ = 2.0 and 1.0, because the best candidate's fold SE is exactly zero at the AUROC ceiling. An absolute tolerance of 0.01 gained <code>angle</code> only (0.45 → 0.78 on the SEA-AD table, beside <code>delta</code> 0.23 → 0.17 and <code>shape</code> 0.68 → 0.55). At δ = 0.25 and at the weak design the rules changed the rank and no rate. Reopen if open item 1's pilot qualifies an arm whose rank-plus-one reading puts the CV rank next to the leak: the rule to study then is the fit rank under a fixed measured dimension, not a lower measured rank. The 2026-11-12 pilot found that leak (one more component turns the δ = 2.0 rotation's off-target <code>shape</code> from 0.03–0.04 into 0.92–0.99), but no arm qualified (<code>size_excess</code> on real noise).</li>
+<li><strong>The between-block agreement term of multi-block sPLS-DA (DIABLO).</strong> It optimizes agreement between blocks, not stage discrimination (a non-goal of <code>regularized-stage-pls</code>), and the two changes to the stage fit measured so far gained nothing at a weak stage signal (item 17). Reopen if open item 4's pre-check shows that changing the fit can raise the capture.</li>
+<li><strong>Supervision on a continuous progression score</strong> instead of discrete stages. The generator has no continuous progression, and whether a case-study export carries such a score has not been checked. One-hot labels already span every stage contrast, so the only gain is the ordering within a stage. Reopen when a case study supplies the score.</li>
+<li><strong><code>mfa</code> weighting and joint-scope sparsity</strong> (implemented in 0.21.0 and 0.22.0, never run). Their siblings read <code>no_gain</code> and <code>size_excess</code> in item 17, the capture rose under neither, and a sparse arm costs seven to nine production fits. Reopen as extra arms of another paired run if weighting or sparsity gains anywhere.</li>
+<li><strong>Label-free factor models</strong> (MOFA+, JIVE, AJIVE). A label-free basis follows variance, not the stage program or the group difference: PCA at the production rank kept 0.53 of the stage program and was blind at φ = 90 (item 14), and a factor model shares both limits. Reopen only as a source of nuisance factors for open item 4, if the latent plasmode shows that structured noise dominates.</li>
+<li><strong>Nonlinear maps</strong> (kernel PLS, autoencoders) <strong>and graph networks.</strong> A nonlinear map turns an additive offset between groups into an apparent interaction, so the translation control would fail, and the generator plants mean shifts in Gaussian noise, which gives them nothing to find. Reopen with a nonlinear or cell-level generator, kernel PLS first; graph networks wait on Phase 7's graph-native statistics.</li>
+<li><strong>Multi-block PLS and supervised feature screening.</strong> Not waiting but already covered: with block scaling, multi-block PLS is PLS on the weighted concatenation (<code>block_weighting</code>), and screening features by stage association is a hard-threshold form of the sparse stage-PLS measured in item 17.</li>
+</ul>
+<h3 id="done">Done</h3>
+<p>Before the numbered list: the <code>joint</code> magnitude default (<code>default-joint-magnitude-construction</code>, 2026-10-09; the historical configs pin <code>"all"</code>); the opt-in one-sided acceptance bound <code>bound: "upper"</code> (<code>one-sided-acceptance-targets</code>, 2026-10-14); the paper-grade estimator comparison (<code>net-displacement-power-comparison</code>, 2026-10-14, <code>adopt_net_displacement</code>, <a href="../reports/net-displacement-power-2026-10-14/">report</a>); and the net-displacement harness default (<code>default-net-displacement-orientation</code>, 2026-10-15; every committed config and historical diagnostic pins <code>"pc1"</code>, and the stats primitives keep PC1 as their default).</p>
+<ol>
+<li><strong>Phase 6 real-data case study</strong> in <code>sead_sexdiff</code>: run through <code>motco analyze</code>, re-issued under <code>df</code> (2026-10-31), with the split test (2026-11-06) and with the interaction scan (2026-11-10); nothing rejects (case studies above). ADNI runs in <code>adni_sexdiff</code>.</li>
+<li><strong>Covariate-adjusted trajectories</strong> (<code>covariate-adjusted-trajectories</code>, 0.8.0, 2026-10-16; <a href="../reports/covariate-type-i-2026-10-16/">report</a>): <strong><code>covariates_validated</code></strong>. Covariates enter the full and reduced models, LS means are evaluated at a recorded reference row, missing covariates error or are dropped complete-case, never imputed. Adjusted <code>delta</code> 0.040, <code>angle</code> 0.062, <code>shape</code> 0.034 against 0.0695; the unadjusted arm rejects <code>shape</code> at 0.364.</li>
+<li><strong>Covariate-aware latent construction</strong> (<code>covariate-aware-latent-construction</code>, 0.9.0, 2026-10-20): Type I <strong><code>adopt_stage</code></strong> (<a href="../reports/latent-adjustment-type-i-2026-10-20/">report</a>; <code>group_stage</code> exceeds on <code>angle</code>, 0.082) and power <strong><code>candidate_fails</code></strong> for both arms (<a href="../reports/latent-adjustment-power-2026-10-20/">report</a>; <code>stage</code> gains orientation power but loses <code>shape</code> and small-magnitude power). <code>--latent-adjustment stage</code> is a sensitivity analysis only, and it is inadmissible at the case study's configuration (item 7 (c)).</li>
+<li><strong>Rank floor</strong> (<code>minimum-latent-rank</code>, 0.10.0, 2026-10-23; <a href="../reports/rank-floor-2026-10-23/">report</a>): <strong><code>adopt_floor</code></strong> at δ = 0.05 and 0.1. CV could select rank 1, where <code>angle</code> is 0° or 180° by construction with a two-point null; both SEA-AD cohorts had. The floor of 2 holds size and defines <code>angle</code> and <code>shape</code>; it does not make them powerful.</li>
+<li><strong>Block weighting</strong> (<code>block-weighting</code>, 0.21.0): measured <strong><code>no_gain</code></strong> by item 17, stays opt-in. A case study may declare it as a sensitivity analysis, with <code>delta</code> in the weighted metric.</li>
+<li><em>Open</em> (above, item 10).</li>
+<li><strong>Design-guidance pilot</strong> (<code>design-guidance-grid</code>, 0.11.0, 2026-10-28; <a href="../reports/design-guidance-pilot-2026-10-28/">report</a>), which replaces the originally planned simulation grid (47,200 units). (a) The <strong>paper-grade slice</strong> (<code>design-guidance-paper-grade-slice</code>, 0.12.0, 2026-10-29; <a href="../reports/design-guidance-slice-2026-10-29/">report</a>): size holds at every column; <code>delta</code> reaches 0.62 / 0.94 / 1.00 at e = 0.1 for n = 80 / 200 / 500 with two blocks, <code>shape</code> is monotone in n, e and blocks, and <code>angle</code> is governed by n and block count with a flat response in e; below δ = 2.0 the CV rank inflates and <code>delta</code> / <code>shape</code> lose their power. (b) <em>Open</em> (above, item 8). (c) The <strong>Type I check at the case study's configuration</strong> (2026-10-29, <a href="../reports/case-study-type-i-2026-10-29/">report</a>): <strong><code>diagnose_configuration_excess</code></strong>, diagnosed on 2026-10-30 (<a href="../reports/case-study-diagnosis-2026-10-30/">report</a>) as <strong><code>residual_df_shrinkage</code></strong> for the primary's <code>delta</code> and <strong><code>residualized_basis</code></strong> for the <code>stage</code> arm.</li>
+<li><strong>Residual-df corrected permutation</strong> (<code>residual-df-corrected-permutation</code>, 0.13.0, 2026-10-30; <a href="../reports/corrected-permutation-2026-10-30/">report</a>): <strong><code>adopt_df</code></strong>. The opt-in <code>residual_correction</code> (<code>df</code> | <code>leverage</code>) rescales the reduced residuals; both hold every reading, <code>leverage</code> shows no paired power gain, and <code>df</code> reads 0.029–0.058 pooled. Follow-ups are open (above, item 9).</li>
+<li><strong>Operating characteristics at the ADNI design</strong> (2026-11-02, <a href="../reports/adni-design-2026-11-02/">report</a>): <strong><code>non_rejections_uninformative</code></strong>. Size holds; magnitude/<code>delta</code> reaches 0.530 at most and <code>angle</code> / <code>shape</code> stay at the null rate, at a CV rank at the cap of 19.</li>
+<li><strong>Phase 6 exit review</strong> (2026-11-02, <a href="../reports/phase6-exit-review-2026-11-02/">review</a>): closed on a size-controlled null with the attribution leg withheld until items 11–12.</li>
+<li><strong>Covariate-adjusted attribution</strong> (<code>covariate-adjusted-attribution</code>, 0.14.0, 2026-11-02; <a href="../reports/adjusted-attribution-2026-11-02/">report</a>): <strong><code>adjusted_attribution_validated</code></strong>. Attribution from covariate-adjusted cell means; adjusted contamination is within 0.005 of an oracle's, against 0.43 of the top-20 unadjusted.</li>
+<li><strong>Plasmode demonstration</strong> (<code>plasmode-attribution-demonstration</code>, 2026-11-02; <a href="../reports/plasmode-2026-11-02/">report</a>): <strong><code>attribution_leg_failed</code></strong>. Size holds on SEA-AD's real blocks, but a 20-feature planted orientation is rejected by <code>angle</code> in 0.036 of units at the 3-SD cap; it keeps 2.2 % of its norm in the rank-5 span.</li>
+<li><strong>Stage-span constructions</strong> (<code>stage-span-constructions</code>, 0.15.0, 2026-11-04; <a href="../reports/stage-span-pilot-2026-11-04/">report</a>): <strong><code>revise_construction</code></strong>; visibility, not sensitivity, limits the surgeries. (a) The <strong>paper grade</strong> (<code>stage-span-paper-grade</code>, 0.17.0, 2026-11-04; <a href="../reports/stage-span-paper-grade-2026-11-04/">report</a>): <strong><code>sensitivity_established</code></strong> for stage-span effects up to e = 0.5 under the planted scale (12 of 1,000 four-stage orientation units failed, the planted fixed point cycling). (b) <em>Open</em> (above, item 2). (c) Done as item 14.</li>
+<li><strong>Latent-space comparison across alignment</strong> (<code>latent-space-comparison</code>, 0.16.0, 2026-11-04; <a href="../reports/latent-space-comparison-2026-11-04/">report</a>): <strong><code>document_tradeoff</code></strong>. Every low-dimensional space is blind at φ = 90; only <code>concat</code> sees it, and extra dimensions cost in-span power.</li>
+<li><strong>Orthonormal span coordinates</strong> (<code>orthonormal-span-coordinates</code>, 0.19.0, 2026-11-09; <a href="../reports/orthonormal-coordinates-2026-11-09/">report</a>): <strong><code>power_loss</code></strong>. The shear's leak is removed, but 19 of 45 target cells lose power, so the scores stay and the setting is an opt-in diagnostic.</li>
+<li><strong>Split interaction test</strong> (<code>span-split-interaction-test</code>, 0.18.0, 2026-11-05; <a href="../reports/span-split-2026-11-05/">report</a>): <strong><code>split_validated</code></strong>; the complement rejects the out-of-span rotation in 1.00 / 0.68 against <code>angle</code>'s 0.08 / 0.10. Applied to SEA-AD 2026-11-06. Thread 3, the <strong>per-feature interaction scan</strong> (<code>interaction-feature-scan</code>, 0.20.0, 2026-11-09; <a href="../reports/interaction-scan-2026-11-09/">report</a>): <strong><code>scan_validated</code></strong>; the plasmode plant every other test misses is rejected in 0.692 / 1.000 at 2 / 3 SDs. <strong>By block</strong> (<code>interaction-scan-block-maxima</code>, 0.23.0, 2026-11-10; <a href="../reports/interaction-scan-blocks-2026-11-10/">report</a>): <strong><code>by_block_validated</code></strong>; the joint scan stays the default. The scan was applied to SEA-AD on 2026-11-10. Thread 2 is open (above, item 5).</li>
+<li><strong>Production latent-space selection</strong> (<code>production-latent-space-selection</code>, 2026-11-10, on 0.22.0; <a href="../reports/production-latent-space-2026-11-10/">report</a>): <strong><code>keep_production</code></strong>. <code>weighted</code> → <code>no_gain</code>; <code>sparse_block</code> and <code>weighted_sparse_block</code> → <code>size_excess</code> on the plasmode anchor's <code>delta</code> (0.11 against the ceiling 0.10, where production also reads 0.11). Both settings stay opt-in. The δ = 2.0 gains that follow the selected rank are open (above, item 1).</li>
+<li><strong>Predictive-subspace coordinates</strong> (<code>predictive-subspace-coordinates</code>, 0.24.0, 2026-11-12; <a href="../reports/predictive-subspace-2026-11-12/">report</a>): <strong><code>keep_production</code></strong>. All three coordinate systems read <code>size_excess</code> on the SEA-AD plasmode anchor (<code>delta</code> 0.13–0.136, <code>shape</code> 0.076–0.078, against production's 0.042 and 0.026), while holding size in simulation, losing no protected power and gaining strongly at δ = 2.0 and in the stage-effect band. They stay opt-in diagnostics (open item 1).</li>
+<li><strong>Predictive-subspace size-excess diagnosis</strong> (<code>predictive-size-excess-diagnosis</code>, 2026-11-13, on 0.24.0, no package change; <a href="../reports/predictive-size-excess-2026-11-13/">report</a>): <strong><code>both_restore</code></strong>. On item 18's 800 plasmode units, with the reference arms reproducing its counts exactly, restricting RRPP's draws within stage brings every predictive coordinate system within the anchor's size rule: <code>delta</code> 0.130–0.136 → 0.056–0.062, but <code>shape</code> only 0.076–0.078 → 0.064–0.066. The out-of-fold fitted indicators do too (0.016 / 0.014 / 0.034), with almost no stage signal out of fold. The fix the verdict opens, within-stage draws as an opt-in option, needs its own size and power readings (open item 1); <code>keep_production</code> stands.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
