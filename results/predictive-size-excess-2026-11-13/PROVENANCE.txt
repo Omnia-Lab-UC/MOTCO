@@ -5,7 +5,7 @@ driver: scripts/predictive_size_excess_check.py (decision rule version 1); sbatc
 code_revision: 7046672c7d8373b44dcf0606400a6cfdfbc3d2bf on proposal/predictive-size-excess-diagnosis (pushed to GitHub). Run from the clean detached worktree /home1/tgonza/MOTCO-predictive-size-excess (no tracked modification; only logs/ untracked, holding the preparation and finishing job scripts). .venv -> /home1/tgonza/MOTCO/.venv. PYTHONPATH puts the worktree's src first, and motco 0.24.0 imported from it. The driver's and test's sha256 equal the workstation's.
 host: cluster.ing.uc.cl (SLURM), partition 512x1024 (AMD EPYC 7662); 49 tasks on n1, 51 on n3. Excluded: n2 (962 MB free memory at submission, the memory-hang signature), n4 (an NFS D-state stall in the pilot's preparation job 938112 the day before) and n11 (NFS-stall history). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
 blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the sbatch template, the preparation and the finishing jobs)
-workstation pre-flight and smoke (openspec/changes/predictive-size-excess-diagnosis/notes.md):
+workstation pre-flight and smoke (openspec/changes/archive/2026-11-13-predictive-size-excess-diagnosis/notes.md):
   - The pre-flight passed on the workstation.
   - Smoke of 8 units at 999 permutations: 0 failed, 0 inconsistent. Merge, reproduction and decide ran; decide returned reproduction_failed, as it must at 2 replicates.
   - Projection 13.4 local and about 11.5 ing core-hours. Cap 20 recorded core-hours, approved by the user with the choice of ing.
