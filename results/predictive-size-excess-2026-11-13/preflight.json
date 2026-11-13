@@ -1,0 +1,102 @@
+{
+ "expected": {
+  "cv_mean_auroc": 0.635556,
+  "rank": 5,
+  "selected_lv": 5
+ },
+ "passed": true,
+ "rule": "the cross-validated pls_cv selects the fidelity rank and AUROC, and its statistics and p-values equal the forced call's exactly",
+ "settings_hash": "cec5091022052c21ff94eb28c6ff4c74dff7739c2cb8fe38d6b4fd6bd5a4612a",
+ "units": [
+  {
+   "cross_validated": {
+    "p_values": {
+     "angle": 0.415,
+     "delta": 0.036,
+     "shape": 0.822
+    },
+    "statistics": {
+     "angle": 22.223427971958294,
+     "delta": 20.72920206022981,
+     "shape": 0.06393062380409784
+    }
+   },
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.635556,
+    "expected": {
+     "cv_mean_auroc": 0.635556,
+     "selected_lv": 5
+    },
+    "passed": true,
+    "rank": 5
+   },
+   "forced": {
+    "p_values": {
+     "angle": 0.415,
+     "delta": 0.036,
+     "shape": 0.822
+    },
+    "statistics": {
+     "angle": 22.223427971958294,
+     "delta": 20.72920206022981,
+     "shape": 0.06393062380409784
+    }
+   },
+   "forced_rank": 5,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 951219155,
+   "seconds": {
+    "cross_validated": 74.19721910497174,
+    "forced": 0.3118566428311169
+   },
+   "statistics_differing": [],
+   "unit": "[\"plasmode\", \"anchor\", 0]"
+  },
+  {
+   "cross_validated": {
+    "p_values": {
+     "angle": 0.985,
+     "delta": 0.799,
+     "shape": 0.495
+    },
+    "statistics": {
+     "angle": 5.413526187902488,
+     "delta": 2.3924046672457138,
+     "shape": 0.13342839716255778
+    }
+   },
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.635556,
+    "expected": {
+     "cv_mean_auroc": 0.635556,
+     "selected_lv": 5
+    },
+    "passed": true,
+    "rank": 5
+   },
+   "forced": {
+    "p_values": {
+     "angle": 0.985,
+     "delta": 0.799,
+     "shape": 0.495
+    },
+    "statistics": {
+     "angle": 5.413526187902488,
+     "delta": 2.3924046672457138,
+     "shape": 0.13342839716255778
+    }
+   },
+   "forced_rank": 5,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 484779297,
+   "seconds": {
+    "cross_validated": 73.25947242998518,
+    "forced": 0.3667772568296641
+   },
+   "statistics_differing": [],
+   "unit": "[\"plasmode\", \"anchor\", 1]"
+  }
+ ]
+}

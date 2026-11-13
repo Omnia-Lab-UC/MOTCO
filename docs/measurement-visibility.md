@@ -502,6 +502,48 @@ values stay opt-in diagnostics and are not tests a case study should report. Onl
 after a `propose_paper_grade` verdict could adopt another measurement, and that needs the
 real-noise excess understood first.
 
+### The real-noise size excess, diagnosed
+
+A diagnosis re-read the pilot's 800 plasmode units with their labels and RRPP seeds
+([report](reports/predictive-size-excess-2026-11-13.md)). Its four reference arms reproduced the
+pilot's counts exactly. The guess under test: the two predictive directions of the rank-5 fit
+hold its in-sample stage fit (stage R² 0.84 against a held-out AUROC of 0.636), and the reduced
+model's residuals in them are not exchangeable across stages, which RRPP's draws assume. Two
+checks separate the parts of that guess:
+
+- **Within-stage draws change the null and keep the coordinates.** RRPP's residuals are permuted
+  among the donors of each stage only. If the excess comes from mixing residuals across stages,
+  it goes away.
+- **Out-of-fold coordinates change the coordinates and keep the null.** Each donor's fitted stage
+  indicators come from a stage-PLS model fitted without that donor. If the excess needs
+  coordinates fitted on the donors they measure, it goes away.
+
+**Verdict: `both_restore`.** Each check alone brings the anchor rates within the size rule the
+pilot applied. Rejections in 500 anchor units for `delta` / `angle` / `shape`:
+
+| coordinates | pilot (unrestricted draws) | within-stage draws |
+|---|---|---|
+| `predictive` | 68 / 11 / 38 | 31 / 17 / 33 |
+| `predictive_orthonormal` | 67 / 9 / 38 | 29 / 17 / 32 |
+| `predictive_fitted` | 65 / 10 / 39 | 28 / 17 / 33 |
+| out-of-fold fitted indicators | — | 8 / 7 / 17 (unrestricted draws) |
+| production (`pls_cv`) | 21 / 24 / 13 | 19 / 27 / 19 |
+
+Three readings qualify the verdict:
+
+- **`shape` holds by a small margin.** The within-stage draws remove the whole `delta` excess,
+  but little of the `shape` excess, which stays near the size bound and above production's rate.
+- **The out-of-fold coordinates carry almost no stage signal.** They hold size, but out of fold
+  the stage fit explains about 2 % of the stage indicators' variance at the anchor.
+- **Production gains under the same draws.** On the real-noise plant, production under
+  within-stage draws gains about as much `delta` power as the predictive coordinates keep. A
+  comparison of measurement spaces therefore has to use the same null for both.
+
+The predictive values stay opt-in diagnostics; the diagnosis validates no test. The verdict
+opens a separate change: within-stage draws as an opt-in option of `RRPP`, the harness and
+`motco analyze`, with their own size and power readings in simulation and on this anchor. Only
+that change's verdict could re-read `predictive_orthonormal`.
+
 ## Testing outside the span: the split interaction test
 
 The production statistics cannot see a difference outside the fitted span, and no

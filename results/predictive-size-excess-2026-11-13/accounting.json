@@ -1,0 +1,52 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "fitted_out_of_fold": 0.18280316842719913,
+  "fitted_out_of_fold__within_stage": 0.17305135156493634,
+  "pls_cv": 0.7293485207483172,
+  "pls_cv__no_covariates": 0.39818442100659013,
+  "pls_cv__within_stage": 0.18034877558238804,
+  "predictive": 0.3825769214890897,
+  "predictive__no_covariates": 0.3983330000191927,
+  "predictive__within_stage": 0.1686072286684066,
+  "predictive_fitted": 0.4071663109352812,
+  "predictive_fitted__no_covariates": 0.33173430198803544,
+  "predictive_fitted__within_stage": 0.17238342703785747,
+  "predictive_orthonormal": 0.335332466987893,
+  "predictive_orthonormal__no_covariates": 0.393134071608074,
+  "predictive_orthonormal__within_stage": 0.16862576745916158
+ },
+ "arm_seconds_total_hours": {
+  "fitted_out_of_fold": 0.06372044276284416,
+  "fitted_out_of_fold__within_stage": 0.06122494074063272,
+  "pls_cv": 9.483345652172963,
+  "pls_cv__no_covariates": 0.11420654875860135,
+  "pls_cv__within_stage": 0.06276686660240456,
+  "predictive": 0.1114603814432889,
+  "predictive__no_covariates": 0.10970059955835394,
+  "predictive__within_stage": 0.06003571251439603,
+  "predictive_fitted": 0.11559318793614189,
+  "predictive_fitted__no_covariates": 0.1097399421214747,
+  "predictive_fitted__within_stage": 0.06114750308747817,
+  "predictive_orthonormal": 0.11019058292731643,
+  "predictive_orthonormal__no_covariates": 0.11033356836343754,
+  "predictive_orthonormal__within_stage": 0.06016817445853829
+ },
+ "complete_units": 800,
+ "duplicate_records": 0,
+ "expected_units": 800,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "production_seconds_median": 0.7293485207483172,
+ "recorded_core_hours": 10.920162886750639,
+ "settings_hash": "cec5091022052c21ff94eb28c6ff4c74dff7739c2cb8fe38d6b4fd6bd5a4612a",
+ "unit_seconds": {
+  "max": 167.58188754692674,
+  "median": 9.982084206305444,
+  "q90": 157.70834725014865
+ }
+}

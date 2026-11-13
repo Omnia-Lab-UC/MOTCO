@@ -1,0 +1,686 @@
+{
+ "check": "pilot_reference_counts",
+ "differing": [],
+ "passed": true,
+ "rows": [
+  {
+   "arm": "pls_cv",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 21
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 21
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 24
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 24
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 13
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 13
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 68
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 68
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 11
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 11
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 38
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 38
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 67
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 67
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 9
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 9
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 38
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 38
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 65
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 65
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 10
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 10
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "anchor",
+   "committed": {
+    "count": 500,
+    "rejections": 39
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 500,
+    "rejections": 39
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 24
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 24
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 4
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 4
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 9
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 9
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 42
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 42
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 3
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 3
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 5
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 5
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 42
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 42
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 3
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 3
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 6
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 6
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 40
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 40
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 3
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 3
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.25",
+   "committed": {
+    "count": 100,
+    "rejections": 5
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 5
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 51
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 51
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 9
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 9
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 4
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 4
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 82
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 82
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 2
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 2
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 9
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 9
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 79
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 79
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 2
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 2
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 6
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 6
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 79
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 79
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 2
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 2
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e0.5",
+   "committed": {
+    "count": 100,
+    "rejections": 6
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 6
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 100
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 100
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 15
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 15
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 6
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 6
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 100
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 100
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 4
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 4
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 10
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 10
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 100
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 100
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 6
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 6
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 9
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 9
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 100
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 100
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 4
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 4
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_fitted",
+   "cell": "span_e1",
+   "committed": {
+    "count": 100,
+    "rejections": 11
+   },
+   "matches": true,
+   "reproduced": {
+    "count": 100,
+    "rejections": 11
+   },
+   "statistic": "shape"
+  }
+ ],
+ "rows_compared": 48,
+ "rows_matching": 48,
+ "rule": "each reference arm's available and rejected counts (p <= alpha) per cell and statistic equal the pilot's committed rate_table.csv",
+ "source": {
+  "path": "results/predictive-subspace-2026-11-12/plasmode/rate_table.csv",
+  "sha256": "051248574edc0913e4eb88d646a8e47a2dc57649eba48f79515e2da5dcc36b2f"
+ }
+}

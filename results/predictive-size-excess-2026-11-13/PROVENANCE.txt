@@ -1,0 +1,38 @@
+# Predictive-subspace size-excess diagnosis provenance — the pilot's 800 plasmode units
+date: 2026-11-13 (local -03). Preparation job 938594 on n3, 13:37:57-13:45:17. Array 938598 submitted 13:46:55; first task started 13:46:55, last task ended 14:15:55. Merge and decide in the dependent job 938732 on n3, 16:06:40-16:10:50.
+change: predictive-size-excess-diagnosis (no package change; MOTCO 0.24.0)
+driver: scripts/predictive_size_excess_check.py (decision rule version 1); sbatch scripts/predictive_size_excess_array.sbatch
+code_revision: 7046672c7d8373b44dcf0606400a6cfdfbc3d2bf on proposal/predictive-size-excess-diagnosis (pushed to GitHub). Run from the clean detached worktree /home1/tgonza/MOTCO-predictive-size-excess (no tracked modification; only logs/ untracked, holding the preparation and finishing job scripts). .venv -> /home1/tgonza/MOTCO/.venv. PYTHONPATH puts the worktree's src first, and motco 0.24.0 imported from it. The driver's and test's sha256 equal the workstation's.
+host: cluster.ing.uc.cl (SLURM), partition 512x1024 (AMD EPYC 7662); 49 tasks on n1, 51 on n3. Excluded: n2 (962 MB free memory at submission, the memory-hang signature), n4 (an NFS D-state stall in the pilot's preparation job 938112 the day before) and n11 (NFS-stall history). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the sbatch template, the preparation and the finishing jobs)
+workstation pre-flight and smoke (openspec/changes/archive/2026-11-13-predictive-size-excess-diagnosis/notes.md):
+  - The pre-flight passed on the workstation.
+  - Smoke of 8 units at 999 permutations: 0 failed, 0 inconsistent. Merge, reproduction and decide ran; decide returned reproduction_failed, as it must at 2 replicates.
+  - Projection 13.4 local and about 11.5 ing core-hours. Cap 20 recorded core-hours, approved by the user with the choice of ing.
+pre-flight (job 938594 on n3, preflight.json):
+  - The change's 56 tests passed in the worktree.
+  - On anchor replicates 0 and 1 the cross-validated pls_cv selected rank 5 at held-out AUROC 0.635556, the plasmode's fidelity values. Its statistics and p-values equal the call forced at rank 5 exactly. CV 74.2 s and 73.3 s; forced 0.31 s and 0.37 s.
+  - Replicate 0's p-values (delta / angle / shape 0.036 / 0.415 / 0.822) equal the workstation's.
+  - The settings hash cec5091022052c21ff94eb28c6ff4c74dff7739c2cb8fe38d6b4fd6bd5a4612a equals the workstation's for the same export (settings.json file sha256 40e524a5f3ae6e7d...).
+parents (sha256 bound in the settings and re-checked by preflight, run, merge and decide): results/predictive-subspace-2026-11-12/plasmode (settings.json, rate_table.csv); through the pilot's settings, results/plasmode-2026-11-02 (settings.json, plasmode_summary.csv) and results/production-latent-space-2026-11-10/plasmode (settings.json, rate_table.csv)
+export: /home1/tgonza/plasmode-data/cohort_30, the SEA-AD MTG astrocyte cohort_30 export, read in place through plasmode_check's contract. manifest.json, rna.csv, atac.csv, metadata.csv and covariates.csv have sha256 equal to results/plasmode-2026-11-02/settings.json's.
+launch (from /home1/tgonza/MOTCO-predictive-size-excess, OUT = /home1/tgonza/MOTCO-predictive-size-excess-scratch/run-2026-11-13):
+  python scripts/predictive_size_excess_check.py preflight --export-dir /home1/tgonza/plasmode-data/cohort_30 --out-dir $OUT   (job 938594; writes settings.json and preflight.json once)
+  sbatch --exclude=n2,n4,n11 --array=0-99%50 --export=ALL,PSE_OUT=$OUT,PSE_EXPORT=/home1/tgonza/plasmode-data/cohort_30,PSE_REPO=$PWD,N_SHARDS=100 scripts/predictive_size_excess_array.sbatch
+  (the template requests 1 CPU, 4G and 12 h per task)
+units: the pilot's plasmode units, 800 in all (8 per shard, round-robin), at 999 permutations, rejection p <= 0.05, with each unit's label draw, plant and RRPP seed. The anchor runs the paper stream's replicates 0-499 (base seed 2034). The real-noise span plant runs at e = 0.25 / 0.5 / 1.0 at replicates 0-99. The anchor fits at the fidelity rank 5 without CV; each plant unit runs one production CV and every other arm at its rank. Fourteen arms per unit, serially, at the unit's RRPP seed. Fold seeds come from sha256 of the driver's name, base seed 2037, the replicate and "folds". No label was redrawn. Every out-of-fold training set, on every unit, held 15 / 15 / 30 donors by stage.
+outcome:
+  - Every allocation completed, 102 of 102 with exit 0:0 (sacct.txt: the preparation job, the 100 array tasks and the finishing job).
+  - 800 of 800 complete units: 0 failed units, 0 failed arms, 0 inconsistent units, 0 duplicates.
+consistency: on every unit every applicable check held. The largest deviations were path_identity 0, same_fit 0, same_fit_covariate_free 0, rank 0 and fitted_labels 5.3e-14; one_subspace and identity_at_low_rank did not apply (no capture on the plasmode; every rank was 4-14, above K - 1 = 2; the plant ranks ran 4-14 with medians 7 / 7 / 5). Every covariate-free arm's latent matrix equals its reference arm's exactly (largest deviation 0).
+unit_timings (accounting.json and merged.jsonl):
+  - Anchor: unit median 4.5 s (max 10.5), 0.95 core-hours.
+  - Plant: unit median 144.0 s (q90 161.0, max 167.6), of which the production CV took a median 135.4 s; 9.97 core-hours.
+  - Each other arm: 0.17-0.41 s median.
+  - 10.92 recorded core-hours in all, against the projection of about 11.5 and the cap of 20.
+merged.jsonl sha256 (per-unit records stay on the cluster, not committed): 5c5e2ccb13cecf3c41d0e13219fc623cb7dbfa42189dfd5c0afffa7e3c09a44d
+merge + decide (job 938732, OUT as above): python scripts/predictive_size_excess_check.py merge --out-dir $OUT; ... decide --out-dir $OUT
+reproduction: passed. All 48 rows match: each reference arm's (pls_cv, predictive, predictive_orthonormal, predictive_fitted) available and rejected counts in each of the four cells for delta / angle / shape equal results/predictive-subspace-2026-11-12/plasmode/rate_table.csv exactly.
+decision: predictive_size_excess_decision.json (sha256 788022a14bcf298c8b678121951e205150dee5c94504da64ac185e706f945c3b) -> both_restore. Check W restored (predictive__within_stage, predictive_orthonormal__within_stage and predictive_fitted__within_stage each restored). Check O restored (fitted_out_of_fold restored). The gate passed.
+committed aggregates: settings.json, preflight.json, rate_table.csv, paired_table.csv, cell_table.csv, accounting.json, reproduction.json, predictive_size_excess_decision.json, sacct.txt, this file. No donor identifier, label vector or fold assignment is in any of them (checked against the export's 80 donor ids and for length-80 lists).
+findings report: docs/reports/predictive-size-excess-2026-11-13.md
