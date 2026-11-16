@@ -351,9 +351,10 @@ options:
                         model's residuals among samples of the same stage
                         (stage), assuming exchangeability within each stage
                         only. Moves only the null; not available with --span-
-                        split-test or --interaction-scan. Unvalidated until
-                        the within-stage permutation pilot reads it. Default:
-                        off (unrestricted draws)
+                        split-test or --interaction-scan. The pilot read
+                        specificity_excess: it holds size but adds off-target
+                        delta and shape on rotations, so it is not a test to
+                        report. Default: off (unrestricted draws)
   --span-split-test     Also test the group x stage interaction of the
                         standardized features inside the fitted PLS span and
                         in its orthogonal complement (pseudo-F, RRPP draws at

@@ -575,12 +575,24 @@ motco analyze ... --permutation-strata stage
   order; the simulation harness takes the same setting as
   `SimulationEvaluationParams.permutation_strata`.
 
-**Validation status: unvalidated.** The within-stage permutation pilot
-(`openspec/changes/within-stage-permutation/`) reads its size on simulated
-designs, at stage-unequal dispersion with the truth known and on fresh SEA-AD
-label draws, and its power and specificity against the unrestricted null. Until
-its verdict, the default is the unrestricted null, and a case study should not
-report within-stage p-values as its test.
+**Validation status: `specificity_excess` (2026-11-16).** The within-stage
+permutation pilot (`scripts/within_stage_permutation_check.py`;
+[report](../reports/within-stage-permutation-2026-11-16.md)) read it against the
+unrestricted null on 19,800 units under a decision fixed in advance.
+
+- **Size holds** in all four families: the simulated controls, the weak design,
+  500 SEA-AD label draws no run had read, and Gaussian data with stage-unequal
+  dispersion, where the unrestricted null reads 0.024–0.102 and the within-stage
+  one 0.034–0.066.
+- **Protected power holds at its limit**, with three `angle` losses on rotations.
+- **Specificity fails in the stage-effect band.** On in-span rotations it adds
+  off-target `delta` and `shape` rejections above the bound and in excess of the
+  unrestricted null's (7 readings against the 4 allowed).
+
+The setting stays opt-in, the default is the unrestricted null, and a case study
+does not report within-stage p-values as its test. Read beside an `angle`
+difference, a within-stage `delta` or `shape` rejection is not evidence of a size
+or shape change.
 
 Without the setting, every output is identical to MOTCO 0.24.0 except the
 runtime (`tests/test_analysis_identity.py`).

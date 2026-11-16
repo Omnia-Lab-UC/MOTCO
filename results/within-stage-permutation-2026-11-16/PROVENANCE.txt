@@ -1,0 +1,61 @@
+# Within-stage permutation pilot provenance — four profiles, 19,800 units
+date: 2026-11-16 (local -03). Workstation pre-flight 13:47:58-13:50:11, plasmode run 13:50:11-14:00:46, dispersion run 14:00:46 until a workstation reboot (6,058 of 10,000 units complete), resumed 14:47:49-14:52:23. ing arrays 939334 (simulation) and 939335 (weak size) submitted 13:54; first task started 13:54:04, last task ended 15:06:54.
+change: within-stage-permutation (MOTCO 0.25.0)
+driver: scripts/within_stage_permutation_check.py (decision rule version 1); sbatch scripts/within_stage_permutation_array.sbatch
+code_revision: b72c6e8b7bcb2e09ceb4134c78993d576dc7a5c8 on proposal/within-stage-permutation (pushed to GitHub before any unit ran). Every profile ran from that revision with no tracked modification.
+  - Workstation: the worktree /home/tomas/Documents/Repos/MOTCO-within-stage, its own .venv (Python 3.11.15), motco 0.25.0 imported from the worktree's src.
+  - ing: the clean detached worktree /home1/tgonza/MOTCO-within-stage (only logs/ untracked); .venv -> /home1/tgonza/MOTCO/.venv; PYTHONPATH puts the worktree's src first, and motco 0.25.0 imported from it.
+hosts:
+  - plasmode and dispersion: the workstation, 7 worker processes, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
+  - simulation and weak_size: cluster.ing.uc.cl (SLURM), partition 512x1024 (AMD EPYC 7662), n11 excluded by the template. Simulation's 100 tasks all ran on n1; weak size's 20 ran on n1 (10) and n4 (10). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the workstation shell, the sbatch template and every login-node command)
+workstation smoke (openspec/changes/within-stage-permutation/notes.md):
+  - The pre-flight passed; 252 smoke units across the four profiles completed with 0 failed and 0 inconsistent; decide returned reproduction_failed, as it must at 2 to 20 replicates per cell.
+  - Projection about 58 ing core-hours (about 33 on the workstation). Cap 85 recorded core-hours, approved by the user with the split: plasmode and dispersion on the workstation, simulation and weak size on ing.
+tests before any unit: the change's 120 tests passed on the workstation and in the ing worktree (73.6 s); the fast suite (3,070 passed, 3 skipped for R) passed on the workstation.
+pre-flight (workstation, plasmode/preflight.json): on replicates 0 and 500 the cross-validated pls_cv selected rank 5 at held-out AUROC 0.635556, the plasmode's fidelity values, and its statistics and p-values equal the call forced at rank 5 exactly. CV 66.1 s and 65.4 s; forced 0.35 s and 0.38 s. Replicate 0's p-values (delta / angle / shape 0.036 / 0.415 / 0.822) equal the diagnosis's.
+parents (sha256 bound in the settings and re-checked by run, merge and decide):
+  - results/predictive-subspace-2026-11-12: simulation/settings.json, weak_size/settings.json and rate_table.csv, plasmode/settings.json and rate_table.csv.
+  - results/predictive-size-excess-2026-11-13: settings.json, rate_table.csv.
+  - through the pilot's settings builders: results/latent-space-comparison-2026-11-04 (settings.json, calibration/calibration.json), results/span-split-2026-11-05/simulation (settings.json, production_table.csv), results/plasmode-2026-11-02 (settings.json, plasmode_summary.csv), results/production-latent-space-2026-11-10/plasmode (settings.json, rate_table.csv).
+export: /home/tomas/Documents/Repos/sead_sexdiff/results/motco_input/cohort_30, the SEA-AD MTG astrocyte cohort_30 export, read in place through plasmode_check's contract. Its five file hashes equal results/plasmode-2026-11-02/settings.json's (checked by every plasmode command).
+launch:
+  workstation (OUT = /home/tomas/Documents/Repos/MOTCO-within-stage-run/run):
+    python scripts/within_stage_permutation_check.py preflight --export-dir $EXPORT --out-dir $OUT
+    python scripts/within_stage_permutation_check.py run --profile plasmode --export-dir $EXPORT --out-dir $OUT --workers 7
+    python scripts/within_stage_permutation_check.py run --profile dispersion --out-dir $OUT --workers 7   (twice: the second call resumed the 3,942 pending units after the reboot)
+  ing (from /home1/tgonza/MOTCO-within-stage, OUT = /home1/tgonza/MOTCO-within-stage-scratch/run):
+    python scripts/within_stage_permutation_check.py run --profile <simulation|weak_size> --out-dir $OUT --shard 0/1 --limit 0   (writes settings.json once; leaves an empty shard_000_of_001.jsonl)
+    sbatch --array=0-99%50 --export=ALL,WSP_PROFILE=simulation,WSP_OUT=$OUT,N_SHARDS=100 scripts/within_stage_permutation_array.sbatch   (job 939334)
+    sbatch --array=0-19%20 --export=ALL,WSP_PROFILE=weak_size,WSP_OUT=$OUT,N_SHARDS=20 scripts/within_stage_permutation_array.sbatch   (job 939335)
+    (the template requests 1 CPU, 4G and 12 h per task)
+settings hashes: simulation 913eb74ec9c7e367b9b74043107c6fa8c9a36357710037387a1172335c5d9078; weak_size 8cbbd2168902acace7437a1a6987ef44d393f9e55ef852c6aa3c6c72061d1ad1; plasmode 78f008ca16c0529165c15d49419fbc12c54736137dbe27e51ffdcb3b60b069a2; dispersion b4c08d706763e4c5842823836c0fa2a62d13a4796a5abc87bbbf42082d855199
+units:
+  - simulation: the predictive-subspace pilot's seven stage-span designs × 11 cells + the surgery cell × 100 replicates = 7,800 units (78 per shard, round-robin) at 199 permutations, base seed 2038, planted scale, span capture, rejection p < 0.05.
+  - weak_size: the pilot's seaad_weak anchor and translation × replicates 0-499 = 1,000 units (50 per shard) at 999 permutations, base seed 2035, p < 0.05.
+  - plasmode: the anchor at the paper stream's replicates 0-499 (cell anchor) and 500-999 (cell anchor_fresh) = 1,000 units at 999 permutations, base seed 2034, every arm at forced rank 5, the case-study configuration (six covariates, df correction, net displacement), p <= 0.05.
+  - dispersion: ten cells (five variance patterns × d in {2, 5}) × replicates 0-999 = 10,000 units at 999 permutations, base seed 2038, p < 0.05.
+  - Eight arms per fitted unit (the scores and the three predictive coordinate systems, each under the unrestricted and the within-stage draws) and two per dispersion unit, all at the unit's RRPP seed.
+the reboot: the workstation rebooted during the dispersion run. 6,058 complete records were intact; the shard ended in 603 NUL bytes, which the reader drops. The resumed run rewrote the shard with the complete records and evaluated the 3,942 pending units; the merge found 10,000 complete units and 0 duplicates.
+outcome:
+  - Every ing allocation completed, 120 of 120 with exit 0:0 (sacct.txt).
+  - 19,800 of 19,800 complete units: 0 failed units, 0 failed arms, 0 inconsistent units, 0 duplicates.
+consistency: on every fitted unit every applicable check held: the pilot's five checks on the unrestricted arms, same_statistics (each within-stage arm's observed statistics equal its counterpart's exactly) and, on every plasmode unit, construction_identity (each within-stage arm's p-values equal the diagnosis's within-stage loop exactly).
+unit_timings (accounting.json):
+  - simulation (ing): unit median 25.0 s (q90 27.7, max 31.7), production CV median 21.4 s, each arm 0.40-0.41 s; 51.98 core-hours.
+  - weak_size (ing): unit median 18.1 s (q90 26.3, max 26.9), CV median 12.7 s, each arm 0.61-0.63 s; 5.14 core-hours.
+  - plasmode (workstation): unit median 4.4 s (max 5.4), each arm 0.41-0.44 s; 1.23 core-hours.
+  - dispersion (workstation): unit median 0.49 s (max 0.84), each arm 0.24 s; 1.36 core-hours.
+  - 57.12 recorded core-hours on ing against the cap of 85 and the projection of about 54; 2.59 on the workstation.
+merged.jsonl sha256 (per-unit records stay off the repository):
+  simulation d1b18a2b5ba608ea00109209034966f0188dd16abc6d3c18337233242761edf8 (ing)
+  weak_size 599639392c8cea9695a80a1eac00a4d7e4e2317c094b277d8be05a1fc02b6fc1 (ing)
+  plasmode e48f53f4329fc265858a23022cc377692215ec3871e6b91af77b09bfdb45e7b8 (workstation)
+  dispersion c56de745727048599e77416ab7711a80844eecf55fe917430785e77d9c859f39 (workstation)
+merge: on ing for simulation and weak_size, on the workstation for plasmode and dispersion; the aggregates (never merged.jsonl) were copied to the workstation.
+reproduction: passed.
+  - weak_size: 24 of 24 rows: each unrestricted arm's available and rejected counts in each cell and statistic equal results/predictive-subspace-2026-11-12/weak_size/rate_table.csv exactly.
+  - plasmode cell anchor: 12 of 12 rows against the pilot's plasmode rate_table.csv (unrestricted arms) and 12 of 12 against the diagnosis's rate_table.csv (within-stage arms), exactly.
+decide (workstation, on the four profiles' aggregates): within_stage_permutation_decision.json (sha256 7159aa1613b685d0358f4c6b6d3faa3a734e0d62cb991bdee1700818219e0798) -> specificity_excess. The gate passed. Rerunning decide on a copy of the committed aggregates regenerates the file byte for byte.
+committed aggregates: each profile's settings.json, rate_table.csv, paired_table.csv, cell_table.csv, accounting.json and reproduction.json; plasmode/preflight.json; the decision; sacct.txt; this file. No donor identifier or 80-length list is in any of them (checked against the export's 80 donor ids).
+findings report: docs/reports/within-stage-permutation-2026-11-16.md

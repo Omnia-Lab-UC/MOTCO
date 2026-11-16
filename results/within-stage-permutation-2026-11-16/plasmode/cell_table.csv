@@ -1,0 +1,17 @@
+design,cell,trajectory_mode,effect_size,arm,n,rank_median,rank_q10,rank_q90,measured_dimension_median,measured_dimension_q10,measured_dimension_q90,cv_mean_auroc_median,cv_mean_auroc_q10,cv_mean_auroc_q90,pooled_stage_median,pooled_stage_q10,pooled_stage_q90,group_difference_median,stage_r2_median,observed_delta_median,observed_angle_median,observed_shape_median,population_delta_median,population_angle_median,population_shape_median,angle_null_q95_median
+plasmode,anchor,none,0,pls_cv,500,5,5,5,5,5,5,,,,,,,,0.83964,6.33382,20.6655,0.122536,,,,40.1683
+plasmode,anchor,none,0,predictive,500,5,5,5,2,2,2,,,,,,,,0.83964,6.16145,3.22233,0.0937559,,,,11.0481
+plasmode,anchor,none,0,predictive_orthonormal,500,5,5,5,2,2,2,,,,,,,,0.83964,4.09053,3.543,0.0955035,,,,12.1079
+plasmode,anchor,none,0,predictive_fitted,500,5,5,5,2,2,2,,,,,,,,0.83964,0.419014,3.53031,0.0963046,,,,12.076
+plasmode,anchor,none,0,pls_cv__within_stage,500,5,5,5,5,5,5,,,,,,,,0.83964,6.33382,20.6655,0.122536,,,,38.8044
+plasmode,anchor,none,0,predictive__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,6.16145,3.22233,0.0937559,,,,9.32249
+plasmode,anchor,none,0,predictive_orthonormal__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,4.09053,3.543,0.0955035,,,,10.244
+plasmode,anchor,none,0,predictive_fitted__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,0.419014,3.53031,0.0963046,,,,10.2145
+plasmode,anchor_fresh,none,0,pls_cv,500,5,5,5,5,5,5,,,,,,,,0.83964,6.27664,20.5823,0.120474,,,,40.0903
+plasmode,anchor_fresh,none,0,predictive,500,5,5,5,2,2,2,,,,,,,,0.83964,5.96913,3.22229,0.0933045,,,,11.0177
+plasmode,anchor_fresh,none,0,predictive_orthonormal,500,5,5,5,2,2,2,,,,,,,,0.83964,4.11335,3.52263,0.0946138,,,,12.082
+plasmode,anchor_fresh,none,0,predictive_fitted,500,5,5,5,2,2,2,,,,,,,,0.83964,0.419405,3.52366,0.0942115,,,,12.0454
+plasmode,anchor_fresh,none,0,pls_cv__within_stage,500,5,5,5,5,5,5,,,,,,,,0.83964,6.27664,20.5823,0.120474,,,,38.682
+plasmode,anchor_fresh,none,0,predictive__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,5.96913,3.22229,0.0933045,,,,9.26751
+plasmode,anchor_fresh,none,0,predictive_orthonormal__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,4.11335,3.52263,0.0946138,,,,10.162
+plasmode,anchor_fresh,none,0,predictive_fitted__within_stage,500,5,5,5,2,2,2,,,,,,,,0.83964,0.419405,3.52366,0.0942115,,,,10.1432

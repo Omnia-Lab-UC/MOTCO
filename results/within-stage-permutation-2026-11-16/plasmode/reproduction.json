@@ -1,0 +1,418 @@
+{
+ "checks": {
+  "diagnosis_anchor": {
+   "check": "diagnosis_anchor",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "anchor",
+      "pls_cv__within_stage",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 27
+     },
+     "key": [
+      "anchor",
+      "pls_cv__within_stage",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 27
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "anchor",
+      "pls_cv__within_stage",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 31
+     },
+     "key": [
+      "anchor",
+      "predictive__within_stage",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 31
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive__within_stage",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 33
+     },
+     "key": [
+      "anchor",
+      "predictive__within_stage",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 33
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 29
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal__within_stage",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 29
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal__within_stage",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 32
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal__within_stage",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 32
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 28
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted__within_stage",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 28
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted__within_stage",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 33
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted__within_stage",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 33
+     }
+    }
+   ],
+   "rows_compared": 12,
+   "rows_matching": 12,
+   "rule": "each within-stage arm's anchor count and rejections (p <= alpha) equal the diagnosis's rate table",
+   "source": {
+    "path": "results/predictive-size-excess-2026-11-13/rate_table.csv",
+    "sha256": "a950975cc0d4e1cbfff988016cbc9e2a72f09db4e2a0b92b835e3ae9a0b9b6be"
+   }
+  },
+  "pilot_anchor": {
+   "check": "pilot_anchor",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 21
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 21
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 24
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 24
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 13
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 13
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 68
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 68
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 11
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 11
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 38
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 38
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 67
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 67
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 9
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 9
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 38
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 38
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 65
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 65
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 10
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 10
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 39
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 39
+     }
+    }
+   ],
+   "rows_compared": 12,
+   "rows_matching": 12,
+   "rule": "each unrestricted arm's anchor count and rejections (p <= alpha) equal the pilot's plasmode rate table",
+   "source": {
+    "path": "results/predictive-subspace-2026-11-12/plasmode/rate_table.csv",
+    "sha256": "051248574edc0913e4eb88d646a8e47a2dc57649eba48f79515e2da5dcc36b2f"
+   }
+  }
+ },
+ "passed": true,
+ "profile": "plasmode"
+}

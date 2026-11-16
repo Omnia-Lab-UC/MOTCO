@@ -1,0 +1,41 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "pls_cv": 0.6245092656463385,
+  "pls_cv__within_stage": 0.6333314795047045,
+  "predictive": 0.6127777649089694,
+  "predictive__within_stage": 0.6230644024908543,
+  "predictive_fitted": 0.6082127904519439,
+  "predictive_fitted__within_stage": 0.6205389257520437,
+  "predictive_orthonormal": 0.6111226631328464,
+  "predictive_orthonormal__within_stage": 0.6193057978525758
+ },
+ "arm_seconds_total_hours": {
+  "pls_cv": 0.1792481857460613,
+  "pls_cv__within_stage": 0.18136493926867842,
+  "predictive": 0.17675432989166842,
+  "predictive__within_stage": 0.17959016642895423,
+  "predictive_fitted": 0.17988687869678768,
+  "predictive_fitted__within_stage": 0.18277863873065345,
+  "predictive_orthonormal": 0.17688310164544319,
+  "predictive_orthonormal__within_stage": 0.17978701735587999
+ },
+ "complete_units": 1000,
+ "duplicate_records": 0,
+ "expected_units": 1000,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "fit_seconds_median": 12.737596006132662,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "profile": "weak_size",
+ "recorded_core_hours": 5.140237490341274,
+ "settings_hash": "8cbbd2168902acace7437a1a6987ef44d393f9e55ef852c6aa3c6c72061d1ad1",
+ "unit_seconds": {
+  "max": 26.9474729988724,
+  "median": 18.139051699079573,
+  "q90": 26.327001789212225
+ }
+}

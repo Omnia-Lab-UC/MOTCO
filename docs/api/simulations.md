@@ -446,8 +446,9 @@ gives each sample's position in the design's stage order, which the harness pass
 unchanged, so the setting applies with every method, every coordinate system and a prebuilt `latent=`;
 only the p-values and the null summary move. `runtime_metadata["permutation_strata"]` names it when set.
 `None` (the unrestricted draws) is hash-omitted, so every committed cell id, signature and record is
-unchanged (`tests/test_permutation_strata.py`). It is unvalidated until the within-stage permutation pilot
-reads it; see [Within-stage permutation](analysis.md#within-stage-permutation).
+unchanged (`tests/test_permutation_strata.py`). The within-stage permutation pilot read
+**`specificity_excess`** (2026-11-16): the null holds size but adds off-target `delta` and `shape` on in-span
+rotations, so it stays opt-in; see [Within-stage permutation](analysis.md#within-stage-permutation).
 
 The result includes observed `delta`, `angle`, and `shape` matrices, scalar two-group pair statistics, optional p-values, latent matrix metadata, generator truth metadata, runtime metadata, group/stage levels, and the trajectory contrast. Shape pair statistics and p-values are reported as unavailable for datasets with fewer than three stages.
 

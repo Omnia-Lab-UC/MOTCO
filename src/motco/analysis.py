@@ -537,8 +537,11 @@ class TrajectoryAnalysisParams:
     stage rather than across all samples. It is rejected with the split
     interaction test and with the interaction scan, whose nulls are drawn
     unrestricted, and with an unknown value, all before any fitting; it is
-    omitted from :meth:`to_dict` while ``None``. Unvalidated until the
-    within-stage permutation pilot reads it.
+    omitted from :meth:`to_dict` while ``None``. The within-stage permutation
+    pilot (2026-11-16) read ``specificity_excess``: it holds size, including
+    where stage dispersion is unequal, but adds off-target ``delta`` and
+    ``shape`` rejections on in-span rotations, so it stays an opt-in null that
+    a case study does not report as its test.
     """
 
     permutations: int = 0

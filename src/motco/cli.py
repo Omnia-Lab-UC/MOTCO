@@ -658,8 +658,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_an.add_argument("--permutation-strata", type=str, default=None, choices=["stage"],
                       help="Restrict every RRPP draw to exchange the reduced model's residuals among samples of "
                            "the same stage (stage), assuming exchangeability within each stage only. Moves only "
-                           "the null; not available with --span-split-test or --interaction-scan. Unvalidated "
-                           "until the within-stage permutation pilot reads it. Default: off (unrestricted draws)")
+                           "the null; not available with --span-split-test or --interaction-scan. The pilot read "
+                           "specificity_excess: it holds size but adds off-target delta and shape on rotations, "
+                           "so it is not a test to report. Default: off (unrestricted draws)")
     p_an.add_argument("--span-split-test", action="store_true",
                       help="Also test the group x stage interaction of the standardized features inside the fitted "
                            "PLS span and in its orthogonal complement (pseudo-F, RRPP draws at --seed). Not "

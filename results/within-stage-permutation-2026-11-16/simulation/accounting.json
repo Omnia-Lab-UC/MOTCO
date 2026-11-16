@@ -1,0 +1,41 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "pls_cv": 0.40907052531838417,
+  "pls_cv__within_stage": 0.40945343021303415,
+  "predictive": 0.40314784180372953,
+  "predictive__within_stage": 0.4062695372849703,
+  "predictive_fitted": 0.40581734851002693,
+  "predictive_fitted__within_stage": 0.4084218302741647,
+  "predictive_orthonormal": 0.4027931485325098,
+  "predictive_orthonormal__within_stage": 0.4056579926982522
+ },
+ "arm_seconds_total_hours": {
+  "pls_cv": 0.8813626008134128,
+  "pls_cv__within_stage": 0.8804115533037111,
+  "predictive": 0.866890970338136,
+  "predictive__within_stage": 0.8732905252112283,
+  "predictive_fitted": 0.8727035012209995,
+  "predictive_fitted__within_stage": 0.8781373582568227,
+  "predictive_orthonormal": 0.8658465641245453,
+  "predictive_orthonormal__within_stage": 0.8723360671366875
+ },
+ "complete_units": 7800,
+ "duplicate_records": 0,
+ "expected_units": 7800,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "fit_seconds_median": 21.445340775884688,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "profile": "simulation",
+ "recorded_core_hours": 51.981805963723716,
+ "settings_hash": "913eb74ec9c7e367b9b74043107c6fa8c9a36357710037387a1172335c5d9078",
+ "unit_seconds": {
+  "max": 31.66003793478012,
+  "median": 24.980409366078675,
+  "q90": 27.652292984165253
+ }
+}
