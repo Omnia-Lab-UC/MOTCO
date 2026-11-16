@@ -125,6 +125,8 @@ inverse of the measured features.
 
 ::: motco.stats.permutation.residual_correction_scale
 
+::: motco.stats.permutation.strata_groups
+
 ## Interaction test inside and outside a span
 
 `delta`, `angle` and `shape` see a group difference only through its component

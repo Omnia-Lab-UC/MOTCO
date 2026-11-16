@@ -1,0 +1,404 @@
+{
+ "checks": {
+  "pilot_weak_size": {
+   "check": "pilot_weak_size",
+   "differing": [],
+   "passed": true,
+   "rows": [
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 25
+     },
+     "key": [
+      "anchor",
+      "pls_cv",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 25
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 22
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 22
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 26
+     },
+     "key": [
+      "anchor",
+      "predictive",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 26
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 21
+     },
+     "key": [
+      "anchor",
+      "predictive_orthonormal",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 21
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 24
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 24
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 17
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 17
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 26
+     },
+     "key": [
+      "anchor",
+      "predictive_fitted",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 26
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 18
+     },
+     "key": [
+      "translation",
+      "pls_cv",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 18
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 13
+     },
+     "key": [
+      "translation",
+      "pls_cv",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 13
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 26
+     },
+     "key": [
+      "translation",
+      "pls_cv",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 26
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 21
+     },
+     "key": [
+      "translation",
+      "predictive",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 21
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 15
+     },
+     "key": [
+      "translation",
+      "predictive",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 15
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 21
+     },
+     "key": [
+      "translation",
+      "predictive",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 21
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 16
+     },
+     "key": [
+      "translation",
+      "predictive_orthonormal",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 16
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "translation",
+      "predictive_orthonormal",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 18
+     },
+     "key": [
+      "translation",
+      "predictive_orthonormal",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 18
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 28
+     },
+     "key": [
+      "translation",
+      "predictive_fitted",
+      "delta"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 28
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 19
+     },
+     "key": [
+      "translation",
+      "predictive_fitted",
+      "angle"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 19
+     }
+    },
+    {
+     "committed": {
+      "count": 500,
+      "rejections": 23
+     },
+     "key": [
+      "translation",
+      "predictive_fitted",
+      "shape"
+     ],
+     "matches": true,
+     "reproduced": {
+      "count": 500,
+      "rejections": 23
+     }
+    }
+   ],
+   "rows_compared": 24,
+   "rows_matching": 24,
+   "rule": "each unrestricted arm's count and rejections (p < alpha) equal the pilot's weak_size/rate_table.csv",
+   "source": {
+    "path": "results/predictive-subspace-2026-11-12/weak_size/rate_table.csv",
+    "sha256": "4eaaec19edfc1416110b0be6db33df19df90c2d8bee65ea3d9e1381da68a91db"
+   }
+  }
+ },
+ "passed": true,
+ "profile": "weak_size"
+}

@@ -528,6 +528,75 @@ correction stays opt-in, and the default is the uncorrected null.
 Without the setting, every output is identical to MOTCO 0.12.0 except the
 runtime (`tests/test_analysis_identity.py`).
 
+## Within-stage permutation
+
+RRPP permutes the reduced model's residuals across all samples, which assumes
+they are exchangeable across stages. When the residual spread differs by stage,
+that assumption fails and the null is mis-sized, in a direction the design sets.
+The predictive size-excess
+[diagnosis](../reports/predictive-size-excess-2026-11-13.md) found this on the
+SEA-AD plasmode anchor: restricting the draws within stage brought the
+predictive coordinates' `delta` from 0.130–0.136 to 0.056–0.062. The opt-in
+`permutation_strata` restricts every draw to exchange residuals among samples of
+the same stage:
+
+```python
+params = TrajectoryAnalysisParams(permutations=999, seed=1, permutation_strata="stage")
+```
+
+```bash
+motco analyze ... --permutation-strata stage
+```
+
+- **What it assumes.** The residuals are exchangeable within each stage, not
+  across all samples, which is a weaker assumption. Each draw keeps every
+  stage's pooled mean at its fitted value.
+- **What moves.** Only the p-values and the null summary. The latent fit, the
+  selected rank, the observed statistics, the latent scores, the loadings and
+  the stage means are identical with and without the setting. It combines with
+  covariates (the covariate-adjusted models are used), the residual correction
+  (applied with its usual definition), the latent adjustment, attribution,
+  block weighting, sparsity and the predictive coordinates.
+- **The draws.** The strata are the stages in the declared `stage_order`. Each
+  draw visits them in that order and permutes each stage's rows among
+  themselves from the one seeded generator, so a seed gives reproducible draws.
+  With `df` the residual correction keeps its definition, which over-corrects
+  slightly under strata (by √(n/(n − K)) for K stages, 1.9 % at n = 80 and three
+  stages), in the conservative direction.
+- **Errors.** An unknown value is rejected before any fitting. The setting is
+  rejected with `span_split_test` and with `interaction_scan`: both draw their
+  own nulls, which were validated unrestricted.
+- **Record.** When the setting is set and permutations run,
+  `measurement.permutation_strata` states `value` and the stage `sizes` in the
+  declared order; the CLI prints it as `RRPP null: draws restricted within
+  stage …`. `params.permutation_strata` is recorded only when set.
+- **The primitive.** `motco.stats.permutation.RRPP(..., strata=)` takes one
+  label per sample for any caller and visits the strata in ascending label
+  order; the simulation harness takes the same setting as
+  `SimulationEvaluationParams.permutation_strata`.
+
+**Validation status: `specificity_excess` (2026-11-16).** The within-stage
+permutation pilot (`scripts/within_stage_permutation_check.py`;
+[report](../reports/within-stage-permutation-2026-11-16.md)) read it against the
+unrestricted null on 19,800 units under a decision fixed in advance.
+
+- **Size holds** in all four families: the simulated controls, the weak design,
+  500 SEA-AD label draws no run had read, and Gaussian data with stage-unequal
+  dispersion, where the unrestricted null reads 0.024–0.102 and the within-stage
+  one 0.034–0.066.
+- **Protected power holds at its limit**, with three `angle` losses on rotations.
+- **Specificity fails in the stage-effect band.** On in-span rotations it adds
+  off-target `delta` and `shape` rejections above the bound and in excess of the
+  unrestricted null's (7 readings against the 4 allowed).
+
+The setting stays opt-in, the default is the unrestricted null, and a case study
+does not report within-stage p-values as its test. Read beside an `angle`
+difference, a within-stage `delta` or `shape` rejection is not evidence of a size
+or shape change.
+
+Without the setting, every output is identical to MOTCO 0.24.0 except the
+runtime (`tests/test_analysis_identity.py`).
+
 ## Split interaction test
 
 `delta`, `angle` and `shape` see a group difference only through its component

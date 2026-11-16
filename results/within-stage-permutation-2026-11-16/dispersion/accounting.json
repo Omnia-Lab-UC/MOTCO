@@ -1,0 +1,29 @@
+{
+ "arm_failures_by_cell": {},
+ "arm_seconds_median": {
+  "matrix": 0.23823889949926524,
+  "matrix__within_stage": 0.24483707799916488
+ },
+ "arm_seconds_total_hours": {
+  "matrix": 0.6639201832030825,
+  "matrix__within_stage": 0.6818327376358355
+ },
+ "complete_units": 10000,
+ "duplicate_records": 0,
+ "expected_units": 10000,
+ "failed_units": 0,
+ "failed_units_by_cell": {},
+ "fit_seconds_median": null,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "inconsistent_units_by_cell": {},
+ "missing_units": 0,
+ "profile": "dispersion",
+ "recorded_core_hours": 1.3578269392444462,
+ "settings_hash": "b4c08d706763e4c5842823836c0fa2a62d13a4796a5abc87bbbf42082d855199",
+ "unit_seconds": {
+  "max": 0.8375894810000091,
+  "median": 0.4876832664997437,
+  "q90": 0.5127887407998969
+ }
+}

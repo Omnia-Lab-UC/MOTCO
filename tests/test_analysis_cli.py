@@ -306,10 +306,53 @@ def test_analyze_without_residual_correction_prints_no_line(tmp_path: Path, anal
     out_dir = tmp_path / "out"
     main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
                        "--permutations", "9", "--seed", "1"))
-    assert "residual correction" not in capsys.readouterr().out
+    printed = capsys.readouterr().out
+    assert "residual correction" not in printed
+    assert "draws restricted" not in printed
     record = json.loads((out_dir / "result.json").read_text())
     assert "residual_correction" not in record["measurement"]
     assert "residual_correction" not in record["params"]
+    assert "permutation_strata" not in record["measurement"]
+    assert "permutation_strata" not in record["params"]
+
+
+def test_analyze_with_permutation_strata(tmp_path: Path, analyze_files, capsys: pytest.CaptureFixture) -> None:
+    from motco.analysis import TrajectoryAnalysisParams, analyze_trajectories
+    from tests.test_analysis import make_dataset
+
+    out_dir = tmp_path / "out"
+    main(_analyze_args(analyze_files, out_dir, "--stage-order", ",".join(STAGES), "--forced-components", "2",
+                       "--permutations", "19", "--seed", "1", "--permutation-strata", "stage"))
+    record = json.loads((out_dir / "result.json").read_text())
+    assert record["measurement"]["permutation_strata"] == {"value": "stage", "sizes": [16, 16, 16]}
+    assert record["params"]["permutation_strata"] == "stage"
+    assert "RRPP null: draws restricted within stage (stage sizes 16, 16, 16)" in capsys.readouterr().out
+    direct = analyze_trajectories(
+        make_dataset(),
+        TrajectoryAnalysisParams(forced_components=2, permutations=19, seed=1, permutation_strata="stage",
+                                 cv2_splits=3, cv1_splits=2, n_repeats=2, max_components=5),
+    )
+    assert record["p_values"] == direct.record["p_values"]
+
+
+@pytest.mark.parametrize("other", ["--interaction-scan", "--span-split-test"])
+def test_analyze_permutation_strata_with_an_unrestricted_test_exits(tmp_path: Path, analyze_files,
+                                                                    other: str) -> None:
+    with pytest.raises(SystemExit, match="permutation_strata='stage' cannot be combined with") as exc:
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--permutations", "9", "--seed", "1", "--permutation-strata", "stage", other))
+    assert exc.value.code != 0
+    assert not (tmp_path / "out").exists()
+
+
+def test_analyze_unknown_permutation_strata_exits(tmp_path: Path, analyze_files,
+                                                  capsys: pytest.CaptureFixture) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(_analyze_args(analyze_files, tmp_path / "out", "--stage-order", ",".join(STAGES),
+                           "--permutation-strata", "group"))
+    assert exc.value.code != 0
+    assert "group" in capsys.readouterr().err
+    assert not (tmp_path / "out").exists()
 
 
 def test_analyze_covariate_adjusted_attribution(tmp_path: Path, covariate_files,

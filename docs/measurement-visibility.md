@@ -540,9 +540,65 @@ Three readings qualify the verdict:
   comparison of measurement spaces therefore has to use the same null for both.
 
 The predictive values stay opt-in diagnostics; the diagnosis validates no test. The verdict
-opens a separate change: within-stage draws as an opt-in option of `RRPP`, the harness and
-`motco analyze`, with their own size and power readings in simulation and on this anchor. Only
-that change's verdict could re-read `predictive_orthonormal`.
+opened a separate change, within-stage draws as an opt-in option (next section), whose verdict
+does not re-read `predictive_orthonormal`.
+
+## The permutation null: unrestricted or within stage
+
+RRPP tests the group × stage interaction by permuting the reduced model's residuals
+(Freedman–Lane). The two nulls the package offers differ in what they assume:
+
+- **Unrestricted draws** (the default) assume the residuals are exchangeable across all samples:
+  any sample's residual may land in any stage.
+- **Within-stage draws** (`permutation_strata="stage"`, `--permutation-strata stage`, 0.25.0)
+  assume they are exchangeable only within each stage. Each draw permutes every stage's residuals
+  among that stage's samples, so every stage's pooled mean stays at its fitted value and only the
+  group assignment within a stage is randomized.
+
+**When the choice matters.** When the residual spread differs by stage, the unrestricted draws
+move residuals between stages of unequal spread and mis-size the null, in a direction the design
+sets. On Gaussian data with no group difference on the SEA-AD cell table (stages of 20 / 20 / 40;
+1,000 replicates per cell, rejections of 1,000 for `delta` / `angle` / `shape`):
+
+| stage variances | unrestricted | within stage |
+|---|---|---|
+| equal (d = 2) | 66 / 59 / 55 | 66 / 57 / 53 |
+| largest stage narrowest, doubled (d = 5) | 102 / 56 / 93 | 52 / 58 / 48 |
+| largest stage widest, doubled (d = 2) | 34 / 28 / 24 | 57 / 38 / 38 |
+
+The unrestricted null is liberal when the largest stage is the narrowest (the predictive
+coordinates' pattern on the SEA-AD anchor) and conservative when it is the widest (the scores'
+pattern); the within-stage null reads 0.034–0.066 across all ten cells.
+
+**The pilot's verdict: `specificity_excess`**
+([report](reports/within-stage-permutation-2026-11-16.md)). On 19,800 units under a decision fixed
+in advance, the within-stage null on production's scores:
+
+- **holds size** in all four families: the simulated controls (0.01–0.09 at 100 units), the weak
+  design, 500 SEA-AD label draws no run had read (production 32 / 26 / 23 of 500) and the
+  dispersion cells;
+- **keeps protected power** at its limit, losing `angle` on three orientation cells (for example
+  0.96 → 0.86 on the SEA-AD table's rotation e = 0.5);
+- **fails specificity in the stage-effect band.** On in-span rotations at δ ≤ 1.0 it adds
+  off-target `delta` and `shape` rejections above the bound, in excess of production's: 7
+  readings against 4 allowed (for example `delta` 0.08 → 0.21 at the SEA-AD table, δ = 0.5,
+  rotation e = 0.5). Production's own band leak goes from 12 to 23 of 72 readings above the bound.
+  At δ = 2.0 no off-target reading is above the bound.
+
+**What it means for an analysis.** The unrestricted draws stay the default of `RRPP`, the harness
+and `motco analyze`. The within-stage null is an opt-in, documented null: it holds size where the
+stage dispersion is unequal, and on a rotation in the fitted span it reads more off-target `delta`
+and `shape` than the unrestricted null, so a within-stage `delta` or `shape` rejection beside an
+`angle` difference is not evidence of a size or shape change. No case study reports within-stage
+p-values as its test. The split interaction test and the interaction scan draw their own nulls
+unrestricted and reject the setting.
+
+**The predictive coordinates under the same draws.** `predictive_orthonormal` measured with
+within-stage draws against production with within-stage draws qualifies by the pilot's four
+criteria: it holds size (its fresh-anchor `delta` 36 of 500, at the ceiling), loses no protected
+power, passes both specificity families and gains in 10 of the 18 δ = 2.0 target cells (the SEA-AD
+table's rotation e = 0.25: 51 units only it rejects, none only production rejects). The reading
+was recorded only, because the null failed first; the predictive values stay opt-in diagnostics.
 
 ## Testing outside the span: the split interaction test
 

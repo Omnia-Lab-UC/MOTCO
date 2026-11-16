@@ -1,0 +1,108 @@
+{
+ "hash": "b4c08d706763e4c5842823836c0fa2a62d13a4796a5abc87bbbf42082d855199",
+ "settings": {
+  "alpha": 0.05,
+  "arm_specs": {
+   "matrix": {
+    "coordinates": "matrix",
+    "draws": "unrestricted"
+   },
+   "matrix__within_stage": {
+    "coordinates": "matrix",
+    "draws": "within_stage"
+   }
+  },
+  "arms": [
+   "matrix",
+   "matrix__within_stage"
+  ],
+  "base_seed": 2038,
+  "cell_table": [
+   [
+    11,
+    10,
+    28
+   ],
+   [
+    9,
+    10,
+    12
+   ]
+  ],
+  "cells": [
+   "equal_d2",
+   "equal_d5",
+   "predictive_d2",
+   "predictive_d5",
+   "scores_d2",
+   "scores_d5",
+   "predictive_doubled_d2",
+   "predictive_doubled_d5",
+   "scores_doubled_d2",
+   "scores_doubled_d5"
+  ],
+  "centroids": {
+   "rule": "stage s has centroid scale * shape[s] in the first two dimensions and zero elsewhere",
+   "scale": 5.662249438367235,
+   "shape": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.9
+    ]
+   ],
+   "stage_share_at_d2": 0.84
+  },
+  "consistency_tolerance": 1e-08,
+  "design": "dispersion",
+  "dimensions": [
+   2,
+   5
+  ],
+  "driver": "within-stage-permutation",
+  "driver_version": 1,
+  "noise": "N(0, v_stage I_d), v_stage the pattern's multiplier",
+  "orientation_estimator": "net_displacement",
+  "patterns": {
+   "equal": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "predictive": [
+    1.12,
+    1.278,
+    0.802
+   ],
+   "predictive_doubled": [
+    1.2544000000000002,
+    1.633284,
+    0.6432040000000001
+   ],
+   "scores": [
+    0.805,
+    0.921,
+    1.137
+   ],
+   "scores_doubled": [
+    0.6480250000000001,
+    0.848241,
+    1.292769
+   ]
+  },
+  "permutation_strata": "stage",
+  "permutations": 999,
+  "profile": "dispersion",
+  "rejection": "p < alpha",
+  "replicates": 1000,
+  "residual_correction": null,
+  "seed_derivation": "sha256 of ['within-stage-permutation', 2038, 'dispersion', pattern, dimension, replicate, purpose] (purpose 'matrix' or 'rrpp')"
+ }
+}

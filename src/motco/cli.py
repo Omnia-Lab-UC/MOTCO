@@ -340,6 +340,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             covariate_latent_adjustment=args.latent_adjustment,
             min_components=args.min_components,
             residual_correction=args.residual_correction,
+            permutation_strata=args.permutation_strata,
             span_split_test=args.span_split_test,
             interaction_scan=args.interaction_scan,
             interaction_scan_by_block=args.interaction_scan_by_block,
@@ -396,6 +397,10 @@ def cmd_analyze(args: argparse.Namespace) -> None:
             f"RRPP null: residual correction {correction['kind']} ({detail}; n = {correction['n']}, "
             f"reduced rank {correction['reduced_rank']})"
         )
+    strata = record["measurement"].get("permutation_strata")
+    if strata is not None:
+        sizes = ", ".join(str(size) for size in strata["sizes"])
+        print(f"RRPP null: draws restricted within {strata['value']} (stage sizes {sizes})")
     adjustment = record["attribution"].get("adjustment")
     if adjustment is not None:
         print(
@@ -650,6 +655,12 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Rescale the reduced model's residuals before RRPP permutes them: df (kappa = "
                            "sqrt(n / (n - rank))) or leverage (1 / sqrt(1 - h_ii)). Moves only the null. "
                            "Default: off")
+    p_an.add_argument("--permutation-strata", type=str, default=None, choices=["stage"],
+                      help="Restrict every RRPP draw to exchange the reduced model's residuals among samples of "
+                           "the same stage (stage), assuming exchangeability within each stage only. Moves only "
+                           "the null; not available with --span-split-test or --interaction-scan. The pilot read "
+                           "specificity_excess: it holds size but adds off-target delta and shape on rotations, "
+                           "so it is not a test to report. Default: off (unrestricted draws)")
     p_an.add_argument("--span-split-test", action="store_true",
                       help="Also test the group x stage interaction of the standardized features inside the fitted "
                            "PLS span and in its orthogonal complement (pseudo-F, RRPP draws at --seed). Not "
