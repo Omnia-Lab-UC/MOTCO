@@ -9,7 +9,7 @@ hosts:
   - plasmode and dispersion: the workstation, 7 worker processes, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
   - simulation and weak_size: cluster.ing.uc.cl (SLURM), partition 512x1024 (AMD EPYC 7662), n11 excluded by the template. Simulation's 100 tasks all ran on n1; weak size's 20 ran on n1 (10) and n4 (10). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3.
 blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the workstation shell, the sbatch template and every login-node command)
-workstation smoke (openspec/changes/within-stage-permutation/notes.md):
+workstation smoke (openspec/changes/archive/2026-11-16-within-stage-permutation/notes.md):
   - The pre-flight passed; 252 smoke units across the four profiles completed with 0 failed and 0 inconsistent; decide returned reproduction_failed, as it must at 2 to 20 replicates per cell.
   - Projection about 58 ing core-hours (about 33 on the workstation). Cap 85 recorded core-hours, approved by the user with the split: plasmode and dispersion on the workstation, simulation and weak size on ing.
 tests before any unit: the change's 120 tests passed on the workstation and in the ing worktree (73.6 s); the fast suite (3,070 passed, 3 skipped for R) passed on the workstation.
