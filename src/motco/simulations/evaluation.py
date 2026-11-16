@@ -122,6 +122,11 @@ EVALUATION_ORIENTATION_ESTIMATORS: tuple[str, ...] = ("pc1", "net_displacement")
 #: loadings, of dimension ``min(rank, n_stages − 1)``).
 LATENT_COORDINATES: tuple[str, ...] = ("scores", "orthonormal", *PREDICTIVE_COORDINATES)
 
+#: Exchangeability strata the permutation null may be restricted to. ``None``
+#: (the default) is RRPP's unrestricted draws; ``"stage"`` exchanges residuals
+#: only among samples of the same stage.
+PERMUTATION_STRATA: tuple[str, ...] = ("stage",)
+
 
 class SimulationEvaluationError(ValueError):
     """Raised when simulation evaluation inputs or parameters are invalid."""
@@ -194,8 +199,22 @@ class SimulationEvaluationParams:
     # normalizes to it, so an evaluation without it is byte-identical to before
     # the field existed.
     latent_coordinates: str | None = None
+    # Opt-in exchangeability strata of the permutation null: ``"stage"``
+    # restricts every RRPP draw to exchange the reduced model's residuals among
+    # samples of the same stage (each sample's stratum is its stage's position in
+    # the design's stage order). The integration, the rank, the coordinates and
+    # the observed statistics are unchanged; only the null moves, so it applies
+    # with every method and coordinate system. ``None`` (unrestricted draws) is
+    # hash-omitted, so an evaluation without it is byte-identical to before the
+    # field existed.
+    permutation_strata: str | None = None
 
     def __post_init__(self) -> None:
+        strata = self.permutation_strata
+        if strata is not None and strata not in PERMUTATION_STRATA:
+            raise SimulationEvaluationError(
+                f"Unknown permutation_strata {strata!r}; allowed: {list(PERMUTATION_STRATA)} or None."
+            )
         coordinates = self.latent_coordinates
         if coordinates is not None:
             if coordinates not in LATENT_COORDINATES:
@@ -242,6 +261,21 @@ class SimulationEvaluationParams:
         """The coordinate system the PLS latent space is measured in."""
 
         return self.latent_coordinates or "scores"
+
+
+def stage_strata(metadata: pd.DataFrame, stage_col: str, stage_levels: Sequence[str]) -> np.ndarray:
+    """Each sample's stage position in ``stage_levels``, the strata of within-stage permutation draws.
+
+    Positions, not labels, so RRPP visits the strata in the design's stage
+    order (labels such as ``"10"`` and ``"2"`` would sort as strings).
+    """
+
+    position = {str(level): index for index, level in enumerate(stage_levels)}
+    labels = [str(label) for label in metadata[stage_col].tolist()]
+    unknown = sorted(set(labels) - set(position))
+    if unknown:
+        raise SimulationEvaluationError(f"Stages {unknown} are not among the design's stage levels {list(position)}.")
+    return np.array([position[label] for label in labels], dtype=int)
 
 
 def _validate_min_components(value: Any, *, where: str) -> int:
@@ -495,6 +529,11 @@ def evaluate_semisynthetic_trajectory(
             seed=params.seed,
             return_eigengaps=True,
             orientation_estimator=params.resolved_orientation_estimator,
+            strata=(
+                None
+                if params.permutation_strata is None
+                else stage_strata(dataset.metadata, params.stage_col, design.stage_levels)
+            ),
         )
         null_values = _extract_null_distributions(
             dist_delta,
@@ -533,6 +572,8 @@ def evaluate_semisynthetic_trajectory(
         runtime_metadata["span_capture"] = params.span_capture
     if params.latent_coordinates is not None:
         runtime_metadata["latent_coordinates"] = params.latent_coordinates
+    if params.permutation_strata is not None:
+        runtime_metadata["permutation_strata"] = params.permutation_strata
     latent_checkpoint = _LATENT_CHECKPOINTS.get(params.integration_method)
     # Span capture reads the linear map the statistics were measured in; the
     # nonlinear or unrecorded spaces (``snf``, ``pls_within_group``) have none

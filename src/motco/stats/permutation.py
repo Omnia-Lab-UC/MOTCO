@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import multiprocessing
 import os
+from collections.abc import Hashable, Sequence
 from typing import Optional, Union
 
 import numpy as np
@@ -87,6 +88,48 @@ def residual_correction_scale(
     return 1.0 / np.sqrt(complement)
 
 
+def strata_groups(strata: Sequence[Hashable] | np.ndarray, n: int) -> list[np.ndarray]:
+    """Row indices of each permutation stratum, in ascending order of the strata labels.
+
+    Parameters
+    ----------
+    strata: Sequence[Hashable] | np.ndarray
+        One label per sample. Labels must be mutually orderable (all numbers or
+        all strings), since the strata are visited in ascending label order.
+    n: int
+        Number of samples the labels must cover.
+
+    Returns
+    -------
+    list[np.ndarray]
+        For each distinct label, ascending, the indices of its rows.
+
+    Raises
+    ------
+    ValueError
+        When the labels are not one-dimensional, their count differs from
+        ``n``, or a label is missing.
+    """
+    labels = np.asarray(strata)
+    if labels.ndim != 1:
+        raise ValueError(f"strata must be one-dimensional, got an array of shape {labels.shape}.")
+    if labels.shape[0] != n:
+        raise ValueError(f"strata has {labels.shape[0]} labels but Y has {n} rows — one label per row is required.")
+    missing = np.flatnonzero(pd.isna(labels.astype(object)))
+    if missing.size:
+        raise ValueError(f"strata label of row {int(missing[0])} is missing.")
+    levels, codes = np.unique(labels, return_inverse=True)
+    return [np.flatnonzero(codes == code) for code in range(levels.size)]
+
+
+def _stratified_permutation(rng: np.random.Generator, groups: list[np.ndarray], n: int) -> np.ndarray:
+    """One draw: every stratum's rows permuted among themselves, the strata visited in the given order."""
+    idx = np.empty(n, dtype=np.intp)
+    for rows in groups:
+        idx[rows] = rows[rng.permutation(rows.size)]
+    return idx
+
+
 class _RRPPWorker:
     """Picklable callable that runs a chunk of RRPP permutations."""
 
@@ -99,6 +142,7 @@ class _RRPPWorker:
         contrast: list[list[int]],
         return_eigengaps: bool = False,
         orientation_estimator: str = "pc1",
+        groups: Optional[list[np.ndarray]] = None,
     ) -> None:
         self.y_hat = y_hat
         self.y_res = y_res
@@ -107,6 +151,7 @@ class _RRPPWorker:
         self.contrast = contrast
         self.return_eigengaps = return_eigengaps
         self.orientation_estimator = orientation_estimator
+        self.groups = groups
 
     def __call__(self, n_iters: int, seed: int):
         rng = np.random.default_rng(seed)
@@ -116,7 +161,10 @@ class _RRPPWorker:
         for _ in range(n_iters):
             # The permutation index is drawn identically whether or not the
             # spectrum is recorded: the spectrum path consumes no randomness.
-            idx = rng.permutation(n)
+            if self.groups is None:
+                idx = rng.permutation(n)
+            else:
+                idx = _stratified_permutation(rng, self.groups, n)
             y_random = self.y_hat + self.y_res[idx, :]
             if self.return_eigengaps:
                 d, a, s, spectra = estimate_difference(
@@ -157,6 +205,7 @@ def RRPP(
     return_eigengaps: bool = False,
     orientation_estimator: str = "pc1",
     residual_correction: Optional[str] = None,
+    strata: Optional[Union[Sequence[Hashable], np.ndarray]] = None,
 ) -> tuple:
     """
     Residual Randomization in a Permutation Procedure to evaluate
@@ -203,6 +252,21 @@ def RRPP(
         (the default) permutes the raw residuals, exactly as before the
         setting existed. An unknown or undefined correction raises before any
         permutation is drawn.
+    strata: Optional[Union[Sequence[Hashable], np.ndarray]]
+        Exchangeability strata, one label per row of ``Y``. Each draw then
+        replaces every residual by the residual of a row of the same stratum:
+        the strata are visited in ascending label order, and each one's rows
+        are permuted among themselves by one ``rng.permutation(size)`` from
+        the single seeded generator (a worker's generator on the parallel
+        path). A stratum of one row keeps its own residual. The reduced fit,
+        the residual correction (applied with its usual definition) and the
+        full-model estimation are unchanged, so only the draws move. With
+        every row in one stratum the draws are those without strata, and
+        ``None`` (the default) draws exactly as before the setting existed.
+        Labels must be mutually orderable; pass integer positions to visit
+        the strata in a declared order. A small stratum has few distinct
+        permutations, which is not checked. A wrong length or a missing label
+        raises before any permutation is drawn.
 
     Returns
     -------
@@ -246,6 +310,7 @@ def RRPP(
     if not np.all(np.isfinite(_Xr)):
         raise ValueError("model_reduced contains NaN or Inf values.")
     correction_scale = None if residual_correction is None else residual_correction_scale(_Xr, residual_correction)
+    groups = None if strata is None else strata_groups(strata, _Y.shape[0])
     # --- End validation ---
     # Set Y to be pandas df
     Y = pd.DataFrame(Y)
@@ -274,7 +339,10 @@ def RRPP(
         rng = np.random.default_rng(seed)
         for _ in tqdm(range(permutations), desc="RRPP", unit="perm", disable=not progress):
             # Drawn before any spectrum work, and identically either way.
-            idx = rng.permutation(n)
+            if groups is None:
+                idx = rng.permutation(n)
+            else:
+                idx = _stratified_permutation(rng, groups, n)
             y_random = y_hat_np + y_res_np[idx, :]
             if return_eigengaps:
                 d, a, s, spectra = estimate_difference(
@@ -316,6 +384,7 @@ def RRPP(
         contrast,
         return_eigengaps=return_eigengaps,
         orientation_estimator=orientation_estimator,
+        groups=groups,
     )
     with multiprocessing.Pool(processes=n_workers) as pool:
         parts = pool.starmap(worker, zip(counts, seeds))

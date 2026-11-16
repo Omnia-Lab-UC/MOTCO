@@ -92,6 +92,7 @@ from motco.simulations.attribution_diagnostics import (
 from motco.simulations.diagnostics import PREDICTIVE_COORDINATES, LinearLatentMap
 from motco.simulations.evaluation import (
     EVALUATION_ORIENTATION_ESTIMATORS,
+    PERMUTATION_STRATA,
     AttributionDiagnosticSettings,
     LatentAdjustmentSummary,
     PLSIntegrationArtifacts,
@@ -106,6 +107,7 @@ from motco.simulations.evaluation import (
     _summarize_permutation_eigengaps,
     build_simulation_trajectory_design,
     fit_pls_latent_space,
+    stage_strata,
 )
 from motco.simulations.preprocessing import (
     BLOCK_WEIGHTINGS,
@@ -524,6 +526,19 @@ class TrajectoryAnalysisParams:
     interaction test, all before any fitting; it is omitted from
     :meth:`to_dict` while ``None``. It has no CLI flag: it is a pilot
     measurement until the predictive-subspace validation reads it.
+
+    ``permutation_strata`` (``None`` or ``"stage"``) restricts every RRPP draw
+    of the trajectory test to exchange the reduced model's residuals among
+    samples of the same stage (the strata are the stages in declared order;
+    see :func:`motco.stats.permutation.RRPP`), with the covariate-adjusted
+    models and the residual correction. The latent fit, the rank, the
+    observed statistics, the latent scores and the stage means are unchanged;
+    only the null moves. It assumes the residuals are exchangeable within each
+    stage rather than across all samples. It is rejected with the split
+    interaction test and with the interaction scan, whose nulls are drawn
+    unrestricted, and with an unknown value, all before any fitting; it is
+    omitted from :meth:`to_dict` while ``None``. Unvalidated until the
+    within-stage permutation pilot reads it.
     """
 
     permutations: int = 0
@@ -547,8 +562,25 @@ class TrajectoryAnalysisParams:
     sparsity: SparsitySettings | None = None
     interaction_scan_by_block: bool = False
     latent_coordinates: str | None = None
+    permutation_strata: str | None = None
 
     def __post_init__(self) -> None:
+        strata = self.permutation_strata
+        if strata is not None:
+            if strata not in PERMUTATION_STRATA:
+                raise TrajectoryAnalysisError(
+                    f"Unknown permutation_strata {strata!r}; allowed: {list(PERMUTATION_STRATA)} or None."
+                )
+            if self.span_split_test:
+                raise TrajectoryAnalysisError(
+                    f"permutation_strata={strata!r} cannot be combined with the split interaction test "
+                    "(span_split_test): its null is drawn unrestricted. Drop one of the two settings."
+                )
+            if self.interaction_scan:
+                raise TrajectoryAnalysisError(
+                    f"permutation_strata={strata!r} cannot be combined with the interaction scan "
+                    "(interaction_scan): its null is drawn unrestricted. Drop one of the two settings."
+                )
         coordinates = self.latent_coordinates
         if coordinates is not None:
             if coordinates not in PREDICTIVE_COORDINATES:
@@ -646,6 +678,9 @@ class TrajectoryAnalysisParams:
         if self.latent_coordinates is None:
             # Absent means the score measurement (0.23.0): its resolved parameters stay byte-identical.
             data.pop("latent_coordinates")
+        if self.permutation_strata is None:
+            # Absent means the unrestricted null (0.24.0): its resolved parameters stay byte-identical.
+            data.pop("permutation_strata")
         return data
 
     @property
@@ -842,12 +877,20 @@ def analyze_trajectories(
     p_values: dict[str, float] = {}
     null_summary: dict[str, dict[str, float]] = {}
     correction_record: dict[str, Any] | None = None
+    strata_record: dict[str, Any] | None = None
     if params.permutations > 0:
         if params.residual_correction is not None:
             try:
                 correction_record = _residual_correction_record(model_reduced, params.residual_correction)
             except ValueError as exc:
                 raise TrajectoryAnalysisError(str(exc)) from exc
+        strata = None
+        if params.permutation_strata is not None:
+            strata = stage_strata(working, _STAGE, design.stage_levels)
+            strata_record = {
+                "value": params.permutation_strata,
+                "sizes": [int(np.sum(strata == position)) for position in range(len(stage_levels))],
+            }
         dist_delta, dist_angle, dist_shape, dist_eigengap = RRPP(
             latent.matrix,
             model_full,
@@ -861,6 +904,7 @@ def analyze_trajectories(
             return_eigengaps=True,
             orientation_estimator=params.orientation_estimator,
             residual_correction=params.residual_correction,
+            strata=strata,
         )
         null_values = _extract_null_distributions(
             dist_delta, dist_angle, dist_shape, shape_available=shape_available
@@ -968,6 +1012,7 @@ def analyze_trajectories(
             "seed": params.seed,
             "n_jobs": params.n_jobs,
             **({"residual_correction": correction_record} if correction_record is not None else {}),
+            **({"permutation_strata": strata_record} if strata_record is not None else {}),
             "shape_available": shape_available,
             "runtime_seconds": perf_counter() - start,
         },

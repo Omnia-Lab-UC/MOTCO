@@ -886,7 +886,8 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: ``span_support`` the latent-space comparison's alignment axis; ``span_scale``
 #: (``None`` = the null scale) the planted-scale stage-span plant;
 #: ``latent_coordinates`` (``None`` = the PLS scores) the opt-in orthonormal
-#: span coordinates.
+#: span coordinates; ``permutation_strata`` (``None`` = unrestricted draws) the
+#: opt-in within-stage permutation null.
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
     {
         "group_stage_sizes",
@@ -899,6 +900,7 @@ _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
         "span_support",
         "span_scale",
         "latent_coordinates",
+        "permutation_strata",
     }
 )
 

@@ -439,6 +439,16 @@ Set `permutations=0` for observed statistics only. When `permutations > 0`, the 
 p = (1 + count(null >= observed)) / (1 + n_permutations)
 ```
 
+**Permutation strata.** `permutation_strata="stage"` restricts every RRPP draw to exchange the reduced
+model's residuals among samples of the same stage. `stage_strata(metadata, stage_col, stage_levels)`
+gives each sample's position in the design's stage order, which the harness passes to
+`RRPP(..., strata=)`. The integration, the rank, the coordinates and the observed statistics are
+unchanged, so the setting applies with every method, every coordinate system and a prebuilt `latent=`;
+only the p-values and the null summary move. `runtime_metadata["permutation_strata"]` names it when set.
+`None` (the unrestricted draws) is hash-omitted, so every committed cell id, signature and record is
+unchanged (`tests/test_permutation_strata.py`). It is unvalidated until the within-stage permutation pilot
+reads it; see [Within-stage permutation](analysis.md#within-stage-permutation).
+
 The result includes observed `delta`, `angle`, and `shape` matrices, scalar two-group pair statistics, optional p-values, latent matrix metadata, generator truth metadata, runtime metadata, group/stage levels, and the trajectory contrast. Shape pair statistics and p-values are reported as unavailable for datasets with fewer than three stages.
 
 ### Realized-geometry decomposition

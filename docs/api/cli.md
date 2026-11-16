@@ -280,7 +280,8 @@ usage: motco analyze [-h] --block NAME=PATH [--transform NAME=KIND] --metadata
                      [--latent-adjustment {stage,group_stage}]
                      [--permutations PERMUTATIONS] [--seed SEED]
                      [--n-jobs N_JOBS] [--forced-components FORCED_COMPONENTS]
-                     [--residual-correction {df,leverage}] [--span-split-test]
+                     [--residual-correction {df,leverage}]
+                     [--permutation-strata {stage}] [--span-split-test]
                      [--interaction-scan] [--interaction-scan-by-block]
                      [--min-components MIN_COMPONENTS]
                      [--block-weighting {equal_variance,mfa}]
@@ -345,6 +346,14 @@ options:
                         permutes them: df (kappa = sqrt(n / (n - rank))) or
                         leverage (1 / sqrt(1 - h_ii)). Moves only the null.
                         Default: off
+  --permutation-strata {stage}
+                        Restrict every RRPP draw to exchange the reduced
+                        model's residuals among samples of the same stage
+                        (stage), assuming exchangeability within each stage
+                        only. Moves only the null; not available with --span-
+                        split-test or --interaction-scan. Unvalidated until
+                        the within-stage permutation pilot reads it. Default:
+                        off (unrestricted draws)
   --span-split-test     Also test the group x stage interaction of the
                         standardized features inside the fitted PLS span and
                         in its orthogonal complement (pseudo-F, RRPP draws at
@@ -412,7 +421,11 @@ with covariates it also prints each covariate's kind and the number of samples
 complete-case deletion dropped, and with `--latent-adjustment` the conditioning
 and the residual degrees of freedom of the residualization, and with
 `--residual-correction` the correction it applied to the RRPP null (κ for `df`,
-the leverage and multiplier range for `leverage`). With `--block-weighting` the
+the leverage and multiplier range for `leverage`). With `--permutation-strata stage`
+it prints the stage sizes the RRPP draws were restricted within and records them
+in `measurement.permutation_strata`; it exits non-zero with `--span-split-test`
+or `--interaction-scan`. See [Within-stage permutation](analysis.md#within-stage-permutation)
+for what the restricted null assumes and its validation status. With `--block-weighting` the
 kind is printed beside the rank floor and recorded in a `block_weighting` block;
 see [Block weighting](analysis.md#block-weighting) for the metric it implies and
 its validation status. With `--sparsity` the scope and the selected keep

@@ -8,6 +8,14 @@ Every opt-in option listed below leaves all outputs byte-identical while it is u
 
 ## [Unreleased]
 
+## 0.25.0 - 2026-11-16
+
+### Added
+
+- `RRPP(..., strata=)` restricts every permutation draw to exchange the reduced model's residuals among samples of the same stratum. Each draw visits the strata in ascending label order and permutes each one's rows from the one seeded generator, on the serial and the parallel path. One stratum reproduces the unrestricted draws exactly. The reduced fit, the residual correction and the full-model estimation are unchanged. `strata_groups` returns each stratum's rows.
+- `SimulationEvaluationParams.permutation_strata` (`"stage"`) passes each sample's stage position as the strata, so only the null moves. It is hash-omitted while unset and recorded in the runtime metadata when set. `PERMUTATION_STRATA` and `stage_strata` in `motco.simulations.evaluation`.
+- `TrajectoryAnalysisParams.permutation_strata` and `motco analyze --permutation-strata stage` do the same with the covariate-adjusted models and the residual correction. The record gains `measurement.permutation_strata`, with the value and the stage sizes in declared order. The setting is rejected with the split interaction test and with the interaction scan.
+
 ## 0.24.0 - 2026-11-12
 
 ### Added
