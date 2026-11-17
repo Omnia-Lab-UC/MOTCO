@@ -57,3 +57,52 @@ No analysis raised: every subsample's covariate design had full column rank.
 **A pitfall the probe hit.** Its first pass sorted the stage labels as strings (AD, CN, MCI), which is not the order of the fitted model's columns (CN, MCI, AD), and returned negative R² values. `predictive_subspace_check.stage_r2` and the size-excess diagnosis's helpers sort their labels the same way; they were written for SEA-AD's `0` / `1` / `2`. The driver hands them each row's stage position (design D6).
 
 **What it is not.** A handful of subsamples per n on scratch seeds, with no rejection rate. It fixed the design points, the two fixed ranks and the compute estimate, and nothing else.
+
+## Implementation notes (2026-11-17)
+
+- **A second parent file.** The cross-cohort table (design D12) quotes SEA-AD's fit rank and in-sample stage R² beside
+  its counts. Those are in the within-stage run's `plasmode/cell_table.csv`, not in its `rate_table.csv`, so the
+  settings bind both by sha256 (`parents.seaad_anchor_rates`, `parents.seaad_anchor_cells`) and every subcommand
+  refuses either one changed. SEA-AD's features per donor (10,000 / 80 = 125) is a constant of the driver.
+- **The consequence carries the standing sentence.** The decision's `consequence` is design D9's table text followed
+  by "In every verdict the SEA-AD anchor's reading stands for SEA-AD's design, and keep_production stands." (the
+  bullet under D9), so the spec's scenario "A hold on ADNI and the SEA-AD veto" reads it in the consequence itself.
+  `CONSEQUENCES` holds the table text alone, pinned by the tests.
+- **Generalized to the settings' ladder.** Point sizes and fixed ranks are settings (ADNI's defaults: 80 / 200 / 500
+  and 8 / 19), so the tests run the same code on a stand-in at 40 / 80 and at the stand-in cohort's own rank and
+  that rank + 2. At the cohort point the fixed ranks equal to the cohort's rank are not run; the 21-reading family
+  is every fixed rank at every subsampled point plus the other ranks at the cohort.
+- **`merge` and `decide` take `--export-dir` and re-hash the five files** against the settings, so 6.2's check that
+  the export is unchanged after the run is the merge's own refusal.
+- **The point table is long-form** (`point, quantity, arm, fit, coordinates, statistic, key, value`); it also holds
+  the operating arms' counts by rank class, which the decision's descriptive block reads.
+
+## Pre-flight and smoke on the real export (2026-11-17; task 6.1, not a result)
+
+Run on the workstation from the worktree `MOTCO-adni-anchor` (branch `proposal/adni-real-noise-anchor` at `1ec71fe`
+plus the uncommitted driver and tests), the worktree's `src` on `PYTHONPATH`, BLAS pinned to one thread in the shell.
+Python 3.11.15, MOTCO 0.25.0, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3. The export
+`adni_sexdiff/results/motco_input` was read in place; output under `~/motco-runs/adni-anchor-smoke` (off the
+repository). Nothing participant-level was printed: the outputs were checked structurally (no field with one entry
+per participant, no identifier column) and their integers that equal some RID are all counts, ranks or dates.
+
+**Pre-flight: passed.** On cohort replicates 0 and 1 the cross-validated fit selected rank 8 at AUROC 0.599514 (the
+case study's), and the call forced at rank 8 gave identical statistics and p-values. 21.5 s per cross-validation,
+0.46 s per forced call; 45 s in all.
+
+**Smoke: 4 units per point at 999 permutations, 7 workers.** 16 of 16 units complete, 0 failed, 0 inconsistent, 0
+subsample or label redraws; 40 s wall, 0.061 recorded core-hours. The decision file was written and is `indicative`
+(4 replicates); at four units per point it carries no reading.
+
+| point | unit median (s) | production fit (s) | fit readings (s) |
+|---|---|---|---|
+| n80 | 14.2 | 9.3 (CV) | 0.05 |
+| n200 | 15.9 | 10.7 (CV) | 0.07 |
+| n500 | 19.6 | 14.2 (CV) | 0.12 |
+| cohort | 5.2 | 0.5 (forced) | 0.23 |
+
+Every forced arm took 0.39–0.48 s (median); the CV is two thirds of a subsampled unit.
+
+**Projection for 500 × 999 per point:** 500 × (14.2 + 15.9 + 19.6 + 5.2) s = 27,450 s ≈ 7.6 core-hours, about 1.1 h
+wall at 7 workers (the design's estimate was 7). A cap of 10 core-hours leaves 30 % margin. The worker count and
+the cap wait on the user's approval (design, Open Questions).
