@@ -6,7 +6,7 @@ code_revision: 2099db4aeea0c8aa8c39da2b8966fe1f9b666167 on proposal/adni-real-no
 host: the workstation, 7 worker processes. Python 3.11.15, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3 (the main checkout's .venv).
 blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1, exported in the launch scripts before Python started.
 tests before any unit: the change's 77 tests and the fast suite (3,207 passed, 3 skipped for R) passed on the workstation.
-smoke (openspec/changes/adni-real-noise-anchor/notes.md): pre-flight passed; 16 units (4 per point) at 999 permutations completed with 0 failed and 0 inconsistent; projection 7.6 core-hours. Cap 10 recorded core-hours at 7 workers, approved by the user.
+smoke (openspec/changes/archive/2026-11-17-adni-real-noise-anchor/notes.md): pre-flight passed; 16 units (4 per point) at 999 permutations completed with 0 failed and 0 inconsistent; projection 7.6 core-hours. Cap 10 recorded core-hours at 7 workers, approved by the user.
 pre-flight (preflight.json): on cohort replicates 0 and 1 the cross-validated pls_cv selected rank 8 at mean held-out stage AUROC 0.599514, the values of adni_sexdiff's primary record (MOTCO 0.10.0: 8, 0.5995142920769246), and its statistics and p-values equal the call forced at rank 8 exactly. CV 22.0 s and 21.6 s; forced 0.49 s and 0.45 s.
 parents (sha256 bound in the settings and re-checked by run, merge and decide):
   - results/within-stage-permutation-2026-11-16/plasmode/rate_table.csv  9b2f8a716ae19e8aa49ed05d6b4cc6250ecdaf0e19705addba46ff9026c4549b
