@@ -1,0 +1,44 @@
+# ADNI real-noise anchor provenance — 2,000 units on ADNI's blocks
+date: 2026-11-17 (local -03). Workstation pre-flight 10:16:21-10:17:08; run 10:17:08 until a service restart killed it at 658 of 2,000 units (found stopped at 10:43:46); resumed 10:44:13-11:31:04; merge 11:31:06; decide after.
+change: adni-real-noise-anchor (MOTCO 0.25.0, no package change)
+driver: scripts/adni_anchor_check.py (driver version 1, decision rule version 1); no sbatch array (adni_sexdiff forbids copying its export between machines)
+code_revision: 2099db4aeea0c8aa8c39da2b8966fe1f9b666167 on proposal/adni-real-noise-anchor (pushed to GitHub before any unit ran). The run used the clean detached worktree /home/tomas/Documents/Repos/MOTCO-adni-anchor-run at that revision (0 tracked or untracked changes, checked at both launches), with PYTHONPATH on its src; motco 0.25.0 was imported from it.
+host: the workstation, 7 worker processes. Python 3.11.15, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3 (the main checkout's .venv).
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1, exported in the launch scripts before Python started.
+tests before any unit: the change's 77 tests and the fast suite (3,207 passed, 3 skipped for R) passed on the workstation.
+smoke (openspec/changes/archive/2026-11-17-adni-real-noise-anchor/notes.md): pre-flight passed; 16 units (4 per point) at 999 permutations completed with 0 failed and 0 inconsistent; projection 7.6 core-hours. Cap 10 recorded core-hours at 7 workers, approved by the user.
+pre-flight (preflight.json): on cohort replicates 0 and 1 the cross-validated pls_cv selected rank 8 at mean held-out stage AUROC 0.599514, the values of adni_sexdiff's primary record (MOTCO 0.10.0: 8, 0.5995142920769246), and its statistics and p-values equal the call forced at rank 8 exactly. CV 22.0 s and 21.6 s; forced 0.49 s and 0.45 s.
+parents (sha256 bound in the settings and re-checked by run, merge and decide):
+  - results/within-stage-permutation-2026-11-16/plasmode/rate_table.csv  9b2f8a716ae19e8aa49ed05d6b4cc6250ecdaf0e19705addba46ff9026c4549b
+  - results/within-stage-permutation-2026-11-16/plasmode/cell_table.csv  292600418aa05f210268db301d21db893222305ec9934b033d446501e4c292d0
+export: /home/tomas/Documents/Repos/adni_sexdiff/results/motco_input (adni_sexdiff's export step; 1,501 participants, p180 133 + nmr 165 metabolites), read in place through ADNI_CONTRACT and never copied. File sha256 (in the settings; re-hashed by merge and decide, and unchanged after the run):
+  - manifest.json   9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204
+  - metadata.csv    9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221
+  - covariates.csv  06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd
+  - p180.csv        5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e
+  - nmr.csv         a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43
+launch (OUT = /home/tomas/motco-runs/adni-real-noise-anchor-2026-11-17/out, off the repository; EXPORT as above):
+  run.sh, started detached with setsid nohup:
+    python scripts/adni_anchor_check.py preflight --export-dir $EXPORT --out-dir $OUT
+    timeout -s TERM 85m python scripts/adni_anchor_check.py run --export-dir $EXPORT --out-dir $OUT --workers 7
+  resume.sh, started as the systemd user unit adni-anchor-resume (the remaining 7.3 core-hours of the cap):
+    timeout -s TERM 62m python scripts/adni_anchor_check.py run --export-dir $EXPORT --out-dir $OUT --workers 7
+    python scripts/adni_anchor_check.py merge --export-dir $EXPORT --out-dir $OUT
+  then: python scripts/adni_anchor_check.py decide --export-dir $EXPORT --out-dir $OUT
+settings hash: 78ad5f8128faab9922833af064233ac1ca2b8f0f5bae11380446f40ca38ead8f
+units: four design points × replicates 0-499 = 2,000 units at 999 permutations, base seed 2039, rejection p <= 0.05.
+  - n80, n200, n500: participants drawn without replacement within each sex × stage cell, Female CN/MCI/AD 13/16/7, 31/41/17, 79/103/42 and Male 12/24/8, 30/60/21, 74/149/53; one cross-validation per unit, every other operating arm forced at its rank; 13 arms.
+  - cohort: all 1,501 participants (Female 237/310/125, Male 223/448/158); every arm forced at rank 8, no cross-validation; 9 arms.
+  - Arms: pls_cv and predictive_orthonormal under unrestricted and within-stage draws (operating); the same four at forced ranks 8 and 19 (fixed rank; rank 8 not repeated at the cohort); pls_cv__uncorrected (control). Five covariates (age, education, apoe4, phase, statin; the last three categorical), rank floor 2, net displacement, the harness CV defaults, residual_correction df except the control.
+the interruption: a service restart on the workstation killed the first launch's process group at 658 units. The shard's 658 records were complete (no torn line); the resume kept them and evaluated the 1,342 pending units under the same settings and seeds. The merge found 2,000 complete units and 0 duplicates.
+accounting (accounting.json): 2,000 of 2,000 complete; 0 failed units, 0 failed arms, 0 inconsistent units, 0 duplicates; 0 subsample and 0 label redraws. 8.118 recorded core-hours (2.673 before the interruption) against the cap of 10, plus 0.012 for the pre-flight. Unit medians: n80 15.1 s, n200 16.8 s, n500 21.0 s, cohort 5.4 s.
+outcome (adni_anchor_decision.json, rule version 1, not indicative): verdict excess_absent. pls_cv and predictive_orthonormal hold size at every design point under the unrestricted draws (no reading above the bound of 34 of 500). Recorded beside it: predictive_orthonormal__within_stage holds everywhere; pls_cv__within_stage has no scope (cohort delta 35 and angle 38 of 500, angle above the ceiling of 36). Fixed-rank grade reference_exceeds: pls_rank8 shape 41 of 500 at n200, above the 21-reading family's ceiling of 40, and pls_rank19 shape 38 there.
+committed files (sha256):
+  - settings.json              e00c3216ade9b3eee02c222910e6f4156d4a5de0f17a9f1fb96b2cff6956a9b0
+  - preflight.json             06daff0104028f0b77301c8c4fd20d054eb0f9845de953a0186fbfebfa6d235d
+  - rate_table.csv             18e1b6ab1d76ea42657d835b5a981798ae5e2e4b9a4dd4012022a176aa3f4110
+  - paired_table.csv           49ae2bacfe84c6b1284acb7f0129ad9217195ba7c3bd78e439ebb3b20a531cb4
+  - point_table.csv            89d658fe643a203c817c8ecc7bee916950d963bdfbe537e3d64d3f9e25d08896
+  - accounting.json            c14507ae69599f9ab8b10f3a8e5cc28048518ff75970adf77f192b000a437276
+  - adni_anchor_decision.json  3f7b93dd92bf64333901c96fe4ef30bc084924cf5b94d943bd59d1d94f8aab49
+not committed: records/ and merged.jsonl (seeds and statistics per unit; kept under OUT), run.log, resume.log. No committed file holds a participant identifier, a label vector, a subsample's membership or a fold assignment (checked structurally: no field with one entry per participant, no identifier column).
