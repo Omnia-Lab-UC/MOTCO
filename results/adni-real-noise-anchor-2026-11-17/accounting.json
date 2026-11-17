@@ -1,0 +1,77 @@
+{
+ "arm_failures_by_point": {},
+ "arm_seconds_median": {
+  "pls_cv": 10.837313749500026,
+  "pls_cv__uncorrected": 0.450396606999675,
+  "pls_cv__within_stage": 0.4575484219999453,
+  "pls_rank19": 0.5307269335003184,
+  "pls_rank19__within_stage": 0.5383615434998319,
+  "pls_rank8": 0.4544154209993394,
+  "pls_rank8__within_stage": 0.4627358480001931,
+  "predictive_orthonormal": 0.43670487300005334,
+  "predictive_orthonormal__within_stage": 0.44622322050008734,
+  "predictive_orthonormal_rank19": 0.45141425149995484,
+  "predictive_orthonormal_rank19__within_stage": 0.4599275950004085,
+  "predictive_orthonormal_rank8": 0.4319077664999895,
+  "predictive_orthonormal_rank8__within_stage": 0.4387012920001325
+ },
+ "arm_seconds_total_hours": {
+  "pls_cv": 5.109697382555549,
+  "pls_cv__uncorrected": 0.2611012881283284,
+  "pls_cv__within_stage": 0.26601134288805534,
+  "pls_rank19": 0.30780076032027637,
+  "pls_rank19__within_stage": 0.31319674661500246,
+  "pls_rank8": 0.19020062683666802,
+  "pls_rank8__within_stage": 0.19406803389527683,
+  "predictive_orthonormal": 0.25113493678527865,
+  "predictive_orthonormal__within_stage": 0.25608545424445106,
+  "predictive_orthonormal_rank19": 0.2599016770769525,
+  "predictive_orthonormal_rank19__within_stage": 0.26488026809528,
+  "predictive_orthonormal_rank8": 0.18074097086305818,
+  "predictive_orthonormal_rank8__within_stage": 0.18367524470222155
+ },
+ "by_point": {
+  "cohort": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "unit_seconds_median": 5.4272406734999095,
+   "usable": 500
+  },
+  "n200": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "unit_seconds_median": 16.774922004499786,
+   "usable": 500
+  },
+  "n500": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "unit_seconds_median": 21.015759633499783,
+   "usable": 500
+  },
+  "n80": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "unit_seconds_median": 15.090552654000021,
+   "usable": 500
+  }
+ },
+ "complete_units": 2000,
+ "duplicate_records": 0,
+ "expected_units": 2000,
+ "failed_unit_errors": [],
+ "failed_units": 0,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "missing_units": 0,
+ "recorded_core_hours": 8.117776478102206,
+ "settings_hash": "78ad5f8128faab9922833af064233ac1ca2b8f0f5bae11380446f40ca38ead8f"
+}

@@ -1,0 +1,105 @@
+{
+ "expected": {
+  "cv_mean_auroc": 0.599514,
+  "decimals": 6,
+  "selected_lv": 8,
+  "source": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0): selected_lv 8, cv_mean_auroc 0.5995142920769246"
+ },
+ "passed": true,
+ "rule": "the cross-validated pls_cv on the cohort selects the contract's rank and AUROC (rounded), and its statistics and p-values equal the call forced at that rank exactly",
+ "settings_hash": "78ad5f8128faab9922833af064233ac1ca2b8f0f5bae11380446f40ca38ead8f",
+ "units": [
+  {
+   "cross_validated": {
+    "p_values": {
+     "angle": 0.449,
+     "delta": 0.5,
+     "shape": 0.093
+    },
+    "statistics": {
+     "angle": 22.75965869840561,
+     "delta": 0.47654742178396603,
+     "shape": 0.29014215372489616
+    }
+   },
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.599514,
+    "expected": {
+     "cv_mean_auroc": 0.599514,
+     "selected_lv": 8
+    },
+    "passed": true,
+    "rank": 8
+   },
+   "forced": {
+    "p_values": {
+     "angle": 0.449,
+     "delta": 0.5,
+     "shape": 0.093
+    },
+    "statistics": {
+     "angle": 22.75965869840561,
+     "delta": 0.47654742178396603,
+     "shape": 0.29014215372489616
+    }
+   },
+   "forced_rank": 8,
+   "label_redraws": 0,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 1125750856,
+   "seconds": {
+    "cross_validated": 21.970120441999825,
+    "forced": 0.49242116200002783
+   },
+   "statistics_differing": [],
+   "unit": "cohort/0"
+  },
+  {
+   "cross_validated": {
+    "p_values": {
+     "angle": 0.626,
+     "delta": 0.99,
+     "shape": 0.486
+    },
+    "statistics": {
+     "angle": 19.256221172684906,
+     "delta": 0.012801475509229832,
+     "shape": 0.1569742483156802
+    }
+   },
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.599514,
+    "expected": {
+     "cv_mean_auroc": 0.599514,
+     "selected_lv": 8
+    },
+    "passed": true,
+    "rank": 8
+   },
+   "forced": {
+    "p_values": {
+     "angle": 0.626,
+     "delta": 0.99,
+     "shape": 0.486
+    },
+    "statistics": {
+     "angle": 19.256221172684906,
+     "delta": 0.012801475509229832,
+     "shape": 0.1569742483156802
+    }
+   },
+   "forced_rank": 8,
+   "label_redraws": 0,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 1399897540,
+   "seconds": {
+    "cross_validated": 21.58238009700017,
+    "forced": 0.4532522690001315
+   },
+   "statistics_differing": [],
+   "unit": "cohort/1"
+  }
+ ]
+}

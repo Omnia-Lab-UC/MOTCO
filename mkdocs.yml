@@ -20,6 +20,7 @@ nav:
   - Measurement Visibility: measurement-visibility.md
   - Study Reports:
     - Measurement visibility:
+      - ADNI real-noise anchor (2026-11-17): reports/adni-real-noise-anchor-2026-11-17.md
       - Within-stage permutation (2026-11-16): reports/within-stage-permutation-2026-11-16.md
       - Predictive-subspace size excess (2026-11-13): reports/predictive-size-excess-2026-11-13.md
       - Predictive-subspace coordinates (2026-11-12): reports/predictive-subspace-2026-11-12.md

@@ -543,6 +543,51 @@ The predictive values stay opt-in diagnostics; the diagnosis validates no test. 
 opened a separate change, within-stage draws as an opt-in option (next section), whose verdict
 does not re-read `predictive_orthonormal`.
 
+### A second cohort: the ADNI anchor
+
+The diagnosis predicted that the excess shrinks as participants per feature grow and is absent
+on ADNI. The ADNI anchor ([report](reports/adni-real-noise-anchor-2026-11-17.md)) read that on
+`adni_sexdiff`'s metabolomics export (1,501 participants on 298 features), with the sex labels
+permuted within stage, at the case study's configuration with the `df` correction. Participants
+were subsampled within cells at four design points, 500 units each at 999 permutations: 80, 200
+and 500 participants, each subsample with its own fit, and the full cohort, whose units share the
+case study's rank-8 fit.
+
+**Verdict: `excess_absent`.** Production and `predictive_orthonormal` both hold size at every
+point under the unrestricted draws: their size scope starts at 80 participants and reaches the
+cohort. Rejections of 500 for `delta` / `angle` / `shape`, beside SEA-AD's anchor:
+
+| cohort, point | features per participant | fit rank | in-sample stage R² | `pls_cv` | `predictive_orthonormal` |
+|---|---|---|---|---|---|
+| SEA-AD anchor | 125 | 5 | 0.840 | 21 / 24 / 13 | 67 / 9 / 38 |
+| ADNI, 80 | 3.7 | 2 (median) | 0.152 | 14 / 12 / 23 | 10 / 16 / 22 |
+| ADNI, 200 | 1.5 | 3 | 0.088 | 26 / 20 / 26 | 25 / 10 / 27 |
+| ADNI, 500 | 0.6 | 5 | 0.085 | 17 / 20 / 20 | 17 / 21 / 29 |
+| ADNI, cohort | 0.2 | 8 | 0.086 | 25 / 32 / 28 | 29 / 20 / 18 |
+
+- **SEA-AD's excess does not transfer to ADNI.** This is the size part of the second condition
+  under which `predictive_orthonormal` could be reopened, met for ADNI only. It stays an opt-in
+  diagnostic until its gain over production at ADNI's design and its specificity there are read.
+- **Production has a second real-noise reading.** Its size holds on ADNI's own noise at every
+  point, at the case study's configuration. The cohort's rates are conditional on its one fit, as
+  SEA-AD's anchor rates are.
+- **What it does not say about the mechanism.** ADNI's stage signal is weak: the held-out AUROC is
+  0.52–0.60 and the out-of-fold stage fit is nil or negative, so at the ranks its CV selects the
+  in-sample fit is 0.085–0.152, far below SEA-AD's 0.840. Forced ranks 8 and 19 bring it up to
+  0.935 at 80 participants, but there the scores themselves exceed (`shape` 41 of 500 at rank 8 and 200
+  participants), so the fixed-rank grade is `reference_exceeds`. Whether an over-fitted fit on
+  ADNI's noise gives the predictive subspace SEA-AD's excess stays unread, and production's size
+  depends on a rank its CV does not select here.
+
+**What a size reading licenses.** The decision carries a scoping rule, declared before the
+reading. A real-noise size reading speaks for its export and the design points it was read at,
+and nothing is interpolated or extended beyond them. Cohorts do not vouch for one another: the
+hold on ADNI does not lift SEA-AD's veto, which stands for SEA-AD's design. Size alone admits
+nothing: reopening an option at a design also needs a gain over production there in simulation
+and specificity there, each under its own predeclared decision. Features per participant, the
+selected ranks and the in-sample fit describe the points and license no reading at another
+design.
+
 ## The permutation null: unrestricted or within stage
 
 RRPP tests the group × stage interaction by permuting the reduced model's residuals
@@ -584,6 +629,14 @@ in advance, the within-stage null on production's scores:
   readings against 4 allowed (for example `delta` 0.08 → 0.21 at the SEA-AD table, δ = 0.5,
   rotation e = 0.5). Production's own band leak goes from 12 to 23 of 72 readings above the bound.
   At δ = 2.0 no off-target reading is above the bound.
+
+**On ADNI's noise it does not hold at the cohort.** In the ADNI anchor
+([report](reports/adni-real-noise-anchor-2026-11-17.md) §5) the within-stage null on production's
+scores holds at 80, 200 and 500 subsampled participants, but at the full cohort of 1,501 it rejects
+`delta` 35 and `angle` 38 of 500, above the bound and, for `angle`, above the ceiling. It rejects
+more than the unrestricted draws on the same units there (`delta`: 10 units against none). The
+cohort's units share one fit, so these rates are conditional on it. `predictive_orthonormal` under
+the within-stage draws holds at every ADNI point.
 
 **What it means for an analysis.** The unrestricted draws stay the default of `RRPP`, the harness
 and `motco analyze`. The within-stage null is an opt-in, documented null: it holds size where the

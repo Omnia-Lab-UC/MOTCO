@@ -1,0 +1,331 @@
+{
+ "hash": "78ad5f8128faab9922833af064233ac1ca2b8f0f5bae11380446f40ca38ead8f",
+ "settings": {
+  "alpha": 0.05,
+  "analysis": {
+   "cv": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "latent_coordinates": "predictive_orthonormal",
+   "min_components": 2,
+   "missing_covariates": "error",
+   "n_jobs": 1,
+   "orientation_estimator": "net_displacement",
+   "permutation_strata": "stage",
+   "residual_correction": "df"
+  },
+  "arm_specs": {
+   "pls_cv": {
+    "coordinates": "scores",
+    "draws": "unrestricted",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "pls_cv__uncorrected": {
+    "coordinates": "scores",
+    "draws": "unrestricted",
+    "family": "control",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": null
+   },
+   "pls_cv__within_stage": {
+    "coordinates": "scores",
+    "draws": "within_stage",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "pls_rank19": {
+    "coordinates": "scores",
+    "draws": "unrestricted",
+    "family": "fixed_rank",
+    "fit": "rank19",
+    "fixed_rank": 19,
+    "residual_correction": "df"
+   },
+   "pls_rank19__within_stage": {
+    "coordinates": "scores",
+    "draws": "within_stage",
+    "family": "fixed_rank",
+    "fit": "rank19",
+    "fixed_rank": 19,
+    "residual_correction": "df"
+   },
+   "pls_rank8": {
+    "coordinates": "scores",
+    "draws": "unrestricted",
+    "family": "fixed_rank",
+    "fit": "rank8",
+    "fixed_rank": 8,
+    "residual_correction": "df"
+   },
+   "pls_rank8__within_stage": {
+    "coordinates": "scores",
+    "draws": "within_stage",
+    "family": "fixed_rank",
+    "fit": "rank8",
+    "fixed_rank": 8,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "unrestricted",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal__within_stage": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "within_stage",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal_rank19": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "unrestricted",
+    "family": "fixed_rank",
+    "fit": "rank19",
+    "fixed_rank": 19,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal_rank19__within_stage": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "within_stage",
+    "family": "fixed_rank",
+    "fit": "rank19",
+    "fixed_rank": 19,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal_rank8": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "unrestricted",
+    "family": "fixed_rank",
+    "fit": "rank8",
+    "fixed_rank": 8,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal_rank8__within_stage": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "within_stage",
+    "family": "fixed_rank",
+    "fit": "rank8",
+    "fixed_rank": 8,
+    "residual_correction": "df"
+   }
+  },
+  "arms": [
+   "pls_cv",
+   "pls_cv__within_stage",
+   "predictive_orthonormal",
+   "predictive_orthonormal__within_stage",
+   "pls_rank8",
+   "pls_rank8__within_stage",
+   "predictive_orthonormal_rank8",
+   "predictive_orthonormal_rank8__within_stage",
+   "pls_rank19",
+   "pls_rank19__within_stage",
+   "predictive_orthonormal_rank19",
+   "predictive_orthonormal_rank19__within_stage",
+   "pls_cv__uncorrected"
+  ],
+  "base_seed": 2039,
+  "cohort_rank": 8,
+  "consistency_tolerance": 1e-08,
+  "contract": {
+   "blocks": [
+    [
+     "p180",
+     "p180.csv"
+    ],
+    [
+     "nmr",
+     "nmr.csv"
+    ]
+   ],
+   "covariate_levels": {
+    "apoe4": [
+     "0",
+     "1",
+     "2"
+    ],
+    "phase": [
+     "ADNI1",
+     "ADNI2GO"
+    ],
+    "statin": [
+     "0",
+     "1"
+    ]
+   },
+   "covariates": [
+    [
+     "age",
+     "numeric"
+    ],
+    [
+     "education",
+     "numeric"
+    ],
+    [
+     "apoe4",
+     "categorical"
+    ],
+    [
+     "phase",
+     "categorical"
+    ],
+    [
+     "statin",
+     "categorical"
+    ]
+   ],
+   "covariates_file": "covariates.csv",
+   "fidelity": {
+    "cv_mean_auroc": 0.599514,
+    "decimals": 6,
+    "selected_lv": 8,
+    "source": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0): selected_lv 8, cv_mean_auroc 0.5995142920769246"
+   },
+   "group_col": "sex",
+   "groups": [
+    "Female",
+    "Male"
+   ],
+   "manifest_file": "manifest.json",
+   "manifest_step": "export",
+   "metadata_file": "metadata.csv",
+   "name": "adni",
+   "sample_col": "rid",
+   "stage_col": "stage",
+   "stage_order": [
+    "CN",
+    "MCI",
+    "AD"
+   ],
+   "transform": "identity"
+  },
+  "driver": "adni-real-noise-anchor",
+  "driver_version": 1,
+  "export": {
+   "features": {
+    "nmr": 165,
+    "p180": 133
+   },
+   "files": {
+    "covariates.csv": "06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd",
+    "manifest.json": "9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204",
+    "metadata.csv": "9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221",
+    "nmr.csv": "a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43",
+    "p180.csv": "5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e"
+   },
+   "participants": 1501
+  },
+  "fit": "a subsampled unit's pls_cv cross-validates once and every other operating arm is forced at its rank; a cohort unit forces every arm at cohort_rank; fixed-rank arms are forced at their rank",
+  "fixed_ranks": [
+   8,
+   19
+  ],
+  "folds": 4,
+  "max_attempts": 100,
+  "parents": {
+   "seaad_anchor_cells": {
+    "path": "results/within-stage-permutation-2026-11-16/plasmode/cell_table.csv",
+    "sha256": "292600418aa05f210268db301d21db893222305ec9934b033d446501e4c292d0"
+   },
+   "seaad_anchor_rates": {
+    "path": "results/within-stage-permutation-2026-11-16/plasmode/rate_table.csv",
+    "sha256": "9b2f8a716ae19e8aa49ed05d6b4cc6250ecdaf0e19705addba46ff9026c4549b"
+   }
+  },
+  "permutations": 999,
+  "points": [
+   {
+    "name": "n80",
+    "participants": 80,
+    "subsampled": true,
+    "table": [
+     [
+      13,
+      16,
+      7
+     ],
+     [
+      12,
+      24,
+      8
+     ]
+    ]
+   },
+   {
+    "name": "n200",
+    "participants": 200,
+    "subsampled": true,
+    "table": [
+     [
+      31,
+      41,
+      17
+     ],
+     [
+      30,
+      60,
+      21
+     ]
+    ]
+   },
+   {
+    "name": "n500",
+    "participants": 500,
+    "subsampled": true,
+    "table": [
+     [
+      79,
+      103,
+      42
+     ],
+     [
+      74,
+      149,
+      53
+     ]
+    ]
+   },
+   {
+    "name": "cohort",
+    "participants": 1501,
+    "subsampled": false,
+    "table": [
+     [
+      237,
+      310,
+      125
+     ],
+     [
+      223,
+      448,
+      158
+     ]
+    ]
+   }
+  ],
+  "preflight_replicates": [
+   0,
+   1
+  ],
+  "rejection": "p <= alpha",
+  "replicates": 500,
+  "rule_version": 1,
+  "seed_derivation": "sha256 of ['adni-real-noise-anchor', 2039, point, replicate, purpose(, attempt)], truncated as plasmode_check._seed; purposes subsample, labels, rrpp, folds"
+ }
+}
