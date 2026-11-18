@@ -175,3 +175,48 @@ Run from the scratch copy `ing:/home1/tgonza/MOTCO-adni-gain-smoke` (the tree ab
 - **Unit time:** 43.4 to 49.6 s per unit on n2 and n3 (median by cell 44 to 49 s), against the 90 s the design assumed from item 9.
 - **Projection for the full run** (2,600 units): **33 core-hours at these unit times.** Item 9 and the design-guidance runs measured units 2.5 times slower on packed nodes and 5 to 13 minutes of Python startup per task when many start at once; at the packed-node cost the run would take about 83 core-hours. A cap of 90 core-hours covers both.
 - **Combined decision.** With the simulation aggregates copied back (settings, pre-flight, tables, accounting; no records), `decide` on the workstation read both profiles: `gate_failed`, for the reproduction alone (four cohort units cannot match 500-unit counts), with every criterion evaluated. The machinery spans both machines as the full run needs.
+
+## Full runs (tasks 7.2 and 7.3, 2026-11-17)
+
+Code: both profiles ran at `2ecfe16` (pushed), from clean detached worktrees: `MOTCO-adni-gain-run` on the workstation and `/home1/tgonza/MOTCO-adni-gain` on `ing`, the same commit and so the same git tree. `6ef73d1`, pushed afterwards, changed only the sbatch, `AGENTS.md`, one docstring sentence and the sbatch test, so the measured code is unchanged. Python 3.11.15 on the workstation, 3.11.16 on `ing` (the main checkout's `.venv`), with numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0 and pandas 2.3.3 on both. BLAS pinned to one thread.
+
+### Simulation profile, on `ing`
+
+- Pre-flight passed (`srun` job 944791 on n1): item 9's anchor p-values exactly.
+- Array 944797: 100 shards at most 50 at once, `--exclude=n4,n11`, 1 h 30 min per task. All 100 tasks ended `COMPLETED`. There was no startup stall: the first records appeared about 4 minutes after submission.
+- Merge: 2,600 of 2,600 units, 0 failed, 0 inconsistent, 0 missing, 0 duplicates. 61.1 recorded core-hours, 66.0 allocated, against a cap of 90. The first 50 tasks all landed on n1, alongside other jobs. Units took about 75 s there, against 45 s in the smoke on n2 and n3. The median `pls_cv` arm took 78.7 s.
+
+### Plants profile: started on the workstation, finished on `ing`
+
+- **Workstation.** The run started at 18:58 as the `systemd-run --user` unit `adni-gain-plants`, with seven workers and a `RuntimeMaxSec` that enforced the 55-core-hour cap. Its pre-flight passed again. It completed 1,157 units in 64 minutes: 7.46 recorded core-hours, at a median of 20.2 s per unit at `n750` and 29.9 s at the cohort.
+- **The move.** `ing` holds ADNI's export: `/home1/tgonza/adni_sexdiff/results/motco_input` is byte-identical to the workstation's `adni_sexdiff/results/motco_input`, all seven files by sha256. The settings bind only those hashes and repo-relative parent files, so the settings hash is the same on both machines. At the user's request the run moved to `ing`, where it read the export in place; nothing was copied between machines except this run's own records.
+  - I stopped the workstation unit at 20:02 with 1,157 complete units and no torn line.
+  - Its records (shard `0/1`; seeds and statistics only) were copied to `ing`, and their sha256 was checked.
+  - `ing`'s plants pre-flight passed (`srun` job 945046 on n1): rank 8, AUROC 0.599514, with the forced fit's statistics and p-values identical.
+  - Job 945183 (`plants_run.sbatch` in `/home1/tgonza/MOTCO-adni-gain-run`) ran as one task with 48 workers on n3 and a 1 h 35 min limit, after the user raised the plants cap to 85 core-hours in total. It resumed the 6,043 units left, from 20:59 to 21:41, then merged.
+- **Merge** (on `ing`, against `ing`'s export): 7,200 of 7,200 units, 0 failed, 0 inconsistent, 0 missing, 0 duplicates. The anchor reproduction passed. 40.27 recorded core-hours in total.
+- **Deviation from the design.** The design's "Where it runs" and task 7.2 put the plants profile on the workstation, on the premise that the export existed only there. `6ef73d1` rewrote that rule in `AGENTS.md` (the export is read in place on a machine that holds it and never copied) and let the sbatch run `plants` with `GAIN_EXPORT`.
+
+### Decision (`decide` on `ing`, both profiles in one output directory)
+
+- **Verdict `power_loss`.** S2 and S3 fail. The gate passed: both profiles complete and the reproduction passed. Production's off-target reading is `leaks`.
+- **S1 holds** for both arms in both profiles: no reading above the ceiling. The candidate's anchor rates are 0.026–0.030 at `n750` and 0.038–0.056 in simulation.
+- **S2 fails** (30 readings; allowed 2 below α, none below the ceiling 0.00167). Two readings are below α:
+  - `cohort sample_orientation_e1` `angle`: 0.05 against 0.285; 47 discordant pairs (b) and 0 the other way (c); p_loss 7.1e-15, below the ceiling.
+  - `n750 sample_orientation_e1` `angle`: 0.185 against 0.235; p_loss 0.015.
+- **S3 fails** in simulation (16 readings; 3 below α, 1 below the ceiling 0.003125):
+  - `population_magnitude_e2` `shape`: 0.295 against 0.06; p 2.2e-10, below the ceiling.
+  - `population_magnitude_e1` `shape`: 0.11 against 0.045.
+  - `population_orientation_e1` `delta`: 0.08 against 0.035.
+  - The in-sample family (32 readings) holds.
+- **G holds** (m = 8, threshold 0.00625). `delta` gains 0.485 against 0.12 at magnitude 0.5 and 0.99 against 0.535 at magnitude 1. Pooled over the eight targets, b = 45, c = 366, a mean difference of +0.20.
+- **Production's statement** (`pls_cv`):
+  - `delta` is informative from e = 1 at `n750` (0.995 in-sample; 1.0 held-out at e = 2) and from e = 0.5 at the cohort.
+  - `angle` and `shape` stay below the 0.80 floor at every effect. Their maxima are 0.235 / 0.22 in-sample and 0.345 / 0.055 held-out at `n750`, and 0.285 / 0.40 at the cohort.
+  - Off-target, 10 of 32 readings exceed the bound and 7 are above the ceiling, mostly `shape` under in-sample rotations (up to 0.395 at `n750`, e = 1).
+
+### Where the outputs are
+
+- `ing`: `/home1/tgonza/MOTCO-adni-gain-run/out/{plants,simulation}`, with the records, merged files, tables, settings, pre-flights and accounting, plus `adni_gain_specificity_decision.json` and the plants job's log and sbatch beside `out/`.
+- To fetch the aggregates without records: `rsync -a --exclude records/ --exclude merged.jsonl ing:/home1/tgonza/MOTCO-adni-gain-run/out/ <dest>/`. A copy is on the workstation at `~/motco-runs/adni-gain-specificity-2026-11-17/ing-out/`.
+- Next: task 7.4 (commit those aggregates under `results/adni-gain-specificity-2026-11-17/` with `PROVENANCE.txt`, the report and the mkdocs navigation) and task 7.5.
