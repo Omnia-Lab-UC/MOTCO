@@ -1,0 +1,71 @@
+# ADNI gain and specificity provenance — 7,200 plant units on ADNI's blocks and 2,600 simulated units
+date: 2026-11-17 (local -03).
+  simulation: pre-flight srun job 944791 on ing n1 18:59:05-19:01:54; array 944797 19:02:10-20:30:51; merge 21:00 on ing.
+  plants: workstation pre-flight and run 18:58-20:02 (stopped with 1,157 complete units); ing pre-flight srun job 945046 on n1 20:03:46-20:05:43; resume job 945183 on n3 20:59:26-21:42:08, merge at its end.
+  decide: srun job 945211 on ing n2, 21:45:12-21:45:33, both profiles in one output directory.
+change: adni-gain-and-specificity (MOTCO 0.25.0, no package change)
+driver: scripts/adni_gain_specificity_check.py (driver version 1, decision rule version 1); scripts/adni_gain_specificity_array.sbatch
+code_revision: 2ecfe1602b3020873493de3094770b98a3ac40a7 on proposal/adni-gain-and-specificity (pushed to GitHub before any unit ran). Both profiles ran at that commit from clean detached worktrees with PYTHONPATH on their src, so motco 0.25.0 was imported from the worktree:
+  - workstation: the worktree MOTCO-adni-gain-run
+  - ing: /home1/tgonza/MOTCO-adni-gain (the only untracked entry is the array's logs/; the plants job logged "dirty=1" for it)
+  6ef73d1, pushed afterwards, changed only the sbatch (the plants profile with GAIN_EXPORT), AGENTS.md, one docstring sentence and the sbatch test; no measured code.
+hosts and environment:
+  - workstation: 7 worker processes. Python 3.11.15, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3 (the main checkout's .venv).
+  - ing: Python 3.11.16 with the same numpy, scipy, scikit-learn and pandas (the main checkout's .venv). Simulation: one CPU per array task. Plants: one task with 48 workers on n3.
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1, exported before Python started on both machines.
+smokes (openspec/changes/adni-gain-and-specificity/notes.md, "Smokes"): both pre-flights passed; plants 120 units and simulation 20 units at 999 permutations with 0 failed and 0 inconsistent. Projections 46.1 core-hours (plants) and 33 to 83 (simulation). Caps approved by the user: 55 recorded core-hours for the plants on the workstation, raised to 85 in total when the run moved to ing; 90 for the simulation.
+pre-flights:
+  - plants (plants/preflight.json, the ing pre-flight; the workstation's had passed with the same values): on cohort replicates 0 and 1 the cross-validated pls_cv selected rank 8 at mean held-out stage AUROC 0.599514, and its statistics and p-values equal the call forced at rank 8 exactly. CV 37.7 s and 37.8 s; forced 0.76 s and 0.77 s.
+  - simulation (simulation/preflight.json): anchor replicates 0 and 1 of the ADNI-design run, through its own evaluator under its committed settings, gave its committed p-values exactly: 0.29 / 0.153 / 0.195 and 0.187 / 0.746 / 0.387 for delta / angle / shape.
+parents (sha256 bound in both profiles' settings and re-checked by run, merge and decide):
+  - results/adni-real-noise-anchor-2026-11-17/rate_table.csv           18e1b6ab1d76ea42657d835b5a981798ae5e2e4b9a4dd4012022a176aa3f4110
+  - results/adni-real-noise-anchor-2026-11-17/adni_anchor_decision.json 3f7b93dd92bf64333901c96fe4ef30bc084924cf5b94d943bd59d1d94f8aab49
+  - results/adni-design-2026-11-02/run/settings.json                    71fa229b043d329232bb373eb89bb08585500ffdd0bb2b28427b39444b63b9bd
+  - results/adni-design-2026-11-02/run/adni_design_pvalues.csv          532369910d876d3874fc082fdfd9d88b88d067d8f390027a4636f8ccb6e1c4d5
+export: adni_sexdiff's export step (1,501 participants, p180 133 + nmr 165 metabolites), read in place through ADNI_CONTRACT and never copied between machines. The workstation's copy (adni_sexdiff/results/motco_input) and ing's (/home1/tgonza/adni_sexdiff/results/motco_input) are byte-identical, all seven files by sha256. The settings bind the five contract files (re-hashed by merge and decide on ing, unchanged after the run):
+  - manifest.json   9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204
+  - metadata.csv    9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221
+  - covariates.csv  06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd
+  - p180.csv        5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e
+  - nmr.csv         a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43
+launch, simulation (OUT = /home1/tgonza/MOTCO-adni-gain-run/out, off the repository; from the ing worktree, with the .venv activated, BLAS pinned and PYTHONPATH=$PWD/src):
+  srun -p 512x1024 --exclude=n4,n11 -c 1 --mem=4G -t 00:30:00 ... python scripts/adni_gain_specificity_check.py preflight --profile simulation --out-dir $OUT
+  sbatch --array=0-99%50 --exclude=n4,n11 --time=01:30:00 --export=ALL,GAIN_PROFILE=simulation,GAIN_OUT=$OUT,N_SHARDS=100,GAIN_REPO=/home1/tgonza/MOTCO-adni-gain scripts/adni_gain_specificity_array.sbatch
+  python scripts/adni_gain_specificity_check.py merge --profile simulation --out-dir $OUT
+  n4 is excluded because the smoke's tasks stalled in NFS reads there (notes.md). All 100 tasks ran on n1 and ended COMPLETED.
+launch, plants:
+  workstation: the systemd-run --user unit adni-gain-plants, from the workstation worktree with its output outside /tmp: preflight, then run --profile plants --workers 7 under a RuntimeMaxSec enforcing the 55-core-hour cap. Stopped by hand at 20:02 when the run moved to ing, with 1,157 complete units and no torn line (7.46 recorded core-hours).
+  the move: the workstation shard's records (shard 0/1; seeds and statistics only) were copied to ing's $OUT/plants/records/ and their sha256 checked. The settings hash (c7258c98…) binds only the export's file hashes and repo-relative parents, so it is the same on both machines. Nothing else was copied.
+  ing: srun python scripts/adni_gain_specificity_check.py preflight --profile plants --export-dir $EXPORT --out-dir $OUT (job 945046, passed), then job 945183 (plants_run.sbatch beside $OUT; 48 CPUs, 96G, 1 h 35 min limit, --exclude=n4,n11):
+    python scripts/adni_gain_specificity_check.py run --profile plants --export-dir $EXPORT --out-dir $OUT --workers 48
+    python scripts/adni_gain_specificity_check.py merge --profile plants --export-dir $EXPORT --out-dir $OUT
+  with EXPORT=/home1/tgonza/adni_sexdiff/results/motco_input. It resumed the 6,043 pending units.
+then: python scripts/adni_gain_specificity_check.py decide --export-dir $EXPORT --out-dir $OUT (srun job 945211)
+settings hashes: plants c7258c98da8af08e6fe29c1252b6cb29b7d0dfba01f87827fa44889da31dd7bb; simulation 2145a782e25b99f5d2a302d74a6e50ca31952a80705c550bc9cda15626dc0879
+units (999 permutations each, rejection p <= 0.05; 500 replicates on a control, 200 on a plant):
+  - plants, base seed 2039 (the anchor driver's seed family: subsample, labels, rrpp, folds) and this driver's own base seed 2040 (direction, reference_split). n750: 750 participants drawn within sex × stage cells (Female CN/MCI/AD 118/155/63, Male 111/224/79), the other 751 held out; 18 cells, 4,200 units. cohort: all 1,501 participants; 12 cells, 3,000 units; the anchor forced at rank 8, no cross-validation.
+  - simulation, base seed 2040: adni_design_check's construction at its calibrated defaults and ADNI's table, with construction stage_span over both blocks and span_scale planted; 10 cells, 2,600 units.
+  - Arms: pls_cv (cross-validated on the unit's data) and predictive_orthonormal forced at its rank, each under unrestricted and within-stage draws. The case study's configuration (five covariates in six design columns; the simulation's six), rank floor 2, net displacement, the harness CV defaults, residual_correction df, the unit's RRPP seed on every arm.
+accounting:
+  - plants (plants/accounting.json): 7,200 of 7,200 complete; 0 failed units, 0 failed arms, 0 inconsistent units, 0 missing, 0 duplicates; 0 subsample and 0 label redraws. 40.27 recorded core-hours (7.46 on the workstation, the rest on ing), against the cap of 85. Unit medians 16.9-17.7 s at n750, 26.6-28.7 s for the cohort's planted and translation cells, 1.6 s for the cohort anchor.
+  - simulation (simulation/accounting.json): 2,600 of 2,600 complete; 0 failed, 0 inconsistent, 0 missing, 0 duplicates. 61.13 recorded core-hours against the cap of 90; unit medians 80.5-89.2 s.
+  - reproduction (plants/reproduction.json): the cohort anchor's counts for the four arms equal the anchor run's committed rate table, 12 of 12 readings.
+outcome (adni_gain_specificity_decision.json, rule version 1, not indicative): verdict power_loss; failing criteria S2 and S3. Gate passed. S1 holds for pls_cv and predictive_orthonormal in both profiles. S2 fails: the in-sample 90° rotation's angle, cohort 0.285 -> 0.05 (47 units against 0; p_loss 7.1e-15, below the ceiling 0.00167) and n750 0.235 -> 0.185 (p_loss 0.015). S3 fails in simulation: population_magnitude_e2 shape 0.06 -> 0.295 (p 2.2e-10, below the ceiling 0.003125), population_magnitude_e1 shape and population_orientation_e1 delta below 0.025; the in-sample family holds. G holds. Production's off-target statement: leaks.
+committed files (sha256):
+  - adni_gain_specificity_decision.json  b30f3ecad41f331ae524ac6eb750cf8db66f36feb6c666e07cbe22f2193f230f
+  - plants/settings.json                 eaab4103a45a143b73397958d87274091e2e0470de3522737a10fd1841f935dc
+  - plants/preflight.json                7159bc3032e6695cd2f159054bdd443e26673a21eec4c4320ab59ead874fef8f
+  - plants/rate_table.csv                4513fe7ab9355faa82472fc9a40a43d3ade76e1e46974f2214fd2cd01ae22e93
+  - plants/paired_table.csv              e7d61aff61c04d2f6941c038b2123ce76ecd61d50cbbcd90454ce5eca0f50cff
+  - plants/cell_table.csv                4a5d47219c4fd973ef4f33717cf270e0392af1a74b9dd0da7a040b2e81656ef3
+  - plants/accounting.json               395afe3d722d2025e04fc516f9c69268df993b36f2f16355fda971db993e9b41
+  - plants/reproduction.json             234d7ae2325584fc2117bba19d0d9412ee103a8ed2e814e5e67bfb3496682d7f
+  - simulation/settings.json             7b07b0577b77f7354d087502930de3419eb1611dbce8b84f484a0f3e9cb34b9b
+  - simulation/preflight.json            2617ef3bcc39bdbbd8cde791f62a383325b1cb6daa13f0e013fd0a1cfbfb77f4
+  - simulation/rate_table.csv            581e335d38e409cf878c915660d57a4248562cce2b130ad0f42babeda28b793a
+  - simulation/paired_table.csv          e194732754fc088e4fa9876ea1d9cc11b08aeecec32925bd4db32bd86f9aab16
+  - simulation/cell_table.csv            8e4cee5220277249a06e1e0e02154afddcfcecfac044b04b4ebeed5e943a9b0c
+  - simulation/accounting.json           c3c383dfd7dd288b9d075180cc7f0940badd969ae6bee77c0c3d32d34650c027
+  The decision's "inputs" block binds the thirteen profile files by these hashes.
+not committed: records/ and merged.jsonl of each profile (seeds and statistics per unit; kept on ing under $OUT), the array's logs, plants_run.log, plants_run.sbatch, the workstation unit's log.
+participant-level data: no committed file holds a participant identifier, a label vector, a subsample's membership, a fold assignment or a plant's shift vector. Checked on ing against the export in place: no token of a committed file equals an identifier except integers in count, size, rank and cell-table fields (rejections, counts, b and c, n_paired, CV-rank keys, ADNI's group × stage table); no JSON list has an entry per participant or per feature (the longest lists are the decision's descriptive table rows).

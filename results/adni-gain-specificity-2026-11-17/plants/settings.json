@@ -1,0 +1,447 @@
+{
+ "hash": "c7258c98da8af08e6fe29c1252b6cb29b7d0dfba01f87827fa44889da31dd7bb",
+ "settings": {
+  "alpha": 0.05,
+  "analysis": {
+   "cv": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "latent_coordinates": "predictive_orthonormal",
+   "min_components": 2,
+   "missing_covariates": "error",
+   "n_jobs": 1,
+   "orientation_estimator": "net_displacement",
+   "permutation_strata": "stage",
+   "residual_correction": "df"
+  },
+  "arm_specs": {
+   "pls_cv": {
+    "coordinates": "scores",
+    "draws": "unrestricted",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "pls_cv__within_stage": {
+    "coordinates": "scores",
+    "draws": "within_stage",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "unrestricted",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   },
+   "predictive_orthonormal__within_stage": {
+    "coordinates": "predictive_orthonormal",
+    "draws": "within_stage",
+    "family": "operating",
+    "fit": "cv",
+    "fixed_rank": null,
+    "residual_correction": "df"
+   }
+  },
+  "arms": [
+   "pls_cv",
+   "predictive_orthonormal",
+   "pls_cv__within_stage",
+   "predictive_orthonormal__within_stage"
+  ],
+  "base_seed": 2039,
+  "cells": [
+   {
+    "effect": null,
+    "kind": "control",
+    "mode": null,
+    "name": "anchor",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": null,
+    "target": null
+   },
+   {
+    "effect": 1.0,
+    "kind": "control",
+    "mode": "translation",
+    "name": "sample_translation_e1",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": null
+   },
+   {
+    "effect": 0.25,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "sample_magnitude_e0.25",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "delta"
+   },
+   {
+    "effect": 0.5,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "sample_magnitude_e0.5",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "delta"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "sample_magnitude_e1",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "delta"
+   },
+   {
+    "effect": 0.25,
+    "kind": "plant",
+    "mode": "orientation",
+    "name": "sample_orientation_e0.25",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "angle"
+   },
+   {
+    "effect": 0.5,
+    "kind": "plant",
+    "mode": "orientation",
+    "name": "sample_orientation_e0.5",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "angle"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "orientation",
+    "name": "sample_orientation_e1",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "angle"
+   },
+   {
+    "effect": 0.5,
+    "kind": "plant",
+    "mode": "shape",
+    "name": "sample_shape_e0.5",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "shape"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "shape",
+    "name": "sample_shape_e1",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "shape"
+   },
+   {
+    "effect": 0.5,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "heldout_magnitude_e0.5",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "delta"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "heldout_magnitude_e1",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "delta"
+   },
+   {
+    "effect": 2.0,
+    "kind": "plant",
+    "mode": "magnitude",
+    "name": "heldout_magnitude_e2",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "delta"
+   },
+   {
+    "effect": 0.5,
+    "kind": "plant",
+    "mode": "orientation",
+    "name": "heldout_orientation_e0.5",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "angle"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "orientation",
+    "name": "heldout_orientation_e1",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "angle"
+   },
+   {
+    "effect": 1.0,
+    "kind": "plant",
+    "mode": "shape",
+    "name": "heldout_shape_e1",
+    "points": [
+     "n750"
+    ],
+    "reference": "heldout",
+    "target": "shape"
+   },
+   {
+    "effect": 0.25,
+    "kind": "out_of_span",
+    "mode": "out_of_span",
+    "name": "sample_out_of_span_e0.25",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "angle"
+   },
+   {
+    "effect": 0.5,
+    "kind": "out_of_span",
+    "mode": "out_of_span",
+    "name": "sample_out_of_span_e0.5",
+    "points": [
+     "n750",
+     "cohort"
+    ],
+    "reference": "sample",
+    "target": "angle"
+   }
+  ],
+  "cohort_rank": 8,
+  "consistency_tolerance": 1e-08,
+  "contract": {
+   "blocks": [
+    [
+     "p180",
+     "p180.csv"
+    ],
+    [
+     "nmr",
+     "nmr.csv"
+    ]
+   ],
+   "covariate_levels": {
+    "apoe4": [
+     "0",
+     "1",
+     "2"
+    ],
+    "phase": [
+     "ADNI1",
+     "ADNI2GO"
+    ],
+    "statin": [
+     "0",
+     "1"
+    ]
+   },
+   "covariates": [
+    [
+     "age",
+     "numeric"
+    ],
+    [
+     "education",
+     "numeric"
+    ],
+    [
+     "apoe4",
+     "categorical"
+    ],
+    [
+     "phase",
+     "categorical"
+    ],
+    [
+     "statin",
+     "categorical"
+    ]
+   ],
+   "covariates_file": "covariates.csv",
+   "fidelity": {
+    "cv_mean_auroc": 0.599514,
+    "decimals": 6,
+    "selected_lv": 8,
+    "source": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0): selected_lv 8, cv_mean_auroc 0.5995142920769246"
+   },
+   "group_col": "sex",
+   "groups": [
+    "Female",
+    "Male"
+   ],
+   "manifest_file": "manifest.json",
+   "manifest_step": "export",
+   "metadata_file": "metadata.csv",
+   "name": "adni",
+   "sample_col": "rid",
+   "stage_col": "stage",
+   "stage_order": [
+    "CN",
+    "MCI",
+    "AD"
+   ],
+   "transform": "identity"
+  },
+  "driver": "adni-gain-specificity",
+  "driver_version": 1,
+  "export": {
+   "features": {
+    "nmr": 165,
+    "p180": 133
+   },
+   "files": {
+    "covariates.csv": "06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd",
+    "manifest.json": "9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204",
+    "metadata.csv": "9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221",
+    "nmr.csv": "a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43",
+    "p180.csv": "5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e"
+   },
+   "participants": 1501
+  },
+  "fit": "pls_cv cross-validates on the unit's data and every other arm is forced at its rank; a cohort anchor unit forces every arm at cohort_rank",
+  "max_attempts": 100,
+  "own_base_seed": 2040,
+  "own_seed_derivation": "sha256 of ['adni-gain-specificity', 2040, point, replicate, purpose]; purposes direction, reference_split",
+  "parents": {
+   "anchor_decision": {
+    "path": "results/adni-real-noise-anchor-2026-11-17/adni_anchor_decision.json",
+    "sha256": "3f7b93dd92bf64333901c96fe4ef30bc084924cf5b94d943bd59d1d94f8aab49"
+   },
+   "anchor_rates": {
+    "path": "results/adni-real-noise-anchor-2026-11-17/rate_table.csv",
+    "sha256": "18e1b6ab1d76ea42657d835b5a981798ae5e2e4b9a4dd4012022a176aa3f4110"
+   },
+   "design_pvalues": {
+    "path": "results/adni-design-2026-11-02/run/adni_design_pvalues.csv",
+    "sha256": "532369910d876d3874fc082fdfd9d88b88d067d8f390027a4636f8ccb6e1c4d5"
+   },
+   "design_settings": {
+    "path": "results/adni-design-2026-11-02/run/settings.json",
+    "sha256": "71fa229b043d329232bb373eb89bb08585500ffdd0bb2b28427b39444b63b9bd"
+   }
+  },
+  "permutations": 999,
+  "plant": {
+   "configuration": "stage coefficients of features ~ stage indicators + covariate columns (coded as analyze_trajectories codes them, centred on the reference's means) in the analysis sample's pooled-standardized coordinates; the group label is not in the model",
+   "edit": "motco.simulations.semisynthetic.edit_stage_configuration(z, mode, effect); the shift is edited - z, mapped back through the unplanted sample's pooled SD and added to every row of the planted group at each stage under the unit's permuted labels",
+   "out_of_span": {
+    "alignment_degrees": 90.0,
+    "direction": "standard normal over the joint features (purpose direction), projected off the sample configuration's centred stage means and normalized"
+   },
+   "planted_group": "Male",
+   "tolerance": 1e-08
+  },
+  "points": [
+   {
+    "name": "n750",
+    "participants": 750,
+    "subsampled": true,
+    "table": [
+     [
+      118,
+      155,
+      63
+     ],
+     [
+      111,
+      224,
+      79
+     ]
+    ]
+   },
+   {
+    "name": "cohort",
+    "participants": 1501,
+    "subsampled": false,
+    "table": [
+     [
+      237,
+      310,
+      125
+     ],
+     [
+      223,
+      448,
+      158
+     ]
+    ]
+   }
+  ],
+  "preflight_replicates": [
+   0,
+   1
+  ],
+  "profile": "plants",
+  "rejection": "p <= alpha",
+  "replicates": {
+   "control": 500,
+   "plant": 200
+  },
+  "rule_version": 1,
+  "seed_derivation": "the anchor driver's: sha256 of ['adni-real-noise-anchor', 2039, point, replicate, purpose(, attempt)]; purposes subsample, labels, rrpp, folds; shared by every cell of a point at a replicate"
+ }
+}
