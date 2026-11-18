@@ -1,0 +1,59 @@
+# ADNI latent plasmode provenance — 2,000 cohort units on ADNI's blocks and 7,200 calibration units on synthetic cohorts
+date: 2026-11-18 (local -03).
+  tests: srun job 945557 on ing n2, 13:43:50-13:44:38 (tests/test_adni_latent_plasmode_check.py at the run's revision, passed).
+  cohort: job 945560 on ing n3 (32 CPUs), 13:45:20-13:59:04: pre-flight 13:45:26-13:46:48, run to 13:58:24, merge to 13:59:04.
+  calibration: job 945561 on ing n2 (64 CPUs), 13:45:20-14:20:24: pre-flight 13:45:23-13:46:27, run to 14:19:56, merge to 14:20:24.
+  decide: job 945562 on ing n3, 14:20:24-14:21:12, after both (--dependency=afterok:945560:945561).
+change: adni-latent-plasmode-capture (MOTCO 0.25.0, no package change)
+driver: scripts/adni_latent_plasmode_check.py (driver version 1, decision rule version 1); no sbatch array (design D10)
+code_revision: 5cf3b202f1092271c58112bbd89d247fa9d65b4a on proposal/adni-latent-plasmode-capture (pushed to GitHub before any unit ran). Both profiles and decide ran at that commit from the clean detached worktree /home1/tgonza/MOTCO-adni-latent (each job logged "dirty=0") with PYTHONPATH on its src, so motco 0.25.0 was imported from the worktree. 3af99de, pushed afterwards, changed only AGENTS.md and mkdocs.yml.
+host and environment: ing, Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3 (the main checkout's .venv at /home1/tgonza/MOTCO/.venv). Cohort 32 workers on n3; calibration 64 workers on n2.
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1, exported in each job script before Python started.
+smoke (openspec/changes/adni-latent-plasmode-capture/notes.md, "Smoke"): on the workstation, both pre-flights passed; 16 cohort and 48 calibration units, 0 failed and 0 inconsistent; projection 20.5 recorded core-hours.
+pre-flights:
+  - cohort (cohort/preflight.json): on cohort replicates 0 and 1 the cross-validated fit selected rank 8 at mean held-out stage AUROC 0.599514, and the call forced at rank 8 gave the same statistics (CV 22.6 s and 22.5 s; forced 0.04 s). No permutation drawn. Recorded, not judged: the full cohort's split-half reliability over 20 within-stage splits into 750 and 751, mean correlation 0.282 (range -0.057 to 0.568), Spearman-Brown 0.440, implied strength 0.663 against the setting 0.67; cross-Gram eigenvalues 0.591, 0.220, 0.
+  - calibration (calibration/preflight.json): at strength 1 with the noise scaled to zero, one unit per point, every space's estimated capture equals its true capture (total and both contrasts) within 1e-15 (tolerance 1e-8); CV rank 6 at every point.
+parents (sha256 bound in both profiles' settings and re-checked by run, merge and decide):
+  - results/adni-real-noise-anchor-2026-11-17/point_table.csv          89d658fe643a203c817c8ecc7bee916950d963bdfbe537e3d64d3f9e25d08896
+  - results/adni-gain-specificity-2026-11-17/plants/cell_table.csv     4a5d47219c4fd973ef4f33717cf270e0392af1a74b9dd0da7a040b2e81656ef3
+export: adni_sexdiff's export step (1,501 participants, p180 133 + nmr 165 metabolites), ing's copy /home1/tgonza/adni_sexdiff/results/motco_input, read in place through ADNI_CONTRACT and never copied. Its five contract files were re-hashed on ing after the run and equal the settings' hashes:
+  - manifest.json   9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204
+  - metadata.csv    9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221
+  - covariates.csv  06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd
+  - p180.csv        5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e
+  - nmr.csv         a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43
+launch (OUT = /home1/tgonza/MOTCO-adni-latent-run/out, off the repository; each job script beside OUT, cd to the worktree, BLAS pinned, PYTHONPATH=$REPO/src, EXPORT as above):
+  cohort_run.sbatch (512x1024, n3, 32 CPUs, 48G, 45 min):
+    python scripts/adni_latent_plasmode_check.py preflight --profile cohort --export-dir $EXPORT --out-dir $OUT
+    python scripts/adni_latent_plasmode_check.py run --profile cohort --export-dir $EXPORT --out-dir $OUT --workers 32
+    python scripts/adni_latent_plasmode_check.py merge --profile cohort --export-dir $EXPORT --out-dir $OUT
+  calibration_run.sbatch (512x1024, n2, 64 CPUs, 96G, 1 h): the same three commands with --profile calibration and --workers 64.
+  decide.sbatch: python scripts/adni_latent_plasmode_check.py decide --export-dir $EXPORT --out-dir $OUT
+settings hashes: cohort 7348286a820e1a15a75a0fd5cbb28845bc441647d5afcc9f0f8265a401b33d4e; calibration 090f812aafe6f3d2182f3a27cb518e347de82e68a0a863450045d3e3232e1e96
+units:
+  - cohort: the anchor driver's units (base seed 2039; subsample within sex x stage cells, labels permuted within stage) at 80, 200, 500 and 750 participants, 500 each; this driver's own base seed 2041 for the 20 within-stage splits of the remainder per unit. The units at 80, 200 and 500 are the anchor run's, those at 750 the gain run's.
+  - calibration: 24 synthetic cohorts per strength (0, 0.67, 1) from the full-cohort fit features ~ stage + covariates and its residual covariance, Gaussian noise; 25 units per cohort and point under base seed 2041; the cohort profile's unit pipeline.
+  - spaces: pls_cv (the case study's configuration, cross-validated on the unit, rank floor 2), predictive (the same model's predictive subspace), pls_rank2 / pls_rank8 / pls_rank19 (forced), pca (at the unit's CV rank). Every fit is one analyze_trajectories call with permutations=0.
+accounting:
+  - cohort (cohort/accounting.json): 2,000 of 2,000 complete; 0 failed, 0 inconsistent, 0 missing, 0 duplicates; 0 subsample and 0 label redraws. 5.77 recorded core-hours; unit medians 7.1 / 8.4 / 11.6 / 14.5 s at 80 / 200 / 500 / 750.
+  - calibration (calibration/accounting.json): 7,200 of 7,200 complete; 0 failed, 0 inconsistent, 0 missing, 0 duplicates. 35.20 recorded core-hours; unit median 16.7 s.
+  - 40.97 recorded core-hours in all against the smoke's projection of 20.5: ing's unit medians were 1.3 to 2.2 times the workstation smoke's.
+  - reproduction (cohort/reproduction.json): the CV-rank counts at 80, 200 and 500 equal the anchor run's point table, and the four median naive captures at 750 equal the gain run's cell table (0.53603, 0.925475, 0.108803, 0.548427); 7 of 7 rows equal.
+outcome (adni_latent_plasmode_decision.json, rule version 1, not indicative): verdict gate_failed; cause bias. Units and reproduction pass. pls_cv's total-capture bias exceeds 0.05 at s1/n80 (-0.077), s1/n200 (-0.062), s0.67/n80 (-0.362), s0.67/n200 (-0.450) and s0.67/n500 (+0.110). Recorded with it: the program is not present at n80 (energy 0.779 against 2 x 0.507), and no point resolves (pls_cv half-widths 2.79 / 3.59 / 2.22 / 1.13 against 0.15). Nothing is read.
+committed files (sha256):
+  - adni_latent_plasmode_decision.json  4c0e8200560fd592482dc9b08f3739442bb2a511951612159831fc4f07ac13d4
+  - cohort/settings.json                cf373ff1c35384d0dfac866a3cd32e9998537846b36e789005fd6983d8a5f412
+  - cohort/preflight.json               f38d811eb84eaa3fb04c5b1ea654d9085f129ee8629104d02d2caab6dcf732fc
+  - cohort/capture_table.csv            37298f780e4abc35acab3eaba34458da68bd256f567e131b6a486b0a4770da0a
+  - cohort/point_table.csv              bdecf6e5bccd48183d78e31873fafac20f34fbdbd2e2b5079e606199335af6f1
+  - cohort/accounting.json              471b0c8147041d0a5dc98e63b5cb095ef4e7ad211498064aae1d5a58adbe205a
+  - cohort/reproduction.json            b0169b220a241c12d2e8ded97d414df492597694e9113d387aa23162f2e95084
+  - calibration/settings.json           bd535b1eb89ca61f2922c57581a7b0cb0e319f841f9d24eeb6222053cc1dfa90
+  - calibration/preflight.json          b7a7599595743d9b4731f1756b6a3bc310a7cafaa5aa360a02dd77ebbeabe78b
+  - calibration/capture_table.csv       723c619507dade40930f318b0362455974a638b2bda73ef075eb134ca3be7489
+  - calibration/point_table.csv         2491f2d9fd8d802df41ca84468f694d659b81f2a79ff6fc3dd46abe028db9604
+  - calibration/calibration_table.csv   56036dd5c2c548cad0f51b60fa18bb352b3327d55877e8d32383c1034b3eb664
+  - calibration/accounting.json         8b6aab4f3605cb590634be7fb40ce71a3074da9574ff67c9f333c57f2bdb2a7d
+  The decision's "inputs" block binds six of these files by these hashes. The files were copied from ing's OUT and their sha256 checked against the originals there.
+not committed: each profile's records/ and merged.jsonl (seeds, ranks, scalars and K x K matrices per unit; kept on ing under $OUT), the three job logs and job scripts.
+participant-level data: no committed file holds a participant identifier, a label vector, a subsample's or a half's membership, a configuration or a synthetic feature. Checked on ing against the export in place: the only tokens of a committed file equal to an identifier (ADNI's rid, an integer) are integers in count, size, rank and seed-index fields (500, 751, CV-rank keys and the like); no JSON list has an entry per participant or per feature (the longest is the decision's 144-row interval table).

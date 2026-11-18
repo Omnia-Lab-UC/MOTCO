@@ -1,0 +1,66 @@
+{
+ "by_cell": {
+  "n200": {
+   "complete": 500,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "n500": {
+   "complete": 500,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "n750": {
+   "complete": 500,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "n80": {
+   "complete": 500,
+   "failed": 0,
+   "inconsistent": 0
+  }
+ },
+ "by_point": {
+  "n200": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 500
+  },
+  "n500": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 500
+  },
+  "n750": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 500
+  },
+  "n80": {
+   "complete": 500,
+   "expected": 500,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 500
+  }
+ },
+ "complete_units": 2000,
+ "duplicate_records": 0,
+ "expected_units": 2000,
+ "failed_unit_errors": [],
+ "failed_units": 0,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "missing_units": 0,
+ "profile": "cohort",
+ "recorded_core_hours": 5.76831893089402,
+ "settings_hash": "7348286a820e1a15a75a0fd5cbb28845bc441647d5afcc9f0f8265a401b33d4e",
+ "unit_seconds_median": 10.21508347755298
+}

@@ -684,6 +684,33 @@ simulated table, and nothing is extended to 80, 200 or 500 participants. At the 
 and specificity were read on in-sample plants and in simulation only; no held-out plant exists
 there. SEA-AD's veto stands for SEA-AD's design, ROSMAP has no reading, and `keep_production` stands.
 
+### The latent plasmode on ADNI: gate failed
+
+The held-out reference above keeps 0.536 in the span, but it is mostly estimation noise, so its share
+is not the share of ADNI's stage program. The latent plasmode
+([report](reports/adni-latent-plasmode-2026-11-18.md)) estimated the program's own share from two
+independent halves of the participants outside the analysed sample. With `m1`, `m2` the halves'
+covariate-adjusted stage configurations and `Q` the span fitted on the sample, `tr(m1·Q·Qᵀ·m2ᵀ)` and
+`tr(m1·m2ᵀ)` are unbiased for the program's energy inside the span and in total, because the halves'
+noise is independent. The run read 2,000 units of ADNI's blocks at 80, 200, 500 and 750 participants,
+and 7,200 units of Gaussian cohorts with ADNI's design and a known program, which calibrated the
+estimator.
+
+**Verdict: `gate_failed`, so no capture is stated.**
+
+- **The gate's bias criterion failed.** At the calibration's full strength the estimator reads the
+  capture 0.035 to 0.077 too low. At the strength meant to match ADNI its spread across synthetic
+  cohorts (SD 0.57 to 1.79) left the ±0.05 limit unmeasurable at 24 cohorts.
+- **The reading would not have resolved either.** ADNI's program energy (0.70 to 0.78 in pooled SDs)
+  is not above the null level at 80 participants, and no interval is narrower than ±1.13 against the
+  limit ±0.15. Every unit's halves come from nearly the same remainder of one cohort, so more units
+  and splits do not shrink the spread.
+
+What stays as it was: the only capture of a weak stage program is the simulated 0.10, and a
+held-out share on ADNI mixes program and noise. A diagnosis of the estimator comes first, from the
+calibration's records. If the spread is almost all between cohorts, ADNI's one cohort cannot measure
+the capture with this estimator, and the number waits for a larger cohort.
+
 ## The permutation null: unrestricted or within stage
 
 RRPP tests the group × stage interaction by permuting the reduced model's residuals
