@@ -34,32 +34,37 @@ Before any reading, the diagnosis SHALL rebuild the parent's calibration table a
 - **WHEN** either rebuilt table differs
 - **THEN** the verdict is `reproduction_failed`
 
-### Requirement: The diagnosis separates the parts, the aggregate, the spread and the cohort's interval
+### Requirement: The diagnosis records the calibration's parts, aggregate and spread
 
-For every calibration cell, space and stage reading, the diagnosis SHALL record:
-
-- the mean bias of the numerator and the denominator against their truths, with cohort-level standard errors;
-- the ratio of sums over all units against the truth's, with a cluster-bootstrap standard error and interval;
-- the within- and between-cohort covariances of the numerator and denominator, and the between share of the cohort mean's variance;
-- the per-cohort ratio's mean error, median error, SD and robust SD.
-
-For every cohort point, it SHALL record Fieller's 95 % interval for the capture under four stand-ins for the cohort's between-cohort covariance.
+For every calibration cell, space and stage reading, the diagnosis SHALL record the bias of the numerator and of the denominator against their truths, the ratio of sums over all units against the truth's, and the within- and between-cohort covariances of the numerator and denominator.
 
 #### Scenario: Unbiased parts
 - **WHEN** the numerator and denominator are unbiased for their truths
 - **THEN** their mean differences lie within the stated multiple of their cohort-level standard errors
 
+#### Scenario: The aggregate
+- **WHEN** the ratio of sums over all of a cell's units is read
+- **THEN** it is recorded with the truth's ratio and a cluster-bootstrap standard error and interval over cohorts
+
 #### Scenario: A spread fixed by the cohort
 - **WHEN** most of the variance of a cohort's mean denominator is between cohorts
 - **THEN** the between share is at least the stated limit
 
-#### Scenario: An unbounded interval
-- **WHEN** the cohort's mean denominator is not more than 1.96 of its standard deviations from zero
-- **THEN** its Fieller interval is recorded as `exclusive` or `whole_line`, not `bounded`
-
 #### Scenario: Aggregates only
 - **WHEN** the outputs are written
 - **THEN** they hold no participant identifier, no per-unit value and no per-cohort value
+
+### Requirement: The diagnosis records the cohort's own interval for the capture
+
+For every cohort point, space and stage reading, the diagnosis SHALL record Fieller's 95 % interval for the capture from the cohort's mean numerator and denominator, under four stand-ins for the cohort's between-cohort covariance.
+
+#### Scenario: An unbounded interval
+- **WHEN** the cohort's mean denominator is not more than 1.96 of its standard deviations from zero
+- **THEN** its interval is recorded as `exclusive` or `whole_line`, not `bounded`
+
+#### Scenario: Every stand-in is recorded
+- **WHEN** the reading is written
+- **THEN** each point carries the interval's kind and `t` under all four stand-ins, and whether they agree
 
 ### Requirement: The reading is stated with its order and does not change the parent's verdict
 

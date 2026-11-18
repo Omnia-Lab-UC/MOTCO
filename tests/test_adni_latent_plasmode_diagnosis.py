@@ -176,6 +176,10 @@ def test_run_reproduces_and_decides(world: dict) -> None:
     assert payload["parent_verdict"] == "gate_failed"
     assert set(payload["findings"]) == {"F1", "F2", "F3", "F4"}
     assert set(payload["findings"]["F4"]["cells"]) == {"n80", "n200"}
+    for cell in payload["findings"]["F4"]["cells"].values():  # every stand-in found, strength 0 included
+        assert set(cell["stand_ins"]) == {"s0/raw", "s0/scaled", "s0.67/raw", "s0.67/scaled"}
+        assert all(entry is not None and entry["fieller"] in ("bounded", "exclusive", "whole_line")
+                   for entry in cell["stand_ins"].values())
 
 
 def test_component_rows_are_differences_of_means(world: dict) -> None:

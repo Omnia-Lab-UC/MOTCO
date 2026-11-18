@@ -377,8 +377,8 @@ def calibration_tables(records: Sequence[Mapping[str, Any]], profile_settings: M
 
 def _row(rows: Sequence[Mapping[str, Any]], **keys: Any) -> Mapping[str, Any] | None:
     for row in rows:
-        if all((math.isclose(float(row[key]), float(value)) if key == "strength" else str(row[key]) == str(value))
-               for key, value in keys.items()):
+        if all((row[key] not in (None, "") and math.isclose(float(row[key]), float(value)))
+               if key.endswith("strength") else str(row[key]) == str(value) for key, value in keys.items()):
             return row
     return None
 
