@@ -1,0 +1,52 @@
+{
+ "parent": {
+  "design_pvalues": {
+   "path": "results/adni-design-2026-11-02/run/adni_design_pvalues.csv",
+   "sha256": "532369910d876d3874fc082fdfd9d88b88d067d8f390027a4636f8ccb6e1c4d5"
+  },
+  "design_settings": {
+   "path": "results/adni-design-2026-11-02/run/settings.json",
+   "sha256": "71fa229b043d329232bb373eb89bb08585500ffdd0bb2b28427b39444b63b9bd"
+  }
+ },
+ "passed": true,
+ "profile": "simulation",
+ "rule": "anchor replicates of the ADNI-design run, analysed by its own unit evaluator under its committed settings, give its committed p-values exactly",
+ "settings_hash": "2145a782e25b99f5d2a302d74a6e50ca31952a80705c550bc9cda15626dc0879",
+ "units": [
+  {
+   "committed": {
+    "angle": "0.153",
+    "delta": "0.29",
+    "shape": "0.195"
+   },
+   "differing": [],
+   "observed": {
+    "angle": 0.153,
+    "delta": 0.29,
+    "shape": 0.195
+   },
+   "passed": true,
+   "replicate": 0,
+   "seconds": 64.16096316277981,
+   "unit": "adni_design/anchor/0"
+  },
+  {
+   "committed": {
+    "angle": "0.746",
+    "delta": "0.187",
+    "shape": "0.387"
+   },
+   "differing": [],
+   "observed": {
+    "angle": 0.746,
+    "delta": 0.187,
+    "shape": 0.387
+   },
+   "passed": true,
+   "replicate": 1,
+   "seconds": 59.826801212504506,
+   "unit": "adni_design/anchor/1"
+  }
+ ]
+}

@@ -1,0 +1,164 @@
+{
+ "differing": [],
+ "passed": true,
+ "rows": [
+  {
+   "arm": "pls_cv",
+   "committed": {
+    "count": 500,
+    "rejections": 25
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 25
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv",
+   "committed": {
+    "count": 500,
+    "rejections": 32
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 32
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv",
+   "committed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "committed": {
+    "count": 500,
+    "rejections": 29
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 29
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "committed": {
+    "count": 500,
+    "rejections": 20
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 20
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal",
+   "committed": {
+    "count": 500,
+    "rejections": 18
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 18
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "pls_cv__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 35
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 35
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "pls_cv__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 38
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 38
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "pls_cv__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "statistic": "shape"
+  },
+  {
+   "arm": "predictive_orthonormal__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 27
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 27
+   },
+   "statistic": "delta"
+  },
+  {
+   "arm": "predictive_orthonormal__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 28
+   },
+   "statistic": "angle"
+  },
+  {
+   "arm": "predictive_orthonormal__within_stage",
+   "committed": {
+    "count": 500,
+    "rejections": 21
+   },
+   "equal": true,
+   "observed": {
+    "count": 500,
+    "rejections": 21
+   },
+   "statistic": "shape"
+  }
+ ],
+ "rule": "the cohort anchor's available and rejected counts for the four arms equal the anchor run's committed rate table",
+ "settings_hash": "c7258c98da8af08e6fe29c1252b6cb29b7d0dfba01f87827fa44889da31dd7bb"
+}

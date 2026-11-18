@@ -566,8 +566,9 @@ cohort. Rejections of 500 for `delta` / `angle` / `shape`, beside SEA-AD's ancho
 | ADNI, cohort | 0.2 | 8 | 0.086 | 25 / 32 / 28 | 29 / 20 / 18 |
 
 - **SEA-AD's excess does not transfer to ADNI.** This is the size part of the second condition
-  under which `predictive_orthonormal` could be reopened, met for ADNI only. It stays an opt-in
-  diagnostic until its gain over production at ADNI's design and its specificity there are read.
+  under which `predictive_orthonormal` could be reopened, met for ADNI only. Its gain over
+  production at ADNI's design and its specificity there were read next and read `power_loss`
+  (next section), so it stays an opt-in diagnostic.
 - **Production has a second real-noise reading.** Its size holds on ADNI's own noise at every
   point, at the case study's configuration. The cohort's rates are conditional on its one fit, as
   SEA-AD's anchor rates are.
@@ -587,6 +588,101 @@ nothing: reopening an option at a design also needs a gain over production there
 and specificity there, each under its own predeclared decision. Features per participant, the
 selected ranks and the in-sample fit describe the points and license no reading at another
 design.
+
+### Gain and specificity at ADNI's design
+
+The next reading at ADNI's design ([report](reports/adni-gain-specificity-2026-11-17.md)) planted
+known differences of the stage program, on ADNI's own blocks and in the simulation of its design.
+On ADNI's blocks the sex labels are permuted within stage at 750 participants subsampled within
+cells and at the full cohort of 1,501. A plant edits the covariate-adjusted stage configuration
+(the stage coefficients of `features ~ stage + covariates`, which the trajectory model measures)
+and adds the edit to the second group's rows. It is a stretch about the centroid (intended `delta`),
+a rotation by 90°·e (`angle`), or a bend of the middle stage (`shape`). A translation along the net
+displacement plants a group main effect and is a size control. The simulation uses the ADNI-design
+construction with stage-span plants under the planted scale. Production (`pls_cv`) and
+`predictive_orthonormal` read the same fit on every unit, with the `df` correction: 9,800 units, 500
+on a control and 200 on a plant, at 999 permutations.
+
+**Why a plant has two references.**
+
+- **In sample.** The edit of the analysed sample's own configuration. Under the label permutation
+  both groups' expected configuration is the sample's, so the edit is the exact difference, and a
+  stretch has no intended `angle` or `shape`. It lies where the fit already looks: the fitted span
+  keeps 0.925 of that configuration at 750 participants and 0.957 at the cohort.
+- **Held out.** The edit of the configuration of the 751 participants outside the sample, which no
+  fit was built on. The span keeps 0.536 of it. Its split-half reliability gives about 0.3 of its
+  energy as the cohort's stage program (Spearman–Brown 0.285, median unit), so its off-target truth
+  is not exact and no off-target rate of a held-out plant was judged. The cohort has no held-out
+  plant.
+
+A difference along the cohort's true program lies between the two, so each target rate is reported
+on both.
+
+**Verdict on `predictive_orthonormal`: `power_loss`.** Protected power (S2) fails, and so does
+specificity (S3) in simulation. Size holds for both arms on every added control, including the
+translation, and the gain holds.
+
+- **The loss: an in-sample rotation of 90°.** Production's `angle` rejects it in 0.285 of units at
+  the cohort and the candidate in 0.05. Production alone rejects 47 units and the candidate alone
+  none, below the family's ceiling. At 750 participants the rates are 0.235 and 0.185. That rotation
+  cancels much of the pooled stage signal: the CV falls to rank 2 in most units (held-out AUROC
+  0.52). Among the cohort's units above rank 2, production reads `angle` in 51 of 85 and the
+  candidate in 6.
+- **The simulated specificity failure: stretches read as `shape`.** The candidate rejects a doubled
+  stretch by `shape` in 0.295 of units against production's 0.06 (0.11 against 0.045 at e = 1). A
+  90° rotation reads by `delta` in 0.08 against 0.035.
+- **On ADNI's in-sample plants the candidate adds no off-target rejection.** It removes most of
+  production's rotation-into-`shape` leak: at 90° production alone rejects `shape` in 59 units at
+  750 participants and 57 at the cohort, the candidate alone in none.
+- **The gains are real but do not decide.** In simulation the candidate gains in 5 of 8 target
+  cells (`delta` 0.12 → 0.485 at a stretch of 0.5, `angle` 0.075 → 0.325 at a rotation of 0.5). On
+  ADNI's noise it gains in 3 of 6 held-out and 8 of 16 in-sample target cells (recorded).
+
+So at ADNI's design its two measured dimensions give up a rotation that cancels the pooled stage
+signal, which production reads through its extra components, and, in simulation, specificity on
+stretches. The reopening condition is not met for ADNI, and `predictive_orthonormal` stays an
+opt-in diagnostic. Only a later paper-grade run could change a default.
+
+**What production detects on ADNI's noise.** These are production's rates alone, which hold whatever
+the verdict. A held-out plant bounds the detectable effect from above, an in-sample one from below.
+Target rejection rates against the 0.80 floor:
+
+| point, reference | `delta`, stretch 0.25 / 0.5 / 1.0 / 2.0 | `angle`, rotation 0.25 / 0.5 / 1.0 | `shape`, bend 0.5 / 1.0 |
+|---|---|---|---|
+| 750, in sample | 0.175 / 0.665 / **0.995** / — | 0.025 / 0.14 / 0.235 | 0.115 / 0.22 |
+| 750, held out | — / 0.22 / **0.855** / 1.0 | — / 0.075 / 0.345 | — / 0.055 |
+| cohort, in sample | 0.255 / **0.825** / 1.0 / — | 0.10 / 0.23 / 0.285 | 0.185 / 0.40 |
+
+- **`delta`** reaches the floor from a stretch of e = 1 at 750 participants on both references, and
+  from e = 0.5 in sample at the cohort.
+- **`angle` and `shape`** reach it nowhere, so a non-rejection of either stays uninformative on ADNI's
+  noise, as item 9 found in simulation.
+- **Off-target, production leaks.** Its 32 off-target readings on the in-sample plants have 10 above
+  the bound (16 of 200) and 7 above the ceiling (20). A rotation of the stage program is read by
+  `shape` more often than by `angle` (0.395 against 0.235 at 750 participants, e = 1), and a stretch
+  of 1.0 by `angle` (0.105 and 0.155). On ADNI's noise a production rejection says that the
+  trajectories differ, not how.
+
+**Outside the stage span** (recorded, not judged). A rotation of the net displacement toward a
+seeded direction orthogonal to the sample's stage span does not stay outside the fit on ADNI's
+noise: the CV selects rank 19 and the span keeps about half the plant. Rejections of 200 for `delta`
+/ `angle` / `shape`:
+
+| point, effect | `pls_cv` | `predictive_orthonormal` |
+|---|---|---|
+| 750, 0.25 | 28 / 24 / 22 | 66 / 77 / 147 |
+| 750, 0.5 | 152 / 167 / 108 | 180 / 139 / 196 |
+| cohort, 0.25 | 56 / 127 / 43 | 64 / 138 / 193 |
+| cohort, 0.5 | 199 / 200 / 117 | 193 / 192 / 200 |
+
+Both arms reject, and the candidate reads the rotation as `shape` above all. Outside the stage span
+the split test's complement is the designated detector. Its reading on ADNI's noise is not this
+change's, and these cells are where it starts.
+
+**What the verdict licenses.** The reading speaks for ADNI's export, the two design points and the
+simulated table, and nothing is extended to 80, 200 or 500 participants. At the full cohort, power
+and specificity were read on in-sample plants and in simulation only; no held-out plant exists
+there. SEA-AD's veto stands for SEA-AD's design, ROSMAP has no reading, and `keep_production` stands.
 
 ## The permutation null: unrestricted or within stage
 
