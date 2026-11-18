@@ -144,7 +144,8 @@ SPREAD_COLUMNS: tuple[str, ...] = (
     "cohort_error_median", "delta_bias_m", "delta_bias_m500", "delta_sd_m", "delta_sd_m500", "delta_sd_inf")
 ADNI_COLUMNS: tuple[str, ...] = (
     "point", "space", "reading", "units", "mean_N", "mean_D", "estimate", "W_NN", "W_ND", "W_DD", "stand_in_strength",
-    "stand_in", "within_ratio_D", "V_NN", "V_ND", "V_DD", "t", "fieller", "lower", "upper")
+    "stand_in", "within_ratio_D", "V_NN", "V_ND", "V_DD", "t", "fieller", "lower", "upper", "range_kind",
+    "range_lower", "range_upper")
 
 
 # ── Settings and bindings ────────────────────────────────────────────────────
@@ -285,6 +286,30 @@ def fieller(mean_n: float, mean_d: float, cov: np.ndarray, z: float = Z95) -> di
     return {"kind": "bounded" if a > 0 else "exclusive", "lower": roots[0], "upper": roots[1], "t": t}
 
 
+def restricted(interval: Mapping[str, Any], low: float = 0.0, high: float = 1.0) -> dict[str, Any]:
+    """Fieller's set intersected with the capture's range [0, 1] (a share of energy cannot leave it): ``interval``
+    (one closed interval), ``two_pieces``, ``empty`` or ``full``. Recorded, not judged."""
+
+    kind, lower, upper = interval["kind"], interval["lower"], interval["upper"]
+    if kind == "whole_line":
+        return {"range_kind": "full", "range_lower": low, "range_upper": high}
+    if kind == "bounded":
+        a, b = max(lower, low), min(upper, high)
+        return ({"range_kind": "interval", "range_lower": a, "range_upper": b} if a <= b
+                else {"range_kind": "empty", "range_lower": None, "range_upper": None})
+    pieces = []
+    if lower >= low:
+        pieces.append((low, min(lower, high)))
+    if upper <= high:
+        pieces.append((max(upper, low), high))
+    if not pieces:
+        return {"range_kind": "empty", "range_lower": None, "range_upper": None}
+    if len(pieces) == 2 and pieces[0][1] < pieces[1][0]:
+        return {"range_kind": "two_pieces", "range_lower": None, "range_upper": None}
+    a, b = pieces[0][0], pieces[-1][1]
+    return {"range_kind": "full" if (a, b) == (low, high) else "interval", "range_lower": a, "range_upper": b}
+
+
 def _pairs(records: Sequence[Mapping[str, Any]], space: str, reading: str, n_stages: int, *, truth: bool = False
            ) -> np.ndarray:
     reader = alp.truth_reading if truth else alp.unit_reading
@@ -410,7 +435,7 @@ def adni_tables(records: Sequence[Mapping[str, Any]], profile_settings: Mapping[
                     rows.append({**base, "stand_in_strength": strength, "stand_in": kind, "within_ratio_D": ratio,
                                  "V_NN": float(cov[0, 0]), "V_ND": float(cov[0, 1]), "V_DD": float(cov[1, 1]),
                                  "t": interval["t"], "fieller": interval["kind"], "lower": interval["lower"],
-                                 "upper": interval["upper"]})
+                                 "upper": interval["upper"], **restricted(interval)})
     return rows
 
 
@@ -428,7 +453,8 @@ RULE: dict[str, Any] = {
     "F3": f"the between share of var(cohort mean D) at strength {INTERVAL_STRENGTH:g} at least "
           f"{BETWEEN_SHARE_LIMIT:g} at every point",
     "F4": f"ADNI's 95 % Fieller interval unbounded at every point under the primary stand-in (strength "
-          f"{PRIMARY_STAND_IN[0]:g}, {PRIMARY_STAND_IN[1]}); the other stand-ins are recorded",
+          f"{PRIMARY_STAND_IN[0]:g}, {PRIMARY_STAND_IN[1]}); the other stand-ins, and each set restricted to the "
+          "capture's range [0, 1], are recorded, not judged",
     "verdict": "reproduction_failed; else estimator_biased (F1 or F2 fails); else resolvable (F4 fails); else "
                "units_limited (F3 fails); else information_limited",
 }
@@ -440,9 +466,11 @@ CONSEQUENCES: dict[str, str] = {
                   "where ADNI's interval is bounded; it is its own change, written before it reads.",
     "units_limited": "The spread is mostly within cohorts; a run with more units per point could narrow it.",
     "information_limited": "The estimator is sound, but its spread is a property of the one cohort and ADNI's "
-                           "program energy does not clear it: no 95 % interval for the capture is bounded at any "
-                           "point. No rule version 2 is proposed on ADNI; the capture waits for a larger cohort "
-                           "or several cohorts, and the parent's gate_failed stands.",
+                           "program energy does not clear it: no two-sided 95 % interval for the capture is bounded "
+                           "at any point, so no capture is stated on ADNI and the parent's gate_failed stands. A "
+                           "resolved capture waits for a larger cohort or several cohorts. The sets restricted to "
+                           "the capture's range [0, 1] are recorded, not judged; a rule stating one-sided bounds "
+                           "would be its own change.",
 }
 
 
@@ -473,7 +501,9 @@ def findings(component_rows: Sequence[Mapping[str, Any]], spread_rows: Sequence[
             entry = _row(adni_rows, point=point, space=DESIGNATED, reading="total", stand_in_strength=strength,
                          stand_in=kind)
             by_stand_in[f"s{alp.strength_label(strength)}/{kind}"] = None if entry is None else {
-                "t": _num(entry.get("t")), "fieller": str(entry.get("fieller"))}
+                "t": _num(entry.get("t")), "fieller": str(entry.get("fieller")),
+                "range_kind": str(entry.get("range_kind")), "range_lower": _num(entry.get("range_lower")),
+                "range_upper": _num(entry.get("range_upper"))}
         primary = by_stand_in[f"s{alp.strength_label(PRIMARY_STAND_IN[0])}/{PRIMARY_STAND_IN[1]}"]
         f4[point] = {"stand_ins": by_stand_in,
                      "passed": primary is not None and primary["fieller"] != "bounded",

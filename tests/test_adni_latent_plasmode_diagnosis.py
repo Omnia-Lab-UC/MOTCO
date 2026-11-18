@@ -148,6 +148,23 @@ def test_fieller_kinds() -> None:
     assert ald.fieller(0.1, 0.1, np.diag([0.25, 0.25]))["kind"] == "whole_line"
 
 
+def test_restriction_to_the_capture_range() -> None:
+    def interval(kind, lower=None, upper=None):
+        return {"kind": kind, "lower": lower, "upper": upper}
+
+    assert ald.restricted(interval("exclusive", 0.57, 2.07)) == {
+        "range_kind": "interval", "range_lower": 0.0, "range_upper": 0.57}
+    assert ald.restricted(interval("exclusive", 1.02, 2.2))["range_kind"] == "full"
+    assert ald.restricted(interval("exclusive", -0.5, 0.4)) == {
+        "range_kind": "interval", "range_lower": 0.4, "range_upper": 1.0}
+    assert ald.restricted(interval("exclusive", 0.2, 0.6))["range_kind"] == "two_pieces"
+    assert ald.restricted(interval("exclusive", -0.5, 1.5))["range_kind"] == "empty"
+    assert ald.restricted(interval("bounded", -0.1, 0.3)) == {
+        "range_kind": "interval", "range_lower": 0.0, "range_upper": 0.3}
+    assert ald.restricted(interval("bounded", 1.2, 1.5))["range_kind"] == "empty"
+    assert ald.restricted(interval("whole_line"))["range_kind"] == "full"
+
+
 def test_the_verdict_order() -> None:
     def found(**passed: bool) -> dict:
         return {name: {"passed": passed.get(name, True)} for name in ("F1", "F2", "F3", "F4")}

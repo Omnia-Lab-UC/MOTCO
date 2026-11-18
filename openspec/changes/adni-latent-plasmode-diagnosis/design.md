@@ -58,6 +58,7 @@ The ratio of sums over all of a cell's 600 units against the truth's ratio of su
 - **The primary stand-in** is strength 0.67, raw, the strength the parent's interval used.
 - **The interval.** Fieller's 95 % interval for `N / D` from `(N̄, D̄, V)` is `bounded` only when `t = D̄ / √V_DD` exceeds 1.96. Otherwise it is the line outside two roots (`exclusive`) or the whole line.
 - **Why Fieller.** It is the interval for a ratio that stays valid when the denominator's uncertainty is not small. A bounded Fieller interval is necessary for any rule that states a capture with an interval.
+- **The capture's range** (recorded, not judged; added after the first recorded run, see `notes.md`). A capture is a share of energy, so it lies in [0, 1]. Each set is also recorded intersected with that range: `interval` (one closed interval), `two_pieces`, `empty` or `full`. An `exclusive` set whose left ray ends inside [0, 1] restricts to an interval [0, u], which is a one-sided upper bound. The reading does not judge it. A rule that states such bounds is its own change.
 
 ### D6. The reading (rule version 1)
 
@@ -74,7 +75,7 @@ Written after the exploratory pass (`notes.md`). It is therefore a reading with 
 | `estimator_biased` | F1 or F2 fails | the estimator needs repair before any rule version 2 |
 | `resolvable` | F4 fails | a rule version 2 with Fieller's interval could read where it is bounded |
 | `units_limited` | F3 fails | more units per point could narrow the spread |
-| `information_limited` | otherwise | the estimator is sound, its spread is the cohort's, and ADNI's program does not clear it: no rule version 2 on ADNI |
+| `information_limited` | otherwise | the estimator is sound, its spread is the cohort's, and ADNI's program does not clear it: no capture is stated on ADNI (one-sided bounds recorded, not judged) |
 
 The limit 3 is set for 16 tests (8 cells × 2 parts) in F1 and 8 in F2. The limit 0.5 separates "mostly between" from "mostly within".
 
