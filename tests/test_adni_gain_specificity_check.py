@@ -896,26 +896,39 @@ def test_a_dataset_of_another_construction_is_flagged(sim_settings) -> None:
 # ── 3.3 sbatch ───────────────────────────────────────────────────────────────
 
 
-def test_the_sbatch_template_dry_runs_and_refuses_the_plants_profile(tmp_path) -> None:
+def test_the_sbatch_template_dry_runs_both_profiles(tmp_path) -> None:
     script = REPO / "scripts" / "adni_gain_specificity_array.sbatch"
     shell = shutil.which("bash") or "bash"
     subprocess.run([shell, "-n", str(script)], check=True)
     env = {"PATH": "/usr/bin:/bin", "GAIN_DRY_RUN": "1", "GAIN_PROFILE": "simulation",
            "GAIN_OUT": str(tmp_path / "run"), "GAIN_REPO": str(REPO), "N_SHARDS": "100", "SLURM_ARRAY_TASK_ID": "3",
            "GAIN_ARGS": "--limit 1"}
-    out = subprocess.run([shell, str(script)], env=env, cwd=tmp_path, check=True, capture_output=True,
-                         text=True).stdout
-    words = out.split()
+    driver = str(REPO / "scripts" / "adni_gain_specificity_check.py")
+
+    def dry(**changes: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run([shell, str(script)], env={**env, **changes}, cwd=tmp_path, capture_output=True,
+                              text=True)
+
+    words = dry().stdout.split()
     assert words[0] == f"PYTHONPATH={REPO / 'src'}"
-    assert words[1:] == ["python", str(REPO / "scripts" / "adni_gain_specificity_check.py"), "run", "--profile",
-                         "simulation", "--out-dir", str(tmp_path / "run"), "--shard", "3/100", "--limit", "1"]
+    assert words[1:] == ["python", driver, "run", "--profile", "simulation", "--out-dir", str(tmp_path / "run"),
+                         "--shard", "3/100", "--limit", "1"]
+    export = str(tmp_path / "export")
+    plants = dry(GAIN_PROFILE="plants", GAIN_EXPORT=export, N_SHARDS="1", SLURM_ARRAY_TASK_ID="0",
+                 GAIN_ARGS="--workers 48")
+    assert plants.returncode == 0
+    assert plants.stdout.split()[1:] == ["python", driver, "run", "--profile", "plants", "--export-dir", export,
+                                         "--out-dir", str(tmp_path / "run"), "--shard", "0/1", "--workers", "48"]
     assert not (tmp_path / "run").exists()
-    refused = subprocess.run([shell, str(script)], env={**env, "GAIN_PROFILE": "plants"}, cwd=tmp_path,
-                             capture_output=True, text=True)
-    assert refused.returncode == 2 and "never copied between machines" in refused.stderr
-    relative = subprocess.run([shell, str(script)], env={**env, "GAIN_OUT": "run"}, cwd=tmp_path,
-                              capture_output=True, text=True)
-    assert relative.returncode == 2 and "absolute" in relative.stderr
+    missing = dry(GAIN_PROFILE="plants")
+    assert missing.returncode == 2 and "GAIN_EXPORT" in missing.stderr
+    stray = dry(GAIN_EXPORT=export)
+    assert stray.returncode == 2 and "plants profile" in stray.stderr
+    for changes in ({"GAIN_OUT": "run"}, {"GAIN_PROFILE": "plants", "GAIN_EXPORT": "export"}):
+        relative = dry(**changes)
+        assert relative.returncode == 2 and "absolute" in relative.stderr
+    unknown = dry(GAIN_PROFILE="cohort")
+    assert unknown.returncode == 2 and "simulation or plants" in unknown.stderr
 
 
 # ── 4.1–4.2 Pre-flights ──────────────────────────────────────────────────────

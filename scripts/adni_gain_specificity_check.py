@@ -96,7 +96,8 @@ default; each profile writes under ``<out>/<profile>/``):
 
 Records hold seeds and statistics only: no participant identifier, label
 vector, subsample membership, fold assignment, configuration or shift vector.
-The export is never copied, so the plants profile has no sbatch array. With
+The export is read in place on the machine that holds it, never copied; the
+sbatch array runs both profiles, the plants profile with ``GAIN_EXPORT``. With
 ``--workers`` above 1, pin BLAS in the shell.
 
 Examples (the smoke: four replicates per cell):
