@@ -1,7 +1,7 @@
 # ADNI latent-plasmode diagnosis provenance — the run's 9,200 records re-read, no new units
 date: 2026-11-18 (local -03).
 change: adni-latent-plasmode-diagnosis (MOTCO 0.25.0, no package change)
-driver: scripts/adni_latent_plasmode_diagnosis.py (driver version 1, reading rule version 1, written after an exploratory pass; openspec/changes/adni-latent-plasmode-diagnosis/notes.md)
+driver: scripts/adni_latent_plasmode_diagnosis.py (driver version 1, reading rule version 1, written after an exploratory pass; openspec/changes/archive/2026-11-18-adni-latent-plasmode-diagnosis/notes.md)
 code_revision: e9ec526db9f525a19a45629395fbd45c1169002c on proposal/adni-latent-plasmode-diagnosis (pushed before the run), from the clean detached worktree /home1/tgonza/MOTCO-adni-latent-diagnosis on ing (logged "dirty=0") with PYTHONPATH on its src.
 run: srun job 945803 on ing n4 (2 CPUs), 19:31:41-19:35:23: the test module (13 passed), then run and decide.
   python scripts/adni_latent_plasmode_diagnosis.py run --records-dir /home1/tgonza/MOTCO-adni-latent-run/out --out-dir /home1/tgonza/MOTCO-adni-latent-run/diagnosis-out

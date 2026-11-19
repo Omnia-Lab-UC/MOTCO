@@ -30,7 +30,7 @@ asks where the bias comes from, where the spread lives, and whether any interval
   for a larger cohort or several cohorts.
 
 **How to read the verdict.** The rule (version 1) was written after an exploratory pass on the same records (the
-change's `notes.md`, under `openspec/changes/`). It is a reading with its thresholds stated, not a predeclared test. The range restriction was added after the first
+change's `openspec/changes/archive/2026-11-18-adni-latent-plasmode-diagnosis/notes.md`). It is a reading with its thresholds stated, not a predeclared test. The range restriction was added after the first
 recorded run, and it is not judged.
 
 ## 1. Configuration and provenance
