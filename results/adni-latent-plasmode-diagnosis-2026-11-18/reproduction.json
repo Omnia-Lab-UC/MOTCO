@@ -1,0 +1,28 @@
+{
+ "passed": true,
+ "records": {
+  "calibration": {
+   "records": 7200,
+   "sha256": "4351a15eeb1d2f52f695e82802654c597b19b8bb2ceb2a0e189520d7c0f8664a"
+  },
+  "cohort": {
+   "records": 2000,
+   "sha256": "bfd2ec5f9c3adf0420634a1199d7bb9228f7e1425d252df0e14fd789f84185ab"
+  }
+ },
+ "rows": [
+  {
+   "committed": "56036dd5c2c548cad0f51b60fa18bb352b3327d55877e8d32383c1034b3eb664",
+   "equal": true,
+   "file": "results/adni-latent-plasmode-2026-11-18/calibration/calibration_table.csv",
+   "observed": "56036dd5c2c548cad0f51b60fa18bb352b3327d55877e8d32383c1034b3eb664"
+  },
+  {
+   "committed": "37298f780e4abc35acab3eaba34458da68bd256f567e131b6a486b0a4770da0a",
+   "equal": true,
+   "file": "results/adni-latent-plasmode-2026-11-18/cohort/capture_table.csv",
+   "observed": "37298f780e4abc35acab3eaba34458da68bd256f567e131b6a486b0a4770da0a"
+  }
+ ],
+ "rule": "the parent driver's table builders, run on the merged records, write the committed calibration table and the cohort's capture table byte for byte"
+}

@@ -9,9 +9,9 @@
 
 ## 2. Run and report
 
-- [ ] 2.1 Run `run` and `decide` on ing from a clean worktree at a pushed revision, on `/home1/tgonza/MOTCO-adni-latent-run/out`, with the output outside the repository. Verify the reproduction, and record the records' sha256 and the revision.
-- [ ] 2.2 Commit the outputs under `results/adni-latent-plasmode-diagnosis-2026-11-18/` with `PROVENANCE.txt`. Write `docs/reports/adni-latent-plasmode-diagnosis-2026-11-18.md` with the verdict, the four findings, the stand-ins, what follows and the limitations, and add it to `mkdocs.yml`. Verify that every number the report quotes is in a committed output.
-- [ ] 2.3 Add the reading to `docs/measurement-visibility.md` (the latent-plasmode section), update roadmap open item 2, the Done-list entry 23 and the span-limits entry, and add the driver's row to `AGENTS.md`. Verify that `mkdocs build` adds no warnings beyond those on `main`, and that the pre-commit gate passes.
+- [x] 2.1 Run `run` and `decide` on ing from a clean worktree at a pushed revision, on `/home1/tgonza/MOTCO-adni-latent-run/out`, with the output outside the repository. Verify the reproduction, and record the records' sha256 and the revision.
+- [x] 2.2 Commit the outputs under `results/adni-latent-plasmode-diagnosis-2026-11-18/` with `PROVENANCE.txt`. Write `docs/reports/adni-latent-plasmode-diagnosis-2026-11-18.md` with the verdict, the four findings, the stand-ins, what follows and the limitations, and add it to `mkdocs.yml`. Verify that every number the report quotes is in a committed output.
+- [x] 2.3 Add the reading to `docs/measurement-visibility.md` (the latent-plasmode section), update roadmap open item 2, the Done-list entry 23 and the span-limits entry, and add the driver's row to `AGENTS.md`. Verify that `mkdocs build` adds no warnings beyond those on `main`, and that the pre-commit gate passes.
 
 ## Workflow follow-up
 
