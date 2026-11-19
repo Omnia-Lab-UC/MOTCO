@@ -1,0 +1,290 @@
+{
+ "hash": "090f812aafe6f3d2182f3a27cb518e347de82e68a0a863450045d3e3232e1e96",
+ "settings": {
+  "analysis": {
+   "cv": {
+    "cv1_splits": 3,
+    "cv2_splits": 4,
+    "max_components": 20,
+    "n_repeats": 5,
+    "random_state": 1203
+   },
+   "min_components": 2,
+   "missing_covariates": "error",
+   "n_jobs": 1,
+   "orientation_estimator": "net_displacement",
+   "permutations": 0,
+   "residual_correction": null
+  },
+  "cohort_rank": 8,
+  "cohorts": 24,
+  "configuration": "the stage coefficients of features ~ stage indicators + covariate columns (coded as analyze_trajectories codes them, centred on the set's means), fitted on each set alone in the sample's pooled-standardized coordinates, centred over stages and mapped to the cross-validated model's input coordinates; the group label is in no fit",
+  "consistency_tolerance": 1e-08,
+  "contract": {
+   "blocks": [
+    [
+     "p180",
+     "p180.csv"
+    ],
+    [
+     "nmr",
+     "nmr.csv"
+    ]
+   ],
+   "covariate_levels": {
+    "apoe4": [
+     "0",
+     "1",
+     "2"
+    ],
+    "phase": [
+     "ADNI1",
+     "ADNI2GO"
+    ],
+    "statin": [
+     "0",
+     "1"
+    ]
+   },
+   "covariates": [
+    [
+     "age",
+     "numeric"
+    ],
+    [
+     "education",
+     "numeric"
+    ],
+    [
+     "apoe4",
+     "categorical"
+    ],
+    [
+     "phase",
+     "categorical"
+    ],
+    [
+     "statin",
+     "categorical"
+    ]
+   ],
+   "covariates_file": "covariates.csv",
+   "fidelity": {
+    "cv_mean_auroc": 0.599514,
+    "decimals": 6,
+    "selected_lv": 8,
+    "source": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0): selected_lv 8, cv_mean_auroc 0.5995142920769246"
+   },
+   "group_col": "sex",
+   "groups": [
+    "Female",
+    "Male"
+   ],
+   "manifest_file": "manifest.json",
+   "manifest_step": "export",
+   "metadata_file": "metadata.csv",
+   "name": "adni",
+   "sample_col": "rid",
+   "stage_col": "stage",
+   "stage_order": [
+    "CN",
+    "MCI",
+    "AD"
+   ],
+   "transform": "identity"
+  },
+  "contrasts": {
+   "interior": "the centred stage space orthogonal to the net displacement",
+   "net_displacement": "the unit contrast (last stage - first stage) / sqrt(2)"
+  },
+  "designated_space": "pls_cv",
+  "driver": "adni-latent-plasmode",
+  "driver_version": 1,
+  "estimate": "per point, space and reading, the sum over units of the numerator over the sum of the denominator, never clipped; each unit's numerator and denominator are means over its splits",
+  "export": {
+   "features": {
+    "nmr": 165,
+    "p180": 133
+   },
+   "files": {
+    "covariates.csv": "06999e827d4f6eb6987bfa9c63bb24f9dfd4c07dfac96ce0b55500e8cd3fccfd",
+    "manifest.json": "9f4adf8cbc1da0b4cacdfe6673479991b40676033c365bc1433cc382f67d7204",
+    "metadata.csv": "9c445b7de5a50ee14c0771f2ebf57416120e46f6daa3703e48ff90308cecf221",
+    "nmr.csv": "a90d3eb43a86db456861e53a413f73ce8c70ec4d121eaa56e258725493114e43",
+    "p180.csv": "5547356eb1761705eeee2295cfe5838e302821594b5b2675630419123861402e"
+   },
+   "participants": 1501
+  },
+  "fit": "one cross-validated fit per unit (pls_cv; the predictive subspace is the same model's); every other fit is forced at its rank; each is one analyze_trajectories call with permutations=0",
+  "fixed_ranks": [
+   2,
+   8,
+   19
+  ],
+  "generator": {
+   "covariance": "S = the residuals' cross-product / (participants - design rank), drawn through its Cholesky factor",
+   "features": "grand mean (the stage coefficients' mean) + strength \u00d7 the centred stage coefficients at the participant's stage + the participant's centred covariates \u00d7 their coefficients + N(0, S); every participant keeps their stage, sex and covariates",
+   "fit": "least squares of the full cohort's raw joint features on stage indicators and covariate columns (coded as analyze_trajectories codes them, centred on the cohort's means)",
+   "truth": "strength \u00d7 the centred stage coefficients (raw units), in each unit's sample scaler and model input coordinates; no truth at strength 0"
+  },
+  "interval_strength": 0.67,
+  "max_attempts": 100,
+  "null_strength": 0.0,
+  "own_base_seed": 2041,
+  "own_seed_derivation": "sha256 of ['adni-latent-plasmode', 2041, 'calibration', strength, cohort, \u2026]: 'cohort_noise' per strength and cohort; per unit [point, unit, purpose(, attempt or split)] with purposes subsample, labels, reference_split (the fit's seed is the subsample's first attempt; no permutation is drawn)",
+  "parents": {
+   "anchor_points": {
+    "path": "results/adni-real-noise-anchor-2026-11-17/point_table.csv",
+    "sha256": "89d658fe643a203c817c8ecc7bee916950d963bdfbe537e3d64d3f9e25d08896"
+   },
+   "gain_cells": {
+    "path": "results/adni-gain-specificity-2026-11-17/plants/cell_table.csv",
+    "sha256": "4a5d47219c4fd973ef4f33717cf270e0392af1a74b9dd0da7a040b2e81656ef3"
+   }
+  },
+  "permutations": 0,
+  "points": [
+   {
+    "name": "n80",
+    "participants": 80,
+    "subsampled": true,
+    "table": [
+     [
+      13,
+      16,
+      7
+     ],
+     [
+      12,
+      24,
+      8
+     ]
+    ]
+   },
+   {
+    "name": "n200",
+    "participants": 200,
+    "subsampled": true,
+    "table": [
+     [
+      31,
+      41,
+      17
+     ],
+     [
+      30,
+      60,
+      21
+     ]
+    ]
+   },
+   {
+    "name": "n500",
+    "participants": 500,
+    "subsampled": true,
+    "table": [
+     [
+      79,
+      103,
+      42
+     ],
+     [
+      74,
+      149,
+      53
+     ]
+    ]
+   },
+   {
+    "name": "n750",
+    "participants": 750,
+    "subsampled": true,
+    "table": [
+     [
+      118,
+      155,
+      63
+     ],
+     [
+      111,
+      224,
+      79
+     ]
+    ]
+   },
+   {
+    "name": "cohort",
+    "participants": 1501,
+    "subsampled": false,
+    "table": [
+     [
+      237,
+      310,
+      125
+     ],
+     [
+      223,
+      448,
+      158
+     ]
+    ]
+   }
+  ],
+  "preflight": {
+   "cohort": 0,
+   "noise_scale": 0.0,
+   "rule": "at strength 1 with the noise scaled to zero, every space's estimated capture equals its true capture (total and both contrasts) to the tolerance on one unit per point",
+   "strength": 1.0,
+   "tolerance": 1e-08,
+   "unit": 0
+  },
+  "profile": "calibration",
+  "rule_version": 1,
+  "spaces": {
+   "pca": {
+    "basis": "the leading right singular vectors of the sample's model inputs",
+    "dimension": "cv_rank",
+    "fit": "none",
+    "rank": null
+   },
+   "pls_cv": {
+    "basis": "qr(x_rotations_) of the cross-validated fit (LinearLatentMap.from_pls)",
+    "dimension": "cv_rank",
+    "fit": "cross_validated",
+    "rank": null
+   },
+   "pls_rank19": {
+    "basis": "qr(x_rotations_) of the fit forced at the rank",
+    "dimension": 19,
+    "fit": "forced",
+    "rank": 19
+   },
+   "pls_rank2": {
+    "basis": "qr(x_rotations_) of the fit forced at the rank",
+    "dimension": 2,
+    "fit": "forced",
+    "rank": 2
+   },
+   "pls_rank8": {
+    "basis": "qr(x_rotations_) of the fit forced at the rank",
+    "dimension": 8,
+    "fit": "forced",
+    "rank": 8
+   },
+   "predictive": {
+    "basis": "qr(R\u00b7V) of the same model (LinearLatentMap.from_pls_predictive)",
+    "dimension": "min(cv_rank, n_stages - 1)",
+    "fit": "cross_validated",
+    "rank": null
+   }
+  },
+  "split": "the participants outside the sample, split within stage into two halves (adni_gain_specificity_check.split_within_stage; the first half takes each stage's floor)",
+  "splits": 20,
+  "strengths": [
+   0.0,
+   0.67,
+   1.0
+  ],
+  "units": 25
+ }
+}

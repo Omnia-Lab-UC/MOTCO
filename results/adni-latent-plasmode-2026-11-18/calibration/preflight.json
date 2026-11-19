@@ -1,0 +1,49 @@
+{
+ "passed": true,
+ "profile": "calibration",
+ "rule": "at strength 1 with the noise scaled to zero, every space's estimated capture equals its true capture (total and both contrasts) to the tolerance on one unit per point",
+ "settings_hash": "090f812aafe6f3d2182f3a27cb518e347de82e68a0a863450045d3e3232e1e96",
+ "tolerance": 1e-08,
+ "units": [
+  {
+   "failing": {},
+   "inconsistent_checks": [],
+   "passed": true,
+   "rank": 6,
+   "seconds": 8.48263700294774,
+   "status": "completed",
+   "unit": "s1/c0/n80/0",
+   "worst_deviation": 4.440892098500626e-16
+  },
+  {
+   "failing": {},
+   "inconsistent_checks": [],
+   "passed": true,
+   "rank": 6,
+   "seconds": 9.73479000502266,
+   "status": "completed",
+   "unit": "s1/c0/n200/0",
+   "worst_deviation": 5.551115123125783e-16
+  },
+  {
+   "failing": {},
+   "inconsistent_checks": [],
+   "passed": true,
+   "rank": 6,
+   "seconds": 13.321567478007637,
+   "status": "completed",
+   "unit": "s1/c0/n500/0",
+   "worst_deviation": 4.996003610813204e-16
+  },
+  {
+   "failing": {},
+   "inconsistent_checks": [],
+   "passed": true,
+   "rank": 6,
+   "seconds": 15.276876270072535,
+   "status": "completed",
+   "unit": "s1/c0/n750/0",
+   "worst_deviation": 9.992007221626409e-16
+  }
+ ]
+}

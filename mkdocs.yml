@@ -20,6 +20,7 @@ nav:
   - Measurement Visibility: measurement-visibility.md
   - Study Reports:
     - Measurement visibility:
+      - ADNI latent plasmode (2026-11-18): reports/adni-latent-plasmode-2026-11-18.md
       - ADNI gain and specificity (2026-11-17): reports/adni-gain-specificity-2026-11-17.md
       - ADNI real-noise anchor (2026-11-17): reports/adni-real-noise-anchor-2026-11-17.md
       - Within-stage permutation (2026-11-16): reports/within-stage-permutation-2026-11-16.md

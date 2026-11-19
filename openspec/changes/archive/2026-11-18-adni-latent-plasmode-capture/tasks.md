@@ -1,0 +1,45 @@
+# Tasks
+
+## 1. Driver skeleton and units
+
+- [x] 1.1 Create `scripts/adni_latent_plasmode_check.py` with `preflight`, `run`, `merge` (each with `--profile cohort | calibration`) and `decide` (design D10): `--export-dir` required, no default; per-profile `settings.json` bound by hash with the export's five file hashes and the parents' hashes (the anchor run's `point_table.csv`, the gain run's plants `cell_table.csv`); round-robin shards; resume of complete units; refusal of other settings by key and of a changed export or parent file by name. Verify in `tests/test_adni_latent_plasmode_check.py`, on the anchor test's synthetic stand-in export, the resume, the settings refusal, each parent refusal and the export refusal.
+- [x] 1.2 Build the cohort units by import of `adni_anchor_check`, unchanged (design D3): points 80, 200, 500 and 750 under the anchor's seed family, 500 replicates, and the own seeds from base seed 2041 (`reference_split` per unit and split index). Verify that a unit's sample at 200 equals the anchor driver's unit at that replicate, that one at 750 equals the gain driver's, that 2,000 units are enumerated, and that no committed driver uses base seed 2041.
+- [x] 1.3 Implement the three parts (design D2): the remainder outside the sample and its 20 within-stage splits through `adni_gain_specificity_check.split_within_stage`, imported. Verify that the parts are pairwise disjoint and cover the cohort, that each stage's halves differ in size by at most one, and that two split indices give different halves.
+
+## 2. Estimator and readings
+
+- [x] 2.1 Implement the cross-product estimator (design D1, D2, D4): each half's centred covariate-adjusted configuration through `adni_gain_specificity_check`'s imported functions in the sample's scaler and the model's input coordinates; per space the in-space and total cross-products and the K × K cross-Gram matrices, averaged over splits. Verify on Gaussian halves around a known configuration and a fixed basis that the mean estimate equals the true share within sampling error while the single-configuration share does not, that equal halves recover the share exactly, and that the Gram traces equal the scalars.
+- [x] 2.2 Implement the readings (design D5): the net-displacement and interior contrasts from the Gram matrices, the noise capture from the halves' difference, the naive captures of the whole remainder and of the sample, the program's energy and eigenvalues, and the halves' correlation. Verify that the two contrast energies sum to the total at three and at four stages, and that the noise capture is unchanged when the same configuration is added to both halves.
+- [x] 2.3 Implement the spaces (design D6): `pls_cv` by one `analyze_trajectories` call at the case study's configuration with `permutations=0`, `predictive` from the same model, `pls_rank2` / `pls_rank8` / `pls_rank19` forced, and `pca` at the unit's CV rank. Verify that a unit makes exactly one cross-validated fit, that the predictive basis has K − 1 columns from the same model, that every basis is orthonormal at its expected dimension, and that no permutation is drawn.
+- [x] 2.4 Implement the per-unit checks (`cell_table` imported, `parts`, `basis`, `gram`; design D9), assemble the unit record and write the driver's module docstring. Verify that a perturbed part, basis or Gram matrix is flagged and leaves the readings, that two label permutations of one unit give equal readings, that a rank-deficient half fails its unit with the reason, and that a stand-in record holds no identifier and no per-participant or per-feature field.
+
+## 3. Calibration profile
+
+- [x] 3.1 Implement the generator (design D7): the full-cohort fit of features on stage indicators and covariate columns, its residual covariance, and a seeded synthetic cohort at a strength that keeps every participant's stage, group and covariates. Verify that the noise-free features at strength 1 return the planted configuration exactly (the `truth` check), that strength 0 plants a zero configuration, that two cohort seeds differ, and that the empirical residual covariance of a large synthetic cohort approaches the generator's.
+- [x] 3.2 Build the calibration units (strengths 0, 0.67 and 1; 24 cohorts; 25 units per cohort and point; 7,200 units) from the driver's own seed family, evaluate each through the cohort profile's unit pipeline, and record the true capture per space and reading. Verify the enumeration, that a unit's true capture equals the planted configuration's share in its basis, and that no synthetic feature is in a record.
+
+## 4. Pre-flights, merge and reproductions
+
+- [x] 4.1 Implement both pre-flights (design D9), with `run` refusing to start without a pass: cohort, the anchor driver's pre-flight units at rank 8 and AUROC 0.599514, and the full cohort configuration's split-half reliability recorded; calibration, the noise-free equality of estimated and true capture to 1e-8. Verify on the stand-in a pass, a refusal after a failed pre-flight and a refusal under other settings.
+- [x] 4.2 Implement `merge` for both profiles (design D10): `capture_table.csv`, `point_table.csv`, `accounting.json` and, for the calibration, `calibration_table.csv` with one pooled estimate per synthetic cohort behind each standard deviation; failed and inconsistent units excluded. Verify the ratio of sums on hand-built records, the per-cohort pooling, the exclusion, and that a pooled estimate outside [0, 1] is written unchanged.
+- [x] 4.3 Implement the reproductions at the cohort merge (`reproduction.json`): the CV-rank counts at 80, 200 and 500 against the anchor run's table, and the median naive captures at 750 against the gain run's. Verify a pass, and that a differing count or median is recorded with the point, the quantity and both values.
+
+## 5. Decision
+
+- [x] 5.1 Implement `decide` (design D8, rule version 1), writing `adni_latent_plasmode_decision.json`: the gate, the program-present test, the intervals, the per-point resolution, the verdict, the contrast grades, what the verdict licenses and the `indicative` mark. Verify with synthetic tables each of the five verdicts, the gate's three failure causes separately, a resolution exactly at 0.15, each contrast grade, and the indicative mark below each committed count.
+
+## 6. Runs and report
+
+- [x] 6.1 Smoke both profiles with BLAS pinned in the shell, on the real export read in place: both pre-flights, then four units per point (cohort) and two cohorts of two units per strength and point (calibration) through `run`, `merge` and `decide`. Record in `notes.md` the pre-flight outcomes, the package versions, the timing per unit and the projected core-hours. Stop and give the projection to the user; the full runs wait on their approval of the worker count and the cap.
+- [x] 6.2 Run the 2,000 cohort units and the 7,200 calibration units from a clean worktree at a pushed revision, as a detached unit with the output outside `/tmp`, then `merge` both. Verify 0 failed and 0 inconsistent units or their count within the gate, both reproductions, and export hashes equal to the settings' after the run. Record the package versions and the revision.
+- [x] 6.3 Run `decide`, then commit aggregates only under `results/adni-latent-plasmode-<date>/`: per profile the settings, the pre-flight record, the tables and `accounting.json`; `reproduction.json`; the decision; `PROVENANCE.txt`. Write `docs/reports/adni-latent-plasmode-<date>.md` with the verdict, the capture per point and space with its interval, the contrasts, the noise capture, the naive readings beside the estimate, the calibration, what follows and the limitations, and add it to `mkdocs.yml`. Verify that every number the report quotes is in a committed aggregate and that no committed file holds a participant identifier, a label vector, a membership or a configuration.
+- [x] 6.4 Add the reading to `docs/measurement-visibility.md` beside the simulated capture, update roadmap open item 2 (and the "Limits of the span measurement" entry) with the verdict, add the Done-list entry, and add the driver's row to `AGENTS.md` (Validation drivers). Verify that `uv run mkdocs build` adds no warnings beyond those on `main`, that the roadmap's statements match the decision file, and that the pre-commit gate passes.
+
+## Workflow follow-up
+
+- Sync the delta spec and archive the change once the report is reviewed.
+- Under `measured` or `partly_measured`, a separate change proposes plants along the cross-validated program for the contrasts graded present, and open item 4's pre-check may read its candidates' capture through this driver's estimator.
+- Under `unresolved`, the capture waits for ROSMAP's export; no number is stated.
+- Under `no_program`, the roadmap records that stage-span plants on ADNI edit noise, and item 22's held-out readings are annotated accordingly.
+- Under `gate_failed`, a diagnosis of the estimator comes before any reading.
+- Under any verdict, the split test's reading on ADNI's out-of-span cells stays its own change.

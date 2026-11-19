@@ -1,0 +1,79 @@
+{
+ "expected": {
+  "cv_mean_auroc": 0.599514,
+  "decimals": 6,
+  "selected_lv": 8,
+  "source": "adni_sexdiff results/motco_analysis/result.json (MOTCO 0.10.0): selected_lv 8, cv_mean_auroc 0.5995142920769246"
+ },
+ "passed": true,
+ "profile": "cohort",
+ "reliability": {
+  "correlation_mean": 0.2818956440533168,
+  "correlation_range": [
+   -0.056885680681022295,
+   0.5684962961849824
+  ],
+  "cross_gram_eigenvalues": [
+   0.5913684408357921,
+   0.21961415781509708,
+   -2.42861286636753e-17
+  ],
+  "halves": [
+   750,
+   751
+  ],
+  "implied_strength": 0.6631821745877684,
+  "note": "recorded, not judged: the calibration's strength 0.67 extrapolates item 22's split-half 0.166 at 375 participants per half (Spearman-Brown 0.443 at the full cohort, square root 0.666)",
+  "settings_interval_strength": 0.67,
+  "spearman_brown_full_cohort": 0.4398105966909614,
+  "splits": 20
+ },
+ "rule": "the cross-validated pls_cv on the cohort anchor's units selects the contract's rank and AUROC (rounded), and its statistics equal the call forced at that rank exactly (no permutation drawn)",
+ "settings_hash": "7348286a820e1a15a75a0fd5cbb28845bc441647d5afcc9f0f8265a401b33d4e",
+ "units": [
+  {
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.599514,
+    "expected": {
+     "cv_mean_auroc": 0.599514,
+     "selected_lv": 8
+    },
+    "passed": true,
+    "rank": 8
+   },
+   "forced_rank": 8,
+   "label_redraws": 0,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 1125750856,
+   "seconds": {
+    "cross_validated": 22.620825910009444,
+    "forced": 0.03920598002150655
+   },
+   "statistics_differing": [],
+   "unit": "cohort/0"
+  },
+  {
+   "fidelity": {
+    "cv_mean_auroc_rounded": 0.599514,
+    "expected": {
+     "cv_mean_auroc": 0.599514,
+     "selected_lv": 8
+    },
+    "passed": true,
+    "rank": 8
+   },
+   "forced_rank": 8,
+   "label_redraws": 0,
+   "p_values_differing": [],
+   "passed": true,
+   "rrpp_seed": 1399897540,
+   "seconds": {
+    "cross_validated": 22.52279160101898,
+    "forced": 0.035204139072448015
+   },
+   "statistics_differing": [],
+   "unit": "cohort/1"
+  }
+ ]
+}

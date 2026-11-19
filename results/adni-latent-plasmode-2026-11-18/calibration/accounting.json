@@ -1,0 +1,106 @@
+{
+ "by_cell": {
+  "s0.67/n200": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0.67/n500": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0.67/n750": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0.67/n80": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0/n200": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0/n500": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0/n750": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s0/n80": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s1/n200": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s1/n500": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s1/n750": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  },
+  "s1/n80": {
+   "complete": 600,
+   "failed": 0,
+   "inconsistent": 0
+  }
+ },
+ "by_point": {
+  "n200": {
+   "complete": 1800,
+   "expected": 1800,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 1800
+  },
+  "n500": {
+   "complete": 1800,
+   "expected": 1800,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 1800
+  },
+  "n750": {
+   "complete": 1800,
+   "expected": 1800,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 1800
+  },
+  "n80": {
+   "complete": 1800,
+   "expected": 1800,
+   "failed": 0,
+   "inconsistent": 0,
+   "usable": 1800
+  }
+ },
+ "complete_units": 7200,
+ "duplicate_records": 0,
+ "expected_units": 7200,
+ "failed_unit_errors": [],
+ "failed_units": 0,
+ "inconsistent_unit_checks": [],
+ "inconsistent_units": 0,
+ "missing_units": 0,
+ "profile": "calibration",
+ "recorded_core_hours": 35.199892893494045,
+ "settings_hash": "090f812aafe6f3d2182f3a27cb518e347de82e68a0a863450045d3e3232e1e96",
+ "unit_seconds_median": 16.74206185148796
+}
