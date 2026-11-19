@@ -1,0 +1,288 @@
+{
+ "consequence": "The estimator is sound, but its spread is a property of the one cohort and ADNI's program energy does not clear it: no two-sided 95 % interval for the capture is bounded at any point, so no capture is stated on ADNI and the parent's gate_failed stands. A resolved capture waits for a larger cohort or several cohorts. The sets restricted to the capture's range [0, 1] are recorded, not judged; a rule stating one-sided bounds would be its own change.",
+ "findings": {
+  "F1": {
+   "cells": {
+    "s0.67/n200": {
+     "passed": true,
+     "z_D": 0.400594,
+     "z_N": 0.470545
+    },
+    "s0.67/n500": {
+     "passed": true,
+     "z_D": 0.198963,
+     "z_N": 0.247382
+    },
+    "s0.67/n750": {
+     "passed": true,
+     "z_D": 0.175169,
+     "z_N": 0.127142
+    },
+    "s0.67/n80": {
+     "passed": true,
+     "z_D": 0.537751,
+     "z_N": 0.529254
+    },
+    "s1/n200": {
+     "passed": true,
+     "z_D": -0.113199,
+     "z_N": -0.191292
+    },
+    "s1/n500": {
+     "passed": true,
+     "z_D": -0.184476,
+     "z_N": -0.0998562
+    },
+    "s1/n750": {
+     "passed": true,
+     "z_D": -0.598213,
+     "z_N": -0.444567
+    },
+    "s1/n80": {
+     "passed": true,
+     "z_D": -0.134574,
+     "z_N": -0.66845
+    }
+   },
+   "passed": true,
+   "rule": "|z| of the mean N - TN and of D - TD below 3 at every gate strength and point"
+  },
+  "F2": {
+   "cells": {
+    "s0.67/n200": {
+     "grand_bias": 0.0319166,
+     "passed": true,
+     "z_grand": 0.524825
+    },
+    "s0.67/n500": {
+     "grand_bias": 0.0173164,
+     "passed": true,
+     "z_grand": 0.302968
+    },
+    "s0.67/n750": {
+     "grand_bias": 0.000422496,
+     "passed": true,
+     "z_grand": 0.00968332
+    },
+    "s0.67/n80": {
+     "grand_bias": 0.0325117,
+     "passed": true,
+     "z_grand": 0.526274
+    },
+    "s1/n200": {
+     "grand_bias": -0.00785627,
+     "passed": true,
+     "z_grand": -0.284244
+    },
+    "s1/n500": {
+     "grand_bias": 0.00309814,
+     "passed": true,
+     "z_grand": 0.162472
+    },
+    "s1/n750": {
+     "grand_bias": 0.00332467,
+     "passed": true,
+     "z_grand": 0.219881
+    },
+    "s1/n80": {
+     "grand_bias": -0.0282938,
+     "passed": true,
+     "z_grand": -1.09695
+    }
+   },
+   "passed": true,
+   "rule": "|z| of the grand ratio's bias (cluster bootstrap over cohorts) below 3 at every gate strength and point"
+  },
+  "F3": {
+   "cells": {
+    "n200": {
+     "between_share_D": 0.980862,
+     "between_share_N": 0.979204,
+     "passed": true
+    },
+    "n500": {
+     "between_share_D": 0.952243,
+     "between_share_N": 0.958807,
+     "passed": true
+    },
+    "n750": {
+     "between_share_D": 0.893487,
+     "between_share_N": 0.898711,
+     "passed": true
+    },
+    "n80": {
+     "between_share_D": 0.990898,
+     "between_share_N": 0.980644,
+     "passed": true
+    }
+   },
+   "passed": true,
+   "rule": "the between share of var(cohort mean D) at strength 0.67 at least 0.5 at every point"
+  },
+  "F4": {
+   "cells": {
+    "n200": {
+     "passed": true,
+     "stand_ins": {
+      "s0.67/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.653386,
+       "t": 1.37709
+      },
+      "s0.67/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.588457,
+       "t": 1.85157
+      },
+      "s0/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.539402,
+       "t": 1.50778
+      },
+      "s0/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.520417,
+       "t": 1.66996
+      }
+     },
+     "stand_ins_agree": true
+    },
+    "n500": {
+     "passed": true,
+     "stand_ins": {
+      "s0.67/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.773534,
+       "t": 1.26352
+      },
+      "s0.67/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.742164,
+       "t": 1.51706
+      },
+      "s0/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.725838,
+       "t": 1.54758
+      },
+      "s0/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.688613,
+       "t": 1.70413
+      }
+     },
+     "stand_ins_agree": true
+    },
+    "n750": {
+     "passed": true,
+     "stand_ins": {
+      "s0.67/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.81448,
+       "t": 1.21921
+      },
+      "s0.67/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.774462,
+       "t": 1.57798
+      },
+      "s0/raw": {
+       "fieller": "whole_line",
+       "range_kind": "full",
+       "range_lower": 0.0,
+       "range_upper": 1.0,
+       "t": 1.40799
+      },
+      "s0/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "full",
+       "range_lower": 0.0,
+       "range_upper": 1.0,
+       "t": 1.69974
+      }
+     },
+     "stand_ins_agree": true
+    },
+    "n80": {
+     "passed": true,
+     "stand_ins": {
+      "s0.67/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.57311,
+       "t": 1.36235
+      },
+      "s0.67/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.494875,
+       "t": 1.89537
+      },
+      "s0/raw": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.493332,
+       "t": 1.54095
+      },
+      "s0/scaled": {
+       "fieller": "exclusive",
+       "range_kind": "interval",
+       "range_lower": 0.0,
+       "range_upper": 0.464692,
+       "t": 1.7541
+      }
+     },
+     "stand_ins_agree": true
+    }
+   },
+   "passed": true,
+   "rule": "ADNI's 95 % Fieller interval unbounded at every point under the primary stand-in (strength 0.67, raw); the other stand-ins, and each set restricted to the capture's range [0, 1], are recorded, not judged"
+  }
+ },
+ "inputs": {
+  "adni_table.csv": "afb771c89aed68a39a49f4857666bd2ad7f582ab454918f616ec4d3fff8f0324",
+  "component_table.csv": "fe176dd07f480a14eb9b4a4850c854d672fdf0d41b25ebdb988d4f6e1c30e62a",
+  "reproduction.json": "8b95e88e9b9de8eddac1099e77c7637053cdda18d84a93cd45199e03cb148786",
+  "spread_table.csv": "3ee2b0686dc42a2c1bb373969f759c5e929c1f071b410010fa7bf79824df0624"
+ },
+ "parent_verdict": "gate_failed",
+ "reproduction": {
+  "passed": true
+ },
+ "rule": {
+  "F1": "|z| of the mean N - TN and of D - TD below 3 at every gate strength and point",
+  "F2": "|z| of the grand ratio's bias (cluster bootstrap over cohorts) below 3 at every gate strength and point",
+  "F3": "the between share of var(cohort mean D) at strength 0.67 at least 0.5 at every point",
+  "F4": "ADNI's 95 % Fieller interval unbounded at every point under the primary stand-in (strength 0.67, raw); the other stand-ins, and each set restricted to the capture's range [0, 1], are recorded, not judged",
+  "designated": "pls_cv, total capture",
+  "verdict": "reproduction_failed; else estimator_biased (F1 or F2 fails); else resolvable (F4 fails); else units_limited (F3 fails); else information_limited",
+  "version": 1,
+  "written": "after an exploratory pass on the same records (notes.md, 2026-11-18); a reading, not a predeclared test, and it does not change the parent's verdict"
+ },
+ "rule_version": 1,
+ "settings_hash": "c1177c11e74cac53d60975027d5164f8d0df1bbcf4d122850cf8a83c8ca141ba",
+ "verdict": "information_limited"
+}

@@ -1,0 +1,69 @@
+{
+ "hash": "c1177c11e74cac53d60975027d5164f8d0df1bbcf4d122850cf8a83c8ca141ba",
+ "settings": {
+  "adni_units_for_v": 500,
+  "base_seed": 2042,
+  "between_share_limit": 0.5,
+  "bias_z_limit": 3.0,
+  "bootstrap": 2000,
+  "designated_space": "pls_cv",
+  "driver": "adni-latent-plasmode-diagnosis",
+  "driver_version": 1,
+  "gate_strengths": [
+   0.67,
+   1.0
+  ],
+  "low_denominator_share": 0.25,
+  "parents": {
+   "calibration_settings": {
+    "path": "results/adni-latent-plasmode-2026-11-18/calibration/settings.json",
+    "sha256": "bd535b1eb89ca61f2922c57581a7b0cb0e319f841f9d24eeb6222053cc1dfa90"
+   },
+   "calibration_table": {
+    "path": "results/adni-latent-plasmode-2026-11-18/calibration/calibration_table.csv",
+    "sha256": "56036dd5c2c548cad0f51b60fa18bb352b3327d55877e8d32383c1034b3eb664"
+   },
+   "cohort_captures": {
+    "path": "results/adni-latent-plasmode-2026-11-18/cohort/capture_table.csv",
+    "sha256": "37298f780e4abc35acab3eaba34458da68bd256f567e131b6a486b0a4770da0a"
+   },
+   "cohort_settings": {
+    "path": "results/adni-latent-plasmode-2026-11-18/cohort/settings.json",
+    "sha256": "cf373ff1c35384d0dfac866a3cd32e9998537846b36e789005fd6983d8a5f412"
+   },
+   "decision": {
+    "path": "results/adni-latent-plasmode-2026-11-18/adni_latent_plasmode_decision.json",
+    "sha256": "4c0e8200560fd592482dc9b08f3739442bb2a511951612159831fc4f07ac13d4"
+   }
+  },
+  "primary_stand_in": [
+   0.67,
+   "raw"
+  ],
+  "readings": [
+   "total",
+   "net_displacement",
+   "interior"
+  ],
+  "rule_version": 1,
+  "stand_ins": [
+   [
+    0.0,
+    "raw"
+   ],
+   [
+    0.0,
+    "scaled"
+   ],
+   [
+    0.67,
+    "raw"
+   ],
+   [
+    0.67,
+    "scaled"
+   ]
+  ],
+  "z": 1.959963984540054
+ }
+}

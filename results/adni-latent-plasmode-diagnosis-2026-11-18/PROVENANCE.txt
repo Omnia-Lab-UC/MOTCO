@@ -1,0 +1,28 @@
+# ADNI latent-plasmode diagnosis provenance — the run's 9,200 records re-read, no new units
+date: 2026-11-18 (local -03).
+change: adni-latent-plasmode-diagnosis (MOTCO 0.25.0, no package change)
+driver: scripts/adni_latent_plasmode_diagnosis.py (driver version 1, reading rule version 1, written after an exploratory pass; openspec/changes/archive/2026-11-18-adni-latent-plasmode-diagnosis/notes.md)
+code_revision: e9ec526db9f525a19a45629395fbd45c1169002c on proposal/adni-latent-plasmode-diagnosis (pushed before the run), from the clean detached worktree /home1/tgonza/MOTCO-adni-latent-diagnosis on ing (logged "dirty=0") with PYTHONPATH on its src.
+run: srun job 945803 on ing n4 (2 CPUs), 19:31:41-19:35:23: the test module (13 passed), then run and decide.
+  python scripts/adni_latent_plasmode_diagnosis.py run --records-dir /home1/tgonza/MOTCO-adni-latent-run/out --out-dir /home1/tgonza/MOTCO-adni-latent-run/diagnosis-out
+  python scripts/adni_latent_plasmode_diagnosis.py decide --out-dir /home1/tgonza/MOTCO-adni-latent-run/diagnosis-out
+earlier recorded runs (same records, outputs replaced): 2a56e65 (job 945733) and 02c5cd8 (job 945778). Their tables are byte-identical to this run's except adni_table.csv, which gained the range columns at e9ec526; their decision files lacked the strength-0 stand-ins (2a56e65) or the ranges. notes.md, "Recorded runs".
+environment: Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3 (ing's main .venv); OMP/OPENBLAS/MKL threads 1.
+inputs (read in place on ing, never copied; no export is read):
+  - /home1/tgonza/MOTCO-adni-latent-run/out/calibration/merged.jsonl  7,200 records  4351a15eeb1d2f52f695e82802654c597b19b8bb2ceb2a0e189520d7c0f8664a
+  - /home1/tgonza/MOTCO-adni-latent-run/out/cohort/merged.jsonl       2,000 records  bfd2ec5f9c3adf0420634a1199d7bb9228f7e1425d252df0e14fd789f84185ab
+  Every record carries its profile's committed settings hash (calibration 090f812a..., cohort 7348286a...), and each expected unit is present once.
+parents (sha256 bound in settings.json and re-checked by run and decide):
+  - results/adni-latent-plasmode-2026-11-18/calibration/settings.json, calibration/calibration_table.csv, cohort/settings.json, cohort/capture_table.csv, adni_latent_plasmode_decision.json
+reproduction (reproduction.json): the parent driver's calibration_rows and capture_rows, written by its CSV writer from the records, equal the committed calibration table and the cohort's capture table byte for byte.
+settings hash: see settings.json ("hash").
+outcome (adni_latent_plasmode_diagnosis.json): verdict information_limited; F1, F2, F3 and F4 hold; the four stand-ins agree at every point. The parent's verdict, gate_failed, is unchanged.
+committed files (sha256):
+  - settings.json                         2730a12560571d5bb7b5aaf4ca9965620f2e3beb242c98c049b409c607c2b9ca
+  - reproduction.json                     8b95e88e9b9de8eddac1099e77c7637053cdda18d84a93cd45199e03cb148786
+  - component_table.csv                   fe176dd07f480a14eb9b4a4850c854d672fdf0d41b25ebdb988d4f6e1c30e62a
+  - spread_table.csv                      3ee2b0686dc42a2c1bb373969f759c5e929c1f071b410010fa7bf79824df0624
+  - adni_table.csv                        afb771c89aed68a39a49f4857666bd2ad7f582ab454918f616ec4d3fff8f0324
+  - adni_latent_plasmode_diagnosis.json   195cd5d8f6c3d902ea42efc55ffac5284e7e39f0ab81c5540a91d7d96b68d4e7
+  Copied from ing's output directory; sha256 checked against the originals there.
+participant-level data: none. The outputs hold aggregates per strength or stand-in, point, space and reading only; no per-unit or per-cohort value, no identifier and no configuration. The records they summarize hold seeds, ranks, scalars and stage x stage matrices.

@@ -706,10 +706,26 @@ estimator.
   limit ±0.15. Every unit's halves come from nearly the same remainder of one cohort, so more units
   and splits do not shrink the spread.
 
+**The diagnosis: `information_limited`** ([report](reports/adni-latent-plasmode-diagnosis-2026-11-18.md)).
+It re-read the run's records with no new units.
+
+- **The estimator is sound.** A unit's two cross-products are unbiased for their truths, and pooled
+  over the calibration's 24 cohorts the ratio sits on its truth. The gate's bias is that of a ratio
+  with a noisy denominator, within one cohort.
+- **The spread belongs to the cohort.** 89 to 99 % of the variance of a cohort's mean denominator is
+  between cohorts, so more units or splits of ADNI do not narrow it.
+- **ADNI's program does not clear it.** Its energy is 1.2 to 1.9 cohort-level standard deviations from
+  zero under every stand-in for that spread. So no two-sided 95 % interval for the capture (Fieller's,
+  the interval for a ratio) is bounded at any point.
+
+**What ADNI can say: an upper bound** (recorded, not judged). A capture lies in [0, 1]. Within that
+range the same intervals bound it from above: production's span holds at most 0.46 to 0.57 of ADNI's
+program at 80 participants and 0.52 to 0.65 at 200, depending on the stand-in. These are bounds, not
+estimates.
+
 What stays as it was: the only capture of a weak stage program is the simulated 0.10, and a
-held-out share on ADNI mixes program and noise. A diagnosis of the estimator comes first, from the
-calibration's records. If the spread is almost all between cohorts, ADNI's one cohort cannot measure
-the capture with this estimator, and the number waits for a larger cohort.
+held-out share on ADNI mixes program and noise. A resolved real-noise capture waits for a larger
+cohort or several cohorts.
 
 ## The permutation null: unrestricted or within stage
 
