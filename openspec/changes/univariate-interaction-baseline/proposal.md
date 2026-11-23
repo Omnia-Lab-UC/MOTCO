@@ -24,7 +24,7 @@ The roadmap now records that both real datasets read so far are convenience data
   - `scan`: the maximum over features, by the interaction scan's permutation p-value;
   - `fdr`: Benjamini–Hochberg at 0.05 on the per-feature parametric F p-values, rejecting when any feature is a discovery;
   - `total`: the features pooled, by the split interaction test's `total` part.
-- **Recorded arms that decide nothing:** the split test's `span` and `complement`, and the trajectory statistics measured on `concat` and on PCA at the production rank, so one table holds every baseline on the same units.
+- **Recorded arms that decide nothing:** the split test's `span` and `complement`, and the trajectory statistics measured on PCA at the production rank, so one table holds every baseline on the same units. (`concat` was dropped at the approval gate for cost; the report cites the latent-space comparison for it.)
 - **Three profiles.**
   - **`parent`**: the scan validation's simulation units for `n200` and the SEA-AD table (two blocks, base seed 2035, 14 cells; controls at 500 × 999, other cells at 100 × 999). 4,400 units. Every committed count of the scan, the three split parts and the three trajectory statistics must be reproduced exactly. Its new readings are descriptive, because these are the units the question came from.
   - **`stage_span`**: a fresh seed family (base seed 2043) on all three blocks, three stages. Four designs: balanced n = 80, 200 and 500 at δ = 2.0, and n = 200 at δ = 0.5. Thirteen cells each: the anchor, a translation, and three effects each of magnitude, in-span rotation and bend under the planted scale; an out-of-span rotation and its 20-feature form under the null scale. Controls at 500 × 999, other cells at 200 × 999. 12,800 units.

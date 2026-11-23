@@ -55,7 +55,7 @@ Each baseline arm SHALL be one test at 0.05 on the per-feature group × stage in
 
 ### Requirement: Further arms are recorded and decide nothing
 
-Each unit SHALL record, without bearing on the verdict, the split test's `span` and `complement` parts and the trajectory statistics measured on `concat` and on PCA at the unit's production rank, each singly and as the omnibus of the `production` arm.
+Each unit SHALL record, without bearing on the verdict, the split test's `span` and `complement` parts and the trajectory statistics measured on PCA at the unit's production rank, singly and as the omnibus of the `production` arm. The statistics on `concat` SHALL NOT be run (amended at the approval gate for cost, design D3); the driver SHALL keep them as an option bound in the settings, off by default.
 
 #### Scenario: Matched PCA uses the production rank
 - **WHEN** a unit is evaluated
@@ -64,6 +64,10 @@ Each unit SHALL record, without bearing on the verdict, the split test's `span` 
 #### Scenario: Recorded arms are outside the decision
 - **WHEN** the decision is computed with the recorded arms' rates changed
 - **THEN** the verdict and the grade are unchanged
+
+#### Scenario: `concat` is off by default
+- **WHEN** a profile's settings are built without naming the recorded spaces
+- **THEN** they record `pca_matched` alone, and the `concat` arms are recorded as unavailable
 
 ### Requirement: The unit record holds seeds and statistics only
 
@@ -254,7 +258,7 @@ Beside the verdict the decision SHALL report: the count of cells under each labe
 
 #### Scenario: The earlier baselines in the same table
 - **WHEN** the decision is written
-- **THEN** every signal cell reports the omnibus rate of `concat` and of `pca_matched` beside `production`'s and the three baseline arms'
+- **THEN** every signal cell reports the omnibus rate of `pca_matched` beside `production`'s and the three baseline arms', and the report cites the latent-space comparison for `concat`
 
 ### Requirement: The run is recorded in a dated report
 

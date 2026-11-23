@@ -52,7 +52,7 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
 - **The unit.** It generates the dataset, fits `pls` once with the cross-validation, and evaluates the trajectory statistics with their null distributions. It then runs the split test and the scan on the split-test validation's inputs (the fit's standardized features and the trajectory design's full and reduced models) at the unit's RRPP seed, uncorrected. Both use RRPP's serial draws, so every arm reads the same permutations.
 - **`fdr` from the scan's output.** The upper tail of the F distribution at the scan's degrees of freedom gives each feature's p-value; Benjamini–Hochberg runs over the non-degenerate features. Both come from `scipy.stats`, which the package already depends on. Nothing is reimplemented.
 - **The fit is not an input to the baseline.** The scan's F is invariant to the per-feature affine map between the standardized features and the fit's input coordinates. A test checks that the scan on features built with no latent fit (`interaction_scan_blocks_check.simulation_inputs`) gives the same F and global p-value.
-- **`concat` and `pca_matched`.** Two further evaluations of the same dataset at the same seed, with the unit's production parameters changed only in the integration method (`concat`; `pca` at the unit's production rank), so they measure the same blocks. The comparison's `arm_params` is not used for them, because it fixes the measured blocks at two. They put the earlier baselines in the same table. They were judged in the comparison (`document_tradeoff`) and are not judged again.
+- **`concat` and `pca_matched`.** Two further evaluations of the same dataset at the same seed, with the unit's production parameters changed only in the integration method (`concat`; `pca` at the unit's production rank), so they measure the same blocks. The comparison's `arm_params` is not used for them, because it fixes the measured blocks at two. They put the earlier baselines in the same table. They were judged in the comparison (`document_tradeoff`) and are not judged again. **Amended at the approval gate (2026-11-23):** the run records `pca_matched` only. The smoke measured `concat` at about 80 % of every unit (its `shape` aligns the stage means in the 658-dimensional ambient space on each draw), which would have put the run at 837–1,673 core-hours against 156–311 without it (`notes.md`). The driver keeps `concat` as an option bound in the settings, and the report cites the comparison for it.
 - **Production parameters per profile.** `parent` uses the split-test validation's `production_params`. `stage_span` uses the same cross-validation settings with `layers` absent. `surgery` uses the study cell's evaluation parameters. Each keeps the null distributions, which `production_minp` needs and which change no statistic or p-value.
 - **A failure** in the fit or any arm is recorded for the unit without aborting the shard.
 
@@ -102,7 +102,7 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
 
 **D8. What is descriptive.**
 - **The map:** per plant family and design, the count of cells under each label and each arm's rate.
-- **Every arm's rates per cell:** the three single trajectory statistics, `production`, `production_minp`, `scan`, `fdr`, `total`, `span`, `complement`, and `concat` and `pca_matched` as single statistics and as the same omnibus.
+- **Every arm's rates per cell:** the three single trajectory statistics, `production`, `production_minp`, `scan`, `fdr`, `total`, `span`, `complement`, and `pca_matched` as single statistics and as the same omnibus (`concat` too when it is run; it was not, see D3).
 - **Discoveries:** per cell, the median number of scan hits and of `fdr` discoveries, and the realized false discovery proportion on population-null features where that mask is defined.
 - **Fit:** the selected rank, the held-out AUROC and the span-capture shares.
 - **`parent`:** `fdr` and `production` beside the seven committed tests.
@@ -132,4 +132,4 @@ Nothing migrates. No package code changes and no default moves.
 
 ## Open Questions
 
-- The core-hour cap for the arrays is set from the smoke timing, at the approval gate.
+- The core-hour cap for the arrays is set from the smoke timing, at the approval gate. **Resolved 2026-11-23:** 350 recorded core-hours, without `concat`.
