@@ -1,0 +1,24 @@
+{
+ "complete_units": 4400,
+ "duplicate_records": 0,
+ "expected_units": 4400,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "missing_units": 0,
+ "profile": "parent",
+ "recorded_core_hours": 14.005957844950478,
+ "settings_hash": "1f0357bec8e26d072b3fd1746fc066acc06245034515682d40132654eb08e3a8",
+ "stage_seconds_median": {
+  "evaluation": 0.4116998501121998,
+  "fit": 9.656593233346939,
+  "pca_matched": 0.41760186292231083,
+  "scan": 0.06543627753853798,
+  "split": 0.07921291596721858
+ },
+ "unit_seconds": {
+  "max": 22.11754363705404,
+  "median": 10.868200799450278,
+  "q90": 16.06429757210426
+ }
+}

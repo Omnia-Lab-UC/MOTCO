@@ -1,0 +1,175 @@
+{
+ "hash": "df600edfdab09acb7af7fc3dd9a932f9be8e008897f22dbad853e763b997571d",
+ "settings": {
+  "alpha": 0.05,
+  "arms": [
+   "production",
+   "delta",
+   "angle",
+   "shape",
+   "production_minp",
+   "scan",
+   "fdr",
+   "total",
+   "span",
+   "complement",
+   "concat",
+   "concat_delta",
+   "concat_angle",
+   "concat_shape",
+   "pca_matched",
+   "pca_matched_delta",
+   "pca_matched_angle",
+   "pca_matched_shape"
+  ],
+  "baseline": {
+   "fdr": "scipy.stats.f.sf at the scan's degrees of freedom, scipy.stats.false_discovery_control (method 'bh') over the non-degenerate features",
+   "features": "the production fit's standardized features in the PLS input coordinates",
+   "models": "the trajectory test's full (group x stage) and reduced (group + stage) models",
+   "scan": "motco.stats.interaction.interaction_feature_scan at the unit's RRPP seed, uncorrected",
+   "split": "motco.stats.interaction.interaction_split_test on qr(x_rotations_) at the unit's RRPP seed, uncorrected",
+   "statistic": "per-feature group x stage interaction F (SS_int / df_int) / (RSS / df_res)"
+  },
+  "baseline_arms": [
+   "scan",
+   "fdr",
+   "total"
+  ],
+  "cells": [
+   [
+    "anchor",
+    "none",
+    0.0,
+    "geometry"
+   ],
+   [
+    "translation",
+    "translation",
+    1.0,
+    "geometry"
+   ],
+   [
+    "magnitude_e0.02",
+    "magnitude",
+    0.02,
+    "magnitude"
+   ],
+   [
+    "magnitude_e0.05",
+    "magnitude",
+    0.05,
+    "magnitude"
+   ],
+   [
+    "magnitude_e0.1",
+    "magnitude",
+    0.1,
+    "magnitude"
+   ],
+   [
+    "orientation_e0.25",
+    "orientation",
+    0.25,
+    "geometry"
+   ],
+   [
+    "orientation_e0.5",
+    "orientation",
+    0.5,
+    "geometry"
+   ],
+   [
+    "orientation_e1",
+    "orientation",
+    1.0,
+    "geometry"
+   ],
+   [
+    "shape_e0.25",
+    "shape",
+    0.25,
+    "geometry"
+   ],
+   [
+    "shape_e0.5",
+    "shape",
+    0.5,
+    "geometry"
+   ],
+   [
+    "shape_e1",
+    "shape",
+    1.0,
+    "geometry"
+   ]
+  ],
+  "control_cells": [
+   "anchor",
+   "translation"
+  ],
+  "designs": [
+   "n80_three_blocks",
+   "n200_three_blocks",
+   "n500_three_blocks"
+  ],
+  "driver": "univariate_baseline_check",
+  "driver_version": 1,
+  "n_samples": {
+   "n200_three_blocks": 200,
+   "n500_three_blocks": 500,
+   "n80_three_blocks": 80
+  },
+  "parent_files": {
+   "examples/trajectory_power_study/design_guidance_core_geometry_study.json": "bb56f1c6f61ce2e3cd98b724e6f51e53f16df90dced2f8e85c20bf34d3d027dd",
+   "examples/trajectory_power_study/design_guidance_core_magnitude_study.json": "3f4a618d57fc59dbe789f33a6d139c89a3c8a3eb3833c1271eef698f93ad9cb8",
+   "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_operating.csv": "2035f49033ebb8b62b8354388958be36887609d3bd43907a7119632e4c502300",
+   "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_operating.csv": "fdddea103dc7b9b0096d064209d3f681a8f65caec7964eebc59155bf547bb449"
+  },
+  "parent_source": "design-guidance slice 2026-10-29, core profiles",
+  "permutations": 999,
+  "population_null_tolerance": 1e-09,
+  "production": "the study cell's evaluation parameters (pls on all three blocks) with span capture and null distributions kept; the evaluation seed the study engine resolves",
+  "profile": "surgery",
+  "recorded_space_definitions": {
+   "concat": "the unit's production parameters with integration_method 'concat' on the same blocks",
+   "pca_matched": "the unit's production parameters with integration_method 'pca' at the unit's production rank on the same blocks"
+  },
+  "recorded_spaces": [
+   "pca_matched"
+  ],
+  "replicates": {
+   "control": 500,
+   "other": 500
+  },
+  "rules": {
+   "angle": "p < alpha",
+   "complement": "p < alpha",
+   "concat": "min p <= alpha / 3",
+   "concat_angle": "p < alpha",
+   "concat_delta": "p < alpha",
+   "concat_shape": "p < alpha",
+   "delta": "p < alpha",
+   "fdr": "min BH-adjusted p <= alpha",
+   "pca_matched": "min p <= alpha / 3",
+   "pca_matched_angle": "p < alpha",
+   "pca_matched_delta": "p < alpha",
+   "pca_matched_shape": "p < alpha",
+   "production": "min p <= alpha / 3",
+   "production_minp": "p <= alpha",
+   "scan": "p <= alpha",
+   "shape": "p < alpha",
+   "span": "p < alpha",
+   "total": "p < alpha"
+  },
+  "sources": {
+   "geometry": {
+    "config": "examples/trajectory_power_study/design_guidance_core_geometry_study.json",
+    "operating": "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_operating.csv"
+   },
+   "magnitude": {
+    "config": "examples/trajectory_power_study/design_guidance_core_magnitude_study.json",
+    "operating": "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_operating.csv"
+   }
+  }
+ }
+}

@@ -1,0 +1,14 @@
+{
+ "differing": [],
+ "files": {
+  "examples/trajectory_power_study/design_guidance_core_geometry_study.json": "bb56f1c6f61ce2e3cd98b724e6f51e53f16df90dced2f8e85c20bf34d3d027dd",
+  "examples/trajectory_power_study/design_guidance_core_magnitude_study.json": "3f4a618d57fc59dbe789f33a6d139c89a3c8a3eb3833c1271eef698f93ad9cb8",
+  "results/design-guidance-slice-2026-10-29/core_geometry/report/design_point_operating.csv": "2035f49033ebb8b62b8354388958be36887609d3bd43907a7119632e4c502300",
+  "results/design-guidance-slice-2026-10-29/core_magnitude/report/design_point_operating.csv": "fdddea103dc7b9b0096d064209d3f681a8f65caec7964eebc59155bf547bb449"
+ },
+ "passed": true,
+ "profile": "surgery",
+ "rows_compared": 99,
+ "source": "design-guidance slice 2026-10-29, core profiles",
+ "unresolved_rows": []
+}

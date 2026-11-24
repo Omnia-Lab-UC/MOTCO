@@ -1,0 +1,24 @@
+{
+ "complete_units": 16500,
+ "duplicate_records": 0,
+ "expected_units": 16500,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "missing_units": 0,
+ "profile": "surgery",
+ "recorded_core_hours": 133.6834299149017,
+ "settings_hash": "df600edfdab09acb7af7fc3dd9a932f9be8e008897f22dbad853e763b997571d",
+ "stage_seconds_median": {
+  "evaluation": 0.930105040431954,
+  "fit": 22.349919786909595,
+  "pca_matched": 0.9912977315252647,
+  "scan": 0.22151278995443135,
+  "split": 0.20729583501815796
+ },
+ "unit_seconds": {
+  "max": 70.11484108190052,
+  "median": 24.99938324210234,
+  "q90": 47.97825847584755
+ }
+}

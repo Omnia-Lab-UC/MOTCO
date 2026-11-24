@@ -980,3 +980,70 @@ unequal export with RNA cut to 500 of its 5,000 features):
   more units of 500.
 
 The joint scan stays the default; the by-block combination is opt-in.
+
+## Against the default analysis: the univariate baseline
+
+The analysis a reader runs first has no integration: a group × stage interaction test on
+each feature. The interaction scan is that test, validated above as a complement for sparse
+differences. The [univariate-baseline report](reports/univariate-baseline-2026-11-23.md)
+(2026-11-23) judges it as a competitor for detection, on one production fit per unit and
+under one decision fixed before any unit ran.
+
+**What each side tests.**
+
+- **The trajectory test** asks whether the group difference in the stage program, inside
+  the fitted span, changes size, orientation or shape. It enters as one test: the smallest
+  of the `delta`, `angle` and `shape` p-values at 0.05 / 3.
+- **The per-feature test** asks whether any feature's group difference changes across
+  stages. It is the plain interaction F of each standardized feature under the same models
+  (a moderated statistic was not an arm), and it has three combinations, each read as one
+  test at 0.05:
+    - its maximum, under max-T permutation (`scan`);
+    - any Benjamini–Hochberg discovery at 0.05 on the F p-values (`fdr`), the reading most
+      analyses report;
+    - its sum, which is the split test's `total` part.
+
+**Which side leads** (658 simulated features on three blocks, 71 signal cells, paired exact
+tests with a 0.10 margin; verdict `complementary`):
+
+| plant family | production leads | per-feature test leads | for example (production; `fdr`) |
+|---|---|---|---|
+| stretch of the stage program (stage span; surgery magnitude) | 12 cells, at small effects at every design | none | n = 500, surgery e = 0.02: 0.770; 0.074 |
+| bend inside the span | 4 cells, at e = 0.1 (n = 80, 200) and at δ = 0.5 | none | n = 200, e = 0.1: 0.860; 0.420 |
+| rotation inside the span | none | 3 cells: n = 80 at e ≤ 0.25, δ = 0.5 at e = 0.25 | δ = 0.5, e = 0.25: 0.410; 0.995 |
+| rotation outside the span | none | 5 cells, at n = 80 and 200 and at δ = 0.5 | n = 200: 0.720; 1.000 |
+| surgery orientation and shape | none | 13 cells: all six at n = 80 and at n = 200, one at n = 500 | n = 80, orientation e = 0.5: 0.482; 1.000 |
+
+The rest (34 cells) are unresolved, 30 of them with both sides at 0.88 or more. The rule is
+the span principle seen from the other side:
+
+- **A stretch or a small bend** moves every feature of the stage program a little, in the
+  direction the fit measures. No single F crosses its threshold, and the trajectory statistic
+  pools them. At n = 200, a stretch at e = 0.05 reads 0.815 against `fdr`'s 0.235.
+- **A permutation surgery or an out-of-span rotation** moves few features far, outside the
+  span. Each F is large, and the span holds 0.3–1.2 % of the difference (up to 17 % for a
+  rotation on 20 features).
+- **An in-span rotation** is visible to both. The per-feature test wins only where the fit
+  is weakest: at n = 80, or at a weak stage effect where the CV rank inflates.
+
+**What only the trajectory test can claim.** The per-feature test has no geometry: it names
+features, and it cannot say whether a difference is one of size, orientation or shape.
+Production's statistics name the kind only as far as its off-target rates hold. The grade is `detects_only`: at n = 200 with a weak stage effect (δ = 0.5), a 45°
+rotation is read as `shape` in 0.665 of units. A production rejection names a group × stage
+difference; the statistic that rejects is a reliable name for its kind at δ = 2.0 and not at
+every design.
+
+**The per-feature combinations differ in size.** `fdr` (at most 0.062 on the nulls) and
+`total` (at most 0.060) hold. The max-T `scan` runs above its level at n = 80 on three blocks
+(0.076 and 0.070 against a bound of 0.0695) and is not an admissible baseline there. A case
+study that reports the per-feature test beside the trajectory test should fix which combination
+it reads, and its multiplicity policy, before any real-label reading.
+
+**Limits.** Every number holds at 658 simulated features with Gaussian noise and one variance
+per feature. There the plain F is exact and a moderated statistic has nothing to add. Real
+methylation, expression and proteomics blocks hold far more features and noisier ones, and no
+real-noise reading of either side exists on them (roadmap open item 2).
+`concat` was not run (cost); its comparison is the
+[latent-space comparison](reports/latent-space-comparison-2026-11-04.md)'s. The map depends on
+the plant families chosen; how real differences divide between diffuse and concentrated forms
+is not known.
