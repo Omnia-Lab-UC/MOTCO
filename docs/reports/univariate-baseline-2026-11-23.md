@@ -60,7 +60,7 @@ One decision, fixed before any unit ran, labels each of 71 signal cells by paire
 - **`concat` was not run.** The local smoke measured it at about 80 % of every unit's time: its `shape` aligns the stage
   means in the 658-dimensional ambient space on each draw. With it the run projected 837–1,673 core-hours, against
   156–311 without. At the approval gate it was dropped, and the cap was set at 350 recorded core-hours
-  (`openspec/changes/univariate-interaction-baseline/notes.md`). The
+  (`openspec/changes/archive/2026-11-24-univariate-interaction-baseline/notes.md`). The
   [latent-space comparison](latent-space-comparison-2026-11-04.md) measured `concat` against production on the
   stage-span construction across alignment; this report cites it for that arm.
 - **Code and host.** Revision `a8a27dc`, pushed before any unit ran, from a clean detached worktree on `ing`. Python
