@@ -1710,6 +1710,7 @@ def _config_to_dict_base(config: StudyConfig) -> dict[str, Any]:
 _DUMP_OMIT_WHEN_NONE = frozenset(
     {
         "group_stage_sizes",
+        "group_dispersion_scale",
         "construction",
         "span_layers",
         "span_capture",

@@ -216,6 +216,30 @@ def _sample_population_means(
     return np.vstack(blocks)
 
 
+def _stretch_about_means(
+    samples: np.ndarray, means: np.ndarray, cell_sizes: list[int], scale: float
+) -> np.ndarray:
+    """Multiply every sample's deviation from its exact cell mean by ``scale``.
+
+    ``samples`` are stacked by cell in ``cell_sizes`` order (empty cells
+    skipped), as :func:`_sample_population_means` returns them, and ``means``
+    holds one row per cell. For a Gaussian draw this is a draw from ``scale²``
+    times the covariance about the same means; it draws no random numbers.
+    """
+
+    rows = np.repeat(means, cell_sizes, axis=0)
+    return rows + scale * (samples - rows)
+
+
+def _validate_noise_scale(noise_scale: float) -> float:
+    if isinstance(noise_scale, bool) or not isinstance(noise_scale, int | float | np.integer | np.floating):
+        raise GeneratorError(f"noise_scale must be a positive finite number; got {noise_scale!r}.")
+    value = float(noise_scale)
+    if not np.isfinite(value) or value <= 0:
+        raise GeneratorError(f"noise_scale must be a positive finite number; got {noise_scale!r}.")
+    return value
+
+
 def _cell_means(
     base: np.ndarray,
     delta: float,
@@ -271,6 +295,7 @@ def generate_omics(
     cell_shift_methyl: np.ndarray | None = None,
     cell_shift_expr: np.ndarray | None = None,
     cell_shift_protein: np.ndarray | None = None,
+    noise_scale: float | None = None,
 ) -> GeneratedOmics:
     """Generate aligned omics matrices from explicit per-cell indicators.
 
@@ -282,6 +307,16 @@ def generate_omics(
     shift (``(n_features, n_cells)``; methylation in M-values, before
     :func:`rev_logit`) and draw no random numbers, so at a fixed ``rng`` the
     samples move by exactly the shift.
+
+    ``noise_scale`` (a positive finite ``s``; ``None`` by default) multiplies
+    every sample's deviation from its exact cell mean by ``s`` after the draw,
+    in the units the noise is drawn in: methylation in M-values, before
+    :func:`rev_logit`, and expression and proteomics in their native units. The
+    noise covariance is then ``s²`` times the reference covariance and the cell
+    means are unchanged. It draws no random numbers, so at a fixed ``rng`` the
+    scaled samples are the unscaled ones stretched about their cell means and
+    the generator ends at the same stream position. ``None`` takes the code path
+    used before the option existed.
     """
 
     ref = reference if reference is not None else load_reference()
@@ -297,6 +332,7 @@ def generate_omics(
             )
     if any(n < 0 for n in cell_sizes):
         raise GeneratorError("cell_sizes must be non-negative")
+    scale = None if noise_scale is None else _validate_noise_scale(noise_scale)
 
     cov_M = _resolve_cov(sigma_methyl, ref.cov_M)
     cov_expr = _resolve_cov(sigma_expr, ref.cov_expr)
@@ -320,10 +356,13 @@ def generate_omics(
 
     # Methylation: additive shift in M-value space, then inverse-logit.
     methyl_M = _sample_population_means(rng, means["methylation"], cov_M, cell_sizes)
-    methylation = rev_logit(methyl_M)
-
     expression = _sample_population_means(rng, means["expression"], cov_expr, cell_sizes)
     proteomics = _sample_population_means(rng, means["proteomics"], cov_protein, cell_sizes)
+    if scale is not None:
+        methyl_M = _stretch_about_means(methyl_M, means["methylation"], cell_sizes, scale)
+        expression = _stretch_about_means(expression, means["expression"], cell_sizes, scale)
+        proteomics = _stretch_about_means(proteomics, means["proteomics"], cell_sizes, scale)
+    methylation = rev_logit(methyl_M)
 
     cell_ids = np.concatenate([np.full(n, i) for i, n in enumerate(cell_sizes) if n > 0])
 

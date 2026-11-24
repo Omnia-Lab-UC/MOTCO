@@ -8,6 +8,14 @@ Every opt-in option listed below leaves all outputs byte-identical while it is u
 
 ## [Unreleased]
 
+## 0.26.0 - 2026-11-24
+
+### Added
+
+- `SemiSyntheticTrajectoryParams.group_dispersion_scale` multiplies the noise standard deviation of the second group in `group_labels`, in every block and at every stage, about unchanged means. It draws no random numbers: the dataset is the one without the setting at the same seed with the second group stretched about its exact cell means, methylation in M-values. It composes with every mode and construction, and zero-effect and Type I cells keep it. Truth gains a `group_dispersion` block with the scale, the covariance multiplier and the group. `1` normalizes to `None`, the default, which is hash-omitted from cell ids, signatures and dumped study configs.
+- `generate_omics(..., noise_scale=)` stretches every sample's deviation from its exact cell mean by the scale, after the draw and in the units the noise is drawn in.
+- Under `construction="stage_span"` with a dispersion scale, the null and planted pooled SDs use each group's own noise variance: `null_pooled_scale` and `planted_pooled_scale` take an optional `within_multiplier`, and `group_dispersion_within_multiplier` gives `(n_A + s²·n_B) / (n_A + n_B)` at the realized sizes.
+
 ## 0.25.0 - 2026-11-16
 
 ### Added
