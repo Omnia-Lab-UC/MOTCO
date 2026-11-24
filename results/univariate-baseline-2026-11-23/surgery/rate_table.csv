@@ -1,0 +1,595 @@
+design,cell,trajectory_mode,effect_size,span_alignment,span_support,arm,rule,rate,se,count,rejections,failures
+n80_three_blocks,anchor,none,0,,,production,min p <= alpha / 3,0.03,0.00762889,500,15,0
+n80_three_blocks,anchor,none,0,,,delta,p < alpha,0.052,0.00992935,500,26,0
+n80_three_blocks,anchor,none,0,,,angle,p < alpha,0.032,0.00787096,500,16,0
+n80_three_blocks,anchor,none,0,,,shape,p < alpha,0.046,0.00936846,500,23,0
+n80_three_blocks,anchor,none,0,,,production_minp,p <= alpha,0.04,0.00876356,500,20,0
+n80_three_blocks,anchor,none,0,,,scan,p <= alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.032,0.00787096,500,16,0
+n80_three_blocks,anchor,none,0,,,total,p < alpha,0.04,0.00876356,500,20,0
+n80_three_blocks,anchor,none,0,,,span,p < alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,anchor,none,0,,,complement,p < alpha,0.034,0.00810481,500,17,0
+n80_three_blocks,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.016,0.00561142,500,8,0
+n80_three_blocks,anchor,none,0,,,pca_matched_delta,p < alpha,0.02,0.00626099,500,10,0
+n80_three_blocks,anchor,none,0,,,pca_matched_angle,p < alpha,0.024,0.00684456,500,12,0
+n80_three_blocks,anchor,none,0,,,pca_matched_shape,p < alpha,0.032,0.00787096,500,16,0
+n80_three_blocks,translation,translation,1,,,production,min p <= alpha / 3,0.034,0.00810481,500,17,0
+n80_three_blocks,translation,translation,1,,,delta,p < alpha,0.046,0.00936846,500,23,0
+n80_three_blocks,translation,translation,1,,,angle,p < alpha,0.028,0.0073778,500,14,0
+n80_three_blocks,translation,translation,1,,,shape,p < alpha,0.048,0.00955992,500,24,0
+n80_three_blocks,translation,translation,1,,,production_minp,p <= alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,translation,translation,1,,,scan,p <= alpha,0.05,0.00974679,500,25,0
+n80_three_blocks,translation,translation,1,,,fdr,min BH-adjusted p <= alpha,0.042,0.00897062,500,21,0
+n80_three_blocks,translation,translation,1,,,total,p < alpha,0.048,0.00955992,500,24,0
+n80_three_blocks,translation,translation,1,,,span,p < alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,translation,translation,1,,,complement,p < alpha,0.048,0.00955992,500,24,0
+n80_three_blocks,translation,translation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,translation,translation,1,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,translation,translation,1,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,translation,translation,1,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,translation,translation,1,,,pca_matched,min p <= alpha / 3,0.026,0.00711674,500,13,0
+n80_three_blocks,translation,translation,1,,,pca_matched_delta,p < alpha,0.034,0.00810481,500,17,0
+n80_three_blocks,translation,translation,1,,,pca_matched_angle,p < alpha,0.028,0.0073778,500,14,0
+n80_three_blocks,translation,translation,1,,,pca_matched_shape,p < alpha,0.05,0.00974679,500,25,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,production,min p <= alpha / 3,0.07,0.0114105,500,35,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,delta,p < alpha,0.112,0.0141036,500,56,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,angle,p < alpha,0.034,0.00810481,500,17,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,shape,p < alpha,0.05,0.00974679,500,25,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,production_minp,p <= alpha,0.076,0.0118511,500,38,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,scan,p <= alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,fdr,min BH-adjusted p <= alpha,0.034,0.00810481,500,17,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,total,p < alpha,0.04,0.00876356,500,20,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,span,p < alpha,0.072,0.0115599,500,36,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,complement,p < alpha,0.036,0.00833115,500,18,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched,min p <= alpha / 3,0.018,0.00594575,500,9,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_delta,p < alpha,0.026,0.00711674,500,13,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_angle,p < alpha,0.026,0.00711674,500,13,0
+n80_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_shape,p < alpha,0.032,0.00787096,500,16,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,production,min p <= alpha / 3,0.382,0.0217291,500,191,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,delta,p < alpha,0.512,0.0223542,500,256,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,angle,p < alpha,0.028,0.0073778,500,14,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,shape,p < alpha,0.046,0.00936846,500,23,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,production_minp,p <= alpha,0.41,0.0219955,500,205,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,scan,p <= alpha,0.058,0.0104533,500,29,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,fdr,min BH-adjusted p <= alpha,0.05,0.00974679,500,25,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,total,p < alpha,0.044,0.00917213,500,22,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,span,p < alpha,0.278,0.0200358,500,139,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,complement,p < alpha,0.034,0.00810481,500,17,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched,min p <= alpha / 3,0.024,0.00684456,500,12,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_delta,p < alpha,0.044,0.00917213,500,22,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_angle,p < alpha,0.026,0.00711674,500,13,0
+n80_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_shape,p < alpha,0.036,0.00833115,500,18,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,production,min p <= alpha / 3,0.752,0.019313,500,376,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,delta,p < alpha,0.836,0.0165592,500,418,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,angle,p < alpha,0.018,0.00594575,500,9,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,shape,p < alpha,0.036,0.00833115,500,18,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,production_minp,p <= alpha,0.772,0.0187625,500,386,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,scan,p <= alpha,0.358,0.02144,500,179,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,fdr,min BH-adjusted p <= alpha,0.314,0.0207559,500,157,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,total,p < alpha,0.044,0.00917213,500,22,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,span,p < alpha,0.652,0.0213024,500,326,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,complement,p < alpha,0.038,0.00855056,500,19,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched,min p <= alpha / 3,0.048,0.00955992,500,24,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_delta,p < alpha,0.142,0.01561,500,71,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_angle,p < alpha,0.026,0.00711674,500,13,0
+n80_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_shape,p < alpha,0.032,0.00787096,500,16,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,production,min p <= alpha / 3,0.324,0.0209296,500,162,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,delta,p < alpha,0.23,0.0188202,500,115,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,angle,p < alpha,0.238,0.019045,500,119,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,shape,p < alpha,0.234,0.0189338,500,117,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,production_minp,p <= alpha,0.346,0.0212736,500,173,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,total,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,span,p < alpha,0.286,0.0202091,500,143,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,complement,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched,min p <= alpha / 3,0.05,0.00974679,500,25,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_delta,p < alpha,0.052,0.00992935,500,26,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_angle,p < alpha,0.08,0.0121326,500,40,0
+n80_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_shape,p < alpha,0.036,0.00833115,500,18,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,production,min p <= alpha / 3,0.482,0.0223462,500,241,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,delta,p < alpha,0.308,0.0206464,500,154,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,angle,p < alpha,0.312,0.0207198,500,156,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,shape,p < alpha,0.38,0.0217071,500,190,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,production_minp,p <= alpha,0.508,0.0223578,500,254,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,total,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,span,p < alpha,0.42,0.0220726,500,210,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,complement,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched,min p <= alpha / 3,0.174,0.0169543,500,87,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_delta,p < alpha,0.144,0.0157012,500,72,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_angle,p < alpha,0.134,0.0152344,500,67,0
+n80_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_shape,p < alpha,0.1,0.0134164,500,50,0
+n80_three_blocks,orientation_e1,orientation,1,,,production,min p <= alpha / 3,0.482,0.0223462,500,241,0
+n80_three_blocks,orientation_e1,orientation,1,,,delta,p < alpha,0.342,0.0212149,500,171,0
+n80_three_blocks,orientation_e1,orientation,1,,,angle,p < alpha,0.274,0.0199461,500,137,0
+n80_three_blocks,orientation_e1,orientation,1,,,shape,p < alpha,0.358,0.02144,500,179,0
+n80_three_blocks,orientation_e1,orientation,1,,,production_minp,p <= alpha,0.498,0.0223605,500,249,0
+n80_three_blocks,orientation_e1,orientation,1,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e1,orientation,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,orientation_e1,orientation,1,,,total,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e1,orientation,1,,,span,p < alpha,0.424,0.0221009,500,212,0
+n80_three_blocks,orientation_e1,orientation,1,,,complement,p < alpha,1,0,500,500,0
+n80_three_blocks,orientation_e1,orientation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,orientation_e1,orientation,1,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e1,orientation,1,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e1,orientation,1,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,orientation_e1,orientation,1,,,pca_matched,min p <= alpha / 3,0.84,0.0163951,500,420,0
+n80_three_blocks,orientation_e1,orientation,1,,,pca_matched_delta,p < alpha,0.51,0.0223562,500,255,0
+n80_three_blocks,orientation_e1,orientation,1,,,pca_matched_angle,p < alpha,0.756,0.0192075,500,378,0
+n80_three_blocks,orientation_e1,orientation,1,,,pca_matched_shape,p < alpha,0.368,0.0215674,500,184,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,production,min p <= alpha / 3,0.256,0.0195174,500,128,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,delta,p < alpha,0.268,0.0198079,500,134,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,angle,p < alpha,0.044,0.00917213,500,22,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,shape,p < alpha,0.184,0.0173288,500,92,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,production_minp,p <= alpha,0.276,0.0199912,500,138,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,total,p < alpha,0.742,0.0195671,500,371,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,span,p < alpha,0.222,0.0185858,500,111,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,complement,p < alpha,0.774,0.0187042,500,387,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,pca_matched,min p <= alpha / 3,0.048,0.00955992,500,24,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_delta,p < alpha,0.07,0.0114105,500,35,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_angle,p < alpha,0.048,0.00955992,500,24,0
+n80_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_shape,p < alpha,0.06,0.0106207,500,30,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,production,min p <= alpha / 3,0.374,0.021639,500,187,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,delta,p < alpha,0.4,0.0219089,500,200,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,angle,p < alpha,0.05,0.00974679,500,25,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,shape,p < alpha,0.316,0.0207915,500,158,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,production_minp,p <= alpha,0.4,0.0219089,500,200,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,total,p < alpha,0.998,0.001998,500,499,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,span,p < alpha,0.34,0.0211849,500,170,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,complement,p < alpha,1,0,500,500,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,pca_matched,min p <= alpha / 3,0.076,0.0118511,500,38,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_delta,p < alpha,0.1,0.0134164,500,50,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_angle,p < alpha,0.064,0.0109457,500,32,0
+n80_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_shape,p < alpha,0.048,0.00955992,500,24,0
+n80_three_blocks,shape_e1,shape,1,,,production,min p <= alpha / 3,0.52,0.0223428,500,260,0
+n80_three_blocks,shape_e1,shape,1,,,delta,p < alpha,0.524,0.0223349,500,262,0
+n80_three_blocks,shape_e1,shape,1,,,angle,p < alpha,0.028,0.0073778,500,14,0
+n80_three_blocks,shape_e1,shape,1,,,shape,p < alpha,0.484,0.0223492,500,242,0
+n80_three_blocks,shape_e1,shape,1,,,production_minp,p <= alpha,0.542,0.0222817,500,271,0
+n80_three_blocks,shape_e1,shape,1,,,scan,p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e1,shape,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n80_three_blocks,shape_e1,shape,1,,,total,p < alpha,1,0,500,500,0
+n80_three_blocks,shape_e1,shape,1,,,span,p < alpha,0.5,0.0223607,500,250,0
+n80_three_blocks,shape_e1,shape,1,,,complement,p < alpha,1,0,500,500,0
+n80_three_blocks,shape_e1,shape,1,,,concat,min p <= alpha / 3,,,0,0,0
+n80_three_blocks,shape_e1,shape,1,,,concat_delta,p < alpha,,,0,0,0
+n80_three_blocks,shape_e1,shape,1,,,concat_angle,p < alpha,,,0,0,0
+n80_three_blocks,shape_e1,shape,1,,,concat_shape,p < alpha,,,0,0,0
+n80_three_blocks,shape_e1,shape,1,,,pca_matched,min p <= alpha / 3,0.396,0.0218716,500,198,0
+n80_three_blocks,shape_e1,shape,1,,,pca_matched_delta,p < alpha,0.368,0.0215674,500,184,0
+n80_three_blocks,shape_e1,shape,1,,,pca_matched_angle,p < alpha,0.044,0.00917213,500,22,0
+n80_three_blocks,shape_e1,shape,1,,,pca_matched_shape,p < alpha,0.368,0.0215674,500,184,0
+n200_three_blocks,anchor,none,0,,,production,min p <= alpha / 3,0.048,0.00955992,500,24,0
+n200_three_blocks,anchor,none,0,,,delta,p < alpha,0.038,0.00855056,500,19,0
+n200_three_blocks,anchor,none,0,,,angle,p < alpha,0.06,0.0106207,500,30,0
+n200_three_blocks,anchor,none,0,,,shape,p < alpha,0.062,0.0107848,500,31,0
+n200_three_blocks,anchor,none,0,,,production_minp,p <= alpha,0.056,0.0102824,500,28,0
+n200_three_blocks,anchor,none,0,,,scan,p <= alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.032,0.00787096,500,16,0
+n200_three_blocks,anchor,none,0,,,total,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,anchor,none,0,,,span,p < alpha,0.066,0.0111035,500,33,0
+n200_three_blocks,anchor,none,0,,,complement,p < alpha,0.04,0.00876356,500,20,0
+n200_three_blocks,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.02,0.00626099,500,10,0
+n200_three_blocks,anchor,none,0,,,pca_matched_delta,p < alpha,0.012,0.0048695,500,6,0
+n200_three_blocks,anchor,none,0,,,pca_matched_angle,p < alpha,0.05,0.00974679,500,25,0
+n200_three_blocks,anchor,none,0,,,pca_matched_shape,p < alpha,0.038,0.00855056,500,19,0
+n200_three_blocks,translation,translation,1,,,production,min p <= alpha / 3,0.036,0.00833115,500,18,0
+n200_three_blocks,translation,translation,1,,,delta,p < alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,translation,translation,1,,,angle,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,translation,translation,1,,,shape,p < alpha,0.05,0.00974679,500,25,0
+n200_three_blocks,translation,translation,1,,,production_minp,p <= alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,translation,translation,1,,,scan,p <= alpha,0.034,0.00810481,500,17,0
+n200_three_blocks,translation,translation,1,,,fdr,min BH-adjusted p <= alpha,0.028,0.0073778,500,14,0
+n200_three_blocks,translation,translation,1,,,total,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,translation,translation,1,,,span,p < alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,translation,translation,1,,,complement,p < alpha,0.04,0.00876356,500,20,0
+n200_three_blocks,translation,translation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,translation,translation,1,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,translation,translation,1,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,translation,translation,1,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,translation,translation,1,,,pca_matched,min p <= alpha / 3,0.032,0.00787096,500,16,0
+n200_three_blocks,translation,translation,1,,,pca_matched_delta,p < alpha,0.02,0.00626099,500,10,0
+n200_three_blocks,translation,translation,1,,,pca_matched_angle,p < alpha,0.052,0.00992935,500,26,0
+n200_three_blocks,translation,translation,1,,,pca_matched_shape,p < alpha,0.04,0.00876356,500,20,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,production,min p <= alpha / 3,0.316,0.0207915,500,158,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,delta,p < alpha,0.43,0.0221405,500,215,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,angle,p < alpha,0.058,0.0104533,500,29,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,shape,p < alpha,0.062,0.0107848,500,31,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,production_minp,p <= alpha,0.336,0.0211236,500,168,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,scan,p <= alpha,0.052,0.00992935,500,26,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,fdr,min BH-adjusted p <= alpha,0.04,0.00876356,500,20,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,total,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,span,p < alpha,0.246,0.0192605,500,123,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,complement,p < alpha,0.042,0.00897062,500,21,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched,min p <= alpha / 3,0.02,0.00626099,500,10,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_delta,p < alpha,0.032,0.00787096,500,16,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_angle,p < alpha,0.05,0.00974679,500,25,0
+n200_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_shape,p < alpha,0.038,0.00855056,500,19,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,production,min p <= alpha / 3,0.822,0.0171065,500,411,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,delta,p < alpha,0.878,0.0146367,500,439,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,angle,p < alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,shape,p < alpha,0.056,0.0102824,500,28,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,production_minp,p <= alpha,0.842,0.0163117,500,421,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,scan,p <= alpha,0.188,0.0174732,500,94,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,fdr,min BH-adjusted p <= alpha,0.146,0.0157914,500,73,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,total,p < alpha,0.05,0.00974679,500,25,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,span,p < alpha,0.742,0.0195671,500,371,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,complement,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched,min p <= alpha / 3,0.05,0.00974679,500,25,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_delta,p < alpha,0.16,0.0163951,500,80,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_angle,p < alpha,0.046,0.00936846,500,23,0
+n200_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_shape,p < alpha,0.038,0.00855056,500,19,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,production,min p <= alpha / 3,0.984,0.00561142,500,492,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,delta,p < alpha,0.992,0.00398397,500,496,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,angle,p < alpha,0.036,0.00833115,500,18,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,shape,p < alpha,0.042,0.00897062,500,21,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,production_minp,p <= alpha,0.988,0.0048695,500,494,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,scan,p <= alpha,0.978,0.00655988,500,489,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,fdr,min BH-adjusted p <= alpha,0.974,0.00711674,500,487,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,total,p < alpha,0.07,0.0114105,500,35,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,span,p < alpha,0.986,0.00525433,500,493,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,complement,p < alpha,0.042,0.00897062,500,21,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched,min p <= alpha / 3,0.296,0.0204149,500,148,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_delta,p < alpha,0.408,0.0219789,500,204,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_angle,p < alpha,0.044,0.00917213,500,22,0
+n200_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_shape,p < alpha,0.042,0.00897062,500,21,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,production,min p <= alpha / 3,0.742,0.0195671,500,371,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,delta,p < alpha,0.492,0.0223578,500,246,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,angle,p < alpha,0.406,0.021962,500,203,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,shape,p < alpha,0.58,0.0220726,500,290,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,production_minp,p <= alpha,0.754,0.0192605,500,377,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,span,p < alpha,0.694,0.0206089,500,347,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched,min p <= alpha / 3,0.152,0.0160559,500,76,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_delta,p < alpha,0.174,0.0169543,500,87,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_angle,p < alpha,0.086,0.0125383,500,43,0
+n200_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_shape,p < alpha,0.062,0.0107848,500,31,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,production,min p <= alpha / 3,0.856,0.0157012,500,428,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,delta,p < alpha,0.568,0.0221529,500,284,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,angle,p < alpha,0.494,0.0223591,500,247,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,shape,p < alpha,0.746,0.0194671,500,373,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,production_minp,p <= alpha,0.87,0.0150399,500,435,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,span,p < alpha,0.828,0.016877,500,414,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched,min p <= alpha / 3,0.296,0.0204149,500,148,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_delta,p < alpha,0.352,0.0213587,500,176,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_angle,p < alpha,0.134,0.0152344,500,67,0
+n200_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_shape,p < alpha,0.114,0.014213,500,57,0
+n200_three_blocks,orientation_e1,orientation,1,,,production,min p <= alpha / 3,0.852,0.0158806,500,426,0
+n200_three_blocks,orientation_e1,orientation,1,,,delta,p < alpha,0.594,0.021962,500,297,0
+n200_three_blocks,orientation_e1,orientation,1,,,angle,p < alpha,0.492,0.0223578,500,246,0
+n200_three_blocks,orientation_e1,orientation,1,,,shape,p < alpha,0.74,0.0196163,500,370,0
+n200_three_blocks,orientation_e1,orientation,1,,,production_minp,p <= alpha,0.866,0.0152344,500,433,0
+n200_three_blocks,orientation_e1,orientation,1,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e1,orientation,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,orientation_e1,orientation,1,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e1,orientation,1,,,span,p < alpha,0.73,0.0198545,500,365,0
+n200_three_blocks,orientation_e1,orientation,1,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,orientation_e1,orientation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,orientation_e1,orientation,1,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e1,orientation,1,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e1,orientation,1,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,orientation_e1,orientation,1,,,pca_matched,min p <= alpha / 3,0.834,0.01664,500,417,0
+n200_three_blocks,orientation_e1,orientation,1,,,pca_matched_delta,p < alpha,0.606,0.0218524,500,303,0
+n200_three_blocks,orientation_e1,orientation,1,,,pca_matched_angle,p < alpha,0.708,0.020334,500,354,0
+n200_three_blocks,orientation_e1,orientation,1,,,pca_matched_shape,p < alpha,0.422,0.0220869,500,211,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,production,min p <= alpha / 3,0.524,0.0223349,500,262,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,delta,p < alpha,0.488,0.0223542,500,244,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,angle,p < alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,shape,p < alpha,0.486,0.0223519,500,243,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,production_minp,p <= alpha,0.546,0.0222658,500,273,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,span,p < alpha,0.514,0.0223519,500,257,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,pca_matched,min p <= alpha / 3,0.076,0.0118511,500,38,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_delta,p < alpha,0.114,0.014213,500,57,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_angle,p < alpha,0.048,0.00955992,500,24,0
+n200_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_shape,p < alpha,0.042,0.00897062,500,21,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,production,min p <= alpha / 3,0.72,0.0200798,500,360,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,delta,p < alpha,0.676,0.0209296,500,338,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,angle,p < alpha,0.038,0.00855056,500,19,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,shape,p < alpha,0.668,0.0210607,500,334,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,production_minp,p <= alpha,0.722,0.0200358,500,361,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,span,p < alpha,0.696,0.020571,500,348,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,pca_matched,min p <= alpha / 3,0.162,0.0164776,500,81,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_delta,p < alpha,0.22,0.0185257,500,110,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_angle,p < alpha,0.04,0.00876356,500,20,0
+n200_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_shape,p < alpha,0.064,0.0109457,500,32,0
+n200_three_blocks,shape_e1,shape,1,,,production,min p <= alpha / 3,0.864,0.01533,500,432,0
+n200_three_blocks,shape_e1,shape,1,,,delta,p < alpha,0.818,0.0172555,500,409,0
+n200_three_blocks,shape_e1,shape,1,,,angle,p < alpha,0.028,0.0073778,500,14,0
+n200_three_blocks,shape_e1,shape,1,,,shape,p < alpha,0.856,0.0157012,500,428,0
+n200_three_blocks,shape_e1,shape,1,,,production_minp,p <= alpha,0.872,0.014941,500,436,0
+n200_three_blocks,shape_e1,shape,1,,,scan,p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e1,shape,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n200_three_blocks,shape_e1,shape,1,,,total,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e1,shape,1,,,span,p < alpha,0.844,0.0162274,500,422,0
+n200_three_blocks,shape_e1,shape,1,,,complement,p < alpha,1,0,500,500,0
+n200_three_blocks,shape_e1,shape,1,,,concat,min p <= alpha / 3,,,0,0,0
+n200_three_blocks,shape_e1,shape,1,,,concat_delta,p < alpha,,,0,0,0
+n200_three_blocks,shape_e1,shape,1,,,concat_angle,p < alpha,,,0,0,0
+n200_three_blocks,shape_e1,shape,1,,,concat_shape,p < alpha,,,0,0,0
+n200_three_blocks,shape_e1,shape,1,,,pca_matched,min p <= alpha / 3,0.42,0.0220726,500,210,0
+n200_three_blocks,shape_e1,shape,1,,,pca_matched_delta,p < alpha,0.32,0.0208614,500,160,0
+n200_three_blocks,shape_e1,shape,1,,,pca_matched_angle,p < alpha,0.036,0.00833115,500,18,0
+n200_three_blocks,shape_e1,shape,1,,,pca_matched_shape,p < alpha,0.45,0.0222486,500,225,0
+n500_three_blocks,anchor,none,0,,,production,min p <= alpha / 3,0.044,0.00917213,500,22,0
+n500_three_blocks,anchor,none,0,,,delta,p < alpha,0.042,0.00897062,500,21,0
+n500_three_blocks,anchor,none,0,,,angle,p < alpha,0.046,0.00936846,500,23,0
+n500_three_blocks,anchor,none,0,,,shape,p < alpha,0.04,0.00876356,500,20,0
+n500_three_blocks,anchor,none,0,,,production_minp,p <= alpha,0.052,0.00992935,500,26,0
+n500_three_blocks,anchor,none,0,,,scan,p <= alpha,0.068,0.0112584,500,34,0
+n500_three_blocks,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.054,0.0101078,500,27,0
+n500_three_blocks,anchor,none,0,,,total,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,anchor,none,0,,,span,p < alpha,0.04,0.00876356,500,20,0
+n500_three_blocks,anchor,none,0,,,complement,p < alpha,0.052,0.00992935,500,26,0
+n500_three_blocks,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.026,0.00711674,500,13,0
+n500_three_blocks,anchor,none,0,,,pca_matched_delta,p < alpha,0.022,0.00655988,500,11,0
+n500_three_blocks,anchor,none,0,,,pca_matched_angle,p < alpha,0.064,0.0109457,500,32,0
+n500_three_blocks,anchor,none,0,,,pca_matched_shape,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,translation,translation,1,,,production,min p <= alpha / 3,0.034,0.00810481,500,17,0
+n500_three_blocks,translation,translation,1,,,delta,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,translation,translation,1,,,angle,p < alpha,0.032,0.00787096,500,16,0
+n500_three_blocks,translation,translation,1,,,shape,p < alpha,0.052,0.00992935,500,26,0
+n500_three_blocks,translation,translation,1,,,production_minp,p <= alpha,0.04,0.00876356,500,20,0
+n500_three_blocks,translation,translation,1,,,scan,p <= alpha,0.044,0.00917213,500,22,0
+n500_three_blocks,translation,translation,1,,,fdr,min BH-adjusted p <= alpha,0.034,0.00810481,500,17,0
+n500_three_blocks,translation,translation,1,,,total,p < alpha,0.044,0.00917213,500,22,0
+n500_three_blocks,translation,translation,1,,,span,p < alpha,0.044,0.00917213,500,22,0
+n500_three_blocks,translation,translation,1,,,complement,p < alpha,0.044,0.00917213,500,22,0
+n500_three_blocks,translation,translation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,translation,translation,1,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,translation,translation,1,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,translation,translation,1,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,translation,translation,1,,,pca_matched,min p <= alpha / 3,0.02,0.00626099,500,10,0
+n500_three_blocks,translation,translation,1,,,pca_matched_delta,p < alpha,0.022,0.00655988,500,11,0
+n500_three_blocks,translation,translation,1,,,pca_matched_angle,p < alpha,0.052,0.00992935,500,26,0
+n500_three_blocks,translation,translation,1,,,pca_matched_shape,p < alpha,0.04,0.00876356,500,20,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,production,min p <= alpha / 3,0.77,0.0188202,500,385,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,delta,p < alpha,0.834,0.01664,500,417,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,angle,p < alpha,0.046,0.00936846,500,23,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,shape,p < alpha,0.042,0.00897062,500,21,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,production_minp,p <= alpha,0.784,0.0184035,500,392,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,scan,p <= alpha,0.088,0.0126693,500,44,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,fdr,min BH-adjusted p <= alpha,0.074,0.0117068,500,37,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,total,p < alpha,0.052,0.00992935,500,26,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,span,p < alpha,0.692,0.0206464,500,346,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched,min p <= alpha / 3,0.058,0.0104533,500,29,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_delta,p < alpha,0.146,0.0157914,500,73,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_angle,p < alpha,0.064,0.0109457,500,32,0
+n500_three_blocks,magnitude_e0.02,magnitude,0.02,,,pca_matched_shape,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,production,min p <= alpha / 3,0.99,0.00444972,500,495,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,delta,p < alpha,0.994,0.00345369,500,497,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,angle,p < alpha,0.034,0.00810481,500,17,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,shape,p < alpha,0.036,0.00833115,500,18,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,production_minp,p <= alpha,0.994,0.00345369,500,497,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,scan,p <= alpha,0.762,0.019045,500,381,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,fdr,min BH-adjusted p <= alpha,0.73,0.0198545,500,365,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,total,p < alpha,0.066,0.0111035,500,33,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,span,p < alpha,0.994,0.00345369,500,497,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched,min p <= alpha / 3,0.336,0.0211236,500,168,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_delta,p < alpha,0.462,0.022296,500,231,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_angle,p < alpha,0.064,0.0109457,500,32,0
+n500_three_blocks,magnitude_e0.05,magnitude,0.05,,,pca_matched_shape,p < alpha,0.048,0.00955992,500,24,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,production,min p <= alpha / 3,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,delta,p < alpha,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,angle,p < alpha,0.024,0.00684456,500,12,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,shape,p < alpha,0.01,0.00444972,500,5,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,production_minp,p <= alpha,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,total,p < alpha,0.114,0.014213,500,57,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,span,p < alpha,1,0,500,500,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched,min p <= alpha / 3,0.604,0.0218716,500,302,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_delta,p < alpha,0.718,0.0201234,500,359,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_angle,p < alpha,0.062,0.0107848,500,31,0
+n500_three_blocks,magnitude_e0.1,magnitude,0.1,,,pca_matched_shape,p < alpha,0.044,0.00917213,500,22,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,production,min p <= alpha / 3,0.948,0.00992935,500,474,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,delta,p < alpha,0.742,0.0195671,500,371,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,angle,p < alpha,0.662,0.0211545,500,331,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,shape,p < alpha,0.842,0.0163117,500,421,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,production_minp,p <= alpha,0.956,0.00917213,500,478,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,span,p < alpha,0.962,0.00855056,500,481,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched,min p <= alpha / 3,0.292,0.020334,500,146,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_delta,p < alpha,0.362,0.0214921,500,181,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_angle,p < alpha,0.084,0.0124052,500,42,0
+n500_three_blocks,orientation_e0.25,orientation,0.25,,,pca_matched_shape,p < alpha,0.058,0.0104533,500,29,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,production,min p <= alpha / 3,0.986,0.00525433,500,493,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,delta,p < alpha,0.78,0.0185257,500,390,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,angle,p < alpha,0.738,0.019665,500,369,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,shape,p < alpha,0.924,0.0118511,500,462,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,production_minp,p <= alpha,0.988,0.0048695,500,494,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,span,p < alpha,0.978,0.00655988,500,489,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched,min p <= alpha / 3,0.5,0.0223607,500,250,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_delta,p < alpha,0.552,0.0222394,500,276,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_angle,p < alpha,0.136,0.01533,500,68,0
+n500_three_blocks,orientation_e0.5,orientation,0.5,,,pca_matched_shape,p < alpha,0.156,0.0162274,500,78,0
+n500_three_blocks,orientation_e1,orientation,1,,,production,min p <= alpha / 3,0.968,0.00787096,500,484,0
+n500_three_blocks,orientation_e1,orientation,1,,,delta,p < alpha,0.78,0.0185257,500,390,0
+n500_three_blocks,orientation_e1,orientation,1,,,angle,p < alpha,0.71,0.0202929,500,355,0
+n500_three_blocks,orientation_e1,orientation,1,,,shape,p < alpha,0.92,0.0121326,500,460,0
+n500_three_blocks,orientation_e1,orientation,1,,,production_minp,p <= alpha,0.972,0.0073778,500,486,0
+n500_three_blocks,orientation_e1,orientation,1,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e1,orientation,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,orientation_e1,orientation,1,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e1,orientation,1,,,span,p < alpha,0.928,0.0115599,500,464,0
+n500_three_blocks,orientation_e1,orientation,1,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,orientation_e1,orientation,1,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,orientation_e1,orientation,1,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e1,orientation,1,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e1,orientation,1,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,orientation_e1,orientation,1,,,pca_matched,min p <= alpha / 3,0.884,0.0143209,500,442,0
+n500_three_blocks,orientation_e1,orientation,1,,,pca_matched_delta,p < alpha,0.718,0.0201234,500,359,0
+n500_three_blocks,orientation_e1,orientation,1,,,pca_matched_angle,p < alpha,0.736,0.0197131,500,368,0
+n500_three_blocks,orientation_e1,orientation,1,,,pca_matched_shape,p < alpha,0.496,0.02236,500,248,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,production,min p <= alpha / 3,0.802,0.0178211,500,401,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,delta,p < alpha,0.75,0.0193649,500,375,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,angle,p < alpha,0.024,0.00684456,500,12,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,shape,p < alpha,0.78,0.0185257,500,390,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,production_minp,p <= alpha,0.808,0.0176145,500,404,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,span,p < alpha,0.812,0.0174732,500,406,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,pca_matched,min p <= alpha / 3,0.164,0.0165592,500,82,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_delta,p < alpha,0.232,0.0188773,500,116,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_angle,p < alpha,0.05,0.00974679,500,25,0
+n500_three_blocks,shape_e0.25,shape,0.25,,,pca_matched_shape,p < alpha,0.036,0.00833115,500,18,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,production,min p <= alpha / 3,0.91,0.0127984,500,455,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,delta,p < alpha,0.846,0.0161421,500,423,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,angle,p < alpha,0.03,0.00762889,500,15,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,shape,p < alpha,0.892,0.0138806,500,446,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,production_minp,p <= alpha,0.91,0.0127984,500,455,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,span,p < alpha,0.922,0.011993,500,461,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,pca_matched,min p <= alpha / 3,0.254,0.0194671,500,127,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_delta,p < alpha,0.266,0.0197608,500,133,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_angle,p < alpha,0.054,0.0101078,500,27,0
+n500_three_blocks,shape_e0.5,shape,0.5,,,pca_matched_shape,p < alpha,0.098,0.0132963,500,49,0
+n500_three_blocks,shape_e1,shape,1,,,production,min p <= alpha / 3,0.96,0.00876356,500,480,0
+n500_three_blocks,shape_e1,shape,1,,,delta,p < alpha,0.902,0.0132963,500,451,0
+n500_three_blocks,shape_e1,shape,1,,,angle,p < alpha,0.02,0.00626099,500,10,0
+n500_three_blocks,shape_e1,shape,1,,,shape,p < alpha,0.97,0.00762889,500,485,0
+n500_three_blocks,shape_e1,shape,1,,,production_minp,p <= alpha,0.966,0.00810481,500,483,0
+n500_three_blocks,shape_e1,shape,1,,,scan,p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e1,shape,1,,,fdr,min BH-adjusted p <= alpha,1,0,500,500,0
+n500_three_blocks,shape_e1,shape,1,,,total,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e1,shape,1,,,span,p < alpha,0.974,0.00711674,500,487,0
+n500_three_blocks,shape_e1,shape,1,,,complement,p < alpha,1,0,500,500,0
+n500_three_blocks,shape_e1,shape,1,,,concat,min p <= alpha / 3,,,0,0,0
+n500_three_blocks,shape_e1,shape,1,,,concat_delta,p < alpha,,,0,0,0
+n500_three_blocks,shape_e1,shape,1,,,concat_angle,p < alpha,,,0,0,0
+n500_three_blocks,shape_e1,shape,1,,,concat_shape,p < alpha,,,0,0,0
+n500_three_blocks,shape_e1,shape,1,,,pca_matched,min p <= alpha / 3,0.528,0.0223256,500,264,0
+n500_three_blocks,shape_e1,shape,1,,,pca_matched_delta,p < alpha,0.334,0.0210924,500,167,0
+n500_three_blocks,shape_e1,shape,1,,,pca_matched_angle,p < alpha,0.054,0.0101078,500,27,0
+n500_three_blocks,shape_e1,shape,1,,,pca_matched_shape,p < alpha,0.59,0.0219955,500,295,0

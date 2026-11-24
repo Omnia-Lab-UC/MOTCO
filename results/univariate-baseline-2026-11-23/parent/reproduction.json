@@ -1,0 +1,11 @@
+{
+ "differing": [],
+ "files": {
+  "results/interaction-scan-2026-11-09/simulation/comparator_table.csv": "441d2fea674a932453087849370646f1476297f497a30b8b06947d8311b21893",
+  "results/interaction-scan-2026-11-09/simulation/settings.json": "e67db472b4808a12a18f4ffbbbedfe5591078e369339bed11d527b78aa8a360a"
+ },
+ "passed": true,
+ "profile": "parent",
+ "rows_compared": 196,
+ "source": "interaction-scan validation 2026-11-09, simulation profile"
+}

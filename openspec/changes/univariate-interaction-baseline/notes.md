@@ -67,3 +67,19 @@ Without `concat` the run sits at the design's estimate (130–200 core-hours, pr
 The design's first compute lever is the recorded `concat` and `pca_matched` arms. The smoke shows `pca_matched` costs about 1 s per unit and `concat` about 80 % of every unit. The proposal is to drop `concat` from the run (`--recorded-spaces pca_matched`, bound in the settings, no code change). The spec, design and proposal would drop `concat` from the recorded arms. The report would cite the latent-space comparison (`latent-space-comparison-2026-11-04`), which already measured `concat` against production on the stage-span construction across alignment. No judged arm reads `concat`, so the verdict, labels, grade and size readings are unchanged. Proposed cap: **350 recorded core-hours**, above the packed bound of 311 h.
 
 **Approved** on 2026-11-23: `concat` dropped, cap 350 recorded core-hours, launch on `ing`. The driver's default is now `pca_matched` alone (`DEFAULT_RECORDED_SPACES`), so the run's settings carry `"recorded_spaces": ["pca_matched"]` without a flag; the spec, design (D3, open question) and proposal record the amendment.
+
+## Run on `ing` (task 5.2)
+
+Submitted 2026-11-23 from the clean worktree `/home1/tgonza/MOTCO-univariate-baseline`, detached at `a8a27dce822a4a9ae2281f2ad0e58cc7ea5174cd` (tree `2102d7ce80439b194a667cb14c0d41e6989399b3`), sharing `/home1/tgonza/MOTCO/.venv` with `PYTHONPATH` on the worktree's `src` (Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3). The driver's 63 tests passed there first. Run root `/home1/tgonza/MOTCO-univariate-baseline-run`, each profile's settings pre-created (hashes `1f0357bec8e2…` parent, `fe5a8425d7ac…` stage_span, `df600edfdab0…` surgery; `recorded_spaces` `["pca_matched"]`, 999 permutations).
+
+| Profile | Job | Shards | Units |
+|---|---|---|---|
+| `parent` | 957651 | 40 | 4,400 |
+| `stage_span` | 957652 | 100 | 12,800 |
+| `surgery` | 957653 | 120 | 16,500 |
+
+Partition `512x1024`, n11 excluded, one CPU and 4 GB per task, throttle 64 per array.
+
+Outcome: 260 of 260 tasks `COMPLETED 0:0` (18:45:44–21:09:20; 176 on n2, 50 on n1, 34 on n4), 33,700 of 33,700 units complete, 0 failed. **236.18 recorded core-hours** (parent 14.01, stage_span 88.49, surgery 133.68) against the cap of 350; 246.6 allocated CPU-hours in `sacct`, startup included. Python startup stalled on NFS for 5–10 min at launch, as on earlier runs. Both reproductions passed: `parent` 196 of 196 rows and `surgery` 99 of 99. `decide`: **`complementary`** (admissible baseline arms `fdr` and `total`; `scan` inadmissible on `stage_span` size at n = 80; 16 / 21 / 34), grade **`detects_only`**. The decision regenerates byte for byte on the workstation from the committed aggregates. Per-unit records stay under `/home1/tgonza/MOTCO-univariate-baseline-run` (sha256 of each `merged.jsonl` in `PROVENANCE.txt`).
+
+`uv run mkdocs build --strict` aborts on two warnings in `docs/reports/phase5-paper-grade-2026-09-10.md` (links to `results/` outside the docs tree). The same two warnings abort it on `main` (`bb58c8c`), and that report is frozen (`tests/test_phase5_magnitude_profiles.py`). The non-strict build of this branch emits no other warning, and the new report and the concept-page anchor resolve.
