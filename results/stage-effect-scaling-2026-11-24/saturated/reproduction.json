@@ -1,0 +1,13 @@
+{
+ "design": "n200_delta0.5",
+ "differing": [],
+ "files": {
+  "results/univariate-baseline-2026-11-23/stage_span/cell_table.csv": "5f0b43598286d334ee6364559226ad753a73f9c99cd44136280a6f5d07697b59",
+  "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+  "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+ },
+ "passed": true,
+ "rows_compared": 234,
+ "source": "univariate baseline 2026-11-23, stage_span profile",
+ "unresolved_rows": []
+}

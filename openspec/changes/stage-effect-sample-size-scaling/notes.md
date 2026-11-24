@@ -85,3 +85,27 @@ On `ing`, the univariate baseline's `stage_span` array recorded a mean of 24.9 s
 - **Launch:** commit and push the branch, then make a clean worktree on `ing` at that revision, with `PYTHONPATH` on its `src` and the shared `.venv`. Run the driver's tests there. Copy this calibration directory (sha256 `cdb7a1f3…`) into the run root, and pre-create both profiles' settings. Then submit `saturated` (200 shards, ~80 units each) and `band` (140 shards, ~60 units each), throttled at `%64`.
 
 **Approved** by the user on 2026-11-24: a cap of 600 recorded core-hours, both profiles launched on `ing` as planned, with no amendment.
+
+## Run on `ing` (task 4.3)
+
+Submitted 2026-11-24 from the clean worktree `/home1/tgonza/MOTCO-stage-effect-scaling`, detached at `3afc721333da1d5dc9c2c4c24707f36c405d8e49` (tree `6f8ea4fe8f3b942c37fe82cc5abf065a850fffc4`, the pushed `feat/stage-effect-sample-size-scaling`). It shares `/home1/tgonza/MOTCO/.venv` through a symlink, with `PYTHONPATH` on the worktree's `src` (Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3). The driver's 58 tests and the parent's 63 passed there first. The run root is `/home1/tgonza/MOTCO-stage-effect-scaling-run`. Its `calibration/` is a copy of the local one (sha256 `cdb7a1f3…` for `calibration.json`, `2e653dbb…` for `calibration_units.csv`). Both profiles' settings were pre-created (hashes `44e59be1ddff…` `saturated`, `e78e7b125cbc…` `band`; 999 permutations; replicates 500 / 200; `recorded_spaces` `["pca_matched"]`).
+
+| Profile | Job | Shards | Units |
+|---|---|---|---|
+| `saturated` | 958096 | 200 (`%64`) | 16,000 |
+| `band` | 958097 | 140 (`%64`) | 8,400 |
+
+The first 44 records were complete, with 0 failed units, and 128 tasks were running with none failed.
+
+### Outcome, merge and decision (tasks 4.3–4.4, 2026-11-24)
+
+- **Arrays.** 340 of 340 tasks `COMPLETED 0:0`, 11:18:22–15:25:07 (178 tasks on n2, 160 on n4, 2 on n1; `sacct.txt`). The throttle stayed at `%64`. Units: 16,000 and 8,400 complete, 0 failed, 0 duplicates, no failed planted fixed point, so failures occur nowhere, as in the smoke.
+- **Core-hours.** 409.49 recorded (206.09 `saturated`, 203.40 `band`) against the cap of 600; 421.7 allocated CPU-hours in `sacct`. The median unit took 34.7 s and 113.8 s. 65 rerun-design units stalled on the hosts for 10–47 min across every stage of the unit (38.8 of the core-hours); their counts reproduce.
+- **Merge** on the `ing` login node: the reproduction passed, with 234 rows compared, 0 differing and 0 unresolved.
+- **Decide:** **`mixed`**. `fdr` and `total` are admissible, and production holds size in both families. There are 3 counted `weak_costs`, all at `n1280_delta0.5~n80`: `orient_e0.1_phi0`, `orient_e0.5_phi90` and `orient_e0.5_phi90_k20`. There are 12 counted `weak_gains`, 38 `unresolved`, 0 shared with the control and 0 unavailable. The grades are `names_kind` at `n80`, `n200` and `n500` and `detects_only` at the other eight designs. The decision sha256 is `c5cd1310…`. `decide` regenerated it byte for byte on the workstation from the committed aggregates alone.
+- **Committed** under `results/stage-effect-scaling-2026-11-24/`: per profile `settings.json`, the rate, paired, cell and rank tables and `accounting.json`; `saturated/reproduction.json`; `calibration/`; the decision; `PROVENANCE.txt`; and `sacct.txt`. `merged.jsonl` and the records stay on `ing` under the run root.
+- **Documentation (task 4.5).**
+    - The report is `docs/reports/stage-effect-scaling-2026-11-24.md`.
+    - `docs/measurement-visibility.md` gains the section "A weak stage effect against sample size".
+    - In the roadmap, open item 14 becomes a placeholder, Done item 25 is added, the stage-effect bullet under "Not yet established" now states the verdict, and the rank-rule entry under On hold notes that its reopening condition was not met.
+    - `mkdocs.yml` gains the nav entry, and the `AGENTS.md` row now names the report.
