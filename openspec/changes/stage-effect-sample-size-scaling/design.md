@@ -65,7 +65,7 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
 - **Grade.** Controls at 500 × 999 and signal cells at 200 × 999, the parent's.
 
 **D4. The band's stage effect is calibrated to the held-out AUROC.**
-- **The step.** `calibrate` fits production, with no permutation, on 40 anchor datasets per value of δ ∈ {0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.1} at n = 320, from the comparison's calibration seed stream. δ_c is the value whose median held-out AUROC is nearest 0.636, and that median must lie in 0.60–0.67. Both numbers are the latent-space comparison's, which calibrated its weak design to SEA-AD.
+- **The step.** `calibrate` fits production, with no permutation, on 40 anchor datasets per value of δ ∈ {0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.1} at n = 320, from the comparison's calibration seed stream. δ_c is the value whose median held-out AUROC is nearest 0.636, and that median must lie in 0.60–0.67. Both numbers are the latent-space comparison's, which calibrated its weak design to SEA-AD. The fit is the units' own production fit on three blocks (`univariate_baseline_check.stage_span_params` at zero permutations, on the anchor cell's generator), at base seed 2043; the comparison's `calibration_unit` is not used, because it fits that comparison's two blocks (amended 2026-11-24, before any unit).
 - **Outside the band.** The driver refuses to build the `band` settings. The ladder is amended in `notes.md` before any `band` unit.
 - **The three designs.**
   - **δ_c at n = 320.** The calibrated design.
