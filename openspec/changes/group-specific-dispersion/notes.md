@@ -120,3 +120,22 @@ Both profiles at 2 replicates per cell, every design, 999 permutations, run from
 **Approved 2026-11-24.** The user approved the 400 core-hour cap and the arrays as proposed (`core` 200 shards, `columns` 140, `%64`), with no amendment. The run starts from the pushed branch's revision in a clean worktree on `ing`.
 
 Smoke records: `/tmp/claude-1000/-home-tomas-Documents-Repos-MOTCO/6a5069eb-91d3-47bb-937e-577127cb07df/scratchpad/gd-smoke/` (scratch, not committed).
+
+## Run (task 4.2, submitted 2026-11-24)
+
+- **Revision.** `5aab30e` on `feat/group-specific-dispersion` (pushed), MOTCO 0.26.0, in a clean worktree on `ing`: `/home1/tgonza/MOTCO-group-dispersion` (its `.venv` a symlink to `/home1/tgonza/MOTCO/.venv`; `PYTHONPATH` on the worktree's `src`). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3. The new and stage-span test files passed on a compute node first (155 passed).
+- **Run root.** `/home1/tgonza/MOTCO-group-dispersion-run`, settings pre-created by `run --limit 0`: `core/settings.json` sha256 `9cc9a813…6741751`, `columns/settings.json` sha256 `098763cc…d79b9730`.
+- **Arrays** (submitted 20:05 -03): `core` job **958479** (`--array=0-199%64`, N_SHARDS=200) and `columns` job **958544** (`--array=0-139%64`, N_SHARDS=140), partition `512x1024`, n11 excluded, 1 CPU and 4 GB per task.
+- **First check** (20:17, 12 min in): 3,935 units completed (2,064 core, 1,637 columns), none failed, every within-group refit consistent, mean unit 17 s (below the smoke's 25 s), no task failed and no error in the logs. At that pace the 32,000 units take about 150 core-hours, well under the cap.
+- **To finish** (from the `ing` worktree, after every task of both arrays completes; resubmit failed array ids first, complete units are skipped):
+
+  ```bash
+  cd /home1/tgonza/MOTCO-group-dispersion && export PYTHONPATH=$PWD/src OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+  RUN=/home1/tgonza/MOTCO-group-dispersion-run
+  sacct -j 958479,958544 -X -o JobID,State,ExitCode,Elapsed,TotalCPU,NodeList > $RUN/sacct.txt
+  .venv/bin/python scripts/group_dispersion_check.py merge --profile core --out-dir $RUN
+  .venv/bin/python scripts/group_dispersion_check.py merge --profile columns --out-dir $RUN
+  .venv/bin/python scripts/group_dispersion_check.py decide --out-dir $RUN
+  ```
+
+  Then copy the aggregates (not the records) to `results/group-dispersion-<date>/` in a local worktree of the branch, with `PROVENANCE.txt` and `sacct.txt`, and write the report (task 4.3).
