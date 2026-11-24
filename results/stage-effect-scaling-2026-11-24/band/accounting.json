@@ -1,0 +1,25 @@
+{
+ "complete_units": 8400,
+ "duplicate_records": 0,
+ "expected_units": 8400,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "missing_units": 0,
+ "profile": "band",
+ "recorded_core_hours": 203.39632870239748,
+ "settings_hash": "e78e7b125cbc4d42dff1e1fd2e861c8d2bd5c8ace6b99d68b7085cce52f6b4ba",
+ "stage_seconds_median": {
+  "evaluation": 1.1706132524413988,
+  "fit": 100.56160103541333,
+  "pca_matched": 1.4427724725101143,
+  "scan": 1.1954873299691826,
+  "split": 8.217852332163602
+ },
+ "unit_seconds": {
+  "max": 141.3805557701271,
+  "median": 113.78849432792049,
+  "q90": 125.7131994833937
+ },
+ "unit_settings_hash": "f09712e44858cb67462f8e41a55c19bd4dc5951a9d854831514caa67800f78e9"
+}

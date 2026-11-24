@@ -1047,3 +1047,99 @@ real-noise reading of either side exists on them (roadmap open item 2).
 [latent-space comparison](reports/latent-space-comparison-2026-11-04.md)'s. The map depends on
 the plant families chosen; how real differences divide between diffuse and concentrated forms
 is not known.
+
+## A weak stage effect against sample size
+
+The production space is fitted to the stage program, so a weak stage effect weakens the
+fit: the CV rank inflates, `delta` and `shape` lose power, and a rotation is read as `shape`.
+The [stage-effect scaling report](reports/stage-effect-scaling-2026-11-24.md) (2026-11-24)
+asks whether more samples buy that back. In the generator, a design's information about the
+stage program grows as δ√n. Each weaker design is therefore paired with a committed design
+at the same δ√n, and the two are compared cell by cell under one decision fixed before any
+unit ran. The per-feature `fdr` arm, which uses no stage fit, controls the pairing.
+
+**The verdict is `mixed`.** A weak stage effect is not just a smaller sample. Labels by plant
+family over five pairs (costs / gains / unresolved, production omnibus, Fisher's exact test at
+0.025 / 53 with a 0.10 margin):
+
+| plant family | weaker design costs | weaker design gains | for example (weaker; match) |
+|---|---|---|---|
+| stretch of the stage program | none | 6 of 15: at δ = 1.0 against δ = 2.0, and at the calibrated weak signal | δ_c / 2, n = 1,280 against δ_c, n = 320, e = 1: 0.805; 0.330 |
+| bend inside the span | none | 3 of 15, at δ = 1.0 | δ = 1.0, n = 320 against δ = 2.0, n = 80, e = 0.1: 0.665; 0.365 |
+| rotation inside the span | 1 of 15: the smallest rotation at δ = 0.5 | 3 of 15: at δ = 0.5, e = 0.25, and at δ = 0.25 | δ = 0.5, n = 1,280 against δ = 2.0, n = 80, e = 0.1: 0.250; 0.820 |
+| rotation outside the span | 2 of 8, at δ = 0.5 | none | 20 features: 0.375; 0.835 |
+
+- **The control moved once.** `fdr` is unresolved in 52 of 53 pair-cells. Its one label is a
+  gain on an out-of-span rotation that production does not share, so no production label was
+  set aside. In 39 pair-cells `fdr` sits at 0.97 or more, or at 0.10 or less, on both sides, so
+  it constrains the pairing less than its count suggests.
+- **Stretches and bends follow δ√n or do better.** At δ = 0.5 with n = 1,280 they match δ = 2.0
+  with n = 80 within 0.055. At δ = 1.0 they gain up to 0.300.
+- **Small rotations cost below δ = 1.0.** Along δ√n = 17.9, a rotation at e = 0.1 reads 0.820 at
+  δ = 2.0, 0.690 at δ = 1.0 and 0.250 at δ = 0.5. At e = 0.25 the δ = 0.5 design catches up
+  (0.985 against 0.855).
+- **The incidental route weakens with δ.** Production sees an out-of-span rotation only through
+  incidental routes, and they are weaker at δ = 0.5 than at δ = 2.0 at the same δ√n.
+
+**Sample size does not restore the naming.** The grade asks whether production's off-target
+statistics hold on the cells it detects (design by design, the committed ones regraded from
+their table):
+
+| δ | designs | grade |
+|---|---|---|
+| 2.0 | n = 80, 200, 500 | `names_kind` |
+| 1.0 | n = 320, 800 | `detects_only` |
+| 0.5 | n = 200, 1,280 | `detects_only` |
+| 0.25 | n = 800 | `detects_only` |
+| 0.025–0.05 (band) | n = 320, 1,280 | `detects_only` |
+
+At matched δ√n the δ = 2.0 design names the kind and the weaker one does not. On the 45°
+rotation, `shape` reads 0.175 at δ = 1.0, n = 320 and 0.720 at δ = 0.5, n = 1,280. Below
+δ = 2.0, the statistic that rejects is not a reliable name for the kind of difference at any
+sample size read.
+
+**Where a cohort sits.** The index has one row per design, from the anchor cell:
+
+| δ | n | δ√n | held-out AUROC | CV rank median (q10–q90) | pooled-stage capture |
+|---|---|---|---|---|---|
+| 2.0 | 80 / 200 / 500 | 17.9 / 28.3 / 44.7 | 1.000 | 2 (2–2) | 0.934 / 0.973 / 0.989 |
+| 1.0 | 320 / 800 | 17.9 / 28.3 | 1.000 | 2 (2–3) / 2 (2–2) | 0.971 / 0.987 |
+| 0.5 | 200 / 1,280 | 7.1 / 17.9 | 1.000 | 3 (3–3) | 0.905 / 0.984 |
+| 0.25 | 800 | 7.1 | 1.000 | 5 (4–6) | 0.934 |
+| 0.05 | 320 | 0.89 | 0.664 | 10 (5–19) | 0.288 |
+| 0.025 | 1,280 | 0.89 | 0.649 | 19 (19–19) | 0.376 |
+| 0.05 | 1,280 | 1.79 | 0.883 | 19 (19–19) | 0.647 |
+
+- **At the AUROC ceiling,** the AUROC cannot place a cohort. The CV rank indexes δ, and more
+  samples do not lower it.
+- **Below the ceiling,** the AUROC follows δ√n, while more samples push the rank to the cap of
+  19.
+
+ADNI's metabolomics export reads rank 8 at an AUROC of 0.600, and its design simulation rank 19
+at 0.606. The band's target, 0.636, is the latent-space comparison's calibration to SEA-AD.
+
+**What is detectable at the case studies' AUROC.** The band's stage effect δ_c = 0.05 gives a
+held-out AUROC of 0.664 at n = 320:
+
+- **At δ_c, n = 320,** only the largest stretch reaches 0.80 (e = 2: 0.835). Every rotation and
+  bend up to e = 1 reads 0.060 or less for production and 0.125 or less for `fdr`.
+- **At the matched δ_c / 2, n = 1,280,** the stretches gain (0.805 at e = 1), and rotations and
+  bends stay at 0.080 or less.
+- **At δ_c with four times the samples (AUROC 0.883),** a rotation at e = 1 reaches 0.920 and a
+  bend 0.505. The rotation is read as `shape` in 0.535 of units.
+
+**The map holds where the fit is weak.** Against the per-feature test (71 signal cells):
+
+- production leads on stretches at every new design, on bends at five of the seven, and on two
+  rotations (23 cells);
+- the per-feature test leads on out-of-span rotations and on in-span rotations where the fit is
+  weakest (11 cells);
+- 37 are unresolved.
+
+**Limits.** Every number holds at 658 simulated features with Gaussian noise, equal groups and
+three stages, and no real-noise reading exists (roadmap open item 2). The pairing is exact only
+in the generator's means. The pooled SD's between-stage share, the residual degrees of freedom
+and the nonlinearity of rotations and bends all move it, and the run reads their sum. The band
+matches an AUROC, not a cohort's cell table, covariates or rank. The verdict is by existence at
+200 replicates per design, so an unresolved pair-cell is not an agreement. The decision was
+written after a timing probe of null datasets that saw no rejection rate.
