@@ -84,6 +84,36 @@ conflicting settings. When the table is absent (the default `None`), generation,
 cell ids and parameter signatures are byte-identical to the generator before the field existed:
 hash payloads omit the field while it is `None`.
 
+**Group-specific dispersion.** `group_dispersion_scale` (a positive finite `s`) multiplies the
+noise standard deviation of the second label in `group_labels`, in every block and at every stage,
+so its noise covariance is `s²` times the reference covariance. The first group keeps the reference
+noise, and no mean moves: the population trajectories and the differential indicators are those of
+the dataset without the setting. Which group is wider relative to the other's size is set by
+`group_ratio` (the first group's share): at `group_ratio=0.8` the scaled group is the smaller one,
+at `0.2` the larger one.
+
+```python
+SemiSyntheticTrajectoryParams(
+    seed=1,
+    n_samples=200,
+    group_ratio=0.8,
+    group_dispersion_scale=2.0,  # group B: twice the noise SD, a fifth of the samples
+)
+```
+
+The scale draws no random numbers (`generate_omics(..., noise_scale=)`). The dataset is the one
+without it at the same seed, with group B's samples stretched about their exact cell means:
+methylation in M-values before the inverse logit, expression and proteomics in their native units.
+It composes with every trajectory mode and construction, and a zero-effect cell keeps it, because
+it is part of the design and not of the group transform. Under `construction="stage_span"` the
+null and planted pooled SDs take the within-cell variance as `(n_A + s²·n_B) / (n_A + n_B)` times
+the reference variance at the realized group sizes, so the edit stays exact in the scale the data
+have. Truth records `truth["group_dispersion"]` with the scale, the covariance multiplier `s²` and
+the group. `1` normalizes to `None`, the default, under which generation, truth, cell ids,
+parameter signatures, matched seeds and dumped study configs are byte-identical to the generator
+before the field existed. Study configs accept `generator.group_dispersion_scale` in the baseline
+and as an axis; `motco simulate` does not expose it.
+
 **Migration.** Before `default-joint-magnitude-construction` the default was `'all'`. Code that
 relied on the default and wants the old construction must pass `magnitude_kind="all"` (or
 `--magnitude-kind all`). The committed historical study configs under

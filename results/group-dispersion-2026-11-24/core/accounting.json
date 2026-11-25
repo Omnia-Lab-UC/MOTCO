@@ -1,0 +1,34 @@
+{
+ "complete_units": 18000,
+ "duplicate_records": 0,
+ "expected_units": 18000,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "missing_units": 0,
+ "profile": "core",
+ "recorded_core_hours": 80.86445825645221,
+ "settings_hash": "9db60490f0520ce1712177c5c96637fb66dfd0fa3c280c53a588116997b8f662",
+ "stage_seconds_median": {
+  "evaluation": 0.5314808040857315,
+  "fit": 12.66787401214242,
+  "parent_unit": 14.206217793747783,
+  "pca_matched": 0.5414495039731264,
+  "scan": 0.08179237507283688,
+  "split": 0.08533892966806889,
+  "within_group": 0.5572820249944925
+ },
+ "unit_seconds": {
+  "max": 45.12144541880116,
+  "median": 14.778713447973132,
+  "q90": 23.354091639397666
+ },
+ "unit_settings_hash": "03f68daaa97316e209c62bc379bc80d02607df2bd65396e89e27743ba13317b1",
+ "within_group": {
+  "completed": 18000,
+  "failed": 0,
+  "failed_by_cell": {},
+  "inconsistent": 0,
+  "inconsistent_by_cell": {}
+ }
+}

@@ -20,6 +20,7 @@ nav:
   - Measurement Visibility: measurement-visibility.md
   - Study Reports:
     - Measurement visibility:
+      - Group-specific dispersion (2026-11-24): reports/group-dispersion-2026-11-24.md
       - Stage-effect sample-size scaling (2026-11-24): reports/stage-effect-scaling-2026-11-24.md
       - Univariate interaction baseline (2026-11-23): reports/univariate-baseline-2026-11-23.md
       - ADNI latent plasmode, diagnosed (2026-11-18): reports/adni-latent-plasmode-diagnosis-2026-11-18.md

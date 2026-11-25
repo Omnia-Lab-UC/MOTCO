@@ -1,0 +1,831 @@
+{
+ "hash": "de3d46b1fbc966d134af7fde3b9f125b42f3dea191022c5e3cdf320d39969960",
+ "settings": {
+  "design_index": {
+   "band_n320_r0.2_s1.5": {
+    "column": "band_n320",
+    "covariance_ratio": 2.25,
+    "family": "wider_larger",
+    "scale": 1.5,
+    "share": 0.2
+   },
+   "band_n320_r0.2_s2": {
+    "column": "band_n320",
+    "covariance_ratio": 4.0,
+    "family": "wider_larger",
+    "scale": 2.0,
+    "share": 0.2
+   },
+   "band_n320_r0.5_s1.5": {
+    "column": "band_n320",
+    "covariance_ratio": 2.25,
+    "family": "balanced_unequal",
+    "scale": 1.5,
+    "share": 0.5
+   },
+   "band_n320_r0.5_s2": {
+    "column": "band_n320",
+    "covariance_ratio": 4.0,
+    "family": "balanced_unequal",
+    "scale": 2.0,
+    "share": 0.5
+   },
+   "band_n320_r0.8": {
+    "column": "band_n320",
+    "covariance_ratio": null,
+    "family": "unbalanced_equal",
+    "scale": null,
+    "share": 0.8
+   },
+   "band_n320_r0.8_s1.5": {
+    "column": "band_n320",
+    "covariance_ratio": 2.25,
+    "family": "wider_smaller",
+    "scale": 1.5,
+    "share": 0.8
+   },
+   "band_n320_r0.8_s2": {
+    "column": "band_n320",
+    "covariance_ratio": 4.0,
+    "family": "wider_smaller",
+    "scale": 2.0,
+    "share": 0.8
+   },
+   "n200_delta0.5_r0.2_s1.5": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 2.25,
+    "family": "wider_larger",
+    "scale": 1.5,
+    "share": 0.2
+   },
+   "n200_delta0.5_r0.2_s2": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 4.0,
+    "family": "wider_larger",
+    "scale": 2.0,
+    "share": 0.2
+   },
+   "n200_delta0.5_r0.5_s1.5": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 2.25,
+    "family": "balanced_unequal",
+    "scale": 1.5,
+    "share": 0.5
+   },
+   "n200_delta0.5_r0.5_s2": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 4.0,
+    "family": "balanced_unequal",
+    "scale": 2.0,
+    "share": 0.5
+   },
+   "n200_delta0.5_r0.8": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": null,
+    "family": "unbalanced_equal",
+    "scale": null,
+    "share": 0.8
+   },
+   "n200_delta0.5_r0.8_s1.5": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 2.25,
+    "family": "wider_smaller",
+    "scale": 1.5,
+    "share": 0.8
+   },
+   "n200_delta0.5_r0.8_s2": {
+    "column": "n200_delta0.5",
+    "covariance_ratio": 4.0,
+    "family": "wider_smaller",
+    "scale": 2.0,
+    "share": 0.8
+   },
+   "n500_r0.2_s1.5": {
+    "column": "n500",
+    "covariance_ratio": 2.25,
+    "family": "wider_larger",
+    "scale": 1.5,
+    "share": 0.2
+   },
+   "n500_r0.2_s2": {
+    "column": "n500",
+    "covariance_ratio": 4.0,
+    "family": "wider_larger",
+    "scale": 2.0,
+    "share": 0.2
+   },
+   "n500_r0.5_s1.5": {
+    "column": "n500",
+    "covariance_ratio": 2.25,
+    "family": "balanced_unequal",
+    "scale": 1.5,
+    "share": 0.5
+   },
+   "n500_r0.5_s2": {
+    "column": "n500",
+    "covariance_ratio": 4.0,
+    "family": "balanced_unequal",
+    "scale": 2.0,
+    "share": 0.5
+   },
+   "n500_r0.8": {
+    "column": "n500",
+    "covariance_ratio": null,
+    "family": "unbalanced_equal",
+    "scale": null,
+    "share": 0.8
+   },
+   "n500_r0.8_s1.5": {
+    "column": "n500",
+    "covariance_ratio": 2.25,
+    "family": "wider_smaller",
+    "scale": 1.5,
+    "share": 0.8
+   },
+   "n500_r0.8_s2": {
+    "column": "n500",
+    "covariance_ratio": 4.0,
+    "family": "wider_smaller",
+    "scale": 2.0,
+    "share": 0.8
+   },
+   "n80_r0.2_s1.5": {
+    "column": "n80",
+    "covariance_ratio": 2.25,
+    "family": "wider_larger",
+    "scale": 1.5,
+    "share": 0.2
+   },
+   "n80_r0.2_s2": {
+    "column": "n80",
+    "covariance_ratio": 4.0,
+    "family": "wider_larger",
+    "scale": 2.0,
+    "share": 0.2
+   },
+   "n80_r0.5_s1.5": {
+    "column": "n80",
+    "covariance_ratio": 2.25,
+    "family": "balanced_unequal",
+    "scale": 1.5,
+    "share": 0.5
+   },
+   "n80_r0.5_s2": {
+    "column": "n80",
+    "covariance_ratio": 4.0,
+    "family": "balanced_unequal",
+    "scale": 2.0,
+    "share": 0.5
+   },
+   "n80_r0.8": {
+    "column": "n80",
+    "covariance_ratio": null,
+    "family": "unbalanced_equal",
+    "scale": null,
+    "share": 0.8
+   },
+   "n80_r0.8_s1.5": {
+    "column": "n80",
+    "covariance_ratio": 2.25,
+    "family": "wider_smaller",
+    "scale": 1.5,
+    "share": 0.8
+   },
+   "n80_r0.8_s2": {
+    "column": "n80",
+    "covariance_ratio": 4.0,
+    "family": "wider_smaller",
+    "scale": 2.0,
+    "share": 0.8
+   }
+  },
+  "driver": "group_dispersion_check",
+  "driver_version": 1,
+  "families": [
+   "unbalanced_equal",
+   "balanced_unequal",
+   "wider_smaller",
+   "wider_larger"
+  ],
+  "judged_statistics": [
+   "delta",
+   "angle",
+   "shape"
+  ],
+  "parent_files": {
+   "results/stage-effect-scaling-2026-11-24/band/cell_table.csv": "a134579dc4120e3d69063149e4649636d875e6d2fff9211eb3176088caf5179a",
+   "results/stage-effect-scaling-2026-11-24/band/rate_table.csv": "c3903d42051df804e5038cf0e2b2c0636e1646ccd6996dc3434273e3faff6335",
+   "results/stage-effect-scaling-2026-11-24/band/settings.json": "bc9f36b6800b346a489dc7289b85001522b6bd4383d3b8845b83f79b4dd9c904",
+   "results/univariate-baseline-2026-11-23/stage_span/cell_table.csv": "5f0b43598286d334ee6364559226ad753a73f9c99cd44136280a6f5d07697b59",
+   "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+   "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+  },
+  "parents": {
+   "stage_effect_band": {
+    "dir": "results/stage-effect-scaling-2026-11-24/band",
+    "files": {
+     "results/stage-effect-scaling-2026-11-24/band/cell_table.csv": "a134579dc4120e3d69063149e4649636d875e6d2fff9211eb3176088caf5179a",
+     "results/stage-effect-scaling-2026-11-24/band/rate_table.csv": "c3903d42051df804e5038cf0e2b2c0636e1646ccd6996dc3434273e3faff6335",
+     "results/stage-effect-scaling-2026-11-24/band/settings.json": "bc9f36b6800b346a489dc7289b85001522b6bd4383d3b8845b83f79b4dd9c904"
+    },
+    "settings_hash": "e78e7b125cbc4d42dff1e1fd2e861c8d2bd5c8ace6b99d68b7085cce52f6b4ba",
+    "source": "stage-effect scaling 2026-11-24, band profile"
+   },
+   "univariate_baseline": {
+    "dir": "results/univariate-baseline-2026-11-23/stage_span",
+    "files": {
+     "results/univariate-baseline-2026-11-23/stage_span/cell_table.csv": "5f0b43598286d334ee6364559226ad753a73f9c99cd44136280a6f5d07697b59",
+     "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+     "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+    },
+    "settings_hash": "fe5a8425d7ac920ca32d077ba6e19578e8f3bd9a641259625527c01d6a86fcc9",
+    "source": "univariate baseline 2026-11-23, stage_span profile"
+   }
+  },
+  "profile": "columns",
+  "rerun_design": null,
+  "unit": "univariate_baseline_check.evaluate_unit on unit_settings (the parent's stage_span settings with the designs and cells replaced), pca_matched the one recorded space",
+  "unit_settings": {
+   "alpha": 0.05,
+   "arms": [
+    "production",
+    "delta",
+    "angle",
+    "shape",
+    "production_minp",
+    "scan",
+    "fdr",
+    "total",
+    "span",
+    "complement",
+    "concat",
+    "concat_delta",
+    "concat_angle",
+    "concat_shape",
+    "pca_matched",
+    "pca_matched_delta",
+    "pca_matched_angle",
+    "pca_matched_shape"
+   ],
+   "baseline": {
+    "fdr": "scipy.stats.f.sf at the scan's degrees of freedom, scipy.stats.false_discovery_control (method 'bh') over the non-degenerate features",
+    "features": "the production fit's standardized features in the PLS input coordinates",
+    "models": "the trajectory test's full (group x stage) and reduced (group + stage) models",
+    "scan": "motco.stats.interaction.interaction_feature_scan at the unit's RRPP seed, uncorrected",
+    "split": "motco.stats.interaction.interaction_split_test on qr(x_rotations_) at the unit's RRPP seed, uncorrected",
+    "statistic": "per-feature group x stage interaction F (SS_int / df_int) / (RSS / df_res)"
+   },
+   "baseline_arms": [
+    "scan",
+    "fdr",
+    "total"
+   ],
+   "control_cells": [
+    "anchor",
+    "translation"
+   ],
+   "designs": [
+    "n80_r0.5_s1.5",
+    "n80_r0.5_s2",
+    "n80_r0.8",
+    "n80_r0.8_s1.5",
+    "n80_r0.8_s2",
+    "n80_r0.2_s1.5",
+    "n80_r0.2_s2",
+    "n500_r0.5_s1.5",
+    "n500_r0.5_s2",
+    "n500_r0.8",
+    "n500_r0.8_s1.5",
+    "n500_r0.8_s2",
+    "n500_r0.2_s1.5",
+    "n500_r0.2_s2",
+    "n200_delta0.5_r0.5_s1.5",
+    "n200_delta0.5_r0.5_s2",
+    "n200_delta0.5_r0.8",
+    "n200_delta0.5_r0.8_s1.5",
+    "n200_delta0.5_r0.8_s2",
+    "n200_delta0.5_r0.2_s1.5",
+    "n200_delta0.5_r0.2_s2",
+    "band_n320_r0.5_s1.5",
+    "band_n320_r0.5_s2",
+    "band_n320_r0.8",
+    "band_n320_r0.8_s1.5",
+    "band_n320_r0.8_s2",
+    "band_n320_r0.2_s1.5",
+    "band_n320_r0.2_s2"
+   ],
+   "driver": "univariate_baseline_check",
+   "driver_version": 1,
+   "parent_files": {},
+   "permutations": 999,
+   "population_null_tolerance": 1e-09,
+   "production": "pls with the comparison's CV knobs on all three blocks, rank floor 2, net displacement, span capture, null distributions kept",
+   "profile": "stage_span",
+   "recorded_space_definitions": {
+    "concat": "the unit's production parameters with integration_method 'concat' on the same blocks",
+    "pca_matched": "the unit's production parameters with integration_method 'pca' at the unit's production rank on the same blocks"
+   },
+   "recorded_spaces": [
+    "pca_matched"
+   ],
+   "replicates": {
+    "control": 500,
+    "other": 500
+   },
+   "rules": {
+    "angle": "p < alpha",
+    "complement": "p < alpha",
+    "concat": "min p <= alpha / 3",
+    "concat_angle": "p < alpha",
+    "concat_delta": "p < alpha",
+    "concat_shape": "p < alpha",
+    "delta": "p < alpha",
+    "fdr": "min BH-adjusted p <= alpha",
+    "pca_matched": "min p <= alpha / 3",
+    "pca_matched_angle": "p < alpha",
+    "pca_matched_delta": "p < alpha",
+    "pca_matched_shape": "p < alpha",
+    "production": "min p <= alpha / 3",
+    "production_minp": "p <= alpha",
+    "scan": "p <= alpha",
+    "shape": "p < alpha",
+    "span": "p < alpha",
+    "total": "p < alpha"
+   },
+   "units": {
+    "base_seed": 2043,
+    "cells": [
+     [
+      "anchor",
+      "none",
+      0.0,
+      null,
+      null,
+      "planted"
+     ]
+    ],
+    "designs": {
+     "band_n320_r0.2_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.2_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.5_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.5_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.8": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.8_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "band_n320_r0.8_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.05,
+       "delta_methyl": 0.05,
+       "delta_protein": 0.05,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 320,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.2_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.2_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.5_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.5_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.8": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.8_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_delta0.5_r0.8_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 0.5,
+       "delta_methyl": 0.5,
+       "delta_protein": 0.5,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.2_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.2_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.5_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.5_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.8": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.8_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n500_r0.8_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 500,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.2_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.2_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.2,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.5_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.5_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.8": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.8_s1.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 1.5,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.8_s2": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_dispersion_scale": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     }
+    },
+    "min_components": 2,
+    "orientation_estimator": "net_displacement",
+    "pls_cv_params": {
+     "cv1_splits": 3,
+     "cv2_splits": 4,
+     "max_components": 20,
+     "n_repeats": 5,
+     "random_state": 1203
+    },
+    "seed_functions": "latent_space_comparison.generator_seed / rrpp_seed"
+   }
+  },
+  "within_group": {
+   "definition": "the dataset regenerated, production refitted at the recorded rank with no cross-validation (forced_components), delta, angle and shape under motco.stats.permutation.RRPP(..., strata=<group positions>) at the unit's RRPP seed, p-values by the harness's empirical rule; recorded, never judged",
+   "rule": "p < alpha",
+   "strata": "group"
+  }
+ }
+}

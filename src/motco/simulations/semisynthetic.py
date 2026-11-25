@@ -146,6 +146,24 @@ plus the plant. Truth gains ``span_scale``, and the ``stage_span`` block reads
 setting applies under ``stage_span`` only and not with ``span_alignment``
 (whose out-of-span direction is drawn in null-standardized coordinates);
 absent, every dataset, truth record, cell id and signature is unchanged.
+
+**Group dispersion (opt-in).** ``group_dispersion_scale`` (a positive finite
+``s``) multiplies the noise standard deviation of the second label in
+``group_labels``, in every block and at every stage; the first group keeps the
+reference noise. The scale acts on noise and the modes on means, so it composes
+with every mode and construction, and the population trajectories and
+indicators do not move. It draws no random numbers
+(``generate_omics(..., noise_scale=)``): the dataset is the one without the
+setting at the same seed with group B's samples stretched about their exact
+cell means, methylation in M-values before the inverse logit. Under
+``stage_span`` the null and planted pooled SDs take each feature's within-cell
+variance as ``(n_A + s²·n_B) / (n_A + n_B)`` times the reference variance at
+the realized group sizes, so the edit stays exact in the scale the data have.
+Truth gains a ``group_dispersion`` block (the scale, the covariance multiplier
+``s²`` and the group). The scale is part of the design, not of the group
+transform, so a zero-effect cell keeps it. ``1`` normalizes to ``None``, the
+default; absent, every dataset, truth record, cell id and signature is
+unchanged.
 """
 
 from __future__ import annotations
@@ -258,6 +276,11 @@ class SemiSyntheticTrajectoryParams:
     population's pooled SD, solved as a fixed point; see the module docstring.
     It is accepted only under ``stage_span``, not with ``span_alignment``, and
     is omitted from cell ids and signatures while ``None``.
+    ``group_dispersion_scale`` (a positive finite ``s``) multiplies the noise
+    standard deviation of the second group in ``group_labels`` in every block
+    and at every stage, about unchanged means (covariance ``s²`` times the
+    reference); see the module docstring. ``1`` normalizes to ``None``, the
+    default, which is omitted from cell ids and signatures.
     """
 
     seed: int
@@ -282,6 +305,7 @@ class SemiSyntheticTrajectoryParams:
     span_alignment: float | None = None
     span_support: int | None = None
     span_scale: SpanScale | None = None
+    group_dispersion_scale: float | None = None
 
     def __post_init__(self) -> None:
         if self.construction == "surgery":
@@ -291,6 +315,11 @@ class SemiSyntheticTrajectoryParams:
             if alignment == 0:
                 # Zero alignment is the in-span rotation: the hash-omitted spelling.
                 object.__setattr__(self, "span_alignment", None)
+        dispersion = self.group_dispersion_scale
+        if isinstance(dispersion, int | float | np.integer | np.floating) and not isinstance(dispersion, bool):
+            if dispersion == 1:
+                # A unit scale is equal dispersion: the hash-omitted spelling.
+                object.__setattr__(self, "group_dispersion_scale", None)
         layers = self.span_layers
         if layers is not None and not isinstance(layers, str | bytes) and isinstance(layers, Sequence):
             names = tuple(str(layer) for layer in layers)
@@ -371,7 +400,9 @@ def generate_semisynthetic_trajectory(
     shifts_b = plant.shifts if plant is not None else None
 
     gen_a = _generate_group(rng, ref, indicators_a, deltas_a, group_a_sizes)
-    gen_b = _generate_group(rng, ref, indicators_b, deltas_b, group_b_sizes, shifts=shifts_b)
+    gen_b = _generate_group(
+        rng, ref, indicators_b, deltas_b, group_b_sizes, shifts=shifts_b, noise_scale=params.group_dispersion_scale
+    )
     population_trajectories = _build_population_trajectories(
         ref, params, indicators_a, indicators_b, deltas_a, deltas_b, shifts_b=shifts_b
     )
@@ -384,6 +415,13 @@ def generate_semisynthetic_trajectory(
         truth["group_stage_sizes"] = {
             params.group_labels[0]: list(group_a_sizes),
             params.group_labels[1]: list(group_b_sizes),
+        }
+    if params.group_dispersion_scale is not None:
+        dispersion = float(params.group_dispersion_scale)
+        truth["group_dispersion"] = {
+            "scale": dispersion,
+            "covariance_multiplier": dispersion**2,
+            "group": params.group_labels[1],
         }
     if plant is not None:
         truth.update(plant.truth)
@@ -444,6 +482,23 @@ def _validate_params(params: SemiSyntheticTrajectoryParams) -> None:
             raise SemiSyntheticTrajectoryError("stage_sample_prop must sum to 1.")
     if params.group_stage_sizes is not None:
         _validate_group_stage_sizes(params)
+    _validate_group_dispersion(params)
+
+
+def _validate_group_dispersion(params: SemiSyntheticTrajectoryParams) -> None:
+    """Reject a ``group_dispersion_scale`` that is not a positive finite number."""
+
+    scale = params.group_dispersion_scale
+    if scale is None:
+        return
+    if isinstance(scale, bool) or not isinstance(scale, int | float | np.integer | np.floating):
+        raise SemiSyntheticTrajectoryError(
+            f"group_dispersion_scale must be a positive finite number; got {scale!r}."
+        )
+    if not np.isfinite(float(scale)) or float(scale) <= 0:
+        raise SemiSyntheticTrajectoryError(
+            f"group_dispersion_scale must be a positive finite number; got {scale!r}."
+        )
 
 
 def validate_construction(params: SemiSyntheticTrajectoryParams) -> None:
@@ -910,6 +965,7 @@ def _generate_group(
     cell_sizes: list[int],
     *,
     shifts: Mapping[OmicsLayer, np.ndarray] | None = None,
+    noise_scale: float | None = None,
 ) -> GeneratedOmics:
     return generate_omics(
         cell_sizes=cell_sizes,
@@ -921,6 +977,7 @@ def _generate_group(
         delta_protein=deltas[2],
         rng=rng,
         reference=ref,
+        noise_scale=noise_scale,
         **_cell_shift_kwargs(shifts),
     )
 
@@ -1099,6 +1156,7 @@ def null_pooled_scale(
     *,
     layers: Sequence[str],
     reference: IntersimReference,
+    within_multiplier: float | None = None,
 ) -> np.ndarray:
     """Null population pooled SD per feature, concatenated over ``layers``.
 
@@ -1108,12 +1166,15 @@ def null_pooled_scale(
     reference covariance diagonal) plus the between-cell variance of the null
     means at those weights — the population analogue of the pooled sample
     scaler (``ddof = 0``). A feature whose SD is (numerically) zero keeps unit
-    scale, as the sample scaler does.
+    scale, as the sample scaler does. ``within_multiplier`` multiplies the
+    within-cell term (a group dispersion scale ``s`` gives
+    ``(n_A + s²·n_B) / (n_A + n_B)``); absent, the term is the reference
+    variance, as before the option existed.
     """
 
     weights = np.asarray(stage_weights, dtype=float)
     weights = weights / weights.sum()
-    within = _within_cell_variance(reference)
+    within = _within_cell_variance(reference, within_multiplier)
     scales = []
     for layer in layers:
         means = np.asarray(null_means[layer], dtype=float)
@@ -1133,6 +1194,7 @@ def planted_pooled_scale(
     *,
     layers: Sequence[str],
     reference: IntersimReference,
+    within_multiplier: float | None = None,
 ) -> np.ndarray:
     """Population pooled SD per feature of two groups' cells, concatenated over ``layers``.
 
@@ -1143,12 +1205,13 @@ def planted_pooled_scale(
     of all ``2 · n_stages`` cell means at those sizes (``ddof = 0``): the
     population analogue of the pooled sample scaler on the planted data. With
     B's means equal to A's it is :func:`null_pooled_scale`. A feature whose SD
-    is (numerically) zero keeps unit scale.
+    is (numerically) zero keeps unit scale. ``within_multiplier`` multiplies
+    the within-cell term, as in :func:`null_pooled_scale`.
     """
 
     weights = np.concatenate([np.asarray(sizes_a, dtype=float), np.asarray(sizes_b, dtype=float)])
     weights = weights / weights.sum()
-    within = _within_cell_variance(reference)
+    within = _within_cell_variance(reference, within_multiplier)
     scales = []
     for layer in layers:
         means = np.vstack([np.asarray(means_a[layer], dtype=float), np.asarray(means_b[layer], dtype=float)])
@@ -1160,12 +1223,35 @@ def planted_pooled_scale(
     return np.concatenate(scales)
 
 
-def _within_cell_variance(reference: IntersimReference) -> dict[str, np.ndarray]:
-    return {
+def _within_cell_variance(
+    reference: IntersimReference, multiplier: float | None = None
+) -> dict[str, np.ndarray]:
+    within = {
         "methylation": np.diag(reference.cov_M),
         "expression": np.diag(reference.cov_expr),
         "proteomics": np.diag(reference.cov_protein),
     }
+    if multiplier is None:
+        return within
+    return {layer: variance * float(multiplier) for layer, variance in within.items()}
+
+
+def group_dispersion_within_multiplier(
+    scale: float | None, sizes_a: Sequence[int], sizes_b: Sequence[int]
+) -> float | None:
+    """The pooled within-cell variance over the reference variance under a group dispersion scale.
+
+    With group B's noise SD ``s`` times the reference, the within-cell term of
+    the pooled variance at the realized sizes is ``(n_A + s²·n_B) / (n_A + n_B)``
+    times the reference variance. ``None`` (no scale) returns ``None``, the
+    absent multiplier.
+    """
+
+    if scale is None:
+        return None
+    n_a = float(np.sum(np.asarray(sizes_a, dtype=float)))
+    n_b = float(np.sum(np.asarray(sizes_b, dtype=float)))
+    return (n_a + float(scale) ** 2 * n_b) / (n_a + n_b)
 
 
 def _stage_span_plant(
@@ -1189,7 +1275,10 @@ def _stage_span_plant(
         reference=ref,
     )
     stage_weights = np.asarray(a_sizes, dtype=float) + np.asarray(b_sizes, dtype=float)
-    scale = null_pooled_scale(null_means, stage_weights, layers=layers, reference=ref)
+    within_multiplier = group_dispersion_within_multiplier(params.group_dispersion_scale, a_sizes, b_sizes)
+    scale = null_pooled_scale(
+        null_means, stage_weights, layers=layers, reference=ref, within_multiplier=within_multiplier
+    )
     configuration = np.hstack([null_means[layer] for layer in layers])
     center = stage_weights @ configuration / stage_weights.sum()
     z = (configuration - center) / scale
@@ -1218,7 +1307,17 @@ def _stage_span_plant(
     fixed_point: _PlantedScale | None = None
     if params.span_scale == "planted":
         fixed_point = _planted_scale_fixed_point(
-            configuration, center, scale, null_means, a_sizes, b_sizes, layers, ref, params, solve
+            configuration,
+            center,
+            scale,
+            null_means,
+            a_sizes,
+            b_sizes,
+            layers,
+            ref,
+            params,
+            solve,
+            within_multiplier=within_multiplier,
         )
         effect, plant_units, scale = fixed_point.effect, fixed_point.plant_units, fixed_point.scale
         # Truth in the planted coordinates of what is planted: the planted SD is
@@ -1287,6 +1386,8 @@ def _planted_scale_fixed_point(
     ref: IntersimReference,
     params: SemiSyntheticTrajectoryParams,
     solve: Callable[[np.ndarray], tuple[np.ndarray, dict[str, Any]]],
+    *,
+    within_multiplier: float | None = None,
 ) -> _PlantedScale:
     """Solve the stage-span edit under the planted population pooled SD.
 
@@ -1297,6 +1398,8 @@ def _planted_scale_fixed_point(
     that last SD, the exact planted SD of the returned plant. ``magnitude`` keeps
     its first plant: scaling about the centroid commutes with a per-feature
     scale, so the plant in analysed units is the null-scale plant, bit for bit.
+    ``within_multiplier`` is the group dispersion's within-cell multiplier,
+    passed to :func:`planted_pooled_scale`.
     """
 
     bounds = np.cumsum([0, *(null_means[layer].shape[1] for layer in layers)])
@@ -1315,7 +1418,9 @@ def _planted_scale_fixed_point(
             layer: null_means[layer] + plant_units[:, bounds[index] : bounds[index + 1]]
             for index, layer in enumerate(layers)
         }
-        updated = planted_pooled_scale(null_means, means_b, a_sizes, b_sizes, layers=layers, reference=ref)
+        updated = planted_pooled_scale(
+            null_means, means_b, a_sizes, b_sizes, layers=layers, reference=ref, within_multiplier=within_multiplier
+        )
         residual = float(np.max(np.abs(updated / scale - 1.0)))
         scale = updated
         if residual <= PLANTED_SCALE_TOLERANCE:

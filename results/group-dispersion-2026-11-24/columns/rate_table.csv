@@ -1,0 +1,589 @@
+design,cell,trajectory_mode,effect_size,span_alignment,span_support,arm,rule,rate,se,count,rejections,failures
+n80_r0.5_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.318,0.0208267,500,159,0
+n80_r0.5_s1.5,anchor,none,0,,,delta,p < alpha,0.44,0.0221991,500,220,0
+n80_r0.5_s1.5,anchor,none,0,,,angle,p < alpha,0.052,0.00992935,500,26,0
+n80_r0.5_s1.5,anchor,none,0,,,shape,p < alpha,0.036,0.00833115,500,18,0
+n80_r0.5_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.342,0.0212149,500,171,0
+n80_r0.5_s1.5,anchor,none,0,,,scan,p <= alpha,0.068,0.0112584,500,34,0
+n80_r0.5_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.058,0.0104533,500,29,0
+n80_r0.5_s1.5,anchor,none,0,,,total,p < alpha,0.038,0.00855056,500,19,0
+n80_r0.5_s1.5,anchor,none,0,,,span,p < alpha,0.232,0.0188773,500,116,0
+n80_r0.5_s1.5,anchor,none,0,,,complement,p < alpha,0.044,0.00917213,500,22,0
+n80_r0.5_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.5_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.5_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.5_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.5_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.034,0.00810481,500,17,0
+n80_r0.5_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.066,0.0111035,500,33,0
+n80_r0.5_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.058,0.0104533,500,29,0
+n80_r0.5_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.034,0.00810481,500,17,0
+n80_r0.5_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.424,0.0221009,500,212,0
+n80_r0.5_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.048,0.00955992,500,24,0
+n80_r0.5_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.036,0.00833115,500,18,0
+n80_r0.5_s2,anchor,none,0,,,production,min p <= alpha / 3,0.538,0.022296,500,269,0
+n80_r0.5_s2,anchor,none,0,,,delta,p < alpha,0.668,0.0210607,500,334,0
+n80_r0.5_s2,anchor,none,0,,,angle,p < alpha,0.054,0.0101078,500,27,0
+n80_r0.5_s2,anchor,none,0,,,shape,p < alpha,0.03,0.00762889,500,15,0
+n80_r0.5_s2,anchor,none,0,,,production_minp,p <= alpha,0.568,0.0221529,500,284,0
+n80_r0.5_s2,anchor,none,0,,,scan,p <= alpha,0.112,0.0141036,500,56,0
+n80_r0.5_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.072,0.0115599,500,36,0
+n80_r0.5_s2,anchor,none,0,,,total,p < alpha,0.042,0.00897062,500,21,0
+n80_r0.5_s2,anchor,none,0,,,span,p < alpha,0.398,0.0218905,500,199,0
+n80_r0.5_s2,anchor,none,0,,,complement,p < alpha,0.034,0.00810481,500,17,0
+n80_r0.5_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.5_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.5_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.5_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.5_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.096,0.0131745,500,48,0
+n80_r0.5_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.24,0.0190997,500,120,0
+n80_r0.5_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.054,0.0101078,500,27,0
+n80_r0.5_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.026,0.00711674,500,13,0
+n80_r0.5_s2,anchor,none,0,,,within_group_delta,p < alpha,0.596,0.0219447,500,298,0
+n80_r0.5_s2,anchor,none,0,,,within_group_angle,p < alpha,0.06,0.0106207,500,30,0
+n80_r0.5_s2,anchor,none,0,,,within_group_shape,p < alpha,0.024,0.00684456,500,12,0
+n80_r0.8,anchor,none,0,,,production,min p <= alpha / 3,0.064,0.0109457,500,32,0
+n80_r0.8,anchor,none,0,,,delta,p < alpha,0.088,0.0126693,500,44,0
+n80_r0.8,anchor,none,0,,,angle,p < alpha,0.06,0.0106207,500,30,0
+n80_r0.8,anchor,none,0,,,shape,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8,anchor,none,0,,,production_minp,p <= alpha,0.074,0.0117068,500,37,0
+n80_r0.8,anchor,none,0,,,scan,p <= alpha,0.06,0.0106207,500,30,0
+n80_r0.8,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.046,0.00936846,500,23,0
+n80_r0.8,anchor,none,0,,,total,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,span,p < alpha,0.064,0.0109457,500,32,0
+n80_r0.8,anchor,none,0,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n80_r0.8,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.052,0.00992935,500,26,0
+n80_r0.8,anchor,none,0,,,pca_matched_delta,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,pca_matched_angle,p < alpha,0.068,0.0112584,500,34,0
+n80_r0.8,anchor,none,0,,,pca_matched_shape,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,within_group_delta,p < alpha,0.07,0.0114105,500,35,0
+n80_r0.8,anchor,none,0,,,within_group_angle,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8,anchor,none,0,,,within_group_shape,p < alpha,0.064,0.0109457,500,32,0
+n80_r0.8_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.4,0.0219089,500,200,0
+n80_r0.8_s1.5,anchor,none,0,,,delta,p < alpha,0.542,0.0222817,500,271,0
+n80_r0.8_s1.5,anchor,none,0,,,angle,p < alpha,0.116,0.0143209,500,58,0
+n80_r0.8_s1.5,anchor,none,0,,,shape,p < alpha,0.112,0.0141036,500,56,0
+n80_r0.8_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.436,0.0221767,500,218,0
+n80_r0.8_s1.5,anchor,none,0,,,scan,p <= alpha,0.73,0.0198545,500,365,0
+n80_r0.8_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.73,0.0198545,500,365,0
+n80_r0.8_s1.5,anchor,none,0,,,total,p < alpha,0.444,0.02222,500,222,0
+n80_r0.8_s1.5,anchor,none,0,,,span,p < alpha,0.362,0.0214921,500,181,0
+n80_r0.8_s1.5,anchor,none,0,,,complement,p < alpha,0.496,0.02236,500,248,0
+n80_r0.8_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.8_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.8_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.8_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.8_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.174,0.0169543,500,87,0
+n80_r0.8_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.222,0.0185858,500,111,0
+n80_r0.8_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.104,0.0136517,500,52,0
+n80_r0.8_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.138,0.0154244,500,69,0
+n80_r0.8_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.342,0.0212149,500,171,0
+n80_r0.8_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.036,0.00833115,500,18,0
+n80_r0.8_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.03,0.00762889,500,15,0
+n80_r0.8_s2,anchor,none,0,,,production,min p <= alpha / 3,0.774,0.0187042,500,387,0
+n80_r0.8_s2,anchor,none,0,,,delta,p < alpha,0.844,0.0162274,500,422,0
+n80_r0.8_s2,anchor,none,0,,,angle,p < alpha,0.136,0.01533,500,68,0
+n80_r0.8_s2,anchor,none,0,,,shape,p < alpha,0.174,0.0169543,500,87,0
+n80_r0.8_s2,anchor,none,0,,,production_minp,p <= alpha,0.79,0.0182154,500,395,0
+n80_r0.8_s2,anchor,none,0,,,scan,p <= alpha,0.984,0.00561142,500,492,0
+n80_r0.8_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.992,0.00398397,500,496,0
+n80_r0.8_s2,anchor,none,0,,,total,p < alpha,0.896,0.0136517,500,448,0
+n80_r0.8_s2,anchor,none,0,,,span,p < alpha,0.742,0.0195671,500,371,0
+n80_r0.8_s2,anchor,none,0,,,complement,p < alpha,0.904,0.0131745,500,452,0
+n80_r0.8_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.8_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.8_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.8_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.8_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.312,0.0207198,500,156,0
+n80_r0.8_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.446,0.0222299,500,223,0
+n80_r0.8_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.118,0.0144275,500,59,0
+n80_r0.8_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.196,0.017753,500,98,0
+n80_r0.8_s2,anchor,none,0,,,within_group_delta,p < alpha,0.592,0.0219789,500,296,0
+n80_r0.8_s2,anchor,none,0,,,within_group_angle,p < alpha,0.034,0.00810481,500,17,0
+n80_r0.8_s2,anchor,none,0,,,within_group_shape,p < alpha,0.012,0.0048695,500,6,0
+n80_r0.2_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.072,0.0115599,500,36,0
+n80_r0.2_s1.5,anchor,none,0,,,delta,p < alpha,0.154,0.0161421,500,77,0
+n80_r0.2_s1.5,anchor,none,0,,,angle,p < alpha,0.02,0.00626099,500,10,0
+n80_r0.2_s1.5,anchor,none,0,,,shape,p < alpha,0.014,0.00525433,500,7,0
+n80_r0.2_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.08,0.0121326,500,40,0
+n80_r0.2_s1.5,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n80_r0.2_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n80_r0.2_s1.5,anchor,none,0,,,total,p < alpha,0.002,0.001998,500,1,0
+n80_r0.2_s1.5,anchor,none,0,,,span,p < alpha,0.042,0.00897062,500,21,0
+n80_r0.2_s1.5,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n80_r0.2_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.2_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.2_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.2_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.2_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.012,0.0048695,500,6,0
+n80_r0.2_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.006,0.00345369,500,3,0
+n80_r0.2_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.032,0.00787096,500,16,0
+n80_r0.2_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.01,0.00444972,500,5,0
+n80_r0.2_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.27,0.0198545,500,135,0
+n80_r0.2_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.058,0.0104533,500,29,0
+n80_r0.2_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.054,0.0101078,500,27,0
+n80_r0.2_s2,anchor,none,0,,,production,min p <= alpha / 3,0.096,0.0131745,500,48,0
+n80_r0.2_s2,anchor,none,0,,,delta,p < alpha,0.168,0.0167198,500,84,0
+n80_r0.2_s2,anchor,none,0,,,angle,p < alpha,0.01,0.00444972,500,5,0
+n80_r0.2_s2,anchor,none,0,,,shape,p < alpha,0.006,0.00345369,500,3,0
+n80_r0.2_s2,anchor,none,0,,,production_minp,p <= alpha,0.102,0.0135348,500,51,0
+n80_r0.2_s2,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n80_r0.2_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n80_r0.2_s2,anchor,none,0,,,total,p < alpha,0,0,500,0,0
+n80_r0.2_s2,anchor,none,0,,,span,p < alpha,0.042,0.00897062,500,21,0
+n80_r0.2_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n80_r0.2_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.2_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.2_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.2_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.2_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.004,0.00282276,500,2,0
+n80_r0.2_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0,0,500,0,0
+n80_r0.2_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.014,0.00525433,500,7,0
+n80_r0.2_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.002,0.001998,500,1,0
+n80_r0.2_s2,anchor,none,0,,,within_group_delta,p < alpha,0.41,0.0219955,500,205,0
+n80_r0.2_s2,anchor,none,0,,,within_group_angle,p < alpha,0.036,0.00833115,500,18,0
+n80_r0.2_s2,anchor,none,0,,,within_group_shape,p < alpha,0.048,0.00955992,500,24,0
+n500_r0.5_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.158,0.0163117,500,79,0
+n500_r0.5_s1.5,anchor,none,0,,,delta,p < alpha,0.282,0.0201234,500,141,0
+n500_r0.5_s1.5,anchor,none,0,,,angle,p < alpha,0.044,0.00917213,500,22,0
+n500_r0.5_s1.5,anchor,none,0,,,shape,p < alpha,0.032,0.00787096,500,16,0
+n500_r0.5_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.16,0.0163951,500,80,0
+n500_r0.5_s1.5,anchor,none,0,,,scan,p <= alpha,0.052,0.00992935,500,26,0
+n500_r0.5_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.04,0.00876356,500,20,0
+n500_r0.5_s1.5,anchor,none,0,,,total,p < alpha,0.038,0.00855056,500,19,0
+n500_r0.5_s1.5,anchor,none,0,,,span,p < alpha,0.144,0.0157012,500,72,0
+n500_r0.5_s1.5,anchor,none,0,,,complement,p < alpha,0.04,0.00876356,500,20,0
+n500_r0.5_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.5_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.5_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.5_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.5_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.028,0.0073778,500,14,0
+n500_r0.5_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.034,0.00810481,500,17,0
+n500_r0.5_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.5_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.02,0.00626099,500,10,0
+n500_r0.5_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.278,0.0200358,500,139,0
+n500_r0.5_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.044,0.00917213,500,22,0
+n500_r0.5_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.034,0.00810481,500,17,0
+n500_r0.5_s2,anchor,none,0,,,production,min p <= alpha / 3,0.414,0.0220274,500,207,0
+n500_r0.5_s2,anchor,none,0,,,delta,p < alpha,0.59,0.0219955,500,295,0
+n500_r0.5_s2,anchor,none,0,,,angle,p < alpha,0.058,0.0104533,500,29,0
+n500_r0.5_s2,anchor,none,0,,,shape,p < alpha,0.056,0.0102824,500,28,0
+n500_r0.5_s2,anchor,none,0,,,production_minp,p <= alpha,0.442,0.0222097,500,221,0
+n500_r0.5_s2,anchor,none,0,,,scan,p <= alpha,0.058,0.0104533,500,29,0
+n500_r0.5_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.044,0.00917213,500,22,0
+n500_r0.5_s2,anchor,none,0,,,total,p < alpha,0.052,0.00992935,500,26,0
+n500_r0.5_s2,anchor,none,0,,,span,p < alpha,0.354,0.0213862,500,177,0
+n500_r0.5_s2,anchor,none,0,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n500_r0.5_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.5_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.5_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.5_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.5_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.036,0.00833115,500,18,0
+n500_r0.5_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.066,0.0111035,500,33,0
+n500_r0.5_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.05,0.00974679,500,25,0
+n500_r0.5_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.03,0.00762889,500,15,0
+n500_r0.5_s2,anchor,none,0,,,within_group_delta,p < alpha,0.582,0.0220579,500,291,0
+n500_r0.5_s2,anchor,none,0,,,within_group_angle,p < alpha,0.056,0.0102824,500,28,0
+n500_r0.5_s2,anchor,none,0,,,within_group_shape,p < alpha,0.056,0.0102824,500,28,0
+n500_r0.8,anchor,none,0,,,production,min p <= alpha / 3,0.038,0.00855056,500,19,0
+n500_r0.8,anchor,none,0,,,delta,p < alpha,0.038,0.00855056,500,19,0
+n500_r0.8,anchor,none,0,,,angle,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.8,anchor,none,0,,,shape,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.8,anchor,none,0,,,production_minp,p <= alpha,0.038,0.00855056,500,19,0
+n500_r0.8,anchor,none,0,,,scan,p <= alpha,0.032,0.00787096,500,16,0
+n500_r0.8,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.03,0.00762889,500,15,0
+n500_r0.8,anchor,none,0,,,total,p < alpha,0.024,0.00684456,500,12,0
+n500_r0.8,anchor,none,0,,,span,p < alpha,0.032,0.00787096,500,16,0
+n500_r0.8,anchor,none,0,,,complement,p < alpha,0.024,0.00684456,500,12,0
+n500_r0.8,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.8,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.8,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.8,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.8,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.024,0.00684456,500,12,0
+n500_r0.8,anchor,none,0,,,pca_matched_delta,p < alpha,0.044,0.00917213,500,22,0
+n500_r0.8,anchor,none,0,,,pca_matched_angle,p < alpha,0.034,0.00810481,500,17,0
+n500_r0.8,anchor,none,0,,,pca_matched_shape,p < alpha,0.042,0.00897062,500,21,0
+n500_r0.8,anchor,none,0,,,within_group_delta,p < alpha,0.034,0.00810481,500,17,0
+n500_r0.8,anchor,none,0,,,within_group_angle,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.8,anchor,none,0,,,within_group_shape,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.8_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.272,0.0199006,500,136,0
+n500_r0.8_s1.5,anchor,none,0,,,delta,p < alpha,0.352,0.0213587,500,176,0
+n500_r0.8_s1.5,anchor,none,0,,,angle,p < alpha,0.098,0.0132963,500,49,0
+n500_r0.8_s1.5,anchor,none,0,,,shape,p < alpha,0.126,0.0148408,500,63,0
+n500_r0.8_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.304,0.020571,500,152,0
+n500_r0.8_s1.5,anchor,none,0,,,scan,p <= alpha,0.74,0.0196163,500,370,0
+n500_r0.8_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.722,0.0200358,500,361,0
+n500_r0.8_s1.5,anchor,none,0,,,total,p < alpha,0.408,0.0219789,500,204,0
+n500_r0.8_s1.5,anchor,none,0,,,span,p < alpha,0.314,0.0207559,500,157,0
+n500_r0.8_s1.5,anchor,none,0,,,complement,p < alpha,0.41,0.0219955,500,205,0
+n500_r0.8_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.8_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.8_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.8_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.8_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.134,0.0152344,500,67,0
+n500_r0.8_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.164,0.0165592,500,82,0
+n500_r0.8_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.112,0.0141036,500,56,0
+n500_r0.8_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.128,0.014941,500,64,0
+n500_r0.8_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.214,0.0183414,500,107,0
+n500_r0.8_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.038,0.00855056,500,19,0
+n500_r0.8_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.03,0.00762889,500,15,0
+n500_r0.8_s2,anchor,none,0,,,production,min p <= alpha / 3,0.642,0.02144,500,321,0
+n500_r0.8_s2,anchor,none,0,,,delta,p < alpha,0.702,0.0204546,500,351,0
+n500_r0.8_s2,anchor,none,0,,,angle,p < alpha,0.156,0.0162274,500,78,0
+n500_r0.8_s2,anchor,none,0,,,shape,p < alpha,0.25,0.0193649,500,125,0
+n500_r0.8_s2,anchor,none,0,,,production_minp,p <= alpha,0.656,0.0212445,500,328,0
+n500_r0.8_s2,anchor,none,0,,,scan,p <= alpha,0.992,0.00398397,500,496,0
+n500_r0.8_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.996,0.00282276,500,498,0
+n500_r0.8_s2,anchor,none,0,,,total,p < alpha,0.882,0.0144275,500,441,0
+n500_r0.8_s2,anchor,none,0,,,span,p < alpha,0.658,0.0212149,500,329,0
+n500_r0.8_s2,anchor,none,0,,,complement,p < alpha,0.888,0.0141036,500,444,0
+n500_r0.8_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.8_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.8_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.8_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.8_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.242,0.0191539,500,121,0
+n500_r0.8_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.32,0.0208614,500,160,0
+n500_r0.8_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.144,0.0157012,500,72,0
+n500_r0.8_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.192,0.0176145,500,96,0
+n500_r0.8_s2,anchor,none,0,,,within_group_delta,p < alpha,0.432,0.0221529,500,216,0
+n500_r0.8_s2,anchor,none,0,,,within_group_angle,p < alpha,0.042,0.00897062,500,21,0
+n500_r0.8_s2,anchor,none,0,,,within_group_shape,p < alpha,0.046,0.00936846,500,23,0
+n500_r0.2_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.026,0.00711674,500,13,0
+n500_r0.2_s1.5,anchor,none,0,,,delta,p < alpha,0.084,0.0124052,500,42,0
+n500_r0.2_s1.5,anchor,none,0,,,angle,p < alpha,0.012,0.0048695,500,6,0
+n500_r0.2_s1.5,anchor,none,0,,,shape,p < alpha,0.008,0.00398397,500,4,0
+n500_r0.2_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.034,0.00810481,500,17,0
+n500_r0.2_s1.5,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n500_r0.2_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n500_r0.2_s1.5,anchor,none,0,,,total,p < alpha,0.004,0.00282276,500,2,0
+n500_r0.2_s1.5,anchor,none,0,,,span,p < alpha,0.028,0.0073778,500,14,0
+n500_r0.2_s1.5,anchor,none,0,,,complement,p < alpha,0.004,0.00282276,500,2,0
+n500_r0.2_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.2_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.2_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.2_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.2_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.006,0.00345369,500,3,0
+n500_r0.2_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.006,0.00345369,500,3,0
+n500_r0.2_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.024,0.00684456,500,12,0
+n500_r0.2_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.014,0.00525433,500,7,0
+n500_r0.2_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.192,0.0176145,500,96,0
+n500_r0.2_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.04,0.00876356,500,20,0
+n500_r0.2_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.058,0.0104533,500,29,0
+n500_r0.2_s2,anchor,none,0,,,production,min p <= alpha / 3,0.052,0.00992935,500,26,0
+n500_r0.2_s2,anchor,none,0,,,delta,p < alpha,0.152,0.0160559,500,76,0
+n500_r0.2_s2,anchor,none,0,,,angle,p < alpha,0.006,0.00345369,500,3,0
+n500_r0.2_s2,anchor,none,0,,,shape,p < alpha,0.002,0.001998,500,1,0
+n500_r0.2_s2,anchor,none,0,,,production_minp,p <= alpha,0.056,0.0102824,500,28,0
+n500_r0.2_s2,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n500_r0.2_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n500_r0.2_s2,anchor,none,0,,,total,p < alpha,0,0,500,0,0
+n500_r0.2_s2,anchor,none,0,,,span,p < alpha,0.016,0.00561142,500,8,0
+n500_r0.2_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n500_r0.2_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n500_r0.2_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n500_r0.2_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n500_r0.2_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n500_r0.2_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.004,0.00282276,500,2,0
+n500_r0.2_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0,0,500,0,0
+n500_r0.2_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.004,0.00282276,500,2,0
+n500_r0.2_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.004,0.00282276,500,2,0
+n500_r0.2_s2,anchor,none,0,,,within_group_delta,p < alpha,0.444,0.02222,500,222,0
+n500_r0.2_s2,anchor,none,0,,,within_group_angle,p < alpha,0.038,0.00855056,500,19,0
+n500_r0.2_s2,anchor,none,0,,,within_group_shape,p < alpha,0.044,0.00917213,500,22,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.148,0.0158806,500,74,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,delta,p < alpha,0.248,0.019313,500,124,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,angle,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,shape,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.164,0.0165592,500,82,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,scan,p <= alpha,0.07,0.0114105,500,35,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.05,0.00974679,500,25,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,total,p < alpha,0.066,0.0111035,500,33,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,span,p < alpha,0.066,0.0111035,500,33,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,complement,p < alpha,0.044,0.00917213,500,22,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.038,0.00855056,500,19,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.136,0.01533,500,68,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.044,0.00917213,500,22,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.014,0.00525433,500,7,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.228,0.0187625,500,114,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.044,0.00917213,500,22,0
+n200_delta0.5_r0.5_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.034,0.00810481,500,17,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,production,min p <= alpha / 3,0.474,0.0223304,500,237,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,delta,p < alpha,0.574,0.0221144,500,287,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,angle,p < alpha,0.092,0.0129256,500,46,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,shape,p < alpha,0.03,0.00762889,500,15,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,production_minp,p <= alpha,0.488,0.0223542,500,244,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,scan,p <= alpha,0.062,0.0107848,500,31,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.048,0.00955992,500,24,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,total,p < alpha,0.052,0.00992935,500,26,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,span,p < alpha,0.078,0.011993,500,39,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.164,0.0165592,500,82,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.352,0.0213587,500,176,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.048,0.00955992,500,24,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.022,0.00655988,500,11,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,within_group_delta,p < alpha,0.554,0.0222299,500,277,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,within_group_angle,p < alpha,0.086,0.0125383,500,43,0
+n200_delta0.5_r0.5_s2,anchor,none,0,,,within_group_shape,p < alpha,0.026,0.00711674,500,13,0
+n200_delta0.5_r0.8,anchor,none,0,,,production,min p <= alpha / 3,0.03,0.00762889,500,15,0
+n200_delta0.5_r0.8,anchor,none,0,,,delta,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.8,anchor,none,0,,,angle,p < alpha,0.056,0.0102824,500,28,0
+n200_delta0.5_r0.8,anchor,none,0,,,shape,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.8,anchor,none,0,,,production_minp,p <= alpha,0.038,0.00855056,500,19,0
+n200_delta0.5_r0.8,anchor,none,0,,,scan,p <= alpha,0.056,0.0102824,500,28,0
+n200_delta0.5_r0.8,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.038,0.00855056,500,19,0
+n200_delta0.5_r0.8,anchor,none,0,,,total,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.8,anchor,none,0,,,span,p < alpha,0.048,0.00955992,500,24,0
+n200_delta0.5_r0.8,anchor,none,0,,,complement,p < alpha,0.03,0.00762889,500,15,0
+n200_delta0.5_r0.8,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.8,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.8,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.8,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.8,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.022,0.00655988,500,11,0
+n200_delta0.5_r0.8,anchor,none,0,,,pca_matched_delta,p < alpha,0.042,0.00897062,500,21,0
+n200_delta0.5_r0.8,anchor,none,0,,,pca_matched_angle,p < alpha,0.056,0.0102824,500,28,0
+n200_delta0.5_r0.8,anchor,none,0,,,pca_matched_shape,p < alpha,0.02,0.00626099,500,10,0
+n200_delta0.5_r0.8,anchor,none,0,,,within_group_delta,p < alpha,0.038,0.00855056,500,19,0
+n200_delta0.5_r0.8,anchor,none,0,,,within_group_angle,p < alpha,0.052,0.00992935,500,26,0
+n200_delta0.5_r0.8,anchor,none,0,,,within_group_shape,p < alpha,0.04,0.00876356,500,20,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.284,0.0201665,500,142,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,delta,p < alpha,0.328,0.020996,500,164,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,angle,p < alpha,0.118,0.0144275,500,59,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,shape,p < alpha,0.086,0.0125383,500,43,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.3,0.0204939,500,150,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,scan,p <= alpha,0.712,0.0202512,500,356,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.712,0.0202512,500,356,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,total,p < alpha,0.454,0.0222658,500,227,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,span,p < alpha,0.194,0.0176841,500,97,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,complement,p < alpha,0.996,0.00282276,500,498,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.206,0.0180867,500,103,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.36,0.0214663,500,180,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.08,0.0121326,500,40,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.098,0.0132963,500,49,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.154,0.0161421,500,77,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.068,0.0112584,500,34,0
+n200_delta0.5_r0.8_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.024,0.00684456,500,12,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,production,min p <= alpha / 3,0.528,0.0223256,500,264,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,delta,p < alpha,0.63,0.0215917,500,315,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,angle,p < alpha,0.194,0.0176841,500,97,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,shape,p < alpha,0.11,0.0139929,500,55,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,production_minp,p <= alpha,0.554,0.0222299,500,277,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,scan,p <= alpha,0.986,0.00525433,500,493,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.994,0.00345369,500,497,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,total,p < alpha,0.906,0.013051,500,453,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,span,p < alpha,0.314,0.0207559,500,157,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,complement,p < alpha,1,0,500,500,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.458,0.0222817,500,229,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.682,0.0208267,500,341,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.056,0.0102824,500,28,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.084,0.0124052,500,42,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,within_group_delta,p < alpha,0.272,0.0199006,500,136,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,within_group_angle,p < alpha,0.038,0.00855056,500,19,0
+n200_delta0.5_r0.8_s2,anchor,none,0,,,within_group_shape,p < alpha,0.012,0.0048695,500,6,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.012,0.0048695,500,6,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,delta,p < alpha,0.036,0.00833115,500,18,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,angle,p < alpha,0.024,0.00684456,500,12,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,shape,p < alpha,0.016,0.00561142,500,8,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.014,0.00525433,500,7,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,total,p < alpha,0.002,0.001998,500,1,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,span,p < alpha,0.014,0.00525433,500,7,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.012,0.0048695,500,6,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.002,0.001998,500,1,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.032,0.00787096,500,16,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.01,0.00444972,500,5,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.18,0.0171814,500,90,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.056,0.0102824,500,28,0
+n200_delta0.5_r0.2_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.054,0.0101078,500,27,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,production,min p <= alpha / 3,0.066,0.0111035,500,33,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,delta,p < alpha,0.21,0.0182154,500,105,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,angle,p < alpha,0.008,0.00398397,500,4,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,shape,p < alpha,0.002,0.001998,500,1,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,production_minp,p <= alpha,0.09,0.0127984,500,45,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,total,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,span,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.006,0.00345369,500,3,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0,0,500,0,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.034,0.00810481,500,17,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.012,0.0048695,500,6,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,within_group_delta,p < alpha,0.524,0.0223349,500,262,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,within_group_angle,p < alpha,0.124,0.0147393,500,62,0
+n200_delta0.5_r0.2_s2,anchor,none,0,,,within_group_shape,p < alpha,0.04,0.00876356,500,20,0
+band_n320_r0.5_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.808,0.0176145,500,404,0
+band_n320_r0.5_s1.5,anchor,none,0,,,delta,p < alpha,0.888,0.0141036,500,444,0
+band_n320_r0.5_s1.5,anchor,none,0,,,angle,p < alpha,0.182,0.0172555,500,91,0
+band_n320_r0.5_s1.5,anchor,none,0,,,shape,p < alpha,0.138,0.0154244,500,69,0
+band_n320_r0.5_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.828,0.016877,500,414,0
+band_n320_r0.5_s1.5,anchor,none,0,,,scan,p <= alpha,0.052,0.00992935,500,26,0
+band_n320_r0.5_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.032,0.00787096,500,16,0
+band_n320_r0.5_s1.5,anchor,none,0,,,total,p < alpha,0.06,0.0106207,500,30,0
+band_n320_r0.5_s1.5,anchor,none,0,,,span,p < alpha,0.08,0.0121326,500,40,0
+band_n320_r0.5_s1.5,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+band_n320_r0.5_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.5_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.5_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.5_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.5_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.104,0.0136517,500,52,0
+band_n320_r0.5_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.082,0.01227,500,41,0
+band_n320_r0.5_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.15,0.0159687,500,75,0
+band_n320_r0.5_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.068,0.0112584,500,34,0
+band_n320_r0.5_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.876,0.0147393,500,438,0
+band_n320_r0.5_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.184,0.0173288,500,92,0
+band_n320_r0.5_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.128,0.014941,500,64,0
+band_n320_r0.5_s2,anchor,none,0,,,production,min p <= alpha / 3,0.98,0.00626099,500,490,0
+band_n320_r0.5_s2,anchor,none,0,,,delta,p < alpha,0.996,0.00282276,500,498,0
+band_n320_r0.5_s2,anchor,none,0,,,angle,p < alpha,0.458,0.0222817,500,229,0
+band_n320_r0.5_s2,anchor,none,0,,,shape,p < alpha,0.24,0.0190997,500,120,0
+band_n320_r0.5_s2,anchor,none,0,,,production_minp,p <= alpha,0.982,0.00594575,500,491,0
+band_n320_r0.5_s2,anchor,none,0,,,scan,p <= alpha,0.036,0.00833115,500,18,0
+band_n320_r0.5_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.028,0.0073778,500,14,0
+band_n320_r0.5_s2,anchor,none,0,,,total,p < alpha,0.044,0.00917213,500,22,0
+band_n320_r0.5_s2,anchor,none,0,,,span,p < alpha,0.104,0.0136517,500,52,0
+band_n320_r0.5_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+band_n320_r0.5_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.5_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.5_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.5_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.5_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.146,0.0157914,500,73,0
+band_n320_r0.5_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.234,0.0189338,500,117,0
+band_n320_r0.5_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.16,0.0163951,500,80,0
+band_n320_r0.5_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.074,0.0117068,500,37,0
+band_n320_r0.5_s2,anchor,none,0,,,within_group_delta,p < alpha,0.994,0.00345369,500,497,0
+band_n320_r0.5_s2,anchor,none,0,,,within_group_angle,p < alpha,0.466,0.0223089,500,233,0
+band_n320_r0.5_s2,anchor,none,0,,,within_group_shape,p < alpha,0.226,0.0187042,500,113,0
+band_n320_r0.8,anchor,none,0,,,production,min p <= alpha / 3,0.052,0.00992935,500,26,0
+band_n320_r0.8,anchor,none,0,,,delta,p < alpha,0.048,0.00955992,500,24,0
+band_n320_r0.8,anchor,none,0,,,angle,p < alpha,0.074,0.0117068,500,37,0
+band_n320_r0.8,anchor,none,0,,,shape,p < alpha,0.06,0.0106207,500,30,0
+band_n320_r0.8,anchor,none,0,,,production_minp,p <= alpha,0.058,0.0104533,500,29,0
+band_n320_r0.8,anchor,none,0,,,scan,p <= alpha,0.042,0.00897062,500,21,0
+band_n320_r0.8,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.03,0.00762889,500,15,0
+band_n320_r0.8,anchor,none,0,,,total,p < alpha,0.054,0.0101078,500,27,0
+band_n320_r0.8,anchor,none,0,,,span,p < alpha,0.058,0.0104533,500,29,0
+band_n320_r0.8,anchor,none,0,,,complement,p < alpha,0.044,0.00917213,500,22,0
+band_n320_r0.8,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.8,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.8,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.8,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.8,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.07,0.0114105,500,35,0
+band_n320_r0.8,anchor,none,0,,,pca_matched_delta,p < alpha,0.03,0.00762889,500,15,0
+band_n320_r0.8,anchor,none,0,,,pca_matched_angle,p < alpha,0.142,0.01561,500,71,0
+band_n320_r0.8,anchor,none,0,,,pca_matched_shape,p < alpha,0.03,0.00762889,500,15,0
+band_n320_r0.8,anchor,none,0,,,within_group_delta,p < alpha,0.046,0.00936846,500,23,0
+band_n320_r0.8,anchor,none,0,,,within_group_angle,p < alpha,0.068,0.0112584,500,34,0
+band_n320_r0.8,anchor,none,0,,,within_group_shape,p < alpha,0.052,0.00992935,500,26,0
+band_n320_r0.8_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.8,0.0178885,500,400,0
+band_n320_r0.8_s1.5,anchor,none,0,,,delta,p < alpha,0.89,0.0139929,500,445,0
+band_n320_r0.8_s1.5,anchor,none,0,,,angle,p < alpha,0.14,0.0155177,500,70,0
+band_n320_r0.8_s1.5,anchor,none,0,,,shape,p < alpha,0.068,0.0112584,500,34,0
+band_n320_r0.8_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.816,0.0173288,500,408,0
+band_n320_r0.8_s1.5,anchor,none,0,,,scan,p <= alpha,0.68,0.0208614,500,340,0
+band_n320_r0.8_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.668,0.0210607,500,334,0
+band_n320_r0.8_s1.5,anchor,none,0,,,total,p < alpha,0.416,0.0220429,500,208,0
+band_n320_r0.8_s1.5,anchor,none,0,,,span,p < alpha,0.216,0.0184035,500,108,0
+band_n320_r0.8_s1.5,anchor,none,0,,,complement,p < alpha,0.976,0.00684456,500,488,0
+band_n320_r0.8_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.8_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.8_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.8_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.8_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.196,0.017753,500,98,0
+band_n320_r0.8_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.314,0.0207559,500,157,0
+band_n320_r0.8_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.112,0.0141036,500,56,0
+band_n320_r0.8_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.048,0.00955992,500,24,0
+band_n320_r0.8_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.674,0.020963,500,337,0
+band_n320_r0.8_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.02,0.00626099,500,10,0
+band_n320_r0.8_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.012,0.0048695,500,6,0
+band_n320_r0.8_s2,anchor,none,0,,,production,min p <= alpha / 3,0.984,0.00561142,500,492,0
+band_n320_r0.8_s2,anchor,none,0,,,delta,p < alpha,0.996,0.00282276,500,498,0
+band_n320_r0.8_s2,anchor,none,0,,,angle,p < alpha,0.526,0.0223304,500,263,0
+band_n320_r0.8_s2,anchor,none,0,,,shape,p < alpha,0.144,0.0157012,500,72,0
+band_n320_r0.8_s2,anchor,none,0,,,production_minp,p <= alpha,0.984,0.00561142,500,492,0
+band_n320_r0.8_s2,anchor,none,0,,,scan,p <= alpha,0.98,0.00626099,500,490,0
+band_n320_r0.8_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.992,0.00398397,500,496,0
+band_n320_r0.8_s2,anchor,none,0,,,total,p < alpha,0.932,0.0112584,500,466,0
+band_n320_r0.8_s2,anchor,none,0,,,span,p < alpha,0.694,0.0206089,500,347,0
+band_n320_r0.8_s2,anchor,none,0,,,complement,p < alpha,0.902,0.0132963,500,451,0
+band_n320_r0.8_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.8_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.8_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.8_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.8_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.488,0.0223542,500,244,0
+band_n320_r0.8_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0.734,0.0197608,500,367,0
+band_n320_r0.8_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.126,0.0148408,500,63,0
+band_n320_r0.8_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.034,0.00810481,500,17,0
+band_n320_r0.8_s2,anchor,none,0,,,within_group_delta,p < alpha,0.924,0.0118511,500,462,0
+band_n320_r0.8_s2,anchor,none,0,,,within_group_angle,p < alpha,0.072,0.0115599,500,36,0
+band_n320_r0.8_s2,anchor,none,0,,,within_group_shape,p < alpha,0.004,0.00282276,500,2,0
+band_n320_r0.2_s1.5,anchor,none,0,,,production,min p <= alpha / 3,0.256,0.0195174,500,128,0
+band_n320_r0.2_s1.5,anchor,none,0,,,delta,p < alpha,0.37,0.0215917,500,185,0
+band_n320_r0.2_s1.5,anchor,none,0,,,angle,p < alpha,0.122,0.0146367,500,61,0
+band_n320_r0.2_s1.5,anchor,none,0,,,shape,p < alpha,0.14,0.0155177,500,70,0
+band_n320_r0.2_s1.5,anchor,none,0,,,production_minp,p <= alpha,0.278,0.0200358,500,139,0
+band_n320_r0.2_s1.5,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,total,p < alpha,0.002,0.001998,500,1,0
+band_n320_r0.2_s1.5,anchor,none,0,,,span,p < alpha,0.01,0.00444972,500,5,0
+band_n320_r0.2_s1.5,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.2_s1.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.056,0.0102824,500,28,0
+band_n320_r0.2_s1.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.004,0.00282276,500,2,0
+band_n320_r0.2_s1.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.122,0.0146367,500,61,0
+band_n320_r0.2_s1.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.056,0.0102824,500,28,0
+band_n320_r0.2_s1.5,anchor,none,0,,,within_group_delta,p < alpha,0.632,0.0215674,500,316,0
+band_n320_r0.2_s1.5,anchor,none,0,,,within_group_angle,p < alpha,0.252,0.0194163,500,126,0
+band_n320_r0.2_s1.5,anchor,none,0,,,within_group_shape,p < alpha,0.222,0.0185858,500,111,0
+band_n320_r0.2_s2,anchor,none,0,,,production,min p <= alpha / 3,0.572,0.0221276,500,286,0
+band_n320_r0.2_s2,anchor,none,0,,,delta,p < alpha,0.7,0.0204939,500,350,0
+band_n320_r0.2_s2,anchor,none,0,,,angle,p < alpha,0.22,0.0185257,500,110,0
+band_n320_r0.2_s2,anchor,none,0,,,shape,p < alpha,0.184,0.0173288,500,92,0
+band_n320_r0.2_s2,anchor,none,0,,,production_minp,p <= alpha,0.584,0.0220429,500,292,0
+band_n320_r0.2_s2,anchor,none,0,,,scan,p <= alpha,0,0,500,0,0
+band_n320_r0.2_s2,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0,0,500,0,0
+band_n320_r0.2_s2,anchor,none,0,,,total,p < alpha,0,0,500,0,0
+band_n320_r0.2_s2,anchor,none,0,,,span,p < alpha,0.01,0.00444972,500,5,0
+band_n320_r0.2_s2,anchor,none,0,,,complement,p < alpha,0,0,500,0,0
+band_n320_r0.2_s2,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+band_n320_r0.2_s2,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+band_n320_r0.2_s2,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+band_n320_r0.2_s2,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+band_n320_r0.2_s2,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.054,0.0101078,500,27,0
+band_n320_r0.2_s2,anchor,none,0,,,pca_matched_delta,p < alpha,0,0,500,0,0
+band_n320_r0.2_s2,anchor,none,0,,,pca_matched_angle,p < alpha,0.106,0.0137669,500,53,0
+band_n320_r0.2_s2,anchor,none,0,,,pca_matched_shape,p < alpha,0.058,0.0104533,500,29,0
+band_n320_r0.2_s2,anchor,none,0,,,within_group_delta,p < alpha,0.902,0.0132963,500,451,0
+band_n320_r0.2_s2,anchor,none,0,,,within_group_angle,p < alpha,0.438,0.0221881,500,219,0
+band_n320_r0.2_s2,anchor,none,0,,,within_group_shape,p < alpha,0.324,0.0209296,500,162,0
