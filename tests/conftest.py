@@ -1,10 +1,17 @@
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-import pandas as pd
-import pytest
+# One BLAS thread per test process, set before numpy loads: the suite's matrices are
+# small, a thread per core only spins, and pytest-xdist runs one process per core.
+# An explicit setting in the environment wins.
+for _variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_variable, "1")
+
+import pandas as pd  # noqa: E402
+import pytest  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"

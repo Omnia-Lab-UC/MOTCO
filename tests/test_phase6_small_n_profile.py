@@ -52,20 +52,26 @@ def test_pilot_enumerates_under_headroom_with_the_declared_cell_sizes() -> None:
     assert [[int(counts[(g, s)]) for s in range(3)] for g in ("A", "B")] == [list(row) for row in SEA_AD]
 
 
-@pytest.mark.slow
-def test_every_pilot_cell_runs_end_to_end() -> None:
-    """One replicate of every cell at a few permutations, including CV at the 9-sample cells."""
+PILOT_CELLS = enumerate_study(load_study_config(PILOT)).cells
 
-    for cell in enumerate_study(load_study_config(PILOT)).cells:
-        fast = replace(cell, evaluation_params=replace(cell.evaluation_params, permutations=9))
-        record = run_simulation_replicate(fast, 0)
-        assert record.status == "completed", (cell.cell_id, record.error_message)
-        integration = record.integration_metadata
-        assert integration["component_selection"] == "cv"
-        assert integration["integration_params"]["layers"] == MEASURED
-        assert integration["layer_feature_counts"] == {"methylation": 367, "expression": 131}
-        assert record.truth_metadata["group_stage_sizes"] == {"A": [11, 10, 28], "B": [9, 10, 12]}
-        assert set(record.p_values) == {"delta", "angle", "shape"}
+
+@pytest.mark.slow
+@pytest.mark.parametrize("cell", PILOT_CELLS, ids=[cell.cell_id for cell in PILOT_CELLS])
+def test_every_pilot_cell_runs_end_to_end(cell) -> None:
+    """One replicate of every cell at a few permutations, including CV at the 9-sample cells.
+
+    One test per cell, so pytest-xdist spreads the cells over its workers.
+    """
+
+    fast = replace(cell, evaluation_params=replace(cell.evaluation_params, permutations=9))
+    record = run_simulation_replicate(fast, 0)
+    assert record.status == "completed", (cell.cell_id, record.error_message)
+    integration = record.integration_metadata
+    assert integration["component_selection"] == "cv"
+    assert integration["integration_params"]["layers"] == MEASURED
+    assert integration["layer_feature_counts"] == {"methylation": 367, "expression": 131}
+    assert record.truth_metadata["group_stage_sizes"] == {"A": [11, 10, 28], "B": [9, 10, 12]}
+    assert set(record.p_values) == {"delta", "angle", "shape"}
 
 
 # ── Paper-grade split profiles ───────────────────────────────────────────────
