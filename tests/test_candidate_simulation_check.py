@@ -415,6 +415,7 @@ def test_the_sbatch_array_parses_and_prints_its_command(tmp_path) -> None:
     assert bad.returncode == 2 and "CSC_PROFILE must be" in bad.stderr
     relative = subprocess.run(["bash", str(SBATCH)], env={**env, "CSC_OUT": "run"}, capture_output=True, text=True)
     assert relative.returncode == 2
+    assert "never inside --export" in SBATCH.read_text()
 
 
 # ── 3.1 and 3.2 The unit (real fits, fast knobs) ─────────────────────────────

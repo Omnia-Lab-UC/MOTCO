@@ -21,7 +21,9 @@
 #     PYTHONPATH=$PWD/src python scripts/candidate_simulation_check.py run --profile $P --arms $ARMS \
 #       --out-dir /abs/run --shard 0/1 --limit 0
 #   done
-#   sbatch --array=0-399%64 --export=ALL,CSC_PROFILE=committed,CSC_ARMS=$ARMS,CSC_OUT=/abs/run,N_SHARDS=400 \
+#   # CSC_ARMS goes in the environment, never inside --export: sbatch --export splits its list on commas, so
+#   # CSC_ARMS=pls_cv,predictive_orthonormal,weighted there would reach the task as pls_cv alone.
+#   CSC_ARMS=$ARMS sbatch --array=0-399%64 --export=ALL,CSC_PROFILE=committed,CSC_OUT=/abs/run,N_SHARDS=400 \
 #     scripts/candidate_simulation_array.sbatch
 #   # ... conditions and dispersion likewise; tier 2: surgery and adni_design; tier 3 appends sparse_block to the
 #   # committed records with CSC_ARMS=sparse_block. A resume reads only its own shard file, so every arm selection
@@ -31,9 +33,10 @@
 #   python scripts/candidate_simulation_check.py merge --profile committed --out-dir /abs/run
 #   python scripts/candidate_simulation_check.py decide --out-dir /abs/run
 #
-# Required environment variables (passed via --export):
+# Required environment variables (passed via --export, except CSC_ARMS: see above):
 #   CSC_PROFILE   committed | conditions | dispersion | surgery | adni_design.
-#   CSC_ARMS      'all' or a comma list of pls_cv, predictive_orthonormal, weighted, sparse_block.
+#   CSC_ARMS      'all' or a comma list of pls_cv, predictive_orthonormal, weighted, sparse_block, set in the
+#                 submitting environment and carried by --export=ALL.
 #   CSC_OUT       Absolute run root; shards land in $CSC_OUT/<profile>/records/.
 #   N_SHARDS      Total shards = --array width.
 # Optional:
