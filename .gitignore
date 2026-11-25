@@ -232,3 +232,6 @@ results/**/logs/
 # The smoke runs' copies are small and tracked.
 results/rank-floor-2026-10-23/delta*/rank_floor_pvalues.csv
 results/rank-floor-2026-10-23/delta*/rank_floor_replicates.csv
+
+# Local working documents, not synced
+MOTCO_distance_based_plan_v0.1.odt
