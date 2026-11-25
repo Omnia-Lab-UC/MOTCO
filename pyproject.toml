@@ -38,6 +38,7 @@ motco = "motco.cli:main"
 test = [
   "pytest>=7.0",
   "pytest-cov>=4.1",
+  "pytest-xdist>=3.6",
   "ruff>=0.9",
   "mypy>=1.10",
   "pandas-stubs~=2.3.3",
