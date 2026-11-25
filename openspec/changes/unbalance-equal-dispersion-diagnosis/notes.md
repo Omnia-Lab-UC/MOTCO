@@ -31,3 +31,20 @@ The corrected arms (a second refit and two sets of 999 draws) take 6% of a unit.
 **Approved 2026-11-25.** The user approved the 80 core-hour cap and the array as proposed (150 shards, `%48`), with no amendment, and the commit and push of the driver. The run starts from the pushed branch's revision in a clean worktree on `ing`.
 
 Smoke records: `/tmp/claude-1000/-home-tomas-Documents-Repos-MOTCO/419832ff-6a00-4bff-95f9-c7693419319b/scratchpad/ud-smoke/` (scratch, not committed).
+
+## Run (task 3.2, submitted 2026-11-25)
+
+- **Revision.** `ade26ad` on `feat/unbalance-equal-dispersion-diagnosis` (pushed), MOTCO 0.26.0, in a clean worktree on `ing`: `/home1/tgonza/MOTCO-unbalance-diagnosis` (its `.venv` a symlink to `/home1/tgonza/MOTCO/.venv`; `PYTHONPATH` on the worktree's `src`). The bound parent files' sha256 match the committed ones (`columns/settings.json` `098763cc…`, `group_dispersion_decision.json` `017f8112…`). The new and the group-dispersion test files were started on a compute node (job 958917, n4) before submission; their result is to be checked, and the array cancelled if they fail.
+- **Run root.** `/home1/tgonza/MOTCO-unbalance-diagnosis-run`, settings pre-created by `run --limit 0`: `settings.json` sha256 `ea55ed82…2947172985`.
+- **Array** (submitted 14:17 -03): job **958918** (`--array=0-149%48`, N_SHARDS=150), partition `512x1024`, n11 excluded, 1 CPU and 4 GB per task. Expected about 1¼ h wall and 40–50 core-hours, against the cap of 80.
+- **To finish** (from the `ing` worktree, after every task completes; resubmit failed array ids first, complete units are skipped):
+
+  ```bash
+  cd /home1/tgonza/MOTCO-unbalance-diagnosis && export PYTHONPATH=$PWD/src OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+  RUN=/home1/tgonza/MOTCO-unbalance-diagnosis-run
+  sacct -j 958918 -X -o JobID,State,ExitCode,Elapsed,TotalCPU,NodeList > $RUN/sacct.txt
+  .venv/bin/python scripts/unbalance_diagnosis_check.py merge --out-dir $RUN
+  .venv/bin/python scripts/unbalance_diagnosis_check.py decide --out-dir $RUN
+  ```
+
+  Then copy the aggregates (not `records/` or `merged.jsonl`) to `results/unbalance-diagnosis-<date>/` in a local worktree of the branch: `settings.json`, `rate_table.csv`, `cell_table.csv`, `within_group_table.csv`, `corrected_table.csv`, `accounting.json`, `reproduction.json`, `unbalance_diagnosis_decision.json`, with `PROVENANCE.txt` and `sacct.txt`; check that `decide` on the copied aggregates alone regenerates the decision byte for byte, and write the report (task 3.3).
