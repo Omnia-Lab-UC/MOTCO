@@ -1143,3 +1143,109 @@ and the nonlinearity of rotations and bends all move it, and the run reads their
 matches an AUROC, not a cohort's cell table, covariates or rank. The verdict is by existence at
 200 replicates per design, so an unresolved pair-cell is not an agreement. The decision was
 written after a timing probe of null datasets that saw no rejection rate.
+
+## Unequal group dispersion and unbalance
+
+**What the null assumes.** RRPP permutes the reduced model's residuals over all samples, so each
+draw hands both groups the pooled noise. The null therefore assumes that the two groups share one
+noise dispersion. A group whose noise is wider has a longer estimated path, and its residuals mix
+with the other group's in every draw. The
+[group-dispersion report](reports/group-dispersion-2026-11-24.md) (2026-11-24) reads what that does
+on null data. The groups share their trajectory and differ only in the spread of their noise and in
+their size. s multiplies the second group's noise SD in every feature, block and stage (covariance
+multipliers 1.56, 2.25 and 4 at s = 1.25, 1.5 and 2). The share is the first group's, so at 0.8 the
+wider group is the smaller and at 0.2 the larger.
+
+**The verdict is `unbalance_excess`, on one reading.** The decision was fixed before any unit ran.
+Its first family is unbalance at equal dispersion, and it fails:
+
+- **The one reading.** `delta` at n = 80 with share 0.8, where the smaller group has 5 samples per
+  stage, reads 44 of 500 against a Bonferroni ceiling of 40. The committed balanced design reads 30.
+- **The rest of the family holds.** The other 23 readings at shares 0.65 and 0.8 stay within the
+  ceiling, across n = 80, 200 and 500, δ = 2.0 and 0.5, and the weak-stage band. Production's omnibus
+  and the per-feature arms hold too.
+
+The predeclared order then stops. Unbalance at equal dispersion is diagnosed first, as its own change
+(roadmap open item 16), and the dispersion families below are **reported, not interpreted**: no
+clause about dispersion enters the interpretability statement until that diagnosis reads.
+
+**What a difference in dispersion alone did** (reported). For each statistic, the smallest scale
+whose reading is above its family's ceiling (core n = 200 at s ≥ 1.25; the other columns at s ≥ 1.5).
+Rejections of 500 at s = 2 are in brackets.
+
+| design | `delta` | `angle` | `shape` |
+|---|---|---|---|
+| balanced, δ = 2.0 (n = 80 / 200 / 500) | 1.5 / 1.25 / 1.5 (334 / 332 / 295) | none up to 2 (27 / 27 / 29) | none / 2, translation only / none (15 / 27; 62 / 28) |
+| balanced, δ = 0.5, n = 200 | 1.5 (287) | 2 (46) | none (15) |
+| balanced, band (δ = 0.05, n = 320) | 1.5 (498) | 1.5 (229) | 1.5 (120) |
+| wider group the smaller (share 0.8), every column | 1.25 at n = 200, 1.5 elsewhere (315–498) | 1.5 (68–263) | 1.5, 2 in the band (55–125) |
+| wider group the larger (share 0.2), δ = 2.0 (n = 80 / 200 / 500) | 1.5 / 1.5 / 2 (84 / 109 / 76) | none: conservative (5 / 2 / 3) | none: conservative (3 / 0 / 1) |
+| wider group the larger, δ = 0.5 | 2 (105) | none: conservative (4) | none: conservative (1) |
+| wider group the larger, band | 1.5 (350) | 1.5 (110) | 1.5 (92) |
+
+- **`delta` reads a dispersion difference in every direction.** Balanced groups are not protected:
+  at n = 200 and δ = 2.0, s = 1.25 already gives 86 of 500.
+- **`angle` and `shape` read it where the wider group is the smaller, or where the stage fit is weak.**
+  Where the wider group is the larger they turn conservative at δ ≥ 0.5.
+- **The fit barely moves at δ = 2.0.** The rank stays at 2 and the AUROC at 1.000. At δ = 0.5 the rank
+  rises with the scale (to 6), and in the band the AUROC falls from 0.664 to 0.550.
+
+**Placing a cohort.** The scale acts on every feature, so in any linear score the second group's
+within-cell deviations are s times the first group's. The ratio of the two groups' within-cell
+variances in the production scores is therefore s² in every component. To place a cohort:
+
+1. Fit production. In the scores, take each group's residuals from its own group × stage cell means
+   and pool them over stages.
+2. The square root of the larger group variance over the smaller is the cohort's counterpart of s.
+   Note whether the wider group is the smaller one.
+3. Read the cell table, the CV rank and the held-out AUROC beside it. These place the cohort in the
+   table above: n = 80, 200 and 500 at the AUROC ceiling, δ = 0.5 (rank 3–6), or the band (AUROC
+   0.55–0.66, rank 4–14).
+
+A ratio that differs strongly between components is outside what was simulated. A difference in
+correlation structure gives such a ratio (the change's design, D3). Neither case study's dispersion
+has been read, and neither case study rejects, so no committed claim depends on this reading.
+
+**The per-feature tests** (recorded, not judged; labels by family as in the report §7):
+
+- **`fdr` and `total`** hold with balanced groups (14–36 of 500) and where the wider group is the
+  larger, where they are conservative (`fdr` 0 of 500 at share 0.2, s ≥ 1.5).
+- **They fail where the wider group is the smaller.** `fdr` reads 134 of 500 at n = 200, share 0.8,
+  s = 1.25, and 496–498 at s = 2 in every column.
+- **The split test's parts** split the same way. `span` follows production and exceeds with balanced
+  groups. `complement` follows the per-feature tests and exceeds only where the wider group is the
+  smaller.
+
+So a per-feature rejection is not protected from unequal dispersion either, but in a different
+direction from production's.
+
+**What would repair it** (recorded, not an option). Draws that permute the residuals within each
+group (`RRPP(..., strata=<group>)`, which neither the harness nor `motco analyze` exposes) keep each
+group's own dispersion:
+
+| design (s = 2) | `delta` | `angle` | `shape` |
+|---|---|---|---|
+| n = 200, balanced | 332 → 319 | 27 → 29 | 27 → 28 |
+| n = 200, wider group the smaller (share 0.8) | 412 → 288 | 94 → 22 | 118 → 10 |
+| n = 200, wider group the larger (share 0.2) | 109 → 223 | 2 → 21 | 0 → 30 |
+
+Rejections of 500 on the anchor, unrestricted → within group, on one fit, statistic and seed.
+
+- **Where the wider group is the smaller**, the draws bring `angle` and `shape` back within their
+  ceiling at every column.
+- **They leave `delta` above it in every dispersion family.** That part of the excess is not the exchange of
+  residuals between groups. The design's untested guess is the in-sample stage fit, which follows
+  the wider group's noise more.
+- **Where the wider group is the larger**, they raise `delta`.
+
+**Limits.**
+
+- **What was simulated.** Every reading is on simulated Gaussian noise at 658 features, with one scale
+  applied to every feature of one group, three stages and no covariates. A dispersion that varies by
+  feature or stage, or a difference in correlation structure, was not simulated. No real cohort's
+  dispersion was read.
+- **The probes.** The scales and columns were chosen after exploratory probes that saw rejection
+  rates. At δ = 2.0 the run reads well above them, at rank 2 where the probes were at rank 3, and the
+  run does not say why.
+- **The verdict.** It rests on one reading at the smallest cells read.
+- **Size only.** Power under unequal dispersion is not read.

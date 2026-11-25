@@ -139,3 +139,13 @@ Smoke records: `/tmp/claude-1000/-home-tomas-Documents-Repos-MOTCO/6a5069eb-91d3
   ```
 
   Then copy the aggregates (not the records) to `results/group-dispersion-<date>/` in a local worktree of the branch, with `PROVENANCE.txt` and `sacct.txt`, and write the report (task 4.3).
+
+## Run outcome (tasks 4.2–4.4, merged and decided 2026-11-25)
+
+- **Arrays.** 340 of 340 tasks `COMPLETED 0:0` (169 on n2, 166 on n4, 5 on n1), 20:05:05–22:17:25 on 2026-11-24. 32,000 of 32,000 units complete, 0 failed, 0 missing, 0 duplicates; the within-group arm 32,000 completed, 0 failed, 0 inconsistent. 186.83 recorded core-hours (core 80.86, columns 105.97) against the cap of 400; 200.4 allocated CPU-hours in `sacct`. Failures occurred nowhere, as in the smoke.
+- **Reproduction: passed.** 36 of 36 rows of the rerun `n200` equal the committed `stage_span` rate table.
+- **Verdict: `unbalance_excess`.** `unbalanced_equal` fails on one of its 24 readings: `delta` at `n80_r0.8` (5 samples per stage in the smaller group), 44 of 500 against a ceiling of 40. The family's count (2 above the bound, 2 allowed) would have held. `balanced_unequal` (20 of 42 above the ceiling), `wider_smaller` (48 of 60) and `wider_larger` (19 of 60) also fail and, under this verdict, are reported and not interpreted.
+- **The decision regenerates.** `decide` on the committed aggregates alone, on the workstation, wrote a decision byte-identical to the cluster's (sha256 `017f8112…`).
+- **The scale was checked on one dataset per design** (workstation, scratch, not a result). At `n200` replicate 0 the expression block's within-cell variance of group B over group A is 0.98, 1.59 and 3.96 at s = 1, 1.25 and 2, so the setting scales the SD by s. The run's `delta` rates at δ = 2.0 are far above the probes' (0.664 against 0.17 and 0.075 at share 0.5, s = 2). The probes were at rank 3, and the run's CV rank stays at 2; the aggregates hold no rate by rank, so the report records the gap and does not explain it.
+- **Committed.** Aggregates under `results/group-dispersion-2026-11-24/` (with `PROVENANCE.txt` and `sacct.txt`), the report `docs/reports/group-dispersion-2026-11-24.md`, the section "Unequal group dispersion and unbalance" of `docs/measurement-visibility.md`, and the roadmap (Done item 26, open item 8 done, open item 16 added, the interpretability statement and the "Not yet established" entries on unbalance and noise).
+- **Applying the verdict.** Under `unbalance_excess` the consequence names no clause for the interpretability statement. The statement gains a bullet that names the null's assumption, cites the verdict and says that no dispersion clause enters before the diagnosis (open item 16).

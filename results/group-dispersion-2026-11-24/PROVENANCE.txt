@@ -1,0 +1,29 @@
+# Group-specific dispersion provenance — profiles core and columns
+date: 2026-11-24 (local -03); arrays 958479 (core) and 958544 (columns) submitted 20:05, first task started 20:05:05, last task ended 22:17:25; merge + decide on the ing login node 2026-11-25
+change: group-specific-dispersion (MOTCO 0.26.0: the opt-in generator setting group_dispersion_scale)
+driver: scripts/group_dispersion_check.py (driver version 1, decision rule version 1; sha256 985982dadeab26dd7abbea0ddaf888b0821bcd2ff5bea017986526b1d7b4c235 on both machines); sbatch scripts/group_dispersion_array.sbatch
+code_revision: 5aab30ec5f1f33aa2b59c435e6eae9c21d6c1998 (tree d4da428680e6ed06d98bdcfadc97545fe26c589f) on feat/group-specific-dispersion, pushed to GitHub before any array unit ran; clean worktree /home1/tgonza/MOTCO-group-dispersion (no tracked modification; only logs/ untracked), .venv -> /home1/tgonza/MOTCO/.venv, PYTHONPATH on the worktree's src (motco 0.26.0 imported from it)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024; n11 excluded (NFS-stall history); 1 CPU and 4 GB per task; python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the sbatch template, the login-node commands and the workstation shell)
+pre-flight: the new test files and the stage-span test files on an ing compute node (155 passed); local smoke of both profiles at 2 replicates per cell, 999 permutations (128/128 units, 0 failures, 128/128 within-group refits consistent; the reproduction ran and failed on count only); projection 233 recorded core-hours (about 330 with the 1.4 inflation the stage-effect scaling run saw); approved by the user: cap 400 recorded core-hours, no amendment (openspec/changes/group-specific-dispersion/notes.md)
+parents (read from the worktree's committed results/, sha256 bound in both profiles' settings and re-checked by run, merge and decide):
+  results/univariate-baseline-2026-11-23/stage_span/settings.json 011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d (settings hash fe5a8425d7ac920c...)
+  results/univariate-baseline-2026-11-23/stage_span/rate_table.csv 40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2
+  results/univariate-baseline-2026-11-23/stage_span/cell_table.csv 5f0b43598286d334ee6364559226ad753a73f9c99cd44136280a6f5d07697b59
+  results/stage-effect-scaling-2026-11-24/band/settings.json bc9f36b6800b346a489dc7289b85001522b6bd4383d3b8845b83f79b4dd9c904 (settings hash e78e7b125cbc4d42...)
+  results/stage-effect-scaling-2026-11-24/band/rate_table.csv c3903d42051df804e5038cf0e2b2c0636e1646ccd6996dc3434273e3faff6335
+  results/stage-effect-scaling-2026-11-24/band/cell_table.csv a134579dc4120e3d69063149e4649636d875e6d2fff9211eb3176088caf5179a
+settings: core/settings.json sha256 9cc9a81378b10f6dd2a15df46bf84ddc0dd9c19a4386d2325362377ec6741751 (settings hash 9db60490f0520ce1...); columns/settings.json sha256 098763cc2a4890d6f263a94296840defdbe33905e5d7b2eb5e68b066d79b9730 (settings hash de3d46b1fbc966d1...); recorded_spaces ["pca_matched"], 999 permutations, base seed 2043
+launch (from /home1/tgonza/MOTCO-group-dispersion, R = /home1/tgonza/MOTCO-group-dispersion-run):
+  PYTHONPATH=$PWD/src .venv/bin/python scripts/group_dispersion_check.py run --profile P --out-dir R --shard 0/1 --limit 0   (settings written once per profile, on the login node; leaves an empty shard_000_of_001.jsonl)
+  sbatch --array=0-199%64 --export=ALL,GD_PROFILE=core,GD_OUT=R,N_SHARDS=200 scripts/group_dispersion_array.sbatch
+  sbatch --array=0-139%64 --export=ALL,GD_PROFILE=columns,GD_OUT=R,N_SHARDS=140 scripts/group_dispersion_array.sbatch
+units: core 18,000 (the rerun n200 and 17 new designs, anchor and planted translation at 500 each); columns 14,000 (28 designs, anchor at 500 each); 999 permutations everywhere
+outcome: array tasks 340/340 COMPLETED 0:0 (sacct.txt; 169 on n2, 166 on n4, 5 on n1; core tasks 21.3-40.0 min, columns 31.8-52.1 min); 32,000/32,000 complete units, 0 failed, 0 missing, 0 duplicates, no failed planted fixed point; within-group arm 32,000 completed, 0 failed, 0 inconsistent (same_statistics true on every unit)
+unit_timings (accounting.json): core median 14.8 s per unit (q90 23.4, max 45.1), 80.86 recorded core-hours; columns median 25.6 s (q90 38.4, max 51.4), 105.97; 186.83 in all against the cap of 400 (200.4 allocated CPU-hours in sacct, startup included)
+merged.jsonl sha256 (per-unit records stay on the cluster under R, not committed): core 8c608bfa14f353d5d3febffa0d7c3785f44833baf0c5a10ae5e73e9b99e437fe; columns 992473a004a9db293d799c8aaf838ee3f07953cb3240fd0b7f6578dee7ece1bd
+merge + decide (login node): python scripts/group_dispersion_check.py merge --profile {core,columns} --out-dir R; ... decide --out-dir R
+reproduction: core passed (36 rows: n200's available and rejected counts per cell and arm, equal to the committed stage_span rate_table.csv; 0 unresolved, 0 differing)
+decision: group_dispersion_decision.json (sha256 017f8112be750172f7ae1ee75c9f67d3c877893d5b4466dd10b32c99e9a533f3) -> unbalance_excess (unbalanced_equal fails on one reading above its ceiling, delta at n80_r0.8 anchor 44/500 against 40; balanced_unequal, wider_smaller and wider_larger also fail and are reported, not interpreted); regenerated byte for byte on the workstation from the committed aggregates alone
+committed aggregates: {core,columns}/{settings.json, rate_table.csv, cell_table.csv, within_group_table.csv, accounting.json}; core/reproduction.json; group_dispersion_decision.json; sacct.txt; this file
+findings report: docs/reports/group-dispersion-2026-11-24.md
