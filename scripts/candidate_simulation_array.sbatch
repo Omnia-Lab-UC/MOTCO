@@ -24,7 +24,9 @@
 #   sbatch --array=0-399%64 --export=ALL,CSC_PROFILE=committed,CSC_ARMS=$ARMS,CSC_OUT=/abs/run,N_SHARDS=400 \
 #     scripts/candidate_simulation_array.sbatch
 #   # ... conditions and dispersion likewise; tier 2: surgery and adni_design; tier 3 appends sparse_block to the
-#   # committed records with CSC_ARMS=sparse_block and the SAME N_SHARDS as tier 1 (a resume reads its own shard).
+#   # committed records with CSC_ARMS=sparse_block. A resume reads only its own shard file, so every arm selection
+#   # keeps one N_SHARDS for its resubmissions; give tier 3 an N_SHARDS other than tier 1's when the two run at
+#   # once, so no two tasks write one file (merge reads every shard file and drops duplicates).
 #   # after every task of a profile completes:
 #   python scripts/candidate_simulation_check.py merge --profile committed --out-dir /abs/run
 #   python scripts/candidate_simulation_check.py decide --out-dir /abs/run

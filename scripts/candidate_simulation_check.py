@@ -73,8 +73,10 @@ Subcommands (outputs under ``--out-dir``/``<profile>/``, the decision under
   holds the settings and their hash; a resume or merge under other settings
   exits naming the keys. ``--arms`` (``all`` or a comma list) selects the arms;
   each selection is recorded in ``settings.json`` outside the hash, and a resume
-  skips complete (unit, arm) keys, so a later ``--arms sparse_block`` appends to
-  the same records. Use the same shard count when appending.
+  skips complete (unit, arm) keys of its own shard file, so a later ``--arms
+  sparse_block`` appends to the profile's records. Keep one shard count per arm
+  selection across resubmissions, and give a selection that runs beside another
+  its own shard count, so no two tasks write one file.
 - ``merge --profile …`` — ``merged.jsonl`` (keep off the repository),
   ``rate_table.csv`` (per design, cell, arm and statistic: rule, status
   ``complete`` | ``partial`` | ``not_run``, rate, SE, counts, failures),
