@@ -14,19 +14,19 @@
 
 Every profile at 2 replicates per cell with every arm (`--arms all`) and 999 permutations, from the committed revision `4cc00ef` (clean tree) on the office workstation, BLAS pinned in the shell, 10 workers on 24 threads with other sessions' test suites running beside it (load 12–30). Records: `~/motco-runs/candidate-simulation-smoke/` (scratch, not committed).
 
-- **No failure anywhere.** `committed` 152 units, `conditions` 130, `dispersion` 40 and `surgery` 44: 0 failed, 0 inconsistent, 0 missing records. No planted fixed point failed, at four stages either (`n200_stages4`, `n200_delta0.5_stages4`: every in-span and out-of-span cell), so no design is amended.
-- **`merge` and the reproduction checks ran.** `committed` compared 228 rows and `surgery` 66, all differing only because of the smoke's size (2 units against the committed 200 or 500).
-- **Per-arm time** (median seconds on this machine): generation 0.1–0.2; the production fit 7.3 (n = 80) to 20.0 (n = 500), shared by `pls_cv` and `predictive_orthonormal`, whose evaluations take 0.4 each; `weighted` about one production fit (7.6–20.4); `sparse_block` 72 at n = 200 and 113 at `band_n320`, about seven production fits.
+- **No failure anywhere.** `committed` 152 units, `conditions` 130, `dispersion` 40, `surgery` 44 and `adni_design` 20: 0 failed, 0 inconsistent, 0 missing records. No planted fixed point failed, at four stages either (`n200_stages4`, `n200_delta0.5_stages4`: every in-span and out-of-span cell), so no design is amended.
+- **`merge`, the reproduction checks and `decide` ran.** `committed` compared 228 rows, `surgery` 66 and `adni_design` 60, all differing only because of the smoke's size (2 units against the committed 200 or 500); `decide` read `reproduction_failed`, as it must here, and recorded every criterion (at 2 replicates every candidate family reads `no_gain`).
+- **Per-arm time** (median seconds on this machine): generation 0.1–0.2; the production fit 7.3 (n = 80) to 20.0 (n = 500), shared by `pls_cv` and `predictive_orthonormal`, whose evaluations take 0.4 each; `weighted` about one production fit (7.6–20.4); `sparse_block` 72 at n = 200 and 113 at `band_n320`, about seven production fits. On `adni_design` (1,501 samples, covariates) each CV call takes about 50 s (`pls_cv`, `weighted`) and the forced predictive call 0.4 s.
 
 **Projection** (the smoke's per-unit times weighted by each cell's full replicate count; `ing` up to 2.1× slower per core):
 
 | tier | profiles and arms | units | core-h here | core-h on `ing` (×2.1) |
 |---|---|---|---|---|
 | 1 | `committed`, `conditions`, `dispersion` × `pls_cv`, `predictive_orthonormal`, `weighted` | 44,800 | 282 | 593 |
-| 2 | `surgery` (above) and `adni_design` (its smoke still running at submission; the 19-permutation check took 81 s for the three calls under load) | 13,600 | 57 + ~60 | 120 + ~125 |
+| 2 | `surgery` and `adni_design` × the same arms | 13,600 | 129 | 272 |
 | 3 | `sparse_block` on `n200`, `n200_delta0.5`, `band_n320` | 9,200 | 215 | 452 |
 
-About 615 core-hours here and at most about 1,290 on `ing`, inside the proposal's 900–1,300. Proposed caps: tier 1 700, tier 2 300, tier 3 550 core-hours.
+About 626 core-hours here and at most about 1,317 on `ing`, the upper end of the proposal's 900–1,300. Proposed caps: tier 1 700, tier 2 300, tier 3 550 core-hours.
 
 **Approved 2026-11-25.** The user asked for everything to be left synced and running on `ing` before going home, and chose to launch all three tiers at once. The caps above are recorded as proposed; they were not reviewed separately.
 
@@ -35,7 +35,7 @@ About 615 core-hours here and at most about 1,290 on `ing`, inside the proposal'
 - **Revision.** `4982bc4` on `feat/simulation-only-candidate-comparison` (pushed; the rebased branch was synced by merging the pre-rebase remote commit with `-s ours`, no history rewritten), MOTCO 0.27.0, in a clean detached worktree on `ing`: `/home1/tgonza/MOTCO-candidate-simulation` (`.venv` a symlink to `/home1/tgonza/MOTCO/.venv`; `PYTHONPATH` on the worktree's `src`). Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3. The change's tests and the group-dispersion tests passed on a compute node first (170 passed at `6e2c03e`; `4982bc4` changes only the sbatch's usage text and its test).
 - **Run root.** `/home1/tgonza/MOTCO-candidate-simulation-run`, settings pre-created by `run --limit 0` with each profile's arms (`committed` also with `sparse_block`): sha256 `committed` `9307a628…`, `conditions` `9ac8b4c2…`, `dispersion` `5492614f…`, `surgery` `57beb7e4…`, `adni_design` `09012ff1…`. Submissions are logged in `submissions.txt` there; `submit.sh` submits the six arrays two minutes apart.
 - **A first submission was cancelled.** Arrays 959017 (`committed`) and 959082 (`conditions`) passed `CSC_ARMS` inside `sbatch --export`, which splits on commas, so the tasks ran `pls_cv` alone. Both were cancelled within minutes; their 49 `pls_cv` records are valid and kept (resume skips them; the resubmitted `committed` array uses the same 400 shards). The sbatch's usage text now passes `CSC_ARMS` through the environment, and its test checks the note. `committed/settings.json` records the selection `["pls_cv"]` among its arm selections.
-- **Arrays** (partition `512x1024`, n11 excluded, 1 CPU per task, 4 GB, 8 GB for `adni_design`): tier 1 `committed` **959131** (400 shards, `%64`), `conditions` **959196** (320, `%48`), `dispersion` (200, `%32`); tier 2 `surgery` (220, `%32`), `adni_design` (130, `%16`); tier 3 `committed` × `sparse_block` (300 shards, `%48`; its own shard count, so no task writes a tier-1 file). The job ids of the last four are in `submissions.txt`.
+- **Arrays** (partition `512x1024`, n11 excluded, 1 CPU per task, 4 GB, 8 GB for `adni_design`): tier 1 `committed` **959131** (400 shards, `%64`), `conditions` **959196** (320, `%48`), `dispersion` **959245** (200, `%32`); tier 2 `surgery` **959291** (220, `%32`), `adni_design` **959359** (130, `%16`); tier 3 `committed` × `sparse_block` **959376** (300 shards, `%48`; its own shard count, so no task writes a tier-1 file). Submitted 14:38–14:48 -03; at 14:48 all six were running at their throttles (240 tasks).
 - **To finish** (from the `ing` worktree, after every task completes; resubmit failed array ids first, complete (unit, arm) keys are skipped):
 
   ```bash
