@@ -164,6 +164,25 @@ Truth gains a ``group_dispersion`` block (the scale, the covariance multiplier
 transform, so a zero-effect cell keeps it. ``1`` normalizes to ``None``, the
 default; absent, every dataset, truth record, cell id and signature is
 unchanged.
+
+**Stage dispersion (opt-in).** ``stage_dispersion_scale`` (one positive finite
+multiplier per stage, in stage order) multiplies the noise standard deviation
+of every sample at that stage, in both groups and every block; it composes with
+``group_dispersion_scale`` as a product per cell, so a group-B cell at stage
+``k`` has ``m_k · s`` times the reference SD. Like the group scale it acts on
+noise only and draws no random numbers (``generate_omics(..., noise_scale=)``
+with one scale per cell): the dataset is the one without the setting at the
+same seed with each cell stretched about its exact mean by its multiplier,
+methylation in M-values before the inverse logit, and the population
+trajectories and indicators do not move. Under ``stage_span`` the null and
+planted pooled SDs take each feature's within-cell variance as
+``Σ_c n_c·m_c² / Σ_c n_c`` times the reference variance over the realized
+cells (``dispersion_within_multiplier``), so the edit stays exact in the scale
+the data have; with a group scale alone this is the group term above. Truth
+gains a ``stage_dispersion`` block (each stage's multiplier and its square). A
+zero-effect cell keeps the setting. All ones normalizes to ``None``, the
+default; absent, every dataset, truth record, cell id and signature is
+unchanged.
 """
 
 from __future__ import annotations
@@ -281,6 +300,12 @@ class SemiSyntheticTrajectoryParams:
     and at every stage, about unchanged means (covariance ``s²`` times the
     reference); see the module docstring. ``1`` normalizes to ``None``, the
     default, which is omitted from cell ids and signatures.
+    ``stage_dispersion_scale`` (one positive finite multiplier per stage)
+    multiplies the noise standard deviation of every sample at each stage, in
+    both groups and every block, about unchanged means, times the group scale
+    where that is set; see the module docstring. A sequence is held as a tuple
+    of floats; all ones normalizes to ``None``, the default, which is omitted
+    from cell ids and signatures.
     """
 
     seed: int
@@ -306,6 +331,7 @@ class SemiSyntheticTrajectoryParams:
     span_support: int | None = None
     span_scale: SpanScale | None = None
     group_dispersion_scale: float | None = None
+    stage_dispersion_scale: tuple[float, ...] | None = None
 
     def __post_init__(self) -> None:
         if self.construction == "surgery":
@@ -320,6 +346,17 @@ class SemiSyntheticTrajectoryParams:
             if dispersion == 1:
                 # A unit scale is equal dispersion: the hash-omitted spelling.
                 object.__setattr__(self, "group_dispersion_scale", None)
+        stage_dispersion = self.stage_dispersion_scale
+        if isinstance(stage_dispersion, Sequence | np.ndarray) and not isinstance(stage_dispersion, str | bytes):
+            values: tuple[Any, ...] | None = tuple(stage_dispersion)
+            if values and all(_is_real_number(value) for value in values):
+                # Floats, so equal multipliers hash equally; all ones is equal
+                # dispersion, the hash-omitted spelling. Anything else is held
+                # as a tuple for the validator to name.
+                values = tuple(float(value) for value in values)
+                if all(value == 1 for value in values):
+                    values = None
+            object.__setattr__(self, "stage_dispersion_scale", values)
         layers = self.span_layers
         if layers is not None and not isinstance(layers, str | bytes) and isinstance(layers, Sequence):
             names = tuple(str(layer) for layer in layers)
@@ -399,10 +436,9 @@ def generate_semisynthetic_trajectory(
         transform_meta = plant.transform
     shifts_b = plant.shifts if plant is not None else None
 
-    gen_a = _generate_group(rng, ref, indicators_a, deltas_a, group_a_sizes)
-    gen_b = _generate_group(
-        rng, ref, indicators_b, deltas_b, group_b_sizes, shifts=shifts_b, noise_scale=params.group_dispersion_scale
-    )
+    noise_a, noise_b = _group_noise_scales(params)
+    gen_a = _generate_group(rng, ref, indicators_a, deltas_a, group_a_sizes, noise_scale=noise_a)
+    gen_b = _generate_group(rng, ref, indicators_b, deltas_b, group_b_sizes, shifts=shifts_b, noise_scale=noise_b)
     population_trajectories = _build_population_trajectories(
         ref, params, indicators_a, indicators_b, deltas_a, deltas_b, shifts_b=shifts_b
     )
@@ -422,6 +458,12 @@ def generate_semisynthetic_trajectory(
             "scale": dispersion,
             "covariance_multiplier": dispersion**2,
             "group": params.group_labels[1],
+        }
+    if params.stage_dispersion_scale is not None:
+        stage_scales = [float(value) for value in params.stage_dispersion_scale]
+        truth["stage_dispersion"] = {
+            "scale": stage_scales,
+            "covariance_multiplier": [value**2 for value in stage_scales],
         }
     if plant is not None:
         truth.update(plant.truth)
@@ -483,6 +525,32 @@ def _validate_params(params: SemiSyntheticTrajectoryParams) -> None:
     if params.group_stage_sizes is not None:
         _validate_group_stage_sizes(params)
     _validate_group_dispersion(params)
+    validate_stage_dispersion(params)
+
+
+def validate_stage_dispersion(params: SemiSyntheticTrajectoryParams) -> None:
+    """Reject a ``stage_dispersion_scale`` that is not one positive finite multiplier per stage."""
+
+    scales = params.stage_dispersion_scale
+    if scales is None:
+        return
+    if not isinstance(scales, Sequence | np.ndarray) or isinstance(scales, str | bytes):
+        raise SemiSyntheticTrajectoryError(
+            f"stage_dispersion_scale must be a sequence of one positive finite multiplier per stage; got {scales!r}."
+        )
+    if len(scales) != params.n_stages:
+        raise SemiSyntheticTrajectoryError(
+            f"stage_dispersion_scale must have one multiplier per stage (n_stages={params.n_stages}); "
+            f"got {len(scales)}: {scales!r}."
+        )
+    if not all(_is_real_number(value) and np.isfinite(float(value)) and float(value) > 0 for value in scales):
+        raise SemiSyntheticTrajectoryError(
+            f"stage_dispersion_scale must hold positive finite numbers; got {scales!r}."
+        )
+
+
+def _is_real_number(value: Any) -> bool:
+    return not isinstance(value, bool) and isinstance(value, int | float | np.integer | np.floating)
 
 
 def _validate_group_dispersion(params: SemiSyntheticTrajectoryParams) -> None:
@@ -965,7 +1033,7 @@ def _generate_group(
     cell_sizes: list[int],
     *,
     shifts: Mapping[OmicsLayer, np.ndarray] | None = None,
-    noise_scale: float | None = None,
+    noise_scale: float | Sequence[float] | None = None,
 ) -> GeneratedOmics:
     return generate_omics(
         cell_sizes=cell_sizes,
@@ -980,6 +1048,26 @@ def _generate_group(
         noise_scale=noise_scale,
         **_cell_shift_kwargs(shifts),
     )
+
+
+def _group_noise_scales(
+    params: SemiSyntheticTrajectoryParams,
+) -> tuple[tuple[float, ...] | None, float | tuple[float, ...] | None]:
+    """Each group's ``noise_scale``: per stage under a stage scale, else B's group scale alone.
+
+    Without a stage scale the calls are those of 0.26.0 (A unscaled, B at the
+    group scale or unscaled). With one, A's cells carry the stage multipliers
+    and B's the stage multipliers times the group scale where it is set.
+    """
+
+    stage = params.stage_dispersion_scale
+    group = params.group_dispersion_scale
+    if stage is None:
+        return None, group
+    scales_a = tuple(float(value) for value in stage)
+    if group is None:
+        return scales_a, scales_a
+    return scales_a, tuple(value * float(group) for value in scales_a)
 
 
 def _cell_shift_kwargs(shifts: Mapping[OmicsLayer, np.ndarray] | None) -> dict[str, np.ndarray | None]:
@@ -1168,8 +1256,9 @@ def null_pooled_scale(
     scaler (``ddof = 0``). A feature whose SD is (numerically) zero keeps unit
     scale, as the sample scaler does. ``within_multiplier`` multiplies the
     within-cell term (a group dispersion scale ``s`` gives
-    ``(n_A + s²·n_B) / (n_A + n_B)``); absent, the term is the reference
-    variance, as before the option existed.
+    ``(n_A + s²·n_B) / (n_A + n_B)``, per-cell multipliers ``m_c`` give
+    ``Σ_c n_c·m_c² / Σ_c n_c``); absent, the term is the reference variance, as
+    before the option existed.
     """
 
     weights = np.asarray(stage_weights, dtype=float)
@@ -1254,6 +1343,49 @@ def group_dispersion_within_multiplier(
     return (n_a + float(scale) ** 2 * n_b) / (n_a + n_b)
 
 
+def cell_dispersion_within_multiplier(
+    scales_a: Sequence[float],
+    scales_b: Sequence[float],
+    sizes_a: Sequence[int],
+    sizes_b: Sequence[int],
+) -> float:
+    """The pooled within-cell variance over the reference variance, one SD multiplier per cell.
+
+    Each cell's noise variance is its multiplier ``m_c`` squared times the
+    reference, so the within-cell term of the pooled variance at the realized
+    sizes is ``Σ_c n_c·m_c² / Σ_c n_c`` times the reference variance, over both
+    groups' cells (``scales_a`` and ``sizes_a`` per stage of the first group,
+    ``scales_b`` and ``sizes_b`` of the second).
+    """
+
+    sizes = np.concatenate([np.asarray(sizes_a, dtype=float), np.asarray(sizes_b, dtype=float)])
+    scales = np.concatenate([np.asarray(scales_a, dtype=float), np.asarray(scales_b, dtype=float)])
+    if sizes.shape != scales.shape:
+        raise SemiSyntheticTrajectoryError(
+            f"one dispersion multiplier per cell is required; got {scales.size} for {sizes.size} cells."
+        )
+    return float(sizes @ scales**2 / sizes.sum())
+
+
+def dispersion_within_multiplier(
+    params: SemiSyntheticTrajectoryParams, sizes_a: Sequence[int], sizes_b: Sequence[int]
+) -> float | None:
+    """The within-cell multiplier of the pooled scales under the dispersion settings.
+
+    ``None`` without either setting, the absent multiplier. With a group scale
+    alone it is :func:`group_dispersion_within_multiplier`, computed as before
+    the stage scale existed; with a stage scale it is
+    :func:`cell_dispersion_within_multiplier` over each cell's combined
+    multiplier (the stage's, times the group's in the second group).
+    """
+
+    if params.stage_dispersion_scale is None:
+        return group_dispersion_within_multiplier(params.group_dispersion_scale, sizes_a, sizes_b)
+    scales_a, scales_b = _group_noise_scales(params)
+    assert scales_a is not None and isinstance(scales_b, tuple)
+    return cell_dispersion_within_multiplier(scales_a, scales_b, sizes_a, sizes_b)
+
+
 def _stage_span_plant(
     ref: IntersimReference,
     params: SemiSyntheticTrajectoryParams,
@@ -1275,7 +1407,7 @@ def _stage_span_plant(
         reference=ref,
     )
     stage_weights = np.asarray(a_sizes, dtype=float) + np.asarray(b_sizes, dtype=float)
-    within_multiplier = group_dispersion_within_multiplier(params.group_dispersion_scale, a_sizes, b_sizes)
+    within_multiplier = dispersion_within_multiplier(params, a_sizes, b_sizes)
     scale = null_pooled_scale(
         null_means, stage_weights, layers=layers, reference=ref, within_multiplier=within_multiplier
     )
@@ -1398,8 +1530,8 @@ def _planted_scale_fixed_point(
     that last SD, the exact planted SD of the returned plant. ``magnitude`` keeps
     its first plant: scaling about the centroid commutes with a per-feature
     scale, so the plant in analysed units is the null-scale plant, bit for bit.
-    ``within_multiplier`` is the group dispersion's within-cell multiplier,
-    passed to :func:`planted_pooled_scale`.
+    ``within_multiplier`` is the dispersion settings' within-cell multiplier
+    (:func:`dispersion_within_multiplier`), passed to :func:`planted_pooled_scale`.
     """
 
     bounds = np.cumsum([0, *(null_means[layer].shape[1] for layer in layers)])

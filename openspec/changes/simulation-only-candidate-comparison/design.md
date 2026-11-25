@@ -48,9 +48,9 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
 - **Alternative: fresh datasets everywhere.** It loses the gate and the alignment and saves nothing.
 
 **D3. New conditions are new design names under base seed 2043.**
-- **Designs.** `n200_four_stages` and `n200_delta0.5_four_stages`; `seaad_table` and `seaad_table_delta0.5` (F 11 / 10 / 28, M 9 / 10 / 12, through `group_stage_sizes`); `n200_share0.8`. All three blocks, `joint`, `p_dmp` 0.1, ρ = 0, the stage-span construction, planted scale on the in-span cells.
+- **Designs.** `n200_stages4` and `n200_delta0.5_stages4`; `seaad_table` and `seaad_table_delta0.5` (F 11 / 10 / 28, M 9 / 10 / 12, through `group_stage_sizes`); `n200_share0.8`. All three blocks, `joint`, `p_dmp` 0.1, ρ = 0, the stage-span construction, planted scale on the in-span cells.
 - **Why these.** Four stages is the pilot's stated limitation: the measured dimension is K − 1 = 3 and the CV rank relates to it differently. The SEA-AD table is the case-study cell table and the one unbalanced design with paper-grade production readings. A share of 0.8 at n = 200 held size at equal dispersion (item 26); n = 80 at that share did not and is under diagnosis (open item 16), so it is left out.
-- **Seeds.** The comparison's `generator_seed` and `rrpp_seed` at base seed 2043. A test checks that no new design name occurs in any committed settings file, the group-dispersion run's included once it is on `main`.
+- **Seeds.** The comparison's `generator_seed` and `rrpp_seed` at base seed 2043. A test checks that no new design name occurs in any committed settings file, the group-dispersion run's included once it is on `main`. (Amended at implementation, before any unit: the four-stage designs were first named `n200_four_stages` and `n200_delta0.5_four_stages`, but `n200_four_stages` is a study column of the committed orthonormal-coordinates run, so they are `n200_stages4` and `n200_delta0.5_stages4`.)
 - **Out-of-span cells at four stages.** The rotation is defined there; an out-of-span bend is not (roadmap open item 12) and is not a cell.
 
 **D4. Stage dispersion is a generator setting, and its profile is null only.**
@@ -84,7 +84,7 @@ See proposal.md (Why) for the motivation. The facts below shape the approach.
   |---|---|
   | `core` | `n80`, `n200`, `n500` |
   | `weak_stage` | `n200_delta0.5`, `n320_delta1`, `band_n320` |
-  | `four_stages` | `n200_four_stages`, `n200_delta0.5_four_stages` |
+  | `four_stages` | `n200_stages4`, `n200_delta0.5_stages4` |
   | `unbalanced` | `seaad_table`, `seaad_table_delta0.5`, `n200_share0.8` |
   | `adni_design` | the simulated ADNI table |
 

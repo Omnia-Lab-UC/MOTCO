@@ -18,7 +18,11 @@ from motco.simulations.grid import (
     make_simulation_cell,
 )
 from motco.simulations.reference import IntersimReference, load_reference
-from motco.simulations.semisynthetic import expected_surgery_headroom
+from motco.simulations.semisynthetic import (
+    SemiSyntheticTrajectoryError,
+    expected_surgery_headroom,
+    validate_stage_dispersion,
+)
 from motco.simulations.study.config import StudyConfig, StudyConfigError
 
 # trajectory modes treated as Type I negative controls
@@ -65,6 +69,7 @@ def enumerate_study(config: StudyConfig) -> SimulationGrid:
         cells = _assign_seed_families(cells, config)
 
     _require_unique_ids(cells)
+    _require_stage_dispersion(cells)
     _require_surgery_headroom(cells)
     grid_metadata: dict[str, Any] = {
         "grid_type": "study",
@@ -350,6 +355,20 @@ def _require_unique_ids(cells: list[SimulationCell]) -> None:
     if len(cells) < 2:
         return
     _require_distinct_primary_datasets(cells)
+
+
+def _require_stage_dispersion(cells: list[SimulationCell]) -> None:
+    """Reject a ``generator.stage_dispersion_scale`` whose length is not the cell's stage count.
+
+    Checked per cell, so a study crossing it with ``generator.n_stages`` fails
+    at enumeration rather than in every work unit.
+    """
+
+    for cell in cells:
+        try:
+            validate_stage_dispersion(cell.generator_params)
+        except SemiSyntheticTrajectoryError as exc:
+            raise StudyConfigError(f"cell {cell.cell_id!r}: generator.{exc}") from exc
 
 
 def _require_surgery_headroom(cells: list[SimulationCell]) -> None:

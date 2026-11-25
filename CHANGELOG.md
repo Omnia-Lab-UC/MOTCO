@@ -8,6 +8,14 @@ Every opt-in option listed below leaves all outputs byte-identical while it is u
 
 ## [Unreleased]
 
+## 0.27.0 - 2026-11-25
+
+### Added
+
+- `SemiSyntheticTrajectoryParams.stage_dispersion_scale` holds one positive finite multiplier of the noise standard deviation per stage, applied to both groups in every block about unchanged means. It draws no random numbers: the dataset is the one without the setting at the same seed with each cell stretched about its exact mean by its stage's multiplier, methylation in M-values. It composes with `group_dispersion_scale` as a product per cell, with every mode and construction, and zero-effect and Type I cells keep it. Truth gains a `stage_dispersion` block with each stage's multiplier and its square. A sequence is held as a tuple of floats, and all ones normalizes to `None`, the default, which is hash-omitted from cell ids, signatures and dumped study configs. Study configs accept `generator.stage_dispersion_scale` in the baseline and as an axis, and a length other than the stage count fails at load or enumeration.
+- `generate_omics(..., noise_scale=)` accepts one positive finite scale per cell, stretching each cell about its own exact mean. Equal scales give the samples of the single scale, and a number keeps its code path.
+- Under `construction="stage_span"` with a stage dispersion scale, the null and planted pooled SDs take the within-cell variance as `Σ_c n_c·m_c² / Σ_c n_c` times the reference over the realized cells, `m_c` the cell's combined multiplier: `cell_dispersion_within_multiplier` computes it and `dispersion_within_multiplier` picks it, or 0.26.0's group term, from the parameters.
+
 ## 0.26.0 - 2026-11-24
 
 ### Added
