@@ -434,6 +434,9 @@ with a stage-span plant on real noise. Its predeclared decision is **`keep_produ
 Both settings stay opt-in. A case study may declare block weighting as a sensitivity
 analysis, with `delta` in the weighted metric. Sparse stage-PLS costs seven to nine
 production fits and has shown no gain that would justify it.
+Both were re-read in simulation alone on 2026-11-25
+([below](#the-candidates-in-simulation-alone)): block weighting qualifies in three design
+families, and sparse stage-PLS still reads `keep_production`.
 
 ## The measured dimension: fit rank against predictive subspace
 
@@ -641,7 +644,9 @@ translation, and the gain holds.
 So at ADNI's design its two measured dimensions give up a rotation that cancels the pooled stage
 signal, which production reads through its extra components, and, in simulation, specificity on
 stretches. The reopening condition is not met for ADNI, and `predictive_orthonormal` stays an
-opt-in diagnostic. Only a later paper-grade run could change a default.
+opt-in diagnostic. Only a later paper-grade run could change a default. That run was the simulation-only
+reading of 2026-11-25 ([below](#the-candidates-in-simulation-alone)), which reproduced this
+specificity failure and scoped the candidate to three design families.
 
 **What production detects on ADNI's noise.** These are production's rates alone, which hold whatever
 the verdict. A held-out plant bounds the detectable effect from above, an in-sample one from below.
@@ -726,6 +731,87 @@ estimates.
 What stays as it was: the only capture of a weak stage program is the simulated 0.10, and a
 held-out share on ADNI mixes program and noise. A resolved real-noise capture waits for a larger
 cohort or several cohorts.
+
+## The candidates in simulation alone
+
+The candidates above were kept out of production by real-noise readings. `predictive_orthonormal` was
+vetoed by the SEA-AD plasmode's size and ADNI's protected power. Block weighting and sparse
+stage-PLS were set aside by a pilot whose gain rule counted only the weak design and the SEA-AD plant.
+On 2026-11-25 they were re-read in simulation alone. The run used 58,400 datasets, each read by every
+arm on the same draws, in five design families, under a decision fixed before any unit ran
+([report](reports/candidate-simulation-2026-11-25.md)). Production reproduced every committed count
+it was compared with (354 rows).
+
+**Verdict: `scoped_candidates`.** No arm qualifies everywhere, so no default changes. Labels by family:
+
+| arm | `core` (δ = 2.0, n = 80 / 200 / 500) | `weak_stage` (δ = 0.5, δ = 1.0 at n = 320, the band) | `four_stages` (n = 200, δ = 2.0 / 0.5) | `unbalanced` (SEA-AD table at δ = 2.0 / 0.5, share 0.8) | `adni_design` | stage dispersion |
+|---|---|---|---|---|---|---|
+| `predictive_orthonormal` | qualifies (2 of 27 gains) | qualifies (18 of 27) | qualifies (8 of 18) | specificity_excess | specificity_excess | fails |
+| `weighted` | qualifies (8 of 27) | size_excess | qualifies (7 of 18) | qualifies (10 of 27) | no_gain | fails |
+| `sparse_block` | no_gain (`n200` only) | specificity_excess (two designs) | not run | not run | not run | not run |
+
+**Where a candidate beats production.**
+
+- **`predictive_orthonormal` gains where production's CV rank exceeds K − 1**, and only there. Where the rank is
+  K − 1 it measures production's subspace in another metric and reads alike.
+    - The 9° rotation at n = 200, δ = 0.5 (rank 3) goes from 0.080 to 1.000.
+    - At four stages and δ = 0.5 (rank 4) the same rotation goes from 0.080 to 0.970.
+    - The band's stretch at e = 1 (rank 10) goes from 0.460 to 0.995.
+    - The ADNI design's stretch at e = 1 (rank 19) goes from 0.535 to 0.990.
+    - At n = 80, among the rotation units where the CV picked rank 3, production rejects 0 of 13 and the candidate
+      13 of 13 (e = 0.1).
+- **`weighted` gains a few points broadly** (mean paired difference +0.04 to +0.08 over a family's target cells).
+  Examples: a bend at n = 80 goes from 0.485 to 0.745, and the 9° rotation at δ = 1.0, n = 320 from 0.725 to 0.995.
+  The weighting changes which directions the fit finds, not the rank.
+
+**What each gives up.** No arm loses protected power in any family, and no candidate loses a feature-set surgery
+cell or an out-of-span rotation by the 0.10 margin. `weighted` gains on 16 of the 18 surgery cells, and the
+predictive arm on 2.
+
+- **`predictive_orthonormal`.**
+    - **Unbalanced:** specificity. At share 0.8, bends are read as `angle` in up to 0.110 of units, against a
+      ceiling of 0.100.
+    - **ADNI design:** specificity. A doubled stretch is read as `shape` in 0.295 against production's 0.060.
+    - **Stage dispersion:** size (below).
+- **`weighted`.**
+    - **Weak stage:** size. `angle` at δ = 1.0, n = 320 reads 0.082 and 0.090 against a ceiling of 0.078, where
+      production reads 0.070 and 0.076.
+    - **ADNI design:** no gain.
+    - **Stage dispersion:** size (below).
+    - Its `delta` is in the weighted metric.
+- **`sparse_block`.** On the band it reads a doubled stretch as `shape` (0.135 against 0.050). It gains nothing at
+  n = 200, where its CV keeps the dense fit, and it costs about seven production fits.
+
+**Unequal noise by stage.** Ten null designs scale the noise SD by stage, in both groups, about unchanged means.
+The patterns are the square roots of the within-stage diagnosis's multipliers and those multipliers taken as SDs.
+They were read on both SEA-AD tables and at balanced n = 200. Rejections of 500 against a ceiling of 42 (m = 60):
+
+- **Production holds:** 2 of 60 readings above the bound and none above the ceiling. It is conservative where the
+  last and largest stage has the widest noise at δ = 0.5 (`delta` 4–11).
+- **Both candidates fail where the largest stage has the narrowest noise.** This is the direction of the SEA-AD
+  excess.
+    - `predictive_orthonormal` has 4 readings above the ceiling (up to 45, `shape` and `delta`).
+    - `weighted` has 4 above the ceiling, all on the SEA-AD table at δ = 2.0 (`delta` 48–49, `shape` 44–50).
+- **Within-stage draws, on the same units (recorded).** Production's still holds. The candidate's bring every
+  narrow-pattern reading under the bound but exceed once elsewhere (`shape` 43 under the strong wide pattern).
+
+So the mechanism the SEA-AD diagnosis named reaches the statistics through a fit on simulated features too, at a
+smaller size (0.090 against SEA-AD's 0.134). Production's scores do not carry it.
+
+**How far it carries.**
+
+- **Simulated noise only.** The map was read on 658 Gaussian features on three blocks, at 1 to 8 features per
+  sample, with three or four stages.
+- **The real-noise readings did not enter the decision.** They stand as limits:
+    - `predictive_orthonormal`: SEA-AD `size_excess` (item 18, diagnosed `both_restore`), ADNI `excess_absent`
+      (item 21) and ADNI `power_loss` (item 22, the in-sample 90° rotation);
+    - `weighted`: `no_gain` (item 17);
+    - `sparse_block`: `size_excess` on the SEA-AD anchor at 100 replicates, where production read the same rate
+      (item 17).
+- **What is unread.** Size at SEA-AD's 125 features per donor is unread for any arm (roadmap open item 15).
+
+A rule that recommends an arm from a cohort's design would read the CV rank against K − 1 and the residual
+dispersion by stage. It is a separate change.
 
 ## The permutation null: unrestricted or within stage
 

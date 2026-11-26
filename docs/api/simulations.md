@@ -114,6 +114,36 @@ parameter signatures, matched seeds and dumped study configs are byte-identical 
 before the field existed. Study configs accept `generator.group_dispersion_scale` in the baseline
 and as an axis; `motco simulate` does not expose it.
 
+**Stage-specific dispersion.** `stage_dispersion_scale` holds one positive finite multiplier per
+stage, in stage order. It multiplies the noise standard deviation of every sample at that stage, in
+both groups and every block, so a stage's noise covariance is the multiplier squared times the
+reference covariance. No mean moves. With `group_dispersion_scale` also set, the two compose as a
+product per cell: a group-B cell at stage `k` has `m_k · s` times the reference SD.
+
+```python
+SemiSyntheticTrajectoryParams(
+    seed=1,
+    group_stage_sizes=((11, 10, 28), (9, 10, 12)),
+    stage_dispersion_scale=(1.058, 1.130, 0.896),  # the largest stage, the last, is the narrowest
+)
+```
+
+Like the group scale it draws no random numbers (`generate_omics(..., noise_scale=)` with one scale
+per cell): the dataset is the one without it at the same seed, with each cell stretched about its
+exact mean by its multiplier. It composes with every trajectory mode and construction, and a
+zero-effect cell keeps it. Under `construction="stage_span"` the null and planted pooled SDs take
+the within-cell variance as `Σ_c n_c·m_c² / Σ_c n_c` times the reference variance over the realized
+cells, with `m_c` each cell's combined multiplier (`dispersion_within_multiplier`), so the edit stays
+exact in the scale the data have; with the group scale alone this is the group term above, computed
+as before. Truth records `truth["stage_dispersion"]` with each stage's multiplier (`scale`) and its
+square (`covariance_multiplier`). A list is held as a tuple of floats, and all ones normalizes to
+`None`, the default, under which generation, truth, cell ids, parameter signatures, matched seeds
+and dumped study configs are byte-identical to the generator before the field existed. A length
+other than `n_stages`, or a value that is not a positive finite number, is rejected before any draw
+with a message naming the setting. Study configs accept `generator.stage_dispersion_scale` in the
+baseline and as an axis, and a wrong length fails when the config loads or, on an axis, at
+enumeration; `motco simulate` does not expose it.
+
 **Migration.** Before `default-joint-magnitude-construction` the default was `'all'`. Code that
 relied on the default and wants the old construction must pass `magnitude_kind="all"` (or
 `--magnitude-kind all`). The committed historical study configs under

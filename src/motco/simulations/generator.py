@@ -19,7 +19,9 @@ feature-surgery trajectory modes uniformly.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 
@@ -217,22 +219,44 @@ def _sample_population_means(
 
 
 def _stretch_about_means(
-    samples: np.ndarray, means: np.ndarray, cell_sizes: list[int], scale: float
+    samples: np.ndarray, means: np.ndarray, cell_sizes: list[int], scale: float | np.ndarray
 ) -> np.ndarray:
     """Multiply every sample's deviation from its exact cell mean by ``scale``.
 
     ``samples`` are stacked by cell in ``cell_sizes`` order (empty cells
     skipped), as :func:`_sample_population_means` returns them, and ``means``
-    holds one row per cell. For a Gaussian draw this is a draw from ``scale²``
+    holds one row per cell. ``scale`` is one number for every cell or an array
+    with one number per cell. For a Gaussian draw this is a draw from ``scale²``
     times the covariance about the same means; it draws no random numbers.
     """
 
     rows = np.repeat(means, cell_sizes, axis=0)
+    if isinstance(scale, np.ndarray):
+        factors = np.repeat(scale, cell_sizes)[:, None]
+        return rows + factors * (samples - rows)
     return rows + scale * (samples - rows)
 
 
-def _validate_noise_scale(noise_scale: float) -> float:
-    if isinstance(noise_scale, bool) or not isinstance(noise_scale, int | float | np.integer | np.floating):
+def _is_real_number(value: Any) -> bool:
+    return not isinstance(value, bool) and isinstance(value, int | float | np.integer | np.floating)
+
+
+def _validate_noise_scale(noise_scale: float | Sequence[float], n_cells: int) -> float | np.ndarray:
+    """A validated scale: a float for one number, an array for one number per cell."""
+
+    if isinstance(noise_scale, Sequence | np.ndarray) and not isinstance(noise_scale, str | bytes):
+        values = list(noise_scale)
+        if len(values) != n_cells:
+            raise GeneratorError(
+                f"noise_scale must hold one scale per cell ({n_cells}); got {len(values)}: {noise_scale!r}."
+            )
+        if not all(_is_real_number(value) for value in values):
+            raise GeneratorError(f"noise_scale must hold positive finite numbers; got {noise_scale!r}.")
+        scales = np.asarray([float(value) for value in values], dtype=float)
+        if not np.all(np.isfinite(scales)) or np.any(scales <= 0):
+            raise GeneratorError(f"noise_scale must hold positive finite numbers; got {noise_scale!r}.")
+        return scales
+    if not _is_real_number(noise_scale):
         raise GeneratorError(f"noise_scale must be a positive finite number; got {noise_scale!r}.")
     value = float(noise_scale)
     if not np.isfinite(value) or value <= 0:
@@ -295,7 +319,7 @@ def generate_omics(
     cell_shift_methyl: np.ndarray | None = None,
     cell_shift_expr: np.ndarray | None = None,
     cell_shift_protein: np.ndarray | None = None,
-    noise_scale: float | None = None,
+    noise_scale: float | Sequence[float] | None = None,
 ) -> GeneratedOmics:
     """Generate aligned omics matrices from explicit per-cell indicators.
 
@@ -316,7 +340,10 @@ def generate_omics(
     means are unchanged. It draws no random numbers, so at a fixed ``rng`` the
     scaled samples are the unscaled ones stretched about their cell means and
     the generator ends at the same stream position. ``None`` takes the code path
-    used before the option existed.
+    used before the option existed. A sequence with one positive finite scale
+    per cell (one per entry of ``cell_sizes``, empty cells included) stretches
+    each cell about its own mean by its own scale; equal scales give the samples
+    of the single scale, and a number keeps its code path.
     """
 
     ref = reference if reference is not None else load_reference()
@@ -332,7 +359,7 @@ def generate_omics(
             )
     if any(n < 0 for n in cell_sizes):
         raise GeneratorError("cell_sizes must be non-negative")
-    scale = None if noise_scale is None else _validate_noise_scale(noise_scale)
+    scale = None if noise_scale is None else _validate_noise_scale(noise_scale, n_cell)
 
     cov_M = _resolve_cov(sigma_methyl, ref.cov_M)
     cov_expr = _resolve_cov(sigma_expr, ref.cov_expr)

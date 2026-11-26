@@ -19,6 +19,7 @@ from motco.simulations.semisynthetic import (
     SemiSyntheticTrajectoryParams,
     resolve_span_layers,
     validate_construction,
+    validate_stage_dispersion,
 )
 
 _TRAJECTORY_MODES = {"none", "translation", "magnitude", "orientation", "shape"}
@@ -1041,6 +1042,8 @@ def _build_generator(raw: Mapping[str, Any]) -> SemiSyntheticTrajectoryParams:
             value = tuple(float(v) for v in value)
         if f.name == "group_stage_sizes":
             value = _normalize_group_stage_sizes(value)
+        if f.name == "stage_dispersion_scale":
+            value = _normalize_stage_dispersion_scale(value)
         kwargs[f.name] = value
     # Reject an unknown construction variant at load time rather than letting
     # every work unit fail at generation. The selectable set is the generator's
@@ -1057,6 +1060,7 @@ def _build_generator(raw: Mapping[str, Any]) -> SemiSyntheticTrajectoryParams:
     # error still surfaces per cell at enumeration).
     try:
         validate_construction(params)
+        validate_stage_dispersion(params)
     except SemiSyntheticTrajectoryError as exc:
         raise StudyConfigError(f"generator: {exc}") from exc
     return params
@@ -1107,6 +1111,18 @@ def _normalize_group_stage_sizes(value: Any) -> Any:
     return tuple(rows)
 
 
+def _normalize_stage_dispersion_scale(value: Any) -> Any:
+    """A JSON list of stage multipliers → a tuple, so equal settings hash equally.
+
+    The generator's parameters hold it as floats and turn all ones into
+    ``None``; anything malformed passes through for it to reject by name.
+    """
+
+    if value is None or isinstance(value, str | bytes) or not isinstance(value, Sequence):
+        return value
+    return tuple(value)
+
+
 _ORIENTATION_ESTIMATOR_DEFAULT = next(
     f.default for f in dataclasses.fields(SimulationEvaluationParams) if f.name == "orientation_estimator"
 )
@@ -1151,6 +1167,7 @@ def _normalize_min_components(value: Any) -> Any:
 #: Axis values that need the same normalization as their baseline field.
 _AXIS_VALUE_NORMALIZERS = {
     "generator.group_stage_sizes": _normalize_group_stage_sizes,
+    "generator.stage_dispersion_scale": _normalize_stage_dispersion_scale,
     "evaluation.orientation_estimator": _normalize_orientation_estimator,
     "evaluation.min_components": _normalize_min_components,
 }
@@ -1711,6 +1728,7 @@ _DUMP_OMIT_WHEN_NONE = frozenset(
     {
         "group_stage_sizes",
         "group_dispersion_scale",
+        "stage_dispersion_scale",
         "construction",
         "span_layers",
         "span_capture",

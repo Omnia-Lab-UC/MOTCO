@@ -1,0 +1,78 @@
+{
+ "arm_seconds_median": {
+  "n200_three_blocks/pls_cv": 1.1396269779652357,
+  "n200_three_blocks/predictive_orthonormal": 1.1355571215972304,
+  "n200_three_blocks/weighted": 28.68883201573044,
+  "n80_three_blocks/pls_cv": 1.114009227603674,
+  "n80_three_blocks/predictive_orthonormal": 1.1090798862278461,
+  "n80_three_blocks/weighted": 22.22909261379391
+ },
+ "arm_selections": [
+  [
+   "pls_cv",
+   "predictive_orthonormal",
+   "weighted"
+  ]
+ ],
+ "arms": {
+  "pls_cv": {
+   "completed": 11000,
+   "expected": 11000,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 11000
+  },
+  "predictive_orthonormal": {
+   "completed": 11000,
+   "expected": 11000,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 11000
+  },
+  "sparse_block": {
+   "completed": 0,
+   "expected": 0,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 0
+  },
+  "weighted": {
+   "completed": 11000,
+   "expected": 11000,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 11000
+  }
+ },
+ "design_seconds_median": {
+  "n200_three_blocks": {
+   "call": 59.20824879221618,
+   "fit": 27.887538727372885,
+   "generate": 0.36799898464232683
+  },
+  "n80_three_blocks": {
+   "call": 46.0966948447749,
+   "fit": 21.27337459102273,
+   "generate": 0.3498239563778043
+  }
+ },
+ "duplicate_records": 0,
+ "expected_units": 11000,
+ "failed_records": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "inconsistent_records": 0,
+ "missing_records": 0,
+ "profile": "surgery",
+ "recorded_core_hours": 146.9910415363047,
+ "selected_arms": [
+  "pls_cv",
+  "predictive_orthonormal",
+  "weighted"
+ ],
+ "settings_hash": "7ba6aaa7d49918dc75f03c23efe29414f7582aa51dbd3ab6f83f4f0498fc6c28"
+}

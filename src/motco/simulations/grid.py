@@ -888,11 +888,14 @@ def _stable_digest(payload: Any, *, length: int | None = None) -> str:
 #: ``latent_coordinates`` (``None`` = the PLS scores) the opt-in orthonormal
 #: span coordinates; ``permutation_strata`` (``None`` = unrestricted draws) the
 #: opt-in within-stage permutation null; ``group_dispersion_scale`` (``None`` =
-#: equal dispersion) the opt-in noise scale of the second group.
+#: equal dispersion) the opt-in noise scale of the second group, and
+#: ``stage_dispersion_scale`` (``None`` = equal dispersion) the opt-in noise
+#: scale per stage.
 _SIGNATURE_OMIT_WHEN_NONE: frozenset[str] = frozenset(
     {
         "group_stage_sizes",
         "group_dispersion_scale",
+        "stage_dispersion_scale",
         "orientation_estimator",
         "min_components",
         "construction",
