@@ -49,3 +49,12 @@ Smoke records: `/tmp/claude-1000/-home-tomas-Documents-Repos-MOTCO/419832ff-6a00
   ```
 
   Then copy the aggregates (not `records/` or `merged.jsonl`) to `results/unbalance-diagnosis-<date>/` in a local worktree of the branch: `settings.json`, `rate_table.csv`, `cell_table.csv`, `within_group_table.csv`, `corrected_table.csv`, `accounting.json`, `reproduction.json`, `unbalance_diagnosis_decision.json`, with `PROVENANCE.txt` and `sacct.txt`; check that `decide` on the copied aggregates alone regenerates the decision byte for byte, and write the report (task 3.3).
+
+## Completion (tasks 3.2–3.4, 2026-11-26)
+
+- **The array.** 150 of 150 tasks `COMPLETED 0:0` (14:17:35–15:11:37 on 2026-11-25; 103 on n4, 37 on n1, 6 on n3, 4 on n2; tasks 11.2–27.0 min). No resubmission was needed.
+- **`merge`** (ing login node, 2026-11-26, from the run worktree at `ade26ad`): 7,500 of 7,500 complete units, 0 failed, 0 missing, 0 duplicates; within-group and corrected refits 7,500 each, 0 failed, 0 inconsistent, no `df` or `leverage` failure. 35.43 recorded core-hours against the cap of 80 (41.72 allocated CPU-hours in `sacct`). Median unit 12.8 s, half the smoke's on the loaded workstation. Failures occurred nowhere, n = 42 included, as in the smoke.
+- **Reproduction: passed**, 22 rows, none differing or unresolved.
+- **`decide`: `small_cells`.** `balanced_small` fails on `angle` at `n42_r0.5` (76 of 1,000 against a ceiling of 65); `unbalanced_small` (one reading above the bound, `shape` at `n80_r0.74`, 65) and `reference` hold. Pooled `delta` of `n80_r0.8` and `n80_r0.8_b`: 89 of 1,500. Re-read branch `set_aside` → `dispersion_excess`.
+- **Aggregates** copied to `results/unbalance-diagnosis-2026-11-25/` (dated by the run, as the parent's) in the local worktree `/home/tomas/Documents/Repos/MOTCO-unbalance-diagnosis`, after merging `main` (#111, #112) into the branch; the bound parent files' sha256 are unchanged by that merge. `decide` on the copied aggregates alone, on the workstation, regenerates `unbalance_diagnosis_decision.json` byte for byte (sha256 `96b7bede…`). `merged.jsonl` (sha256 `612a8e43…`) and `records/` stay on `ing` under the run root.
+- **Report** `docs/reports/unbalance-diagnosis-2026-11-25.md`; documentation per task 3.4 (measurement visibility, roadmap item 27 and open item 17, the interpretability statement, "Not yet established", `mkdocs.yml`, the dated `AGENTS.md` row).
