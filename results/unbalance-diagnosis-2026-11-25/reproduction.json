@@ -1,0 +1,15 @@
+{
+ "design": "n80_r0.8",
+ "differing": [],
+ "files": {
+  "results/group-dispersion-2026-11-24/columns/cell_table.csv": "ba54bddd1563b70069e074d02fbfb66ad5f7597db748c00eb62237f06f50af86",
+  "results/group-dispersion-2026-11-24/columns/rate_table.csv": "8846037ce6ea0f8e91bfed93e6125a628aa4a01a5b1a04acac6a60a4ae3c660a",
+  "results/group-dispersion-2026-11-24/columns/settings.json": "098763cc2a4890d6f263a94296840defdbe33905e5d7b2eb5e68b066d79b9730",
+  "results/group-dispersion-2026-11-24/columns/within_group_table.csv": "9ffd920f8bb0f4df49642ce7eed2cd9babb2c0617fc1f3c85a33f115a5654b4e",
+  "results/group-dispersion-2026-11-24/group_dispersion_decision.json": "017f8112be750172f7ae1ee75c9f67d3c877893d5b4466dd10b32c99e9a533f3"
+ },
+ "passed": true,
+ "rows_compared": 22,
+ "source": "group dispersion 2026-11-24, columns profile and decision",
+ "unresolved_rows": []
+}

@@ -1,0 +1,217 @@
+design,cell,trajectory_mode,effect_size,span_alignment,span_support,arm,rule,rate,se,count,rejections,failures
+n80_r0.8,anchor,none,0,,,production,min p <= alpha / 3,0.064,0.0109457,500,32,0
+n80_r0.8,anchor,none,0,,,delta,p < alpha,0.088,0.0126693,500,44,0
+n80_r0.8,anchor,none,0,,,angle,p < alpha,0.06,0.0106207,500,30,0
+n80_r0.8,anchor,none,0,,,shape,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8,anchor,none,0,,,production_minp,p <= alpha,0.074,0.0117068,500,37,0
+n80_r0.8,anchor,none,0,,,scan,p <= alpha,0.06,0.0106207,500,30,0
+n80_r0.8,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.046,0.00936846,500,23,0
+n80_r0.8,anchor,none,0,,,total,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,span,p < alpha,0.064,0.0109457,500,32,0
+n80_r0.8,anchor,none,0,,,complement,p < alpha,0.05,0.00974679,500,25,0
+n80_r0.8,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.8,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.052,0.00992935,500,26,0
+n80_r0.8,anchor,none,0,,,pca_matched_delta,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,pca_matched_angle,p < alpha,0.068,0.0112584,500,34,0
+n80_r0.8,anchor,none,0,,,pca_matched_shape,p < alpha,0.056,0.0102824,500,28,0
+n80_r0.8,anchor,none,0,,,within_group_delta,p < alpha,0.07,0.0114105,500,35,0
+n80_r0.8,anchor,none,0,,,within_group_angle,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8,anchor,none,0,,,within_group_shape,p < alpha,0.064,0.0109457,500,32,0
+n80_r0.8,anchor,none,0,,,df_delta,p < alpha,0.076,0.0118511,500,38,0
+n80_r0.8,anchor,none,0,,,df_angle,p < alpha,0.052,0.00992935,500,26,0
+n80_r0.8,anchor,none,0,,,df_shape,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8,anchor,none,0,,,leverage_delta,p < alpha,0.076,0.0118511,500,38,0
+n80_r0.8,anchor,none,0,,,leverage_angle,p < alpha,0.052,0.00992935,500,26,0
+n80_r0.8,anchor,none,0,,,leverage_shape,p < alpha,0.062,0.0107848,500,31,0
+n80_r0.8_b,anchor,none,0,,,production,min p <= alpha / 3,0.037,0.00596917,1000,37,0
+n80_r0.8_b,anchor,none,0,,,delta,p < alpha,0.045,0.00655553,1000,45,0
+n80_r0.8_b,anchor,none,0,,,angle,p < alpha,0.053,0.00708456,1000,53,0
+n80_r0.8_b,anchor,none,0,,,shape,p < alpha,0.051,0.00695694,1000,51,0
+n80_r0.8_b,anchor,none,0,,,production_minp,p <= alpha,0.047,0.00669261,1000,47,0
+n80_r0.8_b,anchor,none,0,,,scan,p <= alpha,0.056,0.00727076,1000,56,0
+n80_r0.8_b,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.043,0.0064149,1000,43,0
+n80_r0.8_b,anchor,none,0,,,total,p < alpha,0.053,0.00708456,1000,53,0
+n80_r0.8_b,anchor,none,0,,,span,p < alpha,0.048,0.00675988,1000,48,0
+n80_r0.8_b,anchor,none,0,,,complement,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.8_b,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.8_b,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.8_b,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.8_b,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.8_b,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.045,0.00655553,1000,45,0
+n80_r0.8_b,anchor,none,0,,,pca_matched_delta,p < alpha,0.033,0.00564898,1000,33,0
+n80_r0.8_b,anchor,none,0,,,pca_matched_angle,p < alpha,0.057,0.00733151,1000,57,0
+n80_r0.8_b,anchor,none,0,,,pca_matched_shape,p < alpha,0.051,0.00695694,1000,51,0
+n80_r0.8_b,anchor,none,0,,,within_group_delta,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.8_b,anchor,none,0,,,within_group_angle,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.8_b,anchor,none,0,,,within_group_shape,p < alpha,0.05,0.00689202,1000,50,0
+n80_r0.8_b,anchor,none,0,,,df_delta,p < alpha,0.037,0.00596917,1000,37,0
+n80_r0.8_b,anchor,none,0,,,df_angle,p < alpha,0.045,0.00655553,1000,45,0
+n80_r0.8_b,anchor,none,0,,,df_shape,p < alpha,0.045,0.00655553,1000,45,0
+n80_r0.8_b,anchor,none,0,,,leverage_delta,p < alpha,0.037,0.00596917,1000,37,0
+n80_r0.8_b,anchor,none,0,,,leverage_angle,p < alpha,0.045,0.00655553,1000,45,0
+n80_r0.8_b,anchor,none,0,,,leverage_shape,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.925,anchor,none,0,,,production,min p <= alpha / 3,0.04,0.00619677,1000,40,0
+n200_r0.925,anchor,none,0,,,delta,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.925,anchor,none,0,,,angle,p < alpha,0.046,0.0066245,1000,46,0
+n200_r0.925,anchor,none,0,,,shape,p < alpha,0.051,0.00695694,1000,51,0
+n200_r0.925,anchor,none,0,,,production_minp,p <= alpha,0.049,0.00682635,1000,49,0
+n200_r0.925,anchor,none,0,,,scan,p <= alpha,0.054,0.00714731,1000,54,0
+n200_r0.925,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.048,0.00675988,1000,48,0
+n200_r0.925,anchor,none,0,,,total,p < alpha,0.052,0.00702111,1000,52,0
+n200_r0.925,anchor,none,0,,,span,p < alpha,0.051,0.00695694,1000,51,0
+n200_r0.925,anchor,none,0,,,complement,p < alpha,0.053,0.00708456,1000,53,0
+n200_r0.925,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_r0.925,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_r0.925,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_r0.925,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_r0.925,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.039,0.00612201,1000,39,0
+n200_r0.925,anchor,none,0,,,pca_matched_delta,p < alpha,0.059,0.00745111,1000,59,0
+n200_r0.925,anchor,none,0,,,pca_matched_angle,p < alpha,0.048,0.00675988,1000,48,0
+n200_r0.925,anchor,none,0,,,pca_matched_shape,p < alpha,0.053,0.00708456,1000,53,0
+n200_r0.925,anchor,none,0,,,within_group_delta,p < alpha,0.042,0.00634319,1000,42,0
+n200_r0.925,anchor,none,0,,,within_group_angle,p < alpha,0.042,0.00634319,1000,42,0
+n200_r0.925,anchor,none,0,,,within_group_shape,p < alpha,0.043,0.0064149,1000,43,0
+n200_r0.925,anchor,none,0,,,df_delta,p < alpha,0.04,0.00619677,1000,40,0
+n200_r0.925,anchor,none,0,,,df_angle,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.925,anchor,none,0,,,df_shape,p < alpha,0.048,0.00675988,1000,48,0
+n200_r0.925,anchor,none,0,,,leverage_delta,p < alpha,0.041,0.00627049,1000,41,0
+n200_r0.925,anchor,none,0,,,leverage_angle,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.925,anchor,none,0,,,leverage_shape,p < alpha,0.047,0.00669261,1000,47,0
+n42_r0.5,anchor,none,0,,,production,min p <= alpha / 3,0.053,0.00708456,1000,53,0
+n42_r0.5,anchor,none,0,,,delta,p < alpha,0.054,0.00714731,1000,54,0
+n42_r0.5,anchor,none,0,,,angle,p < alpha,0.076,0.00837998,1000,76,0
+n42_r0.5,anchor,none,0,,,shape,p < alpha,0.047,0.00669261,1000,47,0
+n42_r0.5,anchor,none,0,,,production_minp,p <= alpha,0.059,0.00745111,1000,59,0
+n42_r0.5,anchor,none,0,,,scan,p <= alpha,0.054,0.00714731,1000,54,0
+n42_r0.5,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.044,0.00648568,1000,44,0
+n42_r0.5,anchor,none,0,,,total,p < alpha,0.059,0.00745111,1000,59,0
+n42_r0.5,anchor,none,0,,,span,p < alpha,0.068,0.0079609,1000,68,0
+n42_r0.5,anchor,none,0,,,complement,p < alpha,0.046,0.0066245,1000,46,0
+n42_r0.5,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n42_r0.5,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n42_r0.5,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n42_r0.5,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n42_r0.5,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.034,0.00573097,1000,34,0
+n42_r0.5,anchor,none,0,,,pca_matched_delta,p < alpha,0.018,0.00420428,1000,18,0
+n42_r0.5,anchor,none,0,,,pca_matched_angle,p < alpha,0.077,0.00843036,1000,77,0
+n42_r0.5,anchor,none,0,,,pca_matched_shape,p < alpha,0.045,0.00655553,1000,45,0
+n42_r0.5,anchor,none,0,,,within_group_delta,p < alpha,0.044,0.00648568,1000,44,0
+n42_r0.5,anchor,none,0,,,within_group_angle,p < alpha,0.07,0.00806846,1000,70,0
+n42_r0.5,anchor,none,0,,,within_group_shape,p < alpha,0.049,0.00682635,1000,49,0
+n42_r0.5,anchor,none,0,,,df_delta,p < alpha,0.032,0.00556561,1000,32,0
+n42_r0.5,anchor,none,0,,,df_angle,p < alpha,0.062,0.00762601,1000,62,0
+n42_r0.5,anchor,none,0,,,df_shape,p < alpha,0.034,0.00573097,1000,34,0
+n42_r0.5,anchor,none,0,,,leverage_delta,p < alpha,0.032,0.00556561,1000,32,0
+n42_r0.5,anchor,none,0,,,leverage_angle,p < alpha,0.062,0.00762601,1000,62,0
+n42_r0.5,anchor,none,0,,,leverage_shape,p < alpha,0.034,0.00573097,1000,34,0
+n80_r0.74,anchor,none,0,,,production,min p <= alpha / 3,0.043,0.0064149,1000,43,0
+n80_r0.74,anchor,none,0,,,delta,p < alpha,0.058,0.00739162,1000,58,0
+n80_r0.74,anchor,none,0,,,angle,p < alpha,0.046,0.0066245,1000,46,0
+n80_r0.74,anchor,none,0,,,shape,p < alpha,0.065,0.00779583,1000,65,0
+n80_r0.74,anchor,none,0,,,production_minp,p <= alpha,0.05,0.00689202,1000,50,0
+n80_r0.74,anchor,none,0,,,scan,p <= alpha,0.053,0.00708456,1000,53,0
+n80_r0.74,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.041,0.00627049,1000,41,0
+n80_r0.74,anchor,none,0,,,total,p < alpha,0.05,0.00689202,1000,50,0
+n80_r0.74,anchor,none,0,,,span,p < alpha,0.058,0.00739162,1000,58,0
+n80_r0.74,anchor,none,0,,,complement,p < alpha,0.042,0.00634319,1000,42,0
+n80_r0.74,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.74,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.74,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.74,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.74,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.041,0.00627049,1000,41,0
+n80_r0.74,anchor,none,0,,,pca_matched_delta,p < alpha,0.04,0.00619677,1000,40,0
+n80_r0.74,anchor,none,0,,,pca_matched_angle,p < alpha,0.056,0.00727076,1000,56,0
+n80_r0.74,anchor,none,0,,,pca_matched_shape,p < alpha,0.055,0.00720937,1000,55,0
+n80_r0.74,anchor,none,0,,,within_group_delta,p < alpha,0.052,0.00702111,1000,52,0
+n80_r0.74,anchor,none,0,,,within_group_angle,p < alpha,0.046,0.0066245,1000,46,0
+n80_r0.74,anchor,none,0,,,within_group_shape,p < alpha,0.055,0.00720937,1000,55,0
+n80_r0.74,anchor,none,0,,,df_delta,p < alpha,0.049,0.00682635,1000,49,0
+n80_r0.74,anchor,none,0,,,df_angle,p < alpha,0.04,0.00619677,1000,40,0
+n80_r0.74,anchor,none,0,,,df_shape,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.74,anchor,none,0,,,leverage_delta,p < alpha,0.049,0.00682635,1000,49,0
+n80_r0.74,anchor,none,0,,,leverage_angle,p < alpha,0.04,0.00619677,1000,40,0
+n80_r0.74,anchor,none,0,,,leverage_shape,p < alpha,0.052,0.00702111,1000,52,0
+n200_r0.895,anchor,none,0,,,production,min p <= alpha / 3,0.033,0.00564898,1000,33,0
+n200_r0.895,anchor,none,0,,,delta,p < alpha,0.048,0.00675988,1000,48,0
+n200_r0.895,anchor,none,0,,,angle,p < alpha,0.047,0.00669261,1000,47,0
+n200_r0.895,anchor,none,0,,,shape,p < alpha,0.051,0.00695694,1000,51,0
+n200_r0.895,anchor,none,0,,,production_minp,p <= alpha,0.04,0.00619677,1000,40,0
+n200_r0.895,anchor,none,0,,,scan,p <= alpha,0.051,0.00695694,1000,51,0
+n200_r0.895,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.035,0.00581163,1000,35,0
+n200_r0.895,anchor,none,0,,,total,p < alpha,0.058,0.00739162,1000,58,0
+n200_r0.895,anchor,none,0,,,span,p < alpha,0.039,0.00612201,1000,39,0
+n200_r0.895,anchor,none,0,,,complement,p < alpha,0.058,0.00739162,1000,58,0
+n200_r0.895,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n200_r0.895,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n200_r0.895,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n200_r0.895,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n200_r0.895,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.047,0.00669261,1000,47,0
+n200_r0.895,anchor,none,0,,,pca_matched_delta,p < alpha,0.05,0.00689202,1000,50,0
+n200_r0.895,anchor,none,0,,,pca_matched_angle,p < alpha,0.048,0.00675988,1000,48,0
+n200_r0.895,anchor,none,0,,,pca_matched_shape,p < alpha,0.054,0.00714731,1000,54,0
+n200_r0.895,anchor,none,0,,,within_group_delta,p < alpha,0.042,0.00634319,1000,42,0
+n200_r0.895,anchor,none,0,,,within_group_angle,p < alpha,0.042,0.00634319,1000,42,0
+n200_r0.895,anchor,none,0,,,within_group_shape,p < alpha,0.05,0.00689202,1000,50,0
+n200_r0.895,anchor,none,0,,,df_delta,p < alpha,0.045,0.00655553,1000,45,0
+n200_r0.895,anchor,none,0,,,df_angle,p < alpha,0.043,0.0064149,1000,43,0
+n200_r0.895,anchor,none,0,,,df_shape,p < alpha,0.047,0.00669261,1000,47,0
+n200_r0.895,anchor,none,0,,,leverage_delta,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.895,anchor,none,0,,,leverage_angle,p < alpha,0.044,0.00648568,1000,44,0
+n200_r0.895,anchor,none,0,,,leverage_shape,p < alpha,0.049,0.00682635,1000,49,0
+n80_r0.65,anchor,none,0,,,production,min p <= alpha / 3,0.047,0.00669261,1000,47,0
+n80_r0.65,anchor,none,0,,,delta,p < alpha,0.052,0.00702111,1000,52,0
+n80_r0.65,anchor,none,0,,,angle,p < alpha,0.062,0.00762601,1000,62,0
+n80_r0.65,anchor,none,0,,,shape,p < alpha,0.059,0.00745111,1000,59,0
+n80_r0.65,anchor,none,0,,,production_minp,p <= alpha,0.056,0.00727076,1000,56,0
+n80_r0.65,anchor,none,0,,,scan,p <= alpha,0.06,0.00750999,1000,60,0
+n80_r0.65,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.048,0.00675988,1000,48,0
+n80_r0.65,anchor,none,0,,,total,p < alpha,0.064,0.00773977,1000,64,0
+n80_r0.65,anchor,none,0,,,span,p < alpha,0.059,0.00745111,1000,59,0
+n80_r0.65,anchor,none,0,,,complement,p < alpha,0.049,0.00682635,1000,49,0
+n80_r0.65,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.65,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.65,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.65,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.65,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.037,0.00596917,1000,37,0
+n80_r0.65,anchor,none,0,,,pca_matched_delta,p < alpha,0.03,0.00539444,1000,30,0
+n80_r0.65,anchor,none,0,,,pca_matched_angle,p < alpha,0.068,0.0079609,1000,68,0
+n80_r0.65,anchor,none,0,,,pca_matched_shape,p < alpha,0.042,0.00634319,1000,42,0
+n80_r0.65,anchor,none,0,,,within_group_delta,p < alpha,0.053,0.00708456,1000,53,0
+n80_r0.65,anchor,none,0,,,within_group_angle,p < alpha,0.068,0.0079609,1000,68,0
+n80_r0.65,anchor,none,0,,,within_group_shape,p < alpha,0.05,0.00689202,1000,50,0
+n80_r0.65,anchor,none,0,,,df_delta,p < alpha,0.051,0.00695694,1000,51,0
+n80_r0.65,anchor,none,0,,,df_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.65,anchor,none,0,,,df_shape,p < alpha,0.051,0.00695694,1000,51,0
+n80_r0.65,anchor,none,0,,,leverage_delta,p < alpha,0.051,0.00695694,1000,51,0
+n80_r0.65,anchor,none,0,,,leverage_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.65,anchor,none,0,,,leverage_shape,p < alpha,0.049,0.00682635,1000,49,0
+n80_r0.5_b,anchor,none,0,,,production,min p <= alpha / 3,0.037,0.00596917,1000,37,0
+n80_r0.5_b,anchor,none,0,,,delta,p < alpha,0.036,0.00589101,1000,36,0
+n80_r0.5_b,anchor,none,0,,,angle,p < alpha,0.057,0.00733151,1000,57,0
+n80_r0.5_b,anchor,none,0,,,shape,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.5_b,anchor,none,0,,,production_minp,p <= alpha,0.045,0.00655553,1000,45,0
+n80_r0.5_b,anchor,none,0,,,scan,p <= alpha,0.049,0.00682635,1000,49,0
+n80_r0.5_b,anchor,none,0,,,fdr,min BH-adjusted p <= alpha,0.039,0.00612201,1000,39,0
+n80_r0.5_b,anchor,none,0,,,total,p < alpha,0.045,0.00655553,1000,45,0
+n80_r0.5_b,anchor,none,0,,,span,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.5_b,anchor,none,0,,,complement,p < alpha,0.04,0.00619677,1000,40,0
+n80_r0.5_b,anchor,none,0,,,concat,min p <= alpha / 3,,,0,0,0
+n80_r0.5_b,anchor,none,0,,,concat_delta,p < alpha,,,0,0,0
+n80_r0.5_b,anchor,none,0,,,concat_angle,p < alpha,,,0,0,0
+n80_r0.5_b,anchor,none,0,,,concat_shape,p < alpha,,,0,0,0
+n80_r0.5_b,anchor,none,0,,,pca_matched,min p <= alpha / 3,0.024,0.00483983,1000,24,0
+n80_r0.5_b,anchor,none,0,,,pca_matched_delta,p < alpha,0.012,0.00344325,1000,12,0
+n80_r0.5_b,anchor,none,0,,,pca_matched_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.5_b,anchor,none,0,,,pca_matched_shape,p < alpha,0.039,0.00612201,1000,39,0
+n80_r0.5_b,anchor,none,0,,,within_group_delta,p < alpha,0.038,0.00604616,1000,38,0
+n80_r0.5_b,anchor,none,0,,,within_group_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.5_b,anchor,none,0,,,within_group_shape,p < alpha,0.047,0.00669261,1000,47,0
+n80_r0.5_b,anchor,none,0,,,df_delta,p < alpha,0.033,0.00564898,1000,33,0
+n80_r0.5_b,anchor,none,0,,,df_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.5_b,anchor,none,0,,,df_shape,p < alpha,0.038,0.00604616,1000,38,0
+n80_r0.5_b,anchor,none,0,,,leverage_delta,p < alpha,0.033,0.00564898,1000,33,0
+n80_r0.5_b,anchor,none,0,,,leverage_angle,p < alpha,0.054,0.00714731,1000,54,0
+n80_r0.5_b,anchor,none,0,,,leverage_shape,p < alpha,0.038,0.00604616,1000,38,0

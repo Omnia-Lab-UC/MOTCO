@@ -1,0 +1,9 @@
+design,cell,trajectory_mode,effect_size,span_alignment,span_support,units,parent_completed,refit_completed,refit_failed,inconsistent,df_failed,leverage_failed
+n80_r0.8,anchor,none,0,,,500,500,500,0,0,0,0
+n80_r0.8_b,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n200_r0.925,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n42_r0.5,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n80_r0.74,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n200_r0.895,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n80_r0.65,anchor,none,0,,,1000,1000,1000,0,0,0,0
+n80_r0.5_b,anchor,none,0,,,1000,1000,1000,0,0,0,0

@@ -1,0 +1,55 @@
+{
+ "complete_units": 7500,
+ "corrected": {
+  "completed": 7500,
+  "df_failed_by_design": {},
+  "inconsistent": 0,
+  "inconsistent_by_design": {},
+  "leverage_failed_by_design": {},
+  "refit_failed": 0,
+  "refit_failed_by_design": {}
+ },
+ "duplicate_records": 0,
+ "expected_by_design": {
+  "n200_r0.895": 1000,
+  "n200_r0.925": 1000,
+  "n42_r0.5": 1000,
+  "n80_r0.5_b": 1000,
+  "n80_r0.65": 1000,
+  "n80_r0.74": 1000,
+  "n80_r0.8": 500,
+  "n80_r0.8_b": 1000
+ },
+ "expected_units": 7500,
+ "failed_units": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "missing_units": 0,
+ "profile": "diagnosis",
+ "recorded_core_hours": 35.43400310487169,
+ "settings_hash": "bbb63425a2774347c23c239ba720b1f1bcbd1cb04864645fe85a916b18e4d780",
+ "stage_seconds_median": {
+  "corrected": 0.7874974124133587,
+  "evaluation": 0.5111024398356676,
+  "fit": 10.129936842247844,
+  "group_dispersion_unit": 12.056687703356147,
+  "parent_unit": 11.517235979437828,
+  "pca_matched": 0.5148818418383598,
+  "scan": 0.05046241916716099,
+  "split": 0.04295964166522026,
+  "within_group": 0.536759790033102
+ },
+ "unit_seconds": {
+  "max": 39.302860256284475,
+  "median": 12.848771799355745,
+  "q90": 27.665894264914098
+ },
+ "unit_settings_hash": "7f0c1bf490b2ec7fcf0ccc557ed67b98fd832ed79e61aafea39beaeba72fff98",
+ "within_group": {
+  "completed": 7500,
+  "failed": 0,
+  "failed_by_cell": {},
+  "inconsistent": 0,
+  "inconsistent_by_cell": {}
+ }
+}
