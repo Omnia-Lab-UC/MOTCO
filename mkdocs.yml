@@ -21,6 +21,7 @@ nav:
   - Study Reports:
     - Measurement visibility:
       - Simulation-only candidate comparison (2026-11-25): reports/candidate-simulation-2026-11-25.md
+      - Unbalance at equal dispersion, diagnosed (2026-11-25): reports/unbalance-diagnosis-2026-11-25.md
       - Group-specific dispersion (2026-11-24): reports/group-dispersion-2026-11-24.md
       - Stage-effect sample-size scaling (2026-11-24): reports/stage-effect-scaling-2026-11-24.md
       - Univariate interaction baseline (2026-11-23): reports/univariate-baseline-2026-11-23.md

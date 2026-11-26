@@ -1,0 +1,367 @@
+{
+ "hash": "bbb63425a2774347c23c239ba720b1f1bcbd1cb04864645fe85a916b18e4d780",
+ "settings": {
+  "corrected": {
+   "corrections": [
+    "df",
+    "leverage"
+   ],
+   "definition": "the dataset regenerated, production refitted at the recorded rank with no cross-validation (forced_components), delta, angle and shape under motco.stats.permutation.RRPP(..., residual_correction=<correction>) with unrestricted draws at the unit's RRPP seed, p-values by the harness's empirical rule; recorded, never judged",
+   "rule": "p < alpha"
+  },
+  "design_index": {
+   "n200_r0.895": {
+    "family": "unbalanced_small",
+    "larger_per_stage": 60,
+    "n_samples": 200,
+    "role": "new",
+    "share": 0.895,
+    "smaller_per_stage": 7
+   },
+   "n200_r0.925": {
+    "family": "unbalanced_small",
+    "larger_per_stage": 62,
+    "n_samples": 200,
+    "role": "new",
+    "share": 0.925,
+    "smaller_per_stage": 5
+   },
+   "n42_r0.5": {
+    "family": "balanced_small",
+    "larger_per_stage": 7,
+    "n_samples": 42,
+    "role": "new",
+    "share": 0.5,
+    "smaller_per_stage": 7
+   },
+   "n80_r0.5_b": {
+    "family": "reference",
+    "larger_per_stage": 14,
+    "n_samples": 80,
+    "role": "new",
+    "share": 0.5,
+    "smaller_per_stage": 13
+   },
+   "n80_r0.65": {
+    "family": "reference",
+    "larger_per_stage": 18,
+    "n_samples": 80,
+    "role": "new",
+    "share": 0.65,
+    "smaller_per_stage": 9
+   },
+   "n80_r0.74": {
+    "family": "unbalanced_small",
+    "larger_per_stage": 20,
+    "n_samples": 80,
+    "role": "new",
+    "share": 0.74,
+    "smaller_per_stage": 7
+   },
+   "n80_r0.8": {
+    "family": null,
+    "larger_per_stage": 22,
+    "n_samples": 80,
+    "role": "rerun",
+    "share": 0.8,
+    "smaller_per_stage": 5
+   },
+   "n80_r0.8_b": {
+    "family": "unbalanced_small",
+    "larger_per_stage": 22,
+    "n_samples": 80,
+    "role": "new",
+    "share": 0.8,
+    "smaller_per_stage": 5
+   }
+  },
+  "driver": "unbalance_diagnosis_check",
+  "driver_version": 1,
+  "families": {
+   "balanced_small": [
+    "n42_r0.5"
+   ],
+   "reference": [
+    "n80_r0.65",
+    "n80_r0.5_b"
+   ],
+   "unbalanced_small": [
+    "n80_r0.8_b",
+    "n200_r0.925",
+    "n80_r0.74",
+    "n200_r0.895"
+   ]
+  },
+  "judged_statistics": [
+   "delta",
+   "angle",
+   "shape"
+  ],
+  "min_available": 900,
+  "parent": {
+   "columns_settings_hash": "de3d46b1fbc966d134af7fde3b9f125b42f3dea191022c5e3cdf320d39969960",
+   "dir": "results/group-dispersion-2026-11-24",
+   "files": {
+    "results/group-dispersion-2026-11-24/columns/cell_table.csv": "ba54bddd1563b70069e074d02fbfb66ad5f7597db748c00eb62237f06f50af86",
+    "results/group-dispersion-2026-11-24/columns/rate_table.csv": "8846037ce6ea0f8e91bfed93e6125a628aa4a01a5b1a04acac6a60a4ae3c660a",
+    "results/group-dispersion-2026-11-24/columns/settings.json": "098763cc2a4890d6f263a94296840defdbe33905e5d7b2eb5e68b066d79b9730",
+    "results/group-dispersion-2026-11-24/columns/within_group_table.csv": "9ffd920f8bb0f4df49642ce7eed2cd9babb2c0617fc1f3c85a33f115a5654b4e",
+    "results/group-dispersion-2026-11-24/group_dispersion_decision.json": "017f8112be750172f7ae1ee75c9f67d3c877893d5b4466dd10b32c99e9a533f3"
+   },
+   "source": "group dispersion 2026-11-24, columns profile and decision"
+  },
+  "parent_files": {
+   "results/group-dispersion-2026-11-24/columns/cell_table.csv": "ba54bddd1563b70069e074d02fbfb66ad5f7597db748c00eb62237f06f50af86",
+   "results/group-dispersion-2026-11-24/columns/rate_table.csv": "8846037ce6ea0f8e91bfed93e6125a628aa4a01a5b1a04acac6a60a4ae3c660a",
+   "results/group-dispersion-2026-11-24/columns/settings.json": "098763cc2a4890d6f263a94296840defdbe33905e5d7b2eb5e68b066d79b9730",
+   "results/group-dispersion-2026-11-24/columns/within_group_table.csv": "9ffd920f8bb0f4df49642ce7eed2cd9babb2c0617fc1f3c85a33f115a5654b4e",
+   "results/group-dispersion-2026-11-24/group_dispersion_decision.json": "017f8112be750172f7ae1ee75c9f67d3c877893d5b4466dd10b32c99e9a533f3"
+  },
+  "profile": "diagnosis",
+  "replicates": {
+   "n200_r0.895": 1000,
+   "n200_r0.925": 1000,
+   "n42_r0.5": 1000,
+   "n80_r0.5_b": 1000,
+   "n80_r0.65": 1000,
+   "n80_r0.74": 1000,
+   "n80_r0.8": 500,
+   "n80_r0.8_b": 1000
+  },
+  "rerun_design": "n80_r0.8",
+  "unit": "group_dispersion_check.evaluate_unit on unit_settings (the parent's stage_span settings with the designs and cells replaced), pca_matched the one recorded space, then the within-group arm",
+  "unit_settings": {
+   "alpha": 0.05,
+   "arms": [
+    "production",
+    "delta",
+    "angle",
+    "shape",
+    "production_minp",
+    "scan",
+    "fdr",
+    "total",
+    "span",
+    "complement",
+    "concat",
+    "concat_delta",
+    "concat_angle",
+    "concat_shape",
+    "pca_matched",
+    "pca_matched_delta",
+    "pca_matched_angle",
+    "pca_matched_shape"
+   ],
+   "baseline": {
+    "fdr": "scipy.stats.f.sf at the scan's degrees of freedom, scipy.stats.false_discovery_control (method 'bh') over the non-degenerate features",
+    "features": "the production fit's standardized features in the PLS input coordinates",
+    "models": "the trajectory test's full (group x stage) and reduced (group + stage) models",
+    "scan": "motco.stats.interaction.interaction_feature_scan at the unit's RRPP seed, uncorrected",
+    "split": "motco.stats.interaction.interaction_split_test on qr(x_rotations_) at the unit's RRPP seed, uncorrected",
+    "statistic": "per-feature group x stage interaction F (SS_int / df_int) / (RSS / df_res)"
+   },
+   "baseline_arms": [
+    "scan",
+    "fdr",
+    "total"
+   ],
+   "control_cells": [
+    "anchor",
+    "translation"
+   ],
+   "designs": [
+    "n80_r0.8",
+    "n80_r0.8_b",
+    "n200_r0.925",
+    "n42_r0.5",
+    "n80_r0.74",
+    "n200_r0.895",
+    "n80_r0.65",
+    "n80_r0.5_b"
+   ],
+   "driver": "univariate_baseline_check",
+   "driver_version": 1,
+   "parent_files": {},
+   "permutations": 999,
+   "population_null_tolerance": 1e-09,
+   "production": "pls with the comparison's CV knobs on all three blocks, rank floor 2, net displacement, span capture, null distributions kept",
+   "profile": "stage_span",
+   "recorded_space_definitions": {
+    "concat": "the unit's production parameters with integration_method 'concat' on the same blocks",
+    "pca_matched": "the unit's production parameters with integration_method 'pca' at the unit's production rank on the same blocks"
+   },
+   "recorded_spaces": [
+    "pca_matched"
+   ],
+   "replicates": {
+    "control": 1000,
+    "other": 1000
+   },
+   "rules": {
+    "angle": "p < alpha",
+    "complement": "p < alpha",
+    "concat": "min p <= alpha / 3",
+    "concat_angle": "p < alpha",
+    "concat_delta": "p < alpha",
+    "concat_shape": "p < alpha",
+    "delta": "p < alpha",
+    "fdr": "min BH-adjusted p <= alpha",
+    "pca_matched": "min p <= alpha / 3",
+    "pca_matched_angle": "p < alpha",
+    "pca_matched_delta": "p < alpha",
+    "pca_matched_shape": "p < alpha",
+    "production": "min p <= alpha / 3",
+    "production_minp": "p <= alpha",
+    "scan": "p <= alpha",
+    "shape": "p < alpha",
+    "span": "p < alpha",
+    "total": "p < alpha"
+   },
+   "units": {
+    "base_seed": 2043,
+    "cells": [
+     [
+      "anchor",
+      "none",
+      0.0,
+      null,
+      null,
+      "planted"
+     ]
+    ],
+    "designs": {
+     "n200_r0.895": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.895,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n200_r0.925": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.925,
+       "magnitude_kind": "joint",
+       "n_samples": 200,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n42_r0.5": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 42,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.5_b": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.5,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.65": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.65,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.74": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.74,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.8": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     },
+     "n80_r0.8_b": {
+      "generator": {
+       "baseline_continuity": 0.0,
+       "construction": "stage_span",
+       "delta_expr": 2.0,
+       "delta_methyl": 2.0,
+       "delta_protein": 2.0,
+       "group_ratio": 0.8,
+       "magnitude_kind": "joint",
+       "n_samples": 80,
+       "n_stages": 3,
+       "p_dmp": 0.1
+      },
+      "layers": null
+     }
+    },
+    "min_components": 2,
+    "orientation_estimator": "net_displacement",
+    "pls_cv_params": {
+     "cv1_splits": 3,
+     "cv2_splits": 4,
+     "max_components": 20,
+     "n_repeats": 5,
+     "random_state": 1203
+    },
+    "seed_functions": "latent_space_comparison.generator_seed / rrpp_seed"
+   }
+  }
+ }
+}

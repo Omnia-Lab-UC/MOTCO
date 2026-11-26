@@ -1242,30 +1242,69 @@ their size. s multiplies the second group's noise SD in every feature, block and
 multipliers 1.56, 2.25 and 4 at s = 1.25, 1.5 and 2). The share is the first group's, so at 0.8 the
 wider group is the smaller and at 0.2 the larger.
 
-**The verdict is `unbalance_excess`, on one reading.** The decision was fixed before any unit ran.
-Its first family is unbalance at equal dispersion, and it fails:
+**Two runs, two verdicts.** The group-dispersion run's decision was fixed before any unit ran. Its
+first family, unbalance at equal dispersion, failed on one reading: `delta` at n = 80 with share 0.8,
+where the smaller group has 5 samples per stage, read 44 of 500 against a ceiling of 40. By its order
+the verdict stopped at `unbalance_excess`, and its dispersion families waited on a diagnosis. The
+[unbalance diagnosis](reports/unbalance-diagnosis-2026-11-25.md) (2026-11-25, roadmap item 27) read
+that diagnosis and re-read the families by a rule fixed before it ran.
 
-- **The one reading.** `delta` at n = 80 with share 0.8, where the smaller group has 5 samples per
-  stage, reads 44 of 500 against a Bonferroni ceiling of 40. The committed balanced design reads 30.
-- **The rest of the family holds.** The other 23 readings at shares 0.65 and 0.8 stay within the
-  ceiling, across n = 80, 200 and 500, δ = 2.0 and 0.5, and the weak-stage band. Production's omnibus
-  and the per-feature arms hold too.
+**At equal dispersion, small cells and not unbalance: `small_cells`.** 7,500 equal-dispersion null
+units at δ = 2.0 cross the smaller group's cell size with balance. Rejections of 1,000 (`delta` /
+`angle` / `shape`):
 
-The predeclared order then stops. Unbalance at equal dispersion is diagnosed first, as its own change
-(roadmap open item 16), and the dispersion families below are **reported, not interpreted**: no
-clause about dispersion enters the interpretability statement until that diagnosis reads.
+| design | larger / smaller per stage | rejections | family |
+|---|---|---|---|
+| n = 42, balanced | 7 / 7 | 54 / **76** / 47 | `balanced_small`: fails |
+| n = 80, share 0.8 (fresh replicate) | 22 / 5 | 45 / 53 / 51 | `unbalanced_small`: holds |
+| n = 200, share 0.925 | 62 / 5 | 44 / 46 / 51 | |
+| n = 80, share 0.74 | 20 / 7 | 58 / 46 / *65* | |
+| n = 200, share 0.895 | 60 / 7 | 48 / 47 / 51 | |
+| n = 80, share 0.65 | 18 / 9 | 52 / 62 / 59 | `reference`: holds |
+| n = 80, balanced (fresh) | 14 / 13 | 36 / 57 / 47 | |
 
-**What a difference in dispersion alone did** (reported). For each statistic, the smallest scale
-whose reading is above its family's ceiling (core n = 200 at s ≥ 1.25; the other columns at s ≥ 1.5).
-Rejections of 500 at s = 2 are in brackets.
+Bold is above the family's ceiling (65); italic is above the bound only (64 or more).
+
+- **Every design at n ≥ 80 held,** down to a smaller group of 5 per stage, balanced or not.
+- **The one failure is `angle` at n = 42**, with 7 per stage in both groups: 0.076 against a ceiling
+  of 0.065. At n = 42 both groups are small and so is the sample, and no design separates the two.
+- **No balanced design below 7 per stage was read.** At 5 per stage (n = 30) the production
+  cross-validation cannot run.
+- **The committed `delta` reading did not recur.** The rerun reproduced its 44 of 500 exactly, and
+  the same design on fresh datasets read 45 of 1,000 (pooled 89 of 1,500, 0.059).
+- **The omnibus holds in every design** (33–53 of 1,000).
+- **The recorded arms** (labels by family as in the report §6, recorded and not judged). The `df`
+  and `leverage` corrections, the per-feature tests and the omnibus hold in every family; `df` reads
+  `angle` at n = 42 at 62. The within-group draws and `span` exceed in `balanced_small` (70 and 68),
+  and so does PCA at the production rank on `angle` (77), so the n = 42 excess is not production's
+  alone and not the exchange of residuals between groups.
+
+**The dispersion readings, re-read: `dispersion_excess`.** Under `small_cells` the rule sets aside the
+five group-dispersion designs with a 5-per-stage group: n = 80 at shares 0.8 and 0.2, at equal
+dispersion and at s = 1.5 and 2.
+
+- **Unbalance at equal dispersion then holds:** 21 readings, one above the bound, none above the
+  ceiling.
+- **The balanced dispersion family fails as before:** 20 of 42 readings above the ceiling.
+- **Scope.** Readings at 13 samples per stage or more in every cell: n = 200, 320 and 500 at every
+  share read, and n = 80 with balanced groups.
+- **When the rule was written.** Before the diagnosis ran and after the dispersion rates were known,
+  so its outcome under this verdict was foreseeable.
+
+Within that scope, size needs equal group dispersion even with equal groups. A rejection is evidence
+of a difference in trajectory **or in dispersion**, for the statistics and scales below.
+
+**What a difference in dispersion alone did.** For each statistic, the smallest scale whose reading
+is above its family's ceiling (core n = 200 at s ≥ 1.25; the other columns at s ≥ 1.5). Rejections of
+500 at s = 2 are in brackets. The n = 80 rows at shares 0.8 and 0.2 are set aside by the re-read.
 
 | design | `delta` | `angle` | `shape` |
 |---|---|---|---|
 | balanced, δ = 2.0 (n = 80 / 200 / 500) | 1.5 / 1.25 / 1.5 (334 / 332 / 295) | none up to 2 (27 / 27 / 29) | none / 2, translation only / none (15 / 27; 62 / 28) |
 | balanced, δ = 0.5, n = 200 | 1.5 (287) | 2 (46) | none (15) |
 | balanced, band (δ = 0.05, n = 320) | 1.5 (498) | 1.5 (229) | 1.5 (120) |
-| wider group the smaller (share 0.8), every column | 1.25 at n = 200, 1.5 elsewhere (315–498) | 1.5 (68–263) | 1.5, 2 in the band (55–125) |
-| wider group the larger (share 0.2), δ = 2.0 (n = 80 / 200 / 500) | 1.5 / 1.5 / 2 (84 / 109 / 76) | none: conservative (5 / 2 / 3) | none: conservative (3 / 0 / 1) |
+| wider group the smaller (share 0.8), every column but n = 80 | 1.25 at n = 200, 1.5 elsewhere (315–498) | 1.5 (78–263) | 1.5, 2 in the band (55–125) |
+| wider group the larger (share 0.2), δ = 2.0 (n = 200 / 500) | 1.5 / 2 (109 / 76) | none: conservative (2 / 3) | none: conservative (0 / 1) |
 | wider group the larger, δ = 0.5 | 2 (105) | none: conservative (4) | none: conservative (1) |
 | wider group the larger, band | 1.5 (350) | 1.5 (110) | 1.5 (92) |
 
@@ -1290,9 +1329,11 @@ variances in the production scores is therefore s² in every component. To place
 
 A ratio that differs strongly between components is outside what was simulated. A difference in
 correlation structure gives such a ratio (the change's design, D3). Neither case study's dispersion
-has been read, and neither case study rejects, so no committed claim depends on this reading.
+has been read, and neither case study rejects, so no committed claim depends on this reading. A case
+study that rejects reports this ratio, and which group is wider, beside the rejection.
 
-**The per-feature tests** (recorded, not judged; labels by family as in the report §7):
+**The per-feature tests** (recorded, not judged; labels by family as in the group-dispersion report
+§7):
 
 - **`fdr` and `total`** hold with balanced groups (14–36 of 500) and where the wider group is the
   larger, where they are conservative (`fdr` 0 of 500 at share 0.2, s ≥ 1.5).
@@ -1321,7 +1362,7 @@ Rejections of 500 on the anchor, unrestricted → within group, on one fit, stat
   ceiling at every column.
 - **They leave `delta` above it in every dispersion family.** That part of the excess is not the exchange of
   residuals between groups. The design's untested guess is the in-sample stage fit, which follows
-  the wider group's noise more.
+  the wider group's noise more. Its diagnosis is roadmap open item 17.
 - **Where the wider group is the larger**, they raise `delta`.
 
 **Limits.**
@@ -1330,8 +1371,13 @@ Rejections of 500 on the anchor, unrestricted → within group, on one fit, stat
   applied to every feature of one group, three stages and no covariates. A dispersion that varies by
   feature or stage, or a difference in correlation structure, was not simulated. No real cohort's
   dispersion was read.
+- **How far the diagnosis carries.** It was read in simulation at δ = 2.0 with three stages and no
+  covariates. A cohort's own table is read at its own design: SEA-AD's held size there under the `df`
+  correction (roadmap items 7 (c) and 8). What carries over is only the cell size at which a simulated
+  design at δ = 2.0 loses size.
 - **The probes.** The scales and columns were chosen after exploratory probes that saw rejection
   rates. At δ = 2.0 the run reads well above them, at rank 2 where the probes were at rank 3, and the
   run does not say why.
-- **The verdict.** It rests on one reading at the smallest cells read.
+- **The verdicts.** `small_cells` rests on one reading, `angle` at n = 42, as `unbalance_excess` did
+  on `delta` at n = 80. The re-read rule was written after the dispersion rates were known.
 - **Size only.** Power under unequal dispersion is not read.

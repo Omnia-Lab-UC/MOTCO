@@ -1,0 +1,27 @@
+# Unbalance at equal dispersion provenance — one run, no profile
+date: 2026-11-25 (local -03); array 958918 submitted 14:17, first task started 14:17:35, last task ended 15:11:37; merge + decide on the ing login node 2026-11-26
+change: unbalance-equal-dispersion-diagnosis (roadmap open item 16; no package change, MOTCO 0.26.0)
+driver: scripts/unbalance_diagnosis_check.py (driver version 1, decision rule version 1; sha256 f61f5b90522681543d865561352634a6287c2efb8f7ebcd66381a5b71275c6f0 on both machines); sbatch scripts/unbalance_diagnosis_array.sbatch
+code_revision: ade26ad6dcefe76c4cf1b1b5f7071afc10535580 (tree 6ba917a49bee369716c154e2a2ad3c48ee12a1c8) on feat/unbalance-equal-dispersion-diagnosis, pushed to GitHub before any array unit ran; clean worktree /home1/tgonza/MOTCO-unbalance-diagnosis (no tracked modification; only logs/ untracked), .venv -> /home1/tgonza/MOTCO/.venv, PYTHONPATH on the worktree's src (motco 0.26.0 imported from it)
+host: cluster.ing.uc.cl (SLURM), partition 512x1024; n11 excluded (NFS-stall history); 1 CPU and 4 GB per task; python 3.11.16, numpy 2.3.5, scikit-learn 1.8.0, scipy 1.16.3, pandas 2.3.3
+blas_threads: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 (the sbatch template, the login-node commands and the workstation shell)
+pre-flight: tests/test_unbalance_diagnosis_check.py and the group-dispersion test files on an ing compute node (job 958917, n4: 107 passed); local smoke at 2 replicates per design, 999 permutations (16/16 units, 0 failures, every within-group and corrected refit consistent; the reproduction ran and failed on count only); projection 48 recorded core-hours (67 with the 1.4 inflation the stage-effect scaling run saw); approved by the user: cap 80 recorded core-hours, 150 shards at %48, no amendment (openspec/changes/archive/2026-11-26-unbalance-equal-dispersion-diagnosis/notes.md)
+parents (read from the worktree's committed results/, sha256 bound in the settings and re-checked by run, merge and decide):
+  results/group-dispersion-2026-11-24/columns/settings.json 098763cc2a4890d6f263a94296840defdbe33905e5d7b2eb5e68b066d79b9730 (settings hash de3d46b1fbc966d1...)
+  results/group-dispersion-2026-11-24/columns/rate_table.csv 8846037ce6ea0f8e91bfed93e6125a628aa4a01a5b1a04acac6a60a4ae3c660a
+  results/group-dispersion-2026-11-24/columns/cell_table.csv ba54bddd1563b70069e074d02fbfb66ad5f7597db748c00eb62237f06f50af86
+  results/group-dispersion-2026-11-24/columns/within_group_table.csv 9ffd920f8bb0f4df49642ce7eed2cd9babb2c0617fc1f3c85a33f115a5654b4e
+  results/group-dispersion-2026-11-24/group_dispersion_decision.json 017f8112be750172f7ae1ee75c9f67d3c877893d5b4466dd10b32c99e9a533f3
+settings: settings.json sha256 ea55ed82a161715c63dbe3fc0f8f9e100e60fdc5b731986350774e2947172985 (settings hash bbb63425a2774347...; unit settings hash 7f0c1bf490b2ec7f...); recorded_spaces ["pca_matched"], 999 permutations, base seed 2043
+launch (from /home1/tgonza/MOTCO-unbalance-diagnosis, R = /home1/tgonza/MOTCO-unbalance-diagnosis-run):
+  PYTHONPATH=$PWD/src .venv/bin/python scripts/unbalance_diagnosis_check.py run --out-dir R --shard 0/1 --limit 0   (settings written once, on the login node; leaves an empty records/shard_000_of_001.jsonl)
+  sbatch --array=0-149%48 --export=ALL,UD_OUT=R,N_SHARDS=150 scripts/unbalance_diagnosis_array.sbatch
+units: 7,500 (the rerun n80_r0.8 at 500 and seven new designs at 1,000: n80_r0.8_b, n200_r0.925, n42_r0.5, n80_r0.74, n200_r0.895, n80_r0.65, n80_r0.5_b), equal dispersion, anchor cell, delta = 2.0, 999 permutations everywhere
+outcome: array tasks 150/150 COMPLETED 0:0 (sacct.txt; 103 on n4, 37 on n1, 6 on n3, 4 on n2; tasks 11.2-27.0 min); 7,500/7,500 complete units, 0 failed, 0 missing, 0 duplicates; within-group arm 7,500 completed, 0 failed, 0 inconsistent; corrected arms 7,500 refits completed, 0 failed, 0 inconsistent, no df or leverage failure (same_statistics true on every unit)
+unit_timings (accounting.json): median 12.8 s per unit (q90 27.7, max 39.3), 35.43 recorded core-hours against the cap of 80 (41.72 allocated CPU-hours in sacct, startup included)
+merged.jsonl sha256 (per-unit records stay on the cluster under R, not committed): 612a8e43b724e36579b23b47712c044e55fd0f467c6d8b0b3b3326f54a5f4456
+merge + decide (login node): python scripts/unbalance_diagnosis_check.py merge --out-dir R; ... decide --out-dir R
+reproduction: passed (22 rows: n80_r0.8's available and rejected counts per arm, equal to the committed columns rate_table.csv, and its within-group row, equal to the committed within_group_table.csv; 0 unresolved, 0 differing; the 4 concat rows are unrecorded in both runs)
+decision: unbalance_diagnosis_decision.json (sha256 96b7bedea42021ea28e163434ee5a0200efc5b1d41e97d953f3731191502597e) -> small_cells (balanced_small fails on one reading above its ceiling, angle at n42_r0.5 76/1000 against 0.065; unbalanced_small and reference hold); re-read set_aside -> dispersion_excess; regenerated byte for byte on the workstation from the committed aggregates alone
+committed aggregates: settings.json, rate_table.csv, cell_table.csv, within_group_table.csv, corrected_table.csv, accounting.json, reproduction.json, unbalance_diagnosis_decision.json, sacct.txt, this file
+findings report: docs/reports/unbalance-diagnosis-2026-11-25.md

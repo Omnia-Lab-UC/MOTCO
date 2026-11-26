@@ -1,0 +1,9 @@
+design,cell,trajectory_mode,effect_size,span_alignment,span_support,completed,failures,rank_q10,rank_median,rank_q90,auroc_median,capture_group_difference_median,capture_pooled_stage_median,pca_matched_rank_equal,concat_dimension,n_features,scan_hits_median,fdr_discoveries_median,n_population_null_median,scan_fdp_mean,scan_fdp_units,fdr_fdp_mean,fdr_fdp_units
+n80_r0.8,anchor,none,0,,,500,0,2,2,2,1,,0.933498,1,,658,0,0,658,0.06,500,0.046,500
+n80_r0.8_b,anchor,none,0,,,1000,0,2,2,2,1,,0.934278,1,,658,0,0,658,0.056,1000,0.043,1000
+n200_r0.925,anchor,none,0,,,1000,0,2,2,2,1,,0.97241,1,,658,0,0,658,0.054,1000,0.048,1000
+n42_r0.5,anchor,none,0,,,1000,0,2,2,2,1,,0.880992,1,,658,0,0,658,0.054,1000,0.044,1000
+n80_r0.74,anchor,none,0,,,1000,0,2,2,2,1,,0.933865,1,,658,0,0,658,0.053,1000,0.041,1000
+n200_r0.895,anchor,none,0,,,1000,0,2,2,2,1,,0.972378,1,,658,0,0,658,0.051,1000,0.035,1000
+n80_r0.65,anchor,none,0,,,1000,0,2,2,2,1,,0.93341,1,,658,0,0,658,0.06,1000,0.048,1000
+n80_r0.5_b,anchor,none,0,,,1000,0,2,2,2,1,,0.934118,1,,658,0,0,658,0.049,1000,0.039,1000

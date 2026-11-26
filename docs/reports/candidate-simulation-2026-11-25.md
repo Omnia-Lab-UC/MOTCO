@@ -413,8 +413,10 @@ None of these entered the decision. Each stands as recorded in its report.
   restated as limits.
 - **Production's size at four stages, on the SEA-AD table with three blocks and under stage-unequal dispersion** is
   added to the roadmap's simulated conditions.
+- **The roadmap records this run as Done item 28.** Unbalance at equal dispersion was diagnosed in parallel as Done
+  item 27 (`small_cells`), and its 5-per-stage designs are outside this run's families.
 - **Still open.** Size at many features per sample (open item 15), real multi-omic noise (open item 2), and the
-  diagnosis of unbalance at equal dispersion (open item 16).
+  dispersion excess that within-group draws leave (open item 17).
 
 ## 13. Limitations
 
