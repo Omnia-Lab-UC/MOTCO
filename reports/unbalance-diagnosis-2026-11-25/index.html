@@ -1,0 +1,3527 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../candidate-simulation-2026-11-25/">
+      
+      
+        <link rel="next" href="../group-dispersion-2026-11-24/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Unbalance at equal dispersion, diagnosed (2026-11-25) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#unbalance-at-equal-dispersion-report-2026-11-25" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unbalance at equal dispersion, diagnosed (2026-11-25)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement visibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Measurement visibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../candidate-simulation-2026-11-25/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation-only candidate comparison (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbalance at equal dispersion, diagnosed (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbalance at equal dispersion, diagnosed (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-counts-by-cell-size-and-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Counts by cell size and balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-committed-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The committed reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-recorded-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The recorded arms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-fit-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The fit by design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-re-read-of-the-group-dispersion-families" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The re-read of the group-dispersion families
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-dispersion-2026-11-24/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group-specific dispersion (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-effect-scaling-2026-11-24/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-effect sample-size scaling (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../univariate-baseline-2026-11-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Univariate interaction baseline (2026-11-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-diagnosis-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode, diagnosed (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-gain-specificity-2026-11-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI gain and specificity (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-real-noise-anchor-2026-11-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI real-noise anchor (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../within-stage-permutation-2026-11-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Within-stage permutation (2026-11-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-size-excess-2026-11-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace size excess (2026-11-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-subspace-2026-11-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace coordinates (2026-11-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production-latent-space-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production latent-space selection (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-blocks-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interaction scan by block (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orthonormal-coordinates-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-feature interaction scan (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../span-split-2026-11-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split interaction test (2026-11-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-paper-grade-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span paper grade (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-pilot-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span pilot (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-space-comparison-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-space comparison (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-data case study (Phase 6)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Real-data case study (Phase 6)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-exit-review-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 6 exit review (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plasmode-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plasmode attribution demonstration (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adjusted-attribution-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjusted attribution (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-design-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating characteristics at the ADNI design (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../corrected-permutation-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Corrected-permutation check (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-diagnosis-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration diagnosis (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-type-i-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration Type I check (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rank-floor-2026-10-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rank-floor check (2026-10-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-power-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment power comparison (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-type-i-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment Type I check (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../covariate-type-i-2026-10-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjustment Type I check (2026-10-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-small-n-2026-10-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Small-n operating study at the SEA-AD design (2026-10-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design guidance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design guidance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-slice-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade slice (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-pilot-2026-10-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pilot (2026-10-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation estimator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orientation estimator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-power-2026-10-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement power comparison (2026-10-14)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-type-i-2026-10-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement Type I study (2026-10-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-measurement-probe-2026-10-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation measurement probe (2026-10-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 paper-grade study
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 5 paper-grade study
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-magnitude-remeasurement-2026-10-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude re-measurement, joint construction (2026-10-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-exit-review-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 exit review (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-paper-grade-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade trajectory power study (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../magnitude-construction-diagnostic-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude-construction diagnostic (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design-point pilot (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-rank ladder (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phases 1–4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phases 1–4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-config-spectrum-2026-09-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent configuration spectrum (2026-09-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry-audit-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry audit (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../angle-null-pivotality-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angle-null pivotality (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-sign-anchor-2026-08-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation sign anchor (2026-08-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (2026-08-27)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realized-generator-geometry-2026-08-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realized generator geometry (2026-08-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../procrustes-shape-invariance-audit-2026-08-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procrustes shape invariance audit (2026-08-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (2026-07-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-counts-by-cell-size-and-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Counts by cell size and balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-committed-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The committed reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-recorded-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The recorded arms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-fit-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The fit by design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-re-read-of-the-group-dispersion-families" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The re-read of the group-dispersion families
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="unbalance-at-equal-dispersion-report-2026-11-25">Unbalance at equal dispersion — report (2026-11-25)</h1>
+<p><strong>Change:</strong> <code>unbalance-equal-dispersion-diagnosis</code> (roadmap open item 16; no package change, MOTCO 0.26.0).
+<strong>Reads:</strong> <code>results/unbalance-diagnosis-2026-11-25/</code> (<code>unbalance_diagnosis_decision.json</code>, <code>settings.json</code>,
+<code>rate_table.csv</code>, <code>cell_table.csv</code>, <code>within_group_table.csv</code>, <code>corrected_table.csv</code>, <code>accounting.json</code>,
+<code>reproduction.json</code>, <code>PROVENANCE.txt</code>, <code>sacct.txt</code>). <strong>Parent:</strong> the
+<a href="../group-dispersion-2026-11-24/">group-dispersion run</a>'s <code>columns</code> profile and decision (its settings, rate, cell and
+within-group tables and <code>group_dispersion_decision.json</code>, bound by sha256). <strong>Concept page:</strong>
+<a href="../../measurement-visibility/#unequal-group-dispersion-and-unbalance">measurement visibility</a>.</p>
+<p>The group-dispersion run read <code>unbalance_excess</code> on one reading of 24. At equal dispersion, <code>delta</code> at n = 80 with a
+first-group share of 0.8 rejected 44 times of 500 against a ceiling of 40. That design leaves 5 samples per stage in
+the smaller group, so it is both the smallest and the most unbalanced design read, and the run could not say which
+of the two mattered. By the predeclared order its three dispersion families were reported and not interpreted. This
+run asks whether the reading replicates and whether it follows small cells, unbalance or both. Every unit is an
+equal-dispersion null unit.</p>
+<ul>
+<li><strong>The designs.</strong> The committed <code>n80_r0.8</code> design, rerun at its name and seeds as a gate, and seven new designs at
+  1,000 replicates that cross the smaller group's cell size (5, 7, 9, 13 per stage) with balance and total sample
+  size.</li>
+<li><strong>The decision</strong>, fixed before any unit ran, judges <code>delta</code>, <code>angle</code> and <code>shape</code> in three families and takes the
+  first that fails in a fixed order: balanced small cells, then a small group in an unbalanced design, then n = 80 at
+  9 or 13 per stage. It also fixes how the group-dispersion families are re-read under each verdict.</li>
+</ul>
+<p><strong>In one paragraph.</strong></p>
+<ul>
+<li><strong>The verdict is <code>small_cells</code>, on one reading.</strong> <code>balanced_small</code> fails: <code>angle</code> at n = 42 with 7 samples per
+  stage in both groups rejects 76 times of 1,000, against a ceiling of 65. <code>delta</code> (54) and <code>shape</code> (47) hold there.</li>
+<li><strong>Unbalance is not needed, and the committed reading did not recur.</strong><ul>
+<li>Every reading with a small group in an unbalanced design holds (<code>unbalanced_small</code>, 12 of 12), at 5 samples per
+  stage as at 7.</li>
+<li>So does every reading at n = 80 with 9 or 13 per stage (<code>reference</code>, 6 of 6).</li>
+<li>A fresh replicate of the failing design reads <code>delta</code> at 45 of 1,000, and so does a 5-per-stage group inside
+  n = 200 (44). Pooled with the rerun, <code>delta</code> at <code>n80_r0.8</code> reads 89 of 1,500 (0.059).</li>
+</ul>
+</li>
+<li><strong>The re-read gives <code>dispersion_excess</code>.</strong> The five group-dispersion designs with a 5-per-stage group are set aside.
+  Unbalance at equal dispersion then holds (21 readings, none above the ceiling). The balanced dispersion family fails
+  as it did (20 of 42 above the ceiling).</li>
+<li><strong>What that permits.</strong> Within readings at 13 samples per stage or more in every cell, a difference in noise
+  dispersion alone takes the trajectory statistics above their size, with balanced groups too. A rejection there is
+  evidence of a difference in trajectory or in dispersion.</li>
+<li><strong>The recorded arms.</strong> The omnibus holds in every family, and so do the <code>df</code> and <code>leverage</code> corrections and the
+  per-feature tests. At n = 42 the <code>angle</code> excess is shared by PCA at the same rank (77), the within-group draws (70)
+  and the split test's <code>span</code> (68). The <code>df</code> correction reads 62.</li>
+<li><strong>The gate passed.</strong> The rerun reproduces all 22 committed rows exactly. 7,500 of 7,500 units completed, with no
+  inconsistent refit, in 35.4 recorded core-hours against the approved cap of 80.</li>
+<li><strong>What it holds for.</strong> Simulated Gaussian noise at equal dispersion, 658 features on three blocks, δ = 2.0, three
+  stages and no covariates. No balanced design below 7 samples per stage was read. The re-read rule was written after
+  the group-dispersion families' rates were known. No verdict changes what <code>motco analyze</code> runs.</li>
+</ul>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<ul>
+<li><strong>One run, no profile.</strong> Methylation, expression and proteomics (658 features), three stages, δ = 2.0, the anchor
+  cell, equal dispersion, base seed 2043, 999 permutations. The generator parameters are read from the parent's
+  committed <code>columns/settings.json</code>; every new design differs from <code>n80_r0.8</code> only in <code>n_samples</code> and <code>group_ratio</code>.</li>
+<li><strong>The designs.</strong> Stages hold about n / 3 samples and the first group <code>round(share × stage)</code> of each:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>role</th>
+<th>n</th>
+<th>share</th>
+<th>larger / smaller per stage</th>
+<th>replicates</th>
+<th>family</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n80_r0.8</code></td>
+<td>the gate (committed name and seeds)</td>
+<td>80</td>
+<td>0.8</td>
+<td>22 / 5</td>
+<td>500</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>n80_r0.8_b</code></td>
+<td>a fresh replicate of the failing design</td>
+<td>80</td>
+<td>0.8</td>
+<td>22 / 5</td>
+<td>1,000</td>
+<td><code>unbalanced_small</code></td>
+</tr>
+<tr>
+<td><code>n200_r0.925</code></td>
+<td>a 5-per-stage group inside a large sample</td>
+<td>200</td>
+<td>0.925</td>
+<td>62 / 5</td>
+<td>1,000</td>
+<td><code>unbalanced_small</code></td>
+</tr>
+<tr>
+<td><code>n42_r0.5</code></td>
+<td>small cells with balanced groups</td>
+<td>42</td>
+<td>0.5</td>
+<td>7 / 7</td>
+<td>1,000</td>
+<td><code>balanced_small</code></td>
+</tr>
+<tr>
+<td><code>n80_r0.74</code></td>
+<td>7 per stage, unbalanced, at n = 80</td>
+<td>80</td>
+<td>0.74</td>
+<td>20 / 7</td>
+<td>1,000</td>
+<td><code>unbalanced_small</code></td>
+</tr>
+<tr>
+<td><code>n200_r0.895</code></td>
+<td>7 per stage inside a large sample</td>
+<td>200</td>
+<td>0.895</td>
+<td>60 / 7</td>
+<td>1,000</td>
+<td><code>unbalanced_small</code></td>
+</tr>
+<tr>
+<td><code>n80_r0.65</code></td>
+<td>SEA-AD's smallest cell size</td>
+<td>80</td>
+<td>0.65</td>
+<td>18 / 9</td>
+<td>1,000</td>
+<td><code>reference</code></td>
+</tr>
+<tr>
+<td><code>n80_r0.5_b</code></td>
+<td>a fresh balanced reference at n = 80</td>
+<td>80</td>
+<td>0.5</td>
+<td>14 / 13</td>
+<td>1,000</td>
+<td><code>reference</code></td>
+</tr>
+</tbody>
+</table>
+<p>7,500 units. A balanced design at 5 per stage (n = 30) cannot run under the production cross-validation, so 7 per
+  stage is the smallest balanced cell read.
+- <strong>The unit is the group-dispersion run's, imported unchanged.</strong> One dataset and one production fit (<code>pls_cv</code>, rank
+  floor 2, net displacement). On the same fit and RRPP seed it reads <code>delta</code>, <code>angle</code> and <code>shape</code>, the omnibus, the
+  split test (<code>total</code>, <code>span</code>, <code>complement</code>), the scan (<code>scan</code>, <code>fdr</code>), PCA at the production rank (<code>pca_matched</code>),
+  and the within-group draws (<code>RRPP(..., strata=&lt;group&gt;)</code>) on a refit at the recorded rank.
+- <strong>The corrected arms.</strong> After the parent's unit the driver regenerates the dataset, refits production at the
+  recorded rank with no cross-validation, and reads the three statistics under the unrestricted draws with
+  <code>residual_correction="df"</code> and with <code>"leverage"</code>, at the unit's RRPP seed. The refit's observed statistics equalled
+  the parent record's on every unit (<code>same_statistics</code>).
+- <strong>Code and host.</strong> Revision <code>ade26ad</code>, pushed before any array unit ran, from a clean worktree on <code>ing</code>.
+  Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3, BLAS pinned to one thread. The new and
+  the group-dispersion test files passed on a compute node first (107 passed).
+- <strong>Where it ran.</strong> Array 958918 (150 tasks, <code>%48</code>), partition <code>512x1024</code> with n11 excluded: 150 of 150
+  <code>COMPLETED 0:0</code>, 14:17–15:11, tasks 11.2–27.0 min.
+    - <strong>35.43 recorded core-hours</strong> against the approved cap of 80; the smoke had projected 48 on a loaded
+      workstation (the change's <code>notes.md</code>).
+    - The median unit took 12.8 s (q90 27.7 s); the median cross-validated fit took 10.1 s. The within-group arm
+      added a median of 0.5 s and the corrected arms 0.8 s.</p>
+<h2 id="2-accounting-and-the-reproduction">2. Accounting and the reproduction</h2>
+<ul>
+<li><strong>Units.</strong> 7,500 of 7,500 complete: no failed unit, no missing unit, no duplicate. n = 42 failed no unit.</li>
+<li><strong>The refits.</strong> The within-group arm and the corrected arms each completed 7,500 refits, none failed and none
+  inconsistent; neither correction failed on any unit.</li>
+<li><strong>Reproduction: passed.</strong> All 22 compared rows of <code>n80_r0.8</code> (available and rejected counts per arm, and its
+  within-group row) equal the committed <code>columns</code> tables, none unresolved. The <code>concat</code> rows are recorded by neither
+  run.</li>
+<li><strong>The decision regenerates.</strong> <code>decide</code> on the committed aggregates alone, on the workstation, writes a decision
+  byte-identical to the cluster's (sha256 <code>96b7bede…</code>).</li>
+</ul>
+<h2 id="3-the-decision">3. The decision</h2>
+<ul>
+<li><strong>The readings.</strong> <code>delta</code>, <code>angle</code> and <code>shape</code>, each at p &lt; 0.05, on the anchor of every new design. The rerun
+  design enters no family.</li>
+<li><strong>The rule.</strong> <code>judge_rates</code> of the stage-span paper grade, imported unchanged. A family holds when its readings
+  above the per-cell bound (0.0638 at 1,000 replicates, so 64 or more) stay within the count a run with exact size
+  stays within, and none is above the family's Bonferroni ceiling. A reading with fewer than 900 available units would
+  be unavailable and fail its family; none was.</li>
+<li><strong>The verdict</strong> is the first that applies: <code>reproduction_failed</code>, <code>small_cells</code> (<code>balanced_small</code> fails),
+  <code>small_unbalanced_cells</code> (<code>unbalanced_small</code> fails), <code>moderate_excess</code> (<code>reference</code> fails), <code>not_replicated</code>.
+  Every family is recorded whatever the verdict.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>family</th>
+<th>designs</th>
+<th>m</th>
+<th>allowed above the bound</th>
+<th>ceiling (of 1,000)</th>
+<th>above the bound</th>
+<th>above the ceiling</th>
+<th>holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>balanced_small</code></td>
+<td><code>n42_r0.5</code> (7 / 7)</td>
+<td>3</td>
+<td>1</td>
+<td>65</td>
+<td>1</td>
+<td><strong>1</strong></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>unbalanced_small</code></td>
+<td><code>n80_r0.8_b</code>, <code>n200_r0.925</code>, <code>n80_r0.74</code>, <code>n200_r0.895</code></td>
+<td>12</td>
+<td>1</td>
+<td>69</td>
+<td>1</td>
+<td>0</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>reference</code></td>
+<td><code>n80_r0.65</code>, <code>n80_r0.5_b</code></td>
+<td>6</td>
+<td>1</td>
+<td>67</td>
+<td>0</td>
+<td>0</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict: <code>small_cells</code>.</strong> The reproduction passed and <code>balanced_small</code> failed, so the order stops there. Small cells
+lose size with balanced groups, so unbalance is not needed to produce an excess.</p>
+<ul>
+<li><strong>The failing reading is <code>angle</code>, not <code>delta</code>.</strong> The run was opened by a <code>delta</code> reading; the reading that decides
+  it is <code>angle</code> at n = 42, 0.076. The design judged all three statistics in advance for this reason (D5).</li>
+<li><strong><code>balanced_small</code> is the easiest family to fail.</strong> It has three readings, so its ceiling is the Bonferroni one for
+  m = 3; one reading above it fails the family. The count is 76 against 65.</li>
+</ul>
+<h2 id="4-counts-by-cell-size-and-balance">4. Counts by cell size and balance</h2>
+<p>Rejections at equal dispersion (of 500 for the rerun, of 1,000 for the new designs):</p>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>larger / smaller per stage</th>
+<th><code>delta</code></th>
+<th><code>angle</code></th>
+<th><code>shape</code></th>
+<th>omnibus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n80_r0.8</code> (rerun, of 500)</td>
+<td>22 / 5</td>
+<td>44</td>
+<td>30</td>
+<td>31</td>
+<td>32</td>
+</tr>
+<tr>
+<td><code>n80_r0.8_b</code></td>
+<td>22 / 5</td>
+<td>45</td>
+<td>53</td>
+<td>51</td>
+<td>37</td>
+</tr>
+<tr>
+<td><code>n200_r0.925</code></td>
+<td>62 / 5</td>
+<td>44</td>
+<td>46</td>
+<td>51</td>
+<td>40</td>
+</tr>
+<tr>
+<td><code>n42_r0.5</code></td>
+<td>7 / 7</td>
+<td>54</td>
+<td><strong>76</strong></td>
+<td>47</td>
+<td>53</td>
+</tr>
+<tr>
+<td><code>n80_r0.74</code></td>
+<td>20 / 7</td>
+<td>58</td>
+<td>46</td>
+<td><em>65</em></td>
+<td>43</td>
+</tr>
+<tr>
+<td><code>n200_r0.895</code></td>
+<td>60 / 7</td>
+<td>48</td>
+<td>47</td>
+<td>51</td>
+<td>33</td>
+</tr>
+<tr>
+<td><code>n80_r0.65</code></td>
+<td>18 / 9</td>
+<td>52</td>
+<td>62</td>
+<td>59</td>
+<td>47</td>
+</tr>
+<tr>
+<td><code>n80_r0.5_b</code></td>
+<td>14 / 13</td>
+<td>36</td>
+<td>57</td>
+<td>47</td>
+<td>37</td>
+</tr>
+</tbody>
+</table>
+<p>Bold is above the family's ceiling; italic is above the bound only. The omnibus (min p ≤ 0.05 / 3) is recorded, not
+judged.</p>
+<ul>
+<li><strong>A small group in an unbalanced design holds.</strong> At 5 per stage <code>delta</code> / <code>angle</code> / <code>shape</code> read 45 / 53 / 51 at
+  n = 80 and 44 / 46 / 51 at n = 200. At 7 per stage they read 58 / 46 / 65 at n = 80 and 48 / 47 / 51 at n = 200.
+  The one reading above the bound, <code>shape</code> at <code>n80_r0.74</code> (65), is within its ceiling of 69.</li>
+<li><strong>n = 80 holds at 9 and 13 per stage.</strong> The largest reading is <code>angle</code> at <code>n80_r0.65</code>, 62.</li>
+<li><strong>The excess is at n = 42.</strong> There both groups hold 7 per stage, the sample is the smallest read, and only <code>angle</code>
+  exceeds. The same smaller-group cell size inside n = 80 or n = 200 holds.</li>
+<li><strong>The omnibus holds everywhere</strong>, from 33 to 53 of 1,000, n = 42 included.</li>
+</ul>
+<h2 id="5-the-committed-reading">5. The committed reading</h2>
+<p><code>delta</code> at <code>n80_r0.8</code>, the reading that opened the run:</p>
+<table>
+<thead>
+<tr>
+<th>source</th>
+<th>replicates</th>
+<th>rejected</th>
+<th>rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the group-dispersion run (committed), reproduced by the rerun</td>
+<td>500</td>
+<td>44</td>
+<td>0.088</td>
+</tr>
+<tr>
+<td>fresh replicate <code>n80_r0.8_b</code></td>
+<td>1,000</td>
+<td>45</td>
+<td>0.045</td>
+</tr>
+<tr>
+<td>pooled</td>
+<td>1,500</td>
+<td>89</td>
+<td>0.059 (SE 0.006)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The rerun reproduces the committed count exactly</strong>, so the generator, the fit and the environment are unchanged.</li>
+<li><strong>The fresh replicate reads at the level.</strong> The same design on new datasets gives 45 of 1,000, and a 5-per-stage
+  group inside n = 200 gives 44.</li>
+<li><strong>The pooled count is reported beside the verdict, not judged.</strong> <code>not_replicated</code> would have applied had every
+  family held; the order stopped at <code>small_cells</code> first.</li>
+</ul>
+<h2 id="6-the-recorded-arms">6. The recorded arms</h2>
+<p>Rejections of 1,000 (of 500 for the rerun), on the same fit, observed statistics and seed. <code>delta</code> / <code>angle</code> /
+<code>shape</code>:</p>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>production</th>
+<th>within group</th>
+<th><code>df</code></th>
+<th><code>leverage</code></th>
+<th>PCA at the production rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n80_r0.8</code> (of 500)</td>
+<td>44 / 30 / 31</td>
+<td>35 / 31 / 32</td>
+<td>38 / 26 / 31</td>
+<td>38 / 26 / 31</td>
+<td>28 / 34 / 28</td>
+</tr>
+<tr>
+<td><code>n80_r0.8_b</code></td>
+<td>45 / 53 / 51</td>
+<td>47 / 47 / 50</td>
+<td>37 / 45 / 45</td>
+<td>37 / 45 / 44</td>
+<td>33 / 57 / 51</td>
+</tr>
+<tr>
+<td><code>n200_r0.925</code></td>
+<td>44 / 46 / 51</td>
+<td>42 / 42 / 43</td>
+<td>40 / 44 / 48</td>
+<td>41 / 44 / 47</td>
+<td>59 / 48 / 53</td>
+</tr>
+<tr>
+<td><code>n42_r0.5</code></td>
+<td>54 / 76 / 47</td>
+<td>44 / 70 / 49</td>
+<td>32 / 62 / 34</td>
+<td>32 / 62 / 34</td>
+<td>18 / 77 / 45</td>
+</tr>
+<tr>
+<td><code>n80_r0.74</code></td>
+<td>58 / 46 / 65</td>
+<td>52 / 46 / 55</td>
+<td>49 / 40 / 54</td>
+<td>49 / 40 / 52</td>
+<td>40 / 56 / 55</td>
+</tr>
+<tr>
+<td><code>n200_r0.895</code></td>
+<td>48 / 47 / 51</td>
+<td>42 / 42 / 50</td>
+<td>45 / 43 / 47</td>
+<td>44 / 44 / 49</td>
+<td>50 / 48 / 54</td>
+</tr>
+<tr>
+<td><code>n80_r0.65</code></td>
+<td>52 / 62 / 59</td>
+<td>53 / 68 / 50</td>
+<td>51 / 54 / 51</td>
+<td>51 / 54 / 49</td>
+<td>30 / 68 / 42</td>
+</tr>
+<tr>
+<td><code>n80_r0.5_b</code></td>
+<td>36 / 57 / 47</td>
+<td>38 / 54 / 47</td>
+<td>33 / 54 / 38</td>
+<td>33 / 54 / 38</td>
+<td>12 / 54 / 39</td>
+</tr>
+</tbody>
+</table>
+<p>The per-feature and split-test arms, rejections of 1,000:</p>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th><code>fdr</code></th>
+<th><code>scan</code></th>
+<th><code>total</code></th>
+<th><code>span</code></th>
+<th><code>complement</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n80_r0.8</code> (of 500)</td>
+<td>23</td>
+<td>30</td>
+<td>28</td>
+<td>32</td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>n80_r0.8_b</code></td>
+<td>43</td>
+<td>56</td>
+<td>53</td>
+<td>48</td>
+<td>47</td>
+</tr>
+<tr>
+<td><code>n200_r0.925</code></td>
+<td>48</td>
+<td>54</td>
+<td>52</td>
+<td>51</td>
+<td>53</td>
+</tr>
+<tr>
+<td><code>n42_r0.5</code></td>
+<td>44</td>
+<td>54</td>
+<td>59</td>
+<td>68</td>
+<td>46</td>
+</tr>
+<tr>
+<td><code>n80_r0.74</code></td>
+<td>41</td>
+<td>53</td>
+<td>50</td>
+<td>58</td>
+<td>42</td>
+</tr>
+<tr>
+<td><code>n200_r0.895</code></td>
+<td>35</td>
+<td>51</td>
+<td>58</td>
+<td>39</td>
+<td>58</td>
+</tr>
+<tr>
+<td><code>n80_r0.65</code></td>
+<td>48</td>
+<td>60</td>
+<td>64</td>
+<td>59</td>
+<td>49</td>
+</tr>
+<tr>
+<td><code>n80_r0.5_b</code></td>
+<td>39</td>
+<td>49</td>
+<td>45</td>
+<td>47</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p>Labels per family under the same rule, one reading per new design (readings above the bound, above the ceiling):</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th><code>balanced_small</code> (m = 1)</th>
+<th><code>unbalanced_small</code> (4)</th>
+<th><code>reference</code> (2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>omnibus (<code>production</code>), <code>pca_matched</code>, <code>fdr</code>, <code>scan</code>, <code>complement</code></td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+</tr>
+<tr>
+<td><code>total</code></td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+<td>holds (1, 0)</td>
+</tr>
+<tr>
+<td><code>span</code></td>
+<td>exceeds (1, 1)</td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+</tr>
+<tr>
+<td>within-group <code>delta</code>, <code>shape</code></td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+</tr>
+<tr>
+<td>within-group <code>angle</code></td>
+<td>exceeds (1, 1)</td>
+<td>holds (0, 0)</td>
+<td>exceeds (1, 1)</td>
+</tr>
+<tr>
+<td><code>df</code> and <code>leverage</code>, each statistic</td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+<td>holds (0, 0)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The <code>angle</code> excess at n = 42 is not production's alone.</strong> PCA at the production rank reads 77, the within-group
+  draws 70 and <code>span</code> 68, on the same datasets. The within-group draws leave it, so exchanging residuals between the
+  groups does not cause it.</li>
+<li><strong>The <code>df</code> correction brings it below the bound</strong> (62), and lowers <code>delta</code> and <code>shape</code> at n = 42 to 32 and 34.
+  Without covariates the reduced model holds four columns, which the design (D8) put at a scale of about 1.05 at
+  n = 42. <code>leverage</code> reads as <code>df</code> to within two rejections in every design.</li>
+<li><strong>The per-feature tests hold everywhere.</strong> <code>fdr</code> reads 35–48 of 1,000 across the new designs and <code>scan</code> 49–60.</li>
+<li><strong>The within-group <code>angle</code> also exceeds in <code>reference</code>,</strong> at <code>n80_r0.65</code> (68, where production reads 62). These
+  labels are recorded and decide nothing.</li>
+</ul>
+<h2 id="7-the-fit-by-design">7. The fit by design</h2>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>rank (q10–q90)</th>
+<th>held-out AUROC</th>
+<th>pooled-stage capture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n80_r0.8</code>, <code>n80_r0.8_b</code></td>
+<td>2 (2–2)</td>
+<td>1.000</td>
+<td>0.933, 0.934</td>
+</tr>
+<tr>
+<td><code>n200_r0.925</code>, <code>n200_r0.895</code></td>
+<td>2 (2–2)</td>
+<td>1.000</td>
+<td>0.972</td>
+</tr>
+<tr>
+<td><code>n42_r0.5</code></td>
+<td>2 (2–2)</td>
+<td>1.000</td>
+<td>0.881</td>
+</tr>
+<tr>
+<td><code>n80_r0.74</code>, <code>n80_r0.65</code>, <code>n80_r0.5_b</code></td>
+<td>2 (2–2)</td>
+<td>1.000</td>
+<td>0.934, 0.933, 0.934</td>
+</tr>
+</tbody>
+</table>
+<p>The CV rank is 2 and the held-out AUROC 1.000 in every design. The fitted span keeps less of the pooled stage program
+at n = 42 (0.881) than at n = 80 (0.933–0.934) or n = 200 (0.972). The values are in <code>cell_table.csv</code> and in the
+decision's <code>fit</code>.</p>
+<h2 id="8-the-re-read-of-the-group-dispersion-families">8. The re-read of the group-dispersion families</h2>
+<p>The rule (design D7) was fixed before this run's units and after the group-dispersion families' rates were known.
+Under <code>small_cells</code> it sets aside the five group-dispersion designs with a 5-per-stage group: <code>n80_r0.8</code>,
+<code>n80_r0.8_s1.5</code>, <code>n80_r0.8_s2</code>, <code>n80_r0.2_s1.5</code> and <code>n80_r0.2_s2</code>. It judges the four families again by
+<code>judge_rates</code> on the remaining committed counts and takes the group-dispersion order. No other group-dispersion design
+has a cell below 13 per stage.</p>
+<table>
+<thead>
+<tr>
+<th>family</th>
+<th>committed: m, above the bound, above the ceiling</th>
+<th>re-read: m, above the bound, above the ceiling</th>
+<th>re-read ceiling (of 500)</th>
+<th>holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unbalanced_equal</code></td>
+<td>24, 2, 1</td>
+<td>21, 1, 0</td>
+<td>40</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>balanced_unequal</code></td>
+<td>42, 22, 20</td>
+<td>42, 22, 20</td>
+<td>41</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>wider_smaller</code></td>
+<td>60, 59, 48</td>
+<td>54, 53, 44</td>
+<td>41</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>wider_larger</code></td>
+<td>60, 21, 19</td>
+<td>54, 19, 18</td>
+<td>41</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Re-read verdict: <code>dispersion_excess</code>.</strong> With the 5-per-stage designs set aside, unbalance at equal dispersion holds:
+its one reading above the bound, <code>angle</code> in the band at share 0.8 (37 of 500), is within the ceiling. The balanced
+dispersion family is unchanged by the set-aside and fails first.</p>
+<ul>
+<li><strong>Its scope.</strong> Readings at 13 samples per stage or more in every cell: n = 200, 320 and 500 at every share read,
+  and n = 80 with balanced groups.</li>
+<li><strong>What it was foreseen to give.</strong> The design noted that <code>balanced_unequal</code> fails at 33 or more samples per stage,
+  so under <code>small_cells</code> or <code>small_unbalanced_cells</code> the re-read was bound to give <code>dispersion_excess</code>. What was not
+  known in advance was this run's verdict.</li>
+<li><strong>What it permits</strong> (the group-dispersion design's Migration Plan). Size needs equal group dispersion even with
+  equal groups. A rejection is evidence of a difference in trajectory or in dispersion, for the statistics and scales
+  the group-dispersion map gives (<a href="../group-dispersion-2026-11-24/">its report</a> §5.3, outside the set-aside rows), in
+  balanced designs too:<ul>
+<li><code>delta</code> at every column and share read, from s = 1.25, 1.5 or 2;</li>
+<li><code>angle</code> and <code>shape</code> wherever the wider group is the smaller, and with balanced groups in the weak-stage band
+  and at s = 2 in one other column each.</li>
+</ul>
+</li>
+<li><strong>What it does not change.</strong> The group-dispersion files are not written to; their verdict stays <code>unbalance_excess</code>
+  as committed, and this decision carries the re-read.</li>
+</ul>
+<h2 id="9-what-follows">9. What follows</h2>
+<ul>
+<li><strong>The documentation states the cell sizes at which size held at equal dispersion</strong>
+  (<a href="../../measurement-visibility/#unequal-group-dispersion-and-unbalance">measurement visibility</a>):<ul>
+<li>every design at n ≥ 80, down to a smaller group of 5 per stage, balanced or not;</li>
+<li>the one failure, <code>angle</code> at n = 42 with 7 per stage in both groups;</li>
+<li>that no balanced design below 7 per stage was read.</li>
+</ul>
+</li>
+<li><strong>The dispersion readings are interpreted, within the re-read's scope.</strong> The interpretability statement of each
+  statistic gains the dispersion clause. A case study that rejects reports the two groups' residual dispersion in the
+  scores beside the rejection, by the placement steps the measurement-visibility page gives.</li>
+<li><strong>The roadmap.</strong><ul>
+<li>Open item 16 moves to Done.</li>
+<li>A diagnosis of the <code>delta</code> excess the within-group draws leave is opened, and after it a change for a null or a
+  fit that holds size under unequal dispersion, starting from the recorded within-group arm.</li>
+<li>Open item 3's bias correction needs a per-group trace.</li>
+<li>The "Not yet established" entries on unbalance and on noise cite this run.</li>
+</ul>
+</li>
+<li><strong>What does not change.</strong> <code>motco analyze</code> runs what it ran; no default moves; <code>df</code> stays opt-in.</li>
+<li><strong>Still open.</strong> Whether the n = 42 <code>angle</code> excess follows the cell size or the total sample size: at n = 42 both
+  groups are small and so is the sample, and no design separates the two. A dispersion that differs by feature, by
+  stage or in correlation structure, and the same reading on a real cohort (roadmap open items 2 and 15).</li>
+</ul>
+<h2 id="10-limitations">10. Limitations</h2>
+<ul>
+<li><strong>Simulated Gaussian noise at one stage effect.</strong> Every reading holds at 658 simulated features on three blocks,
+  equal group dispersion, δ = 2.0 (held-out AUROC 1.000), three stages and no covariates. A weaker stage effect, four
+  stages and covariates were not read. A cohort's own table is read at its own design: SEA-AD's held size at its own
+  design under the <code>df</code> correction (roadmap items 7 (c) and 8). What carries over from this run is only the cell size
+  at which a simulated design at δ = 2.0 loses size.</li>
+<li><strong>No balanced design below 7 per stage.</strong> A balanced design at 5 per stage (n = 30) cannot run under the production
+  cross-validation. Whether balanced groups would hold at 5 per stage is unread.</li>
+<li><strong>The verdict rests on one reading.</strong> <code>balanced_small</code> fails on one of its three readings, by 76 against a ceiling
+  of 65. The rule was fixed before any unit ran and is applied as written.</li>
+<li><strong>The re-read rule was written after the group-dispersion rates were known</strong>, and its outcome under this verdict was
+  foreseeable (§8).</li>
+<li><strong>The design set was chosen after the committed rates were seen.</strong> The rule is the standing size rule, with no
+  threshold taken from them, and <code>not_replicated</code> and <code>moderate_excess</code> were both outcomes it could return.</li>
+<li><strong>Size only.</strong> Every unit is a null unit; power at these designs is not read.</li>
+<li><strong>The recorded arms are readings on refits at the recorded rank.</strong> Their observed statistics equal production's on
+  every unit, and their labels decide nothing.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

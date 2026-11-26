@@ -1,0 +1,4129 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../group-dispersion-2026-11-24/">
+      
+      
+        <link rel="next" href="../univariate-baseline-2026-11-23/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Stage-effect sample-size scaling (2026-11-24) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stage-effect-sample-size-scaling-report-2026-11-24" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stage-effect sample-size scaling (2026-11-24)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement visibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Measurement visibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../candidate-simulation-2026-11-25/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation-only candidate comparison (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unbalance-diagnosis-2026-11-25/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbalance at equal dispersion, diagnosed (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-dispersion-2026-11-24/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group-specific dispersion (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-effect sample-size scaling (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-effect sample-size scaling (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-size-per-arm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size per arm
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-matched-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The matched comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The matched comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-costs-3-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Costs (3 counted)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-gains-12-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Gains (12 counted)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-unresolved-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Unresolved (38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-grade-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The grade by design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-descriptive-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Descriptive readings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Descriptive readings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-the-index-where-a-cohort-sits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 The index: where a cohort sits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-stretches-against-en" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Stretches against e·δ·√n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-rank-strata-of-the-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Rank strata of the costs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-what-is-detectable-at-the-case-studies-auroc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 What is detectable at the case studies' AUROC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-the-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 The calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-the-recorded-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 The recorded arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../univariate-baseline-2026-11-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Univariate interaction baseline (2026-11-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-diagnosis-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode, diagnosed (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-gain-specificity-2026-11-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI gain and specificity (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-real-noise-anchor-2026-11-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI real-noise anchor (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../within-stage-permutation-2026-11-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Within-stage permutation (2026-11-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-size-excess-2026-11-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace size excess (2026-11-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-subspace-2026-11-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace coordinates (2026-11-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production-latent-space-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production latent-space selection (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-blocks-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interaction scan by block (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orthonormal-coordinates-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-feature interaction scan (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../span-split-2026-11-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split interaction test (2026-11-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-paper-grade-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span paper grade (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-pilot-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span pilot (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-space-comparison-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-space comparison (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-data case study (Phase 6)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Real-data case study (Phase 6)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-exit-review-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 6 exit review (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plasmode-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plasmode attribution demonstration (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adjusted-attribution-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjusted attribution (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-design-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating characteristics at the ADNI design (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../corrected-permutation-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Corrected-permutation check (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-diagnosis-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration diagnosis (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-type-i-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration Type I check (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rank-floor-2026-10-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rank-floor check (2026-10-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-power-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment power comparison (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-type-i-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment Type I check (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../covariate-type-i-2026-10-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjustment Type I check (2026-10-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-small-n-2026-10-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Small-n operating study at the SEA-AD design (2026-10-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design guidance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design guidance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-slice-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade slice (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-pilot-2026-10-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pilot (2026-10-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation estimator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orientation estimator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-power-2026-10-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement power comparison (2026-10-14)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-type-i-2026-10-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement Type I study (2026-10-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-measurement-probe-2026-10-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation measurement probe (2026-10-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 paper-grade study
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 5 paper-grade study
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-magnitude-remeasurement-2026-10-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude re-measurement, joint construction (2026-10-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-exit-review-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 exit review (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-paper-grade-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade trajectory power study (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../magnitude-construction-diagnostic-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude-construction diagnostic (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design-point pilot (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-rank ladder (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phases 1–4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phases 1–4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-config-spectrum-2026-09-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent configuration spectrum (2026-09-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry-audit-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry audit (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../angle-null-pivotality-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angle-null pivotality (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-sign-anchor-2026-08-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation sign anchor (2026-08-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (2026-08-27)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realized-generator-geometry-2026-08-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realized generator geometry (2026-08-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../procrustes-shape-invariance-audit-2026-08-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procrustes shape invariance audit (2026-08-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (2026-07-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-size-per-arm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size per arm
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-matched-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The matched comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The matched comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-costs-3-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Costs (3 counted)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-gains-12-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Gains (12 counted)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-unresolved-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Unresolved (38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-grade-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The grade by design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-descriptive-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Descriptive readings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Descriptive readings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-the-index-where-a-cohort-sits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 The index: where a cohort sits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-stretches-against-en" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Stretches against e·δ·√n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-rank-strata-of-the-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Rank strata of the costs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-what-is-detectable-at-the-case-studies-auroc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 What is detectable at the case studies' AUROC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-the-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 The calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-the-recorded-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 The recorded arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="stage-effect-sample-size-scaling-report-2026-11-24">Stage-effect sample-size scaling — report (2026-11-24)</h1>
+<p><strong>Change:</strong> <code>stage-effect-sample-size-scaling</code> (MOTCO 0.25.0, no package change; roadmap open item 14). <strong>Reads:</strong>
+<code>results/stage-effect-scaling-2026-11-24/</code> (<code>stage_effect_scaling_decision.json</code>; per profile <code>settings.json</code>,
+<code>rate_table.csv</code>, <code>paired_table.csv</code>, <code>cell_table.csv</code>, <code>rank_table.csv</code>, <code>accounting.json</code>;
+<code>saturated/reproduction.json</code>; <code>calibration/</code>; <code>PROVENANCE.txt</code>, <code>sacct.txt</code>). <strong>Parent:</strong> the
+<a href="../univariate-baseline-2026-11-23/">univariate baseline</a>'s <code>stage_span</code> profile (its settings, rate table and cell
+table, bound by sha256). <strong>Concept page:</strong>
+<a href="../../measurement-visibility/#a-weak-stage-effect-against-sample-size">measurement visibility</a>.</p>
+<p>At a weak stage effect the CV rank inflates, <code>delta</code> and <code>shape</code> lose power, and a rotation is read as <code>shape</code>. This
+run asks whether more samples buy that back. In the generator a design's information about the stage program grows
+as δ√n. So, if a weak stage effect were only a smaller effective sample, half the stage effect with four times the
+samples would read the same, cell by cell. Each new design is paired with a committed design at the same δ√n:</p>
+<ul>
+<li>δ = 1.0 and δ = 0.5 at n = 320 and 1,280 against δ = 2.0 at n = 80;</li>
+<li>δ = 1.0 at n = 800 against δ = 2.0 at n = 200;</li>
+<li>δ = 0.25 at n = 800 against δ = 0.5 at n = 200.</li>
+</ul>
+<p>A fifth pair sits below the AUROC ceiling: a stage effect calibrated to the case studies' held-out AUROC (δ_c = 0.05
+at n = 320) against δ_c / 2 at n = 1,280. The decision was fixed before any unit ran. It labels each of 53 pair-cells
+by Fisher's exact test on the production omnibus, with the per-feature <code>fdr</code> arm as the control of the pairing.</p>
+<p><strong>In one paragraph.</strong> <strong>The verdict is <code>mixed</code></strong>: 3 counted costs and 12 counted gains. A weak stage effect is not
+only a smaller sample: for some plants it costs more than δ√n says, and for others less.</p>
+<ul>
+<li><strong>The costs are rotations, all at δ = 0.5, n = 1,280 against δ = 2.0, n = 80.</strong> The smallest in-span rotation
+  (e = 0.1) reads 0.250 against 0.820. The two out-of-span rotations, which production sees only through incidental
+  routes, read 0.060 against 0.255 and 0.375 against 0.835.</li>
+<li><strong>The gains are stretches and bends, and rotations below δ = 0.5.</strong><ul>
+<li>Stretches and small bends at δ = 1.0 gain 0.105–0.300 over their δ = 2.0 matches.</li>
+<li>Small rotations at δ = 0.25 gain over δ = 0.5: 0.310 against 0.090, and 0.765 against 0.410.</li>
+<li>At the calibrated weak signal, the n = 1,280 design gains on every stretch, for example 0.805 against 0.330 at
+  e = 1.</li>
+<li>The same δ = 0.5 design that loses the e = 0.1 rotation gains the e = 0.25 one (0.985 against 0.855).</li>
+</ul>
+</li>
+<li><strong>The control moved once.</strong> <code>fdr</code> carries no label in 52 of 53 pair-cells, and its one label (a gain on an
+  out-of-span rotation at δ = 0.25) is not one production carries. No label was set aside.</li>
+<li><strong>Sample size does not restore the naming or the rank.</strong><ul>
+<li>The δ = 2.0 designs grade <code>names_kind</code> at n = 80, 200 and 500. Every weaker design grades <code>detects_only</code>, the
+  matched ones included. At δ = 0.5, n = 1,280, a 45° rotation is read as <code>shape</code> in 0.720 of units.</li>
+<li>The CV rank does not come down with more samples. At the AUROC ceiling it is set by δ: 3 at δ = 0.5 at both
+  n = 200 and 1,280. Below the ceiling, n = 1,280 drives it to the cap of 19 at both δ_c / 2 and δ_c, against a
+  median of 10 at δ_c, n = 320.</li>
+</ul>
+</li>
+<li><strong>Size holds.</strong> Production, <code>fdr</code> and <code>total</code> hold size in both families. The rerun of δ = 0.5, n = 200 reproduces
+  all 234 committed rows exactly. 24,400 of 24,400 units completed.</li>
+<li><strong>What it holds for.</strong> The reading holds at 658 simulated features with Gaussian noise, equal groups and three
+  stages. The band designs match the case studies' held-out AUROC, not their cell tables, covariates or rank, and no
+  real-noise reading exists on methylation, expression and proteomics (roadmap open item 2). The decision was
+  written after a timing probe of two null datasets per design, at a seed outside the run, which saw no rejection
+  rate. No verdict changes what <code>motco analyze</code> runs.</li>
+</ul>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<ul>
+<li><strong>Profile <code>saturated</code>: four matched designs and the gate.</strong> Methylation, expression and proteomics (658 features),
+  three stages, equal groups, base seed 2043, the parent's thirteen cells:<ul>
+<li>the anchor and a translation at 500 replicates;</li>
+<li>stretches at e = 0.05, 0.1 and 0.25, and in-span rotations (φ = 0) and bends at e = 0.1, 0.25 and 0.5, under the
+  planted scale, each at 200;</li>
+<li>the out-of-span rotation at e = 0.5, φ = 90 and its 20-feature form, under the null scale, each at 200.</li>
+</ul>
+</li>
+</ul>
+<p>The new designs are δ = 1.0 at n = 320, δ = 0.5 at n = 1,280, δ = 1.0 at n = 800 and δ = 0.25 at n = 800. Each
+  differs from its committed match only in the per-omic stage effects and n. The parent's δ = 0.5, n = 200 design is
+  rerun at its own name and seeds as the gate. 16,000 units.
+- <strong>Profile <code>band</code>: three designs below the AUROC ceiling.</strong>
+    - <code>calibrate</code> fitted production on 40 anchor datasets per δ ∈ {0.03, …, 0.1} at n = 320 (280 fits, §8.5) and
+      adopted δ_c = 0.05, whose median held-out AUROC of 0.664 is nearest the target 0.636 and inside 0.60–0.67.
+    - The designs are δ_c at n = 320, δ_c / 2 = 0.025 at n = 1,280 (its δ√n match) and δ_c at n = 1,280.
+    - Eleven cells under the planted scale: the anchor and a translation at 500, stretches at e = 0.5, 1 and 2, and
+      rotations and bends at e = 0.25, 0.5 and 1 at 200. The out-of-span cells are left out, because production is
+      blind there at any stage effect.
+    - 8,400 units.
+- <strong>The unit is the parent's, imported unchanged.</strong> One production fit (<code>pls_cv</code>, rank floor 2, net displacement, 999
+  permutations). The judged arms are <code>production</code> (the smallest of <code>delta</code>, <code>angle</code> and <code>shape</code> at 0.05 / 3), <code>fdr</code>
+  (Benjamini–Hochberg on the per-feature interaction F) and <code>total</code> (the split test's sum). <code>scan</code>, the three single
+  statistics, <code>span</code>, <code>complement</code>, <code>production_minp</code> and <code>pca_matched</code> are recorded and never judged.
+- <strong>Code and host.</strong> Revision <code>3afc721</code>, pushed before any array unit ran, from a clean detached worktree on <code>ing</code>.
+  Python 3.11.16, numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0, pandas 2.3.3, BLAS pinned to one thread.
+- <strong>Where it ran.</strong> Arrays 958096 (<code>saturated</code>, 200 tasks) and 958097 (<code>band</code>, 140), partition <code>512x1024</code> with n11
+  excluded: 340 of 340 <code>COMPLETED 0:0</code>, 11:18–15:25.
+    - <strong>409.49 recorded core-hours</strong> (206.09 / 203.40) against the approved cap of 600; the local smoke had projected
+      480–540.
+    - The median unit took 34.7 s in <code>saturated</code> and 113.8 s in <code>band</code>, most of it the cross-validated fit.
+    - 65 rerun-design units stalled on the hosts for 10–47 minutes, across every stage of the unit. They hold
+      38.8 of the core-hours, and their counts reproduce exactly.</p>
+<h2 id="2-accounting-and-the-reproduction">2. Accounting and the reproduction</h2>
+<ul>
+<li><strong>Units.</strong> 16,000 and 8,400 complete: no failed unit, no duplicate, no failed planted fixed point (the band's e = 2
+  stretch at δ = 0.025 included).</li>
+<li><strong>Reproduction: passed.</strong> All 234 rows of the rerun design (available and rejected counts per cell and arm) equal
+  the committed <code>stage_span</code> rate table, none unresolved. The index row of the rerun (rank 3, AUROC 1.000, capture
+  0.905) equals the committed one.</li>
+<li><strong>The decision regenerates.</strong> <code>decide</code> on the committed aggregates alone, on the workstation, writes a decision
+  byte-identical to the cluster's (sha256 <code>c5cd1310…</code>).</li>
+</ul>
+<h2 id="3-the-decision">3. The decision</h2>
+<p>The order is gate, size, then the matched comparison.</p>
+<ul>
+<li><strong>Size.</strong> Judged per arm in two families: the four new <code>saturated</code> designs (m = 8) and the three <code>band</code> designs
+  (m = 6). Each family uses the count-plus-ceiling rule (<code>judge_rates</code>), with a per-cell bound of 0.0695 at 500
+  replicates.</li>
+<li><strong>Labels.</strong> Each pair-cell compares <code>production</code>'s rejected counts in the two designs by Fisher's exact test, one-sided
+  each way, at 0.025 / 53 = 4.7 × 10⁻⁴:<ul>
+<li><code>weak_costs</code>: the weaker-staged design's rate is lower by at least 0.10;</li>
+<li><code>weak_gains</code>: it is higher by at least 0.10;</li>
+<li><code>unresolved</code>: otherwise.</li>
+</ul>
+</li>
+</ul>
+<p>The <code>saturated</code> matches' counts are the committed ones. <code>fdr</code> is labelled the same way, and a <code>production</code> label
+  counts unless <code>fdr</code> carries the same label there.
+- <strong>Verdict.</strong> By existence over the counted labels. With 200 replicates per design the difference of two rates has a
+  standard error up to 0.05, so <code>unresolved</code> is not agreement.
+- <strong>Same section, same limits:</strong> the reading holds at 658 simulated features with Gaussian noise, equal groups and
+  three stages. The rule was written after a timing probe of null datasets (design, Context), which saw the rank,
+  AUROC, capture and timing of two units per design and no rejection rate.</p>
+<table>
+<thead>
+<tr>
+<th>criterion</th>
+<th>reading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gate</td>
+<td>reproduction passed (234 rows); 0 failed units</td>
+</tr>
+<tr>
+<td>size</td>
+<td><code>production</code>, <code>fdr</code> and <code>total</code> hold in both families</td>
+</tr>
+<tr>
+<td>labels</td>
+<td>3 counted <code>weak_costs</code>, 12 counted <code>weak_gains</code>, 38 <code>unresolved</code>; 0 shared with <code>fdr</code>, 0 unavailable</td>
+</tr>
+<tr>
+<td>verdict</td>
+<td><strong><code>mixed</code></strong></td>
+</tr>
+<tr>
+<td>grades</td>
+<td><code>names_kind</code> at the three δ = 2.0 designs; <code>detects_only</code> at the other eight</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-size-per-arm">4. Size per arm</h2>
+<p>Rejections of 500 on the null cells (anchor; translation):</p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th>design</th>
+<th>δ√n</th>
+<th>production</th>
+<th><code>fdr</code></th>
+<th><code>total</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>saturated</code></td>
+<td>δ = 1.0, n = 320</td>
+<td>17.9</td>
+<td>24; 19</td>
+<td>29; 29</td>
+<td>27; 28</td>
+</tr>
+<tr>
+<td><code>saturated</code></td>
+<td>δ = 0.5, n = 1,280</td>
+<td>17.9</td>
+<td>11; 11</td>
+<td>11; 11</td>
+<td>17; 18</td>
+</tr>
+<tr>
+<td><code>saturated</code></td>
+<td>δ = 1.0, n = 800</td>
+<td>28.3</td>
+<td>26; 20</td>
+<td>16; 16</td>
+<td>32; <strong>35</strong></td>
+</tr>
+<tr>
+<td><code>saturated</code></td>
+<td>δ = 0.25, n = 800</td>
+<td>7.1</td>
+<td>16; 21</td>
+<td>17; 17</td>
+<td>24; 25</td>
+</tr>
+<tr>
+<td><code>band</code></td>
+<td>δ = 0.05, n = 320</td>
+<td>0.89</td>
+<td>12; 8</td>
+<td>14; 14</td>
+<td>24; 25</td>
+</tr>
+<tr>
+<td><code>band</code></td>
+<td>δ = 0.025, n = 1,280</td>
+<td>0.89</td>
+<td>21; 19</td>
+<td>19; 19</td>
+<td>26; 26</td>
+</tr>
+<tr>
+<td><code>band</code></td>
+<td>δ = 0.05, n = 1,280</td>
+<td>1.79</td>
+<td>20; 24</td>
+<td>20; 20</td>
+<td><strong>37</strong>; 29</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Every arm holds.</strong> <code>total</code> exceeds the bound once in each family (35 / 500 = 0.070; 37 / 500 = 0.074, at the
+  band's ceiling and not above it). Each family allows one exceedance.</li>
+<li><strong>Production's largest null rate is 0.052.</strong> <code>fdr</code>'s is 0.058.</li>
+<li><strong>The rerun design is outside the families.</strong> It reads 13; 15 for production, 20; 20 for <code>fdr</code> and 30; 30 for
+  <code>total</code>, as committed.</li>
+</ul>
+<h2 id="5-the-matched-comparison">5. The matched comparison</h2>
+<p>Labels by pair and plant family (costs / gains / unresolved):</p>
+<table>
+<thead>
+<tr>
+<th>pair (weaker ~ match)</th>
+<th>δ√n</th>
+<th>stretch</th>
+<th>in-span rotation</th>
+<th>bend</th>
+<th>out-of-span rotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 1.0, n = 320 ~ δ = 2.0, n = 80</td>
+<td>17.9</td>
+<td>0 / 2 / 1</td>
+<td>0 / 0 / 3</td>
+<td>0 / 2 / 1</td>
+<td>0 / 0 / 2</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280 ~ δ = 2.0, n = 80</td>
+<td>17.9</td>
+<td>0 / 0 / 3</td>
+<td>1 / 1 / 1</td>
+<td>0 / 0 / 3</td>
+<td>2 / 0 / 0</td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800 ~ δ = 2.0, n = 200</td>
+<td>28.3</td>
+<td>0 / 1 / 2</td>
+<td>0 / 0 / 3</td>
+<td>0 / 1 / 2</td>
+<td>0 / 0 / 2</td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800 ~ δ = 0.5, n = 200</td>
+<td>7.1</td>
+<td>0 / 0 / 3</td>
+<td>0 / 2 / 1</td>
+<td>0 / 0 / 3</td>
+<td>0 / 0 / 2</td>
+</tr>
+<tr>
+<td>δ = 0.025, n = 1,280 ~ δ = 0.05, n = 320</td>
+<td>0.89</td>
+<td>0 / 3 / 0</td>
+<td>0 / 0 / 3</td>
+<td>0 / 0 / 3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>all pairs</strong></td>
+<td></td>
+<td>0 / 6 / 9</td>
+<td>1 / 3 / 11</td>
+<td>0 / 3 / 12</td>
+<td>2 / 0 / 6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The control.</strong> <code>fdr</code> is <code>unresolved</code> in 52 of the 53 pair-cells. Its one label is a <code>weak_gains</code> on the
+out-of-span rotation at δ = 0.25 against δ = 0.5 (0.970 against 0.840), where production is unresolved (0.030 against
+0.035). That is the direction the design expected for the per-feature test, which has more residual degrees of
+freedom at the larger n. In 39 of the 53 pair-cells <code>fdr</code> has little room to move. It reads 0.97 or more on both sides
+in 25: every out-of-span cell but that one, every in-span rotation at δ ≥ 0.5, and the largest stretches and bends.
+It reads 0.10 or less on both sides in 14.</p>
+<h3 id="51-costs-3-counted">5.1 Costs (3 counted)</h3>
+<table>
+<thead>
+<tr>
+<th>pair</th>
+<th>cell</th>
+<th>weaker</th>
+<th>match</th>
+<th>difference</th>
+<th>p (costs)</th>
+<th><code>fdr</code> weaker; match</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 0.5, n = 1,280 ~ δ = 2.0, n = 80</td>
+<td>rotation e = 0.1, φ = 0</td>
+<td>50 / 200 (0.250)</td>
+<td>164 / 200 (0.820)</td>
+<td>−0.570</td>
+<td>8.1 × 10⁻³²</td>
+<td>0.990; 0.970</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280 ~ δ = 2.0, n = 80</td>
+<td>rotation out of span</td>
+<td>12 / 200 (0.060)</td>
+<td>51 / 200 (0.255)</td>
+<td>−0.195</td>
+<td>4.0 × 10⁻⁸</td>
+<td>1.000; 1.000</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280 ~ δ = 2.0, n = 80</td>
+<td>rotation out of span, 20 features</td>
+<td>75 / 200 (0.375)</td>
+<td>167 / 200 (0.835)</td>
+<td>−0.460</td>
+<td>7.9 × 10⁻²²</td>
+<td>1.000; 1.000</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The rotation cost grows as δ falls along the diagonal.</strong> At δ√n = 17.9, the e = 0.1 rotation reads 0.820 at
+  δ = 2.0, 0.690 at δ = 1.0 (−0.130, p = 0.0018, above the level: <code>unresolved</code>) and 0.250 at δ = 0.5.</li>
+<li><strong>It is confined to the smallest rotation.</strong> At e = 0.25 the same δ = 0.5 design gains (0.985 against 0.855), and at
+  e = 0.5 both read 1.000 and 0.980. The δ = 2.0 design's rotation rates are flat across e (0.820, 0.855, 0.980). The
+  δ = 0.5 design's are steep: from 0.250 to 0.985 between e = 0.1 and 0.25.</li>
+<li><strong>The out-of-span costs are on cells production cannot see.</strong> Production reaches them only through incidental
+  routes (measurement visibility). The routes are weaker at δ = 0.5 than at δ = 2.0, at the same δ√n. These cells
+  are under the null scale, so the plant is fixed relative to the null pooled SD, and that SD includes the
+  between-stage variance, which grows as δ². That is one of the places where the design named the scaling as
+  approximate; the run does not separate it from the others.</li>
+</ul>
+<h3 id="52-gains-12-counted">5.2 Gains (12 counted)</h3>
+<table>
+<thead>
+<tr>
+<th>pair</th>
+<th>cell</th>
+<th>weaker</th>
+<th>match</th>
+<th>difference</th>
+<th><code>fdr</code> weaker; match</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 1.0, n = 320 ~ δ = 2.0, n = 80</td>
+<td>stretch e = 0.05</td>
+<td>0.625</td>
+<td>0.345</td>
+<td>+0.280</td>
+<td>0.070; 0.060</td>
+</tr>
+<tr>
+<td></td>
+<td>stretch e = 0.1</td>
+<td>0.960</td>
+<td>0.750</td>
+<td>+0.210</td>
+<td>0.330; 0.310</td>
+</tr>
+<tr>
+<td></td>
+<td>bend e = 0.1</td>
+<td>0.665</td>
+<td>0.365</td>
+<td>+0.300</td>
+<td>0.100; 0.105</td>
+</tr>
+<tr>
+<td></td>
+<td>bend e = 0.25</td>
+<td>0.985</td>
+<td>0.880</td>
+<td>+0.105</td>
+<td>0.940; 0.885</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280 ~ δ = 2.0, n = 80</td>
+<td>rotation e = 0.25, φ = 0</td>
+<td>0.985</td>
+<td>0.855</td>
+<td>+0.130</td>
+<td>1.000; 1.000</td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800 ~ δ = 2.0, n = 200</td>
+<td>stretch e = 0.05</td>
+<td>0.975</td>
+<td>0.815</td>
+<td>+0.160</td>
+<td>0.205; 0.235</td>
+</tr>
+<tr>
+<td></td>
+<td>bend e = 0.1</td>
+<td>0.990</td>
+<td>0.860</td>
+<td>+0.130</td>
+<td>0.390; 0.420</td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800 ~ δ = 0.5, n = 200</td>
+<td>rotation e = 0.1, φ = 0</td>
+<td>0.310</td>
+<td>0.090</td>
+<td>+0.220</td>
+<td>0.095; 0.095</td>
+</tr>
+<tr>
+<td></td>
+<td>rotation e = 0.25, φ = 0</td>
+<td>0.765</td>
+<td>0.410</td>
+<td>+0.355</td>
+<td>0.980; 0.995</td>
+</tr>
+<tr>
+<td>δ = 0.025, n = 1,280 ~ δ = 0.05, n = 320</td>
+<td>stretch e = 0.5</td>
+<td>0.330</td>
+<td>0.070</td>
+<td>+0.260</td>
+<td>0.040; 0.035</td>
+</tr>
+<tr>
+<td></td>
+<td>stretch e = 1</td>
+<td>0.805</td>
+<td>0.330</td>
+<td>+0.475</td>
+<td>0.060; 0.045</td>
+</tr>
+<tr>
+<td></td>
+<td>stretch e = 2</td>
+<td>1.000</td>
+<td>0.835</td>
+<td>+0.165</td>
+<td>0.415; 0.350</td>
+</tr>
+</tbody>
+</table>
+<p>Every gain p-value is at most 1.4 × 10⁻⁵, against the level of 4.7 × 10⁻⁴.</p>
+<ul>
+<li><strong>Stretches and bends gain at δ = 1.0 and do not cost at δ = 0.5.</strong> On the δ = 0.5, n = 1,280 design they match
+  their δ = 2.0, n = 80 references within 0.055 (stretches 0.380 / 0.750 / 1.000 against 0.345 / 0.750 / 0.990).</li>
+<li><strong>Every gain is a rate <code>fdr</code> does not share.</strong> On those cells <code>fdr</code> moves by at most 0.065 between the two designs.</li>
+<li><strong>At the calibrated weak signal the matched design reads more on every stretch.</strong> The two designs share δ√n and
+  nearly their AUROC (0.649 against 0.664), but the n = 1,280 design selects rank 19 in every unit, against a median
+  of 10 at n = 320 (§8.1). Its fitted span holds more of the stage program (capture 0.376 against 0.288).</li>
+</ul>
+<h3 id="53-unresolved-38">5.3 Unresolved (38)</h3>
+<ul>
+<li><strong>Saturated.</strong> 16 of the 38 have production at 0.88 or more in both designs.</li>
+<li><strong>Near the level.</strong> The band's six rotations and bends read 0.08 or less in both designs (§8.4).</li>
+<li><strong>Close.</strong> The other 16 differ by less than 0.10, or do not reach the level:<ul>
+<li>the δ = 0.25 pair's stretches and bends within 0.025, except its bend at e = 0.5;</li>
+<li>the δ = 0.5, n = 1,280 design's two small stretches and its e = 0.1 bend within 0.055 of δ = 2.0, n = 80;</li>
+<li>the δ = 1.0, n = 320 design's two small rotations;</li>
+<li>five out-of-span rotations, where production reads 0.03–0.87 on both sides.</li>
+</ul>
+</li>
+<li><strong>Three differences meet only one criterion.</strong><ul>
+<li>The δ = 0.25 pair's 45° rotation differs by +0.090 at p = 1.3 × 10⁻⁵: significant, but below the margin.</li>
+<li>Its bend at e = 0.5 differs by −0.145 at p = 0.0016: above the margin, but not significant at the level.</li>
+<li>The δ = 1.0, n = 320 rotation at e = 0.1 differs by −0.130 at p = 0.0018 (§5.1).</li>
+</ul>
+</li>
+</ul>
+<p>Every rate is in the decision's <code>criteria.pair_cells</code>.</p>
+<h2 id="6-the-grade-by-design">6. The grade by design</h2>
+<p>Per design, among the in-span cells that production detects in at least 0.80 of units, the two off-target statistics
+of each form one family under <code>judge_rates</code> (bound 0.081 at 200 replicates). The committed designs are graded from the
+committed table by the same rule.</p>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>δ√n</th>
+<th>detected cells (of 9)</th>
+<th>off-target readings above the bound (above the ceiling)</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 2.0, n = 80</td>
+<td>17.9</td>
+<td>6</td>
+<td>0</td>
+<td><code>names_kind</code></td>
+</tr>
+<tr>
+<td>δ = 2.0, n = 200</td>
+<td>28.3</td>
+<td>9</td>
+<td>1 (0)</td>
+<td><code>names_kind</code></td>
+</tr>
+<tr>
+<td>δ = 2.0, n = 500</td>
+<td>44.7</td>
+<td>9</td>
+<td>0</td>
+<td><code>names_kind</code></td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 200</td>
+<td>7.1</td>
+<td>2</td>
+<td>2 (2)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 320</td>
+<td>17.9</td>
+<td>5</td>
+<td>4 (3)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280</td>
+<td>17.9</td>
+<td>5</td>
+<td>6 (6)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800</td>
+<td>28.3</td>
+<td>9</td>
+<td>2 (1)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800</td>
+<td>7.1</td>
+<td>1</td>
+<td>2 (2)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 320</td>
+<td>0.89</td>
+<td>1</td>
+<td>1 (1)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 0.025, n = 1,280</td>
+<td>0.89</td>
+<td>2</td>
+<td>2 (2)</td>
+<td><code>detects_only</code></td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 1,280</td>
+<td>1.79</td>
+<td>4</td>
+<td>6 (6)</td>
+<td><code>detects_only</code></td>
+</tr>
+</tbody>
+</table>
+<p>The readings above the ceiling:</p>
+<ul>
+<li><strong>Rotations read as <code>shape</code>, and as <code>delta</code>, as δ falls.</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>rotation</th>
+<th><code>shape</code></th>
+<th><code>delta</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 1.0, n = 320</td>
+<td>e = 0.5</td>
+<td>0.175</td>
+<td></td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800</td>
+<td>e = 0.5</td>
+<td>0.140</td>
+<td></td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280</td>
+<td>e = 0.25</td>
+<td>0.540</td>
+<td>0.175</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280</td>
+<td>e = 0.5</td>
+<td>0.720</td>
+<td>0.340</td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800</td>
+<td>e = 0.5</td>
+<td>0.930</td>
+<td>0.530</td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 1,280</td>
+<td>e = 1</td>
+<td>0.535</td>
+<td>0.110</td>
+</tr>
+</tbody>
+</table>
+<p>The committed δ = 0.5, n = 200 design reads 0.665 and 0.155 on its e = 0.5 rotation.
+- <strong>Bends read as <code>delta</code> at δ = 0.5.</strong> 0.140 at e = 0.25 and 0.305 at e = 0.5, at n = 1,280.
+- <strong>Stretches and bends read as <code>angle</code>.</strong>
+    - At δ = 1.0, n = 320: 0.100–0.115 on the bends.
+    - At the band's large stretches: 0.215 at e = 2 and n = 320, and 0.580 at e = 2 and δ_c, n = 1,280, where <code>shape</code>
+      reads 0.185.</p>
+<p><strong>Matched samples do not restore the naming.</strong> At δ√n = 17.9, δ = 2.0 grades <code>names_kind</code> and both weaker designs
+<code>detects_only</code>, and at 28.3 so does δ = 1.0, n = 800 against δ = 2.0, n = 200. The leak grows as δ falls at fixed δ√n
+(on the 45° rotation, <code>shape</code> reads 0.175 at δ = 1.0 and 0.720 at δ = 0.5). It also grows at fixed δ as n rises:
+0.665 at δ = 0.5, n = 200, against 0.720 at n = 1,280. The grade never changes the verdict.</p>
+<h2 id="7-the-map">7. The map</h2>
+<p>The parent's labels, by paired exact tests of production against the admissible per-feature arms (<code>fdr</code>, <code>total</code>) at
+its levels for m = 71 and its 0.10 margin: production leads / the per-feature test leads / unresolved.</p>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>stretch</th>
+<th>in-span rotation</th>
+<th>bend</th>
+<th>out-of-span rotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 1.0, n = 320</td>
+<td>2 / 0 / 1</td>
+<td>0 / 2 / 1</td>
+<td>1 / 0 / 2</td>
+<td>0 / 2 / 0</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280</td>
+<td>2 / 0 / 1</td>
+<td>0 / 1 / 2</td>
+<td>1 / 0 / 2</td>
+<td>0 / 2 / 0</td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800</td>
+<td>1 / 0 / 2</td>
+<td>0 / 0 / 3</td>
+<td>1 / 0 / 2</td>
+<td>0 / 1 / 1</td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800</td>
+<td>2 / 0 / 1</td>
+<td>1 / 1 / 1</td>
+<td>2 / 0 / 1</td>
+<td>0 / 2 / 0</td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 320</td>
+<td>2 / 0 / 1</td>
+<td>0 / 0 / 3</td>
+<td>0 / 0 / 3</td>
+<td>—</td>
+</tr>
+<tr>
+<td>δ = 0.025, n = 1,280</td>
+<td>3 / 0 / 0</td>
+<td>0 / 0 / 3</td>
+<td>0 / 0 / 3</td>
+<td>—</td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 1,280</td>
+<td>2 / 0 / 1</td>
+<td>1 / 0 / 2</td>
+<td>2 / 0 / 1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>all</strong></td>
+<td>14 / 0 / 7</td>
+<td>2 / 4 / 15</td>
+<td>7 / 0 / 14</td>
+<td>0 / 7 / 1</td>
+</tr>
+</tbody>
+</table>
+<p>23 cells where production leads, 11 where the per-feature test leads, 37 unresolved. <strong>The parent's map holds where the stage fit is
+weak.</strong></p>
+<ul>
+<li><strong>Production leads on stretches and bends at every design, the band included.</strong> For example, at δ_c, n = 1,280 a
+  stretch at e = 0.5 reads 0.875 against <code>fdr</code>'s 0.080, and a bend at e = 1 reads 0.505 against 0.075.</li>
+<li><strong>The per-feature test leads on every out-of-span rotation but one</strong> (n = 800 at δ = 1.0, 20 features: both sides
+  at 1.000).</li>
+<li><strong>In-span rotations go to the per-feature test where the fit is weakest.</strong><ul>
+<li>At δ = 1.0, n = 320, rotations at e = 0.1 and 0.25 read 0.690 and 0.765 against <code>fdr</code>'s 0.985 and 1.000.</li>
+<li>At δ = 0.5, n = 1,280, the e = 0.1 rotation reads 0.250 against 0.990.</li>
+<li>At δ = 0.25, n = 800, the e = 0.25 rotation reads 0.765 against 0.980.</li>
+</ul>
+</li>
+<li><strong>Production leads on two rotations:</strong> at δ = 0.25, e = 0.1 (0.310 against 0.095), and at δ_c, n = 1,280, e = 0.5
+  (0.600 against 0.200).</li>
+<li><strong>The band has no baseline lead.</strong> Its in-span rotations and bends at n = 320 and at the matched n = 1,280 read
+  0.080 or less for production and 0.130 or less for <code>fdr</code>.</li>
+</ul>
+<h2 id="8-descriptive-readings">8. Descriptive readings</h2>
+<h3 id="81-the-index-where-a-cohort-sits">8.1 The index: where a cohort sits</h3>
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>source</th>
+<th>n</th>
+<th>δ</th>
+<th>δ√n</th>
+<th>held-out AUROC</th>
+<th>CV rank median (q10–q90)</th>
+<th>pooled-stage capture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ = 2.0, n = 80</td>
+<td>committed</td>
+<td>80</td>
+<td>2.0</td>
+<td>17.9</td>
+<td>1.000</td>
+<td>2 (2–2)</td>
+<td>0.934</td>
+</tr>
+<tr>
+<td>δ = 2.0, n = 200</td>
+<td>committed</td>
+<td>200</td>
+<td>2.0</td>
+<td>28.3</td>
+<td>1.000</td>
+<td>2 (2–2)</td>
+<td>0.973</td>
+</tr>
+<tr>
+<td>δ = 2.0, n = 500</td>
+<td>committed</td>
+<td>500</td>
+<td>2.0</td>
+<td>44.7</td>
+<td>1.000</td>
+<td>2 (2–2)</td>
+<td>0.989</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 200</td>
+<td>committed; rerun equal</td>
+<td>200</td>
+<td>0.5</td>
+<td>7.1</td>
+<td>1.000</td>
+<td>3 (3–3)</td>
+<td>0.905</td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 320</td>
+<td>this run</td>
+<td>320</td>
+<td>1.0</td>
+<td>17.9</td>
+<td>1.000</td>
+<td>2 (2–3)</td>
+<td>0.971</td>
+</tr>
+<tr>
+<td>δ = 0.5, n = 1,280</td>
+<td>this run</td>
+<td>1,280</td>
+<td>0.5</td>
+<td>17.9</td>
+<td>1.000</td>
+<td>3 (3–3)</td>
+<td>0.984</td>
+</tr>
+<tr>
+<td>δ = 1.0, n = 800</td>
+<td>this run</td>
+<td>800</td>
+<td>1.0</td>
+<td>28.3</td>
+<td>1.000</td>
+<td>2 (2–2)</td>
+<td>0.987</td>
+</tr>
+<tr>
+<td>δ = 0.25, n = 800</td>
+<td>this run</td>
+<td>800</td>
+<td>0.25</td>
+<td>7.1</td>
+<td>1.000</td>
+<td>5 (4–6)</td>
+<td>0.934</td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 320</td>
+<td>this run</td>
+<td>320</td>
+<td>0.05</td>
+<td>0.89</td>
+<td>0.664</td>
+<td>10 (5–19)</td>
+<td>0.288</td>
+</tr>
+<tr>
+<td>δ = 0.025, n = 1,280</td>
+<td>this run</td>
+<td>1,280</td>
+<td>0.025</td>
+<td>0.89</td>
+<td>0.649</td>
+<td>19 (19–19)</td>
+<td>0.376</td>
+</tr>
+<tr>
+<td>δ = 0.05, n = 1,280</td>
+<td>this run</td>
+<td>1,280</td>
+<td>0.05</td>
+<td>1.79</td>
+<td>0.883</td>
+<td>19 (19–19)</td>
+<td>0.647</td>
+</tr>
+</tbody>
+</table>
+<p>The anchor cell's medians. A cohort can be placed by its held-out AUROC and CV rank:</p>
+<ul>
+<li><strong>At the ceiling,</strong> the AUROC cannot tell the designs apart, and the rank indexes δ.</li>
+<li><strong>Below it,</strong> the AUROC follows δ√n: 0.649 against 0.664 at δ√n = 0.89, and 0.883 at 1.79.</li>
+<li><strong>The rank does not follow δ√n.</strong> At the calibrated signal, four times the samples drives it to the cap of 19, where
+  ADNI's design simulation also sat (rank 19 at an AUROC of 0.606, roadmap item 9).</li>
+<li><strong>The capture rises with n at matched δ√n in every pair.</strong></li>
+</ul>
+<h3 id="82-stretches-against-en">8.2 Stretches against e·δ·√n</h3>
+<p>Production's rate on every stretch cell, by the index the generator's scaling predicts it to follow:</p>
+<table>
+<thead>
+<tr>
+<th>e·δ·√n</th>
+<th>rates (design)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.35</td>
+<td>0.075 (δ = 0.5, n = 200); 0.100 (δ = 0.25, n = 800)</td>
+</tr>
+<tr>
+<td>0.45</td>
+<td>0.070 (δ_c, n = 320); 0.330 (δ_c / 2, n = 1,280)</td>
+</tr>
+<tr>
+<td>0.71</td>
+<td>0.285 (δ = 0.5, n = 200); 0.290 (δ = 0.25, n = 800)</td>
+</tr>
+<tr>
+<td>0.89</td>
+<td>0.345 (δ = 2.0, n = 80); 0.625 (δ = 1.0, n = 320); 0.380 (δ = 0.5, n = 1,280); 0.330 (δ_c, n = 320); 0.805 (δ_c / 2, n = 1,280); 0.875 (δ_c, n = 1,280)</td>
+</tr>
+<tr>
+<td>1.41</td>
+<td>0.815 (δ = 2.0, n = 200); 0.975 (δ = 1.0, n = 800)</td>
+</tr>
+<tr>
+<td>1.77–1.79</td>
+<td>0.810 (δ = 0.5, n = 200); 0.795 (δ = 0.25, n = 800); 0.750 (δ = 2.0, n = 80); 0.960 (δ = 1.0, n = 320); 0.750 (δ = 0.5, n = 1,280); 0.835 (δ_c, n = 320); 1.000 (δ_c / 2 and δ_c, n = 1,280)</td>
+</tr>
+<tr>
+<td>≥ 2.2</td>
+<td>0.985–1.000</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Where the index lines up.</strong> It orders the rates within each design. It lines up the δ = 0.5 / 2.0 pair and the
+  δ = 0.25 / 0.5 pair within 0.035.</li>
+<li><strong>Where it does not.</strong> The δ = 1.0 designs read above both their δ = 2.0 and δ = 0.5 neighbours, and at the
+  calibrated signal the n = 1,280 designs read far above n = 320.</li>
+<li><strong>What changed from the roadmap.</strong> Item 24's four designs had suggested that stretches line up on e·δ·√n. Across
+  these eleven designs they do so only between some pairs.</li>
+<li><strong>The other statistics.</strong> <code>delta</code> alone reads 0.025–0.160 above production on every stretch where production is
+  below 0.95, and <code>fdr</code> reads at most 0.420 on every stretch at an index of 1.79 or less.</li>
+</ul>
+<h3 id="83-rank-strata-of-the-costs">8.3 Rank strata of the costs</h3>
+<p>The weaker design's rates by its selected rank, on each pair-cell labelled <code>weak_costs</code>:</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th>rank 2: production (units)</th>
+<th>rank 3: production (units)</th>
+<th><code>fdr</code> at rank 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rotation e = 0.1, φ = 0</td>
+<td>1.000 (10)</td>
+<td>0.211 (190)</td>
+<td>0.989</td>
+</tr>
+<tr>
+<td>rotation out of span</td>
+<td>0.200 (5)</td>
+<td>0.056 (195)</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>rotation out of span, 20 features</td>
+<td>1.000 (5)</td>
+<td>0.359 (195)</td>
+<td>1.000</td>
+</tr>
+</tbody>
+</table>
+<p>The δ = 0.5, n = 1,280 design selects rank 3 in 95–97.5 % of these units. Its δ = 2.0 match selects rank 2 in at least
+90 % of the units of each of these cells (the committed cell table's rank q90 is 2). Production's rejections concentrate in the few rank-2 units in two of the three cells. Those strata are 5 and
+10 units chosen by the data, so they describe and do not attribute.</p>
+<h3 id="84-what-is-detectable-at-the-case-studies-auroc">8.4 What is detectable at the case studies' AUROC</h3>
+<p>Production's rates on the band's signal cells (<code>fdr</code> in brackets):</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th>δ_c, n = 320</th>
+<th>δ_c / 2, n = 1,280</th>
+<th>δ_c, n = 1,280</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch e = 0.5</td>
+<td>0.070 (0.035)</td>
+<td>0.330 (0.040)</td>
+<td>0.875 (0.080)</td>
+</tr>
+<tr>
+<td>stretch e = 1</td>
+<td>0.330 (0.045)</td>
+<td>0.805 (0.060)</td>
+<td>1.000 (0.420)</td>
+</tr>
+<tr>
+<td>stretch e = 2</td>
+<td>0.835 (0.350)</td>
+<td>1.000 (0.415)</td>
+<td>1.000 (1.000)</td>
+</tr>
+<tr>
+<td>rotation e = 0.25 / 0.5 / 1</td>
+<td>0.025 / 0.035 / 0.060 (0.040 / 0.040 / 0.125)</td>
+<td>0.050 / 0.055 / 0.080 (0.035 / 0.060 / 0.130)</td>
+<td>0.150 / 0.600 / 0.920 (0.070 / 0.200 / 0.920)</td>
+</tr>
+<tr>
+<td>bend e = 0.25 / 0.5 / 1</td>
+<td>0.015 / 0.010 / 0.020 (0.040)</td>
+<td>0.045 / 0.050 / 0.060 (0.040)</td>
+<td>0.125 / 0.295 / 0.505 (0.055 / 0.060 / 0.075)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>At δ_c, n = 320 (AUROC 0.664), only the largest stretch reaches 0.80</strong> (e = 2, which triples group B's stage
+  configuration). On every rotation and bend up to e = 1, production reads at most 0.060 and <code>fdr</code> at most 0.125.</li>
+<li><strong>At the matched δ_c / 2, n = 1,280,</strong> the stretches gain (§5.2) and the rotations and bends stay near the level.</li>
+<li><strong>At δ_c with four times the samples (AUROC 0.883),</strong> a rotation at e = 1 reaches 0.920 and a bend 0.505. There
+  the rotation is read as <code>shape</code> in 0.535 of units (§6).</li>
+</ul>
+<h3 id="85-the-calibration">8.5 The calibration</h3>
+<table>
+<thead>
+<tr>
+<th>δ</th>
+<th>median held-out AUROC (q25–q75)</th>
+<th>CV rank q10 / median / q90</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.03</td>
+<td>0.549 (0.531–0.570)</td>
+<td>2 / 3 / 13</td>
+</tr>
+<tr>
+<td>0.04</td>
+<td>0.600 (0.587–0.620)</td>
+<td>2.9 / 8.5 / 19</td>
+</tr>
+<tr>
+<td><strong>0.05</strong></td>
+<td><strong>0.664 (0.636–0.681)</strong></td>
+<td>5 / 9 / 19</td>
+</tr>
+<tr>
+<td>0.06</td>
+<td>0.728 (0.702–0.745)</td>
+<td>8 / 15.5 / 19</td>
+</tr>
+<tr>
+<td>0.07</td>
+<td>0.789 (0.764–0.808)</td>
+<td>8 / 11.5 / 19</td>
+</tr>
+<tr>
+<td>0.08</td>
+<td>0.847 (0.821–0.859)</td>
+<td>9.9 / 12.5 / 19</td>
+</tr>
+<tr>
+<td>0.1</td>
+<td>0.930 (0.910–0.937)</td>
+<td>9 / 13 / 19</td>
+</tr>
+</tbody>
+</table>
+<p>40 anchor fits per value at n = 320, no permutation, 0 failures. δ_c = 0.05 is 0.028 from the target 0.636. δ = 0.04
+(0.600) sits on the band's lower edge, 0.036 from the target.</p>
+<h3 id="86-the-recorded-arms">8.6 The recorded arms</h3>
+<ul>
+<li><strong><code>production_minp</code>.</strong> It is never below the omnibus and at most 0.050 above it, in all 98 cells.</li>
+<li><strong><code>pca_matched</code>.</strong> PCA at the production rank never exceeds production by 0.10 on a signal cell. In the band it runs
+  above its level on the nulls: 0.064–0.072 at n = 320 and 0.094–0.106 at n = 1,280. Its band rates are therefore not
+  powers.</li>
+<li><strong><code>span</code> and <code>complement</code>.</strong><ul>
+<li><code>complement</code> reads near its level on the <code>saturated</code> stretches and bends (0.030–0.085), 0.155–0.490 on the 45°
+  rotations, and 0.99–1.00 on every out-of-span rotation.</li>
+<li>In the band, where the fitted span holds 0.29–0.65 of the stage program, it reads 0.245–0.985 on the rotation
+  at e = 1.</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-what-follows">9. What follows</h2>
+<ul>
+<li><strong>The documentation states the map of costs and gains by plant family</strong> (design, Migration Plan, <code>mixed</code>). The
+  <a href="../../measurement-visibility/#a-weak-stage-effect-against-sample-size">measurement-visibility</a> section says it:<ul>
+<li><strong>Stretches and bends.</strong> For a weakly staged design with a matched sample, power follows δ√n or does better.</li>
+<li><strong>Small in-span rotations.</strong> Below δ = 1.0 they cost: at δ = 0.5 against δ = 2.0, sample size does not buy back
+  a rotation at e = 0.1.</li>
+<li><strong>The incidental route to out-of-span rotations</strong> weakens with δ at fixed δ√n.</li>
+<li><strong>Power cannot be read off one number.</strong> A cohort's power is indexed by its stage effect and its sample size
+  separately, not by δ√n alone.</li>
+</ul>
+</li>
+<li><strong>The naming is not bought back.</strong> Every design below δ = 2.0 grades <code>detects_only</code>, at matched δ√n and at four
+  times the samples. A weakly staged cohort's rejection names a group × stage difference; the statistic that rejects
+  does not name its kind, whatever its sample size.</li>
+<li><strong>The rank does not come down with sample size.</strong> At the AUROC ceiling δ sets it (3 at δ = 0.5 at both n = 200
+  and 1,280; 5 at δ = 0.25). Below the ceiling, more samples raise it to the cap of 19.</li>
+<li><strong>The rank rule stays on hold.</strong> The design reopens it under <code>weak_stage_costs</code> with the costs in the inflated-rank
+  strata. The verdict is <code>mixed</code>. The strata of the one in-span cost are recorded (§8.3) and attribute nothing.</li>
+<li><strong>What does not change.</strong> <code>motco analyze</code> runs what it ran; no default moves.</li>
+<li><strong>Follow-ups.</strong><ul>
+<li>The same reading on real noise belongs to the first multi-omic ROSMAP or ADNI export (roadmap open item 2).</li>
+<li>Unequal group dispersion and feature count belong to roadmap open items 8 and 15.</li>
+<li>The δ = 2.0, n = 500 match (δ = 1.0 at n = 2,000) was not run.</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-limitations">10. Limitations</h2>
+<ul>
+<li><strong>Simulated features with Gaussian noise.</strong> Every claim holds at 658 simulated features, equal groups and three
+  stages, with one noise covariance for both groups. No real-noise reading exists (roadmap open item 2).</li>
+<li><strong>The decision followed a timing probe.</strong> The probe ran two null datasets per design at base seed 90001, outside the
+  run. It saw their rank, AUROC, capture and timing, and no rejection rate (design, Context).</li>
+<li><strong>The pairing is exact only in the generator's means.</strong> The design named three places where the scaling is
+  approximate:<ul>
+<li>the pooled SD's between-stage share, largest at δ = 2.0;</li>
+<li>the residual degrees of freedom (74 at n = 80, 1,274 at n = 1,280);</li>
+<li>the nonlinearity of rotations and bends in e.</li>
+</ul>
+</li>
+</ul>
+<p>The run reads their sum. The <code>fdr</code> control moved once, but it is saturated or near its level in most pair-cells
+  (§5), so it rules out little of the pairing's own drift.
+- <strong>Existence, at 200 replicates.</strong> A rate difference below 0.10 is not excluded anywhere, and the 38 unresolved
+  pair-cells are not agreements.
+- <strong>The band matches an AUROC, not a cohort.</strong> It matches neither case study's cell table, covariates or rank. The
+  calibration's δ_c sits near the band's upper edge.
+- <strong>The rank strata are conditional</strong> on a rank the data choose, and the rank-2 strata hold 5–10 units.
+- <strong>One match was not run:</strong> δ = 1.0 at n = 2,000, against δ = 2.0 at n = 500 (cost, and a saturated reference).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

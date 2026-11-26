@@ -1,0 +1,4068 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Multi-omics Trajectory Comparison — latent spaces (PLS, SNF) and group differences">
+      
+      
+      
+      
+        <link rel="prev" href="../adni-latent-plasmode-2026-11-18/">
+      
+      
+        <link rel="next" href="../adni-real-noise-anchor-2026-11-17/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ADNI gain and specificity (2026-11-17) - MOTCO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adni-gain-and-specificity-report-2026-11-17" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MOTCO" class="md-header__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MOTCO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ADNI gain and specificity (2026-11-17)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MOTCO" class="md-nav__button md-logo" aria-label="MOTCO" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MOTCO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Omnia-Lab-UC/MOTCO" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Omnia-Lab-UC/MOTCO
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scientific Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement-visibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement Visibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement visibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Measurement visibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../candidate-simulation-2026-11-25/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation-only candidate comparison (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unbalance-diagnosis-2026-11-25/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbalance at equal dispersion, diagnosed (2026-11-25)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-dispersion-2026-11-24/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group-specific dispersion (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-effect-scaling-2026-11-24/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-effect sample-size scaling (2026-11-24)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../univariate-baseline-2026-11-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Univariate interaction baseline (2026-11-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-diagnosis-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode, diagnosed (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-latent-plasmode-2026-11-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI latent plasmode (2026-11-18)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI gain and specificity (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI gain and specificity (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-checks-pre-flights-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting, checks, pre-flights and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-size-on-the-added-controls-s1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size on the added controls (S1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-protected-power-s2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Protected power (S2)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-specificity-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Specificity (S3)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-gain-g-and-the-recorded-gains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Gain (G) and the recorded gains
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-productions-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production's statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-descriptive-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Descriptive readings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Descriptive readings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-bracket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The bracket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-held-out-off-target-rates-and-the-references-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Held-out off-target rates and the reference's reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-the-out-of-span-cells-recorded-not-judged" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 The out-of-span cells (recorded, not judged)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-the-within-stage-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 The within-stage arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-rates-by-rank-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Rates by rank class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-the-fit-under-a-plant-the-plants-size-and-the-scale-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 The fit under a plant, the plant's size and the scale drift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#98-in-simulation-intended-against-observed-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 In simulation: intended against observed geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-real-noise-anchor-2026-11-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADNI real-noise anchor (2026-11-17)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../within-stage-permutation-2026-11-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Within-stage permutation (2026-11-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-size-excess-2026-11-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace size excess (2026-11-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictive-subspace-2026-11-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictive-subspace coordinates (2026-11-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production-latent-space-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production latent-space selection (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-blocks-2026-11-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interaction scan by block (2026-11-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orthonormal-coordinates-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orthonormal span coordinates (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-scan-2026-11-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-feature interaction scan (2026-11-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../span-split-2026-11-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split interaction test (2026-11-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-paper-grade-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span paper grade (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage-span-pilot-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stage-span pilot (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-space-comparison-2026-11-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-space comparison (2026-11-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-data case study (Phase 6)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Real-data case study (Phase 6)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-exit-review-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 6 exit review (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plasmode-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plasmode attribution demonstration (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adjusted-attribution-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjusted attribution (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adni-design-2026-11-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating characteristics at the ADNI design (2026-11-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../corrected-permutation-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Corrected-permutation check (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-diagnosis-2026-10-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration diagnosis (2026-10-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../case-study-type-i-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Case-study configuration Type I check (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rank-floor-2026-10-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rank-floor check (2026-10-23)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-power-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment power comparison (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-adjustment-type-i-2026-10-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-adjustment Type I check (2026-10-20)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../covariate-type-i-2026-10-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Covariate-adjustment Type I check (2026-10-16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase6-small-n-2026-10-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Small-n operating study at the SEA-AD design (2026-10-09)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design guidance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design guidance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-slice-2026-10-29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade slice (2026-10-29)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-guidance-pilot-2026-10-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pilot (2026-10-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation estimator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orientation estimator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-power-2026-10-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement power comparison (2026-10-14)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../net-displacement-type-i-2026-10-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net-displacement Type I study (2026-10-13)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-measurement-probe-2026-10-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation measurement probe (2026-10-12)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 paper-grade study
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 5 paper-grade study
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-magnitude-remeasurement-2026-10-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude re-measurement, joint construction (2026-10-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-exit-review-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5 exit review (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-paper-grade-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper-grade trajectory power study (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../magnitude-construction-diagnostic-2026-09-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Magnitude-construction diagnostic (2026-09-10)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase5-design-point-pilot-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design-point pilot (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-rank-ladder-2026-09-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent-rank ladder (2026-09-08)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phases 1–4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phases 1–4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latent-config-spectrum-2026-09-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latent configuration spectrum (2026-09-02)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry-audit-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry audit (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../angle-null-pivotality-2026-09-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angle-null pivotality (2026-09-01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orientation-sign-anchor-2026-08-28/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation sign anchor (2026-08-28)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase4-medium-pls-pilot-2026-08-27/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4 medium PLS pilot (2026-08-27)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realized-generator-geometry-2026-08-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realized generator geometry (2026-08-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../procrustes-shape-invariance-audit-2026-08-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procrustes shape invariance audit (2026-08-04)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mvalue-pls-pilot-2026-07-30/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    M-value/PLS specificity pilot (2026-07-30)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Real-Data Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/pls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PLS-DA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/snf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Analysis (SD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orientation Driver Attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/simulations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-and-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration and provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accounting-checks-pre-flights-and-the-reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accounting, checks, pre-flights and the reproduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-size-on-the-added-controls-s1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size on the added controls (S1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-protected-power-s2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Protected power (S2)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-specificity-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Specificity (S3)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-gain-g-and-the-recorded-gains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Gain (G) and the recorded gains
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-productions-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production's statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-descriptive-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Descriptive readings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Descriptive readings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-bracket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The bracket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-held-out-off-target-rates-and-the-references-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Held-out off-target rates and the reference's reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-the-out-of-span-cells-recorded-not-judged" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 The out-of-span cells (recorded, not judged)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-the-within-stage-arms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 The within-stage arms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-rates-by-rank-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Rates by rank class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-the-fit-under-a-plant-the-plants-size-and-the-scale-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 The fit under a plant, the plant's size and the scale drift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#98-in-simulation-intended-against-observed-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 In simulation: intended against observed geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-what-follows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. What follows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="adni-gain-and-specificity-report-2026-11-17">ADNI gain and specificity — report (2026-11-17)</h1>
+<p><strong>Change:</strong> <code>adni-gain-and-specificity</code> (MOTCO 0.25.0, no package change). <strong>Reads:</strong>
+<code>results/adni-gain-specificity-2026-11-17/</code> (<code>adni_gain_specificity_decision.json</code>; per profile <code>settings.json</code>,
+<code>preflight.json</code>, <code>rate_table.csv</code>, <code>paired_table.csv</code>, <code>cell_table.csv</code>, <code>accounting.json</code>;
+<code>plants/reproduction.json</code>; <code>PROVENANCE.txt</code>). <strong>Parents:</strong> the <a href="../adni-real-noise-anchor-2026-11-17/">ADNI real-noise anchor</a>
+(its rate table and decision, bound by sha256) and the <a href="../adni-design-2026-11-02/">operating characteristics at the ADNI design</a>
+(its settings and per-unit p-values). <strong>Concept page:</strong>
+<a href="../../measurement-visibility/#gain-and-specificity-at-adnis-design">measurement visibility</a>.</p>
+<p>The ADNI anchor (item 21) found that <code>predictive_orthonormal</code> holds size on ADNI's blocks. Its decision fixed what else
+reopening the option at a design needs: a gain over production there in simulation, and specificity there, each under
+a decision declared before its reading. This change reads both, adds protected power, and reads what production itself
+detects on ADNI's noise. It plants stretches, rotations and bends of the stage program on ADNI's own blocks, under
+within-stage-permuted labels, and in the simulation of ADNI's design. One decision, fixed before any unit ran, reads
+both.</p>
+<p><strong>In one paragraph.</strong> <strong>The verdict is <code>power_loss</code>.</strong></p>
+<ul>
+<li><strong>The candidate loses target power on one plant.</strong> On a 90° rotation of the analysed sample's own stage
+  configuration, production's <code>angle</code> rejects in 0.285 of units at the full cohort and <code>predictive_orthonormal</code> in
+  0.05. Production alone rejects 47 units and the candidate alone none, below S2's ceiling. At 750 participants the
+  rates are 0.235 and 0.185.</li>
+<li><strong>It also fails specificity in simulation.</strong> A doubled stretch is rejected by <code>shape</code> in 0.295 of units against
+  production's 0.06, and two more off-target readings are below 0.025. On ADNI's in-sample plants it adds no off-target
+  rejection, and it removes most of production's own rotation-into-<code>shape</code> leak.</li>
+<li><strong>Size holds and the gain is real.</strong> Both arms hold size on every added control (S1). In simulation the candidate
+  gains at the Bonferroni threshold in 5 of 8 target cells (G): <code>delta</code> 0.12 → 0.485 at a stretch of 0.5, <code>angle</code>
+  0.075 → 0.325 at a rotation of 0.5.</li>
+<li><strong>The consequence fixed with the rule.</strong> The reopening condition is not met for ADNI. <code>predictive_orthonormal</code> stays
+  an opt-in diagnostic, and open item 1 closes for ADNI.</li>
+<li><strong>Production's statement</strong> (on its own rates, whatever the verdict):</li>
+<li><code>delta</code> reaches the 0.80 floor from a stretch of e = 1 at 750 participants (0.995 in sample, 0.855 held out) and
+    from e = 0.5 in sample at the full cohort (0.825).</li>
+<li><code>angle</code> and <code>shape</code> stay below the floor at every effect read; their largest rate is 0.40.</li>
+<li>Its off-target family <code>leaks</code>: 10 of 32 readings are above the bound and 7 above the ceiling, mostly in-sample
+    rotations read as <code>shape</code>.</li>
+</ul>
+<h2 id="1-configuration-and-provenance">1. Configuration and provenance</h2>
+<ul>
+<li><strong>Export.</strong> <code>adni_sexdiff/results/motco_input</code>, read in place through <code>ADNI_CONTRACT</code> and never copied between
+  machines: 1,501 participants, the <code>p180</code> (133) and <code>nmr</code> (165) metabolite blocks. The workstation and <code>ing</code> each hold
+  a byte-identical copy. The five contract files' hashes are in <code>plants/settings.json</code> and were unchanged after the
+  run.</li>
+<li><strong>Profile <code>plants</code>: ADNI's blocks with a planted difference.</strong> Each unit permutes the sex labels within stage, leaves
+  blocks and covariates on their rows, and adds a known shift to the second group's rows, one vector per stage. No
+  analysis ran under the real labels.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>point</th>
+<th>participants</th>
+<th>Female CN / MCI / AD</th>
+<th>Male CN / MCI / AD</th>
+<th>held out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n750</code></td>
+<td>750</td>
+<td>118 / 155 / 63</td>
+<td>111 / 224 / 79</td>
+<td>the other 751</td>
+</tr>
+<tr>
+<td><code>cohort</code></td>
+<td>1,501</td>
+<td>237 / 310 / 125</td>
+<td>223 / 448 / 158</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>Units are the anchor driver's (its subsample, label and RRPP seeds, base seed 2039). The cohort anchor's 500 units
+  are therefore item 21's, and every cell of a point at one replicate shares its sample, labels and permutation seed.
+- <strong>The plant.</strong> A configuration is the three stage coefficients of <code>features ~ stage indicators + covariates</code>, in the
+  analysis sample's pooled-standardized coordinates, with the covariates coded as <code>analyze_trajectories</code> codes them.
+  <code>edit_stage_configuration</code> edits it:
+  - a stretch about the centroid by 1 + e, whose intended difference is <code>delta</code>;
+  - a rigid rotation by 90°·e, intended <code>angle</code>;
+  - a bend of the middle stage by e mean steps at fixed path length, intended <code>shape</code>;
+  - a translation by e mean steps along the net displacement, a group main effect with no interaction.</p>
+<p>The shift is the edited configuration minus the original, mapped back through the pooled SD.
+- <strong>Two references for a plant.</strong> <code>sample</code> edits the analysis sample's own configuration. Under the label permutation
+  both groups' expected configuration is the sample's, so the off-target truth is exact; the fitted span holds the
+  plant by construction. <code>heldout</code> edits the configuration of the 751 participants outside the sample, a direction no
+  fit was built on, available at <code>n750</code> only. Its off-target truth is not exact (§9.2).
+- <strong>Cells</strong> (<code>&lt;reference&gt;_&lt;mode&gt;_e&lt;effect&gt;</code>; 500 replicates on a control, 200 on a plant, 999 permutations; 4,200
+  units at <code>n750</code> and 3,000 at the cohort):</p>
+<table>
+<thead>
+<tr>
+<th>cells</th>
+<th>reference</th>
+<th>effects</th>
+<th>points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>anchor</code>, <code>translation</code> (1.0)</td>
+<td>—, <code>sample</code></td>
+<td>—</td>
+<td>both</td>
+</tr>
+<tr>
+<td>stretch, rotation</td>
+<td><code>sample</code></td>
+<td>0.25, 0.5, 1.0</td>
+<td>both</td>
+</tr>
+<tr>
+<td>bend</td>
+<td><code>sample</code></td>
+<td>0.5, 1.0</td>
+<td>both</td>
+</tr>
+<tr>
+<td>stretch</td>
+<td><code>heldout</code></td>
+<td>0.5, 1.0, 2.0</td>
+<td><code>n750</code></td>
+</tr>
+<tr>
+<td>rotation</td>
+<td><code>heldout</code></td>
+<td>0.5, 1.0</td>
+<td><code>n750</code></td>
+</tr>
+<tr>
+<td>bend</td>
+<td><code>heldout</code></td>
+<td>1.0</td>
+<td><code>n750</code></td>
+</tr>
+<tr>
+<td>out-of-span rotation (recorded, not judged)</td>
+<td><code>sample</code></td>
+<td>0.25, 0.5</td>
+<td>both</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Profile <code>simulation</code>: stage-span plants at ADNI's design.</strong> It uses the ADNI-design run's construction unchanged,
+  at its calibrated strengths and ADNI's table. The generator's stage-span construction under the planted scale
+  replaces the feature surgeries, so each plant's truth records its intended <code>delta</code>, <code>angle</code> and <code>shape</code>. Base seed</li>
+<li>2,600 units: the anchor and a translation (1.0) at 500, stretches at 0.5, 1.0 and 2.0, rotations at 0.25, 0.5
+  and 1.0, and bends at 1.0 and 2.0, each at 200.</li>
+<li><strong>Arms.</strong> Each arm is one <code>analyze_trajectories</code> call at the case study's configuration (five covariates in six
+  design columns, rank floor 2, net displacement, the harness CV defaults) with the <code>df</code> residual correction, all at
+  the unit's RRPP seed.</li>
+<li><code>pls_cv</code> cross-validates on the unit's data, planted or not; the cohort anchor is forced at rank 8.</li>
+<li><code>predictive_orthonormal</code> is forced at the same rank, so it shares the fit.</li>
+<li>Both again under within-stage draws (<code>__within_stage</code>), recorded only.</li>
+<li><strong>Code and host.</strong> Revision <code>2ecfe16</code>, pushed before any unit ran, from clean detached worktrees on both machines.
+  Python 3.11.15 on the workstation and 3.11.16 on <code>ing</code>, with numpy 2.3.5, scipy 1.16.3, scikit-learn 1.8.0 and
+  pandas 2.3.3 on both, BLAS pinned to one thread.</li>
+<li><strong>Where it ran.</strong> The simulation ran on <code>ing</code> as array 944797: 100 tasks, all <code>COMPLETED</code>, 61.13 recorded
+  core-hours against a cap of 90. The plants started on the workstation: 1,157 units, 7.46 core-hours. They then moved
+  to <code>ing</code>, which holds the same export, and the job resumed the other 6,043 units under the same settings hash. In
+  total 40.27 core-hours against a raised cap of 85. Only this run's own records were copied between machines
+  (<code>PROVENANCE.txt</code>). The design had put the plants on the workstation alone, on the premise that the export existed
+  only there.</li>
+</ul>
+<h2 id="2-accounting-checks-pre-flights-and-the-reproduction">2. Accounting, checks, pre-flights and the reproduction</h2>
+<ul>
+<li><strong>Units.</strong> Plants 7,200 of 7,200 and simulation 2,600 of 2,600 complete: no failed unit, no failed arm, no
+  inconsistent unit, no duplicate. On ADNI's blocks no subsample and no label draw needed a redraw.</li>
+<li><strong>Checks on every unit.</strong> Each forced arm reported its rank, every arm at one rank had the same model, each
+  predictive arm measured two dimensions, and each within-stage arm observed its counterpart's statistics. The realized
+  cell table was the point's. On ADNI's blocks only the second group's stage means moved, by the declared shift
+  (<code>plant</code>). In simulation the truth recorded the stage-span construction at the cell's mode and effect
+  (<code>construction</code>).</li>
+<li><strong>Plants pre-flight: passed.</strong> On cohort replicates 0 and 1 the cross-validated fit selected rank 8 at a held-out
+  stage AUROC of 0.599514, and the call forced at rank 8 gave identical statistics and p-values.</li>
+<li><strong>Simulation pre-flight: passed.</strong> Anchor replicates 0 and 1 of the ADNI-design run, through its own evaluator under
+  its committed settings, gave its committed p-values exactly: 0.29 / 0.153 / 0.195 and 0.187 / 0.746 / 0.387.</li>
+<li><strong>Anchor reproduction: passed.</strong> The cohort anchor's counts for all four arms equal item 21's committed table, 12 of
+  12 readings (<code>pls_cv</code> 25 / 32 / 28, <code>predictive_orthonormal</code> 29 / 20 / 18, and the two within-stage arms 35 / 38 /
+  28 and 27 / 28 / 21 of 500).</li>
+</ul>
+<h2 id="3-the-decision">3. The decision</h2>
+<p>Rule version 1 (<code>design.md</code> D12–D14). Rejection is p ≤ 0.05.</p>
+<ul>
+<li><strong>S1 (size).</strong> Judged for both arms on the added controls: the <code>n750</code> anchor and the translation at both points (9
+  readings), and the simulated anchor and translation (6). A family holds with at most one count above 34 of 500 and
+  none above the ceiling (38 and 37).</li>
+<li><strong>S2, S3 and G.</strong> One-sided exact paired tests of <code>predictive_orthonormal</code> against <code>pls_cv</code> on the units' discordant
+  pairs.</li>
+<li>S2 (protected power): the target statistic of all 30 plants. It holds with at most two loss p-values below 0.025
+    and none below 0.05 / 30.</li>
+<li>S3 (specificity): the off-target statistics of the 8 simulated plants (16 readings) and of the 16 in-sample plants
+    (32). Each family holds with at most two excess p-values below 0.025 and none below 0.05 / m.</li>
+<li>G (gain): at least one of the 8 simulated target readings gains at p ≤ 0.05 / 8.</li>
+<li><strong>Verdict.</strong> <code>gate_failed</code>, then <code>production_excess</code> (production fails S1), <code>size_excess</code>, <code>power_loss</code> (S2),
+  <code>specificity_excess</code> (S3), <code>no_gain</code> (G), else <code>reopened</code>. All failing criteria are listed.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>criterion</th>
+<th>family</th>
+<th>readings</th>
+<th>observed</th>
+<th>holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1, <code>pls_cv</code></td>
+<td>plants; simulation</td>
+<td>9; 6</td>
+<td>no count above the bound in either</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>S1, <code>predictive_orthonormal</code></td>
+<td>plants; simulation</td>
+<td>9; 6</td>
+<td>no count above the bound in either</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>all plants</td>
+<td>30</td>
+<td>2 p-values below 0.025 (2 allowed), 1 below the ceiling 0.00167</td>
+<td><strong>no</strong></td>
+</tr>
+<tr>
+<td>S3</td>
+<td>simulated plants</td>
+<td>16</td>
+<td>3 below 0.025 (2 allowed), 1 below the ceiling 0.003125</td>
+<td><strong>no</strong></td>
+</tr>
+<tr>
+<td>S3</td>
+<td>in-sample plants</td>
+<td>32</td>
+<td>none below 0.025</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>G</td>
+<td>simulated targets</td>
+<td>8</td>
+<td>5 gains at p ≤ 0.00625 (one needed)</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The verdict is <code>power_loss</code></strong>, with S2 and S3 failing. The gate passed and the decision is at paper grade (not
+<code>indicative</code>). The consequence fixed with the rule: "predictive_orthonormal loses target power against production at
+the named plants. The condition is not met for ADNI, and it stays an opt-in diagnostic. The measurement-visibility page
+records which differences its two measured dimensions give up at ADNI's design. In every verdict the SEA-AD anchor's
+reading stands for SEA-AD's design, keep_production stands, and the out-of-span cells are reported beside the verdict
+and were not judged."</p>
+<p><strong>What the verdict licenses</strong> (written into the decision beside item 21's scoping rule S1–S5):</p>
+<ul>
+<li><strong>L1.</strong> "The reading speaks for ADNI's export, the two design points and the simulated table. Nothing is extended
+  to 80, 200 or 500 participants, where only size was read."</li>
+<li><strong>L2.</strong> "At the full cohort, power and specificity were read on in-sample plants and in simulation. No held-out
+  plant exists there. The held-out readings are those of 750 participants."</li>
+<li><strong>L3.</strong> "reopened permits a proposal. It changes no default and adds no option. The later change carries the rank
+  rule open item 1 asks for." (Not reached under this verdict.)</li>
+<li><strong>L4.</strong> "Cohorts do not vouch for one another. The SEA-AD veto stands for SEA-AD's design, and ROSMAP has no
+  reading."</li>
+<li><strong>L5.</strong> "The out-of-span cells license nothing. Outside the stage span the split test's complement is the detector,
+  and its reading on ADNI's noise is not this change's."</li>
+</ul>
+<h2 id="4-size-on-the-added-controls-s1">4. Size on the added controls (S1)</h2>
+<p>Rejections of 500 for <code>delta</code> / <code>angle</code> / <code>shape</code>:</p>
+<table>
+<thead>
+<tr>
+<th>control</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n750</code> anchor</td>
+<td>12 / 13 / 15</td>
+<td>15 / 13 / 14</td>
+</tr>
+<tr>
+<td><code>n750</code> translation</td>
+<td>11 / 17 / 14</td>
+<td>10 / 22 / 13</td>
+</tr>
+<tr>
+<td>cohort translation</td>
+<td>24 / 30 / 23</td>
+<td>27 / 18 / 25</td>
+</tr>
+<tr>
+<td>simulated anchor</td>
+<td>21 / 33 / 22</td>
+<td>24 / 19 / 28</td>
+</tr>
+<tr>
+<td>simulated translation</td>
+<td>21 / 33 / 21</td>
+<td>22 / 16 / 26</td>
+</tr>
+</tbody>
+</table>
+<p>No count is above the bound of 34. <strong>A group main effect along the stage program does not reach the interaction
+statistics at ADNI's design</strong>, in either measurement, on real noise or in simulation. The <code>n750</code> anchor, a point item
+21 did not read, has every rate between 0.024 and 0.030.</p>
+<h2 id="5-protected-power-s2">5. Protected power (S2)</h2>
+<p>Target rates of 200 units, production then the candidate, with the discordant units: b = production alone rejects, c =
+the candidate alone. p is the one-sided exact loss p-value.</p>
+<table>
+<thead>
+<tr>
+<th>profile, point</th>
+<th>cell</th>
+<th>statistic</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+<th>b / c</th>
+<th>p (loss)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>simulation</td>
+<td>stretch 0.5 / 1.0 / 2.0</td>
+<td><code>delta</code></td>
+<td>0.12 / 0.535 / 0.96</td>
+<td>0.485 / 0.99 / 1.0</td>
+<td>5 / 78, 0 / 91, 0 / 8</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>simulation</td>
+<td>rotation 0.25 / 0.5 / 1.0</td>
+<td><code>angle</code></td>
+<td>0.07 / 0.075 / 0.065</td>
+<td>0.13 / 0.325 / 0.40</td>
+<td>13 / 25, 7 / 57, 4 / 71</td>
+<td>0.98, 1.0, 1.0</td>
+</tr>
+<tr>
+<td>simulation</td>
+<td>bend 1.0 / 2.0</td>
+<td><code>shape</code></td>
+<td>0.045 / 0.04</td>
+<td>0.08 / 0.105</td>
+<td>8 / 15, 8 / 21</td>
+<td>0.95, 0.996</td>
+</tr>
+<tr>
+<td><code>n750</code>, held out</td>
+<td>stretch 0.5 / 1.0 / 2.0</td>
+<td><code>delta</code></td>
+<td>0.22 / 0.855 / 1.0</td>
+<td>0.24 / 0.935 / 1.0</td>
+<td>16 / 20, 8 / 24, 0 / 0</td>
+<td>0.80, 0.999, 1.0</td>
+</tr>
+<tr>
+<td><code>n750</code>, held out</td>
+<td>rotation 0.5 / 1.0</td>
+<td><code>angle</code></td>
+<td>0.075 / 0.345</td>
+<td>0.20 / 0.465</td>
+<td>8 / 33, 20 / 44</td>
+<td>1.0, 0.999</td>
+</tr>
+<tr>
+<td><code>n750</code>, held out</td>
+<td>bend 1.0</td>
+<td><code>shape</code></td>
+<td>0.055</td>
+<td>0.055</td>
+<td>6 / 6</td>
+<td>0.61</td>
+</tr>
+<tr>
+<td><code>n750</code>, in sample</td>
+<td>stretch 0.25 / 0.5 / 1.0</td>
+<td><code>delta</code></td>
+<td>0.175 / 0.665 / 0.995</td>
+<td>0.275 / 0.89 / 1.0</td>
+<td>13 / 33, 3 / 48, 0 / 1</td>
+<td>0.999, 1.0, 1.0</td>
+</tr>
+<tr>
+<td><code>n750</code>, in sample</td>
+<td>rotation 0.25 / 0.5 / <strong>1.0</strong></td>
+<td><code>angle</code></td>
+<td>0.025 / 0.14 / <strong>0.235</strong></td>
+<td>0.23 / 0.305 / <strong>0.185</strong></td>
+<td>2 / 43, 3 / 36, <strong>14 / 4</strong></td>
+<td>1.0, 1.0, <strong>0.015</strong></td>
+</tr>
+<tr>
+<td><code>n750</code>, in sample</td>
+<td>bend 0.5 / 1.0</td>
+<td><code>shape</code></td>
+<td>0.115 / 0.22</td>
+<td>0.14 / 0.27</td>
+<td>10 / 15, 7 / 17</td>
+<td>0.89, 0.99</td>
+</tr>
+<tr>
+<td>cohort, in sample</td>
+<td>stretch 0.25 / 0.5 / 1.0</td>
+<td><code>delta</code></td>
+<td>0.255 / 0.825 / 1.0</td>
+<td>0.355 / 0.915 / 1.0</td>
+<td>18 / 38, 2 / 20, 0 / 0</td>
+<td>0.998, 1.0, 1.0</td>
+</tr>
+<tr>
+<td>cohort, in sample</td>
+<td>rotation 0.25 / 0.5 / <strong>1.0</strong></td>
+<td><code>angle</code></td>
+<td>0.10 / 0.23 / <strong>0.285</strong></td>
+<td>0.36 / 0.345 / <strong>0.05</strong></td>
+<td>8 / 60, 6 / 29, <strong>47 / 0</strong></td>
+<td>1.0, 1.0, <strong>7.1e-15</strong></td>
+</tr>
+<tr>
+<td>cohort, in sample</td>
+<td>bend 0.5 / 1.0</td>
+<td><code>shape</code></td>
+<td>0.185 / 0.40</td>
+<td>0.245 / 0.565</td>
+<td>14 / 26, 11 / 44</td>
+<td>0.98, 1.0</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Two readings are below 0.025, both the in-sample rotation of 90°.</strong> At the cohort the loss is complete (47 units
+  against none) and below the ceiling of 0.05 / 30, so S2 fails. At <code>n750</code> it is 14 against 4.</li>
+<li><strong>Everywhere else the candidate reads at least as often as production.</strong> That includes the in-sample rotations of
+  22.5° and 45° (0.025 → 0.23 at <code>n750</code>, 0.10 → 0.36 at the cohort) and the held-out rotations (0.075 → 0.20 at 45°).</li>
+<li><strong>What distinguishes the failing plant.</strong> A 90° rotation of one group cancels much of the pooled stage signal. Under
+  it the CV selects rank 2 in 143 of 200 units at <code>n750</code> and 115 at the cohort, at a median held-out AUROC of 0.515
+  and 0.518 (§9.6). Among the cohort's 85 units with a rank above 2, production rejects <code>angle</code> in 51 and the candidate
+  in 6; among the 115 at rank 2, in 6 and 4 (§9.5). The decision explains no failure. This split is descriptive.</li>
+</ul>
+<h2 id="6-specificity-s3">6. Specificity (S3)</h2>
+<p><strong>Simulated plants: fails.</strong> Off-target rates of 200 units, production then the candidate, with the one-sided exact
+excess p-value:</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th>statistic</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+<th>b / c</th>
+<th>p (excess)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch 0.5</td>
+<td><code>angle</code> / <code>shape</code></td>
+<td>0.045 / 0.045</td>
+<td>0.035 / 0.06</td>
+<td>9 / 7, 8 / 11</td>
+<td>0.77, 0.32</td>
+</tr>
+<tr>
+<td>stretch 1.0</td>
+<td><code>angle</code> / <code>shape</code></td>
+<td>0.04 / 0.045</td>
+<td>0.055 / <strong>0.11</strong></td>
+<td>8 / 11, <strong>6 / 19</strong></td>
+<td>0.32, <strong>0.0073</strong></td>
+</tr>
+<tr>
+<td>stretch 2.0</td>
+<td><code>angle</code> / <code>shape</code></td>
+<td>0.025 / 0.06</td>
+<td>0.035 / <strong>0.295</strong></td>
+<td>5 / 7, <strong>7 / 54</strong></td>
+<td>0.39, <strong>2.2e-10</strong></td>
+</tr>
+<tr>
+<td>rotation 0.25</td>
+<td><code>delta</code> / <code>shape</code></td>
+<td>0.03 / 0.045</td>
+<td>0.05 / 0.04</td>
+<td>3 / 7, 9 / 8</td>
+<td>0.17, 0.69</td>
+</tr>
+<tr>
+<td>rotation 0.5</td>
+<td><code>delta</code> / <code>shape</code></td>
+<td>0.025 / 0.06</td>
+<td>0.06 / 0.05</td>
+<td>3 / 10, 12 / 10</td>
+<td>0.046, 0.74</td>
+</tr>
+<tr>
+<td>rotation 1.0</td>
+<td><code>delta</code> / <code>shape</code></td>
+<td>0.035 / 0.07</td>
+<td><strong>0.08</strong> / 0.095</td>
+<td><strong>2 / 11</strong>, 11 / 16</td>
+<td><strong>0.011</strong>, 0.22</td>
+</tr>
+<tr>
+<td>bend 1.0</td>
+<td><code>delta</code> / <code>angle</code></td>
+<td>0.03 / 0.08</td>
+<td>0.06 / 0.05</td>
+<td>3 / 9, 16 / 10</td>
+<td>0.073, 0.92</td>
+</tr>
+<tr>
+<td>bend 2.0</td>
+<td><code>delta</code> / <code>angle</code></td>
+<td>0.03 / 0.085</td>
+<td>0.055 / 0.055</td>
+<td>3 / 8, 17 / 11</td>
+<td>0.11, 0.91</td>
+</tr>
+</tbody>
+</table>
+<p>Three readings are below 0.025, one more than allowed, and the doubled stretch's <code>shape</code> is below the ceiling of
+0.05 / 16. <strong>The candidate reads a stretch of the simulated program as a change of shape</strong>, more so as the stretch
+grows (0.06 → 0.11 → 0.295), where production stays at 0.045–0.06.</p>
+<p><strong>In-sample plants on ADNI's blocks: holds.</strong> No excess p-value is below 0.025 (the smallest is 0.125). Off-target
+rejections of 200, production / candidate:</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th><code>n750</code></th>
+<th>cohort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch 0.25: <code>angle</code>, <code>shape</code></td>
+<td>4 / 5, 7 / 12</td>
+<td>16 / 12, 13 / 10</td>
+</tr>
+<tr>
+<td>stretch 0.5: <code>angle</code>, <code>shape</code></td>
+<td>7 / 6, 12 / 12</td>
+<td>19 / 15, 16 / 11</td>
+</tr>
+<tr>
+<td>stretch 1.0: <code>angle</code>, <code>shape</code></td>
+<td>21 / 11, 16 / 21</td>
+<td>31 / 18, 19 / 18</td>
+</tr>
+<tr>
+<td>rotation 0.25: <code>delta</code>, <code>shape</code></td>
+<td>7 / 4, 10 / 12</td>
+<td>8 / 10, 24 / 17</td>
+</tr>
+<tr>
+<td>rotation 0.5: <code>delta</code>, <code>shape</code></td>
+<td>10 / 5, 41 / 15</td>
+<td>6 / 9, 44 / 18</td>
+</tr>
+<tr>
+<td>rotation 1.0: <code>delta</code>, <code>shape</code></td>
+<td>13 / 1, 79 / 20</td>
+<td>3 / 0, 61 / 4</td>
+</tr>
+<tr>
+<td>bend 0.5: <code>delta</code>, <code>angle</code></td>
+<td>7 / 7, 4 / 4</td>
+<td>12 / 12, 12 / 12</td>
+</tr>
+<tr>
+<td>bend 1.0: <code>delta</code>, <code>angle</code></td>
+<td>10 / 7, 5 / 6</td>
+<td>10 / 10, 19 / 14</td>
+</tr>
+</tbody>
+</table>
+<p>On ADNI's noise the candidate removes most of production's rotation-into-<code>shape</code> leak: at 90° production alone
+rejects <code>shape</code> in 59 units at <code>n750</code> and 57 at the cohort, the candidate alone in none.</p>
+<h2 id="7-gain-g-and-the-recorded-gains">7. Gain (G) and the recorded gains</h2>
+<p><strong>G holds.</strong> Five of the eight simulated target readings gain at p ≤ 0.00625 (§5): the three stretches (<code>delta</code>
+0.12 → 0.485, 0.535 → 0.99, 0.96 → 1.0) and the rotations of 0.5 and 1.0 (<code>angle</code> 0.075 → 0.325 and 0.065 → 0.40).
+The rotation of 0.25 and both bends do not. Pooled over the eight, the candidate alone rejects 366 units and
+production alone 45, a mean rate difference of +0.20.</p>
+<p><strong>Recorded beside G</strong> (same rule, no criterion):</p>
+<ul>
+<li><strong>Held-out plants (6 readings): holds.</strong> Three gain, the stretch of 1.0 and both rotations (p 0.0035, 5.6e-5,
+  0.0018). Pooled, c = 127 against b = 58, +0.0575.</li>
+<li><strong>In-sample plants (16 readings): holds.</strong> Eight gain, all on stretches, rotations up to 45° and the cohort's bend
+  of 1.0. Pooled, c = 414 against b = 158, +0.08.</li>
+</ul>
+<p>The gain the simulation shows is also on ADNI's noise. The verdict turns on what is lost, not on what is gained.</p>
+<h2 id="8-productions-statement">8. Production's statement</h2>
+<p>Read on <code>pls_cv</code> alone. It is written whatever the verdict and never changes it. <strong>Power</strong> (target rejection rates;
+the floor is 0.80). A held-out plant bounds the detectable effect from above, an in-sample one from below:</p>
+<table>
+<thead>
+<tr>
+<th>point, reference</th>
+<th><code>delta</code> (stretch)</th>
+<th><code>angle</code> (rotation)</th>
+<th><code>shape</code> (bend)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n750</code>, in sample</td>
+<td>0.175 / 0.665 / <strong>0.995</strong> at 0.25 / 0.5 / 1.0: from e = 1</td>
+<td>0.025 / 0.14 / 0.235: none</td>
+<td>0.115 / 0.22 at 0.5 / 1.0: none</td>
+</tr>
+<tr>
+<td><code>n750</code>, held out</td>
+<td>0.22 / <strong>0.855</strong> / 1.0 at 0.5 / 1.0 / 2.0: from e = 1</td>
+<td>0.075 / 0.345 at 0.5 / 1.0: none</td>
+<td>0.055 at 1.0: none</td>
+</tr>
+<tr>
+<td>cohort, in sample</td>
+<td>0.255 / <strong>0.825</strong> / 1.0 at 0.25 / 0.5 / 1.0: from e = 0.5</td>
+<td>0.10 / 0.23 / 0.285: none</td>
+<td>0.185 / 0.40 at 0.5 / 1.0: none</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>delta</code>.</strong> At 750 participants both references reach the floor at a stretch of e = 1, so the detectable stretch
+  of ADNI's adjusted stage program is bracketed at e = 1 on this ladder. At the cohort the in-sample plant reaches it
+  at e = 0.5.</li>
+<li><strong><code>angle</code> and <code>shape</code>.</strong> Neither reaches the floor on either reference at either point up to e = 1. On ADNI's
+  noise a non-rejection of <code>angle</code> or <code>shape</code> stays uninformative, as item 9 found in simulation.</li>
+</ul>
+<p><strong>Off-target: <code>leaks</code>.</strong> Production's 32 off-target readings on the in-sample plants, as one family under the
+count-plus-ceiling rule at 200 units (at most two above 16 of 200, none above 20), have 10 above the bound and 7
+above the ceiling:</p>
+<ul>
+<li><code>shape</code> under in-sample rotations: 41 and 79 of 200 at <code>n750</code> (e = 0.5, 1.0); 24, 44 and 61 at the cohort.</li>
+<li><code>angle</code> under stretches: 21 at <code>n750</code> (e = 1.0); 19 and 31 at the cohort (e = 0.5, 1.0).</li>
+<li>The cohort's stretch of 1.0 by <code>shape</code> (19) and bend of 1.0 by <code>angle</code> (19).</li>
+</ul>
+<p><strong>On ADNI's noise, a production rejection names that the trajectories differ, not how.</strong> A rotation of the stage
+program reaches <code>shape</code> more often than <code>angle</code> (0.395 against 0.235 at <code>n750</code>, e = 1).</p>
+<h2 id="9-descriptive-readings">9. Descriptive readings</h2>
+<p>None changes the verdict or production's statement.</p>
+<h3 id="91-the-bracket">9.1 The bracket</h3>
+<p>Target rejections of 200 at <code>n750</code>, in sample against held out, at the same mode and effect:</p>
+<table>
+<thead>
+<tr>
+<th>plant</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch 0.5 (<code>delta</code>)</td>
+<td>133 / 44</td>
+<td>178 / 48</td>
+</tr>
+<tr>
+<td>stretch 1.0 (<code>delta</code>)</td>
+<td>199 / 171</td>
+<td>200 / 187</td>
+</tr>
+<tr>
+<td>rotation 0.5 (<code>angle</code>)</td>
+<td>28 / 15</td>
+<td>61 / 40</td>
+</tr>
+<tr>
+<td>rotation 1.0 (<code>angle</code>)</td>
+<td>47 / 69</td>
+<td>37 / 93</td>
+</tr>
+<tr>
+<td>bend 1.0 (<code>shape</code>)</td>
+<td>44 / 11</td>
+<td>54 / 11</td>
+</tr>
+</tbody>
+</table>
+<p>The in-sample plant is read more often, except the rotation of 90°: there the held-out plant is read more often by
+both arms. Rotating a configuration that is mostly the reference's noise does not cancel the sample's own pooled
+stage signal.</p>
+<h3 id="92-held-out-off-target-rates-and-the-references-reliability">9.2 Held-out off-target rates and the reference's reliability</h3>
+<p>The held-out configuration's split-half correlation over the 500 <code>n750</code> anchor units has a median of 0.166, and its
+Spearman–Brown step-up to the full reference a median of 0.285. About 0.3 of a held-out plant's energy is the
+cohort's stage program and the rest is estimation noise, as design D5 stated. The second eigenvalue of the halves'
+cross-product has a median ratio to the first of 0.000. Off-target rejections of 200, production / candidate:</p>
+<table>
+<thead>
+<tr>
+<th>held-out cell</th>
+<th>off-target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch 0.5</td>
+<td><code>angle</code> 8 / 9, <code>shape</code> 9 / 5</td>
+</tr>
+<tr>
+<td>stretch 1.0</td>
+<td><code>angle</code> 24 / 14, <code>shape</code> 22 / 18</td>
+</tr>
+<tr>
+<td>stretch 2.0</td>
+<td><code>angle</code> 81 / 38, <code>shape</code> 44 / 53</td>
+</tr>
+<tr>
+<td>rotation 0.5</td>
+<td><code>delta</code> 39 / 69, <code>shape</code> 24 / 35</td>
+</tr>
+<tr>
+<td>rotation 1.0</td>
+<td><code>delta</code> 163 / 176, <code>shape</code> 64 / 91</td>
+</tr>
+<tr>
+<td>bend 1.0</td>
+<td><code>delta</code> 7 / 4, <code>angle</code> 4 / 3</td>
+</tr>
+</tbody>
+</table>
+<p>A held-out rotation is read by <code>delta</code> in up to 176 of 200 units. This is the plant's own noise: an edit of a noisy
+configuration carries an unintended size change. None of these rates was judged.</p>
+<h3 id="93-the-out-of-span-cells-recorded-not-judged">9.3 The out-of-span cells (recorded, not judged)</h3>
+<p>A rotation of the net displacement by 90°·e toward a seeded direction orthogonal to the sample's stage span.
+Rejections of 200 for <code>delta</code> / <code>angle</code> / <code>shape</code>, and the discordant units b / c per statistic:</p>
+<table>
+<thead>
+<tr>
+<th>point, effect</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+<th>b / c (<code>delta</code>; <code>angle</code>; <code>shape</code>)</th>
+<th>median CV rank</th>
+<th>plant in span / in predictive subspace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n750</code>, 0.25</td>
+<td>28 / 24 / 22</td>
+<td>66 / 77 / 147</td>
+<td>8 / 46; 15 / 68; 1 / 126</td>
+<td>19</td>
+<td>0.466 / 0.374</td>
+</tr>
+<tr>
+<td><code>n750</code>, 0.5</td>
+<td>152 / 167 / 108</td>
+<td>180 / 139 / 196</td>
+<td>6 / 34; 48 / 20; 0 / 88</td>
+<td>19</td>
+<td>0.611 / 0.436</td>
+</tr>
+<tr>
+<td>cohort, 0.25</td>
+<td>56 / 127 / 43</td>
+<td>64 / 138 / 193</td>
+<td>34 / 42; 37 / 48; 0 / 150</td>
+<td>19</td>
+<td>0.523 / 0.430</td>
+</tr>
+<tr>
+<td>cohort, 0.5</td>
+<td>199 / 200 / 117</td>
+<td>193 / 192 / 200</td>
+<td>7 / 1; 8 / 0; 0 / 83</td>
+<td>19</td>
+<td>0.637 / 0.463</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>On ADNI's noise the fit follows the plant.</strong> The CV selects rank 19 (the cap), and the fitted span keeps about
+  half the plant.</li>
+<li><strong>Both arms reject; the candidate reads the rotation as <code>shape</code> above all.</strong> Its <code>shape</code> rate is 0.735–1.0, against
+  production's 0.11–0.585.</li>
+<li><strong>The split test's complement is the designated detector outside the stage span</strong> (L5). Its reading on ADNI's noise
+  is not this change's.</li>
+</ul>
+<h3 id="94-the-within-stage-arms">9.4 The within-stage arms</h3>
+<ul>
+<li><strong>Size.</strong> On the added controls <code>pls_cv__within_stage</code> has one count above the bound: the cohort translation's
+  <code>angle</code>, 35 of 500, within its family's allowance. Its simulated family has none. <code>predictive_orthonormal__within_stage</code>
+  has none in either family. At the cohort anchor both reproduce item 21's counts (§2): 35 / 38 / 28 for production,
+  whose <code>angle</code> item 21 found above that point's ceiling.</li>
+<li><strong>Against the unrestricted draws on the same units.</strong> 20 of the 204 paired comparisons have a two-sided p-value below
+  0.05. In every one the within-stage arm rejects more, by 6 to 77 units, with at most one the other way.</li>
+<li>The largest are the in-sample rotations' <code>angle</code>: at the cohort's 90° production goes 0.285 → 0.67 and the
+    candidate 0.05 → 0.19; at <code>n750</code>, 0.235 → 0.385 and 0.185 → 0.325.</li>
+<li>Off-target, at <code>n750</code>'s 90° rotation <code>shape</code> goes 0.395 → 0.435 (production) and 0.10 → 0.155 (candidate).</li>
+<li>In simulation the stretch of 1.0's <code>delta</code> goes 0.535 → 0.605 for production.</li>
+</ul>
+<h3 id="95-rates-by-rank-class">9.5 Rates by rank class</h3>
+<p>Rejections by <code>pls_cv</code> / <code>predictive_orthonormal</code> for <code>delta</code>, <code>angle</code>, <code>shape</code>, among units at CV rank 2 (= K − 1,
+where the predictive subspace is the fitted span) and above it:</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th>units at rank 2</th>
+<th>at rank 2</th>
+<th>units above</th>
+<th>above rank 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n750</code> anchor</td>
+<td>53</td>
+<td>1 / 0, 1 / 2, 1 / 1</td>
+<td>447</td>
+<td>11 / 15, 12 / 11, 14 / 13</td>
+</tr>
+<tr>
+<td><code>n750</code> rotation 0.5</td>
+<td>67</td>
+<td>3 / 2, 1 / 2, 9 / 4</td>
+<td>133</td>
+<td>7 / 3, 27 / 59, 32 / 11</td>
+</tr>
+<tr>
+<td><code>n750</code> rotation 1.0</td>
+<td>143</td>
+<td>3 / 0, 14 / 13, 43 / 13</td>
+<td>57</td>
+<td>10 / 1, 33 / 24, 36 / 7</td>
+</tr>
+<tr>
+<td>cohort rotation 0.5</td>
+<td>125</td>
+<td>3 / 4, 12 / 9, 9 / 5</td>
+<td>75</td>
+<td>3 / 5, 34 / 60, 35 / 13</td>
+</tr>
+<tr>
+<td>cohort rotation 1.0</td>
+<td>115</td>
+<td>1 / 0, 6 / 4, 12 / 3</td>
+<td>85</td>
+<td>2 / 0, 51 / 6, 49 / 1</td>
+</tr>
+<tr>
+<td>simulated rotation 1.0</td>
+<td>34</td>
+<td>2 / 2, 1 / 3, 4 / 2</td>
+<td>166</td>
+<td>5 / 14, 12 / 77, 10 / 17</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The cohort's 90° loss sits above rank 2.</strong> Production's <code>angle</code> reads 51 of those 85 units and the candidate 6.</li>
+<li><strong>At 45° and in simulation the candidate's gain is also above rank 2</strong>, where the two coordinate systems differ.</li>
+</ul>
+<h3 id="96-the-fit-under-a-plant-the-plants-size-and-the-scale-drift">9.6 The fit under a plant, the plant's size and the scale drift</h3>
+<p>Median CV rank and held-out stage AUROC per cell (the cohort anchor is forced at rank 8, AUROC 0.5995 from the
+pre-flight):</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th><code>n750</code> rank, AUROC</th>
+<th>cohort rank, AUROC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor</td>
+<td>5, 0.578</td>
+<td>8 (forced)</td>
+</tr>
+<tr>
+<td>translation 1.0</td>
+<td>5, 0.576</td>
+<td>7, 0.599</td>
+</tr>
+<tr>
+<td>stretch 0.25 / 0.5 / 1.0 (in sample)</td>
+<td>7, 0.626 / 9, 0.674 / 13, 0.750</td>
+<td>8, 0.634 / 8, 0.671 / 18, 0.745</td>
+</tr>
+<tr>
+<td>rotation 0.25 / 0.5 / 1.0 (in sample)</td>
+<td>5, 0.566 / 3.5, 0.549 / 2, 0.515</td>
+<td>7, 0.590 / 2, 0.561 / 2, 0.518</td>
+</tr>
+<tr>
+<td>bend 0.5 / 1.0 (in sample)</td>
+<td>5, 0.562 / 5, 0.554</td>
+<td>7, 0.584 / 7, 0.570</td>
+</tr>
+<tr>
+<td>stretch 0.5 / 1.0 / 2.0 (held out)</td>
+<td>7, 0.617 / 7, 0.668 / 9, 0.763</td>
+<td>—</td>
+</tr>
+<tr>
+<td>rotation 0.5 / 1.0 (held out)</td>
+<td>6, 0.591 / 8, 0.626</td>
+<td>—</td>
+</tr>
+<tr>
+<td>bend 1.0 (held out)</td>
+<td>5, 0.563</td>
+<td>—</td>
+</tr>
+<tr>
+<td>out-of-span 0.25 / 0.5</td>
+<td>19, 0.632 / 19, 0.696</td>
+<td>19, 0.682 / 19, 0.730</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>A real difference moves a stage-supervised fit.</strong> A stretch raises the rank and the AUROC. An in-sample rotation
+  of 45° or more lowers them, to rank 2 in 143 of 200 units at <code>n750</code> (90°) and in 125 and 115 at the cohort (45°,
+  90°).</li>
+<li><strong>Plant size.</strong> A unit in-sample stretch's shift has a median norm of 1.066 / 0.876 / 1.010 pooled SDs at CN / MCI /
+  AD at <code>n750</code> (largest entry 0.209). A held-out stretch's is 1.050 / 0.875 / 1.031, and a 90° in-sample rotation's
+  1.508 / 1.239 / 1.429. The translation moves every stage by 1.611 at <code>n750</code> and 1.334 at the cohort.</li>
+<li><strong>Scale drift.</strong> The largest relative change of a pooled SD (median unit) is 0.13 % to 1.6 % in every cell at
+  effects up to 1.0, and 3.4 % for the held-out stretch of 2.0 (largest unit 6.0 %).</li>
+</ul>
+<h3 id="97-capture">9.7 Capture</h3>
+<p>Share of energy inside the fitted span / inside the predictive subspace (medians):</p>
+<table>
+<thead>
+<tr>
+<th>configuration or plant</th>
+<th><code>n750</code></th>
+<th>cohort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the sample's own configuration (anchor)</td>
+<td>0.925 / 0.548</td>
+<td>0.957 / 0.396</td>
+</tr>
+<tr>
+<td>the held-out configuration (anchor)</td>
+<td>0.536 / 0.109</td>
+<td>—</td>
+</tr>
+<tr>
+<td>in-sample stretch 0.25 / 1.0</td>
+<td>0.962 / 0.428, 0.986 / 0.214</td>
+<td>0.964 / 0.401, 0.988 / 0.152</td>
+</tr>
+<tr>
+<td>in-sample rotation 0.25 / 1.0</td>
+<td>0.904 / 0.574, 0.600 / 0.539</td>
+<td>0.961 / 0.465, 0.623 / 0.623</td>
+</tr>
+<tr>
+<td>in-sample bend 0.5 / 1.0</td>
+<td>0.874 / 0.583, 0.792 / 0.569</td>
+<td>0.917 / 0.460, 0.904 / 0.470</td>
+</tr>
+<tr>
+<td>held-out stretch 0.5 / 2.0</td>
+<td>0.670 / 0.174, 0.886 / 0.224</td>
+<td>—</td>
+</tr>
+<tr>
+<td>held-out rotation 0.5 / 1.0</td>
+<td>0.547 / 0.125, 0.666 / 0.118</td>
+<td>—</td>
+</tr>
+<tr>
+<td>held-out bend 1.0</td>
+<td>0.329 / 0.089</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>The predictive subspace keeps 0.17–0.22 of a held-out stretch and reads it at least as often as the scores (§9.1): as
+in the probes, the share is not a measure of what that subspace detects.</p>
+<h3 id="98-in-simulation-intended-against-observed-geometry">9.8 In simulation: intended against observed geometry</h3>
+<p>The CV selects rank 19 in 494 of 500 anchor units, at a median held-out AUROC of 0.608. The population path length is
+0.67 in planted-standardized units. Medians of the observed statistics (<code>delta</code> / <code>angle</code> / <code>shape</code>) beside each
+plant's intended difference:</p>
+<table>
+<thead>
+<tr>
+<th>cell</th>
+<th>intended</th>
+<th><code>pls_cv</code></th>
+<th><code>predictive_orthonormal</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchor</td>
+<td>0 / 0° / 0</td>
+<td>0.428 / 30.2° / 0.123</td>
+<td>0.055 / 4.1° / 0.072</td>
+</tr>
+<tr>
+<td>stretch 1.0</td>
+<td><code>delta</code> 0.674</td>
+<td>1.347 / 26.8° / 0.111</td>
+<td>0.308 / 2.9° / 0.080</td>
+</tr>
+<tr>
+<td>stretch 2.0</td>
+<td><code>delta</code> 1.347</td>
+<td>2.885 / 26.5° / 0.113</td>
+<td>0.675 / 2.6° / 0.091</td>
+</tr>
+<tr>
+<td>rotation 1.0</td>
+<td><code>angle</code> 90°</td>
+<td>0.450 / 30.2° / 0.157</td>
+<td>0.090 / 14.1° / 0.114</td>
+</tr>
+<tr>
+<td>bend 2.0</td>
+<td><code>shape</code> 0.490</td>
+<td>0.437 / 31.3° / 0.122</td>
+<td>0.052 / 3.9° / 0.093</td>
+</tr>
+</tbody>
+</table>
+<p>The two arms measure in different coordinates, so their statistics are not on one scale. Production's <code>angle</code> stays
+at its null median under a 90° rotation; the candidate's rises from 4.1° to 14.1°.</p>
+<h2 id="10-what-follows">10. What follows</h2>
+<ul>
+<li><strong>The reopening condition is not met for ADNI.</strong> <code>predictive_orthonormal</code> stays an opt-in diagnostic, and open item
+  1 closes for ADNI. Open item 2 continues with ROSMAP for production alone.</li>
+<li><strong>What its two measured dimensions give up at ADNI's design</strong> (recorded on the measurement-visibility page):</li>
+<li>a rotation of the sample's own stage program by 90°, where the pooled stage signal cancels: production reads its
+    <code>angle</code> in units whose CV rank is above 2, and the candidate barely (§9.5);</li>
+<li>in simulation, specificity on stretches, which it reads as <code>shape</code> more often as they grow.</li>
+<li><strong>The gains are real on both kinds of noise.</strong> They are recorded, and they do not outweigh a loss under the rule.</li>
+<li><strong>Production's statement is the case study's real-noise power statement.</strong> <code>adni_sexdiff</code> may cite it: on ADNI's
+  noise <code>delta</code> detects a stretch of the adjusted stage program from e = 1 at 750 participants (from e = 0.5 in
+  sample at the cohort); <code>angle</code> and <code>shape</code> reach the floor nowhere; and a rejection names a difference, not its
+  kind.</li>
+<li><strong>The out-of-span cells are the starting point of the split test's reading on ADNI's noise.</strong></li>
+<li><strong>Standing.</strong> The SEA-AD anchor's reading stands for SEA-AD's design, and <code>keep_production</code> stands.</li>
+</ul>
+<h2 id="11-limitations">11. Limitations</h2>
+<ul>
+<li><strong>Subsamples of one cohort are not independent cohorts.</strong> Two <code>n750</code> subsamples share about half their
+  participants, and every rate is conditional on ADNI's 1,501. Independent real noise needs ROSMAP.</li>
+<li><strong>The two references bracket; neither is the truth.</strong> An in-sample plant lies where the stage-supervised fit already
+  looks, and a held-out one is about a third signal (§9.2). The cohort has no held-out plant (L2).</li>
+<li><strong>The simulation is a structural analogue.</strong> Its CV selects rank 19 against ADNI's 8, its blocks are InterSIM's, and
+  its stage program is weak in pooled-SD units. Every failing specificity reading is simulated; on ADNI's in-sample
+  plants the candidate holds.</li>
+<li><strong>A rotation and a bend are exact to the order of the scale drift.</strong> That is under 1.6 % of a pooled SD at effects
+  up to 1.0 (median unit), and both arms read the same data.</li>
+<li><strong>The plant moves the fit.</strong> A cell's rank and AUROC are not the anchor's (§9.6). The failing rotation is the cell
+  where the pooled stage signal cancels and the CV falls to rank 2 in most units.</li>
+<li><strong>The family rules have false-alarm rates.</strong> At exact size a correctly sized arm fails the plants size family with
+  probability at most 0.07 and the simulated one 0.06. The verdict does not rest on a reading near a boundary: both
+  failing families have a reading far below their ceiling (7.1e-15 against 0.00167; 2.2e-10 against 0.003125).</li>
+<li><strong>One omic type.</strong> ADNI's blocks are metabolites at 0.2 to 0.4 features per participant.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
