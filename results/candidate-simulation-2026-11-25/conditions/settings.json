@@ -1,0 +1,483 @@
+{
+ "arm_selections": [
+  [
+   "pls_cv",
+   "predictive_orthonormal",
+   "weighted"
+  ]
+ ],
+ "hash": "a5ef4a567c6166e7dadeb4dc2cc23924a929e0dbd05889b75b229ca58e14268b",
+ "settings": {
+  "alpha": 0.05,
+  "arm_definitions": {
+   "pls_cv": "production: pls on the unit's blocks, rank by double CV (floor 2), net displacement, scores",
+   "predictive_orthonormal": "the production fit's predictive subspace in the input metric (latent_coordinates='predictive_orthonormal'), built by pls_coordinates_from_pls with no second fit; on adni_design the gain run's forced call at pls_cv's rank",
+   "sparse_block": {
+    "designs": [
+     "n200",
+     "n200_delta0.5",
+     "band_n320"
+    ],
+    "fit": "its own cross-validated fit over rank x keep fraction",
+    "integration_params": {
+     "sparsity": {
+      "keep_fractions": [
+       1.0,
+       0.5,
+       0.2,
+       0.1,
+       0.05
+      ],
+      "scope": "block"
+     }
+    }
+   },
+   "weighted": {
+    "fit": "its own cross-validated fit; delta in the weighted metric",
+    "integration_params": {
+     "block_weighting": "equal_variance"
+    }
+   }
+  },
+  "arms": [
+   "pls_cv",
+   "predictive_orthonormal",
+   "weighted",
+   "sparse_block"
+  ],
+  "design_index": {
+   "n200_delta0.5_stages4": {
+    "delta": 0.5,
+    "family": "four_stages",
+    "group": "stage_span",
+    "group_stage_sizes": null,
+    "n_samples": 200,
+    "n_stages": 4,
+    "pattern": null,
+    "profile": "conditions",
+    "reference_design": null,
+    "share": 0.5,
+    "sparse": false,
+    "stage_dispersion_scale": null
+   },
+   "n200_share0.8": {
+    "delta": 2.0,
+    "family": "unbalanced",
+    "group": "stage_span",
+    "group_stage_sizes": null,
+    "n_samples": 200,
+    "n_stages": 3,
+    "pattern": null,
+    "profile": "conditions",
+    "reference_design": null,
+    "share": 0.8,
+    "sparse": false,
+    "stage_dispersion_scale": null
+   },
+   "n200_stages4": {
+    "delta": 2.0,
+    "family": "four_stages",
+    "group": "stage_span",
+    "group_stage_sizes": null,
+    "n_samples": 200,
+    "n_stages": 4,
+    "pattern": null,
+    "profile": "conditions",
+    "reference_design": null,
+    "share": 0.5,
+    "sparse": false,
+    "stage_dispersion_scale": null
+   },
+   "seaad_table": {
+    "delta": 2.0,
+    "family": "unbalanced",
+    "group": "stage_span",
+    "group_stage_sizes": [
+     [
+      11,
+      10,
+      28
+     ],
+     [
+      9,
+      10,
+      12
+     ]
+    ],
+    "n_samples": 80,
+    "n_stages": 3,
+    "pattern": null,
+    "profile": "conditions",
+    "reference_design": null,
+    "share": null,
+    "sparse": false,
+    "stage_dispersion_scale": null
+   },
+   "seaad_table_delta0.5": {
+    "delta": 0.5,
+    "family": "unbalanced",
+    "group": "stage_span",
+    "group_stage_sizes": [
+     [
+      11,
+      10,
+      28
+     ],
+     [
+      9,
+      10,
+      12
+     ]
+    ],
+    "n_samples": 80,
+    "n_stages": 3,
+    "pattern": null,
+    "profile": "conditions",
+    "reference_design": null,
+    "share": null,
+    "sparse": false,
+    "stage_dispersion_scale": null
+   }
+  },
+  "driver": "candidate_simulation_check",
+  "driver_version": 1,
+  "groups": [
+   {
+    "kind": "stage_span",
+    "name": "stage_span",
+    "settings": {
+     "alpha": 0.05,
+     "arms": [
+      "production",
+      "delta",
+      "angle",
+      "shape",
+      "production_minp",
+      "scan",
+      "fdr",
+      "total",
+      "span",
+      "complement",
+      "concat",
+      "concat_delta",
+      "concat_angle",
+      "concat_shape",
+      "pca_matched",
+      "pca_matched_delta",
+      "pca_matched_angle",
+      "pca_matched_shape"
+     ],
+     "baseline": {
+      "fdr": "scipy.stats.f.sf at the scan's degrees of freedom, scipy.stats.false_discovery_control (method 'bh') over the non-degenerate features",
+      "features": "the production fit's standardized features in the PLS input coordinates",
+      "models": "the trajectory test's full (group x stage) and reduced (group + stage) models",
+      "scan": "motco.stats.interaction.interaction_feature_scan at the unit's RRPP seed, uncorrected",
+      "split": "motco.stats.interaction.interaction_split_test on qr(x_rotations_) at the unit's RRPP seed, uncorrected",
+      "statistic": "per-feature group x stage interaction F (SS_int / df_int) / (RSS / df_res)"
+     },
+     "baseline_arms": [
+      "scan",
+      "fdr",
+      "total"
+     ],
+     "control_cells": [
+      "anchor",
+      "translation"
+     ],
+     "designs": [
+      "n200_stages4",
+      "n200_delta0.5_stages4",
+      "seaad_table",
+      "seaad_table_delta0.5",
+      "n200_share0.8"
+     ],
+     "driver": "univariate_baseline_check",
+     "driver_version": 1,
+     "parent_files": {},
+     "permutations": 999,
+     "population_null_tolerance": 1e-09,
+     "production": "pls with the comparison's CV knobs on all three blocks, rank floor 2, net displacement, span capture, null distributions kept",
+     "profile": "stage_span",
+     "recorded_space_definitions": {
+      "concat": "the unit's production parameters with integration_method 'concat' on the same blocks",
+      "pca_matched": "the unit's production parameters with integration_method 'pca' at the unit's production rank on the same blocks"
+     },
+     "recorded_spaces": [
+      "pca_matched"
+     ],
+     "replicates": {
+      "control": 500,
+      "other": 200
+     },
+     "rules": {
+      "angle": "p < alpha",
+      "complement": "p < alpha",
+      "concat": "min p <= alpha / 3",
+      "concat_angle": "p < alpha",
+      "concat_delta": "p < alpha",
+      "concat_shape": "p < alpha",
+      "delta": "p < alpha",
+      "fdr": "min BH-adjusted p <= alpha",
+      "pca_matched": "min p <= alpha / 3",
+      "pca_matched_angle": "p < alpha",
+      "pca_matched_delta": "p < alpha",
+      "pca_matched_shape": "p < alpha",
+      "production": "min p <= alpha / 3",
+      "production_minp": "p <= alpha",
+      "scan": "p <= alpha",
+      "shape": "p < alpha",
+      "span": "p < alpha",
+      "total": "p < alpha"
+     },
+     "units": {
+      "base_seed": 2043,
+      "cells": [
+       [
+        "anchor",
+        "none",
+        0.0,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "translation",
+        "translation",
+        1.0,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "magnitude_e0.05",
+        "magnitude",
+        0.05,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "magnitude_e0.1",
+        "magnitude",
+        0.1,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "magnitude_e0.25",
+        "magnitude",
+        0.25,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "orient_e0.1_phi0",
+        "orientation",
+        0.1,
+        0.0,
+        null,
+        "planted"
+       ],
+       [
+        "orient_e0.25_phi0",
+        "orientation",
+        0.25,
+        0.0,
+        null,
+        "planted"
+       ],
+       [
+        "orient_e0.5_phi0",
+        "orientation",
+        0.5,
+        0.0,
+        null,
+        "planted"
+       ],
+       [
+        "shape_e0.1",
+        "shape",
+        0.1,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "shape_e0.25",
+        "shape",
+        0.25,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "shape_e0.5",
+        "shape",
+        0.5,
+        null,
+        null,
+        "planted"
+       ],
+       [
+        "orient_e0.5_phi90",
+        "orientation",
+        0.5,
+        90.0,
+        null,
+        null
+       ],
+       [
+        "orient_e0.5_phi90_k20",
+        "orientation",
+        0.5,
+        90.0,
+        20,
+        null
+       ]
+      ],
+      "designs": {
+       "n200_delta0.5_stages4": {
+        "generator": {
+         "baseline_continuity": 0.0,
+         "construction": "stage_span",
+         "delta_expr": 0.5,
+         "delta_methyl": 0.5,
+         "delta_protein": 0.5,
+         "group_ratio": 0.5,
+         "magnitude_kind": "joint",
+         "n_samples": 200,
+         "n_stages": 4,
+         "p_dmp": 0.1
+        },
+        "layers": null
+       },
+       "n200_share0.8": {
+        "generator": {
+         "baseline_continuity": 0.0,
+         "construction": "stage_span",
+         "delta_expr": 2.0,
+         "delta_methyl": 2.0,
+         "delta_protein": 2.0,
+         "group_ratio": 0.8,
+         "magnitude_kind": "joint",
+         "n_samples": 200,
+         "n_stages": 3,
+         "p_dmp": 0.1
+        },
+        "layers": null
+       },
+       "n200_stages4": {
+        "generator": {
+         "baseline_continuity": 0.0,
+         "construction": "stage_span",
+         "delta_expr": 2.0,
+         "delta_methyl": 2.0,
+         "delta_protein": 2.0,
+         "group_ratio": 0.5,
+         "magnitude_kind": "joint",
+         "n_samples": 200,
+         "n_stages": 4,
+         "p_dmp": 0.1
+        },
+        "layers": null
+       },
+       "seaad_table": {
+        "generator": {
+         "baseline_continuity": 0.0,
+         "construction": "stage_span",
+         "delta_expr": 2.0,
+         "delta_methyl": 2.0,
+         "delta_protein": 2.0,
+         "group_ratio": 0.5,
+         "group_stage_sizes": [
+          [
+           11,
+           10,
+           28
+          ],
+          [
+           9,
+           10,
+           12
+          ]
+         ],
+         "magnitude_kind": "joint",
+         "n_stages": 3,
+         "p_dmp": 0.1
+        },
+        "layers": null
+       },
+       "seaad_table_delta0.5": {
+        "generator": {
+         "baseline_continuity": 0.0,
+         "construction": "stage_span",
+         "delta_expr": 0.5,
+         "delta_methyl": 0.5,
+         "delta_protein": 0.5,
+         "group_ratio": 0.5,
+         "group_stage_sizes": [
+          [
+           11,
+           10,
+           28
+          ],
+          [
+           9,
+           10,
+           12
+          ]
+         ],
+         "magnitude_kind": "joint",
+         "n_stages": 3,
+         "p_dmp": 0.1
+        },
+        "layers": null
+       }
+      },
+      "min_components": 2,
+      "orientation_estimator": "net_displacement",
+      "pls_cv_params": {
+       "cv1_splits": 3,
+       "cv2_splits": 4,
+       "max_components": 20,
+       "n_repeats": 5,
+       "random_state": 1203
+      },
+      "seed_functions": "latent_space_comparison.generator_seed / rrpp_seed"
+     }
+    }
+   }
+  ],
+  "parent_files": {
+   "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+   "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+  },
+  "parents": {
+   "univariate_stage_span": {
+    "dir": "results/univariate-baseline-2026-11-23/stage_span",
+    "files": {
+     "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+     "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+    },
+    "source": "univariate baseline 2026-11-23, stage_span profile"
+   }
+  },
+  "permutations": 999,
+  "profile": "conditions",
+  "recorded": null,
+  "rejection": "p < alpha",
+  "replicates": {
+   "control": 500,
+   "other": 200
+  },
+  "reproduction": [],
+  "rule_version": 1,
+  "sparse_designs": [
+   "n200",
+   "n200_delta0.5",
+   "band_n320"
+  ]
+ }
+}

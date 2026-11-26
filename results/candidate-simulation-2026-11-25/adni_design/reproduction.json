@@ -1,0 +1,17 @@
+{
+ "differing": [],
+ "passed": true,
+ "profile": "adni_design",
+ "rows_compared": 60,
+ "sources": {
+  "adni_gain_simulation": {
+   "dir": "results/adni-gain-specificity-2026-11-17/simulation",
+   "files": {
+    "results/adni-gain-specificity-2026-11-17/simulation/rate_table.csv": "581e335d38e409cf878c915660d57a4248562cce2b130ad0f42babeda28b793a",
+    "results/adni-gain-specificity-2026-11-17/simulation/settings.json": "7b07b0577b77f7354d087502930de3419eb1611dbce8b84f484a0f3e9cb34b9b"
+   },
+   "source": "ADNI gain and specificity 2026-11-17, simulation profile"
+  }
+ },
+ "unresolved_rows": []
+}

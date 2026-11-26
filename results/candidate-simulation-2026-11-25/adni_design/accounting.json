@@ -1,0 +1,70 @@
+{
+ "arm_seconds_median": {
+  "table_adni/pls_cv": 48.4791299123317,
+  "table_adni/predictive_orthonormal": 0.6785395100014284,
+  "table_adni/weighted": 49.33389233332127
+ },
+ "arm_selections": [
+  [
+   "pls_cv",
+   "predictive_orthonormal",
+   "weighted"
+  ]
+ ],
+ "arms": {
+  "pls_cv": {
+   "completed": 2600,
+   "expected": 2600,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 2600
+  },
+  "predictive_orthonormal": {
+   "completed": 2600,
+   "expected": 2600,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 2600
+  },
+  "sparse_block": {
+   "completed": 0,
+   "expected": 0,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 0
+  },
+  "weighted": {
+   "completed": 2600,
+   "expected": 2600,
+   "failed": 0,
+   "inconsistent": 0,
+   "missing": 0,
+   "records": 2600
+  }
+ },
+ "design_seconds_median": {
+  "table_adni": {
+   "call": 100.05663384124637,
+   "fit": null,
+   "generate": 0.5985730364918709
+  }
+ },
+ "duplicate_records": 0,
+ "expected_units": 2600,
+ "failed_records": 0,
+ "failures_by_cell": {},
+ "failures_by_error": {},
+ "inconsistent_records": 0,
+ "missing_records": 0,
+ "profile": "adni_design",
+ "recorded_core_hours": 88.31836296772983,
+ "selected_arms": [
+  "pls_cv",
+  "predictive_orthonormal",
+  "weighted"
+ ],
+ "settings_hash": "ab21400aec3c2386fc17ffe74aba5da8aec7c30aa6dd19a1a63f3253315d74c1"
+}

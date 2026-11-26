@@ -1,0 +1,17 @@
+{
+ "differing": [],
+ "passed": true,
+ "profile": "surgery",
+ "rows_compared": 66,
+ "sources": {
+  "univariate_surgery": {
+   "dir": "results/univariate-baseline-2026-11-23/surgery",
+   "files": {
+    "results/univariate-baseline-2026-11-23/surgery/rate_table.csv": "67b827ff344542a5e56026e31420ee92ff368ff1898fe7c734940d90954518bd",
+    "results/univariate-baseline-2026-11-23/surgery/settings.json": "2084ca40e769f4b6af71ee5d23905293b8eec4336f5a4a110098660f8e3e734b"
+   },
+   "source": "univariate baseline 2026-11-23, surgery profile"
+  }
+ },
+ "unresolved_rows": []
+}

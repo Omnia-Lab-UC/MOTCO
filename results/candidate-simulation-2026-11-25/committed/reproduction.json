@@ -1,0 +1,33 @@
+{
+ "differing": [],
+ "passed": true,
+ "profile": "committed",
+ "rows_compared": 228,
+ "sources": {
+  "scaling_band": {
+   "dir": "results/stage-effect-scaling-2026-11-24/band",
+   "files": {
+    "results/stage-effect-scaling-2026-11-24/band/rate_table.csv": "c3903d42051df804e5038cf0e2b2c0636e1646ccd6996dc3434273e3faff6335",
+    "results/stage-effect-scaling-2026-11-24/band/settings.json": "bc9f36b6800b346a489dc7289b85001522b6bd4383d3b8845b83f79b4dd9c904"
+   },
+   "source": "stage-effect scaling 2026-11-24, band profile"
+  },
+  "scaling_saturated": {
+   "dir": "results/stage-effect-scaling-2026-11-24/saturated",
+   "files": {
+    "results/stage-effect-scaling-2026-11-24/saturated/rate_table.csv": "0390d6db296412bb7655f9fcce5cec9e357d715089068e8ca7e69d4bbde72061",
+    "results/stage-effect-scaling-2026-11-24/saturated/settings.json": "7612474d20e107ddb3c6ffac5fd534bdfb6e16cd62861d7d8d9d16140b9b4486"
+   },
+   "source": "stage-effect scaling 2026-11-24, saturated profile"
+  },
+  "univariate_stage_span": {
+   "dir": "results/univariate-baseline-2026-11-23/stage_span",
+   "files": {
+    "results/univariate-baseline-2026-11-23/stage_span/rate_table.csv": "40ff7a89f3d0bd93cd33bbd8055aba367af25f4eb5b8027058243aacdd36f3c2",
+    "results/univariate-baseline-2026-11-23/stage_span/settings.json": "011360e52bfc5348e34ed8efa4ffe1222cae2501933303d89409076fd9b1c90d"
+   },
+   "source": "univariate baseline 2026-11-23, stage_span profile"
+  }
+ },
+ "unresolved_rows": []
+}
