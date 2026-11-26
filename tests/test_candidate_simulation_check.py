@@ -288,7 +288,11 @@ def test_cells_of_a_design_and_replicate_share_their_null_dataset(full) -> None:
 
 
 def _committed_design_seeds() -> tuple[set[str], set[int]]:
-    """Every design name and every generator seed (replicates 0-499) of every committed settings file."""
+    """Every design name and every generator seed (replicates 0-499) of every committed settings file.
+
+    This run's own committed aggregates (``results/candidate-simulation-*``) are skipped: they hold the new designs by
+    construction, and freshness is asked against the runs before it.
+    """
 
     names: set[str] = set()
     seeds: set[int] = set()
@@ -307,6 +311,8 @@ def _committed_design_seeds() -> tuple[set[str], set[int]]:
                 walk(value)
 
     for path in sorted((REPO / "results").rglob("settings.json")):
+        if path.relative_to(REPO / "results").parts[0].startswith("candidate-simulation-"):
+            continue
         payload = json.loads(path.read_text(encoding="utf-8"))
         walk(payload)
         text = path.read_text(encoding="utf-8")
