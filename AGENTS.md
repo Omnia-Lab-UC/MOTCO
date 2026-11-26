@@ -21,17 +21,17 @@ uv run ruff check src/ tests/
 # Type check
 uv run mypy src/motco/
 
-# Run fast tests
-MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short
+# Run fast tests (parallel over all cores with pytest-xdist)
+MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" -n auto --tb=short
 
 # Run a single test file
 uv run pytest tests/test_trajectory.py -v
 
-# Run slow regression tests with parallelism (only on main in CI)
-MOTCO_TEST_PERMS=10000 MOTCO_N_JOBS=-1 uv run pytest tests/ --tb=short
+# Full regression run, slow tests included (CI runs the slow tier alone on main, after the fast tests)
+MOTCO_TEST_PERMS=10000 uv run pytest tests/ -n auto --tb=short
 
 # Pre-commit gate — all three must pass before committing
-uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" --tb=short
+uv run ruff check src/ tests/ && uv run mypy src/motco/ && MOTCO_TEST_PERMS=99 uv run pytest tests/ -m "not slow" -n auto --tb=short
 
 # Docs preview
 uv run mkdocs serve
@@ -51,7 +51,7 @@ Target Python 3.11. Keep line length at 120 characters, matching `pyproject.toml
 
 ## Testing Guidelines
 
-Tests use `pytest` with configuration in `pyproject.toml`. Slow tests are marked `slow`; use `MOTCO_TEST_PERMS=99` for fast permutation tests during development and the full regression command above before merging numerically sensitive changes. Add tests alongside behavior changes, especially for numerical fallbacks, CLI validation, and reference-data comparisons.
+Tests use `pytest` with configuration in `pyproject.toml`. Slow tests are marked `slow`; use `MOTCO_TEST_PERMS=99` for fast permutation tests during development and the full regression command above before merging numerically sensitive changes. The suite runs in parallel under `pytest-xdist` (`-n auto`; CI runs `-n logical --dist worksteal`, one worker per vCPU), so a test writes only under `tmp_path`, shares no state with another test, and a long loop over cells or profiles is a parametrized test, one case per item, so the workers can share it. `tests/conftest.py` defaults `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS` and `MKL_NUM_THREADS` to 1 before numpy loads, since a BLAS thread per core only spins on the suite's small matrices; an explicit setting wins. Add tests alongside behavior changes, especially for numerical fallbacks, CLI validation, and reference-data comparisons.
 
 ## Commit & Pull Request Guidelines
 
@@ -171,6 +171,6 @@ Reports are under `docs/reports/`, aggregates under `results/<name>-<date>/`, ve
 - **Opt-in features are byte-identical when absent.** Every option above changes nothing while unset; its identity fixture or test pins that, and new options must do the same. Harness parameters that are `None` are hash-omitted (`grid._SIGNATURE_OMIT_WHEN_NONE`), so adding one leaves committed cell ids, signatures and records unchanged.
 - **Config pin policy.** The 19 study configs committed before the orientation flip are a closed historical set: they pin `orientation_estimator: "pc1"` and `min_components: 1`, checked by `tests/test_orientation_default_pins.py` and `tests/test_rank_floor_default_pins.py` against `tests/data/orientation_default_identity.json`, and the ten pre-joint ones pin `magnitude_kind: "all"`, checked by `tests/test_magnitude_default_pins.py` against `tests/data/historical_config_signatures.json`. Every config committed since names its estimator and rank floor explicitly and non-null and is pinned by `tests/data/post_floor_config_identity.json` (`tests/post_floor_fixture_capture.py`, `POST_FLOOR_CONFIGS`). Every file under `examples/trajectory_power_study/` must be in exactly one of the two fixtures; `tests/test_committed_config_identity.py` pins every committed config's cell ids, signatures and matched seeds. In a study config, `null` names the evaluator's default and `"pc1"` names PC1. Historical diagnostics and fixture captures that pin `"pc1"` also pin `min_components=1`.
 - **Committed records stay frozen.** Phase 5 artefacts (`results/phase5-2026-09-10`, its report, exit review and template) must stay byte-identical (`tests/test_phase5_magnitude_profiles.py`); regenerating a committed `report/` from its merged records must reproduce it.
-- `MOTCO_TEST_PERMS` controls permutation count in regression tests (default `10000`). `MOTCO_N_JOBS` controls RRPP parallelism (default `1`; use `-1` for all CPUs).
+- `MOTCO_TEST_PERMS` controls permutation count in regression tests (default `10000`). `MOTCO_N_JOBS` controls RRPP parallelism (default `1`; use `-1` for all CPUs, but leave it at `1` under `-n auto`, where every xdist worker would start its own pool).
 - Regression test reference values are in `tests/data/results_example1.csv` and `tests/data/results_example2.csv`. `tests/data/reference/` contains the R scripts used to generate reference data, not CSV outputs.
 - The package is built with `hatchling`; version is sourced from `src/motco/__init__.py`.
